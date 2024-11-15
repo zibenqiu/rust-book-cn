@@ -1,0 +1,138 @@
+{
+  "An Example Program Using Structs": {
+    "_translate": "<a class=\"header\" href=\"#an-example-program-using-structs\">使用结构体的示例程序</a>",
+    "_note": ""
+  },
+  "To understand when we might want to use structs, let’s write a program that calculates the area of a rectangle. We’ll start by using single variables, and then refactor the program until we’re using structs instead.": {
+    "_translate": "为了理解我们何时可能想要使用结构体，让我们编写一个计算矩形面积的程序。我们将从使用单个变量开始，然后重构程序，直到我们使用结构体代替。",
+    "_note": ""
+  },
+  "Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.": {
+    "_translate": "让我们用 Cargo 创建一个名为 <em>rectangles</em> 的新二进制项目，该项目将接受以像素为单位指定的矩形的宽度和高度，并计算矩形的面积。列表 5-8 显示了在项目 <em>src/main.rs</em> 中实现这一功能的一种简短程序。",
+    "_note": ""
+  },
+  "Now, run this program using cargo run:": {
+    "_translate": "现在，使用 <code>cargo run</code> 运行此程序：",
+    "_note": ""
+  },
+  "The issue with this code is evident in the signature of area:": {
+    "_translate": "这个问题在这段代码中很明显，体现在 <code>area</code> 的签名上：",
+    "_note": ""
+  },
+  "This code succeeds in figuring out the area of the rectangle by calling the area function with each dimension, but we can do more to make this code clear and readable.": {
+    "_translate": "这段代码通过调用每个维度的<code>area</code>函数成功计算出矩形的面积，但我们还可以做更多来使这段代码清晰和易读。",
+    "_note": ""
+  },
+  "Refactoring with Tuples": {
+    "_translate": "<a class=\"header\" href=\"#refactoring-with-tuples\">使用元组重构</a>",
+    "_note": ""
+  },
+  "Listing 5-9 shows another version of our program that uses tuples.": {
+    "_translate": "列表 5-9 显示了我们程序的另一个版本，该版本使用了元组。",
+    "_note": ""
+  },
+  "The area function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters, and it’s not clear anywhere in our program that the parameters are related. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples.": {
+    "_translate": "<code>area</code> 函数应该计算一个矩形的面积，但我们编写的函数有两个参数，并且在我们的程序中没有任何地方表明这些参数是相关的。将宽度和高度组合在一起会使代码更具可读性和可管理性。我们已经在第 3 章的 <a href=\"ch03-02-data-types.html#the-tuple-type\">“元组类型”</a><!-- ignore --> 部分讨论了一种可能的方法：使用元组。",
+    "_note": ""
+  },
+  "In one way, this program is better. Tuples let us add a bit of structure, and we’re now passing just one argument. But in another way, this version is less clear: tuples don’t name their elements, so we have to index into the parts of the tuple, making our calculation less obvious.": {
+    "_translate": "在一方面，这个程序更好。元组让我们增加了一些结构，并且我们现在只传递一个参数。但在另一方面，这个版本不太清晰：元组不命名它们的元素，所以我们必须对元组的部分进行索引，使我们的计算变得不那么明显。",
+    "_note": ""
+  },
+  "Refactoring with Structs: Adding More Meaning": {
+    "_translate": "<a class=\"header\" href=\"#refactoring-with-structs-adding-more-meaning\">使用结构体重构：增加更多含义</a>",
+    "_note": ""
+  },
+  "Mixing up the width and height wouldn’t matter for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that width is the tuple index 0 and height is the tuple index 1. This would be even harder for someone else to figure out and keep in mind if they were to use our code. Because we haven’t conveyed the meaning of our data in our code, it’s now easier to introduce errors.": {
+    "_translate": "将宽度和高度混淆对于面积计算来说无关紧要，但如果我们想在屏幕上绘制矩形，这就会很重要！我们必须记住 <code>width</code> 是元组索引 <code>0</code>，<code>height</code> 是元组索引 <code>1</code>。如果其他人要使用我们的代码，他们要弄清楚并记住这一点会更加困难。因为我们没有在代码中传达数据的含义，现在更容易引入错误。",
+    "_note": ""
+  },
+  "We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a struct with a name for the whole as well as names for the parts, as shown in Listing 5-10.": {
+    "_translate": "我们使用结构体通过标记数据来增加意义。我们可以将正在使用的元组转换为一个具有整体名称以及各部分名称的结构体，如清单 5-10 所示。",
+    "_note": ""
+  },
+  "Here we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.": {
+    "_translate": "这里我们定义了一个结构体并命名为<code>Rectangle</code>。在大括号内，我们定义了字段为<code>width</code>和<code>height</code>，它们的类型都是<code>u32</code>。然后，在<code>main</code>中，我们创建了一个特定的<code>Rectangle</code>实例，其宽度为<code>30</code>，高度为<code>50</code>。",
+    "_note": ""
+  },
+  "Our area function is now defined with one parameter, which we’ve named rectangle, whose type is an immutable borrow of a struct Rectangle instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, main retains its ownership and can continue using rect1, which is the reason we use the & in the function signature and where we call the function.": {
+    "_translate": "我们的 <code>area</code> 函数现在定义了一个参数，我们将其命名为 <code>rectangle</code>，其类型是结构体 <code>Rectangle</code> 实例的不可变借用。正如在第 4 章中提到的，我们希望借用结构体而不是获取其所有权。这样，<code>main</code> 保留其所有权并可以继续使用 <code>rect1</code>，这就是我们在函数签名和调用函数时使用 <code>&amp;</code> 的原因。",
+    "_note": ""
+  },
+  "Adding Useful Functionality with Derived Traits": {
+    "_translate": "<a class=\"header\" href=\"#adding-useful-functionality-with-derived-traits\">通过派生特性添加有用的功能</a>",
+    "_note": ""
+  },
+  "The area function accesses the width and height fields of the Rectangle instance (note that accessing fields of a borrowed struct instance does not move the field values, which is why you often see borrows of structs). Our function signature for area now says exactly what we mean: calculate the area of Rectangle, using its width and height fields. This conveys that the width and height are related to each other, and it gives descriptive names to the values rather than using the tuple index values of 0 and 1. This is a win for clarity.": {
+    "_translate": "<code>area</code> 函数访问 <code>Rectangle</code> 实例的 <code>width</code> 和 <code>height</code> 字段（注意，访问借用结构体实例的字段不会移动字段值，这就是为什么你经常看到结构体的借用）。我们的 <code>area</code> 函数签名现在准确地表达了我们的意思：使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段计算其面积。这表明宽度和高度是相互关联的，并且它为这些值提供了描述性的名称，而不是使用元组索引值 <code>0</code> 和 <code>1</code>。这提高了清晰度。",
+    "_note": ""
+  },
+  "It’d be useful to be able to print an instance of Rectangle while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the println! macro as we have used in previous chapters. This won’t work, however.": {
+    "_translate": "在调试我们的程序时，能够打印 <code>Rectangle</code> 的实例并查看其所有字段的值会很有帮助。列表 5-11 尝试使用 <a href=\"../std/macro.println.html\"><code>println!</code> 宏</a><!-- ignore -->，就像我们在前面的章节中使用的一样。然而，这将不起作用。",
+    "_note": ""
+  },
+  "When we compile this code, we get an error with this core message:": {
+    "_translate": "当我们编译这段代码时，我们得到一个带有以下核心信息的错误：",
+    "_note": ""
+  },
+  "If we continue reading the errors, we’ll find this helpful note:": {
+    "_translate": "如果我们继续阅读错误，我们会发现这个有用的注释：",
+    "_note": ""
+  },
+  "Let’s try it! The println! macro call will now look like println!(\"rect1 is {rect1:?}\");. Putting the specifier :? inside the curly brackets tells println! we want to use an output format called Debug. The Debug trait enables us to print our struct in a way that is useful for developers so we can see its value while we’re debugging our code.": {
+    "_translate": "让我们试试！<code>println!</code> 宏调用现在将看起来像 <code>println!(\"rect1 is {rect1:?}\");</code>。在大括号内放置指定符 <code>:?</code> 告诉 <code>println!</code> 我们想要使用一种称为 <code>Debug</code> 的输出格式。<code>Debug</code> 特性使我们能够以对开发者有用的方式打印我们的结构体，这样我们可以在调试代码时看到其值。",
+    "_note": ""
+  },
+  "The println! macro can do many kinds of formatting, and by default, the curly brackets tell println! to use formatting known as Display: output intended for direct end user consumption. The primitive types we’ve seen so far implement Display by default because there’s only one way you’d want to show a 1 or any other primitive type to a user. But with structs, the way println! should format the output is less clear because there are more display possibilities: Do you want commas or not? Do you want to print the curly brackets? Should all the fields be shown? Due to this ambiguity, Rust doesn’t try to guess what we want, and structs don’t have a provided implementation of Display to use with println! and the {} placeholder.": {
+    "_translate": "<code>println!</code> 宏可以执行多种格式化操作，默认情况下，大括号告诉 <code>println!</code> 使用称为 <code>Display</code> 的格式化：旨在直接供最终用户使用的输出。到目前为止我们看到的原始类型默认实现了 <code>Display</code>，因为只有一种方式可以向用户显示 <code>1</code> 或任何其他原始类型。但是，对于结构体，<code>println!</code> 应该如何格式化输出就不那么明确了，因为有更多的显示可能性：你想要逗号吗？你想要打印大括号吗？所有字段都应该显示吗？由于这种模糊性，Rust 不会试图猜测我们的需求，结构体没有提供与 <code>println!</code> 和 <code>{}</code> 占位符一起使用的 <code>Display</code> 实现。",
+    "_note": ""
+  },
+  "Compile the code with this change. Drat! We still get an error:": {
+    "_translate": "编译带有此更改的代码。哎呀！我们仍然得到一个错误：",
+    "_note": ""
+  },
+  "But again, the compiler gives us a helpful note:": {
+    "_translate": "但编译器再次给了我们一个有用的提示：",
+    "_note": ""
+  },
+  "Now when we run the program, we won’t get any errors, and we’ll see the following output:": {
+    "_translate": "现在当我们运行程序时，我们不会遇到任何错误，并且我们会看到以下输出：",
+    "_note": ""
+  },
+  "Rust does include functionality to print out debugging information, but we have to explicitly opt in to make that functionality available for our struct. To do that, we add the outer attribute #[derive(Debug)] just before the struct definition, as shown in Listing 5-12.": {
+    "_translate": "Rust <em>确实</em> 包含了打印调试信息的功能，但我们必须显式地选择启用该功能，以便为我们的结构体提供该功能。为此，我们在结构体定义之前添加外部属性 <code>#[derive(Debug)]</code>，如清单 5-12 所示。",
+    "_note": ""
+  },
+  "Another way to print out a value using the Debug format is to use the dbg! macro, which takes ownership of an expression (as opposed to println!, which takes a reference), prints the file and line number of where that dbg! macro call occurs in your code along with the resultant value of that expression, and returns ownership of the value.": {
+    "_translate": "另一种使用 <code>Debug</code> 格式打印值的方法是使用 <a href=\"../std/macro.dbg.html\"><code>dbg!</code> 宏</a><!-- ignore -->，它接受一个表达式的所有权（与 <code>println!</code> 不同，后者接受引用），打印该 <code>dbg!</code> 宏调用在代码中的文件和行号以及该表达式的结果值，并返回值的所有权。",
+    "_note": ""
+  },
+  "Nice! It’s not the prettiest output, but it shows the values of all the fields for this instance, which would definitely help during debugging. When we have larger structs, it’s useful to have output that’s a bit easier to read; in those cases, we can use {:#?} instead of {:?} in the println! string. In this example, using the {:#?} style will output the following:": {
+    "_translate": "不错！虽然输出不是最漂亮的，但它显示了这个实例的所有字段的值，这在调试时肯定会有所帮助。当我们有更大的结构体时，拥有更易读的输出会很有用；在这种情况下，我们可以在 <code>println!</code> 字符串中使用 <code>{:#?}</code> 而不是 <code>{:?}</code>。在这个例子中，使用 <code>{:#?}</code> 样式将输出以下内容：",
+    "_note": ""
+  },
+  "Here’s an example where we’re interested in the value that gets assigned to the width field, as well as the value of the whole struct in rect1:": {
+    "_translate": "这里有一个例子，我们对分配给<code>width</code>字段的值以及<code>rect1</code>中整个结构的值感兴趣：",
+    "_note": ""
+  },
+  "Note: Calling the dbg! macro prints to the standard error console stream (stderr), as opposed to println!, which prints to the standard output console stream (stdout). We’ll talk more about stderr and stdout in the “Writing Error Messages to Standard Error Instead of Standard Output” section in Chapter 12.": {
+    "_translate": "注意：调用 <code>dbg!</code> 宏会打印到标准错误控制台流 (<code>stderr</code>)，而 <code>println!</code> 则打印到标准输出控制台流 (<code>stdout</code>)。我们将在 <a href=\"ch12-06-writing-to-stderr-instead-of-stdout.html\">“将错误消息写入标准错误而不是标准输出”章节12部分</a><!-- ignore -->。",
+    "_note": ""
+  },
+  "We can put dbg! around the expression 30 * scale and, because dbg! returns ownership of the expression’s value, the width field will get the same value as if we didn’t have the dbg! call there. We don’t want dbg! to take ownership of rect1, so we use a reference to rect1 in the next call. Here’s what the output of this example looks like:": {
+    "_translate": "我们可以将 <code>dbg!</code> 放在表达式 <code>30 * scale</code> 周围，因为 <code>dbg!</code> 会返回表达式的值的所有权，所以 <code>width</code> 字段将获得与没有 <code>dbg!</code> 调用时相同的值。我们不希望 <code>dbg!</code> 获取 <code>rect1</code> 的所有权，所以在下一个调用中我们使用 <code>rect1</code> 的引用。这个例子的输出如下所示：",
+    "_note": ""
+  },
+  "We can see the first bit of output came from src/main.rs line 10 where we’re debugging the expression 30 * scale, and its resultant value is 60 (the Debug formatting implemented for integers is to print only their value). The dbg! call on line 14 of src/main.rs outputs the value of &rect1, which is the Rectangle struct. This output uses the pretty Debug formatting of the Rectangle type. The dbg! macro can be really helpful when you’re trying to figure out what your code is doing!": {
+    "_translate": "我们可以看到第一部分输出来自<em>src/main.rs</em>第10行，我们在调试表达式<code>30 * scale</code>，其结果值为<code>60</code>（为整数实现的<code>Debug</code>格式化仅打印它们的值）。<em>src/main.rs</em>第14行的<code>dbg!</code>调用输出<code>&amp;rect1</code>的值，即<code>Rectangle</code>结构体。此输出使用了<code>Rectangle</code>类型的漂亮<code>Debug</code>格式化。<code>dbg!</code>宏在你试图弄清楚代码在做什么时非常有帮助！",
+    "_note": ""
+  },
+  "In addition to the Debug trait, Rust has provided a number of traits for us to use with the derive attribute that can add useful behavior to our custom types. Those traits and their behaviors are listed in Appendix C. We’ll cover how to implement these traits with custom behavior as well as how to create your own traits in Chapter 10. There are also many attributes other than derive; for more information, see the “Attributes” section of the Rust Reference.": {
+    "_translate": "除了 <code>Debug</code> 特性之外，Rust 还提供了一些特性，我们可以通过 <code>derive</code> 属性使用这些特性，为我们的自定义类型添加有用的行为。这些特性和它们的行为列在 <a href=\"appendix-03-derivable-traits.html\">附录 C</a><!--\nignore -->。我们将在第 10 章中介绍如何实现这些特性的自定义行为以及如何创建自己的特性。除了 <code>derive</code> 之外，还有许多其他属性；有关更多信息，请参阅 <a href=\"../reference/attributes.html\">Rust 参考手册中的“属性”部分</a>。",
+    "_note": ""
+  },
+  "Our area function is very specific: it only computes the area of rectangles. It would be helpful to tie this behavior more closely to our Rectangle struct because it won’t work with any other type. Let’s look at how we can continue to refactor this code by turning the area function into an area method defined on our Rectangle type.": {
+    "_translate": "我们的 <code>area</code> 函数非常具体：它只计算矩形的面积。\n将这种行为更紧密地与我们的 <code>Rectangle</code> 结构体关联起来会很有帮助，\n因为它对其他任何类型都无效。让我们看看如何通过将 <code>area</code> 函数转换为定义在 <code>Rectangle</code> 类型上的 <code>area</code> <em>方法</em> 来继续重构这段代码。",
+    "_note": ""
+  }
+}

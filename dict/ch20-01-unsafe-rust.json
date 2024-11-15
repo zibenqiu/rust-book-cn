@@ -1,0 +1,282 @@
+{
+  "Unsafe Rust": {
+    "_translate": "<a class=\"header\" href=\"#unsafe-rust\">不安全的 Rust</a>",
+    "_note": ""
+  },
+  "All the code we’ve discussed so far has had Rust’s memory safety guarantees enforced at compile time. However, Rust has a second language hidden inside it that doesn’t enforce these memory safety guarantees: it’s called unsafe Rust and works just like regular Rust, but gives us extra superpowers.": {
+    "_translate": "我们迄今为止讨论的所有代码都在编译时强制执行了 Rust 的内存安全保证。然而，Rust 有一种隐藏在其中的第二种语言，它不强制执行这些内存安全保证：它被称为 <em>不安全的 Rust</em>，它就像普通的 Rust 一样工作，但赋予我们额外的超能力。",
+    "_note": ""
+  },
+  "Another reason Rust has an unsafe alter ego is that the underlying computer hardware is inherently unsafe. If Rust didn’t let you do unsafe operations, you couldn’t do certain tasks. Rust needs to allow you to do low-level systems programming, such as directly interacting with the operating system or even writing your own operating system. Working with low-level systems programming is one of the goals of the language. Let’s explore what we can do with unsafe Rust and how to do it.": {
+    "_translate": "另一个原因是底层计算机硬件本质上是不安全的。如果 Rust 不允许你执行不安全的操作，你就无法完成某些任务。Rust 需要允许你进行低级系统编程，例如直接与操作系统交互，甚至编写你自己的操作系统。进行低级系统编程是该语言的目标之一。让我们探索使用不安全的 Rust 可以做什么以及如何做。",
+    "_note": ""
+  },
+  "Unsafe Rust exists because, by nature, static analysis is conservative. When the compiler tries to determine whether or not code upholds the guarantees, it’s better for it to reject some valid programs than to accept some invalid programs. Although the code might be okay, if the Rust compiler doesn’t have enough information to be confident, it will reject the code. In these cases, you can use unsafe code to tell the compiler, “Trust me, I know what I’m doing.” Be warned, however, that you use unsafe Rust at your own risk: if you use unsafe code incorrectly, problems can occur due to memory unsafety, such as null pointer dereferencing.": {
+    "_translate": "Unsafe Rust 存在的原因在于，静态分析本质上是保守的。当编译器尝试确定代码是否遵守保证时，拒绝一些有效的程序总比接受一些无效的程序要好。虽然代码<em>可能</em>是正确的，但如果 Rust 编译器没有足够的信息来确信，它将拒绝该代码。在这种情况下，您可以使用不安全的代码来告诉编译器，“相信我，我知道自己在做什么。” 但是请注意，您使用不安全的 Rust 时风险自负：如果您不正确地使用不安全的代码，可能会由于内存不安全问题（如空指针解引用）而出现问题。",
+    "_note": ""
+  },
+  "Unsafe Superpowers": {
+    "_translate": "<a class=\"header\" href=\"#unsafe-superpowers\">不安全的超级能力</a>",
+    "_note": ""
+  },
+  "To switch to unsafe Rust, use the unsafe keyword and then start a new block that holds the unsafe code. You can take five actions in unsafe Rust that you can’t in safe Rust, which we call unsafe superpowers. Those superpowers include the ability to:": {
+    "_translate": "要切换到不安全的 Rust，使用 <code>unsafe</code> 关键字，然后开始一个新的块\n来包含不安全的代码。在不安全的 Rust 中，你可以执行五种在安全的 Rust 中无法执行的操作，我们称之为 <em>不安全的超能力</em>。这些超能力包括：",
+    "_note": ""
+  },
+  "It’s important to understand that unsafe doesn’t turn off the borrow checker or disable any other of Rust’s safety checks: if you use a reference in unsafe code, it will still be checked. The unsafe keyword only gives you access to these five features that are then not checked by the compiler for memory safety. You’ll still get some degree of safety inside of an unsafe block.": {
+    "_translate": "重要的是要理解 <code>unsafe</code> 并不会关闭借用检查器或禁用 Rust 的任何其他安全检查：如果你在不安全代码中使用引用，它仍然会被检查。<code>unsafe</code> 关键字只给你访问这五个特性，这些特性然后不会被编译器检查以确保内存安全。你仍然会在不安全块内获得一定程度的安全性。",
+    "_note": ""
+  },
+  "In addition, unsafe does not mean the code inside the block is necessarily dangerous or that it will definitely have memory safety problems: the intent is that as the programmer, you’ll ensure the code inside an unsafe block will access memory in a valid way.": {
+    "_translate": "此外，<code>unsafe</code> 并不意味着块内的代码一定是危险的或肯定会有内存安全问题：其意图是，作为程序员，您将确保 <code>unsafe</code> 块内的代码将以有效的方式访问内存。",
+    "_note": ""
+  },
+  "People are fallible, and mistakes will happen, but by requiring these five unsafe operations to be inside blocks annotated with unsafe you’ll know that any errors related to memory safety must be within an unsafe block. Keep unsafe blocks small; you’ll be thankful later when you investigate memory bugs.": {
+    "_translate": "人们会犯错，但通过要求这五种不安全操作必须在带有 <code>unsafe</code> 注解的块中进行，您将知道任何与内存安全相关的错误都必须在 <code>unsafe</code> 块内。保持 <code>unsafe</code> 块小；当您以后调查内存错误时，您会感谢自己。",
+    "_note": ""
+  },
+  "Let’s look at each of the five unsafe superpowers in turn. We’ll also look at some abstractions that provide a safe interface to unsafe code.": {
+    "_translate": "让我们逐一看看这五种不安全的超能力。我们还将看看一些提供安全接口的抽象来访问不安全代码。",
+    "_note": ""
+  },
+  "To isolate unsafe code as much as possible, it’s best to enclose unsafe code within a safe abstraction and provide a safe API, which we’ll discuss later in the chapter when we examine unsafe functions and methods. Parts of the standard library are implemented as safe abstractions over unsafe code that has been audited. Wrapping unsafe code in a safe abstraction prevents uses of unsafe from leaking out into all the places that you or your users might want to use the functionality implemented with unsafe code, because using a safe abstraction is safe.": {
+    "_translate": "为了尽可能地隔离不安全代码，最好将不安全代码封装在安全的抽象中，并提供一个安全的 API，我们将在本章后面讨论不安全的函数和方法时详细探讨。标准库的某些部分是通过安全抽象实现的，这些抽象覆盖了已经经过审核的不安全代码。将不安全代码封装在安全抽象中可以防止 <code>unsafe</code> 的使用泄露到你或你的用户可能想要使用通过 <code>unsafe</code> 代码实现的功能的所有地方，因为使用安全抽象是安全的。",
+    "_note": ""
+  },
+  "Dereferencing a Raw Pointer": {
+    "_translate": "<a class=\"header\" href=\"#dereferencing-a-raw-pointer\">解引用原始指针</a>",
+    "_note": ""
+  },
+  "Different from references and smart pointers, raw pointers:": {
+    "_translate": "不同于引用和智能指针，原始指针：",
+    "_note": ""
+  },
+  "By opting out of having Rust enforce these guarantees, you can give up guaranteed safety in exchange for greater performance or the ability to interface with another language or hardware where Rust’s guarantees don’t apply.": {
+    "_translate": "通过选择不使用 Rust 强制执行这些保证，您可以放弃保证的安全性，以换取更高的性能或与另一种语言或硬件接口的能力，这些语言或硬件不受 Rust 的保证约束。",
+    "_note": ""
+  },
+  "In Chapter 4, in the “Dangling References” section, we mentioned that the compiler ensures references are always valid. Unsafe Rust has two new types called raw pointers that are similar to references. As with references, raw pointers can be immutable or mutable and are written as *const T and *mut T, respectively. The asterisk isn’t the dereference operator; it’s part of the type name. In the context of raw pointers, immutable means that the pointer can’t be directly assigned to after being dereferenced.": {
+    "_translate": "在第 4 章的 <a href=\"ch04-02-references-and-borrowing.html#dangling-references\">“悬垂引用”</a><!-- ignore\n--> 部分，我们提到编译器确保引用始终有效。不安全的 Rust 有两种新的类型，称为 <em>原始指针</em>，它们类似于引用。与引用一样，原始指针可以是不可变的或可变的，分别写为 <code>*const T</code> 和 <code>*mut T</code>。星号不是解引用运算符；它是类型名称的一部分。在原始指针的上下文中，<em>不可变</em> 意味着指针在解引用后不能直接赋值。",
+    "_note": ""
+  },
+  "Listing 20-1 shows how to create an immutable and a mutable raw pointer.": {
+    "_translate": "列表 20-1 显示了如何创建不可变和可变的原始指针。",
+    "_note": ""
+  },
+  "Notice that we don’t include the unsafe keyword in this code. We can create raw pointers in safe code; we just can’t dereference raw pointers outside an unsafe block, as you’ll see in a bit.": {
+    "_translate": "请注意，我们在代码中没有包含 <code>unsafe</code> 关键字。我们可以在安全代码中创建原始指针；我们只是不能在 <code>unsafe</code> 块之外解引用原始指针，你将在稍后看到这一点。",
+    "_note": ""
+  },
+  "We’ve created raw pointers by using the raw borrow operators: &raw const num creates a *const i32 immutable raw pointer, and &raw mut num creates a &mut i32 mutable raw pointer. Because we created them directly from a local variable, we know these particular raw pointers are valid, but we can’t make that assumption about just any raw pointer.": {
+    "_translate": "我们通过使用原始借用操作符创建了原始指针：<code>&amp;raw const num</code> 创建一个 <code>*const i32</code> 不可变原始指针，而 <code>&amp;raw mut num</code> 创建一个 <code>&amp;mut i32</code> 可变原始指针。因为它们是直接从一个局部变量创建的，我们知道这些特定的原始指针是有效的，但我们不能对任何原始指针都做出这样的假设。",
+    "_note": ""
+  },
+  "To demonstrate this, next we’ll create a raw pointer whose validity we can’t be so certain of, using as to cast a value instead of using the raw reference operators. Listing 20-2 shows how to create a raw pointer to an arbitrary location in memory. Trying to use arbitrary memory is undefined: there might be data at that address or there might not, the compiler might optimize the code so there is no memory access, or the program might error with a segmentation fault. Usually, there is no good reason to write code like this, especially in cases where you can use a raw borrow operator instead, but it is possible.": {
+    "_translate": "为了演示这一点，接下来我们将创建一个原始指针，其有效性我们不能那么确定，使用 <code>as</code> 来转换一个值，而不是使用原始引用操作符。列表 20-2 显示了如何创建一个指向任意内存位置的原始指针。尝试使用任意内存是未定义的：该地址可能有数据，也可能没有，编译器可能会优化代码以不访问内存，或者程序可能会因段错误而报错。通常，编写这样的代码没有好的理由，特别是在可以使用原始借用操作符的情况下，但这是可能的。",
+    "_note": ""
+  },
+  "Creating a pointer does no harm; it’s only when we try to access the value that it points at that we might end up dealing with an invalid value.": {
+    "_translate": "创建指针本身并无害；只有当我们尝试访问它所指向的值时，我们才可能会遇到无效值。",
+    "_note": ""
+  },
+  "Recall that we can create raw pointers in safe code, but we can’t dereference raw pointers and read the data being pointed to. In Listing 20-3, we use the dereference operator * on a raw pointer that requires an unsafe block.": {
+    "_translate": "回想一下，我们可以在安全代码中创建原始指针，但我们不能<em>解引用</em>\n原始指针并读取被指向的数据。在示例 20-3 中，我们对需要一个 <code>unsafe</code> 块的原始指针使用了解引用运算符 <code>*</code>。",
+    "_note": ""
+  },
+  "With all of these dangers, why would you ever use raw pointers? One major use case is when interfacing with C code, as you’ll see in the next section, “Calling an Unsafe Function or Method.” Another case is when building up safe abstractions that the borrow checker doesn’t understand. We’ll introduce unsafe functions and then look at an example of a safe abstraction that uses unsafe code.": {
+    "_translate": "有了所有这些危险，为什么还要使用原始指针？一个主要的用例是在与C代码接口时，正如你将在下一节中看到的，\n<a href=\"#calling-an-unsafe-function-or-method\">“调用不安全的函数或方法。”</a><!-- ignore --> 另一个用例是在构建借用检查器不理解的安全抽象时。\n我们将介绍不安全的函数，然后看一个使用不安全代码的安全抽象示例。",
+    "_note": ""
+  },
+  "Calling an Unsafe Function or Method": {
+    "_translate": "<a class=\"header\" href=\"#calling-an-unsafe-function-or-method\">调用不安全的函数或方法</a>",
+    "_note": ""
+  },
+  "Note also that in Listing 20-1 and 20-3, we created *const i32 and *mut i32 raw pointers that both pointed to the same memory location, where num is stored. If we instead tried to create an immutable and a mutable reference to num, the code would not have compiled because Rust’s ownership rules don’t allow a mutable reference at the same time as any immutable references. With raw pointers, we can create a mutable pointer and an immutable pointer to the same location and change data through the mutable pointer, potentially creating a data race. Be careful!": {
+    "_translate": "请注意，在清单 20-1 和 20-3 中，我们创建了 <code>*const i32</code> 和 <code>*mut i32</code>\n原始指针，它们都指向存储 <code>num</code> 的同一内存位置。如果我们尝试创建一个不可变引用和一个可变引用到 <code>num</code>，代码将无法编译，因为 Rust 的所有权规则不允许同时存在可变引用和任何不可变引用。使用原始指针，我们可以创建一个可变指针和一个不可变指针到同一位置，并通过可变指针更改数据，这可能会导致数据竞争。小心！",
+    "_note": ""
+  },
+  "Here is an unsafe function named dangerous that doesn’t do anything in its body:": {
+    "_translate": "这里是一个名为 <code>dangerous</code> 的不安全函数，其函数体中没有任何操作：",
+    "_note": ""
+  },
+  "We must call the dangerous function within a separate unsafe block. If we try to call dangerous without the unsafe block, we’ll get an error:": {
+    "_translate": "我们必须在单独的 <code>unsafe</code> 块中调用 <code>dangerous</code> 函数。如果我们尝试在没有 <code>unsafe</code> 块的情况下调用 <code>dangerous</code>，我们将得到一个错误：",
+    "_note": ""
+  },
+  "The second type of operation you can perform in an unsafe block is calling unsafe functions. Unsafe functions and methods look exactly like regular functions and methods, but they have an extra unsafe before the rest of the definition. The unsafe keyword in this context indicates the function has requirements we need to uphold when we call this function, because Rust can’t guarantee we’ve met these requirements. By calling an unsafe function within an unsafe block, we’re saying that we’ve read this function’s documentation and take responsibility for upholding the function’s contracts.": {
+    "_translate": "在 <code>unsafe</code> 块中可以执行的第二种操作是调用不安全函数。不安全函数和方法看起来与普通函数和方法完全相同，但它们在定义的其余部分之前有一个额外的 <code>unsafe</code>。在这种上下文中，<code>unsafe</code> 关键字表示该函数有我们需要在调用此函数时遵守的要求，因为 Rust 无法保证我们已经满足这些要求。通过在 <code>unsafe</code> 块中调用不安全函数，我们表示我们已经阅读了此函数的文档，并承担起遵守函数契约的责任。",
+    "_note": ""
+  },
+  "Bodies of unsafe functions are effectively unsafe blocks, so to perform other unsafe operations within an unsafe function, we don’t need to add another unsafe block.": {
+    "_translate": "不安全函数的主体实际上是<code>unsafe</code>块，因此在不安全函数中执行其他不安全操作时，我们不需要添加另一个<code>unsafe</code>块。",
+    "_note": ""
+  },
+  "With the unsafe block, we’re asserting to Rust that we’ve read the function’s documentation, we understand how to use it properly, and we’ve verified that we’re fulfilling the contract of the function.": {
+    "_translate": "通过<code>unsafe</code>代码块，我们向Rust断言我们已经阅读了函数的文档，我们理解如何正确使用它，并且我们已经验证了我们正在履行函数的契约。",
+    "_note": ""
+  },
+  "We can’t implement this function using only safe Rust. An attempt might look something like Listing 20-5, which won’t compile. For simplicity, we’ll implement split_at_mut as a function rather than a method and only for slices of i32 values rather than for a generic type T.": {
+    "_translate": "我们不能仅使用安全的 Rust 来实现这个函数。尝试实现可能看起来像列表 20-5，但这不会编译。为了简单起见，我们将实现 <code>split_at_mut</code> 作为函数而不是方法，并且只针对 <code>i32</code> 类型的切片，而不是泛型 <code>T</code>。",
+    "_note": ""
+  },
+  "Just because a function contains unsafe code doesn’t mean we need to mark the entire function as unsafe. In fact, wrapping unsafe code in a safe function is a common abstraction. As an example, let’s study the split_at_mut function from the standard library, which requires some unsafe code. We’ll explore how we might implement it. This safe method is defined on mutable slices: it takes one slice and makes it two by splitting the slice at the index given as an argument. Listing 20-4 shows how to use split_at_mut.": {
+    "_translate": "仅仅因为一个函数包含不安全的代码，并不意味着我们需要将整个函数标记为不安全。事实上，将不安全的代码包装在安全的函数中是一种常见的抽象。例如，让我们研究一下标准库中的 <code>split_at_mut</code> 函数，它需要一些不安全的代码。我们将探讨如何实现它。这个安全方法定义在可变切片上：它接受一个切片并通过在给定的索引处分割切片来将其变成两个。列表 20-4 显示了如何使用 <code>split_at_mut</code>。",
+    "_note": ""
+  },
+  "This function first gets the total length of the slice. Then it asserts that the index given as a parameter is within the slice by checking whether it’s less than or equal to the length. The assertion means that if we pass an index that is greater than the length to split the slice at, the function will panic before it attempts to use that index.": {
+    "_translate": "这个函数首先获取切片的总长度。然后它通过检查索引是否小于或等于长度来断言作为参数给出的索引在切片范围内。这个断言意味着，如果我们传递一个大于长度的索引来分割切片，函数将在尝试使用该索引之前崩溃。",
+    "_note": ""
+  },
+  "Then we return two mutable slices in a tuple: one from the start of the original slice to the mid index and another from mid to the end of the slice.": {
+    "_translate": "然后我们返回一个元组，其中包含两个可变切片：一个从原始切片的开始到<code>mid</code>索引，另一个从<code>mid</code>到切片的末尾。",
+    "_note": ""
+  },
+  "When we try to compile the code in Listing 20-5, we’ll get an error.": {
+    "_translate": "当我们尝试编译列表 20-5 中的代码时，我们会遇到一个错误。",
+    "_note": ""
+  },
+  "Rust’s borrow checker can’t understand that we’re borrowing different parts of the slice; it only knows that we’re borrowing from the same slice twice. Borrowing different parts of a slice is fundamentally okay because the two slices aren’t overlapping, but Rust isn’t smart enough to know this. When we know code is okay, but Rust doesn’t, it’s time to reach for unsafe code.": {
+    "_translate": "Rust 的借用检查器无法理解我们正在借用切片的不同部分；它只知道我们正在从同一个切片中借用两次。借用切片的不同部分本质上是没问题的，因为这两个切片并不重叠，但 Rust 并不够智能来理解这一点。当我们知道代码是安全的，但 Rust 却不知道时，就该使用不安全的代码了。",
+    "_note": ""
+  },
+  "Listing 20-6 shows how to use an unsafe block, a raw pointer, and some calls to unsafe functions to make the implementation of split_at_mut work.": {
+    "_translate": "列表 20-6 显示了如何使用 <code>unsafe</code> 块、原始指针和一些不安全函数的调用来使 <code>split_at_mut</code> 的实现工作。",
+    "_note": ""
+  },
+  "Recall from “The Slice Type” section in Chapter 4 that slices are a pointer to some data and the length of the slice. We use the len method to get the length of a slice and the as_mut_ptr method to access the raw pointer of a slice. In this case, because we have a mutable slice to i32 values, as_mut_ptr returns a raw pointer with the type *mut i32, which we’ve stored in the variable ptr.": {
+    "_translate": "回想第 4 章<a href=\"ch04-03-slices.html#the-slice-type\">“切片类型”</a><!-- ignore -->部分，切片是指向某些数据的指针和切片的长度。\n我们使用 <code>len</code> 方法获取切片的长度，使用 <code>as_mut_ptr</code> 方法访问切片的原始指针。在这种情况下，因为我们有一个可变的 <code>i32</code> 值切片，<code>as_mut_ptr</code> 返回一个类型为 <code>*mut i32</code> 的原始指针，我们将其存储在变量 <code>ptr</code> 中。",
+    "_note": ""
+  },
+  "We keep the assertion that the mid index is within the slice. Then we get to the unsafe code: the slice::from_raw_parts_mut function takes a raw pointer and a length, and it creates a slice. We use this function to create a slice that starts from ptr and is mid items long. Then we call the add method on ptr with mid as an argument to get a raw pointer that starts at mid, and we create a slice using that pointer and the remaining number of items after mid as the length.": {
+    "_translate": "我们保持 <code>mid</code> 索引在切片内的断言。然后我们进入不安全的代码：<code>slice::from_raw_parts_mut</code> 函数接受一个原始指针和一个长度，并创建一个切片。我们使用此函数创建一个从 <code>ptr</code> 开始且长度为 <code>mid</code> 的切片。然后我们调用 <code>ptr</code> 上的 <code>add</code> 方法，参数为 <code>mid</code>，以获取一个从 <code>mid</code> 开始的原始指针，并使用该指针和 <code>mid</code> 之后剩余的项目数作为长度创建一个切片。",
+    "_note": ""
+  },
+  "Note that we don’t need to mark the resulting split_at_mut function as unsafe, and we can call this function from safe Rust. We’ve created a safe abstraction to the unsafe code with an implementation of the function that uses unsafe code in a safe way, because it creates only valid pointers from the data this function has access to.": {
+    "_translate": "请注意，我们不需要将生成的 <code>split_at_mut</code> 函数标记为 <code>unsafe</code>，并且我们可以从安全的 Rust 代码中调用此函数。我们已经通过使用 <code>unsafe</code> 代码以安全方式实现的函数创建了一个安全的抽象，因为它仅从该函数可以访问的数据创建有效的指针。",
+    "_note": ""
+  },
+  "The function slice::from_raw_parts_mut is unsafe because it takes a raw pointer and must trust that this pointer is valid. The add method on raw pointers is also unsafe, because it must trust that the offset location is also a valid pointer. Therefore, we had to put an unsafe block around our calls to slice::from_raw_parts_mut and add so we could call them. By looking at the code and by adding the assertion that mid must be less than or equal to len, we can tell that all the raw pointers used within the unsafe block will be valid pointers to data within the slice. This is an acceptable and appropriate use of unsafe.": {
+    "_translate": "函数 <code>slice::from_raw_parts_mut</code> 是不安全的，因为它接受一个原始指针，并且必须信任这个指针是有效的。原始指针上的 <code>add</code> 方法也是不安全的，因为它必须信任偏移位置也是一个有效的指针。因此，我们必须在调用 <code>slice::from_raw_parts_mut</code> 和 <code>add</code> 时将它们放在 <code>unsafe</code> 块中。通过查看代码并添加 <code>mid</code> 必须小于或等于 <code>len</code> 的断言，我们可以确定 <code>unsafe</code> 块内使用的所有原始指针都是指向切片内数据的有效指针。这是一个可接受且适当的 <code>unsafe</code> 用法。",
+    "_note": ""
+  },
+  "In contrast, the use of slice::from_raw_parts_mut in Listing 20-7 would likely crash when the slice is used. This code takes an arbitrary memory location and creates a slice 10,000 items long.": {
+    "_translate": "相比之下，清单 20-7 中使用 <code>slice::from_raw_parts_mut</code> 很可能在使用切片时崩溃。此代码获取一个任意的内存位置并创建一个长度为 10,000 的切片。",
+    "_note": ""
+  },
+  "We don’t own the memory at this arbitrary location, and there is no guarantee that the slice this code creates contains valid i32 values. Attempting to use values as though it’s a valid slice results in undefined behavior.": {
+    "_translate": "我们不拥有这个任意位置的内存，也没有保证这段代码创建的切片包含有效的<code>i32</code>值。尝试将<code>values</code>作为有效切片使用会导致未定义行为。",
+    "_note": ""
+  },
+  "Sometimes, your Rust code might need to interact with code written in another language. For this, Rust has the keyword extern that facilitates the creation and use of a Foreign Function Interface (FFI). An FFI is a way for a programming language to define functions and enable a different (foreign) programming language to call those functions.": {
+    "_translate": "有时，您的 Rust 代码可能需要与用其他语言编写的代码进行交互。为此，Rust 有关键字 <code>extern</code>，它有助于创建和使用 <em>Foreign Function Interface (FFI)</em>。FFI 是一种编程语言定义函数并使另一种（外部）编程语言能够调用这些函数的方式。",
+    "_note": ""
+  },
+  "Listing 20-8 demonstrates how to set up an integration with the abs function from the C standard library. Functions declared within extern blocks are always unsafe to call from Rust code. The reason is that other languages don’t enforce Rust’s rules and guarantees, and Rust can’t check them, so responsibility falls on the programmer to ensure safety.": {
+    "_translate": "列表 20-8 展示了如何设置与 C 标准库中的 <code>abs</code> 函数的集成。在 <code>extern</code> 块中声明的函数总是从 Rust 代码调用时是不安全的。原因是其他语言不会强制执行 Rust 的规则和保证，而 Rust 也无法检查它们，因此确保安全性的责任落在程序员身上。",
+    "_note": ""
+  },
+  "Within the extern \"C\" block, we list the names and signatures of external functions from another language we want to call. The \"C\" part defines which application binary interface (ABI) the external function uses: the ABI defines how to call the function at the assembly level. The \"C\" ABI is the most common and follows the C programming language’s ABI.": {
+    "_translate": "在 <code>extern \"C\"</code> 块中，我们列出要调用的来自另一种语言的外部函数的名称和签名。 <code>\"C\"</code> 部分定义了外部函数使用的 <em>应用程序二进制接口 (ABI)</em>：ABI 定义了如何在汇编级别调用函数。 <code>\"C\"</code> ABI 是最常用的，并遵循 C 编程语言的 ABI。",
+    "_note": ""
+  },
+  "In the following example, we make the call_from_c function accessible from C code, after it’s compiled to a shared library and linked from C:": {
+    "_translate": "在以下示例中，我们将 <code>call_from_c</code> 函数编译为共享库并从 C 代码链接后，使其可以从 C 代码访问：",
+    "_note": ""
+  },
+  "This usage of extern does not require unsafe.": {
+    "_translate": "这种使用 <code>extern</code> 的方式不需要 <code>unsafe</code>。",
+    "_note": ""
+  },
+  "Accessing or Modifying a Mutable Static Variable": {
+    "_translate": "<a class=\"header\" href=\"#accessing-or-modifying-a-mutable-static-variable\">访问或修改可变静态变量</a>",
+    "_note": ""
+  },
+  "We can also use extern to create an interface that allows other languages to call Rust functions. Instead of creating a whole extern block, we add the extern keyword and specify the ABI to use just before the fn keyword for the relevant function. We also need to add a #[no_mangle] annotation to tell the Rust compiler not to mangle the name of this function. Mangling is when a compiler changes the name we’ve given a function to a different name that contains more information for other parts of the compilation process to consume but is less human readable. Every programming language compiler mangles names slightly differently, so for a Rust function to be nameable by other languages, we must disable the Rust compiler’s name mangling.": {
+    "_translate": "我们还可以使用 <code>extern</code> 创建一个接口，允许其他语言调用 Rust 函数。我们不需要创建一个完整的 <code>extern</code> 块，而是在相关函数的 <code>fn</code> 关键字之前添加 <code>extern</code> 关键字并指定要使用的 ABI。我们还需要添加一个 <code>#[no_mangle]</code> 注解，告诉 Rust 编译器不要混淆此函数的名称。<em>混淆</em> 是指编译器将我们给定的函数名称更改为包含更多信息的其他名称，这些信息供编译过程的其他部分使用，但可读性较差。每种编程语言的编译器对名称的混淆方式略有不同，因此为了让其他语言能够调用 Rust 函数，我们必须禁用 Rust 编译器的名称混淆。",
+    "_note": ""
+  },
+  "In this book, we’ve not yet talked about global variables, which Rust does support but can be problematic with Rust’s ownership rules. If two threads are accessing the same mutable global variable, it can cause a data race.": {
+    "_translate": "在本书中，我们还没有讨论<em>全局变量</em>，虽然 Rust 确实支持全局变量，但它们可能会与 Rust 的所有权规则产生冲突。如果两个线程访问同一个可变全局变量，可能会导致数据竞争。",
+    "_note": ""
+  },
+  "In Rust, global variables are called static variables. Listing 20-9 shows an example declaration and use of a static variable with a string slice as a value.": {
+    "_translate": "在 Rust 中，全局变量被称为 <em>静态</em> 变量。列表 20-9 显示了一个使用字符串切片作为值的静态变量的声明和使用示例。",
+    "_note": ""
+  },
+  "Static variables are similar to constants, which we discussed in the “Differences Between Variables and Constants” section in Chapter 3. The names of static variables are in SCREAMING_SNAKE_CASE by convention. Static variables can only store references with the 'static lifetime, which means the Rust compiler can figure out the lifetime and we aren’t required to annotate it explicitly. Accessing an immutable static variable is safe.": {
+    "_translate": "静态变量类似于我们在第 3 章<a href=\"ch03-01-variables-and-mutability.html#constants\">“变量和常量之间的区别”</a><!-- ignore -->部分讨论的常量。按照惯例，静态变量的名称使用<code>SCREAMING_SNAKE_CASE</code>。静态变量只能存储具有<code>'static</code>生命周期的引用，这意味着 Rust 编译器可以推断出生命周期，我们不需要显式地标注它。访问不可变的静态变量是安全的。",
+    "_note": ""
+  },
+  "A subtle difference between constants and immutable static variables is that values in a static variable have a fixed address in memory. Using the value will always access the same data. Constants, on the other hand, are allowed to duplicate their data whenever they’re used. Another difference is that static variables can be mutable. Accessing and modifying mutable static variables is unsafe. Listing 20-10 shows how to declare, access, and modify a mutable static variable named COUNTER.": {
+    "_translate": "常量和不可变静态变量之间的一个细微差别是，静态变量中的值在内存中有一个固定的地址。使用该值将始终访问相同的数据。另一方面，常量在使用时允许复制其数据。另一个不同之处在于静态变量可以是可变的。访问和修改可变静态变量是<em>不安全的</em>。列表 20-10 显示了如何声明、访问和修改一个名为 <code>COUNTER</code> 的可变静态变量。",
+    "_note": ""
+  },
+  "Whenever we write an unsafe function, it is idiomatic to write a comment starting with SAFETY and explaining what the caller needs to do to call the function safely. Likewise, whenever we perform an unsafe operation, it is idiomatic to write a comment starting with SAFETY to explain how the safety rules are upheld.": {
+    "_translate": "每当我们编写一个不安全的函数时，习惯上会写一个以 <code>SAFETY</code> 开头的注释，解释调用者需要做什么才能安全地调用该函数。同样，每当执行不安全操作时，习惯上也会写一个以 <code>SAFETY</code> 开头的注释，解释如何遵守安全规则。",
+    "_note": ""
+  },
+  "As with regular variables, we specify mutability using the mut keyword. Any code that reads or writes from COUNTER must be within an unsafe block. This code compiles and prints COUNTER: 3 as we would expect because it’s single threaded. Having multiple threads access COUNTER would likely result in data races, so it is undefined behavior. Therefore, we need to mark the entire function as unsafe, and document the safety limitation, so anyone calling the function knows what they are and are not allowed to do safely.": {
+    "_translate": "与常规变量一样，我们使用 <code>mut</code> 关键字指定可变性。任何读取或写入 <code>COUNTER</code> 的代码都必须在 <code>unsafe</code> 块中。这段代码编译并打印 <code>COUNTER: 3</code>，正如我们所期望的那样，因为它是在单线程中运行的。如果多个线程访问 <code>COUNTER</code>，可能会导致数据竞争，因此这是未定义的行为。因此，我们需要将整个函数标记为 <code>unsafe</code>，并记录安全限制，以便调用该函数的任何人都知道他们可以和不可以安全地做什么。",
+    "_note": ""
+  },
+  "With mutable data that is globally accessible, it’s difficult to ensure there are no data races, which is why Rust considers mutable static variables to be unsafe. Where possible, it’s preferable to use the concurrency techniques and thread-safe smart pointers we discussed in Chapter 16 so the compiler checks that data accessed from different threads is done safely.": {
+    "_translate": "对于全局可访问的可变数据，很难确保没有数据竞争，这就是为什么 Rust 认为可变静态变量是不安全的。在可能的情况下，最好使用我们在第 16 章中讨论的并发技术和线程安全的智能指针，以便编译器检查从不同线程访问的数据是否安全。",
+    "_note": ""
+  },
+  "Implementing an Unsafe Trait": {
+    "_translate": "<a class=\"header\" href=\"#implementing-an-unsafe-trait\">实现一个不安全的特质</a>",
+    "_note": ""
+  },
+  "By using unsafe impl, we’re promising that we’ll uphold the invariants that the compiler can’t verify.": {
+    "_translate": "通过使用 <code>unsafe impl</code>，我们承诺将维护编译器无法验证的不变性。",
+    "_note": ""
+  },
+  "We can use unsafe to implement an unsafe trait. A trait is unsafe when at least one of its methods has some invariant that the compiler can’t verify. We declare that a trait is unsafe by adding the unsafe keyword before trait and marking the implementation of the trait as unsafe too, as shown in Listing 20-11.": {
+    "_translate": "我们可以使用 <code>unsafe</code> 来实现一个不安全的 trait。当一个 trait 的至少一个方法有一些编译器无法验证的不变量时，该 trait 就是不安全的。我们通过在 <code>trait</code> 前添加 <code>unsafe</code> 关键字来声明一个 trait 是 <code>unsafe</code> 的，并且也将 trait 的实现标记为 <code>unsafe</code>，如清单 20-11 所示。",
+    "_note": ""
+  },
+  "Accessing Fields of a Union": {
+    "_translate": "<a class=\"header\" href=\"#accessing-fields-of-a-union\">访问联合体的字段</a>",
+    "_note": ""
+  },
+  "As an example, recall the Sync and Send marker traits we discussed in the “Extensible Concurrency with the Sync and Send Traits” section in Chapter 16: the compiler implements these traits automatically if our types are composed entirely of Send and Sync types. If we implement a type that contains a type that is not Send or Sync, such as raw pointers, and we want to mark that type as Send or Sync, we must use unsafe. Rust can’t verify that our type upholds the guarantees that it can be safely sent across threads or accessed from multiple threads; therefore, we need to do those checks manually and indicate as such with unsafe.": {
+    "_translate": "作为示例，回想我们在第 16 章<a href=\"ch16-04-extensible-concurrency-sync-and-send.html#extensible-concurrency-with-the-sync-and-send-traits\">“使用 <code>Sync</code> 和 <code>Send</code> 特性实现可扩展的并发”</a><!-- ignore -->\n部分讨论的 <code>Sync</code> 和 <code>Send</code> 标记特性：如果我们的类型完全由 <code>Send</code> 和 <code>Sync</code> 类型组成，编译器会自动实现这些特性。如果我们实现的类型包含不是 <code>Send</code> 或 <code>Sync</code> 的类型，例如原始指针，并且我们希望将该类型标记为 <code>Send</code> 或 <code>Sync</code>，我们必须使用 <code>unsafe</code>。Rust 无法验证我们的类型是否保持可以安全地跨线程发送或从多个线程访问的保证；因此，我们需要手动进行这些检查并用 <code>unsafe</code> 指示。",
+    "_note": ""
+  },
+  "The final action that works only with unsafe is accessing fields of a union. A union is similar to a struct, but only one declared field is used in a particular instance at one time. Unions are primarily used to interface with unions in C code. Accessing union fields is unsafe because Rust can’t guarantee the type of the data currently being stored in the union instance. You can learn more about unions in the Rust Reference.": {
+    "_translate": "最后一种仅与 <code>unsafe</code> 一起使用的行为是访问 <em>联合体</em> 的字段。一个 <code>union</code> 类似于一个 <code>struct</code>，但在特定实例中一次只能使用一个声明的字段。联合体主要用于与 C 代码中的联合体进行接口。访问联合体字段是不安全的，因为 Rust 无法保证当前存储在联合体实例中的数据类型。您可以在 <a href=\"../reference/items/unions.html\">Rust 参考手册</a> 中了解有关联合体的更多信息。",
+    "_note": ""
+  },
+  "Using Miri to check unsafe code": {
+    "_translate": "<a class=\"header\" href=\"#using-miri-to-check-unsafe-code\">使用Miri检查不安全的代码</a>",
+    "_note": ""
+  },
+  "Using Miri requires a nightly build of Rust (which we talk about more in Appendix G: How Rust is Made and “Nightly Rust”). You can install both a nightly version of Rust and the Miri tool by typing rustup +nightly component add miri. This does not change what version of Rust your project uses; it only adds the tool to your system so you can use it when you want to. You can run Miri on a project by typing cargo +nightly miri run or cargo +nightly miri test.": {
+    "_translate": "使用Miri需要Rust的夜间构建版本（我们将在<a href=\"appendix-07-nightly-rust.html\">附录G：Rust的制作和“夜间Rust”</a>中详细讨论）。您可以通过键入<code>rustup +nightly component add miri</code>来安装Rust的夜间版本和Miri工具。这不会更改您的项目使用的Rust版本；它只是将工具添加到您的系统中，以便您在需要时可以使用它。\n您可以通过键入<code>cargo +nightly miri run</code>或<code>cargo +nightly miri test</code>在项目上运行Miri。",
+    "_note": ""
+  },
+  "When writing unsafe code, you might want to check that what you have written actually is safe and correct. One of the best ways to do that is to use Miri, an official Rust tool for detecting undefined behavior. Whereas the borrow checker is a static tool which works at compile time, Miri is a dynamic tool which works at runtime. It checks your code by running your program, or its test suite, and detecting when you violate the rules its understands about how Rust should work.": {
+    "_translate": "当编写不安全的代码时，你可能希望检查你所编写的代码实际上是安全和正确的。一种最好的方法是使用<a href=\"https://github.com/rust-lang/miri\">Miri</a>，一个官方的Rust工具，用于检测未定义行为。虽然借用检查器是一个在编译时工作的<em>静态</em>工具，Miri是一个在运行时工作的<em>动态</em>工具。它通过运行你的程序或其测试套件，并检测你何时违反了其理解的Rust应如何工作的规则来检查你的代码。",
+    "_note": ""
+  },
+  "For an example of how helpful this can be, consider what happens when we run it against Listing 20-10:": {
+    "_translate": "为了举例说明这有多有帮助，考虑当我们针对列表 20-10 运行它时会发生什么：",
+    "_note": ""
+  },
+  "It helpfully and correctly notices that we have shared references to mutable data, and warns about it. In this case, it does not tell us how to fix the problem, but it means that we know there is a possible issue and can think about how to make sure it is safe. In other cases, it can actually tell us that some code is sure to be wrong and make recommendations about how to fix it.": {
+    "_translate": "它帮助我们正确地注意到我们对可变数据有共享引用，并对此发出警告。在这种情况下，它没有告诉我们如何修复问题，但意味着我们知道可能存在一个问题，并可以考虑如何确保它是安全的。在其他情况下，它可以实际告诉我们某些代码<em>肯定</em>是错误的，并提出如何修复的建议。",
+    "_note": ""
+  },
+  "When to Use Unsafe Code": {
+    "_translate": "<a class=\"header\" href=\"#when-to-use-unsafe-code\">何时使用不安全代码</a>",
+    "_note": ""
+  },
+  "Miri doesn’t catch everything you might get wrong when writing unsafe code. For one thing, since it is a dynamic check, it only catches problems with code that actually gets run. That means you will need to use it in conjunction with good testing techniques to increase your confidence about the unsafe code you have written. For another thing, it does not cover every possible way your code can be unsound. If Miri does catch a problem, you know there’s a bug, but just because Miri doesn’t catch a bug doesn’t mean there isn’t a problem. Miri can catch a lot, though. Try running it on the other examples of unsafe code in this chapter and see what it says!": {
+    "_translate": "Miri 不会捕捉到你在编写不安全代码时可能犯的<em>所有</em>错误。\n一方面，由于它是动态检查，因此只能捕捉到实际运行的代码中的问题。这意味着你需要将其与良好的测试技术结合使用，以提高你对自己编写的不安全代码的信心。另一方面，它并不能涵盖你的代码可能存在的每一种不安全方式。如果 Miri <em>确实</em>捕捉到一个问题，你就知道有 bug，但仅仅因为 Miri <em>没有</em>捕捉到一个 bug 并不意味着没有问题。尽管如此，Miri 可以捕捉到很多问题。尝试在本章中的其他不安全代码示例上运行它，看看它怎么说！",
+    "_note": ""
+  },
+  "Using unsafe to take one of the five actions (superpowers) just discussed isn’t wrong or even frowned upon. But it is trickier to get unsafe code correct because the compiler can’t help uphold memory safety. When you have a reason to use unsafe code, you can do so, and having the explicit unsafe annotation makes it easier to track down the source of problems when they occur. Whenever you write unsafe code, you can use Miri to help you be more confident that the code you have written upholds Rust’s rules.": {
+    "_translate": "使用 <code>unsafe</code> 来执行上述五种操作（超级能力）之一并不是错误，甚至也不被反对。但是，编写 <code>unsafe</code> 代码更难正确，因为编译器无法帮助维护内存安全。当你有理由使用 <code>unsafe</code> 代码时，你可以这样做，而显式的 <code>unsafe</code> 注解使得在出现问题时更容易追踪问题的来源。每当你编写不安全的代码时，你可以使用 Miri 来帮助你更有信心地确保你编写的代码遵循 Rust 的规则。",
+    "_note": ""
+  }
+}

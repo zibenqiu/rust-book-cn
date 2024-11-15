@@ -1,0 +1,58 @@
+{
+  "Appendix A: Keywords": {
+    "_translate": "<a class=\"header\" href=\"#appendix-a-keywords\">附录 A: 关键字</a>",
+    "_note": ""
+  },
+  "Keywords Currently in Use": {
+    "_translate": "<a class=\"header\" href=\"#keywords-currently-in-use\">当前使用的关键词</a>",
+    "_note": ""
+  },
+  "The following is a list of keywords currently in use, with their functionality described.": {
+    "_translate": "以下是在使用的关键词列表，以及它们的功能描述。",
+    "_note": ""
+  },
+  "The following list contains keywords that are reserved for current or future use by the Rust language. As such, they cannot be used as identifiers (except as raw identifiers as we’ll discuss in the “Raw Identifiers” section). Identifiers are names of functions, variables, parameters, struct fields, modules, crates, constants, macros, static values, attributes, types, traits, or lifetimes.": {
+    "_translate": "以下列表包含 Rust 语言为当前或未来使用而保留的关键词。因此，它们不能用作标识符（除非作为原始标识符，我们将在“<a href=\"#raw-identifiers\">原始标识符</a><!-- ignore -->”部分讨论）。标识符是函数、变量、参数、结构体字段、模块、crate、常量、宏、静态值、属性、类型、特征或生命周期的名称。",
+    "_note": ""
+  },
+  "Keywords Reserved for Future Use": {
+    "_translate": "<a class=\"header\" href=\"#keywords-reserved-for-future-use\">为将来保留的关键词</a>",
+    "_note": ""
+  },
+  "The following keywords do not yet have any functionality but are reserved by Rust for potential future use.": {
+    "_translate": "以下关键字目前尚无任何功能，但 Rust 保留了这些关键字以供将来可能使用。",
+    "_note": ""
+  },
+  "Raw Identifiers": {
+    "_translate": "<a class=\"header\" href=\"#raw-identifiers\">原始标识符</a>",
+    "_note": ""
+  },
+  "For example, match is a keyword. If you try to compile the following function that uses match as its name:": {
+    "_translate": "例如，<code>match</code> 是一个关键字。如果你尝试编译以下使用 <code>match</code> 作为其名称的函数：",
+    "_note": ""
+  },
+  "Raw identifiers are the syntax that lets you use keywords where they wouldn’t normally be allowed. You use a raw identifier by prefixing a keyword with r#.": {
+    "_translate": "<em>原始标识符</em> 是允许你在通常不允许使用关键字的地方使用关键字的语法。你通过在关键字前加上 <code>r#</code> 来使用原始标识符。",
+    "_note": ""
+  },
+  "you’ll get this error:": {
+    "_translate": "你会遇到这个错误：",
+    "_note": ""
+  },
+  "Filename: src/main.rs": {
+    "_translate": "<span class=\"filename\">文件名: src/main.rs</span>",
+    "_note": ""
+  },
+  "The error shows that you can’t use the keyword match as the function identifier. To use match as a function name, you need to use the raw identifier syntax, like this:": {
+    "_translate": "错误显示你不能将关键字<code>match</code>用作函数标识符。要将<code>match</code>用作函数名，你需要使用原始标识符语法，如下所示：",
+    "_note": ""
+  },
+  "This code will compile without any errors. Note the r# prefix on the function name in its definition as well as where the function is called in main.": {
+    "_translate": "这段代码将不会出现任何编译错误。注意函数定义及其在 <code>main</code> 中被调用时的函数名前的 <code>r#</code> 前缀。",
+    "_note": ""
+  },
+  "Raw identifiers allow you to use any word you choose as an identifier, even if that word happens to be a reserved keyword. This gives us more freedom to choose identifier names, as well as lets us integrate with programs written in a language where these words aren’t keywords. In addition, raw identifiers allow you to use libraries written in a different Rust edition than your crate uses. For example, try isn’t a keyword in the 2015 edition but is in the 2018 edition. If you depend on a library that’s written using the 2015 edition and has a try function, you’ll need to use the raw identifier syntax, r#try in this case, to call that function from your 2018 edition code. See Appendix E for more information on editions.": {
+    "_translate": "原始标识符允许你使用任何你选择的标识符，即使该词碰巧是保留关键字。这给了我们更多的自由来选择标识符名称，同时也让我们能够与那些这些词不是关键字的语言编写的程序集成。此外，原始标识符允许你使用与你的 crate 使用的不同 Rust 版本编写的库。例如，<code>try</code> 在 2015 版本中不是关键字，但在 2018 版本中是。如果你依赖于一个使用 2015 版本编写的库，并且该库有一个 <code>try</code> 函数，你需要使用原始标识符语法，<code>r#try</code> 在这种情况下，从你的 2018 版本代码中调用该函数。有关版本的更多信息，请参见 <a href=\"appendix-05-editions.html\">附录 E</a><!-- ignore -->。",
+    "_note": ""
+  }
+}

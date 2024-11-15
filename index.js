@@ -7,7 +7,7 @@ const { JSDOM } = jsdom;
 const glob = require('glob');
 const { Semaphore } = require('async-mutex');
 
-const { translate } = require('./utils');
+const { translate } = require('./utils.js');
 // 使用信号量控制并发
 
 const MAX_CONCURRENT = 2;
@@ -15,10 +15,6 @@ const MAX_CONCURRENT = 2;
 // Note: 配置各个文件需要翻译的节点选择器，如果不存在，则默认翻译页面首个 article 中的全部 p 标签内容
 const defaultConfig = (more) => {
   return [
-    {
-      container: '#menu-bar',
-      selector: 'h1.menu-title',
-    },
     {
       container: '#page-wrapper #content',
       selector: `p, h1, h2, h3`,
@@ -41,7 +37,9 @@ const config = {
 const semaphore = new Semaphore(MAX_CONCURRENT);
 // 使用 glob 模块来匹配文件
 let files;
-files = glob.sync(path.resolve(__dirname, `book_src/book/**/index.html`));
+files = glob.sync(path.resolve(__dirname, `book_src/book/**/*.html`), {
+  ignore: ['**/print.html'], // 跳过 print 页面 ，因为它是全部页面的集合！
+});
 Promise.all(
   files.map((file) => {
     return new Promise((rootResolve) => {
@@ -74,6 +72,12 @@ Promise.all(
         script3.src =
           'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411';
         head.appendChild(script3);
+        const style = document.createElement('style');
+        style.innerHTML = fs.readFileSync(
+          path.resolve(__dirname, 'style.css'),
+          'utf8'
+        );
+        head.appendChild(style);
       }
 
       // Note: 修改 nav 部分，增加译者地址
@@ -101,7 +105,7 @@ Promise.all(
       // Note: 整站通知
       const p = key.replace('book_src/book', '').replace('.html', '');
       console.log('p', p);
-      banner.innerHTML = `本文档为 AI + 人工翻译，hover 可以显示原文。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
+      banner.innerHTML = `本文档为 AI + 人工翻译，hover 可以显示原文。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict${p}.json" target="_blank">我来翻译！</a>`;
       const bodyContainer = document.querySelector('#body-container');
       if (bodyContainer) {
         bodyContainer.parentNode.insertBefore(banner, bodyContainer);
@@ -117,7 +121,10 @@ Promise.all(
             console.log(`${file} 未找到 ${c.container} 标签`);
             return;
           }
-          return [...container.querySelectorAll(c.selector)] || [];
+          return (
+            [...container.querySelectorAll(`${c.selector}:not([data-x-en])`)] ||
+            []
+          );
         })
         .flat()
         .filter(Boolean);
@@ -176,6 +183,7 @@ Promise.all(
               semaphore.acquire().then(() => {
                 translate(text, { key: file })
                   .then((translate) => {
+                    console.log('文件:', file, '--------');
                     dict[pureText] = {
                       _translate: translate,
                       _note: '',
@@ -190,7 +198,7 @@ Promise.all(
                     setTimeout(() => {
                       semaphore.release();
                       resolve();
-                    }, Math.random() * 5000);
+                    }, Math.random() * 500);
                   });
               });
             }

@@ -1,0 +1,10 @@
+{
+  "Appendix": {
+    "_translate": "<a class=\"header\" href=\"#appendix\">附录</a>",
+    "_note": ""
+  },
+  "The following sections contain reference material you may find useful in your Rust journey.": {
+    "_translate": "以下部分包含您在 Rust 之旅中可能会发现有用的参考材料。",
+    "_note": ""
+  }
+}

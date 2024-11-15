@@ -1,0 +1,22 @@
+{
+  "Patterns and Matching": {
+    "_translate": "<a class=\"header\" href=\"#patterns-and-matching\">模式和匹配</a>",
+    "_note": ""
+  },
+  "Patterns are a special syntax in Rust for matching against the structure of types, both complex and simple. Using patterns in conjunction with match expressions and other constructs gives you more control over a program’s control flow. A pattern consists of some combination of the following:": {
+    "_translate": "<em>模式</em> 是 Rust 中用于匹配类型结构（无论是复杂还是简单）的特殊语法。将模式与 <code>match</code> 表达式和其他构造结合使用，可以为您提供更多的程序控制流控制。模式由以下内容的某种组合构成：",
+    "_note": ""
+  },
+  "Some example patterns include x, (a, 3), and Some(Color::Red). In the contexts in which patterns are valid, these components describe the shape of data. Our program then matches values against the patterns to determine whether it has the correct shape of data to continue running a particular piece of code.": {
+    "_translate": "一些示例模式包括<code>x</code>，<code>(a, 3)</code>，和<code>Some(Color::Red)</code>。在模式有效的上下文中，这些组件描述了数据的形状。然后，我们的程序将值与模式进行匹配，以确定是否具有正确的数据形状以继续运行特定的代码。",
+    "_note": ""
+  },
+  "To use a pattern, we compare it to some value. If the pattern matches the value, we use the value parts in our code. Recall the match expressions in Chapter 6 that used patterns, such as the coin-sorting machine example. If the value fits the shape of the pattern, we can use the named pieces. If it doesn’t, the code associated with the pattern won’t run.": {
+    "_translate": "要使用模式，我们需要将其与某个值进行比较。如果模式匹配该值，我们就可以在代码中使用该值的部分。回想第 6 章中使用模式的 <code>match</code> 表达式，例如硬币分类机的例子。如果值符合模式的形状，我们可以使用命名的部分。如果不匹配，与该模式关联的代码将不会运行。",
+    "_note": ""
+  },
+  "This chapter is a reference on all things related to patterns. We’ll cover the valid places to use patterns, the difference between refutable and irrefutable patterns, and the different kinds of pattern syntax that you might see. By the end of the chapter, you’ll know how to use patterns to express many concepts in a clear way.": {
+    "_translate": "这一章是关于所有与模式相关的事物的参考。我们将涵盖使用模式的有效位置，可反驳和不可反驳模式之间的区别，以及你可能会看到的不同种类的模式语法。到本章结束时，你将知道如何使用模式以清晰的方式表达许多概念。",
+    "_note": ""
+  }
+}

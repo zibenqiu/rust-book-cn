@@ -1,0 +1,214 @@
+{
+  "Control Flow": {
+    "_translate": "<a class=\"header\" href=\"#control-flow\">控制流</a>",
+    "_note": ""
+  },
+  "The ability to run some code depending on whether a condition is true and to run some code repeatedly while a condition is true are basic building blocks in most programming languages. The most common constructs that let you control the flow of execution of Rust code are if expressions and loops.": {
+    "_translate": "根据条件是否为<code>true</code>来运行某些代码以及当条件为<code>true</code>时重复运行某些代码是大多数编程语言的基本构建块。控制Rust代码执行流程的最常见结构是<code>if</code>表达式和循环。",
+    "_note": ""
+  },
+  "if Expressions": {
+    "_translate": "<a class=\"header\" href=\"#if-expressions\"><code>if</code> 表达式</a>",
+    "_note": ""
+  },
+  "An if expression allows you to branch your code depending on conditions. You provide a condition and then state, “If this condition is met, run this block of code. If the condition is not met, do not run this block of code.”": {
+    "_translate": "一个 <code>if</code> 表达式允许你根据条件分支你的代码。你提供一个条件，然后声明，“如果这个条件满足，运行这段代码。如果条件不满足，不运行这段代码。”",
+    "_note": ""
+  },
+  "Filename: src/main.rs": {
+    "_translate": "<span class=\"filename\">文件名: src/main.rs</span>",
+    "_note": ""
+  },
+  "Create a new project called branches in your projects directory to explore the if expression. In the src/main.rs file, input the following:": {
+    "_translate": "在您的 <em>projects</em> 目录中创建一个名为 <em>branches</em> 的新项目，以探索 <code>if</code> 表达式。在 <em>src/main.rs</em> 文件中，输入以下内容：",
+    "_note": ""
+  },
+  "Optionally, we can also include an else expression, which we chose to do here, to give the program an alternative block of code to execute should the condition evaluate to false. If you don’t provide an else expression and the condition is false, the program will just skip the if block and move on to the next bit of code.": {
+    "_translate": "可选地，我们也可以包含一个 <code>else</code> 表达式，这里我们选择这样做，以在条件评估为 <code>false</code> 时为程序提供一个替代的代码块来执行。如果您不提供 <code>else</code> 表达式而条件为 <code>false</code>，程序将只是跳过 <code>if</code> 块并继续执行下一段代码。",
+    "_note": ""
+  },
+  "Try running this code; you should see the following output:": {
+    "_translate": "尝试运行此代码；您应该看到以下输出：",
+    "_note": ""
+  },
+  "Let’s try changing the value of number to a value that makes the condition false to see what happens:": {
+    "_translate": "让我们尝试将 <code>number</code> 的值更改为使条件为 <code>false</code> 的值，看看会发生什么：",
+    "_note": ""
+  },
+  "All if expressions start with the keyword if, followed by a condition. In this case, the condition checks whether or not the variable number has a value less than 5. We place the block of code to execute if the condition is true immediately after the condition inside curly brackets. Blocks of code associated with the conditions in if expressions are sometimes called arms, just like the arms in match expressions that we discussed in the “Comparing the Guess to the Secret Number” section of Chapter 2.": {
+    "_translate": "所有 <code>if</code> 表达式都以关键字 <code>if</code> 开头，后面跟着一个条件。在\n这种情况下，条件检查变量 <code>number</code> 的值是否小于 5。如果条件为\n<code>true</code>，我们将要执行的代码块放在条件后面的花括号内。与 <code>if</code> 表达式中的条件关联的代码块有时被称为 <em>臂</em>，\n就像我们在第 2 章的 <a href=\"ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number\">“将猜测与秘密数字进行比较”</a><!--\nignore --> 部分讨论的 <code>match</code> 表达式的臂一样。",
+    "_note": ""
+  },
+  "Run the program again, and look at the output:": {
+    "_translate": "再次运行程序，并查看输出：",
+    "_note": ""
+  },
+  "It’s also worth noting that the condition in this code must be a bool. If the condition isn’t a bool, we’ll get an error. For example, try running the following code:": {
+    "_translate": "也值得注意的是，此代码中的条件<em>必须</em>是<code>bool</code>。如果条件不是<code>bool</code>，我们将得到一个错误。例如，尝试运行以下代码：",
+    "_note": ""
+  },
+  "The if condition evaluates to a value of 3 this time, and Rust throws an error:": {
+    "_translate": "<code>if</code> 条件这次评估为值 <code>3</code>，Rust 抛出一个错误：",
+    "_note": ""
+  },
+  "Running this code will print number was something other than zero.": {
+    "_translate": "运行此代码将打印 <code>number was something other than zero</code>。",
+    "_note": ""
+  },
+  "The error indicates that Rust expected a bool but got an integer. Unlike languages such as Ruby and JavaScript, Rust will not automatically try to convert non-Boolean types to a Boolean. You must be explicit and always provide if with a Boolean as its condition. If we want the if code block to run only when a number is not equal to 0, for example, we can change the if expression to the following:": {
+    "_translate": "错误表明 Rust 期望一个 <code>bool</code> 但得到了一个整数。与 Ruby 和 JavaScript 等语言不同，Rust 不会自动尝试将非布尔类型转换为布尔类型。你必须明确地总是提供一个布尔值作为 <code>if</code> 的条件。例如，如果我们希望 <code>if</code> 代码块仅在数字不等于 <code>0</code> 时运行，我们可以将 <code>if</code> 表达式更改为以下内容：",
+    "_note": ""
+  },
+  "You can use multiple conditions by combining if and else in an else if expression. For example:": {
+    "_translate": "您可以使用多个条件，通过在 <code>else if</code> 表达式中结合 <code>if</code> 和 <code>else</code>。例如：",
+    "_note": ""
+  },
+  "This program has four possible paths it can take. After running it, you should see the following output:": {
+    "_translate": "这个程序有四条可能的执行路径。运行后，你应该看到以下输出：",
+    "_note": ""
+  },
+  "Using too many else if expressions can clutter your code, so if you have more than one, you might want to refactor your code. Chapter 6 describes a powerful Rust branching construct called match for these cases.": {
+    "_translate": "使用太多 <code>else if</code> 表达式会使代码变得杂乱，因此如果你有多个 <code>else if</code>，你可能需要重构代码。第 6 章描述了一种强大的 Rust 分支结构，称为 <code>match</code>，适用于这些情况。",
+    "_note": ""
+  },
+  "When this program executes, it checks each if expression in turn and executes the first body for which the condition evaluates to true. Note that even though 6 is divisible by 2, we don’t see the output number is divisible by 2, nor do we see the number is not divisible by 4, 3, or 2 text from the else block. That’s because Rust only executes the block for the first true condition, and once it finds one, it doesn’t even check the rest.": {
+    "_translate": "当这个程序执行时，它会依次检查每个 <code>if</code> 表达式，并执行第一个条件为 <code>true</code> 的代码块。请注意，即使 6 能被 2 整除，我们也没有看到输出 <code>number is divisible by 2</code>，也没有看到来自 <code>else</code> 块的 <code>number is not divisible by 4, 3, or 2</code> 文本。这是因为 Rust 只执行第一个为 <code>true</code> 的条件的代码块，一旦找到一个，它甚至不会检查其余的条件。",
+    "_note": ""
+  },
+  "Because if is an expression, we can use it on the right side of a let statement to assign the outcome to a variable, as in Listing 3-2.": {
+    "_translate": "因为 <code>if</code> 是一个表达式，我们可以在 <code>let</code> 语句的右侧使用它，将结果赋值给一个变量，如列表 3-2 所示。",
+    "_note": ""
+  },
+  "The number variable will be bound to a value based on the outcome of the if expression. Run this code to see what happens:": {
+    "_translate": "<code>number</code> 变量将根据 <code>if</code> 表达式的结果绑定到一个值。运行此代码以查看会发生什么：",
+    "_note": ""
+  },
+  "Remember that blocks of code evaluate to the last expression in them, and numbers by themselves are also expressions. In this case, the value of the whole if expression depends on which block of code executes. This means the values that have the potential to be results from each arm of the if must be the same type; in Listing 3-2, the results of both the if arm and the else arm were i32 integers. If the types are mismatched, as in the following example, we’ll get an error:": {
+    "_translate": "记住，代码块的值是其中的最后一个表达式，而单独的数字本身也是表达式。在这种情况下，整个 <code>if</code> 表达式的值取决于执行的是哪个代码块。这意味着 <code>if</code> 的每个分支可能产生的值必须是相同类型；在清单 3-2 中，<code>if</code> 分支和 <code>else</code> 分支的结果都是 <code>i32</code> 整数。如果类型不匹配，如下例所示，我们将得到一个错误：",
+    "_note": ""
+  },
+  "When we try to compile this code, we’ll get an error. The if and else arms have value types that are incompatible, and Rust indicates exactly where to find the problem in the program:": {
+    "_translate": "当我们尝试编译这段代码时，我们会得到一个错误。<code>if</code> 和 <code>else</code> 分支的值类型不兼容，Rust 指出了程序中问题的确切位置：",
+    "_note": ""
+  },
+  "Repetition with Loops": {
+    "_translate": "<a class=\"header\" href=\"#repetition-with-loops\">使用循环进行重复</a>",
+    "_note": ""
+  },
+  "It’s often useful to execute a block of code more than once. For this task, Rust provides several loops, which will run through the code inside the loop body to the end and then start immediately back at the beginning. To experiment with loops, let’s make a new project called loops.": {
+    "_translate": "通常很有用的是执行一段代码多次。为此，Rust 提供了几个<em>循环</em>，这些循环将运行循环体内的代码直到结束，然后立即从头开始。为了试验循环，让我们创建一个名为<em>loops</em>的新项目。",
+    "_note": ""
+  },
+  "Rust has three kinds of loops: loop, while, and for. Let’s try each one.": {
+    "_translate": "Rust 有三种循环：<code>loop</code>、<code>while</code> 和 <code>for</code>。让我们尝试每一种。",
+    "_note": ""
+  },
+  "The expression in the if block evaluates to an integer, and the expression in the else block evaluates to a string. This won’t work because variables must have a single type, and Rust needs to know at compile time what type the number variable is, definitively. Knowing the type of number lets the compiler verify the type is valid everywhere we use number. Rust wouldn’t be able to do that if the type of number was only determined at runtime; the compiler would be more complex and would make fewer guarantees about the code if it had to keep track of multiple hypothetical types for any variable.": {
+    "_translate": "<code>if</code> 块中的表达式计算为一个整数，而 <code>else</code> 块中的表达式计算为一个字符串。这行不通，因为变量必须具有单一类型，Rust 需要在编译时确定 <code>number</code> 变量的类型。知道 <code>number</code> 的类型可以让编译器在我们使用 <code>number</code> 的每个地方验证类型是否有效。如果 <code>number</code> 的类型仅在运行时确定，Rust 将无法做到这一点；编译器会变得更加复杂，并且对代码的保证会减少，如果它必须跟踪任何变量的多个假设类型的话。",
+    "_note": ""
+  },
+  "The loop keyword tells Rust to execute a block of code over and over again forever or until you explicitly tell it to stop.": {
+    "_translate": "<code>loop</code> 关键字告诉 Rust 重复执行一段代码，直到你明确要求它停止。",
+    "_note": ""
+  },
+  "As an example, change the src/main.rs file in your loops directory to look like this:": {
+    "_translate": "例如，将 <em>src/main.rs</em> 文件更改为您 <em>loops</em> 目录中的内容，使其看起来像这样：",
+    "_note": ""
+  },
+  "When we run this program, we’ll see again! printed over and over continuously until we stop the program manually. Most terminals support the keyboard shortcut ctrl-c to interrupt a program that is stuck in a continual loop. Give it a try:": {
+    "_translate": "当我们运行这个程序时，我们会看到 <code>again!</code> 不断地打印出来，直到我们手动停止程序。大多数终端支持键盘快捷键 <kbd>ctrl</kbd>-<kbd>c</kbd> 来中断一个陷入连续循环的程序。试一试：",
+    "_note": ""
+  },
+  "The symbol ^C represents where you pressed ctrl-c. You may or may not see the word again! printed after the ^C, depending on where the code was in the loop when it received the interrupt signal.": {
+    "_translate": "符号<code>^C</code>表示你按下了<kbd>ctrl</kbd>-<kbd>c</kbd>。你可能会或不会看到在<code>^C</code>之后打印出单词<code>again!</code>，这取决于代码在循环中收到中断信号时的位置。",
+    "_note": ""
+  },
+  "We also used continue in the guessing game, which in a loop tells the program to skip over any remaining code in this iteration of the loop and go to the next iteration.": {
+    "_translate": "我们还在猜数字游戏中使用了<code>continue</code>，它在循环中告诉程序跳过本次循环中剩余的代码并进入下一次循环。",
+    "_note": ""
+  },
+  "Fortunately, Rust also provides a way to break out of a loop using code. You can place the break keyword within the loop to tell the program when to stop executing the loop. Recall that we did this in the guessing game in the “Quitting After a Correct Guess” section of Chapter 2 to exit the program when the user won the game by guessing the correct number.": {
+    "_translate": "幸运的是，Rust 还提供了一种使用代码跳出循环的方法。你可以在循环中放置 <code>break</code> 关键字来告诉程序何时停止执行循环。回想一下，我们在第 2 章的<a href=\"ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess\">“正确猜测后退出”</a><!-- ignore\n-->部分中这样做，当用户猜对数字赢得游戏时退出程序。",
+    "_note": ""
+  },
+  "One of the uses of a loop is to retry an operation you know might fail, such as checking whether a thread has completed its job. You might also need to pass the result of that operation out of the loop to the rest of your code. To do this, you can add the value you want returned after the break expression you use to stop the loop; that value will be returned out of the loop so you can use it, as shown here:": {
+    "_translate": "一个 <code>loop</code> 的用途是重试你认为可能会失败的操作，例如检查线程是否已完成其任务。你可能还需要将该操作的结果从循环中传递到代码的其余部分。为此，你可以在用于停止循环的 <code>break</code> 表达式后添加你希望返回的值；该值将从循环中返回，以便你可以使用它，如下所示：",
+    "_note": ""
+  },
+  "You can also return from inside a loop. While break only exits the current loop, return always exits the current function.": {
+    "_translate": "你也可以从循环内部 <code>return</code>。虽然 <code>break</code> 只退出当前循环，<code>return</code> 总是退出当前函数。",
+    "_note": ""
+  },
+  "Before the loop, we declare a variable named counter and initialize it to 0. Then we declare a variable named result to hold the value returned from the loop. On every iteration of the loop, we add 1 to the counter variable, and then check whether the counter is equal to 10. When it is, we use the break keyword with the value counter * 2. After the loop, we use a semicolon to end the statement that assigns the value to result. Finally, we print the value in result, which in this case is 20.": {
+    "_translate": "在循环之前，我们声明一个名为 <code>counter</code> 的变量并初始化为 <code>0</code>。然后我们声明一个名为 <code>result</code> 的变量来保存从循环返回的值。在循环的每次迭代中，我们将 <code>1</code> 加到 <code>counter</code> 变量上，然后检查 <code>counter</code> 是否等于 <code>10</code>。当它等于时，我们使用带有值 <code>counter * 2</code> 的 <code>break</code> 关键字。在循环之后，我们使用分号结束将值赋给 <code>result</code> 的语句。最后，我们打印 <code>result</code> 中的值，在这种情况下是 <code>20</code>。",
+    "_note": ""
+  },
+  "If you have loops within loops, break and continue apply to the innermost loop at that point. You can optionally specify a loop label on a loop that you can then use with break or continue to specify that those keywords apply to the labeled loop instead of the innermost loop. Loop labels must begin with a single quote. Here’s an example with two nested loops:": {
+    "_translate": "如果您有嵌套的循环，<code>break</code> 和 <code>continue</code> 适用于该点最内层的循环。您可以选择在循环上指定一个 <em>循环标签</em>，然后可以使用 <code>break</code> 或 <code>continue</code> 与该标签一起指定这些关键字适用于标记的循环而不是最内层的循环。循环标签必须以单引号开头。以下是一个包含两个嵌套循环的示例：",
+    "_note": ""
+  },
+  "The outer loop has the label 'counting_up, and it will count up from 0 to 2. The inner loop without a label counts down from 10 to 9. The first break that doesn’t specify a label will exit the inner loop only. The break 'counting_up; statement will exit the outer loop. This code prints:": {
+    "_translate": "外部循环带有标签 <code>'counting_up</code>，它将从 0 计数到 2。\n内部循环没有标签，从 10 计数到 9。第一个不指定标签的 <code>break</code> 仅退出内部循环。 <code>break 'counting_up;</code> 语句将退出外部循环。此代码打印：",
+    "_note": ""
+  },
+  "A program will often need to evaluate a condition within a loop. While the condition is true, the loop runs. When the condition ceases to be true, the program calls break, stopping the loop. It’s possible to implement behavior like this using a combination of loop, if, else, and break; you could try that now in a program, if you’d like. However, this pattern is so common that Rust has a built-in language construct for it, called a while loop. In Listing 3-3, we use while to loop the program three times, counting down each time, and then, after the loop, print a message and exit.": {
+    "_translate": "一个程序通常需要在循环中评估一个条件。当条件为<code>true</code>时，循环运行。当条件不再为<code>true</code>时，程序调用<code>break</code>，停止循环。可以使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>的组合来实现类似的行为；如果你愿意，现在可以在一个程序中尝试这样做。然而，这种模式非常常见，以至于Rust为此提供了一个内置的语言结构，称为<code>while</code>循环。在清单3-3中，我们使用<code>while</code>循环三次，每次循环都进行倒计数，然后，在循环结束后，打印一条消息并退出。",
+    "_note": ""
+  },
+  "You can also use the while construct to loop over the elements of a collection, such as an array. For example, the loop in Listing 3-4 prints each element in the array a.": {
+    "_translate": "你也可以使用 <code>while</code> 构造来遍历集合（如数组）的元素。例如，列表 3-4 中的循环会打印数组 <code>a</code> 中的每个元素。",
+    "_note": ""
+  },
+  "This construct eliminates a lot of nesting that would be necessary if you used loop, if, else, and break, and it’s clearer. While a condition evaluates to true, the code runs; otherwise, it exits the loop.": {
+    "_translate": "这种结构消除了使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>时所需的大量嵌套，并且更清晰。当条件评估为<code>true</code>时，代码运行；否则，它会退出循环。",
+    "_note": ""
+  },
+  "All five array values appear in the terminal, as expected. Even though index will reach a value of 5 at some point, the loop stops executing before trying to fetch a sixth value from the array.": {
+    "_translate": "所有五个数组值都如预期地出现在终端中。即使 <code>index</code> 最终会达到 <code>5</code>，但在尝试从数组中获取第六个值之前，循环已经停止执行。",
+    "_note": ""
+  },
+  "Here, the code counts up through the elements in the array. It starts at index 0, and then loops until it reaches the final index in the array (that is, when index < 5 is no longer true). Running this code will print every element in the array:": {
+    "_translate": "这里，代码通过数组中的元素进行计数。它从索引<code>0</code>开始，然后循环直到到达数组的最后一个索引（即，当<code>index &lt; 5</code>不再为<code>true</code>时）。运行此代码将打印数组中的每个元素：",
+    "_note": ""
+  },
+  "As a more concise alternative, you can use a for loop and execute some code for each item in a collection. A for loop looks like the code in Listing 3-5.": {
+    "_translate": "作为更简洁的替代方案，您可以使用 <code>for</code> 循环并为集合中的每个项目执行一些代码。一个 <code>for</code> 循环看起来像列表 3-5 中的代码。",
+    "_note": ""
+  },
+  "However, this approach is error prone; we could cause the program to panic if the index value or test condition is incorrect. For example, if you changed the definition of the a array to have four elements but forgot to update the condition to while index < 4, the code would panic. It’s also slow, because the compiler adds runtime code to perform the conditional check of whether the index is within the bounds of the array on every iteration through the loop.": {
+    "_translate": "然而，这种方法容易出错；如果索引值或测试条件不正确，我们可能会导致程序崩溃。例如，如果你将 <code>a</code> 数组的定义更改为包含四个元素，但忘记将条件更新为 <code>while index &lt; 4</code>，代码将会崩溃。此外，这种方法也很慢，因为编译器会在每次循环迭代时添加运行时代码来检查索引是否在数组的边界内。",
+    "_note": ""
+  },
+  "When we run this code, we’ll see the same output as in Listing 3-4. More importantly, we’ve now increased the safety of the code and eliminated the chance of bugs that might result from going beyond the end of the array or not going far enough and missing some items.": {
+    "_translate": "当我们运行这段代码时，我们将看到与清单 3-4 中相同的输出。更重要的是，我们现在提高了代码的安全性，并消除了因超出数组末尾或未能足够深入而导致某些项被遗漏的错误可能性。",
+    "_note": ""
+  },
+  "Using the for loop, you wouldn’t need to remember to change any other code if you changed the number of values in the array, as you would with the method used in Listing 3-4.": {
+    "_translate": "使用 <code>for</code> 循环，如果你改变了数组中的值的数量，你不需要记住去改变任何其他代码，而使用列表 3-4 中的方法则需要。",
+    "_note": ""
+  },
+  "Here’s what the countdown would look like using a for loop and another method we’ve not yet talked about, rev, to reverse the range:": {
+    "_translate": "这里是一个使用 <code>for</code> 循环和我们尚未讨论的另一种方法 <code>rev</code> 来反转范围的倒计时示例：",
+    "_note": ""
+  },
+  "The safety and conciseness of for loops make them the most commonly used loop construct in Rust. Even in situations in which you want to run some code a certain number of times, as in the countdown example that used a while loop in Listing 3-3, most Rustaceans would use a for loop. The way to do that would be to use a Range, provided by the standard library, which generates all numbers in sequence starting from one number and ending before another number.": {
+    "_translate": "<code>for</code> 循环的安全性和简洁性使它们成为 Rust 中使用最广泛的循环结构。即使在您希望运行某段代码特定次数的情况下，例如在使用 <code>while</code> 循环的倒计时示例（如列表 3-3 所示），大多数 Rustaceans 也会使用 <code>for</code> 循环。实现这一点的方法是使用标准库提供的 <code>Range</code>，它会生成从一个数字开始到另一个数字之前的所有数字。",
+    "_note": ""
+  },
+  "This code is a bit nicer, isn’t it?": {
+    "_translate": "这段代码更好看，不是吗？",
+    "_note": ""
+  },
+  "Summary": {
+    "_translate": "<a class=\"header\" href=\"#summary\">摘要</a>",
+    "_note": ""
+  },
+  "When you’re ready to move on, we’ll talk about a concept in Rust that doesn’t commonly exist in other programming languages: ownership.": {
+    "_translate": "当你准备继续时，我们将讨论 Rust 中的一个概念，<em>不</em>\n常见于其他编程语言：所有权。",
+    "_note": ""
+  },
+  "You made it! This was a sizable chapter: you learned about variables, scalar and compound data types, functions, comments, if expressions, and loops! To practice with the concepts discussed in this chapter, try building programs to do the following:": {
+    "_translate": "你做到了！这是一个相当大的章节：你学习了变量、标量和复合数据类型、函数、注释、<code>if</code> 表达式和循环！为了练习本章讨论的概念，尝试构建程序来完成以下任务：",
+    "_note": ""
+  }
+}

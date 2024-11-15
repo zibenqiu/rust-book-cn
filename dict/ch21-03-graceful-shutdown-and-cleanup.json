@@ -1,0 +1,122 @@
+{
+  "Graceful Shutdown and Cleanup": {
+    "_translate": "<a class=\"header\" href=\"#graceful-shutdown-and-cleanup\">优雅的关闭和清理</a>",
+    "_note": ""
+  },
+  "The code in Listing 21-20 is responding to requests asynchronously through the use of a thread pool, as we intended. We get some warnings about the workers, id, and thread fields that we’re not using in a direct way that reminds us we’re not cleaning up anything. When we use the less elegant ctrl-c method to halt the main thread, all other threads are stopped immediately as well, even if they’re in the middle of serving a request.": {
+    "_translate": "列表 21-20 中的代码通过使用线程池异步响应请求，正如我们所期望的那样。我们得到了一些关于 <code>workers</code>、<code>id</code> 和 <code>thread</code> 字段的警告，这些字段我们没有直接使用，这提醒我们没有清理任何内容。当我们使用不太优雅的 <kbd>ctrl</kbd>-<kbd>c</kbd> 方法来停止主线程时，所有其他线程也会立即停止，即使它们正在处理请求。",
+    "_note": ""
+  },
+  "Next, then, we’ll implement the Drop trait to call join on each of the threads in the pool so they can finish the requests they’re working on before closing. Then we’ll implement a way to tell the threads they should stop accepting new requests and shut down. To see this code in action, we’ll modify our server to accept only two requests before gracefully shutting down its thread pool.": {
+    "_translate": "接下来，我们将实现<code>Drop</code> trait，以便在池中的每个线程上调用<code>join</code>，使它们能够在关闭之前完成正在处理的请求。然后，我们将实现一种方法来通知线程它们应该停止接受新请求并关闭。为了演示这段代码，我们将修改我们的服务器，使其仅接受两个请求后优雅地关闭其线程池。",
+    "_note": ""
+  },
+  "One thing to notice as we go: none of this affects the parts of the code that handle executing the closures, so everything here would be just the same if we were using a thread pool for an async runtime.": {
+    "_translate": "我们需要注意的一点是：这不会影响处理执行闭包的代码部分，因此即使我们使用线程池为异步运行时，这里的一切也会完全相同。",
+    "_note": ""
+  },
+  "Implementing the Drop Trait on ThreadPool": {
+    "_translate": "<a class=\"header\" href=\"#implementing-the-drop-trait-on-threadpool\">在<code>ThreadPool</code>上实现<code>Drop</code>特性</a>",
+    "_note": ""
+  },
+  "Let’s start with implementing Drop on our thread pool. When the pool is dropped, our threads should all join to make sure they finish their work. Listing 21-22 shows a first attempt at a Drop implementation; this code won’t quite work yet.": {
+    "_translate": "让我们从在我们的线程池上实现<code>Drop</code>开始。当池被丢弃时，我们的线程应该全部加入以确保它们完成工作。\n清单 21-22 显示了<code>Drop</code>实现的第一次尝试；这段代码还不能完全工作。",
+    "_note": ""
+  },
+  "First, we loop through each of the thread pool workers. We use &mut for this because self is a mutable reference, and we also need to be able to mutate worker. For each worker, we print a message saying that this particular worker is shutting down, and then we call join on that worker’s thread. If the call to join fails, we use unwrap to make Rust panic and go into an ungraceful shutdown.": {
+    "_translate": "首先，我们遍历线程池中的每个 <code>workers</code>。我们使用 <code>&amp;mut</code>，因为 <code>self</code> 是一个可变引用，我们还需要能够修改 <code>worker</code>。对于每个工作线程，我们打印一条消息，说明该工作线程正在关闭，然后调用该工作线程的 <code>join</code> 方法。如果 <code>join</code> 调用失败，我们使用 <code>unwrap</code> 使 Rust 进入非正常关闭状态。",
+    "_note": ""
+  },
+  "Here is the error we get when we compile this code:": {
+    "_translate": "当我们编译这段代码时，会出现以下错误：",
+    "_note": ""
+  },
+  "So we know we want to update the definition of Worker like this:": {
+    "_translate": "所以我们知道我们想这样更新 <code>Worker</code> 的定义：",
+    "_note": ""
+  },
+  "Now let’s lean on the compiler to find the other places that need to change. Checking this code, we get two errors:": {
+    "_translate": "现在让我们依赖编译器来找到其他需要更改的地方。\n检查这段代码，我们得到了两个错误：",
+    "_note": ""
+  },
+  "Let’s address the second error, which points to the code at the end of Worker::new; we need to wrap the thread value in Some when we create a new Worker. Make the following changes to fix this error:": {
+    "_translate": "让我们解决第二个错误，它指向<code>Worker::new</code>末尾的代码；我们需要在创建新的<code>Worker</code>时将<code>thread</code>值包装在<code>Some</code>中。进行以下更改以修复此错误：",
+    "_note": ""
+  },
+  "The error tells us we can’t call join because we only have a mutable borrow of each worker and join takes ownership of its argument. To solve this issue, we need to move the thread out of the Worker instance that owns thread so join can consume the thread. We did this in Listing 17-15: if Worker holds an Option<thread::JoinHandle<()>> instead, we can call the take method on the Option to move the value out of the Some variant and leave a None variant in its place. In other words, a Worker that is running will have a Some variant in thread, and when we want to clean up a Worker, we’ll replace Some with None so the Worker doesn’t have a thread to run.": {
+    "_translate": "错误告诉我们，我们不能调用<code>join</code>，因为我们只有每个<code>worker</code>的可变借用，而<code>join</code>需要拥有其参数。为了解决这个问题，我们需要将线程从拥有<code>thread</code>的<code>Worker</code>实例中移出，以便<code>join</code>可以消耗线程。我们在清单17-15中做到了这一点：如果<code>Worker</code>持有一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们就可以调用<code>Option</code>的<code>take</code>方法，将值从<code>Some</code>变体中移出，并在其位置留下一个<code>None</code>变体。换句话说，正在运行的<code>Worker</code>将在<code>thread</code>中有一个<code>Some</code>变体，而当我们想要清理一个<code>Worker</code>时，我们将用<code>None</code>替换<code>Some</code>，这样<code>Worker</code>就没有线程可以运行。",
+    "_note": ""
+  },
+  "The first error is in our Drop implementation. We mentioned earlier that we intended to call take on the Option value to move thread out of worker. The following changes will do so:": {
+    "_translate": "第一个错误在我们的 <code>Drop</code> 实现中。我们之前提到，打算对 <code>Option</code> 值调用 <code>take</code> 以将 <code>thread</code> 从 <code>worker</code> 中移出。以下更改将实现这一点：",
+    "_note": ""
+  },
+  "Signaling to the Threads to Stop Listening for Jobs": {
+    "_translate": "<a class=\"header\" href=\"#signaling-to-the-threads-to-stop-listening-for-jobs\">向线程发出停止监听任务的信号</a>",
+    "_note": ""
+  },
+  "As discussed in Chapter 18, the take method on Option takes the Some variant out and leaves None in its place. We’re using if let to destructure the Some and get the thread; then we call join on the thread. If a worker’s thread is already None, we know that worker has already had its thread cleaned up, so nothing happens in that case.": {
+    "_translate": "如第 18 章所述，<code>Option</code> 上的 <code>take</code> 方法取出 <code>Some</code> 变体并在其位置留下 <code>None</code>。我们使用 <code>if let</code> 来解构 <code>Some</code> 并获取线程；然后我们在该线程上调用 <code>join</code>。如果某个工作线程已经是 <code>None</code>，我们知道该工作线程已经被清理，因此在这种情况下不会发生任何事情。",
+    "_note": ""
+  },
+  "With all the changes we’ve made, our code compiles without any warnings. However, the bad news is this code doesn’t function the way we want it to yet. The key is the logic in the closures run by the threads of the Worker instances: at the moment, we call join, but that won’t shut down the threads because they loop forever looking for jobs. If we try to drop our ThreadPool with our current implementation of drop, the main thread will block forever waiting for the first thread to finish.": {
+    "_translate": "随着我们所做的所有更改，我们的代码编译时没有任何警告。\n然而，坏消息是这段代码还没有按我们希望的方式工作。\n关键在于由<code>Worker</code>实例的线程运行的闭包中的逻辑：目前，我们调用<code>join</code>，但这不会关闭线程\n因为它们会无限循环地寻找任务。如果我们尝试使用当前实现的<code>drop</code>来删除我们的<code>ThreadPool</code>，主线程将\n永远阻塞等待第一个线程完成。",
+    "_note": ""
+  },
+  "To fix this problem, we’ll need a change in the ThreadPool drop implementation and then a change in the Worker loop.": {
+    "_translate": "为了解决这个问题，我们需要更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，然后更改 <code>Worker</code> 循环。",
+    "_note": ""
+  },
+  "First, we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. We use the same Option and take technique as we did with the thread to be able to move sender out of ThreadPool:": {
+    "_translate": "首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。我们使用与处理线程时相同的 <code>Option</code> 和 <code>take</code> 技术，以便能够将 <code>sender</code> 从 <code>ThreadPool</code> 中移出：",
+    "_note": ""
+  },
+  "Dropping sender closes the channel, which indicates no more messages will be sent. When that happens, all the calls to recv that the workers do in the infinite loop will return an error. In Listing 21-24, we change the Worker loop to gracefully exit the loop in that case, which means the threads will finish when the ThreadPool drop implementation calls join on them.": {
+    "_translate": "释放 <code>sender</code> 会关闭通道，这表示不会再发送更多消息。当这种情况发生时，工作线程在无限循环中对 <code>recv</code> 的所有调用都将返回错误。在示例 21-24 中，我们更改了 <code>Worker</code> 循环，使其在这种情况下优雅地退出循环，这意味着当 <code>ThreadPool</code> 的 <code>drop</code> 实现调用 <code>join</code> 时，线程将结束。",
+    "_note": ""
+  },
+  "To see this code in action, let’s modify main to accept only two requests before gracefully shutting down the server, as shown in Listing 21-25.": {
+    "_translate": "要查看此代码的运行情况，让我们修改 <code>main</code> 以仅接受两个请求，然后优雅地关闭服务器，如示例 21-25 所示。",
+    "_note": ""
+  },
+  "You wouldn’t want a real-world web server to shut down after serving only two requests. This code just demonstrates that the graceful shutdown and cleanup is in working order.": {
+    "_translate": "你不会希望一个现实世界的Web服务器在仅服务了两个请求后就关闭。这段代码只是证明了优雅的关闭和清理机制是有效的。",
+    "_note": ""
+  },
+  "The take method is defined in the Iterator trait and limits the iteration to the first two items at most. The ThreadPool will go out of scope at the end of main, and the drop implementation will run.": {
+    "_translate": "<code>take</code> 方法在 <code>Iterator</code> 特性中定义，将迭代限制为最多前两个项目。<code>ThreadPool</code> 将在 <code>main</code> 结束时超出作用域，<code>drop</code> 实现将运行。",
+    "_note": ""
+  },
+  "Start the server with cargo run, and make three requests. The third request should error, and in your terminal you should see output similar to this:": {
+    "_translate": "使用 <code>cargo run</code> 启动服务器，并发出三个请求。第三个请求应该出错，并且在您的终端中应看到类似的输出：",
+    "_note": ""
+  },
+  "You might see a different ordering of workers and messages printed. We can see how this code works from the messages: workers 0 and 3 got the first two requests. The server stopped accepting connections after the second connection, and the Drop implementation on ThreadPool starts executing before worker 3 even starts its job. Dropping the sender disconnects all the workers and tells them to shut down. The workers each print a message when they disconnect, and then the thread pool calls join to wait for each worker thread to finish.": {
+    "_translate": "你可能会看到不同的工作线程和消息打印顺序。我们可以通过这些消息了解代码的工作原理：工作线程 0 和 3 获取了前两个请求。服务器在第二个连接后停止接受连接，而 <code>ThreadPool</code> 上的 <code>Drop</code> 实现甚至在工作线程 3 开始其任务之前就开始执行。释放 <code>sender</code> 会断开所有工作线程的连接并告诉它们关闭。每个工作线程在断开连接时都会打印一条消息，然后线程池调用 <code>join</code> 等待每个工作线程完成。",
+    "_note": ""
+  },
+  "Notice one interesting aspect of this particular execution: the ThreadPool dropped the sender, and before any worker received an error, we tried to join worker 0. Worker 0 had not yet gotten an error from recv, so the main thread blocked waiting for worker 0 to finish. In the meantime, worker 3 received a job and then all threads received an error. When worker 0 finished, the main thread waited for the rest of the workers to finish. At that point, they had all exited their loops and stopped.": {
+    "_translate": "注意这个特定执行的一个有趣方面：<code>ThreadPool</code> 丢弃了 <code>sender</code>，并且在任何工作线程收到错误之前，我们尝试加入工作线程 0。工作线程 0 尚未从 <code>recv</code> 收到错误，因此主线程阻塞等待工作线程 0 完成。在此期间，工作线程 3 收到了一个任务，然后所有线程都收到了错误。当工作线程 0 完成时，主线程等待其余工作线程完成。那时，它们都已经退出了循环并停止。",
+    "_note": ""
+  },
+  "Congrats! We’ve now completed our project; we have a basic web server that uses a thread pool to respond asynchronously. We’re able to perform a graceful shutdown of the server, which cleans up all the threads in the pool.": {
+    "_translate": "恭喜！我们现在完成了项目；我们有一个使用线程池异步响应的基本Web服务器。我们能够执行服务器的优雅关闭，清理池中的所有线程。",
+    "_note": ""
+  },
+  "Here’s the full code for reference:": {
+    "_translate": "以下是完整的代码供参考：",
+    "_note": ""
+  },
+  "We could do more here! If you want to continue enhancing this project, here are some ideas:": {
+    "_translate": "我们还可以做得更多！如果您想继续增强这个项目，这里有一些想法：",
+    "_note": ""
+  },
+  "Summary": {
+    "_translate": "<a class=\"header\" href=\"#summary\">摘要</a>",
+    "_note": ""
+  },
+  "Well done! You’ve made it to the end of the book! We want to thank you for joining us on this tour of Rust. You’re now ready to implement your own Rust projects and help with other peoples’ projects. Keep in mind that there is a welcoming community of other Rustaceans who would love to help you with any challenges you encounter on your Rust journey.": {
+    "_translate": "<p>干得好！你已经到达了这本书的结尾！我们要感谢你加入我们这次的Rust之旅。你现在可以开始实现自己的Rust项目，并帮助其他人的项目。请记住，有一个欢迎的Rustaceans社区，他们很乐意在你的Rust之旅中遇到的任何挑战时帮助你。</p>",
+    "_note": ""
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "Appendix D - Useful Development Tools": {
+    "_translate": "<a class=\"header\" href=\"#appendix-d---useful-development-tools\">附录 D - 有用的开发工具</a>",
+    "_note": ""
+  },
+  "In this appendix, we talk about some useful development tools that the Rust project provides. We’ll look at automatic formatting, quick ways to apply warning fixes, a linter, and integrating with IDEs.": {
+    "_translate": "在本附录中，我们讨论了 Rust 项目提供的一些有用的开发工具。我们将介绍自动格式化、快速应用警告修复、代码检查器以及与 IDE 的集成。",
+    "_note": ""
+  },
+  "Automatic Formatting with rustfmt": {
+    "_translate": "<a class=\"header\" href=\"#automatic-formatting-with-rustfmt\">使用 <code>rustfmt</code> 自动格式化</a>",
+    "_note": ""
+  },
+  "The rustfmt tool reformats your code according to the community code style. Many collaborative projects use rustfmt to prevent arguments about which style to use when writing Rust: everyone formats their code using the tool.": {
+    "_translate": "<code>rustfmt</code> 工具根据社区代码风格重新格式化您的代码。许多协作项目使用 <code>rustfmt</code> 来防止关于编写 Rust 时使用哪种风格的争论：每个人都使用该工具格式化他们的代码。",
+    "_note": ""
+  },
+  "To install rustfmt, enter the following:": {
+    "_translate": "要安装<code>rustfmt</code>，请输入以下内容：",
+    "_note": ""
+  },
+  "This command gives you rustfmt and cargo-fmt, similar to how Rust gives you both rustc and cargo. To format any Cargo project, enter the following:": {
+    "_translate": "这个命令给你 <code>rustfmt</code> 和 <code>cargo-fmt</code>，类似于 Rust 给你 <code>rustc</code> 和 <code>cargo</code> 的方式。要格式化任何 Cargo 项目，请输入以下内容：",
+    "_note": ""
+  },
+  "Fix Your Code with rustfix": {
+    "_translate": "<a class=\"header\" href=\"#fix-your-code-with-rustfix\">使用 <code>rustfix</code> 修复您的代码</a>",
+    "_note": ""
+  },
+  "Running this command reformats all the Rust code in the current crate. This should only change the code style, not the code semantics. For more information on rustfmt, see its documentation.": {
+    "_translate": "运行此命令将重新格式化当前包中的所有 Rust 代码。这只会更改代码风格，而不会更改代码语义。有关 <code>rustfmt</code> 的更多信息，请参阅 <a href=\"https://github.com/rust-lang/rustfmt\">其文档</a>。",
+    "_note": ""
+  },
+  "Filename: src/main.rs": {
+    "_translate": "<span class=\"filename\">文件名: src/main.rs</span>",
+    "_note": ""
+  },
+  "The rustfix tool is included with Rust installations and can automatically fix compiler warnings that have a clear way to correct the problem that’s likely what you want. It’s likely you’ve seen compiler warnings before. For example, consider this code:": {
+    "_translate": "rustfix 工具随 Rust 安装包一起提供，可以自动修复有明确修正方法的编译器警告，这些修正方法很可能是你想要的。你可能之前见过编译器警告。例如，考虑以下代码：",
+    "_note": ""
+  },
+  "Here, we’re calling the do_something function 100 times, but we never use the variable i in the body of the for loop. Rust warns us about that:": {
+    "_translate": "在这里，我们调用 <code>do_something</code> 函数 100 次，但在 <code>for</code> 循环的主体中从未使用变量 <code>i</code>。Rust 会警告我们这一点：",
+    "_note": ""
+  },
+  "The warning suggests that we use _i as a name instead: the underscore indicates that we intend for this variable to be unused. We can automatically apply that suggestion using the rustfix tool by running the command cargo fix:": {
+    "_translate": "警告建议我们使用 <code>_i</code> 作为名称：下划线表示我们打算不使用此变量。我们可以使用 <code>rustfix</code> 工具通过运行命令 <code>cargo fix</code> 自动应用该建议：",
+    "_note": ""
+  },
+  "When we look at src/main.rs again, we’ll see that cargo fix has changed the code:": {
+    "_translate": "当我们再次查看 <em>src/main.rs</em> 时，我们会看到 <code>cargo fix</code> 已经更改了代码：",
+    "_note": ""
+  },
+  "The for loop variable is now named _i, and the warning no longer appears.": {
+    "_translate": "<code>for</code> 循环变量现在命名为 <code>_i</code>，警告不再出现。",
+    "_note": ""
+  },
+  "More Lints with Clippy": {
+    "_translate": "<a class=\"header\" href=\"#more-lints-with-clippy\">更多 Clippy 检查</a>",
+    "_note": ""
+  },
+  "You can also use the cargo fix command to transition your code between different Rust editions. Editions are covered in Appendix E.": {
+    "_translate": "您还可以使用 <code>cargo fix</code> 命令在不同的 Rust 版本之间转换您的代码。版本在 <a href=\"appendix-05-editions.html\">附录 E</a> 中介绍。",
+    "_note": ""
+  },
+  "To install Clippy, enter the following:": {
+    "_translate": "要安装 Clippy，请输入以下内容：",
+    "_note": ""
+  },
+  "The Clippy tool is a collection of lints to analyze your code so you can catch common mistakes and improve your Rust code.": {
+    "_translate": "Clippy 工具是一组用于分析您的代码的 lint，以便您可以捕捉常见错误并改进您的 Rust 代码。",
+    "_note": ""
+  },
+  "To run Clippy’s lints on any Cargo project, enter the following:": {
+    "_translate": "要在任何 Cargo 项目上运行 Clippy 的 lint，请输入以下内容：",
+    "_note": ""
+  },
+  "For example, say you write a program that uses an approximation of a mathematical constant, such as pi, as this program does:": {
+    "_translate": "例如，假设你编写了一个程序，该程序使用了数学常数（如π）的近似值，就像这个程序一样：<code>fn main() {<br>    let pi = 3.14;<br>    println!(\"The value of pi is: {}\", pi);<br>}</code>",
+    "_note": ""
+  },
+  "Running cargo clippy on this project results in this error:": {
+    "_translate": "在该项目上运行 <code>cargo clippy</code> 会导致以下错误：",
+    "_note": ""
+  },
+  "This error lets you know that Rust already has a more precise PI constant defined, and that your program would be more correct if you used the constant instead. You would then change your code to use the PI constant. The following code doesn’t result in any errors or warnings from Clippy:": {
+    "_translate": "这个错误提示你 Rust 已经定义了一个更精确的 <code>PI</code> 常量，如果你使用这个常量，你的程序会更准确。然后，你会将代码更改为使用 <code>PI</code> 常量。以下代码不会从 Clippy 产生任何错误或警告：",
+    "_note": ""
+  },
+  "For more information on Clippy, see its documentation.": {
+    "_translate": "有关 Clippy 的更多信息，请参见 <a href=\"https://github.com/rust-lang/rust-clippy\">其文档</a>。",
+    "_note": ""
+  },
+  "IDE Integration Using rust-analyzer": {
+    "_translate": "<a class=\"header\" href=\"#ide-integration-using-rust-analyzer\">使用 <code>rust-analyzer</code> 进行 IDE 集成</a>",
+    "_note": ""
+  },
+  "To help IDE integration, the Rust community recommends using rust-analyzer. This tool is a set of compiler-centric utilities that speaks the Language Server Protocol, which is a specification for IDEs and programming languages to communicate with each other. Different clients can use rust-analyzer, such as the Rust analyzer plug-in for Visual Studio Code.": {
+    "_translate": "为了帮助集成开发环境（IDE），Rust 社区推荐使用\n<a href=\"https://rust-analyzer.github.io\"><code>rust-analyzer</code></a><!-- ignore -->。这个工具是一组\n以编译器为中心的实用程序，它使用<a href=\"http://langserver.org/\">语言服务器协议</a><!--\nignore -->，这是一种 IDE 和编程语言之间通信的规范。不同的客户端可以使用<code>rust-analyzer</code>，例如\n<a href=\"https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer\">Visual Studio Code 的 Rust 分析器插件</a>。",
+    "_note": ""
+  },
+  "Visit the rust-analyzer project’s home page for installation instructions, then install the language server support in your particular IDE. Your IDE will gain abilities such as autocompletion, jump to definition, and inline errors.": {
+    "_translate": "访问 <code>rust-analyzer</code> 项目的 <a href=\"https://rust-analyzer.github.io\">主页</a><!-- ignore -->\n获取安装说明，然后在您特定的 IDE 中安装语言服务器支持。您的 IDE 将获得诸如自动完成、跳转到定义和内联错误等功能。",
+    "_note": ""
+  }
+}

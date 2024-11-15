@@ -12,7 +12,7 @@ exports.translate = async (text, { key, file }) => {
           content: [
             {
               type: 'text',
-              text: 'You are a professional, authentic machine translation engine.',
+              text: 'You are a professional, authentic machine translation engine. Especially skilled in translating tasks from English to Chinese related to the Rust programming language.',
             },
           ],
         },
@@ -21,7 +21,7 @@ exports.translate = async (text, { key, file }) => {
           content: [
             {
               type: 'text',
-              text: `Translate the following source text to chinese: ${text}，Output translation directly without any additional text. Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!`,
+              text: `Translate the following source text to chinese: ${text}，Output translation directly without any additional text. Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!Do not arbitrarily add extra content such as parentheses or other symbols.`,
             },
           ],
         },

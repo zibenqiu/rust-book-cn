@@ -1,0 +1,102 @@
+{
+  "Appendix B: Operators and Symbols": {
+    "_translate": "<a class=\"header\" href=\"#appendix-b-operators-and-symbols\">附录 B: 运算符和符号</a>",
+    "_note": ""
+  },
+  "Operators": {
+    "_translate": "<a class=\"header\" href=\"#operators\">运算符</a>",
+    "_note": ""
+  },
+  "This appendix contains a glossary of Rust’s syntax, including operators and other symbols that appear by themselves or in the context of paths, generics, trait bounds, macros, attributes, comments, tuples, and brackets.": {
+    "_translate": "这个附录包含了一个 Rust 语法的词汇表，包括单独出现或在路径、泛型、特征边界、宏、属性、注释、元组和括号上下文中出现的运算符和其他符号。",
+    "_note": ""
+  },
+  "Table B-1: Operators": {
+    "_translate": "<span class=\"caption\">表 B-1：运算符</span>",
+    "_note": ""
+  },
+  "Table B-1 contains the operators in Rust, an example of how the operator would appear in context, a short explanation, and whether that operator is overloadable. If an operator is overloadable, the relevant trait to use to overload that operator is listed.": {
+    "_translate": "表B-1 包含了Rust中的运算符，运算符在上下文中出现的示例，简短的解释，以及该运算符是否可重载。如果运算符是可重载的，将列出用于重载该运算符的相关特征。",
+    "_note": ""
+  },
+  "Non-operator Symbols": {
+    "_translate": "<a class=\"header\" href=\"#non-operator-symbols\">非运算符符号</a>",
+    "_note": ""
+  },
+  "The following list contains all symbols that don’t function as operators; that is, they don’t behave like a function or method call.": {
+    "_translate": "以下列表包含所有不作为运算符功能的符号；也就是说，它们的行为不像函数或方法调用。",
+    "_note": ""
+  },
+  "Table B-2 shows symbols that appear on their own and are valid in a variety of locations.": {
+    "_translate": "表B-2显示了单独出现并在多种位置有效的符号。",
+    "_note": ""
+  },
+  "Table B-2: Stand-Alone Syntax": {
+    "_translate": "<span class=\"caption\">表 B-2：独立语法</span>",
+    "_note": ""
+  },
+  "Table B-3 shows symbols that appear in the context of a path through the module hierarchy to an item.": {
+    "_translate": "表B-3显示了在通过模块层次结构到项的路径中出现的符号。",
+    "_note": ""
+  },
+  "Table B-3: Path-Related Syntax": {
+    "_translate": "<span class=\"caption\">表 B-3：路径相关语法</span>",
+    "_note": ""
+  },
+  "Table B-4 shows symbols that appear in the context of using generic type parameters.": {
+    "_translate": "表B-4显示了在使用泛型类型参数的上下文中出现的符号。",
+    "_note": ""
+  },
+  "Table B-4: Generics": {
+    "_translate": "<span class=\"caption\">表 B-4：泛型</span>",
+    "_note": ""
+  },
+  "Table B-5 shows symbols that appear in the context of constraining generic type parameters with trait bounds.": {
+    "_translate": "表B-5显示了在使用特征边界限制泛型类型参数时出现的符号。",
+    "_note": ""
+  },
+  "Table B-5: Trait Bound Constraints": {
+    "_translate": "<span class=\"caption\">表 B-5：特征边界约束</span>",
+    "_note": ""
+  },
+  "Table B-6 shows symbols that appear in the context of calling or defining macros and specifying attributes on an item.": {
+    "_translate": "表B-6显示了在调用或定义宏以及在项上指定属性时出现的符号。",
+    "_note": ""
+  },
+  "Table B-6: Macros and Attributes": {
+    "_translate": "<span class=\"caption\">表 B-6：宏和属性</span>",
+    "_note": ""
+  },
+  "Table B-7 shows symbols that create comments.": {
+    "_translate": "表 B-7 显示了创建注释的符号。",
+    "_note": ""
+  },
+  "Table B-7: Comments": {
+    "_translate": "<span class=\"caption\">表 B-7：注释</span>",
+    "_note": ""
+  },
+  "Table B-8 shows symbols that appear in the context of using tuples.": {
+    "_translate": "表 B-8 显示了在使用元组时出现的符号。",
+    "_note": ""
+  },
+  "Table B-9 shows the contexts in which curly braces are used.": {
+    "_translate": "表 B-9 显示了使用大括号的上下文。",
+    "_note": ""
+  },
+  "Table B-8: Tuples": {
+    "_translate": "<span class=\"caption\">表 B-8：元组</span>",
+    "_note": ""
+  },
+  "Table B-10 shows the contexts in which square brackets are used.": {
+    "_translate": "表 B-10 显示了方括号使用的上下文。",
+    "_note": ""
+  },
+  "Table B-9: Curly Brackets": {
+    "_translate": "<span class=\"caption\">表 B-9：大括号</span>",
+    "_note": ""
+  },
+  "Table B-10: Square Brackets": {
+    "_translate": "<span class=\"caption\">表 B-10：方括号</span>",
+    "_note": ""
+  }
+}

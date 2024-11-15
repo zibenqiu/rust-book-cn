@@ -1,0 +1,122 @@
+{
+  "Using Threads to Run Code Simultaneously": {
+    "_translate": "<a class=\"header\" href=\"#using-threads-to-run-code-simultaneously\">使用线程同时运行代码</a>",
+    "_note": ""
+  },
+  "In most current operating systems, an executed program’s code is run in a process, and the operating system will manage multiple processes at once. Within a program, you can also have independent parts that run simultaneously. The features that run these independent parts are called threads. For example, a web server could have multiple threads so that it could respond to more than one request at the same time.": {
+    "_translate": "在大多数当前的操作系统中，执行的程序的代码是在一个 <em>进程</em> 中运行的，操作系统将同时管理多个进程。在一个程序中，你也可以有同时运行的独立部分。运行这些独立部分的功能称为 <em>线程</em>。例如，一个 web 服务器可以有多个线程，以便它可以同时响应多个请求。",
+    "_note": ""
+  },
+  "Splitting the computation in your program into multiple threads to run multiple tasks at the same time can improve performance, but it also adds complexity. Because threads can run simultaneously, there’s no inherent guarantee about the order in which parts of your code on different threads will run. This can lead to problems, such as:": {
+    "_translate": "将程序中的计算拆分为多个线程以同时运行多个任务可以提高性能，但也会增加复杂性。因为线程可以同时运行，所以不同线程上的代码部分的执行顺序没有固有的保证。这可能导致问题，例如：",
+    "_note": ""
+  },
+  "Rust attempts to mitigate the negative effects of using threads, but programming in a multithreaded context still takes careful thought and requires a code structure that is different from that in programs running in a single thread.": {
+    "_translate": "Rust 尝试减轻使用线程的负面影响，但在多线程环境中编程仍然需要仔细思考，并且需要与单线程程序不同的代码结构。",
+    "_note": ""
+  },
+  "Creating a New Thread with spawn": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-new-thread-with-spawn\">使用<code>spawn</code>创建新线程</a>",
+    "_note": ""
+  },
+  "Programming languages implement threads in a few different ways, and many operating systems provide an API the language can call for creating new threads. The Rust standard library uses a 1:1 model of thread implementation, whereby a program uses one operating system thread per one language thread. There are crates that implement other models of threading that make different tradeoffs to the 1:1 model. (Rust’s async system, which we will see in the next chapter, provides another approach to concurrency as well.)": {
+    "_translate": "编程语言以几种不同的方式实现线程，许多操作系统提供了语言可以调用的API来创建新线程。Rust标准库使用<em>1:1</em>的线程实现模型，即程序每个语言线程使用一个操作系统线程。有其他实现不同线程模型的crate，这些模型在与1:1模型的权衡上有所不同。（我们将在下一章看到的Rust的异步系统，也提供了另一种并发方法。）",
+    "_note": ""
+  },
+  "Note that when the main thread of a Rust program completes, all spawned threads are shut down, whether or not they have finished running. The output from this program might be a little different every time, but it will look similar to the following:": {
+    "_translate": "请注意，当 Rust 程序的主线程完成时，所有派生的线程都会被关闭，无论它们是否已经完成运行。此程序的输出每次可能会有所不同，但看起来会类似于以下内容：",
+    "_note": ""
+  },
+  "To create a new thread, we call the thread::spawn function and pass it a closure (we talked about closures in Chapter 13) containing the code we want to run in the new thread. The example in Listing 16-1 prints some text from a main thread and other text from a new thread:": {
+    "_translate": "要创建一个新线程，我们调用 <code>thread::spawn</code> 函数并传递一个包含我们希望在新线程中运行的代码的闭包（我们在第 13 章讨论过闭包）。列表 16-1 中的示例从主线程打印一些文本，从新线程打印其他文本：",
+    "_note": ""
+  },
+  "If you run this code and only see output from the main thread, or don’t see any overlap, try increasing the numbers in the ranges to create more opportunities for the operating system to switch between the threads.": {
+    "_translate": "如果您运行此代码并且只看到主线程的输出，或者没有看到任何重叠，请尝试增加范围中的数字，以创造更多机会让操作系统在各个线程之间切换。",
+    "_note": ""
+  },
+  "The calls to thread::sleep force a thread to stop its execution for a short duration, allowing a different thread to run. The threads will probably take turns, but that isn’t guaranteed: it depends on how your operating system schedules the threads. In this run, the main thread printed first, even though the print statement from the spawned thread appears first in the code. And even though we told the spawned thread to print until i is 9, it only got to 5 before the main thread shut down.": {
+    "_translate": "对 <code>thread::sleep</code> 的调用强制线程停止执行一段时间，允许其他线程运行。线程可能会轮流执行，但这不是保证的：这取决于操作系统如何调度线程。在这次运行中，主线程首先打印，尽管从派生线程的打印语句在代码中先出现。即使我们告诉派生线程打印直到 <code>i</code> 为 9，它也只打印到 5，主线程就关闭了。",
+    "_note": ""
+  },
+  "Waiting for All Threads to Finish Using join Handles": {
+    "_translate": "<a class=\"header\" href=\"#waiting-for-all-threads-to-finish-using-join-handles\">使用 <code>join</code> 句柄等待所有线程完成</a>",
+    "_note": ""
+  },
+  "The code in Listing 16-1 not only stops the spawned thread prematurely most of the time due to the main thread ending, but because there is no guarantee on the order in which threads run, we also can’t guarantee that the spawned thread will get to run at all!": {
+    "_translate": "列表 16-1 中的代码不仅由于主线程结束而导致大多数情况下提前终止派生的线程，而且由于没有保证线程运行的顺序，我们也不能保证派生的线程能够运行！",
+    "_note": ""
+  },
+  "We can fix the problem of the spawned thread not running or ending prematurely by saving the return value of thread::spawn in a variable. The return type of thread::spawn is JoinHandle. A JoinHandle is an owned value that, when we call the join method on it, will wait for its thread to finish. Listing 16-2 shows how to use the JoinHandle of the thread we created in Listing 16-1 and call join to make sure the spawned thread finishes before main exits:": {
+    "_translate": "我们可以通过将 <code>thread::spawn</code> 的返回值保存在一个变量中来解决派生线程不运行或提前结束的问题。<code>thread::spawn</code> 的返回类型是 <code>JoinHandle</code>。一个 <code>JoinHandle</code> 是一个拥有值，当我们调用其上的 <code>join</code> 方法时，它会等待其线程完成。清单 16-2 展示了如何使用我们在清单 16-1 中创建的线程的 <code>JoinHandle</code> 并调用 <code>join</code> 以确保派生线程在 <code>main</code> 退出之前完成：",
+    "_note": ""
+  },
+  "Calling join on the handle blocks the thread currently running until the thread represented by the handle terminates. Blocking a thread means that thread is prevented from performing work or exiting. Because we’ve put the call to join after the main thread’s for loop, running Listing 16-2 should produce output similar to this:": {
+    "_translate": "在句柄上调用<code>join</code>会阻塞当前正在运行的线程，直到该句柄表示的线程终止。<em>阻塞</em>线程意味着该线程被阻止执行工作或退出。因为我们是在主线程的<code>for</code>循环之后调用<code>join</code>的，所以运行示例16-2应该会产生类似的输出：",
+    "_note": ""
+  },
+  "The two threads continue alternating, but the main thread waits because of the call to handle.join() and does not end until the spawned thread is finished.": {
+    "_translate": "两个线程继续交替执行，但主线程由于调用 <code>handle.join()</code> 而等待，直到派生的线程结束。",
+    "_note": ""
+  },
+  "But let’s see what happens when we instead move handle.join() before the for loop in main, like this:": {
+    "_translate": "但让我们看看当我们把 <code>handle.join()</code> 移动到 <code>main</code> 中的 <code>for</code> 循环之前时会发生什么，如下所示：",
+    "_note": ""
+  },
+  "The main thread will wait for the spawned thread to finish and then run its for loop, so the output won’t be interleaved anymore, as shown here:": {
+    "_translate": "主线程将等待派生的线程完成，然后运行其<code>for</code>循环，因此输出将不再交错，如下所示：",
+    "_note": ""
+  },
+  "Small details, such as where join is called, can affect whether or not your threads run at the same time.": {
+    "_translate": "小细节，例如 <code>join</code> 被调用的位置，可以影响您的线程是否同时运行。",
+    "_note": ""
+  },
+  "Using move Closures with Threads": {
+    "_translate": "<a class=\"header\" href=\"#using-move-closures-with-threads\">使用 <code>move</code> 闭包与线程</a>",
+    "_note": ""
+  },
+  "Notice in Listing 16-1 that the closure we pass to thread::spawn takes no arguments: we’re not using any data from the main thread in the spawned thread’s code. To use data from the main thread in the spawned thread, the spawned thread’s closure must capture the values it needs. Listing 16-3 shows an attempt to create a vector in the main thread and use it in the spawned thread. However, this won’t yet work, as you’ll see in a moment.": {
+    "_translate": "请注意列表 16-1 中传递给 <code>thread::spawn</code> 的闭包不接受任何参数：我们在派生线程的代码中没有使用主线程中的任何数据。要使用主线程中的数据在派生线程中，派生线程的闭包必须捕获它需要的值。列表 16-3 展示了尝试在主线程中创建一个向量并在派生线程中使用它的例子。然而，这还不能工作，你马上就会看到。",
+    "_note": ""
+  },
+  "We’ll often use the move keyword with closures passed to thread::spawn because the closure will then take ownership of the values it uses from the environment, thus transferring ownership of those values from one thread to another. In the “Capturing References or Moving Ownership” section of Chapter 13, we discussed move in the context of closures. Now, we’ll concentrate more on the interaction between move and thread::spawn.": {
+    "_translate": "我们经常会在传递给<code>thread::spawn</code>的闭包中使用<code>move</code>关键字，因为这样闭包将拥有它从环境中使用的值，从而将这些值的所有权从一个线程转移到另一个线程。在第13章的<a href=\"ch13-01-closures.html#capturing-references-or-moving-ownership\">“捕获引用或转移所有权”</a><!-- ignore\n-->部分，我们讨论了闭包中的<code>move</code>。现在，我们将更多地关注<code>move</code>与<code>thread::spawn</code>之间的交互。",
+    "_note": ""
+  },
+  "The closure uses v, so it will capture v and make it part of the closure’s environment. Because thread::spawn runs this closure in a new thread, we should be able to access v inside that new thread. But when we compile this example, we get the following error:": {
+    "_translate": "闭包使用了 <code>v</code>，所以它会捕获 <code>v</code> 并使其成为闭包环境的一部分。因为 <code>thread::spawn</code> 在新线程中运行此闭包，我们应该能够在新线程中访问 <code>v</code>。但当我们编译此示例时，我们得到了以下错误：",
+    "_note": ""
+  },
+  "Listing 16-4 provides a scenario that’s more likely to have a reference to v that won’t be valid:": {
+    "_translate": "列表16-4提供了一个更可能有对<code>v</code>的引用无效的情况：",
+    "_note": ""
+  },
+  "Rust infers how to capture v, and because println! only needs a reference to v, the closure tries to borrow v. However, there’s a problem: Rust can’t tell how long the spawned thread will run, so it doesn’t know if the reference to v will always be valid.": {
+    "_translate": "Rust <em>推断</em> 如何捕获 <code>v</code>，并且因为 <code>println!</code> 只需要一个对 <code>v</code> 的引用，闭包尝试借用 <code>v</code>。然而，有一个问题：Rust 无法知道新线程将运行多长时间，因此它不知道对 <code>v</code> 的引用是否会一直有效。",
+    "_note": ""
+  },
+  "To fix the compiler error in Listing 16-3, we can use the error message’s advice:": {
+    "_translate": "要修复列表 16-3 中的编译器错误，我们可以使用错误消息的建议：",
+    "_note": ""
+  },
+  "If Rust allowed us to run this code, there’s a possibility the spawned thread would be immediately put in the background without running at all. The spawned thread has a reference to v inside, but the main thread immediately drops v, using the drop function we discussed in Chapter 15. Then, when the spawned thread starts to execute, v is no longer valid, so a reference to it is also invalid. Oh no!": {
+    "_translate": "如果 Rust 允许我们运行此代码，那么新创建的线程可能会立即被置于后台而根本不运行。新创建的线程内部有一个对 <code>v</code> 的引用，但主线程会立即使用我们在第 15 章讨论的 <code>drop</code> 函数来释放 <code>v</code>。然后，当新创建的线程开始执行时，<code>v</code> 已经不再有效，因此对它的引用也无效。哦不！",
+    "_note": ""
+  },
+  "By adding the move keyword before the closure, we force the closure to take ownership of the values it’s using rather than allowing Rust to infer that it should borrow the values. The modification to Listing 16-3 shown in Listing 16-5 will compile and run as we intend:": {
+    "_translate": "通过在闭包前添加 <code>move</code> 关键字，我们强制闭包拥有它所使用的值，而不是让 Rust 推断它应该借用这些值。如清单 16-5 所示对清单 16-3 的修改将按我们的预期编译和运行：",
+    "_note": ""
+  },
+  "We might be tempted to try the same thing to fix the code in Listing 16-4 where the main thread called drop by using a move closure. However, this fix will not work because what Listing 16-4 is trying to do is disallowed for a different reason. If we added move to the closure, we would move v into the closure’s environment, and we could no longer call drop on it in the main thread. We would get this compiler error instead:": {
+    "_translate": "我们可能会尝试使用 <code>move</code> 闭包来修复列表 16-4 中的代码，其中主线程调用了 <code>drop</code>。然而，这个修复方法不会奏效，因为列表 16-4 尝试做的事情由于不同的原因而不被允许。如果我们向闭包中添加 <code>move</code>，我们会将 <code>v</code> 移动到闭包的环境中，因此我们不能再在主线程中调用 <code>drop</code>。相反，我们会得到这个编译器错误：",
+    "_note": ""
+  },
+  "Rust’s ownership rules have saved us again! We got an error from the code in Listing 16-3 because Rust was being conservative and only borrowing v for the thread, which meant the main thread could theoretically invalidate the spawned thread’s reference. By telling Rust to move ownership of v to the spawned thread, we’re guaranteeing Rust that the main thread won’t use v anymore. If we change Listing 16-4 in the same way, we’re then violating the ownership rules when we try to use v in the main thread. The move keyword overrides Rust’s conservative default of borrowing; it doesn’t let us violate the ownership rules.": {
+    "_translate": "Rust的所有权规则再次拯救了我们！我们在清单16-3的代码中遇到了错误，因为Rust采取了保守的做法，只将<code>v</code>借给线程，这意味着主线程理论上可以使得派生线程的引用失效。通过告诉Rust将<code>v</code>的所有权移动到派生线程，我们向Rust保证主线程不会再使用<code>v</code>。如果我们以同样的方式更改清单16-4，那么在主线程中尝试使用<code>v</code>时，我们就会违反所有权规则。<code>move</code>关键字覆盖了Rust保守的借用默认行为；它不允许我们违反所有权规则。",
+    "_note": ""
+  },
+  "With a basic understanding of threads and the thread API, let’s look at what we can do with threads.": {
+    "_translate": "在对线程和线程API有了基本了解之后，让我们看看我们可以用线程<em>做</em>什么。",
+    "_note": ""
+  }
+}

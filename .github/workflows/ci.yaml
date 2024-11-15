@@ -21,7 +21,7 @@ jobs:
           git config --global user.name 'Xheldon[bot]'
           git config --global user.email 'c1006044256@gmail.com'
 
-      - name: 检出 Prosemirror/website 仓库
+      - name: 检出 Rust/book 仓库
         run: |
           git clone https://github.com/rust-lang/book.git ./book_src
 

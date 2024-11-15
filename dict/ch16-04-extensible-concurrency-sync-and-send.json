@@ -1,0 +1,70 @@
+{
+  "Extensible Concurrency with the Sync and Send Traits": {
+    "_translate": "<a class=\"header\" href=\"#extensible-concurrency-with-the-sync-and-send-traits\">通过 <code>Sync</code> 和 <code>Send</code> 特性实现可扩展的并发</a>",
+    "_note": ""
+  },
+  "Interestingly, the Rust language has very few concurrency features. Almost every concurrency feature we’ve talked about so far in this chapter has been part of the standard library, not the language. Your options for handling concurrency are not limited to the language or the standard library; you can write your own concurrency features or use those written by others.": {
+    "_translate": "有趣的是，Rust 语言的并发特性 <em>非常</em> 少。到目前为止我们在本章中讨论的几乎所有并发特性都是标准库的一部分，而不是语言本身。处理并发的选项不仅限于语言或标准库；您可以编写自己的并发特性或使用他人编写的特性。",
+    "_note": ""
+  },
+  "However, two concurrency concepts are embedded in the language: the std::marker traits Sync and Send.": {
+    "_translate": "然而，两种并发概念嵌入在语言中：<code>std::marker</code> 特性 <code>Sync</code> 和 <code>Send</code>。",
+    "_note": ""
+  },
+  "Allowing Transference of Ownership Between Threads with Send": {
+    "_translate": "<a class=\"header\" href=\"#allowing-transference-of-ownership-between-threads-with-send\">允许使用 <code>Send</code> 在线程间转移所有权</a>",
+    "_note": ""
+  },
+  "Therefore, Rust’s type system and trait bounds ensure that you can never accidentally send an Rc<T> value across threads unsafely. When we tried to do this in Listing 16-14, we got the error the trait Send is not implemented for Rc<Mutex<i32>>. When we switched to Arc<T>, which is Send, the code compiled.": {
+    "_translate": "因此，Rust 的类型系统和特征边界确保你永远不会意外地将 <code>Rc&lt;T&gt;</code> 值不安全地跨线程发送。当我们在清单 16-14 中尝试这样做时，我们得到了错误 <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>。当我们切换到 <code>Arc&lt;T&gt;</code>，它是 <code>Send</code> 的，代码编译成功。",
+    "_note": ""
+  },
+  "The Send marker trait indicates that ownership of values of the type implementing Send can be transferred between threads. Almost every Rust type is Send, but there are some exceptions, including Rc<T>: this cannot be Send because if you cloned an Rc<T> value and tried to transfer ownership of the clone to another thread, both threads might update the reference count at the same time. For this reason, Rc<T> is implemented for use in single-threaded situations where you don’t want to pay the thread-safe performance penalty.": {
+    "_translate": "<code>Send</code> 标记特征表示实现了 <code>Send</code> 的类型的值的所有权可以在线程之间转移。几乎所有 Rust 类型都是 <code>Send</code>，但有一些例外，包括 <code>Rc&lt;T&gt;</code>：这不能是 <code>Send</code>，因为如果你克隆了一个 <code>Rc&lt;T&gt;</code> 值并尝试将克隆的所有权转移到另一个线程，两个线程可能会同时更新引用计数。因此，<code>Rc&lt;T&gt;</code> 被实现用于单线程情况，这样你就不必承担线程安全的性能开销。",
+    "_note": ""
+  },
+  "Any type composed entirely of Send types is automatically marked as Send as well. Almost all primitive types are Send, aside from raw pointers, which we’ll discuss in Chapter 20.": {
+    "_translate": "任何完全由 <code>Send</code> 类型组成的类型也会自动标记为 <code>Send</code>。几乎所有原始类型都是 <code>Send</code>，除了原始指针，我们将在第 20 章讨论。",
+    "_note": ""
+  },
+  "Allowing Access from Multiple Threads with Sync": {
+    "_translate": "<a class=\"header\" href=\"#allowing-access-from-multiple-threads-with-sync\">允许多线程访问的 <code>Sync</code></a>",
+    "_note": ""
+  },
+  "The Sync marker trait indicates that it is safe for the type implementing Sync to be referenced from multiple threads. In other words, any type T is Sync if &T (an immutable reference to T) is Send, meaning the reference can be sent safely to another thread. Similar to Send, primitive types are Sync, and types composed entirely of types that are Sync are also Sync.": {
+    "_translate": "<code>Sync</code> 标记特征表明实现 <code>Sync</code> 的类型可以安全地从多个线程引用。换句话说，任何类型 <code>T</code> 如果 <code>&amp;T</code>（对 <code>T</code> 的不可变引用）是 <code>Send</code>，即该引用可以安全地发送到另一个线程，则该类型 <code>T</code> 是 <code>Sync</code>。类似于 <code>Send</code>，原始类型是 <code>Sync</code>，并且完全由 <code>Sync</code> 类型组成的类型也是 <code>Sync</code>。",
+    "_note": ""
+  },
+  "The smart pointer Rc<T> is also not Sync for the same reasons that it’s not Send. The RefCell<T> type (which we talked about in Chapter 15) and the family of related Cell<T> types are not Sync. The implementation of borrow checking that RefCell<T> does at runtime is not thread-safe. The smart pointer Mutex<T> is Sync and can be used to share access with multiple threads as you saw in the “Sharing a Mutex<T> Between Multiple Threads” section.": {
+    "_translate": "智能指针 <code>Rc&lt;T&gt;</code> 也不是 <code>Sync</code>，原因与它不是 <code>Send</code> 的原因相同。我们在第 15 章讨论过的 <code>RefCell&lt;T&gt;</code> 类型及其相关的 <code>Cell&lt;T&gt;</code> 类型系列都不是 <code>Sync</code>。<code>RefCell&lt;T&gt;</code> 在运行时执行的借用检查不是线程安全的。<code>Mutex&lt;T&gt;</code> 智能指针是 <code>Sync</code>，可以用于在多个线程之间共享访问，如你在 <a href=\"ch16-03-shared-state.html#sharing-a-mutext-between-multiple-threads\">“在多个线程之间共享 <code>Mutex&lt;T&gt;</code>”</a> 部分所见。",
+    "_note": ""
+  },
+  "Implementing Send and Sync Manually Is Unsafe": {
+    "_translate": "<a class=\"header\" href=\"#implementing-send-and-sync-manually-is-unsafe\">手动实现 <code>Send</code> 和 <code>Sync</code> 是不安全的</a>",
+    "_note": ""
+  },
+  "Because types that are made up of Send and Sync traits are automatically also Send and Sync, we don’t have to implement those traits manually. As marker traits, they don’t even have any methods to implement. They’re just useful for enforcing invariants related to concurrency.": {
+    "_translate": "因为由 <code>Send</code> 和 <code>Sync</code> 特性组成的类型会自动也是 <code>Send</code> 和 <code>Sync</code>，所以我们不必手动实现这些特性。作为标记特性，它们甚至没有任何方法需要实现。它们只是有助于强制执行与并发相关的不变性。",
+    "_note": ""
+  },
+  "Summary": {
+    "_translate": "<a class=\"header\" href=\"#summary\">摘要</a>",
+    "_note": ""
+  },
+  "Manually implementing these traits involves implementing unsafe Rust code. We’ll talk about using unsafe Rust code in Chapter 20; for now, the important information is that building new concurrent types not made up of Send and Sync parts requires careful thought to uphold the safety guarantees. “The Rustonomicon” has more information about these guarantees and how to uphold them.": {
+    "_translate": "手动实现这些特质涉及到实现不安全的 Rust 代码。\n我们将在第 20 章讨论使用不安全的 Rust 代码；目前，重要的是构建新的并发类型，这些类型不由 <code>Send</code> 和 <code>Sync</code> 组成，需要仔细考虑以维护安全保证。 <a href=\"../nomicon/index.html\">“Rustonomicon”</a> 提供了更多关于这些保证及其维护方法的信息。",
+    "_note": ""
+  },
+  "This isn’t the last you’ll see of concurrency in this book: the whole next chapter focuses on async programming, and the project in Chapter 21 will use the concepts in this chapter in a more realistic situation than the smaller examples discussed here.": {
+    "_translate": "这不会是你在这本书中最后一次看到并发：下一整章将专注于异步编程，第21章的项目将在更现实的情况下使用本章的概念，而不仅仅是这里讨论的小例子。",
+    "_note": ""
+  },
+  "As mentioned earlier, because very little of how Rust handles concurrency is part of the language, many concurrency solutions are implemented as crates. These evolve more quickly than the standard library, so be sure to search online for the current, state-of-the-art crates to use in multithreaded situations.": {
+    "_translate": "正如前面提到的，因为 Rust 处理并发的方式中很少部分是语言本身的一部分，许多并发解决方案都是以 crates 的形式实现的。这些 crates 比标准库进化得更快，所以请务必在线搜索当前最先进的 crates，以便在多线程情况下使用。",
+    "_note": ""
+  },
+  "The Rust standard library provides channels for message passing and smart pointer types, such as Mutex<T> and Arc<T>, that are safe to use in concurrent contexts. The type system and the borrow checker ensure that the code using these solutions won’t end up with data races or invalid references. Once you get your code to compile, you can rest assured that it will happily run on multiple threads without the kinds of hard-to-track-down bugs common in other languages. Concurrent programming is no longer a concept to be afraid of: go forth and make your programs concurrent, fearlessly!": {
+    "_translate": "Rust 标准库提供了用于消息传递的通道和智能指针类型，如 <code>Mutex&lt;T&gt;</code> 和 <code>Arc&lt;T&gt;</code>，这些类型在并发上下文中使用是安全的。类型系统和借用检查器确保使用这些解决方案的代码不会出现数据竞争或无效引用。一旦你的代码编译通过，你就可以放心地知道它将在多个线程上愉快地运行，而不会出现其他语言中常见的难以追踪的错误。并发编程不再是令人害怕的概念：大胆地让你的程序并发起来，无所畏惧！",
+    "_note": ""
+  }
+}

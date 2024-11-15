@@ -1,0 +1,122 @@
+{
+  "Controlling How Tests Are Run": {
+    "_translate": "<a class=\"header\" href=\"#controlling-how-tests-are-run\">控制测试的运行方式</a>",
+    "_note": ""
+  },
+  "Just as cargo run compiles your code and then runs the resultant binary, cargo test compiles your code in test mode and runs the resultant test binary. The default behavior of the binary produced by cargo test is to run all the tests in parallel and capture output generated during test runs, preventing the output from being displayed and making it easier to read the output related to the test results. You can, however, specify command line options to change this default behavior.": {
+    "_translate": "正如 <code>cargo run</code> 编译您的代码并运行生成的二进制文件一样，<code>cargo test</code> 以测试模式编译您的代码并运行生成的测试二进制文件。由 <code>cargo test</code> 生成的二进制文件的默认行为是并行运行所有测试，并捕获测试运行期间生成的输出，防止输出显示，从而使与测试结果相关的输出更容易阅读。但是，您可以指定命令行选项来更改此默认行为。",
+    "_note": ""
+  },
+  "Some command line options go to cargo test, and some go to the resultant test binary. To separate these two types of arguments, you list the arguments that go to cargo test followed by the separator -- and then the ones that go to the test binary. Running cargo test --help displays the options you can use with cargo test, and running cargo test -- --help displays the options you can use after the separator.": {
+    "_translate": "一些命令行选项传递给<code>cargo test</code>，一些传递给生成的测试二进制文件。为了区分这两种类型的参数，您先列出传递给<code>cargo test</code>的参数，然后是分隔符<code>--</code>，接着是传递给测试二进制文件的参数。运行<code>cargo test --help</code>会显示您可以与<code>cargo test</code>一起使用的选项，而运行<code>cargo test -- --help</code>会显示分隔符后可以使用的选项。",
+    "_note": ""
+  },
+  "Running Tests in Parallel or Consecutively": {
+    "_translate": "<a class=\"header\" href=\"#running-tests-in-parallel-or-consecutively\">并行或顺序运行测试</a>",
+    "_note": ""
+  },
+  "When you run multiple tests, by default they run in parallel using threads, meaning they finish running faster and you get feedback quicker. Because the tests are running at the same time, you must make sure your tests don’t depend on each other or on any shared state, including a shared environment, such as the current working directory or environment variables.": {
+    "_translate": "当你运行多个测试时，默认情况下它们会使用线程并行运行，这意味着它们会更快完成运行，你也能更快地获得反馈。因为测试是同时运行的，你必须确保你的测试之间不互相依赖，也不依赖任何共享状态，包括共享的环境，如当前工作目录或环境变量。",
+    "_note": ""
+  },
+  "For example, say each of your tests runs some code that creates a file on disk named test-output.txt and writes some data to that file. Then each test reads the data in that file and asserts that the file contains a particular value, which is different in each test. Because the tests run at the same time, one test might overwrite the file in the time between another test writing and reading the file. The second test will then fail, not because the code is incorrect but because the tests have interfered with each other while running in parallel. One solution is to make sure each test writes to a different file; another solution is to run the tests one at a time.": {
+    "_translate": "例如，假设每个测试运行的代码都会在磁盘上创建一个名为<em>test-output.txt</em>的文件，并向该文件写入一些数据。然后每个测试读取该文件中的数据，并断言文件包含特定的值，每个测试的值都不同。因为测试同时运行，一个测试可能在另一个测试写入和读取文件之间的时间内覆盖该文件。第二个测试将失败，不是因为代码错误，而是因为测试在并行运行时相互干扰。一种解决方案是确保每个测试写入不同的文件；另一种解决方案是依次运行测试。",
+    "_note": ""
+  },
+  "If you don’t want to run the tests in parallel or if you want more fine-grained control over the number of threads used, you can send the --test-threads flag and the number of threads you want to use to the test binary. Take a look at the following example:": {
+    "_translate": "如果你不想并行运行测试，或者想要对使用的线程数量进行更细粒度的控制，可以向测试二进制文件发送 <code>--test-threads</code> 标志和你想要使用的线程数量。看看以下示例：",
+    "_note": ""
+  },
+  "We set the number of test threads to 1, telling the program not to use any parallelism. Running the tests using one thread will take longer than running them in parallel, but the tests won’t interfere with each other if they share state.": {
+    "_translate": "我们将测试线程的数量设置为<code>1</code>，告诉程序不要使用任何并行性。使用一个线程运行测试会比并行运行花费更长时间，但如果测试共享状态，它们不会相互干扰。",
+    "_note": ""
+  },
+  "Showing Function Output": {
+    "_translate": "<a class=\"header\" href=\"#showing-function-output\">显示函数输出</a>",
+    "_note": ""
+  },
+  "As an example, Listing 11-10 has a silly function that prints the value of its parameter and returns 10, as well as a test that passes and a test that fails.": {
+    "_translate": "例如，列表 11-10 有一个愚蠢的函数，它打印其参数的值并返回 10，以及一个通过的测试和一个失败的测试。",
+    "_note": ""
+  },
+  "When we run these tests with cargo test, we’ll see the following output:": {
+    "_translate": "当我们使用 <code>cargo test</code> 运行这些测试时，我们将看到以下输出：",
+    "_note": ""
+  },
+  "By default, if a test passes, Rust’s test library captures anything printed to standard output. For example, if we call println! in a test and the test passes, we won’t see the println! output in the terminal; we’ll see only the line that indicates the test passed. If a test fails, we’ll see whatever was printed to standard output with the rest of the failure message.": {
+    "_translate": "默认情况下，如果测试通过，Rust 的测试库会捕获打印到标准输出的任何内容。例如，如果我们在测试中调用 <code>println!</code> 并且测试通过，我们不会在终端中看到 <code>println!</code> 的输出；我们只会看到表示测试通过的那行。如果测试失败，我们会看到打印到标准输出的内容以及其余的失败信息。",
+    "_note": ""
+  },
+  "Note that nowhere in this output do we see I got the value 4, which is printed when the test that passes runs. That output has been captured. The output from the test that failed, I got the value 8, appears in the section of the test summary output, which also shows the cause of the test failure.": {
+    "_translate": "请注意，在此输出中我们 nowhere in this output do we see <code>我得到了值 4</code>，这是在通过的测试运行时打印的。该输出已被捕获。失败测试的输出，<code>我得到了值 8</code>，出现在测试摘要输出的部分，该部分还显示了测试失败的原因。",
+    "_note": ""
+  },
+  "If we want to see printed values for passing tests as well, we can tell Rust to also show the output of successful tests with --show-output:": {
+    "_translate": "如果我们还想查看通过测试的打印值，可以告诉 Rust 使用 <code>--show-output</code> 也显示成功测试的输出：",
+    "_note": ""
+  },
+  "Running a Subset of Tests by Name": {
+    "_translate": "<a class=\"header\" href=\"#running-a-subset-of-tests-by-name\">按名称运行测试子集</a>",
+    "_note": ""
+  },
+  "When we run the tests in Listing 11-10 again with the --show-output flag, we see the following output:": {
+    "_translate": "当我们再次使用 <code>--show-output</code> 标志运行列表 11-10 中的测试时，我们看到以下输出：",
+    "_note": ""
+  },
+  "To demonstrate how to run a subset of tests, we’ll first create three tests for our add_two function, as shown in Listing 11-11, and choose which ones to run.": {
+    "_translate": "为了演示如何运行测试的子集，我们首先为我们的<code>add_two</code>函数创建三个测试，如列表11-11所示，并选择要运行的测试。",
+    "_note": ""
+  },
+  "Sometimes, running a full test suite can take a long time. If you’re working on code in a particular area, you might want to run only the tests pertaining to that code. You can choose which tests to run by passing cargo test the name or names of the test(s) you want to run as an argument.": {
+    "_translate": "有时，运行完整的测试套件可能需要很长时间。如果你正在处理特定区域的代码，你可能只想运行与该代码相关的测试。你可以通过将你想要运行的测试的名称或名称列表作为参数传递给<code>cargo test</code>来选择要运行的测试。",
+    "_note": ""
+  },
+  "If we run the tests without passing any arguments, as we saw earlier, all the tests will run in parallel:": {
+    "_translate": "如果我们不传递任何参数就运行测试，正如我们之前所见，所有测试将并行运行：",
+    "_note": ""
+  },
+  "We can pass the name of any test function to cargo test to run only that test:": {
+    "_translate": "我们可以将任何测试函数的名称传递给<code>cargo test</code>来仅运行该测试：",
+    "_note": ""
+  },
+  "Only the test with the name one_hundred ran; the other two tests didn’t match that name. The test output lets us know we had more tests that didn’t run by displaying 2 filtered out at the end.": {
+    "_translate": "只有名为<code>one_hundred</code>的测试运行了；其他两个测试不符合该名称。测试输出通过显示<code>2 filtered out</code>告诉我们有更多未运行的测试。",
+    "_note": ""
+  },
+  "We can’t specify the names of multiple tests in this way; only the first value given to cargo test will be used. But there is a way to run multiple tests.": {
+    "_translate": "我们不能以这种方式指定多个测试的名称；只有给 <code>cargo test</code> 的第一个值会被使用。但有一种方法可以运行多个测试。",
+    "_note": ""
+  },
+  "This command ran all tests with add in the name and filtered out the test named one_hundred. Also note that the module in which a test appears becomes part of the test’s name, so we can run all the tests in a module by filtering on the module’s name.": {
+    "_translate": "这个命令运行了所有名称中包含 <code>add</code> 的测试，并过滤掉了名为 <code>one_hundred</code> 的测试。还请注意，测试出现的模块成为测试名称的一部分，因此我们可以通过过滤模块名称来运行模块中的所有测试。",
+    "_note": ""
+  },
+  "We can specify part of a test name, and any test whose name matches that value will be run. For example, because two of our tests’ names contain add, we can run those two by running cargo test add:": {
+    "_translate": "我们可以指定测试名称的一部分，任何名称与该值匹配的测试都会运行。例如，因为我们的两个测试名称中包含<code>add</code>，我们可以通过运行<code>cargo test add</code>来运行这两个测试：",
+    "_note": ""
+  },
+  "Ignoring Some Tests Unless Specifically Requested": {
+    "_translate": "<a class=\"header\" href=\"#ignoring-some-tests-unless-specifically-requested\">除非特别要求，否则忽略某些测试</a>",
+    "_note": ""
+  },
+  "Filename: src/lib.rs": {
+    "_translate": "<span class=\"filename\">文件名: src/lib.rs</span>",
+    "_note": ""
+  },
+  "Sometimes a few specific tests can be very time-consuming to execute, so you might want to exclude them during most runs of cargo test. Rather than listing as arguments all tests you do want to run, you can instead annotate the time-consuming tests using the ignore attribute to exclude them, as shown here:": {
+    "_translate": "有时一些特定的测试执行起来非常耗时，因此你可能希望在大多数 <code>cargo test</code> 运行中排除它们。与其列出所有你想要运行的测试作为参数，不如使用 <code>ignore</code> 属性标注这些耗时的测试以排除它们，如下所示：",
+    "_note": ""
+  },
+  "After #[test], we add the #[ignore] line to the test we want to exclude. Now when we run our tests, it_works runs, but expensive_test doesn’t:": {
+    "_translate": "在 <code>#[test]</code> 之后，我们向要排除的测试添加 <code>#[ignore]</code> 行。\n现在当我们运行测试时，<code>it_works</code> 运行，但 <code>expensive_test</code> 不运行：",
+    "_note": ""
+  },
+  "The expensive_test function is listed as ignored. If we want to run only the ignored tests, we can use cargo test -- --ignored:": {
+    "_translate": "<code>expensive_test</code> 函数被列为 <code>ignored</code>。如果我们只想运行被忽略的测试，可以使用 <code>cargo test -- --ignored</code>：",
+    "_note": ""
+  },
+  "By controlling which tests run, you can make sure your cargo test results will be returned quickly. When you’re at a point where it makes sense to check the results of the ignored tests and you have time to wait for the results, you can run cargo test -- --ignored instead. If you want to run all tests whether they’re ignored or not, you can run cargo test -- --include-ignored.": {
+    "_translate": "通过控制运行哪些测试，您可以确保 <code>cargo test</code> 的结果能够快速返回。当您认为检查 <code>ignored</code> 测试的结果是有意义的，并且有时间等待结果时，可以运行 <code>cargo test -- --ignored</code>。如果您想运行所有测试，无论它们是否被忽略，可以运行 <code>cargo test -- --include-ignored</code>。",
+    "_note": ""
+  }
+}

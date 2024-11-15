@@ -1,0 +1,166 @@
+{
+  "Hello, Cargo!": {
+    "_translate": "<a class=\"header\" href=\"#hello-cargo\">你好，Cargo！</a>",
+    "_note": ""
+  },
+  "Cargo is Rust’s build system and package manager. Most Rustaceans use this tool to manage their Rust projects because Cargo handles a lot of tasks for you, such as building your code, downloading the libraries your code depends on, and building those libraries. (We call the libraries that your code needs dependencies.)": {
+    "_translate": "Cargo 是 Rust 的构建系统和包管理器。大多数 Rustaceans 使用这个工具来管理他们的 Rust 项目，因为 Cargo 为你处理了很多任务，比如构建你的代码、下载你的代码所依赖的库以及构建这些库。（我们把你的代码需要的库称为<em>依赖项</em>。）",
+    "_note": ""
+  },
+  "Because the vast majority of Rust projects use Cargo, the rest of this book assumes that you’re using Cargo too. Cargo comes installed with Rust if you used the official installers discussed in the “Installation” section. If you installed Rust through some other means, check whether Cargo is installed by entering the following in your terminal:": {
+    "_translate": "因为绝大多数的 Rust 项目都使用 Cargo，所以本书的其余部分也假设你正在使用 Cargo。如果你使用了<a href=\"ch01-01-installation.html#installation\">“安装”</a><!-- ignore -->部分讨论的官方安装程序，Cargo 会随 Rust 一起安装。如果你通过其他方式安装了 Rust，请通过在终端输入以下内容来检查是否安装了 Cargo：",
+    "_note": ""
+  },
+  "The simplest Rust programs, like the one we’ve written so far, don’t have any dependencies. If we had built the “Hello, world!” project with Cargo, it would only use the part of Cargo that handles building your code. As you write more complex Rust programs, you’ll add dependencies, and if you start a project using Cargo, adding dependencies will be much easier to do.": {
+    "_translate": "最简单的 Rust 程序，比如我们迄今为止编写的程序，没有任何依赖。如果我们使用 Cargo 构建了“Hello, world!”项目，它只会使用 Cargo 中处理构建代码的部分。随着你编写更复杂的 Rust 程序，你会添加依赖，如果你使用 Cargo 开始一个项目，添加依赖将会容易得多。",
+    "_note": ""
+  },
+  "Creating a Project with Cargo": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-project-with-cargo\">使用 Cargo 创建项目</a>",
+    "_note": ""
+  },
+  "If you see a version number, you have it! If you see an error, such as command not found, look at the documentation for your method of installation to determine how to install Cargo separately.": {
+    "_translate": "如果您看到版本号，那么您已经安装成功了！如果您看到错误，例如<code>command not found</code>，请查看您安装方法的文档，以确定如何单独安装Cargo。",
+    "_note": ""
+  },
+  "Let’s create a new project using Cargo and look at how it differs from our original “Hello, world!” project. Navigate back to your projects directory (or wherever you decided to store your code). Then, on any operating system, run the following:": {
+    "_translate": "让我们使用 Cargo 创建一个新项目，并看看它与我们最初的 “Hello, world!” 项目有何不同。返回到你的 <em>projects</em> 目录（或你决定存储代码的任何位置）。然后，在任何操作系统上，运行以下命令：",
+    "_note": ""
+  },
+  "The first command creates a new directory and project called hello_cargo. We’ve named our project hello_cargo, and Cargo creates its files in a directory of the same name.": {
+    "_translate": "第一个命令创建一个名为<em>hello_cargo</em>的新目录和项目。\n我们把项目命名为<em>hello_cargo</em>，Cargo 会在同名的目录中创建其文件。",
+    "_note": ""
+  },
+  "Go into the hello_cargo directory and list the files. You’ll see that Cargo has generated two files and one directory for us: a Cargo.toml file and a src directory with a main.rs file inside.": {
+    "_translate": "进入 <em>hello_cargo</em> 目录并列出文件。您会看到 Cargo 为我们生成了两个文件和一个目录：一个 <em>Cargo.toml</em> 文件和一个包含 <em>main.rs</em> 文件的 <em>src</em> 目录。",
+    "_note": ""
+  },
+  "It has also initialized a new Git repository along with a .gitignore file. Git files won’t be generated if you run cargo new within an existing Git repository; you can override this behavior by using cargo new --vcs=git.": {
+    "_translate": "它还初始化了一个新的 Git 仓库以及一个 <em>.gitignore</em> 文件。\n如果在现有的 Git 仓库中运行 <code>cargo new</code>，则不会生成 Git 文件；可以使用 <code>cargo new --vcs=git</code> 覆盖此行为。",
+    "_note": ""
+  },
+  "Open Cargo.toml in your text editor of choice. It should look similar to the code in Listing 1-2.": {
+    "_translate": "在您选择的文本编辑器中打开<em>Cargo.toml</em>。它应该类似于清单 1-2 中的代码。",
+    "_note": ""
+  },
+  "Note: Git is a common version control system. You can change cargo new to use a different version control system or no version control system by using the --vcs flag. Run cargo new --help to see the available options.": {
+    "_translate": "注意：Git 是一个常见的版本控制系统。你可以通过使用 <code>--vcs</code> 标志将 <code>cargo new</code> 更改为使用不同的版本控制系统或不使用版本控制系统。运行 <code>cargo new --help</code> 查看可用选项。",
+    "_note": ""
+  },
+  "The first line, [package], is a section heading that indicates that the following statements are configuring a package. As we add more information to this file, we’ll add other sections.": {
+    "_translate": "第一行，<code>[package]</code>，是一个节标题，表示接下来的语句是配置一个包。当我们向这个文件添加更多信息时，我们将添加其他节。",
+    "_note": ""
+  },
+  "This file is in the TOML (Tom’s Obvious, Minimal Language) format, which is Cargo’s configuration format.": {
+    "_translate": "这个文件采用 <a href=\"https://toml.io\"><em>TOML</em></a><!-- ignore --> (<em>Tom 的显而易见、最小化语言</em>) 格式，这是 Cargo 的配置格式。",
+    "_note": ""
+  },
+  "The next three lines set the configuration information Cargo needs to compile your program: the name, the version, and the edition of Rust to use. We’ll talk about the edition key in Appendix E.": {
+    "_translate": "接下来的三行设置了 Cargo 编译您的程序所需的一些配置信息：程序的名称、版本以及要使用的 Rust 版本。我们将在 <a href=\"appendix-05-editions.html\">附录 E</a><!-- ignore --> 中讨论 <code>edition</code> 键。",
+    "_note": ""
+  },
+  "The last line, [dependencies], is the start of a section for you to list any of your project’s dependencies. In Rust, packages of code are referred to as crates. We won’t need any other crates for this project, but we will in the first project in Chapter 2, so we’ll use this dependencies section then.": {
+    "_translate": "最后一行，<code>[dependencies]</code>，是你列出项目依赖的开始。在 Rust 中，代码包被称为<em>crates</em>。我们在这个项目中不需要其他 crates，但在第 2 章的第一个项目中需要，所以那时我们会使用这个依赖部分。",
+    "_note": ""
+  },
+  "Now open src/main.rs and take a look:": {
+    "_translate": "现在打开 <em>src/main.rs</em> 并查看：",
+    "_note": ""
+  },
+  "Filename: src/main.rs": {
+    "_translate": "<span class=\"filename\">文件名: src/main.rs</span>",
+    "_note": ""
+  },
+  "Cargo expects your source files to live inside the src directory. The top-level project directory is just for README files, license information, configuration files, and anything else not related to your code. Using Cargo helps you organize your projects. There’s a place for everything, and everything is in its place.": {
+    "_translate": "Cargo 期望您的源文件位于 <em>src</em> 目录中。顶级项目目录仅用于 README 文件、许可信息、配置文件以及与您的代码无关的任何其他内容。使用 Cargo 可以帮助您组织项目。每个东西都有其位置，每个东西都在其位置。",
+    "_note": ""
+  },
+  "Cargo has generated a “Hello, world!” program for you, just like the one we wrote in Listing 1-1! So far, the differences between our project and the project Cargo generated are that Cargo placed the code in the src directory and we have a Cargo.toml configuration file in the top directory.": {
+    "_translate": "Cargo 为您生成了一个“Hello, world!”程序，就像我们在清单 1-1 中编写的一样！到目前为止，我们的项目和 Cargo 生成的项目之间的区别在于 Cargo 将代码放在了 <em>src</em> 目录中，而我们在顶级目录中有一个 <em>Cargo.toml</em> 配置文件。",
+    "_note": ""
+  },
+  "If you started a project that doesn’t use Cargo, as we did with the “Hello, world!” project, you can convert it to a project that does use Cargo. Move the project code into the src directory and create an appropriate Cargo.toml file. One easy way to get that Cargo.toml file is to run cargo init, which will create it for you automatically.": {
+    "_translate": "如果您开始了一个不使用 Cargo 的项目，就像我们用 “Hello, world!” 项目那样，您可以将其转换为使用 Cargo 的项目。将项目代码移动到 <em>src</em> 目录，并创建一个适当的 <em>Cargo.toml</em> 文件。一种简单的方法是运行 <code>cargo init</code>，这将为您自动创建该文件。",
+    "_note": ""
+  },
+  "Building and Running a Cargo Project": {
+    "_translate": "<a class=\"header\" href=\"#building-and-running-a-cargo-project\">构建和运行 Cargo 项目</a>",
+    "_note": ""
+  },
+  "Now let’s look at what’s different when we build and run the “Hello, world!” program with Cargo! From your hello_cargo directory, build your project by entering the following command:": {
+    "_translate": "现在让我们看看使用 Cargo 构建和运行 “Hello, world!” 程序时有什么不同！从您的 <em>hello_cargo</em> 目录中，通过输入以下命令来构建您的项目：",
+    "_note": ""
+  },
+  "This command creates an executable file in target/debug/hello_cargo (or target\\debug\\hello_cargo.exe on Windows) rather than in your current directory. Because the default build is a debug build, Cargo puts the binary in a directory named debug. You can run the executable with this command:": {
+    "_translate": "此命令在 <em>target/debug/hello_cargo</em>（或在 Windows 上的 <em>target\\debug\\hello_cargo.exe</em>）中创建一个可执行文件，而不是在当前目录中创建。因为默认构建是调试构建，所以 Cargo 将二进制文件放在名为 <em>debug</em> 的目录中。您可以使用以下命令运行可执行文件：",
+    "_note": ""
+  },
+  "If all goes well, Hello, world! should print to the terminal. Running cargo build for the first time also causes Cargo to create a new file at the top level: Cargo.lock. This file keeps track of the exact versions of dependencies in your project. This project doesn’t have dependencies, so the file is a bit sparse. You won’t ever need to change this file manually; Cargo manages its contents for you.": {
+    "_translate": "如果一切顺利，<code>Hello, world!</code> 应该会打印到终端。首次运行 <code>cargo build</code> 还会导致 Cargo 在顶级目录创建一个新文件：<em>Cargo.lock</em>。此文件记录了项目中依赖项的确切版本。此项目没有依赖项，因此文件内容较少。你无需手动更改此文件；Cargo 会为你管理其内容。",
+    "_note": ""
+  },
+  "We just built a project with cargo build and ran it with ./target/debug/hello_cargo, but we can also use cargo run to compile the code and then run the resultant executable all in one command:": {
+    "_translate": "我们刚刚用 <code>cargo build</code> 构建了一个项目，并用 <code>./target/debug/hello_cargo</code> 运行了它，但也可以使用 <code>cargo run</code> 来编译代码，然后运行生成的可执行文件，这一切都在一个命令中完成：",
+    "_note": ""
+  },
+  "Using cargo run is more convenient than having to remember to run cargo build and then use the whole path to the binary, so most developers use cargo run.": {
+    "_translate": "使用 <code>cargo run</code> 比记住要运行 <code>cargo build</code> 然后使用二进制文件的完整路径更方便，所以大多数开发人员使用 <code>cargo run</code>。",
+    "_note": ""
+  },
+  "Notice that this time we didn’t see output indicating that Cargo was compiling hello_cargo. Cargo figured out that the files hadn’t changed, so it didn’t rebuild but just ran the binary. If you had modified your source code, Cargo would have rebuilt the project before running it, and you would have seen this output:": {
+    "_translate": "注意这次我们没有看到 Cargo 正在编译 <code>hello_cargo</code> 的输出。Cargo 发现文件没有变化，因此没有重新构建，而是直接运行了二进制文件。如果你修改了源代码，Cargo 会在运行项目之前重新构建，并且你会看到如下输出：",
+    "_note": ""
+  },
+  "Cargo also provides a command called cargo check. This command quickly checks your code to make sure it compiles but doesn’t produce an executable:": {
+    "_translate": "Cargo 还提供了一个名为 <code>cargo check</code> 的命令。此命令快速检查您的代码以确保它可以编译，但不会生成可执行文件：",
+    "_note": ""
+  },
+  "Let’s recap what we’ve learned so far about Cargo:": {
+    "_translate": "让我们回顾一下到目前为止关于 Cargo 的学习内容：",
+    "_note": ""
+  },
+  "An additional advantage of using Cargo is that the commands are the same no matter which operating system you’re working on. So, at this point, we’ll no longer provide specific instructions for Linux and macOS versus Windows.": {
+    "_translate": "使用 Cargo 的另一个优点是，无论您使用的是哪种操作系统，命令都是相同的。因此，从现在开始，我们将不再为 Linux 和 macOS 与 Windows 提供具体的指令。",
+    "_note": ""
+  },
+  "Why would you not want an executable? Often, cargo check is much faster than cargo build because it skips the step of producing an executable. If you’re continually checking your work while writing the code, using cargo check will speed up the process of letting you know if your project is still compiling! As such, many Rustaceans run cargo check periodically as they write their program to make sure it compiles. Then they run cargo build when they’re ready to use the executable.": {
+    "_translate": "为什么你不需要一个可执行文件？通常，<code>cargo check</code> 比 <code>cargo build</code> 快得多，因为它跳过了生成可执行文件的步骤。如果你在编写代码时不断检查你的工作，使用 <code>cargo check</code> 会加快让你知道项目是否仍然可以编译的过程！因此，许多 Rustaceans 在编写程序时会定期运行 <code>cargo check</code> 以确保它可以编译。然后在他们准备好使用可执行文件时运行 <code>cargo build</code>。",
+    "_note": ""
+  },
+  "Building for Release": {
+    "_translate": "<a class=\"header\" href=\"#building-for-release\">构建发布版本</a>",
+    "_note": ""
+  },
+  "Cargo as Convention": {
+    "_translate": "<a class=\"header\" href=\"#cargo-as-convention\">Cargo 作为惯例</a>",
+    "_note": ""
+  },
+  "When your project is finally ready for release, you can use cargo build --release to compile it with optimizations. This command will create an executable in target/release instead of target/debug. The optimizations make your Rust code run faster, but turning them on lengthens the time it takes for your program to compile. This is why there are two different profiles: one for development, when you want to rebuild quickly and often, and another for building the final program you’ll give to a user that won’t be rebuilt repeatedly and that will run as fast as possible. If you’re benchmarking your code’s running time, be sure to run cargo build --release and benchmark with the executable in target/release.": {
+    "_translate": "当您的项目最终准备发布时，可以使用<code>cargo build --release</code>来编译它以进行优化。此命令将在<em>target/release</em>而不是<em>target/debug</em>中创建一个可执行文件。优化可以使您的Rust代码运行得更快，但开启它们会延长程序编译的时间。这就是为什么有两种不同的配置文件：一种用于开发，当您希望快速且频繁地重建时，另一种用于构建最终将提供给用户的程序，该程序不会被反复重建，并且将尽可能快地运行。如果您正在测试代码的运行时间，请确保运行<code>cargo build --release</code>并使用<em>target/release</em>中的可执行文件进行基准测试。",
+    "_note": ""
+  },
+  "With simple projects, Cargo doesn’t provide a lot of value over just using rustc, but it will prove its worth as your programs become more intricate. Once programs grow to multiple files or need a dependency, it’s much easier to let Cargo coordinate the build.": {
+    "_translate": "对于简单的项目，Cargo 并没有比直接使用 <code>rustc</code> 提供太多价值，但随着程序变得越来越复杂，Cargo 的价值将逐渐显现。一旦程序增长到多个文件或需要依赖项时，让 Cargo 协调构建会容易得多。",
+    "_note": ""
+  },
+  "For more information about Cargo, check out its documentation.": {
+    "_translate": "有关 Cargo 的更多信息，请查看 <a href=\"https://doc.rust-lang.org/cargo/\">其文档</a>。",
+    "_note": ""
+  },
+  "Even though the hello_cargo project is simple, it now uses much of the real tooling you’ll use in the rest of your Rust career. In fact, to work on any existing projects, you can use the following commands to check out the code using Git, change to that project’s directory, and build:": {
+    "_translate": "即使 <code>hello_cargo</code> 项目很简单，但它现在使用了你在今后的 Rust 职业生涯中会用到的许多真实工具。事实上，要参与任何现有项目，你可以使用以下命令通过 Git 检出代码，切换到该项目的目录，并构建：",
+    "_note": ""
+  },
+  "Summary": {
+    "_translate": "<a class=\"header\" href=\"#summary\">摘要</a>",
+    "_note": ""
+  },
+  "You’re already off to a great start on your Rust journey! In this chapter, you’ve learned how to:": {
+    "_translate": "你已经在你的 Rust 之旅中有了一个很好的开始！在本章中，  \n你已经学会了如何：",
+    "_note": ""
+  },
+  "This is a great time to build a more substantial program to get used to reading and writing Rust code. So, in Chapter 2, we’ll build a guessing game program. If you would rather start by learning how common programming concepts work in Rust, see Chapter 3 and then return to Chapter 2.": {
+    "_translate": "这是构建一个更实质性的程序以习惯阅读和编写 Rust 代码的好时机。因此，在第 2 章中，我们将构建一个猜数字游戏程序。如果您更愿意先了解常见的编程概念在 Rust 中是如何工作的，请参阅第 3 章，然后再回到第 2 章。",
+    "_note": ""
+  }
+}

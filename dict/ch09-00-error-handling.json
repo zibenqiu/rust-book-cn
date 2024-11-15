@@ -1,0 +1,18 @@
+{
+  "Error Handling": {
+    "_translate": "<a class=\"header\" href=\"#error-handling\">错误处理</a>",
+    "_note": ""
+  },
+  "Errors are a fact of life in software, so Rust has a number of features for handling situations in which something goes wrong. In many cases, Rust requires you to acknowledge the possibility of an error and take some action before your code will compile. This requirement makes your program more robust by ensuring that you’ll discover errors and handle them appropriately before you’ve deployed your code to production!": {
+    "_translate": "错误是软件中不可避免的事实，因此 Rust 拥有多种处理出错情况的功能。在许多情况下，Rust 要求你承认错误的可能性并采取一些行动，你的代码才能编译。这一要求通过确保你在将代码部署到生产环境之前发现错误并适当处理，从而使你的程序更加健壮！",
+    "_note": ""
+  },
+  "Rust groups errors into two major categories: recoverable and unrecoverable errors. For a recoverable error, such as a file not found error, we most likely just want to report the problem to the user and retry the operation. Unrecoverable errors are always symptoms of bugs, such as trying to access a location beyond the end of an array, and so we want to immediately stop the program.": {
+    "_translate": "Rust 将错误分为两大类：<em>可恢复</em>和<em>不可恢复</em>错误。对于可恢复的错误，例如<em>文件未找到</em>错误，我们通常只是想向用户报告问题并重试操作。不可恢复的错误总是错误的征兆，例如尝试访问数组末尾之外的位置，因此我们希望立即停止程序。",
+    "_note": ""
+  },
+  "Most languages don’t distinguish between these two kinds of errors and handle both in the same way, using mechanisms such as exceptions. Rust doesn’t have exceptions. Instead, it has the type Result<T, E> for recoverable errors and the panic! macro that stops execution when the program encounters an unrecoverable error. This chapter covers calling panic! first and then talks about returning Result<T, E> values. Additionally, we’ll explore considerations when deciding whether to try to recover from an error or to stop execution.": {
+    "_translate": "大多数语言不会区分这两种错误，并以相同的方式处理它们，使用诸如异常之类的机制。Rust 没有异常。相反，它有用于可恢复错误的类型 <code>Result&lt;T, E&gt;</code> 和在程序遇到不可恢复错误时停止执行的 <code>panic!</code> 宏。本章首先介绍调用 <code>panic!</code>，然后讨论返回 <code>Result&lt;T, E&gt;</code> 值。此外，我们将探讨在决定是否尝试从错误中恢复或停止执行时的考虑因素。",
+    "_note": ""
+  }
+}

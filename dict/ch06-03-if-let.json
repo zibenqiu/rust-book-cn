@@ -1,0 +1,58 @@
+{
+  "Concise Control Flow with if let": {
+    "_translate": "<a class=\"header\" href=\"#concise-control-flow-with-if-let\">使用 <code>if let</code> 实现简洁的控制流</a>",
+    "_note": ""
+  },
+  "If the value is Some, we print out the value in the Some variant by binding the value to the variable max in the pattern. We don’t want to do anything with the None value. To satisfy the match expression, we have to add _ => () after processing just one variant, which is annoying boilerplate code to add.": {
+    "_translate": "如果值是 <code>Some</code>，我们通过在模式中将值绑定到变量 <code>max</code> 来打印 <code>Some</code> 变体中的值。我们不想对 <code>None</code> 值做任何处理。为了满足 <code>match</code> 表达式，我们必须在处理一个变体后添加 <code>_ =&gt; ()</code>，这添加了一些令人烦恼的样板代码。",
+    "_note": ""
+  },
+  "The if let syntax lets you combine if and let into a less verbose way to handle values that match one pattern while ignoring the rest. Consider the program in Listing 6-6 that matches on an Option<u8> value in the config_max variable but only wants to execute code if the value is the Some variant.": {
+    "_translate": "<code>if let</code> 语法让你可以将 <code>if</code> 和 <code>let</code> 结合起来，以一种更简洁的方式处理匹配某个模式的值，同时忽略其他值。考虑列表 6-6 中的程序，该程序在 <code>config_max</code> 变量上匹配一个 <code>Option&lt;u8&gt;</code> 值，但只有当值是 <code>Some</code> 变体时才执行代码。",
+    "_note": ""
+  },
+  "Instead, we could write this in a shorter way using if let. The following code behaves the same as the match in Listing 6-6:": {
+    "_translate": "相反，我们可以使用 <code>if let</code> 以更简洁的方式编写。以下代码的行为与列表 6-6 中的 <code>match</code> 相同：",
+    "_note": ""
+  },
+  "Using if let means less typing, less indentation, and less boilerplate code. However, you lose the exhaustive checking that match enforces. Choosing between match and if let depends on what you’re doing in your particular situation and whether gaining conciseness is an appropriate trade-off for losing exhaustive checking.": {
+    "_translate": "使用<code>if let</code>意味着更少的输入，更少的缩进，以及更少的样板代码。然而，你会失去<code>match</code>强制的详尽检查。选择<code>match</code>和<code>if let</code>取决于你在特定情况下的操作，以及获得简洁性是否是失去详尽检查的合适权衡。",
+    "_note": ""
+  },
+  "The syntax if let takes a pattern and an expression separated by an equal sign. It works the same way as a match, where the expression is given to the match and the pattern is its first arm. In this case, the pattern is Some(max), and the max binds to the value inside the Some. We can then use max in the body of the if let block in the same way we used max in the corresponding match arm. The code in the if let block isn’t run if the value doesn’t match the pattern.": {
+    "_translate": "<code>if let</code> 语法接受一个模式和一个表达式，二者由等号分隔。它的工作方式与 <code>match</code> 相同，其中表达式被传递给 <code>match</code>，而模式是其第一个分支。在这种情况下，模式是 <code>Some(max)</code>，<code>max</code> 绑定到 <code>Some</code> 内的值。然后我们可以在 <code>if let</code> 块的主体中使用 <code>max</code>，就像我们在相应的 <code>match</code> 分支中使用 <code>max</code> 一样。如果值不匹配模式，则 <code>if let</code> 块中的代码不会运行。",
+    "_note": ""
+  },
+  "In other words, you can think of if let as syntax sugar for a match that runs code when the value matches one pattern and then ignores all other values.": {
+    "_translate": "换句话说，你可以将<code>if let</code>视为一种<code>match</code>的语法糖，它在值匹配一个模式时运行代码，然后忽略所有其他值。",
+    "_note": ""
+  },
+  "Or we could use an if let and else expression, like this:": {
+    "_translate": "或者我们可以使用 <code>if let</code> 和 <code>else</code> 表达式，如下所示：",
+    "_note": ""
+  },
+  "We can include an else with an if let. The block of code that goes with the else is the same as the block of code that would go with the _ case in the match expression that is equivalent to the if let and else. Recall the Coin enum definition in Listing 6-4, where the Quarter variant also held a UsState value. If we wanted to count all non-quarter coins we see while also announcing the state of the quarters, we could do that with a match expression, like this:": {
+    "_translate": "我们可以包含一个 <code>else</code> 与 <code>if let</code> 一起使用。与 <code>else</code> 一起的代码块与等效于 <code>if let</code> 和 <code>else</code> 的 <code>match</code> 表达式中的 <code>_</code> 情况下的代码块相同。回想一下在清单 6-4 中的 <code>Coin</code> 枚举定义，其中 <code>Quarter</code> 变体还包含一个 <code>UsState</code> 值。如果我们想计算所有非季度硬币，同时宣布季度硬币的州，我们可以使用一个 <code>match</code> 表达式，如下所示：",
+    "_note": ""
+  },
+  "Summary": {
+    "_translate": "<a class=\"header\" href=\"#summary\">摘要</a>",
+    "_note": ""
+  },
+  "If you have a situation in which your program has logic that is too verbose to express using a match, remember that if let is in your Rust toolbox as well.": {
+    "_translate": "如果您遇到程序中的逻辑过于冗长，无法用 <code>match</code> 表达的情况，请记住 <code>if let</code> 也是您 Rust 工具箱中的一部分。",
+    "_note": ""
+  },
+  "Your Rust programs can now express concepts in your domain using structs and enums. Creating custom types to use in your API ensures type safety: the compiler will make certain your functions only get values of the type each function expects.": {
+    "_translate": "您的 Rust 程序现在可以使用结构体和枚举来表达领域中的概念。创建自定义类型以在您的 API 中使用可以确保类型安全：编译器将确保您的函数只接收每个函数期望的类型的值。",
+    "_note": ""
+  },
+  "We’ve now covered how to use enums to create custom types that can be one of a set of enumerated values. We’ve shown how the standard library’s Option<T> type helps you use the type system to prevent errors. When enum values have data inside them, you can use match or if let to extract and use those values, depending on how many cases you need to handle.": {
+    "_translate": "我们现在介绍了如何使用枚举来创建可以是枚举值集之一的自定义类型。我们展示了标准库中的<code>Option&lt;T&gt;</code>类型如何帮助你利用类型系统来防止错误。当枚举值包含数据时，你可以根据需要处理的案例数量，使用<code>match</code>或<code>if let</code>来提取和使用这些值。",
+    "_note": ""
+  },
+  "In order to provide a well-organized API to your users that is straightforward to use and only exposes exactly what your users will need, let’s now turn to Rust’s modules.": {
+    "_translate": "为了向用户提供一个组织良好且易于使用的API，并且只暴露用户需要的内容，现在让我们转向Rust的模块。",
+    "_note": ""
+  }
+}

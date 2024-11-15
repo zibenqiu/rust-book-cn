@@ -1,0 +1,18 @@
+{
+  "Advanced Features": {
+    "_translate": "<a class=\"header\" href=\"#advanced-features\">高级特性</a>",
+    "_note": ""
+  },
+  "In this chapter, we’ll cover:": {
+    "_translate": "在本章中，我们将介绍：",
+    "_note": ""
+  },
+  "By now, you’ve learned the most commonly used parts of the Rust programming language. Before we do one more project in Chapter 21, we’ll look at a few aspects of the language you might run into every once in a while, but may not use every day. You can use this chapter as a reference for when you encounter any unknowns. The features covered here are useful in very specific situations. Although you might not reach for them often, we want to make sure you have a grasp of all the features Rust has to offer.": {
+    "_translate": "到目前为止，您已经学习了 Rust 编程语言中最常用的部分。在第 21 章我们再做一个项目之前，我们将看看一些您偶尔会遇到但可能不会每天使用的语言方面。您可以将本章用作遇到任何未知内容时的参考。这里涵盖的功能在非常特定的情况下很有用。虽然您可能不会经常使用它们，但我们希望确保您对 Rust 提供的所有功能都有所了解。",
+    "_note": ""
+  },
+  "It’s a panoply of Rust features with something for everyone! Let’s dive in!": {
+    "_translate": "这是一系列 Rust 特性，每个人都能找到自己感兴趣的内容！让我们开始吧！",
+    "_note": ""
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "Advanced Functions and Closures": {
+    "_translate": "<a class=\"header\" href=\"#advanced-functions-and-closures\">高级函数和闭包</a>",
+    "_note": ""
+  },
+  "This section explores some advanced features related to functions and closures, including function pointers and returning closures.": {
+    "_translate": "这一部分探讨了一些与函数和闭包相关的高级特性，包括函数指针和返回闭包。",
+    "_note": ""
+  },
+  "Function Pointers": {
+    "_translate": "<a class=\"header\" href=\"#function-pointers\">函数指针</a>",
+    "_note": ""
+  },
+  "We’ve talked about how to pass closures to functions; you can also pass regular functions to functions! This technique is useful when you want to pass a function you’ve already defined rather than defining a new closure. Functions coerce to the type fn (with a lowercase f), not to be confused with the Fn closure trait. The fn type is called a function pointer. Passing functions with function pointers will allow you to use functions as arguments to other functions.": {
+    "_translate": "我们已经讨论了如何将闭包传递给函数；你也可以将普通函数传递给函数！当你想传递一个已经定义的函数而不是定义一个新的闭包时，这种技术非常有用。函数会强制转换为类型<code>fn</code>（小写的f），不要与<code>Fn</code>闭包特征混淆。<code>fn</code>类型被称为<em>函数指针</em>。通过函数指针传递函数将允许你将函数作为其他函数的参数使用。",
+    "_note": ""
+  },
+  "The syntax for specifying that a parameter is a function pointer is similar to that of closures, as shown in Listing 20-27, where we’ve defined a function add_one that adds one to its parameter. The function do_twice takes two parameters: a function pointer to any function that takes an i32 parameter and returns an i32, and one i32 value. The do_twice function calls the function f twice, passing it the arg value, then adds the two function call results together. The main function calls do_twice with the arguments add_one and 5.": {
+    "_translate": "指定参数为函数指针的语法与闭包的语法相似，如清单 20-27 所示，我们定义了一个将一加到其参数的函数 <code>add_one</code>。函数 <code>do_twice</code> 接受两个参数：一个指向接受 <code>i32</code> 参数并返回 <code>i32</code> 的任何函数的函数指针，以及一个 <code>i32</code> 值。<code>do_twice</code> 函数调用函数 <code>f</code> 两次，将 <code>arg</code> 值传递给它，然后将两次函数调用的结果相加。<code>main</code> 函数使用参数 <code>add_one</code> 和 <code>5</code> 调用 <code>do_twice</code>。",
+    "_note": ""
+  },
+  "Unlike closures, fn is a type rather than a trait, so we specify fn as the parameter type directly rather than declaring a generic type parameter with one of the Fn traits as a trait bound.": {
+    "_translate": "与闭包不同，<code>fn</code> 是一个类型而不是特质，因此我们直接将 <code>fn</code> 指定为参数类型，而不是声明一个带有 <code>Fn</code> 特质之一作为特质约束的泛型类型参数。",
+    "_note": ""
+  },
+  "This code prints The answer is: 12. We specify that the parameter f in do_twice is an fn that takes one parameter of type i32 and returns an i32. We can then call f in the body of do_twice. In main, we can pass the function name add_one as the first argument to do_twice.": {
+    "_translate": "这段代码打印 <code>The answer is: 12</code>。我们指定 <code>do_twice</code> 中的参数 <code>f</code> 是一个接受一个 <code>i32</code> 类型参数并返回一个 <code>i32</code> 的 <code>fn</code>。然后我们可以在 <code>do_twice</code> 的函数体中调用 <code>f</code>。在 <code>main</code> 中，我们可以将函数名 <code>add_one</code> 作为 <code>do_twice</code> 的第一个参数传递。",
+    "_note": ""
+  },
+  "Function pointers implement all three of the closure traits (Fn, FnMut, and FnOnce), meaning you can always pass a function pointer as an argument for a function that expects a closure. It’s best to write functions using a generic type and one of the closure traits so your functions can accept either functions or closures.": {
+    "_translate": "函数指针实现了所有三个闭包特征（<code>Fn</code>、<code>FnMut</code> 和 <code>FnOnce</code>），这意味着你总是可以将函数指针作为参数传递给期望闭包的函数。最好使用泛型类型和其中一个闭包特征来编写函数，这样你的函数可以接受函数或闭包。",
+    "_note": ""
+  },
+  "That said, one example of where you would want to only accept fn and not closures is when interfacing with external code that doesn’t have closures: C functions can accept functions as arguments, but C doesn’t have closures.": {
+    "_translate": "也就是说，一个你只想接受<code>fn</code>而不接受闭包的例子是在与没有闭包的外部代码交互时：C 函数可以接受函数作为参数，但 C 没有闭包。",
+    "_note": ""
+  },
+  "Or we could name a function as the argument to map instead of the closure, like this:": {
+    "_translate": "或者我们可以将一个函数命名为 <code>map</code> 的参数，而不是闭包，像这样：",
+    "_note": ""
+  },
+  "As an example of where you could use either a closure defined inline or a named function, let’s look at a use of the map method provided by the Iterator trait in the standard library. To use the map function to turn a vector of numbers into a vector of strings, we could use a closure, like this:": {
+    "_translate": "作为可以使用内联定义的闭包或命名函数的示例，让我们看看标准库中 <code>Iterator</code> 特性提供的 <code>map</code> 方法的用法。要使用 <code>map</code> 函数将数字向量转换为字符串向量，我们可以使用闭包，如下所示：",
+    "_note": ""
+  },
+  "Note that we must use the fully qualified syntax that we talked about earlier in the “Advanced Traits” section because there are multiple functions available named to_string. Here, we’re using the to_string function defined in the ToString trait, which the standard library has implemented for any type that implements Display.": {
+    "_translate": "请注意，我们必须使用我们在<a href=\"ch20-03-advanced-traits.html#advanced-traits\">“高级特质”</a><!-- ignore -->部分讨论的完全限定语法，因为有多个名为<code>to_string</code>的函数可用。在这里，我们使用的是在<code>ToString</code>特质中定义的<code>to_string</code>函数，标准库为任何实现了<code>Display</code>的类型实现了这个函数。",
+    "_note": ""
+  },
+  "Recall from the “Enum values” section of Chapter 6 that the name of each enum variant that we define also becomes an initializer function. We can use these initializer functions as function pointers that implement the closure traits, which means we can specify the initializer functions as arguments for methods that take closures, like so:": {
+    "_translate": "回想第 6 章的<a href=\"ch06-01-defining-an-enum.html#enum-values\">“枚举值”</a><!-- ignore -->部分，我们定义的每个枚举变体的名称也变成了一个初始化函数。我们可以将这些初始化函数用作实现闭包特征的函数指针，这意味着我们可以将初始化函数指定为接受闭包的方法的参数，如下所示：",
+    "_note": ""
+  },
+  "Returning Closures": {
+    "_translate": "<a class=\"header\" href=\"#returning-closures\">返回闭包</a>",
+    "_note": ""
+  },
+  "Here we create Status::Value instances using each u32 value in the range that map is called on by using the initializer function of Status::Value. Some people prefer this style, and some people prefer to use closures. They compile to the same code, so use whichever style is clearer to you.": {
+    "_translate": "在这里我们使用 <code>map</code> 被调用的范围中的每个 <code>u32</code> 值来创建 <code>Status::Value</code> 实例，\n通过使用 <code>Status::Value</code> 的初始化函数。\n有些人喜欢这种风格，有些人则喜欢使用闭包。它们\n编译成相同的代码，所以使用对你来说更清晰的风格。",
+    "_note": ""
+  },
+  "Closures are represented by traits, which means you can’t return closures directly. In most cases where you might want to return a trait, you can instead use the concrete type that implements the trait as the return value of the function. However, you can’t do that with closures because they don’t have a concrete type that is returnable; you’re not allowed to use the function pointer fn as a return type, for example.": {
+    "_translate": "闭包由特征（traits）表示，这意味着你不能直接返回闭包。在大多数你可能想要返回特征的情况下，你可以使用实现该特征的具体类型作为函数的返回值。然而，你不能对闭包这样做，因为它们没有可返回的具体类型；例如，你不被允许使用函数指针 <code>fn</code> 作为返回类型。",
+    "_note": ""
+  },
+  "The following code tries to return a closure directly, but it won’t compile:": {
+    "_translate": "以下代码尝试直接返回一个闭包，但无法编译：",
+    "_note": ""
+  },
+  "The compiler error is as follows:": {
+    "_translate": "编译器错误如下：",
+    "_note": ""
+  },
+  "The error references the Sized trait again! Rust doesn’t know how much space it will need to store the closure. We saw a solution to this problem earlier. We can use a trait object:": {
+    "_translate": "错误再次提到了<code>Sized</code>特征！Rust 不知道它需要多少空间来存储闭包。我们之前见过这个问题的解决方案。我们可以使用特征对象：",
+    "_note": ""
+  },
+  "Next, let’s look at macros!": {
+    "_translate": "接下来，让我们看看宏！",
+    "_note": ""
+  },
+  "This code will compile just fine. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.": {
+    "_translate": "这段代码可以顺利编译。有关 trait 对象的更多信息，请参阅第 19 章的<a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型值的 trait 对象”</a><!--\nignore -->部分。",
+    "_note": ""
+  }
+}

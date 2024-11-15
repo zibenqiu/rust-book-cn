@@ -1,0 +1,30 @@
+{
+  "The Rust Programming Language": {
+    "_translate": "<a class=\"header\" href=\"#the-rust-programming-language\">Rust 编程语言</a>",
+    "_note": ""
+  },
+  "by Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the Rust Community": {
+    "_translate": "<em>由 Steve Klabnik、Carol Nichols 和 Chris Krycho 撰写，Rust 社区成员贡献</em>",
+    "_note": ""
+  },
+  "This version of the text assumes you’re using Rust 1.82.0 (released 2024-10-17) or later. See the “Installation” section of Chapter 1 to install or update Rust.": {
+    "_translate": "此版本的文本假设您使用的是 Rust 1.82.0（发布于 2024-10-17）或更高版本。请参阅<a href=\"ch01-01-installation.html\">第 1 章的“安装”部分</a><!-- ignore -->\n以安装或更新 Rust。",
+    "_note": ""
+  },
+  "The HTML format is available online at https://doc.rust-lang.org/stable/book/ and offline with installations of Rust made with rustup; run rustup doc --book to open.": {
+    "_translate": "HTML 格式可在以下网址在线获取：<a href=\"https://doc.rust-lang.org/stable/book/\">https://doc.rust-lang.org/stable/book/</a>，也可以通过使用 <code>rustup</code> 安装的 Rust 离线查看；运行 <code>rustup doc --book</code> 打开。",
+    "_note": ""
+  },
+  "Several community translations are also available.": {
+    "_translate": "也有几个社区<a href=\"appendix-06-translation.html\">翻译</a>可用。",
+    "_note": ""
+  },
+  "This text is available in paperback and ebook format from No Starch Press.": {
+    "_translate": "此文本可在<a href=\"https://nostarch.com/rust-programming-language-2nd-edition\">No Starch Press</a>以纸质书和电子书格式获取。",
+    "_note": ""
+  },
+  "🚨 Want a more interactive learning experience? Try out a different version of the Rust Book, featuring: quizzes, highlighting, visualizations, and more: https://rust-book.cs.brown.edu": {
+    "_translate": "<strong>🚨 想要更互动的学习体验？试试这个不同版本的 Rust 书，包含：测验、高亮、可视化等</strong>: <a href=\"https://rust-book.cs.brown.edu\">https://rust-book.cs.brown.edu</a>",
+    "_note": ""
+  }
+}
