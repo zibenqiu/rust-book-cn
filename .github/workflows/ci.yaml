@@ -1,0 +1,98 @@
+name: Rust 文档中文翻译
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # 每周日的午夜
+
+jobs:
+  Build_and_Publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出当前仓库
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: 设置 Git
+        run: |
+          git config --global user.name 'Xheldon[bot]'
+          git config --global user.email 'c1006044256@gmail.com'
+
+      - name: 检出 Prosemirror/website 仓库
+        run: |
+          git clone https://github.com/rust-lang/book.git ./book_src
+
+      - name: 检查是否有更新
+        id: check_commits
+        run: |
+          cd book_src
+          git fetch
+          NEW_COMMIT=$(git rev-parse HEAD)
+          cd ..
+          if [ -f last-commit.txt ]; then
+            OLD_COMMIT=$(cat last-commit.txt)
+          else
+            OLD_COMMIT=""
+          fi
+          echo "new_commit=$NEW_COMMIT" >> $GITHUB_ENV
+          echo "old_commit=$OLD_COMMIT" >> $GITHUB_ENV
+          if [[ "$NEW_COMMIT" != "$OLD_COMMIT" ]]; then
+            echo "每周检查发现新的提交"
+            echo "new_commits=true" >> $GITHUB_ENV
+            echo "$NEW_COMMIT" > last-commit.txt
+          else
+            if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+              echo "手动触发更新"
+              echo "new_commits=true" >> $GITHUB_ENV
+            else
+              echo "没有新的提交。"
+              echo "new_commits=false" >> $GITHUB_ENV
+            fi
+          fi
+      - name: 设置 Rust 工具链
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          cache: true
+
+      - name: 安装依赖
+        if: env.new_commits == 'true'
+        run: |
+          cd book_src
+          cargo install mdbook --locked
+          cargo install --locked --path packages/mdbook-trpl-listing
+          cargo install --locked --path packages/mdbook-trpl-note
+          mdbook build
+
+      - name: 构建中文翻译
+        if: env.new_commits == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_URL: ${{ secrets.OPENAI_URL }}
+        run: |
+          npm i
+          node index.js
+
+      - name: 推送到 gp 分支
+        if: env.new_commits == 'true'
+        run: |
+          git checkout -b temp
+          rm -rf public
+          mkdir -p public && cp vercel.sh public && cp -R book_src/book/* public
+          git add .
+          if [ -s "error.txt" ]; then
+            git commit -m "本次翻译存在错误[bot]"
+          else
+            git commit -m "更新文档[bot]"
+          fi
+          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
+
+      - name: 检查是否存在错误
+        run: |
+          if [ -s "error.txt" ]; then
+            echo "本次翻译存在错误"
+            exit 1
+          fi

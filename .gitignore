@@ -1,0 +1,5 @@
+node_modules/**/*
+
+book_src
+
+.DS_Store
