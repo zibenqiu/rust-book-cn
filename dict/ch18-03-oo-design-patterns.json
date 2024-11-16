@@ -270,5 +270,9 @@
   "Next, we’ll look at patterns, which are another of Rust’s features that enable lots of flexibility. We’ve looked at them briefly throughout the book but haven’t seen their full capability yet. Let’s go!": {
     "_translate": "接下来，我们将研究模式，这是 Rust 的另一个特性，它提供了很大的灵活性。我们在书中简要地看过它们，但还没有看到它们的全部功能。让我们开始吧！",
     "_note": ""
+  },
+  "Implementing an Object-Oriented Design Pattern - The Rust Programming Language": {
+    "_translate": "实现面向对象的设计模式 - 《Rust编程语言》",
+    "_note": ""
   }
 }

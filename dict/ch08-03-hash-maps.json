@@ -142,5 +142,9 @@
   "By default, HashMap uses a hashing function called SipHash that can provide resistance to denial-of-service (DoS) attacks involving hash tables1. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it. If you profile your code and find that the default hash function is too slow for your purposes, you can switch to another function by specifying a different hasher. A hasher is a type that implements the BuildHasher trait. We’ll talk about traits and how to implement them in Chapter 10. You don’t necessarily have to implement your own hasher from scratch; crates.io has libraries shared by other Rust users that provide hashers implementing many common hashing algorithms.": {
     "_translate": "默认情况下，<code>HashMap</code> 使用一种称为 <em>SipHash</em> 的哈希函数，可以提供针对涉及哈希表的拒绝服务 (DoS) 攻击的防护<sup class=\"footnote-reference\"><a href=\"#siphash\">1</a></sup><!-- ignore -->。这不是最快的哈希算法，但性能下降带来的更好安全性是值得的。如果你对代码进行了剖析并发现默认的哈希函数对于你的用途来说太慢，你可以通过指定不同的哈希器来切换到其他函数。一个 <em>哈希器</em> 是实现了 <code>BuildHasher</code> 特性的类型。我们将在 <a href=\"ch10-02-traits.html\">第 10 章</a><!-- ignore --> 中讨论特性以及如何实现它们。你不必一定从头开始实现自己的哈希器；<a href=\"https://crates.io/\">crates.io</a><!-- ignore --> 有其他 Rust 用户共享的库，提供了实现许多常见哈希算法的哈希器。",
     "_note": ""
+  },
+  "Storing Keys with Associated Values in Hash Maps - The Rust Programming Language": {
+    "_translate": "在哈希映射中存储带有相关值的键 - 《Rust编程语言》",
+    "_note": ""
   }
 }

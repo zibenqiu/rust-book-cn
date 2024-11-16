@@ -14,5 +14,9 @@
   "Most languages don’t distinguish between these two kinds of errors and handle both in the same way, using mechanisms such as exceptions. Rust doesn’t have exceptions. Instead, it has the type Result<T, E> for recoverable errors and the panic! macro that stops execution when the program encounters an unrecoverable error. This chapter covers calling panic! first and then talks about returning Result<T, E> values. Additionally, we’ll explore considerations when deciding whether to try to recover from an error or to stop execution.": {
     "_translate": "大多数语言不会区分这两种错误，并以相同的方式处理它们，使用诸如异常之类的机制。Rust 没有异常。相反，它有用于可恢复错误的类型 <code>Result&lt;T, E&gt;</code> 和在程序遇到不可恢复错误时停止执行的 <code>panic!</code> 宏。本章首先介绍调用 <code>panic!</code>，然后讨论返回 <code>Result&lt;T, E&gt;</code> 值。此外，我们将探讨在决定是否尝试从错误中恢复或停止执行时的考虑因素。",
     "_note": ""
+  },
+  "Error Handling - The Rust Programming Language": {
+    "_translate": "错误处理 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

@@ -106,5 +106,9 @@
   "Some programs allow arguments and environment variables for the same configuration. In those cases, the programs decide that one or the other takes precedence. For another exercise on your own, try controlling case sensitivity through either a command line argument or an environment variable. Decide whether the command line argument or the environment variable should take precedence if the program is run with one set to case sensitive and one set to ignore case.": {
     "_translate": "一些程序允许使用参数 <em>和</em> 环境变量进行相同的配置。在这些情况下，程序决定哪一个优先。对于另一个你自己练习，尝试通过命令行参数或环境变量控制大小写敏感性。决定如果程序运行时一个设置为大小写敏感而另一个设置为忽略大小写，命令行参数或环境变量哪一个应该优先。",
     "_note": ""
+  },
+  "Working with Environment Variables - The Rust Programming Language": {
+    "_translate": "使用环境变量 - 《Rust编程语言》",
+    "_note": ""
   }
 }

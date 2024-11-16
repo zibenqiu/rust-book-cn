@@ -30,5 +30,9 @@
   "Great! The code read and then printed the contents of the file. But the code has a few flaws. At the moment, the main function has multiple responsibilities: generally, functions are clearer and easier to maintain if each function is responsible for only one idea. The other problem is that we’re not handling errors as well as we could. The program is still small, so these flaws aren’t a big problem, but as the program grows, it will be harder to fix them cleanly. It’s a good practice to begin refactoring early on when developing a program because it’s much easier to refactor smaller amounts of code. We’ll do that next.": {
     "_translate": "很好！代码读取并打印了文件的内容。但代码有一些缺陷。目前，<code>main</code> 函数有多个职责：通常，如果每个函数只负责一个概念，函数会更清晰且更容易维护。另一个问题是，我们没有很好地处理错误。程序仍然很小，所以这些缺陷不是大问题，但随着程序的增长，干净地修复它们将变得更加困难。在开发程序时，尽早开始重构是一个好习惯，因为重构少量代码要容易得多。我们接下来就做这件事。",
     "_note": ""
+  },
+  "Reading a File - The Rust Programming Language": {
+    "_translate": "读取文件 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

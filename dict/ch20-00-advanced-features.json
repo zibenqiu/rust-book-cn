@@ -14,5 +14,9 @@
   "It’s a panoply of Rust features with something for everyone! Let’s dive in!": {
     "_translate": "这是一系列 Rust 特性，每个人都能找到自己感兴趣的内容！让我们开始吧！",
     "_note": ""
+  },
+  "Advanced Features - The Rust Programming Language": {
+    "_translate": "高级特性 - 《Rust编程语言》",
+    "_note": ""
   }
 }

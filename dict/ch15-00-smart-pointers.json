@@ -34,5 +34,9 @@
   "Let’s dive in!": {
     "_translate": "让我们开始吧！",
     "_note": ""
+  },
+  "Smart Pointers - The Rust Programming Language": {
+    "_translate": "智能指针 - 《Rust编程语言》",
+    "_note": ""
   }
 }

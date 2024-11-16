@@ -102,5 +102,9 @@
   "Visit the rust-analyzer project’s home page for installation instructions, then install the language server support in your particular IDE. Your IDE will gain abilities such as autocompletion, jump to definition, and inline errors.": {
     "_translate": "访问 <code>rust-analyzer</code> 项目的 <a href=\"https://rust-analyzer.github.io\">主页</a><!-- ignore -->\n获取安装说明，然后在您特定的 IDE 中安装语言服务器支持。您的 IDE 将获得诸如自动完成、跳转到定义和内联错误等功能。",
     "_note": ""
+  },
+  "D - Useful Development Tools - The Rust Programming Language": {
+    "_translate": "D - 有用的开发工具 - 《Rust编程语言》",
+    "_note": ""
   }
 }

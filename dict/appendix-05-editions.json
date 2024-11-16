@@ -42,5 +42,9 @@
   "For more details, the Edition Guide is a complete book about editions that enumerates the differences between editions and explains how to automatically upgrade your code to a new edition via cargo fix.": {
     "_translate": "有关更多详细信息，请参阅<a href=\"https://doc.rust-lang.org/stable/edition-guide/\"><em>版本指南</em></a>，这是一本关于版本的完整书籍，列举了不同版本之间的差异，并解释了如何通过<code>cargo fix</code>自动将代码升级到新版本。",
     "_note": ""
+  },
+  "E - Editions - The Rust Programming Language": {
+    "_translate": "E - 版本 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

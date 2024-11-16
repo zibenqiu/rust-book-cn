@@ -10,5 +10,9 @@
   "A struct, or structure, is a custom data type that lets you package together and name multiple related values that make up a meaningful group. If you’re familiar with an object-oriented language, a struct is like an object’s data attributes. In this chapter, we’ll compare and contrast tuples with structs to build on what you already know and demonstrate when structs are a better way to group data.": {
     "_translate": "一个 <em>struct</em>，或 <em>结构体</em>，是一种自定义数据类型，允许你将多个相关值打包在一起并命名，这些值组成一个有意义的组。如果你熟悉面向对象语言，<em>struct</em> 就像对象的数据属性。在本章中，我们将比较和对比元组与结构体，以加深你已有的知识，并展示在什么情况下结构体是更好的数据组合方式。",
     "_note": ""
+  },
+  "Using Structs to Structure Related Data - The Rust Programming Language": {
+    "_translate": "使用结构体来组织相关数据 - 《Rust编程语言》",
+    "_note": ""
   }
 }

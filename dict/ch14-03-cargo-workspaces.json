@@ -150,5 +150,9 @@
   "As your project grows, consider using a workspace: it’s easier to understand smaller, individual components than one big blob of code. Furthermore, keeping the crates in a workspace can make coordination between crates easier if they are often changed at the same time.": {
     "_translate": "随着您的项目增长，考虑使用工作区：理解较小的、独立的组件比理解一大块代码更容易。此外，如果这些 crate 经常同时更改，将它们放在一个工作区中可以更容易地协调这些 crate 之间的关系。",
     "_note": ""
+  },
+  "Cargo Workspaces - The Rust Programming Language": {
+    "_translate": "Cargo 工作区 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

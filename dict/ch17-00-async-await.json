@@ -82,5 +82,9 @@
   "Now, let’s dive into how async programming in Rust actually works! In the rest of this chapter, we will:": {
     "_translate": "现在，让我们深入探讨 Rust 中的异步编程实际上是如何工作的！在本章的其余部分，我们将：",
     "_note": ""
+  },
+  "Async and Await - The Rust Programming Language": {
+    "_translate": "Async 和 Await - 《Rust 编程语言》",
+    "_note": ""
   }
 }

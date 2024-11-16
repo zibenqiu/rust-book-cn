@@ -178,5 +178,9 @@
   "In general, in order to use an Option<T> value, you want to have code that will handle each variant. You want some code that will run only when you have a Some(T) value, and this code is allowed to use the inner T. You want some other code to run only if you have a None value, and that code doesn’t have a T value available. The match expression is a control flow construct that does just this when used with enums: it will run different code depending on which variant of the enum it has, and that code can use the data inside the matching value.": {
     "_translate": "一般来说，为了使用 <code>Option&lt;T&gt;</code> 值，你希望有能够处理每个变体的代码。你希望有一些代码仅在你有一个 <code>Some(T)</code> 值时运行，并且这段代码可以使用内部的 <code>T</code>。你希望有其他代码仅在你有一个 <code>None</code> 值时运行，而这段代码没有 <code>T</code> 值可用。<code>match</code> 表达式是一种控制流结构，当与枚举一起使用时，它会根据枚举的哪个变体运行不同的代码，并且这些代码可以使用匹配值中的数据。",
     "_note": ""
+  },
+  "Defining an Enum - The Rust Programming Language": {
+    "_translate": "定义枚举 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

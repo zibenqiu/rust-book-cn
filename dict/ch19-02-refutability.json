@@ -46,5 +46,9 @@
   "For this reason, match arms must use refutable patterns, except for the last arm, which should match any remaining values with an irrefutable pattern. Rust allows us to use an irrefutable pattern in a match with only one arm, but this syntax isn’t particularly useful and could be replaced with a simpler let statement.": {
     "_translate": "出于这个原因，匹配臂必须使用可反驳的模式，除了最后一个臂，它应该用一个不可反驳的模式匹配任何剩余的值。Rust 允许我们在只有一个臂的 <code>match</code> 中使用不可反驳的模式，但这种语法并不特别有用，可以用更简单的 <code>let</code> 语句替换。",
     "_note": ""
+  },
+  "Refutability: Whether a Pattern Might Fail to Match - The Rust Programming Language": {
+    "_translate": "可反驳性：模式是否可能匹配失败 - 《Rust编程语言》",
+    "_note": ""
   }
 }

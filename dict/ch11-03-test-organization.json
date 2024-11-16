@@ -150,5 +150,9 @@
   "Rust’s testing features provide a way to specify how code should function to ensure it continues to work as you expect, even as you make changes. Unit tests exercise different parts of a library separately and can test private implementation details. Integration tests check that many parts of the library work together correctly, and they use the library’s public API to test the code in the same way external code will use it. Even though Rust’s type system and ownership rules help prevent some kinds of bugs, tests are still important to reduce logic bugs having to do with how your code is expected to behave.": {
     "_translate": "Rust 的测试功能提供了一种指定代码应如何工作的方法，以确保即使在您进行更改时，代码仍能按预期工作。单元测试分别测试库的不同部分，并可以测试私有实现细节。集成测试检查库的许多部分是否能正确协同工作，并使用库的公共 API 以与外部代码使用相同的方式测试代码。即使 Rust 的类型系统和所有权规则有助于防止某些类型的错误，测试对于减少与代码预期行为相关的逻辑错误仍然很重要。",
     "_note": ""
+  },
+  "Test Organization - The Rust Programming Language": {
+    "_translate": "测试组织 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

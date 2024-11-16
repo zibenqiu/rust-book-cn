@@ -118,5 +118,9 @@
   "Now that we’ve explored how variables work, let’s look at more data types they can have.": {
     "_translate": "现在我们已经探讨了变量的工作原理，让我们来看看它们可以拥有的更多数据类型。",
     "_note": ""
+  },
+  "Variables and Mutability - The Rust Programming Language": {
+    "_translate": "变量和可变性 - 《Rust编程语言》",
+    "_note": ""
   }
 }

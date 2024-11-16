@@ -118,5 +118,9 @@
   "Well done! You’ve made it to the end of the book! We want to thank you for joining us on this tour of Rust. You’re now ready to implement your own Rust projects and help with other peoples’ projects. Keep in mind that there is a welcoming community of other Rustaceans who would love to help you with any challenges you encounter on your Rust journey.": {
     "_translate": "<p>干得好！你已经到达了这本书的结尾！我们要感谢你加入我们这次的Rust之旅。你现在可以开始实现自己的Rust项目，并帮助其他人的项目。请记住，有一个欢迎的Rustaceans社区，他们很乐意在你的Rust之旅中遇到的任何挑战时帮助你。</p>",
     "_note": ""
+  },
+  "Graceful Shutdown and Cleanup - The Rust Programming Language": {
+    "_translate": "优雅的关闭和清理 - 《Rust编程语言》",
+    "_note": ""
   }
 }

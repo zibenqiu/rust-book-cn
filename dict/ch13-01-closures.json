@@ -178,5 +178,9 @@
   "The Fn traits are important when defining or using functions or types that make use of closures. In the next section, we’ll discuss iterators. Many iterator methods take closure arguments, so keep these closure details in mind as we continue!": {
     "_translate": "<code>Fn</code> 特性在定义或使用函数或类型时非常重要，这些函数或类型会使用闭包。在下一节中，我们将讨论迭代器。许多迭代器方法接受闭包参数，因此在我们继续时，请记住这些闭包细节。",
     "_note": ""
+  },
+  "Closures: Anonymous Functions that Capture Their Environment - The Rust Programming Language": {
+    "_translate": "闭包：捕获其环境的匿名函数 - 《Rust编程语言》",
+    "_note": ""
   }
 }

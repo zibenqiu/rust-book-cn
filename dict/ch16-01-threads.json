@@ -118,5 +118,9 @@
   "With a basic understanding of threads and the thread API, let’s look at what we can do with threads.": {
     "_translate": "在对线程和线程API有了基本了解之后，让我们看看我们可以用线程<em>做</em>什么。",
     "_note": ""
+  },
+  "Using Threads to Run Code Simultaneously - The Rust Programming Language": {
+    "_translate": "使用线程同时运行代码 - 《Rust编程语言》",
+    "_note": ""
   }
 }

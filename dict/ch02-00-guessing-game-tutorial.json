@@ -470,5 +470,9 @@
   "This project was a hands-on way to introduce you to many new Rust concepts: let, match, functions, the use of external crates, and more. In the next few chapters, you’ll learn about these concepts in more detail. Chapter 3 covers concepts that most programming languages have, such as variables, data types, and functions, and shows how to use them in Rust. Chapter 4 explores ownership, a feature that makes Rust different from other languages. Chapter 5 discusses structs and method syntax, and Chapter 6 explains how enums work.": {
     "_translate": "这个项目是一个实践性的方式，向你介绍了许多新的Rust概念：<code>let</code>，<code>match</code>，函数，外部crate的使用等。在接下来的几章中，你将更详细地学习这些概念。第3章涵盖了大多数编程语言都有的概念，如变量、数据类型和函数，并展示了如何在Rust中使用它们。第4章探讨了所有权，这是使Rust与其他语言不同的特性。第5章讨论了结构体和方法语法，第6章解释了枚举的工作原理。",
     "_note": ""
+  },
+  "Programming a Guessing Game - The Rust Programming Language": {
+    "_translate": "编程一个猜数字游戏 - 《Rust编程语言》",
+    "_note": ""
   }
 }

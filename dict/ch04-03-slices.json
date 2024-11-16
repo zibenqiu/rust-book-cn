@@ -174,5 +174,9 @@
   "The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time. The Rust language gives you control over your memory usage in the same way as other systems programming languages, but having the owner of data automatically clean up that data when the owner goes out of scope means you don’t have to write and debug extra code to get this control.": {
     "_translate": "所有权、借用和切片的概念确保了 Rust 程序在编译时的内存安全。Rust 语言让你像其他系统编程语言一样控制内存使用，但数据的所有者在超出作用域时自动清理数据意味着你不必编写和调试额外的代码来获得这种控制。",
     "_note": ""
+  },
+  "The Slice Type - The Rust Programming Language": {
+    "_translate": "切片类型 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

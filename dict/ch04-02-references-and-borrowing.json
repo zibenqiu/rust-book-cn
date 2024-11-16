@@ -154,5 +154,9 @@
   "Next, we’ll look at a different kind of reference: slices.": {
     "_translate": "接下来，我们将研究一种不同的引用类型：切片。",
     "_note": ""
+  },
+  "References and Borrowing - The Rust Programming Language": {
+    "_translate": "引用和借用 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

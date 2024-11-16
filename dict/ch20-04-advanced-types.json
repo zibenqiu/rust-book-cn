@@ -170,5 +170,9 @@
   "Next, we’ll talk about functions and closures!": {
     "_translate": "接下来，我们将讨论函数和闭包！",
     "_note": ""
+  },
+  "Advanced Types - The Rust Programming Language": {
+    "_translate": "高级类型 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

@@ -174,5 +174,9 @@
   "Next, we’ll talk about concurrency in Rust. You’ll even learn about a few new smart pointers.": {
     "_translate": "接下来，我们将讨论 Rust 中的并发。你甚至会学到一些新的智能指针。",
     "_note": ""
+  },
+  "Reference Cycles Can Leak Memory - The Rust Programming Language": {
+    "_translate": "引用循环可能导致内存泄漏 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

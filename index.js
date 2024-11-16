@@ -224,7 +224,9 @@ Promise.all(
                     console.log('AI 翻译:', `${pureText} -> ${translate}`);
                     // Note: 跟之前一样替换
                     item.innerHTML = dict[pureText]._translate;
-                    item.setAttribute('data-x-en', pureText);
+                    if (item.tagName !== 'TITLE') {
+                      item.setAttribute('data-x-en', pureText);
+                    }
                   })
                   .finally(() => {
                     // Note: 随机增加延迟

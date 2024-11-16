@@ -50,5 +50,9 @@
   "Closures and iterators are Rust features inspired by functional programming language ideas. They contribute to Rust’s capability to clearly express high-level ideas at low-level performance. The implementations of closures and iterators are such that runtime performance is not affected. This is part of Rust’s goal to strive to provide zero-cost abstractions.": {
     "_translate": "闭包和迭代器是受函数式编程语言思想启发的 Rust 特性。它们有助于 Rust 清晰地表达高层次的想法，同时保持低层次的性能。闭包和迭代器的实现方式不会影响运行时性能。这是 Rust 力求提供零成本抽象目标的一部分。",
     "_note": ""
+  },
+  "Comparing Performance: Loops vs. Iterators - The Rust Programming Language": {
+    "_translate": "比较性能：循环与迭代器 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

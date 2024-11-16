@@ -114,5 +114,9 @@
   "Any time a type or function is provided by the standard library and you’re not sure what it does or how to use it, use the application programming interface (API) documentation to find out!": {
     "_translate": "任何时候标准库提供了一个类型或函数，而你不确定它做什么或如何使用它时，使用应用程序编程接口(API)文档来查找！",
     "_note": ""
+  },
+  "Installation - The Rust Programming Language": {
+    "_translate": "安装 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

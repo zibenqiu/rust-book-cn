@@ -298,5 +298,9 @@
   "You can’t use the #[should_panic] annotation on tests that use Result<T, E>. To assert that an operation returns an Err variant, don’t use the question mark operator on the Result<T, E> value. Instead, use assert!(value.is_err()).": {
     "_translate": "你不能在使用 <code>Result&lt;T, E&gt;</code> 的测试上使用 <code>#[should_panic]</code> 注解。为了断言一个操作返回一个 <code>Err</code> 变体，<em>不要</em> 在 <code>Result&lt;T, E&gt;</code> 值上使用问号操作符。相反，使用 <code>assert!(value.is_err())</code>。",
     "_note": ""
+  },
+  "How to Write Tests - The Rust Programming Language": {
+    "_translate": "如何编写测试 - 《Rust编程语言》",
+    "_note": ""
   }
 }

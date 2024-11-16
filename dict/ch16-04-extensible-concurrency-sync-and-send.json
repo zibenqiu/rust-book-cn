@@ -66,5 +66,9 @@
   "The Rust standard library provides channels for message passing and smart pointer types, such as Mutex<T> and Arc<T>, that are safe to use in concurrent contexts. The type system and the borrow checker ensure that the code using these solutions won’t end up with data races or invalid references. Once you get your code to compile, you can rest assured that it will happily run on multiple threads without the kinds of hard-to-track-down bugs common in other languages. Concurrent programming is no longer a concept to be afraid of: go forth and make your programs concurrent, fearlessly!": {
     "_translate": "Rust 标准库提供了用于消息传递的通道和智能指针类型，如 <code>Mutex&lt;T&gt;</code> 和 <code>Arc&lt;T&gt;</code>，这些类型在并发上下文中使用是安全的。类型系统和借用检查器确保使用这些解决方案的代码不会出现数据竞争或无效引用。一旦你的代码编译通过，你就可以放心地知道它将在多个线程上愉快地运行，而不会出现其他语言中常见的难以追踪的错误。并发编程不再是令人害怕的概念：大胆地让你的程序并发起来，无所畏惧！",
     "_note": ""
+  },
+  "Extensible Concurrency with the Sync and Send Traits - The Rust Programming Language": {
+    "_translate": "可扩展的并发性与 Sync 和 Send 特性 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

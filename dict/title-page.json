@@ -26,5 +26,9 @@
   "🚨 Want a more interactive learning experience? Try out a different version of the Rust Book, featuring: quizzes, highlighting, visualizations, and more: https://rust-book.cs.brown.edu": {
     "_translate": "<strong>🚨 想要更互动的学习体验吗？试试这个不同版本的 Rust 书，包含：测验、高亮、可视化等更多内容</strong>: <a href=\"https://rust-book.cs.brown.edu\">https://rust-book.cs.brown.edu</a>",
     "_note": ""
+  },
+  "The Rust Programming Language - The Rust Programming Language": {
+    "_translate": "The Rust Programming Language - <span class=\"rust\">Rust编程语言</span>",
+    "_note": ""
   }
 }

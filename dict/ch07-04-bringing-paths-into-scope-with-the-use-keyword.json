@@ -158,5 +158,9 @@
   "The glob operator is often used when testing to bring everything under test into the tests module; we’ll talk about that in the “How to Write Tests” section in Chapter 11. The glob operator is also sometimes used as part of the prelude pattern: see the standard library documentation for more information on that pattern.": {
     "_translate": "通配符操作符通常在测试时用于将所有待测试的内容引入到 <code>tests</code> 模块；我们将在第 11 章的 <a href=\"ch11-01-writing-tests.html#how-to-write-tests\">“如何编写测试”</a><!-- ignore --> 部分讨论这个问题。通配符操作符有时也作为前言模式的一部分使用：请参阅 <a href=\"../std/prelude/index.html#other-preludes\">标准库文档</a><!-- ignore --> 以获取有关该模式的更多信息。",
     "_note": ""
+  },
+  "Bringing Paths Into Scope with the use Keyword - The Rust Programming Language": {
+    "_translate": "使用 use 关键字将路径引入作用域 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

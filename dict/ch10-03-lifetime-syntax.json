@@ -362,5 +362,9 @@
   "Believe it or not, there is much more to learn on the topics we discussed in this chapter: Chapter 18 discusses trait objects, which are another way to use traits. There are also more complex scenarios involving lifetime annotations that you will only need in very advanced scenarios; for those, you should read the Rust Reference. But next, you’ll learn how to write tests in Rust so you can make sure your code is working the way it should.": {
     "_translate": "不管你信不信，我们在本章讨论的主题还有更多内容可以学习：第18章讨论了特质对象，这是使用特质的另一种方式。还有一些涉及生命周期注解的更复杂场景，你只有在非常高级的情况下才需要；对于这些，你应该阅读<a href=\"../reference/index.html\">Rust参考手册</a>。但接下来，你将学习如何在Rust中编写测试，以确保你的代码按预期工作。",
     "_note": ""
+  },
+  "Validating References with Lifetimes - The Rust Programming Language": {
+    "_translate": "使用生命周期验证引用 - 《Rust编程语言》",
+    "_note": ""
   }
 }

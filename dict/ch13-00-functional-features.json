@@ -18,5 +18,9 @@
   "We’ve already covered some other Rust features, such as pattern matching and enums, that are also influenced by the functional style. Because mastering closures and iterators is an important part of writing idiomatic, fast Rust code, we’ll devote this entire chapter to them.": {
     "_translate": "我们已经介绍了一些其他受函数式风格影响的Rust特性，如模式匹配和枚举。因为掌握闭包和迭代器是编写惯用、快速的Rust代码的重要部分，我们将整个这一章 devoted to them.",
     "_note": ""
+  },
+  "Functional Language Features: Iterators and Closures - The Rust Programming Language": {
+    "_translate": "功能语言特性：迭代器和闭包 - 《Rust编程语言》",
+    "_note": ""
   }
 }

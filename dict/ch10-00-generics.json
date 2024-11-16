@@ -70,5 +70,9 @@
   "For example, say we had two functions: one that finds the largest item in a slice of i32 values and one that finds the largest item in a slice of char values. How would we eliminate that duplication? Let’s find out!": {
     "_translate": "例如，假设我们有两个函数：一个用于在 <code>i32</code> 值的切片中找到最大项，另一个用于在 <code>char</code> 值的切片中找到最大项。我们如何消除这种重复？让我们来找出答案！",
     "_note": ""
+  },
+  "Generic Types, Traits, and Lifetimes - The Rust Programming Language": {
+    "_translate": "泛型类型、特征和生命周期 - 《Rust编程语言》",
+    "_note": ""
   }
 }

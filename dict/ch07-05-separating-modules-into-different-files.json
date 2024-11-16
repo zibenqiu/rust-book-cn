@@ -78,5 +78,9 @@
   "In the next chapter, we’ll look at some collection data structures in the standard library that you can use in your neatly organized code.": {
     "_translate": "在下一章中，我们将介绍标准库中的一些集合数据结构，您可以在组织良好的代码中使用这些结构。",
     "_note": ""
+  },
+  "Separating Modules into Different Files - The Rust Programming Language": {
+    "_translate": "将模块拆分到不同的文件中 - 《Rust编程语言》",
+    "_note": ""
   }
 }

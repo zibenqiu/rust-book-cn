@@ -150,5 +150,9 @@
   "At this point, you’ve seen several ways of using patterns, but patterns don’t work the same in every place we can use them. In some places, the patterns must be irrefutable; in other circumstances, they can be refutable. We’ll discuss these two concepts next.": {
     "_translate": "在这一点上，您已经看到了使用模式的几种方式，但模式在我们能够使用它们的每个地方并不都以相同的方式工作。在某些地方，模式必须是不可反驳的；在其他情况下，它们可以是可反驳的。我们将在接下来讨论这两个概念。",
     "_note": ""
+  },
+  "All the Places Patterns Can Be Used - The Rust Programming Language": {
+    "_translate": "所有可以使用模式的地方 - 《Rust编程语言》",
+    "_note": ""
   }
 }

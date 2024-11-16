@@ -70,5 +70,9 @@
   "We’ll come back to panic! and when we should and should not use panic! to handle error conditions in the “To panic! or Not to panic!” section later in this chapter. Next, we’ll look at how to recover from an error using Result.": {
     "_translate": "我们将回到<a href=\"ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic\">“使用 <code>panic!</code> 还是不使用 <code>panic!</code>”</a><!-- ignore --> 部分，讨论何时应该和不应该使用 <code>panic!</code> 来处理错误条件。接下来，我们将看看如何使用 <code>Result</code> 从错误中恢复。",
     "_note": ""
+  },
+  "Unrecoverable Errors with panic! - The Rust Programming Language": {
+    "_translate": "不可恢复的错误与 panic! - 《Rust 编程语言》",
+    "_note": ""
   }
 }

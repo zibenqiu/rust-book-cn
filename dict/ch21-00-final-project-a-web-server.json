@@ -30,5 +30,9 @@
   "We’ll therefore write the basic HTTP server and thread pool manually so you can learn the general ideas and techniques behind the crates you might use in the future.": {
     "_translate": "因此，我们将手动编写基本的HTTP服务器和线程池，这样你可以学习你将来可能使用的crates背后的一般思想和技术。",
     "_note": ""
+  },
+  "Final Project: Building a Multithreaded Web Server - The Rust Programming Language": {
+    "_translate": "最终项目：构建多线程Web服务器 - 《Rust编程语言》",
+    "_note": ""
   }
 }

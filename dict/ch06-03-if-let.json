@@ -54,5 +54,9 @@
   "In order to provide a well-organized API to your users that is straightforward to use and only exposes exactly what your users will need, let’s now turn to Rust’s modules.": {
     "_translate": "为了向用户提供一个组织良好且易于使用的API，并且只暴露用户需要的内容，现在让我们转向Rust的模块。",
     "_note": ""
+  },
+  "Concise Control Flow with if let - The Rust Programming Language": {
+    "_translate": "使用 if let 简洁控制流程 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

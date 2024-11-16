@@ -242,5 +242,9 @@
   "A yank does not delete any code. It cannot, for example, delete accidentally uploaded secrets. If that happens, you must reset those secrets immediately.": {
     "_translate": "A yank <em>不会</em> 删除任何代码。例如，它不能删除意外上传的秘密。如果发生这种情况，您必须立即重置这些秘密。",
     "_note": ""
+  },
+  "Publishing a Crate to Crates.io - The Rust Programming Language": {
+    "_translate": "发布 Crate 到 Crates.io - 《Rust 编程语言》",
+    "_note": ""
   }
 }

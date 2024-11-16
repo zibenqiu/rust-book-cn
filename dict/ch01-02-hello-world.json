@@ -142,5 +142,9 @@
   "If you’re more familiar with a dynamic language, such as Ruby, Python, or JavaScript, you might not be used to compiling and running a program as separate steps. Rust is an ahead-of-time compiled language, meaning you can compile a program and give the executable to someone else, and they can run it even without having Rust installed. If you give someone a .rb, .py, or .js file, they need to have a Ruby, Python, or JavaScript implementation installed (respectively). But in those languages, you only need one command to compile and run your program. Everything is a trade-off in language design.": {
     "_translate": "如果你更熟悉像 Ruby、Python 或 JavaScript 这样的动态语言，你可能不习惯将编译和运行程序作为单独的步骤。Rust 是一种<em>提前编译</em>语言，这意味着你可以编译一个程序并将可执行文件交给其他人，即使他们没有安装 Rust 也可以运行它。如果你给某人一个<em>.rb</em>、<em>.py</em> 或 <em>.js</em> 文件，他们需要分别安装 Ruby、Python 或 JavaScript 的实现。但在这些语言中，你只需要一个命令就可以编译和运行你的程序。语言设计中的每件事都是权衡。",
     "_note": ""
+  },
+  "Hello, World! - The Rust Programming Language": {
+    "_translate": "你好，世界！ - The Rust Programming Language",
+    "_note": ""
   }
 }

@@ -98,5 +98,9 @@
   "Inheritance has recently fallen out of favor as a programming design solution in many programming languages because it’s often at risk of sharing more code than necessary. Subclasses shouldn’t always share all characteristics of their parent class but will do so with inheritance. This can make a program’s design less flexible. It also introduces the possibility of calling methods on subclasses that don’t make sense or that cause errors because the methods don’t apply to the subclass. In addition, some languages will only allow single inheritance (meaning a subclass can only inherit from one class), further restricting the flexibility of a program’s design.": {
     "_translate": "继承最近在许多编程语言中作为编程设计解决方案的地位有所下降，因为它经常存在共享比必要更多的代码的风险。子类不应该总是共享其父类的所有特征，但在继承中却会这样做。这可能会使程序的设计变得不那么灵活。它还引入了在子类上调用没有意义或导致错误的方法的可能性，因为这些方法不适用于子类。此外，一些语言只允许单一继承（即一个子类只能从一个类继承），进一步限制了程序设计的灵活性。",
     "_note": ""
+  },
+  "Characteristics of Object-Oriented Languages - The Rust Programming Language": {
+    "_translate": "特性面向对象语言 - 《Rust编程语言》",
+    "_note": ""
   }
 }

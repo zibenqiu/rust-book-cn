@@ -162,5 +162,9 @@
   "The generic Option<T> is replaced with the specific definitions created by the compiler. Because Rust compiles generic code into code that specifies the type in each instance, we pay no runtime cost for using generics. When the code runs, it performs just as it would if we had duplicated each definition by hand. The process of monomorphization makes Rust’s generics extremely efficient at runtime.": {
     "_translate": "通用的 <code>Option&lt;T&gt;</code> 被编译器创建的具体定义所替换。因为 Rust 会将泛型代码编译成每个实例都指定类型的代码，所以我们使用泛型时不会产生运行时开销。当代码运行时，它的表现就像我们手动复制了每个定义一样。单态化的过程使得 Rust 的泛型在运行时极其高效。",
     "_note": ""
+  },
+  "Generic Data Types - The Rust Programming Language": {
+    "_translate": "泛型数据类型 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

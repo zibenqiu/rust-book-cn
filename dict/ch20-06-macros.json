@@ -278,5 +278,9 @@
   "Whew! Now you have some Rust features in your toolbox that you likely won’t use often, but you’ll know they’re available in very particular circumstances. We’ve introduced several complex topics so that when you encounter them in error message suggestions or in other peoples’ code, you’ll be able to recognize these concepts and syntax. Use this chapter as a reference to guide you to solutions.": {
     "_translate": "呼！现在你已经掌握了一些你可能不常使用，但在特定情况下会知道它们可用的 Rust 特性。我们介绍了几个复杂的话题，这样当你在错误消息建议或其他人的代码中遇到它们时，你能够识别这些概念和语法。将本章用作参考，以引导你找到解决方案。",
     "_note": ""
+  },
+  "Macros - The Rust Programming Language": {
+    "_translate": "宏 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

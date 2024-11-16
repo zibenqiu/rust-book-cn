@@ -21,7 +21,7 @@ exports.translate = async (text, { key, file }) => {
           content: [
             {
               type: 'text',
-              text: `Translate the following source text to chinese: ${text}，Output translation directly without any additional text. Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!Do not arbitrarily add extra content such as parentheses or other symbols.`,
+              text: `Translate the following source text to chinese: ${text}，Output translation directly without any additional text. Absolutely refrain from adding symbols or tags that were not in the original translation content.Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!`,
             },
           ],
         },

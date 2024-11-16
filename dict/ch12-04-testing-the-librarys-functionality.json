@@ -138,5 +138,9 @@
   "To round out this project, we’ll briefly demonstrate how to work with environment variables and how to print to standard error, both of which are useful when you’re writing command line programs.": {
     "_translate": "为了完善这个项目，我们将简要演示如何使用环境变量以及如何打印到标准错误，这两者在编写命令行程序时都非常有用。",
     "_note": ""
+  },
+  "Developing the Library’s Functionality with Test Driven Development - The Rust Programming Language": {
+    "_translate": "使用测试驱动开发开发库的功能 - 《Rust编程语言》",
+    "_note": ""
   }
 }

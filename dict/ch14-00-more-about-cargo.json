@@ -10,5 +10,9 @@
   "Cargo can do even more than the functionality we cover in this chapter, so for a full explanation of all its features, see its documentation.": {
     "_translate": "Cargo 的功能远不止我们在本章中介绍的内容，因此要了解其所有功能的详细说明，请参阅<a href=\"https://doc.rust-lang.org/cargo/\">其文档</a>。",
     "_note": ""
+  },
+  "More about Cargo and Crates.io - The Rust Programming Language": {
+    "_translate": "更多关于 Cargo 和 Crates.io - 《Rust 编程语言》",
+    "_note": ""
   }
 }

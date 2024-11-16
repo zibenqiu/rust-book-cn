@@ -154,5 +154,9 @@
   "There’s more about patterns and matching that we’ll cover in Chapter 19. For now, we’re going to move on to the if let syntax, which can be useful in situations where the match expression is a bit wordy.": {
     "_translate": "关于模式和匹配的更多内容，我们将在<a href=\"ch19-00-patterns.html\">第19章</a><!-- ignore -->中介绍。现在，我们将继续讨论<code>if let</code>语法，这种语法在<code>match</code>表达式显得有些冗长的情况下非常有用。",
     "_note": ""
+  },
+  "The match Control Flow Construct - The Rust Programming Language": {
+    "_translate": "匹配控制流结构 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

@@ -138,5 +138,9 @@
   "The test shows that when we call shoes_in_size, we get back only shoes that have the same size as the value we specified.": {
     "_translate": "测试显示，当我们调用<code>shoes_in_size</code>时，我们只会得到与我们指定的值大小相同的鞋子。",
     "_note": ""
+  },
+  "Processing a Series of Items with Iterators - The Rust Programming Language": {
+    "_translate": "使用迭代器处理一系列项目 - 《Rust编程语言》",
+    "_note": ""
   }
 }

@@ -142,5 +142,9 @@
   "Let’s move on to the next collection type: String!": {
     "_translate": "让我们继续下一个集合类型：<code>String</code>！",
     "_note": ""
+  },
+  "Storing Lists of Values with Vectors - The Rust Programming Language": {
+    "_translate": "使用向量存储值列表 - 《Rust编程语言》",
+    "_note": ""
   }
 }

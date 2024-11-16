@@ -78,5 +78,9 @@
   "This chapter recapped some of the major concepts you’ve learned so far and covered how to perform common I/O operations in Rust. By using command line arguments, files, environment variables, and the eprintln! macro for printing errors, you’re now prepared to write command line applications. Combined with the concepts in previous chapters, your code will be well organized, store data effectively in the appropriate data structures, handle errors nicely, and be well tested.": {
     "_translate": "本章回顾了你迄今为止学到的一些主要概念，并介绍了如何在 Rust 中执行常见的 I/O 操作。通过使用命令行参数、文件、环境变量以及 <code>eprintln!</code> 宏来打印错误，你现在可以编写命令行应用程序。结合前几章的概念，你的代码将组织良好、在适当的数据结构中有效存储数据、优雅地处理错误，并且经过充分测试。",
     "_note": ""
+  },
+  "Writing Error Messages to Standard Error Instead of Standard Output - The Rust Programming Language": {
+    "_translate": "将错误消息写入标准错误而不是标准输出 - 《Rust编程语言》",
+    "_note": ""
   }
 }

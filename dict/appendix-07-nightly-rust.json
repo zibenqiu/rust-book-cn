@@ -130,5 +130,9 @@
   "After some time, once Rust developers who use nightly releases have been able to try out the new feature, team members will discuss the feature, how it’s worked out on nightly, and decide if it should make it into stable Rust or not. If the decision is to move forward, the feature gate is removed, and the feature is now considered stable! It rides the trains into a new stable release of Rust.": {
     "_translate": "一段时间后，一旦使用夜间版本的 Rust 开发者能够尝试新功能，团队成员将讨论该功能，以及它在夜间版本中的表现，并决定是否将其纳入稳定的 Rust 中。如果决定继续推进，功能门将被移除，该功能现在被视为稳定！它将随着火车进入 Rust 的新稳定版本。",
     "_note": ""
+  },
+  "G - How Rust is Made and “Nightly Rust” - The Rust Programming Language": {
+    "_translate": "G - Rust 的制作过程和“Nightly Rust” - 《Rust 编程语言》",
+    "_note": ""
   }
 }

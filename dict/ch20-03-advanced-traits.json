@@ -230,5 +230,9 @@
   "The downside of using this technique is that Wrapper is a new type, so it doesn’t have the methods of the value it’s holding. We would have to implement all the methods of Vec<T> directly on Wrapper such that the methods delegate to self.0, which would allow us to treat Wrapper exactly like a Vec<T>. If we wanted the new type to have every method the inner type has, implementing the Deref trait (discussed in Chapter 15 in the “Treating Smart Pointers Like Regular References with the Deref Trait” section) on the Wrapper to return the inner type would be a solution. If we don’t want the Wrapper type to have all the methods of the inner type—for example, to restrict the Wrapper type’s behavior—we would have to implement just the methods we do want manually.": {
     "_translate": "使用这种技术的缺点是 <code>Wrapper</code> 是一个新类型，因此它没有它所持有的值的方法。我们必须在 <code>Wrapper</code> 上直接实现 <code>Vec&lt;T&gt;</code> 的所有方法，使得这些方法委托给 <code>self.0</code>，这将使我们能够像处理 <code>Vec&lt;T&gt;</code> 一样处理 <code>Wrapper</code>。如果我们希望新类型拥有内部类型的所有方法，可以在 <code>Wrapper</code> 上实现 <code>Deref</code> 特性（在第 15 章的 <a href=\"ch15-02-deref.html#treating-smart-pointers-like-regular-references-with-the-deref-trait\">“使用 <code>Deref</code> 特性将智能指针当作常规引用处理”</a><!-- ignore --> 部分讨论）以返回内部类型，这将是一个解决方案。如果我们不希望 <code>Wrapper</code> 类型拥有内部类型的所有方法——例如，为了限制 <code>Wrapper</code> 类型的行为——我们必须手动实现我们确实想要的方法。",
     "_note": ""
+  },
+  "Advanced Traits - The Rust Programming Language": {
+    "_translate": "高级特性 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

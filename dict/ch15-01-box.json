@@ -134,5 +134,9 @@
   "The Box<T> type is a smart pointer because it implements the Deref trait, which allows Box<T> values to be treated like references. When a Box<T> value goes out of scope, the heap data that the box is pointing to is cleaned up as well because of the Drop trait implementation. These two traits will be even more important to the functionality provided by the other smart pointer types we’ll discuss in the rest of this chapter. Let’s explore these two traits in more detail.": {
     "_translate": "<code>Box&lt;T&gt;</code> 类型是一个智能指针，因为它实现了 <code>Deref</code> 特性，这使得 <code>Box&lt;T&gt;</code> 值可以像引用一样被处理。当 <code>Box&lt;T&gt;</code> 值超出作用域时，由于实现了 <code>Drop</code> 特性，盒子指向的堆数据也会被清理。这两个特性对于本章后续讨论的其他智能指针类型所提供的功能将更加重要。让我们更详细地探讨这两个特性。",
     "_note": ""
+  },
+  "Using Box<T> to Point to Data on the Heap - The Rust Programming Language": {
+    "_translate": "使用 Box&lt;T&gt; 指向堆上的数据 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

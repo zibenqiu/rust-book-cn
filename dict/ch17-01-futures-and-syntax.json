@@ -174,5 +174,9 @@
   "You have built a small working web scraper now! Pick a couple URLs and run the command line tool. You may discover that some sites are reliably faster than others, while in other cases which site “wins” varies from run to run. More importantly, you’ve learned the basics of working with futures, so we can now dig into even more of the things we can do with async.": {
     "_translate": "你现在已经构建了一个小型的可工作的网络爬虫！选择几个URL并运行命令行工具。你可能会发现有些网站比其他网站更稳定地快，而在其他情况下，哪个网站“获胜”则会因运行而异。更重要的是，你已经学会了使用future的基础知识，因此我们现在可以深入探讨使用async可以做的更多事情。",
     "_note": ""
+  },
+  "Futures and the Async Syntax - The Rust Programming Language": {
+    "_translate": "Futures 和 Async 语法 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

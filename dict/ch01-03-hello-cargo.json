@@ -162,5 +162,9 @@
   "This is a great time to build a more substantial program to get used to reading and writing Rust code. So, in Chapter 2, we’ll build a guessing game program. If you would rather start by learning how common programming concepts work in Rust, see Chapter 3 and then return to Chapter 2.": {
     "_translate": "这是构建一个更实质性的程序以习惯阅读和编写 Rust 代码的好时机。因此，在第 2 章中，我们将构建一个猜数字游戏程序。如果您更愿意先了解常见的编程概念在 Rust 中是如何工作的，请参阅第 3 章，然后再回到第 2 章。",
     "_note": ""
+  },
+  "Hello, Cargo! - The Rust Programming Language": {
+    "_translate": "你好，Cargo! - The Rust Programming Language",
+    "_note": ""
   }
 }

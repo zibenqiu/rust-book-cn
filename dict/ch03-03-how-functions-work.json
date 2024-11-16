@@ -146,5 +146,9 @@
   "The main error message, mismatched types, reveals the core issue with this code. The definition of the function plus_one says that it will return an i32, but statements don’t evaluate to a value, which is expressed by (), the unit type. Therefore, nothing is returned, which contradicts the function definition and results in an error. In this output, Rust provides a message to possibly help rectify this issue: it suggests removing the semicolon, which would fix the error.": {
     "_translate": "主要错误信息，<code>mismatched types</code>，揭示了这段代码的核心问题。函数 <code>plus_one</code> 的定义表明它将返回一个 <code>i32</code>，但语句不会评估为值，而是表示为 <code>()</code>，即单元类型。因此，没有返回任何值，这与函数定义相矛盾，导致错误。在这个输出中，Rust 提供了一条消息，可能有助于解决这个问题：它建议删除分号，这将修复错误。",
     "_note": ""
+  },
+  "Functions - The Rust Programming Language": {
+    "_translate": "函数 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

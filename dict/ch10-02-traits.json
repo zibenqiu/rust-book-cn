@@ -218,5 +218,9 @@
   "Traits and trait bounds let us write code that uses generic type parameters to reduce duplication but also specify to the compiler that we want the generic type to have particular behavior. The compiler can then use the trait bound information to check that all the concrete types used with our code provide the correct behavior. In dynamically typed languages, we would get an error at runtime if we called a method on a type which didn’t define the method. But Rust moves these errors to compile time so we’re forced to fix the problems before our code is even able to run. Additionally, we don’t have to write code that checks for behavior at runtime because we’ve already checked at compile time. Doing so improves performance without having to give up the flexibility of generics.": {
     "_translate": "特质和特质边界让我们可以使用泛型类型参数编写代码，以减少重复，但同时指定我们希望泛型类型具有特定的行为。编译器可以使用特质边界信息来检查所有使用我们代码的具体类型是否提供了正确的行为。在动态类型语言中，如果我们调用了一个类型未定义的方法，我们会在运行时得到错误。但是 Rust 将这些错误移到了编译时，因此我们必须在代码能够运行之前修复这些问题。此外，我们不必编写在运行时检查行为的代码，因为我们在编译时已经检查过了。这样做在不放弃泛型灵活性的情况下提高了性能。",
     "_note": ""
+  },
+  "Traits: Defining Shared Behavior - The Rust Programming Language": {
+    "_translate": "特质：定义共享行为 - 《Rust编程语言》",
+    "_note": ""
   }
 }

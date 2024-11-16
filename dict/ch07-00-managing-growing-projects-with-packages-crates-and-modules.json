@@ -26,5 +26,9 @@
   "In this chapter, we’ll cover all these features, discuss how they interact, and explain how to use them to manage scope. By the end, you should have a solid understanding of the module system and be able to work with scopes like a pro!": {
     "_translate": "在本章中，我们将涵盖所有这些特性，讨论它们如何交互，并解释如何使用它们来管理作用域。到本章结束时，您应该对模块系统有扎实的理解，并能够像专业人士一样处理作用域！",
     "_note": ""
+  },
+  "Managing Growing Projects with Packages, Crates, and Modules - The Rust Programming Language": {
+    "_translate": "使用包、库和模块管理日益增长的项目 - 《Rust编程语言》",
+    "_note": ""
   }
 }

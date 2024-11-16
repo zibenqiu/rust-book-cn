@@ -210,5 +210,9 @@
   "You made it! This was a sizable chapter: you learned about variables, scalar and compound data types, functions, comments, if expressions, and loops! To practice with the concepts discussed in this chapter, try building programs to do the following:": {
     "_translate": "你做到了！这是一个相当大的章节：你学习了变量、标量和复合数据类型、函数、注释、<code>if</code> 表达式和循环！为了练习本章讨论的概念，尝试构建程序来完成以下任务：",
     "_note": ""
+  },
+  "Control Flow - The Rust Programming Language": {
+    "_translate": "控制流 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

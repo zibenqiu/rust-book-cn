@@ -98,5 +98,9 @@
   "Via immutable references, Rc<T> allows you to share data between multiple parts of your program for reading only. If Rc<T> allowed you to have multiple mutable references too, you might violate one of the borrowing rules discussed in Chapter 4: multiple mutable borrows to the same place can cause data races and inconsistencies. But being able to mutate data is very useful! In the next section, we’ll discuss the interior mutability pattern and the RefCell<T> type that you can use in conjunction with an Rc<T> to work with this immutability restriction.": {
     "_translate": "通过不可变引用，<code>Rc&lt;T&gt;</code> 允许你在程序的多个部分之间共享数据，但仅限于读取。如果 <code>Rc&lt;T&gt;</code> 也允许你有多个可变引用，你可能会违反在第 4 章讨论的借用规则之一：对同一位置的多个可变借用可能导致数据竞争和不一致。但能够修改数据是非常有用的！在下一节中，我们将讨论内部可变性模式和 <code>RefCell&lt;T&gt;</code> 类型，你可以将其与 <code>Rc&lt;T&gt;</code> 结合使用，以应对这种不可变性限制。",
     "_note": ""
+  },
+  "Rc<T>, the Reference Counted Smart Pointer - The Rust Programming Language": {
+    "_translate": "Rc&lt;T&gt;，引用计数的智能指针 - 《Rust编程语言》",
+    "_note": ""
   }
 }

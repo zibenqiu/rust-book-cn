@@ -158,5 +158,9 @@
   "The Default trait is required when you use the method unwrap_or_default on Option<T> instances, for example. If the Option<T> is None, the method unwrap_or_default will return the result of Default::default for the type T stored in the Option<T>.": {
     "_translate": "当在 <code>Option&lt;T&gt;</code> 实例上使用 <code>unwrap_or_default</code> 方法时，需要 <code>Default</code> 特性。例如，如果 <code>Option&lt;T&gt;</code> 是 <code>None</code>，则 <code>unwrap_or_default</code> 方法将返回 <code>Option&lt;T&gt;</code> 中存储的类型 <code>T</code> 的 <code>Default::default</code> 结果。",
     "_note": ""
+  },
+  "C - Derivable Traits - The Rust Programming Language": {
+    "_translate": "C - 可派生的特征 - 《Rust编程语言》",
+    "_note": ""
   }
 }

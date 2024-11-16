@@ -118,5 +118,9 @@
   "By controlling which tests run, you can make sure your cargo test results will be returned quickly. When you’re at a point where it makes sense to check the results of the ignored tests and you have time to wait for the results, you can run cargo test -- --ignored instead. If you want to run all tests whether they’re ignored or not, you can run cargo test -- --include-ignored.": {
     "_translate": "通过控制运行哪些测试，您可以确保 <code>cargo test</code> 的结果能够快速返回。当您认为检查 <code>ignored</code> 测试的结果是有意义的，并且有时间等待结果时，可以运行 <code>cargo test -- --ignored</code>。如果您想运行所有测试，无论它们是否被忽略，可以运行 <code>cargo test -- --include-ignored</code>。",
     "_note": ""
+  },
+  "Controlling How Tests Are Run - The Rust Programming Language": {
+    "_translate": "控制测试的运行方式 - 《Rust编程语言》",
+    "_note": ""
   }
 }

@@ -166,5 +166,9 @@
   "The third case is trickier: Rust will also coerce a mutable reference to an immutable one. But the reverse is not possible: immutable references will never coerce to mutable references. Because of the borrowing rules, if you have a mutable reference, that mutable reference must be the only reference to that data (otherwise, the program wouldn’t compile). Converting one mutable reference to one immutable reference will never break the borrowing rules. Converting an immutable reference to a mutable reference would require that the initial immutable reference is the only immutable reference to that data, but the borrowing rules don’t guarantee that. Therefore, Rust can’t make the assumption that converting an immutable reference to a mutable reference is possible.": {
     "_translate": "第三种情况更复杂：Rust 还会将可变引用强制转换为不可变引用。但反向转换是<em>不可能</em>的：不可变引用永远不会强制转换为可变引用。由于借用规则，如果你有一个可变引用，那么这个可变引用必须是该数据的唯一引用（否则，程序将无法编译）。将一个可变引用转换为一个不可变引用永远不会违反借用规则。将不可变引用转换为可变引用需要初始不可变引用是该数据的唯一不可变引用，但借用规则并不能保证这一点。因此，Rust 不能假设将不可变引用转换为可变引用是可能的。",
     "_note": ""
+  },
+  "Treating Smart Pointers Like Regular References with the Deref Trait - The Rust Programming Language": {
+    "_translate": "将智能指针像常规引用一样处理 - 使用 Deref 特性 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

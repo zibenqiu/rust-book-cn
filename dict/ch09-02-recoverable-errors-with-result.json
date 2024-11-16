@@ -226,5 +226,9 @@
   "The main function may return any types that implement the std::process::Termination trait, which contains a function report that returns an ExitCode. Consult the standard library documentation for more information on implementing the Termination trait for your own types.": {
     "_translate": "<code>main</code> 函数可以返回任何实现了 <a href=\"../std/process/trait.Termination.html\">the <code>std::process::Termination</code> 特性</a><!-- ignore --> 的类型，其中包含一个返回 <code>ExitCode</code> 的函数 <code>report</code>。有关为您的类型实现 <code>Termination</code> 特性的更多信息，请参阅标准库文档。",
     "_note": ""
+  },
+  "Recoverable Errors with Result - The Rust Programming Language": {
+    "_translate": "可恢复的错误与 Result - 《Rust 编程语言》",
+    "_note": ""
   }
 }

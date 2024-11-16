@@ -98,5 +98,9 @@
   "Table B-10: Square Brackets": {
     "_translate": "<span class=\"caption\">表 B-10：方括号</span>",
     "_note": ""
+  },
+  "B - Operators and Symbols - The Rust Programming Language": {
+    "_translate": "B - 运算符和符号 - 《Rust编程语言》",
+    "_note": ""
   }
 }

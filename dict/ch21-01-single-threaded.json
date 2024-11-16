@@ -254,5 +254,9 @@
   "Currently, our server runs in a single thread, meaning it can only serve one request at a time. Let’s examine how that can be a problem by simulating some slow requests. Then we’ll fix it so our server can handle multiple requests at once.": {
     "_translate": "目前，我们的服务器在单线程中运行，这意味着它一次只能处理一个请求。让我们通过模拟一些慢请求来 examine 这可能会如何成为一个问题。然后我们将修复它，使我们的服务器能够同时处理多个请求。",
     "_note": ""
+  },
+  "Building a Single-Threaded Web Server - The Rust Programming Language": {
+    "_translate": "构建单线程 Web 服务器 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

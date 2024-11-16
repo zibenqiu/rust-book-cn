@@ -98,5 +98,9 @@
   "The next logical question is which style you should choose in your own code and why: the original implementation in Listing 13-21 or the version using iterators in Listing 13-22. Most Rust programmers prefer to use the iterator style. It’s a bit tougher to get the hang of at first, but once you get a feel for the various iterator adapters and what they do, iterators can be easier to understand. Instead of fiddling with the various bits of looping and building new vectors, the code focuses on the high-level objective of the loop. This abstracts away some of the commonplace code so it’s easier to see the concepts that are unique to this code, such as the filtering condition each element in the iterator must pass.": {
     "_translate": "下一个合乎逻辑的问题是，在你自己的代码中应该选择哪种风格以及为什么：是列表 13-21 中的原始实现，还是列表 13-22 中使用迭代器的版本。大多数 Rust 程序员更喜欢使用迭代器风格。一开始可能有点难以掌握，但一旦你熟悉了各种迭代器适配器及其功能，迭代器就更容易理解了。代码不再纠结于循环的各种细节和构建新向量，而是专注于循环的高层次目标。这抽象掉了一些常见的代码，使得更容易看到此代码独有的概念，例如迭代器中每个元素必须通过的过滤条件。",
     "_note": ""
+  },
+  "Improving Our I/O Project - The Rust Programming Language": {
+    "_translate": "改善我们的 I/O 项目 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

@@ -14,5 +14,9 @@
   "We’ll discuss how to create and update vectors, strings, and hash maps, as well as what makes each special.": {
     "_translate": "我们将讨论如何创建和更新向量、字符串和哈希映射，以及每种数据结构的特殊之处。",
     "_note": ""
+  },
+  "Common Collections - The Rust Programming Language": {
+    "_translate": "常用集合 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

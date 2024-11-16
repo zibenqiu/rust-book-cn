@@ -78,5 +78,9 @@
   "Next, we’ll talk about idiomatic ways to model problems and structure solutions as your Rust programs get bigger. In addition, we’ll discuss how Rust’s idioms relate to those you might be familiar with from object-oriented programming.": {
     "_translate": "接下来，我们将讨论随着您的 Rust 程序变得更大，如何以惯用的方式建模问题和结构化解决方案。此外，我们还将讨论 Rust 的惯用法与您可能熟悉的面向对象编程的惯用法之间的关系。",
     "_note": ""
+  },
+  "Futures, Tasks, and Threads - The Rust Programming Language": {
+    "_translate": "Futures, Tasks, and Threads - The Rust Programming Language 未来、任务和线程 - Rust 编程语言",
+    "_note": ""
   }
 }

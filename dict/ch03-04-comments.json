@@ -30,5 +30,9 @@
   "Rust also has another kind of comment, documentation comments, which we’ll discuss in the “Publishing a Crate to Crates.io” section of Chapter 14.": {
     "_translate": "Rust 还有另一种注释，文档注释，我们将在第 14 章的<a href=\"ch14-02-publishing-to-crates-io.html\">“将 Crate 发布到 Crates.io”</a><!-- ignore -->部分讨论。",
     "_note": ""
+  },
+  "Comments - The Rust Programming Language": {
+    "_translate": "注释 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

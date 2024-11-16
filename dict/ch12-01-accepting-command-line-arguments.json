@@ -70,5 +70,9 @@
   "Great, the program is working! The values of the arguments we need are being saved into the right variables. Later we’ll add some error handling to deal with certain potential erroneous situations, such as when the user provides no arguments; for now, we’ll ignore that situation and work on adding file-reading capabilities instead.": {
     "_translate": "很好，程序正在运行！我们需要的参数值正在被保存到正确的变量中。稍后我们将添加一些错误处理来处理某些潜在的错误情况，例如用户未提供任何参数；目前，我们将忽略这种情况，而是专注于添加文件读取功能。",
     "_note": ""
+  },
+  "Accepting Command Line Arguments - The Rust Programming Language": {
+    "_translate": "接受命令行参数 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

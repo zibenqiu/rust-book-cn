@@ -210,5 +210,9 @@
   "In the version of StreamExt used in the trpl crate, the trait not only defines the next method, it also supplies an implementation of next, which correctly handles the details of calling Stream::poll_next. This means that even when you need to write your own streaming data type, you only have to implement Stream, and then anyone who uses your data type can use StreamExt and its methods with it automatically.": {
     "_translate": "在用于 <code>trpl</code> crate 的 <code>StreamExt</code> 版本中，该 trait 不仅定义了 <code>next</code> 方法，还提供了 <code>next</code> 方法的实现，该实现正确处理了调用 <code>Stream::poll_next</code> 的细节。这意味着，即使你需要编写自己的流数据类型，你也 <em>只需</em> 实现 <code>Stream</code>，然后任何使用你数据类型的人可以自动使用 <code>StreamExt</code> 及其方法。",
     "_note": ""
+  },
+  "Digging Into the Traits for Async - The Rust Programming Language": {
+    "_translate": "深入异步特质 - 《Rust编程语言》",
+    "_note": ""
   }
 }

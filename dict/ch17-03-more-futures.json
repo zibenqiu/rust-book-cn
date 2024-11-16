@@ -222,5 +222,9 @@
   "Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it is from the stream part of the crate; it works just fine with any collection of futures.)": {
     "_translate": "查看 <code>futures::stream::FuturesUnordered</code> 类型，来自 <code>futures</code> 库。使用它与使用 <code>Vec</code> 有什么不同？（不要担心它是来自库的 <code>stream</code> 部分；它可以很好地与任何未来的集合一起使用。）",
     "_note": ""
+  },
+  "Working With Any Number of Futures - The Rust Programming Language": {
+    "_translate": "处理任意数量的 Future - 《Rust 编程语言》",
+    "_note": ""
   }
 }

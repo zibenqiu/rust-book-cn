@@ -150,5 +150,9 @@
   "The source files from which this book is generated can be found on GitHub.": {
     "_translate": "生成本书的源文件可以在<a href=\"https://github.com/rust-lang/book/tree/main/src\">GitHub</a>上找到。",
     "_note": ""
+  },
+  "Introduction - The Rust Programming Language": {
+    "_translate": "介绍 - Rust 编程语言",
+    "_note": ""
   }
 }

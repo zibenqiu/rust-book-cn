@@ -138,5 +138,9 @@
   "You might see the values in another order, depending on your system. This is what makes concurrency interesting as well as difficult. If you experiment with thread::sleep, giving it various values in the different threads, each run will be more nondeterministic and create different output each time.": {
     "_translate": "你可能会看到不同的顺序，这取决于你的系统。这正是使并发既有趣又困难的原因。如果你尝试使用<code>thread::sleep</code>，在不同的线程中给它不同的值，每次运行都会更加不确定，并且每次都会产生不同的输出。",
     "_note": ""
+  },
+  "Using Message Passing to Transfer Data Between Threads - The Rust Programming Language": {
+    "_translate": "使用消息传递在线程之间传输数据 - 《Rust编程语言》",
+    "_note": ""
   }
 }

@@ -6,5 +6,9 @@
   "This URL is invalid, sorry. Please use the navigation bar or search to continue.": {
     "_translate": "此 URL 无效，抱歉。请使用导航栏或搜索继续。",
     "_note": ""
+  },
+  "Page not found - The Rust Programming Language": {
+    "_translate": "页面未找到 - The Rust Programming Language",
+    "_note": ""
   }
 }

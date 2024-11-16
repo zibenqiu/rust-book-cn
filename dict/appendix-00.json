@@ -6,5 +6,9 @@
   "The following sections contain reference material you may find useful in your Rust journey.": {
     "_translate": "以下部分包含您在 Rust 之旅中可能会发现有用的参考材料。",
     "_note": ""
+  },
+  "Appendix - The Rust Programming Language": {
+    "_translate": "附录 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

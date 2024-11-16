@@ -42,5 +42,9 @@
   "This code overrides the default setting of 0. Now when we run cargo build, Cargo will use the defaults for the dev profile plus our customization to opt-level. Because we set opt-level to 1, Cargo will apply more optimizations than the default, but not as many as in a release build.": {
     "_translate": "这段代码覆盖了默认设置 <code>0</code>。现在当我们运行 <code>cargo build</code> 时，\nCargo 将使用 <code>dev</code> 配置文件的默认设置加上我们对 <code>opt-level</code> 的自定义。\n因为我们把 <code>opt-level</code> 设置为 <code>1</code>，Cargo 将应用比默认更多的优化，但不如发布构建中的多。",
     "_note": ""
+  },
+  "Customizing Builds with Release Profiles - The Rust Programming Language": {
+    "_translate": "自定义构建使用发布配置文件 - 《Rust编程语言》",
+    "_note": ""
   }
 }

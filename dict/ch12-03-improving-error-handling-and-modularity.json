@@ -258,5 +258,9 @@
   "Let’s take advantage of this newfound modularity by doing something that would have been difficult with the old code but is easy with the new code: we’ll write some tests!": {
     "_translate": "让我们利用这种新获得的模块化特性来做一些在旧代码中很难但在新代码中很容易的事情：我们将编写一些测试！",
     "_note": ""
+  },
+  "Refactoring to Improve Modularity and Error Handling - The Rust Programming Language": {
+    "_translate": "重构以提高模块性和错误处理 - 《Rust编程语言》",
+    "_note": ""
   }
 }

@@ -166,5 +166,9 @@
   "This is a good start, but it limits us to just a handful of futures: two with join, or three with join3. Let’s see how we might work with more futures.": {
     "_translate": "这是一个好的开始，但它将我们限制在只有少数几个未来：两个使用<code>join</code>，或三个使用<code>join3</code>。让我们看看如何处理更多的未来。",
     "_note": ""
+  },
+  "Concurrency With Async - The Rust Programming Language": {
+    "_translate": "并发与异步 - 《Rust编程语言》",
+    "_note": ""
   }
 }

@@ -78,5 +78,9 @@
   "This tree shows how some of the modules nest inside other modules; for example, hosting nests inside front_of_house. The tree also shows that some modules are siblings, meaning they’re defined in the same module; hosting and serving are siblings defined within front_of_house. If module A is contained inside module B, we say that module A is the child of module B and that module B is the parent of module A. Notice that the entire module tree is rooted under the implicit module named crate.": {
     "_translate": "这棵树显示了一些模块如何嵌套在其他模块中；例如，<code>hosting</code> 嵌套在 <code>front_of_house</code> 中。树还显示了一些模块是 <em>兄弟</em>，意味着它们在同一个模块中定义；<code>hosting</code> 和 <code>serving</code> 是在 <code>front_of_house</code> 中定义的兄弟模块。如果模块 A 包含在模块 B 中，我们说模块 A 是模块 B 的 <em>子模块</em>，而模块 B 是模块 A 的 <em>父模块</em>。请注意，整个模块树都根植于隐式的 <code>crate</code> 模块下。",
     "_note": ""
+  },
+  "Defining Modules to Control Scope and Privacy - The Rust Programming Language": {
+    "_translate": "定义模块以控制作用域和隐私 - 《Rust编程语言》",
+    "_note": ""
   }
 }

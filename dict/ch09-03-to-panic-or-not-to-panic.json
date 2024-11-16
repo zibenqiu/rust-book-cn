@@ -114,5 +114,9 @@
   "Rust’s error-handling features are designed to help you write more robust code. The panic! macro signals that your program is in a state it can’t handle and lets you tell the process to stop instead of trying to proceed with invalid or incorrect values. The Result enum uses Rust’s type system to indicate that operations might fail in a way that your code could recover from. You can use Result to tell code that calls your code that it needs to handle potential success or failure as well. Using panic! and Result in the appropriate situations will make your code more reliable in the face of inevitable problems.": {
     "_translate": "Rust 的错误处理特性旨在帮助您编写更健壮的代码。\nThe <code>panic!</code> 宏表示您的程序处于无法处理的状态，并\n让您告诉进程停止，而不是尝试使用无效或\n错误的值继续进行。The <code>Result</code> 枚举使用 Rust 的类型系统来表示\n操作可能会失败，但您的代码可以从中恢复。您可以使用\n<code>Result</code> 告诉调用您的代码的代码，它需要处理潜在的\n成功或失败。在适当的情况下使用 <code>panic!</code> 和 <code>Result</code> 将使您的代码在面对不可避免的问题时更加可靠。",
     "_note": ""
+  },
+  "To panic! or Not to panic! - The Rust Programming Language": {
+    "_translate": "要 panic! 还是不要 panic! - 《Rust 编程语言》",
+    "_note": ""
   }
 }

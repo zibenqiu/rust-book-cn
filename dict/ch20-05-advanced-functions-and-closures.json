@@ -82,5 +82,9 @@
   "This code will compile just fine. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.": {
     "_translate": "这段代码可以顺利编译。有关 trait 对象的更多信息，请参阅第 19 章的<a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型值的 trait 对象”</a><!--\nignore -->部分。",
     "_note": ""
+  },
+  "Advanced Functions and Closures - The Rust Programming Language": {
+    "_translate": "高级函数和闭包 - 《Rust编程语言》",
+    "_note": ""
   }
 }

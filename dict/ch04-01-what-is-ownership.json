@@ -306,5 +306,9 @@
   "But this is too much ceremony and a lot of work for a concept that should be common. Luckily for us, Rust has a feature for using a value without transferring ownership, called references.": {
     "_translate": "但这对于一个应该常见的概念来说，太过繁琐和费力。幸运的是，Rust 有一个特性，可以在不转移所有权的情况下使用值，称为<em>引用</em>。",
     "_note": ""
+  },
+  "What is Ownership? - The Rust Programming Language": {
+    "_translate": "什么是所有权？ - 《Rust编程语言》",
+    "_note": ""
   }
 }

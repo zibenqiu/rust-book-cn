@@ -150,5 +150,9 @@
   "Now that we’ve seen a bunch of async in practice, let’s take a step back and dig into a few of the details of how Future, Stream, and the other key traits which Rust uses to make async work.": {
     "_translate": "现在我们已经看到了很多异步的实际应用，让我们退一步，深入探讨一下 Rust 用于实现异步的关键特质 <code>Future</code>、<code>Stream</code> 以及其他一些细节。",
     "_note": ""
+  },
+  "Streams - The Rust Programming Language": {
+    "_translate": "Streams - 《Rust 编程语言》",
+    "_note": ""
   }
 }

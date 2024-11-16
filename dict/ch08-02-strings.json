@@ -246,5 +246,9 @@
   "Let’s switch to something a bit less complex: hash maps!": {
     "_translate": "让我们切换到一个稍微简单点的主题：哈希映射！",
     "_note": ""
+  },
+  "Storing UTF-8 Encoded Text with Strings - The Rust Programming Language": {
+    "_translate": "使用字符串存储 UTF-8 编码的文本 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

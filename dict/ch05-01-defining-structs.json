@@ -114,5 +114,9 @@
   "In Chapter 10, we’ll discuss how to fix these errors so you can store references in structs, but for now, we’ll fix errors like these using owned types like String instead of references like &str.": {
     "_translate": "在第 10 章中，我们将讨论如何修复这些错误，以便您可以在结构体中存储引用，但目前，我们将使用拥有类型如 <code>String</code> 而不是引用如 <code>&amp;str</code> 来修复此类错误。",
     "_note": ""
+  },
+  "Defining and Instantiating Structs - The Rust Programming Language": {
+    "_translate": "定义和实例化结构体 - 《Rust编程语言》",
+    "_note": ""
   }
 }

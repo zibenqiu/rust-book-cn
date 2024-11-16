@@ -134,5 +134,9 @@
   "Our area function is very specific: it only computes the area of rectangles. It would be helpful to tie this behavior more closely to our Rectangle struct because it won’t work with any other type. Let’s look at how we can continue to refactor this code by turning the area function into an area method defined on our Rectangle type.": {
     "_translate": "我们的 <code>area</code> 函数非常具体：它只计算矩形的面积。\n将这种行为更紧密地与我们的 <code>Rectangle</code> 结构体关联起来会很有帮助，\n因为它对其他任何类型都无效。让我们看看如何通过将 <code>area</code> 函数转换为定义在 <code>Rectangle</code> 类型上的 <code>area</code> <em>方法</em> 来继续重构这段代码。",
     "_note": ""
+  },
+  "An Example Program Using Structs - The Rust Programming Language": {
+    "_translate": "一个使用结构体的示例程序 - 《Rust编程语言》",
+    "_note": ""
   }
 }

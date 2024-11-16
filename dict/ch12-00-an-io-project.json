@@ -26,5 +26,9 @@
   "We’ll also briefly introduce closures, iterators, and trait objects, which Chapter 13 and Chapter 18 will cover in detail.": {
     "_translate": "我们还将简要介绍闭包、迭代器和特征对象，<a href=\"ch13-00-functional-features.html\">第 13 章</a><!-- ignore --> 和 <a href=\"ch18-00-oop.html\">第 18 章</a><!-- ignore --> 将详细讨论这些内容。",
     "_note": ""
+  },
+  "An I/O Project: Building a Command Line Program - The Rust Programming Language": {
+    "_translate": "一个 I/O 项目：构建命令行程序 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

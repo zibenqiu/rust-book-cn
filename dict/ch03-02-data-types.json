@@ -202,5 +202,9 @@
   "This is an example of Rust’s memory safety principles in action. In many low-level languages, this kind of check is not done, and when you provide an incorrect index, invalid memory can be accessed. Rust protects you against this kind of error by immediately exiting instead of allowing the memory access and continuing. Chapter 9 discusses more of Rust’s error handling and how you can write readable, safe code that neither panics nor allows invalid memory access.": {
     "_translate": "这是 Rust 内存安全原则的一个实例。在许多低级语言中，不会进行这种检查，当你提供一个错误的索引时，可能会访问到无效的内存。Rust 通过立即退出而不是允许内存访问并继续执行来保护你免受此类错误的影响。第 9 章将讨论更多关于 Rust 的错误处理以及如何编写既可读又安全的代码，这些代码既不会引发恐慌也不会允许访问无效内存。",
     "_note": ""
+  },
+  "Data Types - The Rust Programming Language": {
+    "_translate": "数据类型 - 《Rust 编程语言》",
+    "_note": ""
   }
 }

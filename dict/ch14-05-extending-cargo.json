@@ -14,5 +14,9 @@
   "Sharing code with Cargo and crates.io is part of what makes the Rust ecosystem useful for many different tasks. Rust’s standard library is small and stable, but crates are easy to share, use, and improve on a timeline different from that of the language. Don’t be shy about sharing code that’s useful to you on crates.io; it’s likely that it will be useful to someone else as well!": {
     "_translate": "与 Cargo 和 <a href=\"https://crates.io/\">crates.io</a><!-- ignore --> 共享代码是使 Rust 生态系统对许多不同任务有用的组成部分。Rust 的标准库很小且稳定，但可以轻松地在与语言不同的时间线上共享、使用和改进 crates。不要犹豫，将对你有用的代码共享到 <a href=\"https://crates.io/\">crates.io</a><!-- ignore -->；很可能它对其他人也有用！",
     "_note": ""
+  },
+  "Extending Cargo with Custom Commands - The Rust Programming Language": {
+    "_translate": "使用自定义命令扩展 Cargo - 《Rust 编程语言》",
+    "_note": ""
   }
 }
