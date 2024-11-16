@@ -1,3 +1,7 @@
+> Rust Chinese documentation that automatically stays in sync with the original repository: https://rust.xheldon.com
+
+> 自动与原始仓库保持同步的 Rust 中文文档: https://rust.xheldon.com
+
 # English Instructions
 
 ## Rust Chinese Documentation
