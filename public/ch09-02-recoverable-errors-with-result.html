@@ -1,0 +1,604 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Recoverable Errors with Result - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch09-02-recoverable-errors-with-result.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="recoverable-errors-with-result"><a class="header" href="#recoverable-errors-with-result">可恢复的错误与<code>Result</code></a></h2>
+<p data-x-en="Most errors aren’t serious enough to require the program to stop entirely. Sometimes when a function fails it’s for a reason that you can easily interpret and respond to. For example, if you try to open a file and that operation fails because the file doesn’t exist, you might want to create the file instead of terminating the process.">大多数错误并不严重到需要程序完全停止。<br>有时，当一个函数失败时，原因是你很容易解释并作出反应的。例如，如果你尝试打开一个文件，而该操作失败是因为文件不存在，你可能希望创建该文件而不是终止进程。</p>
+<p data-x-en="Recall from “Handling Potential Failure with Result” in Chapter 2 that the Result enum is defined as having two variants, Ok and Err, as follows:">回想在第 2 章的 <a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-result">“使用 <code>Result</code> 处理潜在失败”</a><!--
+ignore --> 中，<code>Result</code> 枚举被定义为具有两个变体，<code>Ok</code> 和 <code>Err</code>，如下所示：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre></pre>
+<p data-x-en="The T and E are generic type parameters: we’ll discuss generics in more detail in Chapter 10. What you need to know right now is that T represents the type of the value that will be returned in a success case within the Ok variant, and E represents the type of the error that will be returned in a failure case within the Err variant. Because Result has these generic type parameters, we can use the Result type and the functions defined on it in many different situations where the success value and error value we want to return may differ.">The <code>T</code> 和 <code>E</code> 是泛型类型参数：我们将在第 10 章中更详细地讨论泛型。你现在需要知道的是，<code>T</code> 代表在 <code>Ok</code> 变体中成功情况下将返回的值的类型，而 <code>E</code> 代表在 <code>Err</code> 变体中失败情况下将返回的错误的类型。因为 <code>Result</code> 有这些泛型类型参数，我们可以在许多不同的情况下使用 <code>Result</code> 类型和定义在其上的函数，这些情况下我们想要返回的成功值和错误值可能不同。</p>
+<p data-x-en="Let’s call a function that returns a Result value because the function could fail. In Listing 9-3 we try to open a file.">让我们调用一个返回 <code>Result</code> 值的函数，因为该函数可能会失败。在示例 9-3 中，我们尝试打开一个文件。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+}</code></pre></pre>
+<figcaption>Listing 9-3: Opening a file</figcaption>
+</figure>
+<p data-x-en="The return type of File::open is a Result<T, E>. The generic parameter T has been filled in by the implementation of File::open with the type of the success value, std::fs::File, which is a file handle. The type of E used in the error value is std::io::Error. This return type means the call to File::open might succeed and return a file handle that we can read from or write to. The function call also might fail: for example, the file might not exist, or we might not have permission to access the file. The File::open function needs to have a way to tell us whether it succeeded or failed and at the same time give us either the file handle or error information. This information is exactly what the Result enum conveys."><code>File::open</code> 的返回类型是 <code>Result&lt;T, E&gt;</code>。泛型参数 <code>T</code>
+已被 <code>File::open</code> 的实现填充为成功值的类型，即 <code>std::fs::File</code>，这是一个文件句柄。错误值中使用的 <code>E</code> 类型是 <code>std::io::Error</code>。这种返回类型意味着对 <code>File::open</code> 的调用可能会成功并返回一个我们可以读取或写入的文件句柄。函数调用也可能会失败：例如，文件可能不存在，或者我们可能没有访问文件的权限。<code>File::open</code>
+函数需要有一种方式告诉我们它是否成功或失败，同时提供文件句柄或错误信息。这正是 <code>Result</code> 枚举所传达的信息。</p>
+<p data-x-en="In the case where File::open succeeds, the value in the variable greeting_file_result will be an instance of Ok that contains a file handle. In the case where it fails, the value in greeting_file_result will be an instance of Err that contains more information about the kind of error that occurred.">在 <code>File::open</code> 成功的情况下，变量 <code>greeting_file_result</code> 中的值将是一个包含文件句柄的 <code>Ok</code> 实例。在失败的情况下，<code>greeting_file_result</code> 中的值将是一个包含有关错误类型更多信息的 <code>Err</code> 实例。</p>
+<p data-x-en="We need to add to the code in Listing 9-3 to take different actions depending on the value File::open returns. Listing 9-4 shows one way to handle the Result using a basic tool, the match expression that we discussed in Chapter 6.">我们需要在清单 9-3 的代码中添加内容，以便根据 <code>File::open</code> 返回的值采取不同的行动。清单 9-4 展示了一种使用基本工具 <code>match</code> 表达式处理 <code>Result</code> 的方法，我们在第 6 章中讨论过这个表达式。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) =&gt; file,
+        Err(error) =&gt; panic!("Problem opening the file: {error:?}"),
+    };
+}</code></pre></pre>
+<figcaption>Listing 9-4: Using a <code>match</code> expression to handle the <code>Result</code> variants that might be returned</figcaption>
+</figure>
+<p data-x-en="Note that, like the Option enum, the Result enum and its variants have been brought into scope by the prelude, so we don’t need to specify Result:: before the Ok and Err variants in the match arms.">注意，像 <code>Option</code> 枚举一样，<code>Result</code> 枚举及其变体已被预导言引入作用域，因此我们无需在 <code>match</code> 分支中的 <code>Ok</code> 和 <code>Err</code> 变体前指定 <code>Result::</code>。</p>
+<p data-x-en="When the result is Ok, this code will return the inner file value out of the Ok variant, and we then assign that file handle value to the variable greeting_file. After the match, we can use the file handle for reading or writing.">当结果是 <code>Ok</code> 时，此代码将从 <code>Ok</code> 变体中返回内部的 <code>file</code> 值，然后我们将该文件句柄值赋给变量 <code>greeting_file</code>。在 <code>match</code> 之后，我们可以使用文件句柄进行读取或写入。</p>
+<p data-x-en="The other arm of the match handles the case where we get an Err value from File::open. In this example, we’ve chosen to call the panic! macro. If there’s no file named hello.txt in our current directory and we run this code, we’ll see the following output from the panic! macro:">另一个 <code>match</code> 的分支处理从 <code>File::open</code> 获取 <code>Err</code> 值的情况。在这个例子中，我们选择调用 <code>panic!</code> 宏。如果当前目录中没有名为 <em>hello.txt</em> 的文件并且我们运行此代码，我们将看到 <code>panic!</code> 宏的以下输出：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling error-handling v0.1.0 (file:///projects/error-handling)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
+     Running `target/debug/error-handling`
+thread 'main' panicked at src/main.rs:8:23:
+Problem opening the file: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p data-x-en="As usual, this output tells us exactly what has gone wrong.">如常，此输出确切地告诉我们出了什么问题。</p>
+<h3 id="matching-on-different-errors"><a class="header" href="#matching-on-different-errors">匹配不同的错误</a></h3>
+<p data-x-en="The code in Listing 9-4 will panic! no matter why File::open failed. However, we want to take different actions for different failure reasons. If File::open failed because the file doesn’t exist, we want to create the file and return the handle to the new file. If File::open failed for any other reason—for example, because we didn’t have permission to open the file—we still want the code to panic! in the same way it did in Listing 9-4. For this, we add an inner match expression, shown in Listing 9-5.">列表 9-4 中的代码无论 <code>File::open</code> 为何失败都会 <code>panic!</code>。然而，我们希望根据不同的失败原因采取不同的行动。如果 <code>File::open</code> 失败是因为文件不存在，我们希望创建该文件并返回新文件的句柄。如果 <code>File::open</code> 因其他原因失败——例如，因为我们没有权限打开文件——我们仍然希望代码像在列表 9-4 中那样 <code>panic!</code>。为此，我们添加了一个内部的 <code>match</code> 表达式，如列表 9-5 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- ignore this test because otherwise it creates hello.txt which causes other
+tests to fail lol -->
+<pre><code class="language-rust ignore">use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) =&gt; file,
+        Err(error) =&gt; match error.kind() {
+            ErrorKind::NotFound =&gt; match File::create("hello.txt") {
+                Ok(fc) =&gt; fc,
+                Err(e) =&gt; panic!("Problem creating the file: {e:?}"),
+            },
+            other_error =&gt; {
+                panic!("Problem opening the file: {other_error:?}");
+            }
+        },
+    };
+}</code></pre>
+<figcaption>Listing 9-5: Handling different kinds of errors in different ways</figcaption>
+</figure>
+<p data-x-en="The type of the value that File::open returns inside the Err variant is io::Error, which is a struct provided by the standard library. This struct has a method kind that we can call to get an io::ErrorKind value. The enum io::ErrorKind is provided by the standard library and has variants representing the different kinds of errors that might result from an io operation. The variant we want to use is ErrorKind::NotFound, which indicates the file we’re trying to open doesn’t exist yet. So we match on greeting_file_result, but we also have an inner match on error.kind()."><code>File::open</code> 在 <code>Err</code> 变体中返回的值的类型是 <code>io::Error</code>，这是一个由标准库提供的结构体。这个结构体有一个 <code>kind</code> 方法，我们可以调用它来获取一个 <code>io::ErrorKind</code> 值。枚举 <code>io::ErrorKind</code> 由标准库提供，具有表示可能从 <code>io</code> 操作中产生的不同类型的错误的变体。我们想要使用的变体是 <code>ErrorKind::NotFound</code>，它表示我们试图打开的文件还不存在。因此，我们对 <code>greeting_file_result</code> 进行匹配，但我们也对 <code>error.kind()</code> 进行内部匹配。</p>
+<p data-x-en="The condition we want to check in the inner match is whether the value returned by error.kind() is the NotFound variant of the ErrorKind enum. If it is, we try to create the file with File::create. However, because File::create could also fail, we need a second arm in the inner match expression. When the file can’t be created, a different error message is printed. The second arm of the outer match stays the same, so the program panics on any error besides the missing file error.">我们在内部 <code>match</code> 中要检查的条件是 <code>error.kind()</code> 返回的值是否是 <code>ErrorKind</code> 枚举的 <code>NotFound</code> 变体。如果是，我们尝试使用 <code>File::create</code> 创建文件。然而，因为 <code>File::create</code> 也可能失败，我们需要在内部 <code>match</code> 表达式中添加第二个分支。当文件无法创建时，会打印不同的错误消息。外部 <code>match</code> 的第二个分支保持不变，因此程序会在除文件缺失错误之外的任何错误上崩溃。</p>
+<section class="note" aria-role="note">
+<h4 id="alternatives-to-using-match-with-resultt-e"><a class="header" href="#alternatives-to-using-match-with-resultt-e">Alternatives to Using <code>match</code> with <code>Result&lt;T, E&gt;</code></a></h4>
+<p data-x-en="That’s a lot of match! The match expression is very useful but also very much a primitive. In Chapter 13, you’ll learn about closures, which are used with many of the methods defined on Result<T, E>. These methods can be more concise than using match when handling Result<T, E> values in your code.">那是很多 <code>match</code>！<code>match</code> 表达式非常有用，但也是非常基础的。在第 13 章，您将学习闭包，它们与 <code>Result&lt;T, E&gt;</code> 上定义的许多方法一起使用。这些方法在处理代码中的 <code>Result&lt;T, E&gt;</code> 值时，可以比使用 <code>match</code> 更简洁。</p>
+<p data-x-en="For example, here’s another way to write the same logic as shown in Listing 9-5, this time using closures and the unwrap_or_else method:">例如，这里是另一种编写与清单 9-5 中相同的逻辑的方法，这次使用闭包和 <code>unwrap_or_else</code> 方法：</p>
+<!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
+<pre><code class="language-rust ignore">use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {error:?}");
+            })
+        } else {
+            panic!("Problem opening the file: {error:?}");
+        }
+    });
+}</code></pre>
+<p data-x-en="Although this code has the same behavior as Listing 9-5, it doesn’t contain any match expressions and is cleaner to read. Come back to this example after you’ve read Chapter 13, and look up the unwrap_or_else method in the standard library documentation. Many more of these methods can clean up huge nested match expressions when you’re dealing with errors.">虽然这段代码的行为与清单 9-5 相同，但它不包含任何 <code>match</code> 表达式，读起来更干净。在阅读完第 13 章后，回过头来看这个例子，并查阅标准库文档中的 <code>unwrap_or_else</code> 方法。当你处理错误时，许多这样的方法可以清理巨大的嵌套 <code>match</code> 表达式。</p>
+</section>
+<h4 id="shortcuts-for-panic-on-error-unwrap-and-expect"><a class="header" href="#shortcuts-for-panic-on-error-unwrap-and-expect">Shortcuts for Panic on Error: <code>unwrap</code> and <code>expect</code></a></h4>
+<p data-x-en="Using match works well enough, but it can be a bit verbose and doesn’t always communicate intent well. The Result<T, E> type has many helper methods defined on it to do various, more specific tasks. The unwrap method is a shortcut method implemented just like the match expression we wrote in Listing 9-4. If the Result value is the Ok variant, unwrap will return the value inside the Ok. If the Result is the Err variant, unwrap will call the panic! macro for us. Here is an example of unwrap in action:">使用<code>match</code>效果很好，但有时会显得有些冗长，并且不总是能很好地传达意图。<code>Result&lt;T, E&gt;</code>类型定义了许多辅助方法，用于执行各种更具体的任务。<code>unwrap</code>方法是一个快捷方法，实现方式与我们在清单9-4中编写的<code>match</code>表达式相同。如果<code>Result</code>值是<code>Ok</code>变体，<code>unwrap</code>将返回<code>Ok</code>中的值。如果<code>Result</code>是<code>Err</code>变体，<code>unwrap</code>将为我们调用<code>panic!</code>宏。以下是一个<code>unwrap</code>的使用示例：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap();
+}</code></pre></pre>
+</figure>
+<p data-x-en="If we run this code without a hello.txt file, we’ll see an error message from the panic! call that the unwrap method makes:">如果我们没有 <em>hello.txt</em> 文件就运行这段代码，我们会看到 <code>unwrap</code> 方法调用的 <code>panic!</code> 产生的错误消息：</p>
+<!-- manual-regeneration
+cd listings/ch09-error-handling/no-listing-04-unwrap
+cargo run
+copy and paste relevant text
+-->
+<pre><code class="language-text">thread 'main' panicked at src/main.rs:4:49:
+called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+</code></pre>
+<p data-x-en="Similarly, the expect method lets us also choose the panic! error message. Using expect instead of unwrap and providing good error messages can convey your intent and make tracking down the source of a panic easier. The syntax of expect looks like this:">同样，<code>expect</code> 方法也让我们可以选择 <code>panic!</code> 错误消息。
+使用 <code>expect</code> 而不是 <code>unwrap</code> 并提供良好的错误消息可以传达
+您的意图，并使追踪恐慌的来源更容易。 <code>expect</code> 的语法如下：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")
+        .expect("hello.txt should be included in this project");
+}</code></pre></pre>
+</figure>
+<p data-x-en="We use expect in the same way as unwrap: to return the file handle or call the panic! macro. The error message used by expect in its call to panic! will be the parameter that we pass to expect, rather than the default panic! message that unwrap uses. Here’s what it looks like:">我们以与 <code>unwrap</code> 相同的方式使用 <code>expect</code>：返回文件句柄或调用 <code>panic!</code> 宏。<code>expect</code> 在调用 <code>panic!</code> 时使用的错误消息将是我们传递给 <code>expect</code> 的参数，而不是 <code>unwrap</code> 使用的默认 <code>panic!</code> 消息。以下是它的样子：</p>
+<!-- manual-regeneration
+cd listings/ch09-error-handling/no-listing-05-expect
+cargo run
+copy and paste relevant text
+-->
+<pre><code class="language-text">thread 'main' panicked at src/main.rs:5:10:
+hello.txt should be included in this project: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+</code></pre>
+<p data-x-en="In production-quality code, most Rustaceans choose expect rather than unwrap and give more context about why the operation is expected to always succeed. That way, if your assumptions are ever proven wrong, you have more information to use in debugging.">在生产质量的代码中，大多数 Rustaceans 选择 <code>expect</code> 而不是 <code>unwrap</code>，并提供更多关于为什么该操作预期总是成功的上下文。这样，如果您的假设被证明是错误的，您将拥有更多用于调试的信息。</p>
+<h3 id="propagating-errors"><a class="header" href="#propagating-errors">传播错误</a></h3>
+<p data-x-en="When a function’s implementation calls something that might fail, instead of handling the error within the function itself you can return the error to the calling code so that it can decide what to do. This is known as propagating the error and gives more control to the calling code, where there might be more information or logic that dictates how the error should be handled than what you have available in the context of your code.">当函数的实现调用可能失败的内容时，您可以将错误返回给调用代码，而不是在函数内部处理错误，以便调用代码可以决定如何处理。这被称为<em>传播</em>错误，为调用代码提供了更多控制，因为在调用代码中可能有更多的信息或逻辑来决定如何处理错误，而这些信息或逻辑在您的代码上下文中可能不可用。</p>
+<p data-x-en="For example, Listing 9-6 shows a function that reads a username from a file. If the file doesn’t exist or can’t be read, this function will return those errors to the code that called the function.">例如，列表 9-6 显示了一个从文件中读取用户名的函数。如果文件不存在或无法读取，此函数将返回这些错误给调用该函数的代码。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) =&gt; file,
+        Err(e) =&gt; return Err(e),
+    };
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&amp;mut username) {
+        Ok(_) =&gt; Ok(username),
+        Err(e) =&gt; Err(e),
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-6: A function that returns errors to the calling code using <code>match</code></figcaption>
+</figure>
+<p data-x-en="This function can be written in a much shorter way, but we’re going to start by doing a lot of it manually in order to explore error handling; at the end, we’ll show the shorter way. Let’s look at the return type of the function first: Result<String, io::Error>. This means the function is returning a value of the type Result<T, E>, where the generic parameter T has been filled in with the concrete type String and the generic type E has been filled in with the concrete type io::Error.">这个函数可以用更短的方式编写，但我们将从手动完成很多工作开始，以便探索错误处理；最后，我们将展示更短的方式。让我们先看看函数的返回类型：<code>Result&lt;String, io::Error&gt;</code>。这意味着函数返回一个类型为<code>Result&lt;T, E&gt;</code>的值，其中泛型参数<code>T</code>已被具体类型<code>String</code>填充，泛型类型<code>E</code>已被具体类型<code>io::Error</code>填充。</p>
+<p data-x-en="If this function succeeds without any problems, the code that calls this function will receive an Ok value that holds a String—the username that this function read from the file. If this function encounters any problems, the calling code will receive an Err value that holds an instance of io::Error that contains more information about what the problems were. We chose io::Error as the return type of this function because that happens to be the type of the error value returned from both of the operations we’re calling in this function’s body that might fail: the File::open function and the read_to_string method.">如果这个函数成功执行没有任何问题，调用这个函数的代码将收到一个<code>Ok</code>值，其中包含一个<code>String</code>——即这个函数从文件中读取的<code>username</code>。如果这个函数遇到任何问题，调用代码将收到一个<code>Err</code>值，其中包含一个<code>io::Error</code>实例，该实例包含有关问题的更多信息。我们选择<code>io::Error</code>作为此函数的返回类型，因为这恰好是我们在这个函数体中调用的两个可能失败的操作返回的错误值类型：<code>File::open</code>函数和<code>read_to_string</code>方法。</p>
+<p data-x-en="The body of the function starts by calling the File::open function. Then we handle the Result value with a match similar to the match in Listing 9-4. If File::open succeeds, the file handle in the pattern variable file becomes the value in the mutable variable username_file and the function continues. In the Err case, instead of calling panic!, we use the return keyword to return early out of the function entirely and pass the error value from File::open, now in the pattern variable e, back to the calling code as this function’s error value.">函数体首先调用 <code>File::open</code> 函数。然后我们使用一个类似于列表 9-4 中的 <code>match</code> 来处理 <code>Result</code> 值。
+如果 <code>File::open</code> 成功，模式变量 <code>file</code> 中的文件句柄将成为可变变量 <code>username_file</code> 的值，函数将继续执行。在 <code>Err</code> 情况下，我们不是调用 <code>panic!</code>，而是使用 <code>return</code> 关键字提前从函数中返回，并将 <code>File::open</code> 返回的错误值，现在在模式变量 <code>e</code> 中，作为此函数的错误值传递给调用代码。</p>
+<p data-x-en="So, if we have a file handle in username_file, the function then creates a new String in variable username and calls the read_to_string method on the file handle in username_file to read the contents of the file into username. The read_to_string method also returns a Result because it might fail, even though File::open succeeded. So we need another match to handle that Result: if read_to_string succeeds, then our function has succeeded, and we return the username from the file that’s now in username wrapped in an Ok. If read_to_string fails, we return the error value in the same way that we returned the error value in the match that handled the return value of File::open. However, we don’t need to explicitly say return, because this is the last expression in the function.">所以，如果我们有一个文件句柄在 <code>username_file</code> 中，该函数会在变量 <code>username</code> 中创建一个新的 <code>String</code>，并调用 <code>username_file</code> 中的文件句柄的 <code>read_to_string</code> 方法，将文件内容读取到 <code>username</code> 中。<code>read_to_string</code> 方法也会返回一个 <code>Result</code>，因为它可能会失败，即使 <code>File::open</code> 成功了。所以我们需要另一个 <code>match</code> 来处理这个 <code>Result</code>：如果 <code>read_to_string</code> 成功，那么我们的函数就成功了，我们返回一个包含在 <code>Ok</code> 中的文件中的用户名，该用户名现在在 <code>username</code> 中。如果 <code>read_to_string</code> 失败，我们以与处理 <code>File::open</code> 返回值的 <code>match</code> 中返回错误值相同的方式返回错误值。然而，我们不需要显式地说 <code>return</code>，因为这是函数中的最后一个表达式。</p>
+<p data-x-en="The code that calls this code will then handle getting either an Ok value that contains a username or an Err value that contains an io::Error. It’s up to the calling code to decide what to do with those values. If the calling code gets an Err value, it could call panic! and crash the program, use a default username, or look up the username from somewhere other than a file, for example. We don’t have enough information on what the calling code is actually trying to do, so we propagate all the success or error information upward for it to handle appropriately.">调用此代码的代码将处理获取一个包含用户名的<code>Ok</code>值或包含一个<code>io::Error</code>的<code>Err</code>值。由调用代码决定如何处理这些值。如果调用代码获取到一个<code>Err</code>值，它可以调用<code>panic!</code>并使程序崩溃，使用默认用户名，或者从文件以外的其他地方查找用户名，例如。我们没有足够的信息来了解调用代码实际试图做什么，所以我们向上传递所有成功或错误信息，以便它能够适当地处理。</p>
+<p data-x-en="This pattern of propagating errors is so common in Rust that Rust provides the question mark operator ? to make this easier.">这种传播错误的模式在 Rust 中非常常见，以至于 Rust 提供了问号操作符 <code>?</code> 来使这变得更加容易。</p>
+<h4 id="a-shortcut-for-propagating-errors-the--operator"><a class="header" href="#a-shortcut-for-propagating-errors-the--operator">A Shortcut for Propagating Errors: the <code>?</code> Operator</a></h4>
+<p data-x-en="Listing 9-7 shows an implementation of read_username_from_file that has the same functionality as in Listing 9-6, but this implementation uses the ? operator.">列表 9-7 显示了 <code>read_username_from_file</code> 的一个实现，该实现与列表 9-6 中的功能相同，但此实现使用了 <code>?</code> 操作符。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut username_file = File::open("hello.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&amp;mut username)?;
+    Ok(username)
+}
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-7: A function that returns errors to the calling code using the <code>?</code> operator</figcaption>
+</figure>
+<p data-x-en="The ? placed after a Result value is defined to work in almost the same way as the match expressions we defined to handle the Result values in Listing 9-6. If the value of the Result is an Ok, the value inside the Ok will get returned from this expression, and the program will continue. If the value is an Err, the Err will be returned from the whole function as if we had used the return keyword so the error value gets propagated to the calling code.">放置在 <code>Result</code> 值后面的 <code>?</code> 被定义为几乎以与我们在清单 9-6 中定义的处理 <code>Result</code> 值的 <code>match</code> 表达式相同的方式工作。如果 <code>Result</code> 的值是 <code>Ok</code>，则 <code>Ok</code> 内的值将从这个表达式返回，程序将继续执行。如果值是 <code>Err</code>，则 <code>Err</code> 将从整个函数返回，就像我们使用了 <code>return</code> 关键字一样，因此错误值将传播到调用代码。</p>
+<p data-x-en="There is a difference between what the match expression from Listing 9-6 does and what the ? operator does: error values that have the ? operator called on them go through the from function, defined in the From trait in the standard library, which is used to convert values from one type into another. When the ? operator calls the from function, the error type received is converted into the error type defined in the return type of the current function. This is useful when a function returns one error type to represent all the ways a function might fail, even if parts might fail for many different reasons."><code>match</code> 表达式（来自清单 9-6）和 <code>?</code> 操作符之间存在差异：调用了 <code>?</code> 操作符的错误值会通过标准库中定义的 <code>From</code> 特性中的 <code>from</code> 函数进行处理，该函数用于将值从一种类型转换为另一种类型。当 <code>?</code> 操作符调用 <code>from</code> 函数时，接收到的错误类型会被转换为当前函数返回类型中定义的错误类型。这在函数返回一种错误类型以表示函数可能失败的所有方式时非常有用，即使某些部分可能因多种不同原因而失败。</p>
+<p data-x-en="For example, we could change the read_username_from_file function in Listing 9-7 to return a custom error type named OurError that we define. If we also define impl From<io::Error> for OurError to construct an instance of OurError from an io::Error, then the ? operator calls in the body of read_username_from_file will call from and convert the error types without needing to add any more code to the function.">例如，我们可以将清单 9-7 中的 <code>read_username_from_file</code> 函数更改为返回一个我们定义的名为 <code>OurError</code> 的自定义错误类型。如果我们还定义了 <code>impl From&lt;io::Error&gt; for OurError</code> 以从 <code>io::Error</code> 构造 <code>OurError</code> 的实例，那么 <code>read_username_from_file</code> 函数体中的 <code>?</code> 操作符调用将调用 <code>from</code> 并转换错误类型，而无需在函数中添加任何更多代码。</p>
+<p data-x-en="In the context of Listing 9-7, the ? at the end of the File::open call will return the value inside an Ok to the variable username_file. If an error occurs, the ? operator will return early out of the whole function and give any Err value to the calling code. The same thing applies to the ? at the end of the read_to_string call.">在清单 9-7 的上下文中，<code>File::open</code> 调用末尾的 <code>?</code> 将把 <code>Ok</code> 中的值返回给变量 <code>username_file</code>。如果发生错误，<code>?</code> 操作符将从整个函数中提前返回，并将任何 <code>Err</code> 值传递给调用代码。<code>read_to_string</code> 调用末尾的 <code>?</code> 也是如此。</p>
+<p data-x-en="The ? operator eliminates a lot of boilerplate and makes this function’s implementation simpler. We could even shorten this code further by chaining method calls immediately after the ?, as shown in Listing 9-8."><code>?</code> 操作符消除了大量样板代码，使这个函数的实现更简单。我们甚至可以通过在 <code>?</code> 之后立即链式调用方法来进一步缩短代码，如清单 9-8 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut username = String::new();
+
+    File::open("hello.txt")?.read_to_string(&amp;mut username)?;
+
+    Ok(username)
+}
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-8: Chaining method calls after the <code>?</code> operator</figcaption>
+</figure>
+<p data-x-en="We’ve moved the creation of the new String in username to the beginning of the function; that part hasn’t changed. Instead of creating a variable username_file, we’ve chained the call to read_to_string directly onto the result of File::open(&quot;hello.txt&quot;)?. We still have a ? at the end of the read_to_string call, and we still return an Ok value containing username when both File::open and read_to_string succeed rather than returning errors. The functionality is again the same as in Listing 9-6 and Listing 9-7; this is just a different, more ergonomic way to write it.">我们将创建新的<code>String</code>在<code>username</code>中的代码移到了函数的开头；那部分没有改变。我们没有创建一个变量<code>username_file</code>，而是将调用<code>read_to_string</code>直接链接到<code>File::open("hello.txt")?</code>的结果上。我们在<code>read_to_string</code>调用的末尾仍然有一个<code>?</code>，并且当<code>File::open</code>和<code>read_to_string</code>都成功时，我们仍然返回一个包含<code>username</code>的<code>Ok</code>值，而不是返回错误。功能与清单9-6和清单9-7相同；这只是以不同且更符合人体工程学的方式编写。</p>
+<p data-x-en="Listing 9-9 shows a way to make this even shorter using fs::read_to_string.">列表 9-9 显示了使用 <code>fs::read_to_string</code> 使这更短的方法。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs;
+use std::io;
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    fs::read_to_string("hello.txt")
+}
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-9: Using <code>fs::read_to_string</code> instead of opening and then reading the file</figcaption>
+</figure>
+<p data-x-en="Reading a file into a string is a fairly common operation, so the standard library provides the convenient fs::read_to_string function that opens the file, creates a new String, reads the contents of the file, puts the contents into that String, and returns it. Of course, using fs::read_to_string doesn’t give us the opportunity to explain all the error handling, so we did it the longer way first.">将文件读取到字符串中是一个相当常见的操作，因此标准库提供了方便的<code>fs::read_to_string</code>函数，该函数打开文件，创建一个新的<code>String</code>，读取文件内容，将内容放入该<code>String</code>中，并返回它。当然，使用<code>fs::read_to_string</code>不会给我们解释所有错误处理的机会，所以我们先用了更长的方法。</p>
+<h4 id="where-the--operator-can-be-used"><a class="header" href="#where-the--operator-can-be-used">Where The <code>?</code> Operator Can Be Used</a></h4>
+<p data-x-en="The ? operator can only be used in functions whose return type is compatible with the value the ? is used on. This is because the ? operator is defined to perform an early return of a value out of the function, in the same manner as the match expression we defined in Listing 9-6. In Listing 9-6, the match was using a Result value, and the early return arm returned an Err(e) value. The return type of the function has to be a Result so that it’s compatible with this return."><code>?</code> 操作符只能用于返回类型与 <code>?</code> 操作符所使用的值兼容的函数中。这是因为 <code>?</code> 操作符被定义为以与我们在清单 9-6 中定义的 <code>match</code> 表达式相同的方式，提前从函数中返回一个值。在清单 9-6 中，<code>match</code> 使用了一个 <code>Result</code> 值，提前返回的分支返回了一个 <code>Err(e)</code> 值。函数的返回类型必须是 <code>Result</code>，以便与这个 <code>return</code> 兼容。</p>
+<p data-x-en="In Listing 9-10, let’s look at the error we’ll get if we use the ? operator in a main function with a return type that is incompatible with the type of the value we use ? on.">在清单 9-10 中，让我们看看如果在返回类型与我们使用 <code>?</code> 的值类型不兼容的 <code>main</code> 函数中使用 <code>?</code> 操作符，将会得到什么错误。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")?;
+}</code></pre>
+<figcaption>Listing 9-10: Attempting to use the <code>?</code> in the <code>main</code> function that returns <code>()</code> won’t compile.</figcaption>
+</figure>
+<p data-x-en="This code opens a file, which might fail. The ? operator follows the Result value returned by File::open, but this main function has the return type of (), not Result. When we compile this code, we get the following error message:">这段代码打开一个文件，这可能会失败。<code>?</code> 操作符跟随 <code>File::open</code> 返回的 <code>Result</code> 值，但这个 <code>main</code> 函数的返回类型是 <code>()</code>，而不是 <code>Result</code>。当我们编译这段代码时，我们得到以下错误信息：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling error-handling v0.1.0 (file:///projects/error-handling)
+error[E0277]: the `?` operator can only be used in a function that returns `Result` or `Option` (or another type that implements `FromResidual`)
+ --&gt; src/main.rs:4:48
+  |
+3 | fn main() {
+  | --------- this function should return `Result` or `Option` to accept `?`
+4 |     let greeting_file = File::open("hello.txt")?;
+  |                                                ^ cannot use the `?` operator in a function that returns `()`
+  |
+  = help: the trait `FromResidual&lt;Result&lt;Infallible, std::io::Error&gt;&gt;` is not implemented for `()`
+help: consider adding return type
+  |
+3 ~ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+4 |     let greeting_file = File::open("hello.txt")?;
+5 +     Ok(())
+  |
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `error-handling` (bin "error-handling") due to 1 previous error
+</code></pre>
+<p data-x-en="This error points out that we’re only allowed to use the ? operator in a function that returns Result, Option, or another type that implements FromResidual.">这个错误指出，我们只能在返回 <code>Result</code>、<code>Option</code> 或实现 <code>FromResidual</code> 的其他类型的函数中使用 <code>?</code> 操作符。</p>
+<p data-x-en="To fix the error, you have two choices. One choice is to change the return type of your function to be compatible with the value you’re using the ? operator on as long as you have no restrictions preventing that. The other choice is to use a match or one of the Result<T, E> methods to handle the Result<T, E> in whatever way is appropriate.">要修复错误，你有两个选择。一个选择是更改函数的返回类型，使其与你使用 <code>?</code> 操作符的值兼容，只要你没有限制阻止这样做。另一个选择是使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 的方法之一来以适当的方式处理 <code>Result&lt;T, E&gt;</code>。</p>
+<p data-x-en="The error message also mentioned that ? can be used with Option<T> values as well. As with using ? on Result, you can only use ? on Option in a function that returns an Option. The behavior of the ? operator when called on an Option<T> is similar to its behavior when called on a Result<T, E>: if the value is None, the None will be returned early from the function at that point. If the value is Some, the value inside the Some is the resultant value of the expression, and the function continues. Listing 9-11 has an example of a function that finds the last character of the first line in the given text.">错误消息还提到，<code>?</code> 也可以与 <code>Option&lt;T&gt;</code> 值一起使用。与在 <code>Result</code> 上使用 <code>?</code> 一样，你只能在返回 <code>Option</code> 的函数中使用 <code>?</code>。当在 <code>Option&lt;T&gt;</code> 上调用 <code>?</code> 操作符时，其行为类似于在 <code>Result&lt;T, E&gt;</code> 上调用时的行为：如果值是 <code>None</code>，则在该点函数会提前返回 <code>None</code>。如果值是 <code>Some</code>，则 <code>Some</code> 内的值是表达式的结果值，函数继续执行。列表 9-11 有一个示例函数，该函数查找给定文本中第一行的最后一个字符。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
+    text.lines().next()?.chars().last()
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(
+</span><span class="boring">        last_char_of_first_line("Hello, world\nHow are you today?"),
+</span><span class="boring">        Some('d')
+</span><span class="boring">    );
+</span><span class="boring">
+</span><span class="boring">    assert_eq!(last_char_of_first_line(""), None);
+</span><span class="boring">    assert_eq!(last_char_of_first_line("\nhi"), None);
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-11: Using the <code>?</code> operator on an <code>Option&lt;T&gt;</code> value</figcaption>
+</figure>
+<p data-x-en="This function returns Option<char> because it’s possible that there is a character there, but it’s also possible that there isn’t. This code takes the text string slice argument and calls the lines method on it, which returns an iterator over the lines in the string. Because this function wants to examine the first line, it calls next on the iterator to get the first value from the iterator. If text is the empty string, this call to next will return None, in which case we use ? to stop and return None from last_char_of_first_line. If text is not the empty string, next will return a Some value containing a string slice of the first line in text.">这个函数返回 <code>Option&lt;char&gt;</code>，因为可能存在一个字符，但也可能不存在。这段代码接受 <code>text</code> 字符串切片参数，并在其上调用 <code>lines</code> 方法，该方法返回一个遍历字符串中各行的迭代器。因为这个函数想要检查第一行，所以它在迭代器上调用 <code>next</code> 以获取迭代器中的第一个值。如果 <code>text</code> 是空字符串，这次对 <code>next</code> 的调用将返回 <code>None</code>，在这种情况下我们使用 <code>?</code> 来停止并从 <code>last_char_of_first_line</code> 返回 <code>None</code>。如果 <code>text</code> 不是空字符串，<code>next</code> 将返回一个包含 <code>text</code> 中第一行字符串切片的 <code>Some</code> 值。</p>
+<p data-x-en="The ? extracts the string slice, and we can call chars on that string slice to get an iterator of its characters. We’re interested in the last character in this first line, so we call last to return the last item in the iterator. This is an Option because it’s possible that the first line is the empty string; for example, if text starts with a blank line but has characters on other lines, as in &quot;\nhi&quot;. However, if there is a last character on the first line, it will be returned in the Some variant. The ? operator in the middle gives us a concise way to express this logic, allowing us to implement the function in one line. If we couldn’t use the ? operator on Option, we’d have to implement this logic using more method calls or a match expression."><code>?</code> 提取字符串切片，我们可以在该字符串切片上调用 <code>chars</code>
+以获取其字符的迭代器。我们对这第一行的最后一个字符感兴趣，因此我们调用 <code>last</code> 以返回迭代器中的最后一项。
+这是一个 <code>Option</code>，因为第一行可能是空字符串；例如，如果 <code>text</code> 以空白行开始但在其他行上有字符，如 <code>"\nhi"</code>。然而，如果第一行有最后一个字符，它将以 <code>Some</code> 变体的形式返回。中间的 <code>?</code> 运算符为我们提供了一种简洁的方式来表达这种逻辑，使我们能够用一行代码实现该函数。如果我们不能在 <code>Option</code> 上使用 <code>?</code> 运算符，我们就必须使用更多的方法调用或 <code>match</code> 表达式来实现这种逻辑。</p>
+<p data-x-en="Note that you can use the ? operator on a Result in a function that returns Result, and you can use the ? operator on an Option in a function that returns Option, but you can’t mix and match. The ? operator won’t automatically convert a Result to an Option or vice versa; in those cases, you can use methods like the ok method on Result or the ok_or method on Option to do the conversion explicitly.">请注意，您可以在返回 <code>Result</code> 的函数中使用 <code>?</code> 操作符处理 <code>Result</code>，也可以在返回 <code>Option</code> 的函数中使用 <code>?</code> 操作符处理 <code>Option</code>，但不能混用。 <code>?</code> 操作符不会自动将 <code>Result</code> 转换为 <code>Option</code> 或反之；在这种情况下，您可以使用 <code>Result</code> 上的 <code>ok</code> 方法或 <code>Option</code> 上的 <code>ok_or</code> 方法显式地进行转换。</p>
+<p data-x-en="So far, all the main functions we’ve used return (). The main function is special because it’s the entry point and exit point of an executable program, and there are restrictions on what its return type can be for the program to behave as expected.">到目前为止，我们使用的所有 <code>main</code> 函数都返回 <code>()</code>。<code>main</code> 函数是特殊的，因为它是可执行程序的入口点和出口点，为了使程序按预期运行，对其返回类型有一些限制。</p>
+<p data-x-en="Luckily, main can also return a Result<(), E>. Listing 9-12 has the code from Listing 9-10, but we’ve changed the return type of main to be Result<(), Box<dyn Error>> and added a return value Ok(()) to the end. This code will now compile.">幸好，<code>main</code> 也可以返回一个 <code>Result&lt;(), E&gt;</code>。列表 9-12 有来自列表 9-10 的代码，但我们已将 <code>main</code> 的返回类型更改为 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code> 并在末尾添加了一个返回值 <code>Ok(())</code>。此代码现在可以编译。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use std::error::Error;
+use std::fs::File;
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let greeting_file = File::open("hello.txt")?;
+
+    Ok(())
+}</code></pre>
+<figcaption>Listing 9-12: Changing <code>main</code> to return <code>Result&lt;(), E&gt;</code> allows the use of the <code>?</code> operator on <code>Result</code> values.</figcaption>
+</figure>
+<p data-x-en="The Box<dyn Error> type is a trait object, which we’ll talk about in the “Using Trait Objects that Allow for Values of Different Types” section in Chapter 18. For now, you can read Box<dyn Error> to mean “any kind of error.” Using ? on a Result value in a main function with the error type Box<dyn Error> is allowed because it allows any Err value to be returned early. Even though the body of this main function will only ever return errors of type std::io::Error, by specifying Box<dyn Error>, this signature will continue to be correct even if more code that returns other errors is added to the body of main."><code>Box&lt;dyn Error&gt;</code> 类型是一个 <em>特征对象</em>，我们将在第 18 章的
+<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型值的特征对象”</a><!-- ignore --> 部分讨论。目前，你可以将 <code>Box&lt;dyn Error&gt;</code> 理解为“任何类型的错误”。在具有错误类型 <code>Box&lt;dyn Error&gt;</code> 的 <code>main</code> 函数中对 <code>Result</code> 值使用 <code>?</code> 是允许的，因为它允许任何 <code>Err</code> 值提前返回。尽管这个 <code>main</code> 函数的主体将只会返回 <code>std::io::Error</code> 类型的错误，但通过指定 <code>Box&lt;dyn Error&gt;</code>，即使在 <code>main</code> 函数的主体中添加了返回其他错误的代码，此签名也将继续正确。</p>
+<p data-x-en="When a main function returns a Result<(), E>, the executable will exit with a value of 0 if main returns Ok(()) and will exit with a nonzero value if main returns an Err value. Executables written in C return integers when they exit: programs that exit successfully return the integer 0, and programs that error return some integer other than 0. Rust also returns integers from executables to be compatible with this convention.">当 <code>main</code> 函数返回一个 <code>Result&lt;(), E&gt;</code> 时，如果 <code>main</code> 返回 <code>Ok(())</code>，可执行文件将退出并返回值 <code>0</code>；如果 <code>main</code> 返回一个 <code>Err</code> 值，可执行文件将退出并返回一个非零值。用 C 语言编写的可执行文件在退出时返回整数：成功退出的程序返回整数 <code>0</code>，而发生错误的程序返回一个非 <code>0</code> 的整数。Rust 也从可执行文件返回整数，以兼容这一惯例。</p>
+<p data-x-en="The main function may return any types that implement the std::process::Termination trait, which contains a function report that returns an ExitCode. Consult the standard library documentation for more information on implementing the Termination trait for your own types."><code>main</code> 函数可以返回任何实现了 <a href="../std/process/trait.Termination.html">the <code>std::process::Termination</code> 特性</a><!-- ignore --> 的类型，其中包含一个返回 <code>ExitCode</code> 的函数 <code>report</code>。有关为您的类型实现 <code>Termination</code> 特性的更多信息，请参阅标准库文档。</p>
+<p data-x-en="Now that we’ve discussed the details of calling panic! or returning Result, let’s return to the topic of how to decide which is appropriate to use in which cases.">现在我们已经讨论了调用<code>panic!</code>或返回<code>Result</code>的细节，让我们回到如何决定在哪些情况下使用哪个主题。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch09-01-unrecoverable-errors-with-panic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch09-03-to-panic-or-not-to-panic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch09-01-unrecoverable-errors-with-panic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch09-03-to-panic-or-not-to-panic.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

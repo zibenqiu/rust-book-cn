@@ -1,0 +1,440 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Storing Keys with Associated Values in Hash Maps - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch08-03-hash-maps.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="storing-keys-with-associated-values-in-hash-maps"><a class="header" href="#storing-keys-with-associated-values-in-hash-maps">在哈希映射中存储带有相关值的键</a></h2>
+<p data-x-en="The last of our common collections is the hash map. The type HashMap<K, V> stores a mapping of keys of type K to values of type V using a hashing function, which determines how it places these keys and values into memory. Many programming languages support this kind of data structure, but they often use a different name, such as hash, map, object, hash table, dictionary, or associative array, just to name a few.">我们最后一种常见的集合是<em>哈希映射</em>。类型<code>HashMap&lt;K, V&gt;</code>
+存储了从类型为<code>K</code>的键到类型为<code>V</code>的值的映射，使用一个<em>哈希函数</em>，该函数决定了这些键和值如何被放置到内存中。
+许多编程语言支持这种数据结构，但它们通常使用不同的名称，例如<em>哈希</em>、<em>映射</em>、<em>对象</em>、<em>哈希表</em>、
+<em>字典</em>或<em>关联数组</em>，仅举几例。</p>
+<p data-x-en="Hash maps are useful when you want to look up data not by using an index, as you can with vectors, but by using a key that can be of any type. For example, in a game, you could keep track of each team’s score in a hash map in which each key is a team’s name and the values are each team’s score. Given a team name, you can retrieve its score.">哈希映射在你想要通过键而不是像使用向量那样通过索引来查找数据时非常有用，键可以是任何类型。例如，在游戏中，你可以使用哈希映射来跟踪每个团队的得分，其中每个键是团队的名称，值是每个团队的得分。给定一个团队名称，你可以检索其得分。</p>
+<p data-x-en="We’ll go over the basic API of hash maps in this section, but many more goodies are hiding in the functions defined on HashMap<K, V> by the standard library. As always, check the standard library documentation for more information.">我们将在这部分介绍哈希映射的基本 API，但标准库中定义的 <code>HashMap&lt;K, V&gt;</code> 还隐藏着许多其他功能。如往常一样，更多详细信息请查阅标准库文档。</p>
+<h3 id="creating-a-new-hash-map"><a class="header" href="#creating-a-new-hash-map">创建新的哈希映射</a></h3>
+<p data-x-en="One way to create an empty hash map is to use new and to add elements with insert. In Listing 8-20, we’re keeping track of the scores of two teams whose names are Blue and Yellow. The Blue team starts with 10 points, and the Yellow team starts with 50.">创建一个空的哈希映射的一种方法是使用<code>new</code>并使用<code>insert</code>添加元素。在清单8-20中，我们正在跟踪两个团队的得分，这两个团队的名字分别是<em>蓝色</em>和<em>黄色</em>。蓝色团队从10分开始，黄色团队从50分开始。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-20: Creating a new hash map and inserting some keys and values</figcaption>
+</figure>
+<p data-x-en="Note that we need to first use the HashMap from the collections portion of the standard library. Of our three common collections, this one is the least often used, so it’s not included in the features brought into scope automatically in the prelude. Hash maps also have less support from the standard library; there’s no built-in macro to construct them, for example.">请注意，我们需要首先 <code>use</code> 来自标准库集合部分的 <code>HashMap</code>。在我们常用的三种集合中，这个集合使用频率最低，因此没有包含在预定义模块中自动引入的功能范围内。哈希映射在标准库中的支持也较少；例如，没有内置的宏来构造它们。</p>
+<p data-x-en="Just like vectors, hash maps store their data on the heap. This HashMap has keys of type String and values of type i32. Like vectors, hash maps are homogeneous: all of the keys must have the same type, and all of the values must have the same type.">就像向量一样，哈希映射将其数据存储在堆上。这个<code>HashMap</code>具有类型为<code>String</code>的键和类型为<code>i32</code>的值。像向量一样，哈希映射是同质的：所有键必须具有相同的类型，所有值必须具有相同的类型。</p>
+<h3 id="accessing-values-in-a-hash-map"><a class="header" href="#accessing-values-in-a-hash-map">访问哈希映射中的值</a></h3>
+<p data-x-en="We can get a value out of the hash map by providing its key to the get method, as shown in Listing 8-21.">我们可以通过向 <code>get</code> 方法提供其键来从哈希映射中获取值，如清单 8-21 所示。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
+
+    let team_name = String::from("Blue");
+    let score = scores.get(&amp;team_name).copied().unwrap_or(0);
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-21: Accessing the score for the Blue team stored in the hash map</figcaption>
+</figure>
+<p data-x-en="Here, score will have the value that’s associated with the Blue team, and the result will be 10. The get method returns an Option<&amp;V>; if there’s no value for that key in the hash map, get will return None. This program handles the Option by calling copied to get an Option<i32> rather than an Option<&amp;i32>, then unwrap_or to set score to zero if scores doesn’t have an entry for the key.">这里，<code>score</code> 将拥有与 Blue 队相关联的值，结果将是 <code>10</code>。<code>get</code> 方法返回一个 <code>Option&lt;&amp;V&gt;</code>；如果哈希映射中没有该键的值，<code>get</code> 将返回 <code>None</code>。此程序通过调用 <code>copied</code> 将 <code>Option&lt;&amp;i32&gt;</code> 转换为 <code>Option&lt;i32&gt;</code>，然后使用 <code>unwrap_or</code> 如果 <code>scores</code> 没有该键的条目，则将 <code>score</code> 设置为零。</p>
+<p data-x-en="We can iterate over each key–value pair in a hash map in a similar manner as we do with vectors, using a for loop:">我们可以使用 <code>for</code> 循环以类似于处理向量的方式遍历哈希映射中的每个键值对：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
+
+    for (key, value) in &amp;scores {
+        println!("{key}: {value}");
+    }
+<span class="boring">}</span></code></pre></pre>
+<p data-x-en="This code will print each pair in an arbitrary order:">这段代码将以任意顺序打印每对：<code>println!("{:?}", pair);</code></p>
+<pre><code class="language-text">Yellow: 50
+Blue: 10
+</code></pre>
+<h3 id="hash-maps-and-ownership"><a class="header" href="#hash-maps-and-ownership">哈希映射和所有权</a></h3>
+<p data-x-en="For types that implement the Copy trait, like i32, the values are copied into the hash map. For owned values like String, the values will be moved and the hash map will be the owner of those values, as demonstrated in Listing 8-22.">对于实现了 <code>Copy</code> 特性的类型，如 <code>i32</code>，值会被复制到哈希映射中。对于像 <code>String</code> 这样的拥有值，值将被移动，并且哈希映射将成为这些值的所有者，如清单 8-22 所示。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+
+    let mut map = HashMap::new();
+    map.insert(field_name, field_value);
+    // field_name and field_value are invalid at this point, try using them and
+    // see what compiler error you get!
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-22: Showing that keys and values are owned by the hash map once they’re inserted</figcaption>
+</figure>
+<p data-x-en="We aren’t able to use the variables field_name and field_value after they’ve been moved into the hash map with the call to insert.">我们无法在将 <code>field_name</code> 和 <code>field_value</code> 移动到哈希映射中后使用它们，调用 <code>insert</code> 之后。</p>
+<p data-x-en="If we insert references to values into the hash map, the values won’t be moved into the hash map. The values that the references point to must be valid for at least as long as the hash map is valid. We’ll talk more about these issues in the “Validating References with Lifetimes” section in Chapter 10.">如果我们插入值的引用到哈希映射中，这些值不会被移动到哈希映射中。引用指向的值必须至少与哈希映射的生命周期一样长。我们将在第10章的<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">“使用生命周期验证引用”</a><!-- ignore -->部分详细讨论这些问题。</p>
+<h3 id="updating-a-hash-map"><a class="header" href="#updating-a-hash-map">更新哈希映射</a></h3>
+<p data-x-en="Although the number of key and value pairs is growable, each unique key can only have one value associated with it at a time (but not vice versa: for example, both the Blue team and the Yellow team could have the value 10 stored in the scores hash map).">虽然键值对的数量是可增长的，但每个唯一的键一次只能有一个值与之关联（但反之则不然：例如，Blue 队和 Yellow 队都可以在 <code>scores</code> 哈希映射中存储值 <code>10</code>）。</p>
+<p data-x-en="When you want to change the data in a hash map, you have to decide how to handle the case when a key already has a value assigned. You could replace the old value with the new value, completely disregarding the old value. You could keep the old value and ignore the new value, only adding the new value if the key doesn’t already have a value. Or you could combine the old value and the new value. Let’s look at how to do each of these!">当你想要更改哈希映射中的数据时，你必须决定如何处理键已经分配了值的情况。你可以用新值替换旧值，完全忽略旧值。你可以保留旧值并忽略新值，只有在键<em>没有</em>已经有一个值时才添加新值。或者你可以将旧值和新值结合起来。让我们看看如何做到每一种！</p>
+<h4 id="overwriting-a-value"><a class="header" href="#overwriting-a-value">Overwriting a Value</a></h4>
+<p data-x-en="If we insert a key and a value into a hash map and then insert that same key with a different value, the value associated with that key will be replaced. Even though the code in Listing 8-23 calls insert twice, the hash map will only contain one key–value pair because we’re inserting the value for the Blue team’s key both times.">如果我们向哈希映射中插入一个键和一个值，然后用不同的值再次插入同一个键，与该键关联的值将被替换。即使列表 8-23 中的代码调用了两次 <code>insert</code>，哈希映射也只会包含一个键值对，因为我们两次都是为 Blue 队的键插入值。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Blue"), 25);
+
+    println!("{scores:?}");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-23: Replacing a value stored with a particular key</figcaption>
+</figure>
+<p data-x-en="This code will print {&quot;Blue&quot;: 25}. The original value of 10 has been overwritten.">这段代码将打印 <code>{"Blue": 25}</code>。原始值 <code>10</code> 已被覆盖。</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="only-inserting-a-value-if-the-key-has-no-value"></a></p>
+<h4 id="adding-a-key-and-value-only-if-a-key-isnt-present"><a class="header" href="#adding-a-key-and-value-only-if-a-key-isnt-present">Adding a Key and Value Only If a Key Isn’t Present</a></h4>
+<p data-x-en="It’s common to check whether a particular key already exists in the hash map with a value and then to take the following actions: if the key does exist in the hash map, the existing value should remain the way it is; if the key doesn’t exist, insert it and a value for it.">通常会检查哈希映射中是否已存在某个键及其值，然后采取以下操作：如果键存在于哈希映射中，则保持现有值不变；如果键不存在，则插入该键及其值。</p>
+<p data-x-en="Hash maps have a special API for this called entry that takes the key you want to check as a parameter. The return value of the entry method is an enum called Entry that represents a value that might or might not exist. Let’s say we want to check whether the key for the Yellow team has a value associated with it. If it doesn’t, we want to insert the value 50, and the same for the Blue team. Using the entry API, the code looks like Listing 8-24.">哈希映射为此提供了一个特殊的 API，称为 <code>entry</code>，它接受你想要检查的键作为参数。<code>entry</code> 方法的返回值是一个名为 <code>Entry</code> 的枚举，表示可能存在或可能不存在的值。假设我们想要检查 Yellow 队的键是否有关联的值。如果没有，我们希望插入值 <code>50</code>，对于 Blue 队也是如此。使用 <code>entry</code> API，代码如清单 8-24 所示。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+
+    scores.entry(String::from("Yellow")).or_insert(50);
+    scores.entry(String::from("Blue")).or_insert(50);
+
+    println!("{scores:?}");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-24: Using the <code>entry</code> method to only insert if the key does not already have a value</figcaption>
+</figure>
+<p data-x-en="The or_insert method on Entry is defined to return a mutable reference to the value for the corresponding Entry key if that key exists, and if not, it inserts the parameter as the new value for this key and returns a mutable reference to the new value. This technique is much cleaner than writing the logic ourselves and, in addition, plays more nicely with the borrow checker."><code>or_insert</code> 方法在 <code>Entry</code> 上定义为，如果该键存在，则返回对应 <code>Entry</code> 键的值的可变引用；如果不存在，则将参数作为此键的新值插入，并返回新值的可变引用。这种技术比我们自己编写逻辑要干净得多，并且与借用检查器更友好。</p>
+<p data-x-en="Running the code in Listing 8-24 will print {&quot;Yellow&quot;: 50, &quot;Blue&quot;: 10}. The first call to entry will insert the key for the Yellow team with the value 50 because the Yellow team doesn’t have a value already. The second call to entry will not change the hash map because the Blue team already has the value 10.">运行清单 8-24 中的代码将打印 <code>{"Yellow": 50, "Blue": 10}</code>。第一次调用 <code>entry</code> 会插入 Yellow 队的键，值为 <code>50</code>，因为 Yellow 队还没有值。第二次调用 <code>entry</code> 不会更改哈希映射，因为 Blue 队已经有值 <code>10</code>。</p>
+<h4 id="updating-a-value-based-on-the-old-value"><a class="header" href="#updating-a-value-based-on-the-old-value">Updating a Value Based on the Old Value</a></h4>
+<p data-x-en="Another common use case for hash maps is to look up a key’s value and then update it based on the old value. For instance, Listing 8-25 shows code that counts how many times each word appears in some text. We use a hash map with the words as keys and increment the value to keep track of how many times we’ve seen that word. If it’s the first time we’ve seen a word, we’ll first insert the value 0.">另一个常见的哈希映射用例是查找键的值，然后根据旧值进行更新。例如，列表 8-25 显示了计算每个单词在某些文本中出现次数的代码。我们使用一个哈希映射，将单词作为键，并递增值以跟踪我们看到该单词的次数。如果这是我们第一次看到一个单词，我们将首先插入值 <code>0</code>。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    use std::collections::HashMap;
+
+    let text = "hello world wonderful world";
+
+    let mut map = HashMap::new();
+
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    println!("{map:?}");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-25: Counting occurrences of words using a hash map that stores words and counts</figcaption>
+</figure>
+<p data-x-en="This code will print {&quot;world&quot;: 2, &quot;hello&quot;: 1, &quot;wonderful&quot;: 1}. You might see the same key–value pairs printed in a different order: recall from the “Accessing Values in a Hash Map” section that iterating over a hash map happens in an arbitrary order.">这段代码将打印 <code>{"world": 2, "hello": 1, "wonderful": 1}</code>。你可能会看到
+相同的键值对以不同的顺序打印：回想一下 <a href="#accessing-values-in-a-hash-map">“访问哈希映射中的值”</a><!-- ignore --> 部分，
+遍历哈希映射的顺序是任意的。</p>
+<p data-x-en="The split_whitespace method returns an iterator over subslices, separated by whitespace, of the value in text. The or_insert method returns a mutable reference (&amp;mut V) to the value for the specified key. Here, we store that mutable reference in the count variable, so in order to assign to that value, we must first dereference count using the asterisk (*). The mutable reference goes out of scope at the end of the for loop, so all of these changes are safe and allowed by the borrowing rules."><code>split_whitespace</code> 方法返回一个迭代器，该迭代器遍历 <code>text</code> 中由空白分隔的子切片。<code>or_insert</code> 方法返回一个指向指定键值的可变引用 (<code>&amp;mut V</code>)。在这里，我们将这个可变引用存储在 <code>count</code> 变量中，因此为了给该值赋值，我们必须首先使用星号 (<code>*</code>) 对 <code>count</code> 进行解引用。可变引用在 <code>for</code> 循环结束时超出作用域，因此所有这些更改都是安全的，并且符合借用规则。</p>
+<h3 id="hashing-functions"><a class="header" href="#hashing-functions">哈希函数</a></h3>
+<p data-x-en="By default, HashMap uses a hashing function called SipHash that can provide resistance to denial-of-service (DoS) attacks involving hash tables1. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it. If you profile your code and find that the default hash function is too slow for your purposes, you can switch to another function by specifying a different hasher. A hasher is a type that implements the BuildHasher trait. We’ll talk about traits and how to implement them in Chapter 10. You don’t necessarily have to implement your own hasher from scratch; crates.io has libraries shared by other Rust users that provide hashers implementing many common hashing algorithms.">默认情况下，<code>HashMap</code> 使用一种称为 <em>SipHash</em> 的哈希函数，可以提供针对涉及哈希表的拒绝服务 (DoS) 攻击的防护<sup class="footnote-reference"><a href="#siphash">1</a></sup><!-- ignore -->。这不是最快的哈希算法，但性能下降带来的更好安全性是值得的。如果你对代码进行了剖析并发现默认的哈希函数对于你的用途来说太慢，你可以通过指定不同的哈希器来切换到其他函数。一个 <em>哈希器</em> 是实现了 <code>BuildHasher</code> 特性的类型。我们将在 <a href="ch10-02-traits.html">第 10 章</a><!-- ignore --> 中讨论特性以及如何实现它们。你不必一定从头开始实现自己的哈希器；<a href="https://crates.io/">crates.io</a><!-- ignore --> 有其他 Rust 用户共享的库，提供了实现许多常见哈希算法的哈希器。</p>
+<div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
+<p data-x-en="https://en.wikipedia.org/wiki/SipHash"><a href="https://en.wikipedia.org/wiki/SipHash">https://zh.wikipedia.org/wiki/SipHash</a></p>
+</div>
+<h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
+<p data-x-en="Vectors, strings, and hash maps will provide a large amount of functionality necessary in programs when you need to store, access, and modify data. Here are some exercises you should now be equipped to solve:">向量、字符串和哈希映射将在你需要存储、访问和修改数据的程序中提供大量必要的功能。这里有一些你现在应该能够解决的练习：</p>
+<ol>
+<li>Given a list of integers, use a vector and return the median (when sorted,
+the value in the middle position) and mode (the value that occurs most
+often; a hash map will be helpful here) of the list.</li>
+<li>Convert strings to pig latin. The first consonant of each word is moved to
+the end of the word and <em>ay</em> is added, so <em>first</em> becomes <em>irst-fay</em>. Words
+that start with a vowel have <em>hay</em> added to the end instead (<em>apple</em> becomes
+<em>apple-hay</em>). Keep in mind the details about UTF-8 encoding!</li>
+<li>Using a hash map and vectors, create a text interface to allow a user to add
+employee names to a department in a company; for example, “Add Sally to
+Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all
+people in a department or all people in the company by department, sorted
+alphabetically.</li>
+</ol>
+<p data-x-en="The standard library API documentation describes methods that vectors, strings, and hash maps have that will be helpful for these exercises!">标准库 API 文档描述了向量、字符串和哈希映射具有的方法，这些方法对这些练习将有所帮助！</p>
+<p data-x-en="We’re getting into more complex programs in which operations can fail, so it’s a perfect time to discuss error handling. We’ll do that next!">我们正在进入更复杂的程序，在这些程序中操作可能会失败，因此现在是讨论错误处理的绝佳时机。我们接下来就来做这件事！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch08-02-strings.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch09-00-error-handling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch08-02-strings.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch09-00-error-handling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

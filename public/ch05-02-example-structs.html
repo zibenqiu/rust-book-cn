@@ -1,0 +1,480 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>An Example Program Using Structs - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch05-02-example-structs.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="an-example-program-using-structs"><a class="header" href="#an-example-program-using-structs">使用结构体的示例程序</a></h2>
+<p data-x-en="To understand when we might want to use structs, let’s write a program that calculates the area of a rectangle. We’ll start by using single variables, and then refactor the program until we’re using structs instead.">为了理解我们何时可能想要使用结构体，让我们编写一个计算矩形面积的程序。我们将从使用单个变量开始，然后重构程序，直到我们使用结构体代替。</p>
+<p data-x-en="Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.">让我们用 Cargo 创建一个名为 <em>rectangles</em> 的新二进制项目，该项目将接受以像素为单位指定的矩形的宽度和高度，并计算矩形的面积。列表 5-8 显示了在项目 <em>src/main.rs</em> 中实现这一功能的一种简短程序。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let width1 = 30;
+    let height1 = 50;
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(width1, height1)
+    );
+}
+
+fn area(width: u32, height: u32) -&gt; u32 {
+    width * height
+}</code></pre></pre>
+<figcaption>Listing 5-8: Calculating the area of a rectangle specified by separate width and height variables</figcaption>
+</figure>
+<p data-x-en="Now, run this program using cargo run:">现在，使用 <code>cargo run</code> 运行此程序：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
+     Running `target/debug/rectangles`
+The area of the rectangle is 1500 square pixels.
+</code></pre>
+<p data-x-en="This code succeeds in figuring out the area of the rectangle by calling the area function with each dimension, but we can do more to make this code clear and readable.">这段代码通过调用每个维度的<code>area</code>函数成功计算出矩形的面积，但我们还可以做更多来使这段代码清晰和易读。</p>
+<p data-x-en="The issue with this code is evident in the signature of area:">这个问题在这段代码中很明显，体现在 <code>area</code> 的签名上：</p>
+<pre><code class="language-rust ignore"><span class="boring">fn main() {
+</span><span class="boring">    let width1 = 30;
+</span><span class="boring">    let height1 = 50;
+</span><span class="boring">
+</span><span class="boring">    println!(
+</span><span class="boring">        "The area of the rectangle is {} square pixels.",
+</span><span class="boring">        area(width1, height1)
+</span><span class="boring">    );
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn area(width: u32, height: u32) -&gt; u32 {
+<span class="boring">    width * height
+</span><span class="boring">}</span></code></pre>
+<p data-x-en="The area function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters, and it’s not clear anywhere in our program that the parameters are related. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples."><code>area</code> 函数应该计算一个矩形的面积，但我们编写的函数有两个参数，并且在我们的程序中没有任何地方表明这些参数是相关的。将宽度和高度组合在一起会使代码更具可读性和可管理性。我们已经在第 3 章的 <a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore --> 部分讨论了一种可能的方法：使用元组。</p>
+<h3 id="refactoring-with-tuples"><a class="header" href="#refactoring-with-tuples">使用元组重构</a></h3>
+<p data-x-en="Listing 5-9 shows another version of our program that uses tuples.">列表 5-9 显示了我们程序的另一个版本，该版本使用了元组。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let rect1 = (30, 50);
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(rect1)
+    );
+}
+
+fn area(dimensions: (u32, u32)) -&gt; u32 {
+    dimensions.0 * dimensions.1
+}</code></pre></pre>
+<figcaption>Listing 5-9: Specifying the width and height of the rectangle with a tuple</figcaption>
+</figure>
+<p data-x-en="In one way, this program is better. Tuples let us add a bit of structure, and we’re now passing just one argument. But in another way, this version is less clear: tuples don’t name their elements, so we have to index into the parts of the tuple, making our calculation less obvious.">在一方面，这个程序更好。元组让我们增加了一些结构，并且我们现在只传递一个参数。但在另一方面，这个版本不太清晰：元组不命名它们的元素，所以我们必须对元组的部分进行索引，使我们的计算变得不那么明显。</p>
+<p data-x-en="Mixing up the width and height wouldn’t matter for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that width is the tuple index 0 and height is the tuple index 1. This would be even harder for someone else to figure out and keep in mind if they were to use our code. Because we haven’t conveyed the meaning of our data in our code, it’s now easier to introduce errors.">将宽度和高度混淆对于面积计算来说无关紧要，但如果我们想在屏幕上绘制矩形，这就会很重要！我们必须记住 <code>width</code> 是元组索引 <code>0</code>，<code>height</code> 是元组索引 <code>1</code>。如果其他人要使用我们的代码，他们要弄清楚并记住这一点会更加困难。因为我们没有在代码中传达数据的含义，现在更容易引入错误。</p>
+<h3 id="refactoring-with-structs-adding-more-meaning"><a class="header" href="#refactoring-with-structs-adding-more-meaning">使用结构体重构：增加更多含义</a></h3>
+<p data-x-en="We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a struct with a name for the whole as well as names for the parts, as shown in Listing 5-10.">我们使用结构体通过标记数据来增加意义。我们可以将正在使用的元组转换为一个具有整体名称以及各部分名称的结构体，如清单 5-10 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(&amp;rect1)
+    );
+}
+
+fn area(rectangle: &amp;Rectangle) -&gt; u32 {
+    rectangle.width * rectangle.height
+}</code></pre></pre>
+<figcaption>Listing 5-10: Defining a <code>Rectangle</code> struct</figcaption>
+</figure>
+<p data-x-en="Here we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.">这里我们定义了一个结构体并命名为<code>Rectangle</code>。在大括号内，我们定义了字段为<code>width</code>和<code>height</code>，它们的类型都是<code>u32</code>。然后，在<code>main</code>中，我们创建了一个特定的<code>Rectangle</code>实例，其宽度为<code>30</code>，高度为<code>50</code>。</p>
+<p data-x-en="Our area function is now defined with one parameter, which we’ve named rectangle, whose type is an immutable borrow of a struct Rectangle instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, main retains its ownership and can continue using rect1, which is the reason we use the &amp; in the function signature and where we call the function.">我们的 <code>area</code> 函数现在定义了一个参数，我们将其命名为 <code>rectangle</code>，其类型是结构体 <code>Rectangle</code> 实例的不可变借用。正如在第 4 章中提到的，我们希望借用结构体而不是获取其所有权。这样，<code>main</code> 保留其所有权并可以继续使用 <code>rect1</code>，这就是我们在函数签名和调用函数时使用 <code>&amp;</code> 的原因。</p>
+<p data-x-en="The area function accesses the width and height fields of the Rectangle instance (note that accessing fields of a borrowed struct instance does not move the field values, which is why you often see borrows of structs). Our function signature for area now says exactly what we mean: calculate the area of Rectangle, using its width and height fields. This conveys that the width and height are related to each other, and it gives descriptive names to the values rather than using the tuple index values of 0 and 1. This is a win for clarity."><code>area</code> 函数访问 <code>Rectangle</code> 实例的 <code>width</code> 和 <code>height</code> 字段（注意，访问借用结构体实例的字段不会移动字段值，这就是为什么你经常看到结构体的借用）。我们的 <code>area</code> 函数签名现在准确地表达了我们的意思：使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段计算其面积。这表明宽度和高度是相互关联的，并且它为这些值提供了描述性的名称，而不是使用元组索引值 <code>0</code> 和 <code>1</code>。这提高了清晰度。</p>
+<h3 id="adding-useful-functionality-with-derived-traits"><a class="header" href="#adding-useful-functionality-with-derived-traits">通过派生特性添加有用的功能</a></h3>
+<p data-x-en="It’d be useful to be able to print an instance of Rectangle while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the println! macro as we have used in previous chapters. This won’t work, however.">在调试我们的程序时，能够打印 <code>Rectangle</code> 的实例并查看其所有字段的值会很有帮助。列表 5-11 尝试使用 <a href="../std/macro.println.html"><code>println!</code> 宏</a><!-- ignore -->，就像我们在前面的章节中使用的一样。然而，这将不起作用。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {}", rect1);
+}</code></pre>
+<figcaption>Listing 5-11: Attempting to print a <code>Rectangle</code> instance</figcaption>
+</figure>
+<p data-x-en="When we compile this code, we get an error with this core message:">当我们编译这段代码时，我们得到一个带有以下核心信息的错误：</p>
+<pre><code class="language-text">error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
+</code></pre>
+<p data-x-en="The println! macro can do many kinds of formatting, and by default, the curly brackets tell println! to use formatting known as Display: output intended for direct end user consumption. The primitive types we’ve seen so far implement Display by default because there’s only one way you’d want to show a 1 or any other primitive type to a user. But with structs, the way println! should format the output is less clear because there are more display possibilities: Do you want commas or not? Do you want to print the curly brackets? Should all the fields be shown? Due to this ambiguity, Rust doesn’t try to guess what we want, and structs don’t have a provided implementation of Display to use with println! and the {} placeholder."><code>println!</code> 宏可以执行多种格式化操作，默认情况下，大括号告诉 <code>println!</code> 使用称为 <code>Display</code> 的格式化：旨在直接供最终用户使用的输出。到目前为止我们看到的原始类型默认实现了 <code>Display</code>，因为只有一种方式可以向用户显示 <code>1</code> 或任何其他原始类型。但是，对于结构体，<code>println!</code> 应该如何格式化输出就不那么明确了，因为有更多的显示可能性：你想要逗号吗？你想要打印大括号吗？所有字段都应该显示吗？由于这种模糊性，Rust 不会试图猜测我们的需求，结构体没有提供与 <code>println!</code> 和 <code>{}</code> 占位符一起使用的 <code>Display</code> 实现。</p>
+<p data-x-en="If we continue reading the errors, we’ll find this helpful note:">如果我们继续阅读错误，我们会发现这个有用的注释：</p>
+<pre><code class="language-text">   = help: the trait `std::fmt::Display` is not implemented for `Rectangle`
+   = note: in format strings you may be able to use `{:?}` (or {:#?} for pretty-print) instead
+</code></pre>
+<p data-x-en="Let’s try it! The println! macro call will now look like println!(&quot;rect1 is {rect1:?}&quot;);. Putting the specifier :? inside the curly brackets tells println! we want to use an output format called Debug. The Debug trait enables us to print our struct in a way that is useful for developers so we can see its value while we’re debugging our code.">让我们试试！<code>println!</code> 宏调用现在将看起来像 <code>println!("rect1 is {rect1:?}");</code>。在大括号内放置指定符 <code>:?</code> 告诉 <code>println!</code> 我们想要使用一种称为 <code>Debug</code> 的输出格式。<code>Debug</code> 特性使我们能够以对开发者有用的方式打印我们的结构体，这样我们可以在调试代码时看到其值。</p>
+<p data-x-en="Compile the code with this change. Drat! We still get an error:">编译带有此更改的代码。哎呀！我们仍然得到一个错误：</p>
+<pre><code class="language-text">error[E0277]: `Rectangle` doesn't implement `Debug`
+</code></pre>
+<p data-x-en="But again, the compiler gives us a helpful note:">但编译器再次给了我们一个有用的提示：</p>
+<pre><code class="language-text">   = help: the trait `Debug` is not implemented for `Rectangle`
+   = note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`
+</code></pre>
+<p data-x-en="Rust does include functionality to print out debugging information, but we have to explicitly opt in to make that functionality available for our struct. To do that, we add the outer attribute #[derive(Debug)] just before the struct definition, as shown in Listing 5-12.">Rust <em>确实</em> 包含了打印调试信息的功能，但我们必须显式地选择启用该功能，以便为我们的结构体提供该功能。为此，我们在结构体定义之前添加外部属性 <code>#[derive(Debug)]</code>，如清单 5-12 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {rect1:?}");
+}</code></pre></pre>
+<figcaption>Listing 5-12: Adding the attribute to derive the <code>Debug</code> trait and printing the <code>Rectangle</code> instance using debug formatting</figcaption>
+</figure>
+<p data-x-en="Now when we run the program, we won’t get any errors, and we’ll see the following output:">现在当我们运行程序时，我们不会遇到任何错误，并且我们会看到以下输出：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.48s
+     Running `target/debug/rectangles`
+rect1 is Rectangle { width: 30, height: 50 }
+</code></pre>
+<p data-x-en="Nice! It’s not the prettiest output, but it shows the values of all the fields for this instance, which would definitely help during debugging. When we have larger structs, it’s useful to have output that’s a bit easier to read; in those cases, we can use {:#?} instead of {:?} in the println! string. In this example, using the {:#?} style will output the following:">不错！虽然输出不是最漂亮的，但它显示了这个实例的所有字段的值，这在调试时肯定会有所帮助。当我们有更大的结构体时，拥有更易读的输出会很有用；在这种情况下，我们可以在 <code>println!</code> 字符串中使用 <code>{:#?}</code> 而不是 <code>{:?}</code>。在这个例子中，使用 <code>{:#?}</code> 样式将输出以下内容：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.48s
+     Running `target/debug/rectangles`
+rect1 is Rectangle {
+    width: 30,
+    height: 50,
+}
+</code></pre>
+<p data-x-en="Another way to print out a value using the Debug format is to use the dbg! macro, which takes ownership of an expression (as opposed to println!, which takes a reference), prints the file and line number of where that dbg! macro call occurs in your code along with the resultant value of that expression, and returns ownership of the value.">另一种使用 <code>Debug</code> 格式打印值的方法是使用 <a href="../std/macro.dbg.html"><code>dbg!</code> 宏</a><!-- ignore -->，它接受一个表达式的所有权（与 <code>println!</code> 不同，后者接受引用），打印该 <code>dbg!</code> 宏调用在代码中的文件和行号以及该表达式的结果值，并返回值的所有权。</p>
+<section class="note" aria-role="note">
+<p data-x-en="Note: Calling the dbg! macro prints to the standard error console stream (stderr), as opposed to println!, which prints to the standard output console stream (stdout). We’ll talk more about stderr and stdout in the “Writing Error Messages to Standard Error Instead of Standard Output” section in Chapter 12.">注意：调用 <code>dbg!</code> 宏会打印到标准错误控制台流 (<code>stderr</code>)，而 <code>println!</code> 则打印到标准输出控制台流 (<code>stdout</code>)。我们将在 <a href="ch12-06-writing-to-stderr-instead-of-stdout.html">“将错误消息写入标准错误而不是标准输出”章节12部分</a><!-- ignore -->。</p>
+</section>
+<p data-x-en="Here’s an example where we’re interested in the value that gets assigned to the width field, as well as the value of the whole struct in rect1:">这里有一个例子，我们对分配给<code>width</code>字段的值以及<code>rect1</code>中整个结构的值感兴趣：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 50,
+    };
+
+    dbg!(&amp;rect1);
+}</code></pre></pre>
+<p data-x-en="We can put dbg! around the expression 30 * scale and, because dbg! returns ownership of the expression’s value, the width field will get the same value as if we didn’t have the dbg! call there. We don’t want dbg! to take ownership of rect1, so we use a reference to rect1 in the next call. Here’s what the output of this example looks like:">我们可以将 <code>dbg!</code> 放在表达式 <code>30 * scale</code> 周围，因为 <code>dbg!</code> 会返回表达式的值的所有权，所以 <code>width</code> 字段将获得与没有 <code>dbg!</code> 调用时相同的值。我们不希望 <code>dbg!</code> 获取 <code>rect1</code> 的所有权，所以在下一个调用中我们使用 <code>rect1</code> 的引用。这个例子的输出如下所示：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.61s
+     Running `target/debug/rectangles`
+[src/main.rs:10:16] 30 * scale = 60
+[src/main.rs:14:5] &amp;rect1 = Rectangle {
+    width: 60,
+    height: 50,
+}
+</code></pre>
+<p data-x-en="We can see the first bit of output came from src/main.rs line 10 where we’re debugging the expression 30 * scale, and its resultant value is 60 (the Debug formatting implemented for integers is to print only their value). The dbg! call on line 14 of src/main.rs outputs the value of &amp;rect1, which is the Rectangle struct. This output uses the pretty Debug formatting of the Rectangle type. The dbg! macro can be really helpful when you’re trying to figure out what your code is doing!">我们可以看到第一部分输出来自<em>src/main.rs</em>第10行，我们在调试表达式<code>30 * scale</code>，其结果值为<code>60</code>（为整数实现的<code>Debug</code>格式化仅打印它们的值）。<em>src/main.rs</em>第14行的<code>dbg!</code>调用输出<code>&amp;rect1</code>的值，即<code>Rectangle</code>结构体。此输出使用了<code>Rectangle</code>类型的漂亮<code>Debug</code>格式化。<code>dbg!</code>宏在你试图弄清楚代码在做什么时非常有帮助！</p>
+<p data-x-en="In addition to the Debug trait, Rust has provided a number of traits for us to use with the derive attribute that can add useful behavior to our custom types. Those traits and their behaviors are listed in Appendix C. We’ll cover how to implement these traits with custom behavior as well as how to create your own traits in Chapter 10. There are also many attributes other than derive; for more information, see the “Attributes” section of the Rust Reference.">除了 <code>Debug</code> 特性之外，Rust 还提供了一些特性，我们可以通过 <code>derive</code> 属性使用这些特性，为我们的自定义类型添加有用的行为。这些特性和它们的行为列在 <a href="appendix-03-derivable-traits.html">附录 C</a><!--
+ignore -->。我们将在第 10 章中介绍如何实现这些特性的自定义行为以及如何创建自己的特性。除了 <code>derive</code> 之外，还有许多其他属性；有关更多信息，请参阅 <a href="../reference/attributes.html">Rust 参考手册中的“属性”部分</a>。</p>
+<p data-x-en="Our area function is very specific: it only computes the area of rectangles. It would be helpful to tie this behavior more closely to our Rectangle struct because it won’t work with any other type. Let’s look at how we can continue to refactor this code by turning the area function into an area method defined on our Rectangle type.">我们的 <code>area</code> 函数非常具体：它只计算矩形的面积。
+将这种行为更紧密地与我们的 <code>Rectangle</code> 结构体关联起来会很有帮助，
+因为它对其他任何类型都无效。让我们看看如何通过将 <code>area</code> 函数转换为定义在 <code>Rectangle</code> 类型上的 <code>area</code> <em>方法</em> 来继续重构这段代码。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch05-01-defining-structs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch05-03-method-syntax.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch05-01-defining-structs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch05-03-method-syntax.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

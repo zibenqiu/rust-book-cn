@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>D - Useful Development Tools - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/appendix-04-useful-development-tools.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="appendix-d---useful-development-tools"><a class="header" href="#appendix-d---useful-development-tools">附录 D - 有用的开发工具</a></h2>
+<p data-x-en="In this appendix, we talk about some useful development tools that the Rust project provides. We’ll look at automatic formatting, quick ways to apply warning fixes, a linter, and integrating with IDEs.">在本附录中，我们讨论了 Rust 项目提供的一些有用的开发工具。我们将介绍自动格式化、快速应用警告修复、代码检查器以及与 IDE 的集成。</p>
+<h3 id="automatic-formatting-with-rustfmt"><a class="header" href="#automatic-formatting-with-rustfmt">使用 <code>rustfmt</code> 自动格式化</a></h3>
+<p data-x-en="The rustfmt tool reformats your code according to the community code style. Many collaborative projects use rustfmt to prevent arguments about which style to use when writing Rust: everyone formats their code using the tool."><code>rustfmt</code> 工具根据社区代码风格重新格式化您的代码。许多协作项目使用 <code>rustfmt</code> 来防止关于编写 Rust 时使用哪种风格的争论：每个人都使用该工具格式化他们的代码。</p>
+<p data-x-en="To install rustfmt, enter the following:">要安装<code>rustfmt</code>，请输入以下内容：</p>
+<pre><code class="language-console">$ rustup component add rustfmt
+</code></pre>
+<p data-x-en="This command gives you rustfmt and cargo-fmt, similar to how Rust gives you both rustc and cargo. To format any Cargo project, enter the following:">这个命令给你 <code>rustfmt</code> 和 <code>cargo-fmt</code>，类似于 Rust 给你 <code>rustc</code> 和 <code>cargo</code> 的方式。要格式化任何 Cargo 项目，请输入以下内容：</p>
+<pre><code class="language-console">$ cargo fmt
+</code></pre>
+<p data-x-en="Running this command reformats all the Rust code in the current crate. This should only change the code style, not the code semantics. For more information on rustfmt, see its documentation.">运行此命令将重新格式化当前包中的所有 Rust 代码。这只会更改代码风格，而不会更改代码语义。有关 <code>rustfmt</code> 的更多信息，请参阅 <a href="https://github.com/rust-lang/rustfmt">其文档</a>。</p>
+<h3 id="fix-your-code-with-rustfix"><a class="header" href="#fix-your-code-with-rustfix">使用 <code>rustfix</code> 修复您的代码</a></h3>
+<p data-x-en="The rustfix tool is included with Rust installations and can automatically fix compiler warnings that have a clear way to correct the problem that’s likely what you want. It’s likely you’ve seen compiler warnings before. For example, consider this code:">rustfix 工具随 Rust 安装包一起提供，可以自动修复有明确修正方法的编译器警告，这些修正方法很可能是你想要的。你可能之前见过编译器警告。例如，考虑以下代码：</p>
+<p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn do_something() {}
+
+fn main() {
+    for i in 0..100 {
+        do_something();
+    }
+}</code></pre></pre>
+<p data-x-en="Here, we’re calling the do_something function 100 times, but we never use the variable i in the body of the for loop. Rust warns us about that:">在这里，我们调用 <code>do_something</code> 函数 100 次，但在 <code>for</code> 循环的主体中从未使用变量 <code>i</code>。Rust 会警告我们这一点：</p>
+<pre><code class="language-console">$ cargo build
+   Compiling myprogram v0.1.0 (file:///projects/myprogram)
+warning: unused variable: `i`
+ --&gt; src/main.rs:4:9
+  |
+4 |     for i in 0..100 {
+  |         ^ help: consider using `_i` instead
+  |
+  = note: #[warn(unused_variables)] on by default
+
+    Finished dev [unoptimized + debuginfo] target(s) in 0.50s
+</code></pre>
+<p data-x-en="The warning suggests that we use _i as a name instead: the underscore indicates that we intend for this variable to be unused. We can automatically apply that suggestion using the rustfix tool by running the command cargo fix:">警告建议我们使用 <code>_i</code> 作为名称：下划线表示我们打算不使用此变量。我们可以使用 <code>rustfix</code> 工具通过运行命令 <code>cargo fix</code> 自动应用该建议：</p>
+<pre><code class="language-console">$ cargo fix
+    Checking myprogram v0.1.0 (file:///projects/myprogram)
+      Fixing src/main.rs (1 fix)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.59s
+</code></pre>
+<p data-x-en="When we look at src/main.rs again, we’ll see that cargo fix has changed the code:">当我们再次查看 <em>src/main.rs</em> 时，我们会看到 <code>cargo fix</code> 已经更改了代码：</p>
+<p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn do_something() {}
+
+fn main() {
+    for _i in 0..100 {
+        do_something();
+    }
+}</code></pre></pre>
+<p data-x-en="The for loop variable is now named _i, and the warning no longer appears."><code>for</code> 循环变量现在命名为 <code>_i</code>，警告不再出现。</p>
+<p data-x-en="You can also use the cargo fix command to transition your code between different Rust editions. Editions are covered in Appendix E.">您还可以使用 <code>cargo fix</code> 命令在不同的 Rust 版本之间转换您的代码。版本在 <a href="appendix-05-editions.html">附录 E</a> 中介绍。</p>
+<h3 id="more-lints-with-clippy"><a class="header" href="#more-lints-with-clippy">更多 Clippy 检查</a></h3>
+<p data-x-en="The Clippy tool is a collection of lints to analyze your code so you can catch common mistakes and improve your Rust code.">Clippy 工具是一组用于分析您的代码的 lint，以便您可以捕捉常见错误并改进您的 Rust 代码。</p>
+<p data-x-en="To install Clippy, enter the following:">要安装 Clippy，请输入以下内容：</p>
+<pre><code class="language-console">$ rustup component add clippy
+</code></pre>
+<p data-x-en="To run Clippy’s lints on any Cargo project, enter the following:">要在任何 Cargo 项目上运行 Clippy 的 lint，请输入以下内容：</p>
+<pre><code class="language-console">$ cargo clippy
+</code></pre>
+<p data-x-en="For example, say you write a program that uses an approximation of a mathematical constant, such as pi, as this program does:">例如，假设你编写了一个程序，该程序使用了数学常数（如π）的近似值，就像这个程序一样：<code>fn main() {<br>    let pi = 3.14;<br>    println!("The value of pi is: {}", pi);<br>}</code></p>
+<p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 3.1415;
+    let r = 8.0;
+    println!("the area of the circle is {}", x * r * r);
+}</code></pre></pre>
+<p data-x-en="Running cargo clippy on this project results in this error:">在该项目上运行 <code>cargo clippy</code> 会导致以下错误：</p>
+<pre><code class="language-text">error: approximate value of `f{32, 64}::consts::PI` found
+ --&gt; src/main.rs:2:13
+  |
+2 |     let x = 3.1415;
+  |             ^^^^^^
+  |
+  = note: `#[deny(clippy::approx_constant)]` on by default
+  = help: consider using the constant directly
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#approx_constant
+</code></pre>
+<p data-x-en="This error lets you know that Rust already has a more precise PI constant defined, and that your program would be more correct if you used the constant instead. You would then change your code to use the PI constant. The following code doesn’t result in any errors or warnings from Clippy:">这个错误提示你 Rust 已经定义了一个更精确的 <code>PI</code> 常量，如果你使用这个常量，你的程序会更准确。然后，你会将代码更改为使用 <code>PI</code> 常量。以下代码不会从 Clippy 产生任何错误或警告：</p>
+<p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = std::f64::consts::PI;
+    let r = 8.0;
+    println!("the area of the circle is {}", x * r * r);
+}</code></pre></pre>
+<p data-x-en="For more information on Clippy, see its documentation.">有关 Clippy 的更多信息，请参见 <a href="https://github.com/rust-lang/rust-clippy">其文档</a>。</p>
+<h3 id="ide-integration-using-rust-analyzer"><a class="header" href="#ide-integration-using-rust-analyzer">使用 <code>rust-analyzer</code> 进行 IDE 集成</a></h3>
+<p data-x-en="To help IDE integration, the Rust community recommends using rust-analyzer. This tool is a set of compiler-centric utilities that speaks the Language Server Protocol, which is a specification for IDEs and programming languages to communicate with each other. Different clients can use rust-analyzer, such as the Rust analyzer plug-in for Visual Studio Code.">为了帮助集成开发环境（IDE），Rust 社区推荐使用
+<a href="https://rust-analyzer.github.io"><code>rust-analyzer</code></a><!-- ignore -->。这个工具是一组
+以编译器为中心的实用程序，它使用<a href="http://langserver.org/">语言服务器协议</a><!--
+ignore -->，这是一种 IDE 和编程语言之间通信的规范。不同的客户端可以使用<code>rust-analyzer</code>，例如
+<a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">Visual Studio Code 的 Rust 分析器插件</a>。</p>
+<p data-x-en="Visit the rust-analyzer project’s home page for installation instructions, then install the language server support in your particular IDE. Your IDE will gain abilities such as autocompletion, jump to definition, and inline errors.">访问 <code>rust-analyzer</code> 项目的 <a href="https://rust-analyzer.github.io">主页</a><!-- ignore -->
+获取安装说明，然后在您特定的 IDE 中安装语言服务器支持。您的 IDE 将获得诸如自动完成、跳转到定义和内联错误等功能。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="appendix-03-derivable-traits.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="appendix-05-editions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="appendix-03-derivable-traits.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="appendix-05-editions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

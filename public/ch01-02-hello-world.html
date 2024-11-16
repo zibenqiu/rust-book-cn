@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hello, World! - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch01-02-hello-world.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="hello-world"><a class="header" href="#hello-world">你好，世界！</a></h2>
+<p data-x-en="Now that you’ve installed Rust, it’s time to write your first Rust program. It’s traditional when learning a new language to write a little program that prints the text Hello, world! to the screen, so we’ll do the same here!">现在你已经安装了 Rust，是时候编写你的第一个 Rust 程序了。
+学习新语言时，传统上会编写一个将文本 <code>Hello, world!</code> 打印到屏幕上的小程序，所以我们这里也这样做！</p>
+<section class="note" aria-role="note">
+<p data-x-en="Note: This book assumes basic familiarity with the command line. Rust makes no specific demands about your editing or tooling or where your code lives, so if you prefer to use an integrated development environment (IDE) instead of the command line, feel free to use your favorite IDE. Many IDEs now have some degree of Rust support; check the IDE’s documentation for details. The Rust team has been focusing on enabling great IDE support via rust-analyzer. See Appendix D for more details.">注意：本书假定读者对命令行有基本的了解。Rust 对你的编辑器或工具没有特定的要求，也不限制代码的存放位置，因此，如果你更喜欢使用集成开发环境（IDE）而不是命令行，可以自由选择你最喜欢的 IDE。许多 IDE 现在都提供一定程度的 Rust 支持；请查阅 IDE 的文档以获取详细信息。Rust 团队一直致力于通过 <code>rust-analyzer</code> 提供出色的 IDE 支持。有关更多详细信息，请参阅 <a href="appendix-04-useful-development-tools.html">附录 D</a><!-- ignore -->。</p>
+</section>
+<h3 id="creating-a-project-directory"><a class="header" href="#creating-a-project-directory">创建项目目录</a></h3>
+<p data-x-en="You’ll start by making a directory to store your Rust code. It doesn’t matter to Rust where your code lives, but for the exercises and projects in this book, we suggest making a projects directory in your home directory and keeping all your projects there.">你将首先创建一个目录来存储你的Rust代码。Rust并不关心你的代码存放在哪里，但对于本书中的练习和项目，我们建议在你的主目录中创建一个<em>projects</em>目录，并将所有项目保存在那里。</p>
+<p data-x-en="Open a terminal and enter the following commands to make a projects directory and a directory for the “Hello, world!” project within the projects directory.">打开终端并输入以下命令以创建一个 <em>projects</em> 目录和在 <em>projects</em> 目录内的 “Hello, world!” 项目目录。</p>
+<p data-x-en="For Linux, macOS, and PowerShell on Windows, enter this:">对于 Linux、macOS 和 Windows 上的 PowerShell，请输入以下内容：</p>
+<pre><code class="language-console">$ mkdir ~/projects
+$ cd ~/projects
+$ mkdir hello_world
+$ cd hello_world
+</code></pre>
+<p data-x-en="For Windows CMD, enter this:">对于 Windows CMD，输入这个:</p>
+<pre><code class="language-cmd">&gt; mkdir "%USERPROFILE%\projects"
+&gt; cd /d "%USERPROFILE%\projects"
+&gt; mkdir hello_world
+&gt; cd hello_world
+</code></pre>
+<h3 id="writing-and-running-a-rust-program"><a class="header" href="#writing-and-running-a-rust-program">编写和运行一个 Rust 程序</a></h3>
+<p data-x-en="Next, make a new source file and call it main.rs. Rust files always end with the .rs extension. If you’re using more than one word in your filename, the convention is to use an underscore to separate them. For example, use hello_world.rs rather than helloworld.rs.">接下来，创建一个新的源文件并将其命名为<em>main.rs</em>。Rust 文件总是以 <em>.rs</em> 扩展名结尾。如果你的文件名包含多个单词，惯例是使用下划线将它们分隔开。例如，使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
+<p data-x-en="Now open the main.rs file you just created and enter the code in Listing 1-1.">现在打开你刚刚创建的<em>main.rs</em>文件，并输入列表1-1中的代码。</p>
+<figure class="listing">
+<span class="file-name">Filename: main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("Hello, world!");
+}</code></pre></pre>
+<figcaption>Listing 1-1: A program that prints <code>Hello, world!</code></figcaption>
+</figure>
+<p data-x-en="Save the file and go back to your terminal window in the ~/projects/hello_world directory. On Linux or macOS, enter the following commands to compile and run the file:">保存文件并返回到 <em>~/projects/hello_world</em> 目录下的终端窗口。在 Linux 或 macOS 上，输入以下命令来编译和运行文件：</p>
+<pre><code class="language-console">$ rustc main.rs
+$ ./main
+Hello, world!
+</code></pre>
+<p data-x-en="On Windows, enter the command .\main.exe instead of ./main:">在 Windows 上，输入命令 <code>.\main.exe</code> 而不是 <code>./main</code>：</p>
+<pre><code class="language-powershell">&gt; rustc main.rs
+&gt; .\main.exe
+Hello, world!
+</code></pre>
+<p data-x-en="Regardless of your operating system, the string Hello, world! should print to the terminal. If you don’t see this output, refer back to the “Troubleshooting” part of the Installation section for ways to get help.">无论您使用的是哪种操作系统，字符串<code>Hello, world!</code>都应该打印到终端。如果您没有看到此输出，请参阅<a href="ch01-01-installation.html#troubleshooting">“故障排除”</a><!-- ignore -->部分的安装章节以获取帮助。</p>
+<p data-x-en="If Hello, world! did print, congratulations! You’ve officially written a Rust program. That makes you a Rust programmer—welcome!">如果 <code>Hello, world!</code> 确实打印出来了，恭喜！您已经正式编写了一个 Rust 程序。这使您成为了一名 Rust 程序员——欢迎！</p>
+<h3 id="anatomy-of-a-rust-program"><a class="header" href="#anatomy-of-a-rust-program">Rust 程序的结构</a></h3>
+<p data-x-en="Let’s review this “Hello, world!” program in detail. Here’s the first piece of the puzzle:">让我们详细回顾这个“Hello, world！”程序。这是第一个谜题部分：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+
+}</code></pre></pre>
+<p data-x-en="These lines define a function named main. The main function is special: it is always the first code that runs in every executable Rust program. Here, the first line declares a function named main that has no parameters and returns nothing. If there were parameters, they would go inside the parentheses ().">这些行定义了一个名为<code>main</code>的函数。<code>main</code>函数是特殊的：它是每个可执行Rust程序中首先运行的代码。在这里，第一行声明了一个名为<code>main</code>的函数，该函数没有参数且不返回任何值。如果有参数，它们将放在括号<code>()</code>内。</p>
+<p data-x-en="The function body is wrapped in {}. Rust requires curly brackets around all function bodies. It’s good style to place the opening curly bracket on the same line as the function declaration, adding one space in between.">函数体被包裹在 <code>{}</code> 中。Rust 要求所有函数体都用大括号包围。最好将开始的大括号放在与函数声明相同的行上，并在中间添加一个空格。</p>
+<section class="note" aria-role="note">
+<p data-x-en="Note: If you want to stick to a standard style across Rust projects, you can use an automatic formatter tool called rustfmt to format your code in a particular style (more on rustfmt in Appendix D). The Rust team has included this tool with the standard Rust distribution, as rustc is, so it should already be installed on your computer!">注意：如果您希望在 Rust 项目中保持一致的风格，可以使用一个名为 <code>rustfmt</code> 的自动格式化工具来将代码格式化为特定风格（更多关于 <code>rustfmt</code> 的内容请参见 <a href="appendix-04-useful-development-tools.html">附录 D</a><!-- ignore -->）。Rust 团队已将此工具包含在标准的 Rust 分发包中，就像 <code>rustc</code> 一样，因此它应该已经安装在您的计算机上！</p>
+</section>
+<p data-x-en="The body of the main function holds the following code:"><code>main</code> 函数的主体包含以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    println!("Hello, world!");
+<span class="boring">}</span></code></pre></pre>
+<p data-x-en="This line does all the work in this little program: it prints text to the screen. There are four important details to notice here.">这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有四个重要的细节需要注意。</p>
+<p data-x-en="First, Rust style is to indent with four spaces, not a tab.">首先，Rust 的风格是使用四个空格缩进，而不是制表符。</p>
+<p data-x-en="Second, println! calls a Rust macro. If it had called a function instead, it would be entered as println (without the !). We’ll discuss Rust macros in more detail in Chapter 20. For now, you just need to know that using a ! means that you’re calling a macro instead of a normal function and that macros don’t always follow the same rules as functions.">第二，<code>println!</code> 调用了一个 Rust 宏。如果它调用的是一个函数，那么它将被写为 <code>println</code>（没有 <code>!</code>）。我们将在第 20 章详细讨论 Rust 宏。现在，你只需要知道使用 <code>!</code> 意味着你调用的是一个宏而不是普通函数，并且宏并不总是遵循与函数相同的规则。</p>
+<p data-x-en="Third, you see the &quot;Hello, world!&quot; string. We pass this string as an argument to println!, and the string is printed to the screen.">第三，您看到 <code>"Hello, world!"</code> 字符串。我们将这个字符串作为参数传递给 <code>println!</code>，然后字符串会被打印到屏幕上。</p>
+<p data-x-en="Fourth, we end the line with a semicolon (;), which indicates that this expression is over and the next one is ready to begin. Most lines of Rust code end with a semicolon.">第四，我们在行末加上分号（<code>;</code>），这表示该表达式已结束，下一个表达式可以开始。大多数 Rust 代码行以分号结尾。</p>
+<h3 id="compiling-and-running-are-separate-steps"><a class="header" href="#compiling-and-running-are-separate-steps">编译和运行是分开的步骤</a></h3>
+<p data-x-en="You’ve just run a newly created program, so let’s examine each step in the process.">您刚刚运行了一个新创建的程序，所以让我们来检查过程中的每一步。</p>
+<p data-x-en="Before running a Rust program, you must compile it using the Rust compiler by entering the rustc command and passing it the name of your source file, like this:">在运行 Rust 程序之前，您必须使用 Rust 编译器通过输入 <code>rustc</code> 命令并传递您的源文件名来编译它，如下所示：</p>
+<pre><code class="language-console">$ rustc main.rs
+</code></pre>
+<p data-x-en="If you have a C or C++ background, you’ll notice that this is similar to gcc or clang. After compiling successfully, Rust outputs a binary executable.">如果你有 C 或 C++ 背景，你会注意到这与 <code>gcc</code> 或 <code>clang</code> 类似。编译成功后，Rust 会输出一个二进制可执行文件。</p>
+<p data-x-en="On Linux, macOS, and PowerShell on Windows, you can see the executable by entering the ls command in your shell:">在 Linux、macOS 和 Windows 上的 PowerShell 中，您可以通过在 shell 中输入 <code>ls</code> 命令来查看可执行文件：</p>
+<pre><code class="language-console">$ ls
+main  main.rs
+</code></pre>
+<p data-x-en="On Linux and macOS, you’ll see two files. With PowerShell on Windows, you’ll see the same three files that you would see using CMD. With CMD on Windows, you would enter the following:">在 Linux 和 macOS 上，您会看到两个文件。使用 Windows 上的 PowerShell，您会看到与使用 CMD 时相同的三个文件。使用 Windows 上的 CMD，您会输入以下内容：</p>
+<pre><code class="language-cmd">&gt; dir /B %= the /B option says to only show the file names =%
+main.exe
+main.pdb
+main.rs
+</code></pre>
+<p data-x-en="This shows the source code file with the .rs extension, the executable file (main.exe on Windows, but main on all other platforms), and, when using Windows, a file containing debugging information with the .pdb extension. From here, you run the main or main.exe file, like this:">这显示了带有 <em>.rs</em> 扩展名的源代码文件，可执行文件
+(<em>main.exe</em> 在 Windows 上，但在所有其他平台上为 <em>main</em>)，以及在使用
+Windows 时，包含调试信息的文件，扩展名为 <em>.pdb</em>。
+从这里，您运行 <em>main</em> 或 <em>main.exe</em> 文件，如下所示：</p>
+<pre><code class="language-console">$ ./main # or .\main.exe on Windows
+</code></pre>
+<p data-x-en="If your main.rs is your “Hello, world!” program, this line prints Hello, world! to your terminal.">如果你的 <em>main.rs</em> 是你的“Hello, world!” 程序，这行代码会将 <code>Hello, world!</code> 打印到你的终端。</p>
+<p data-x-en="If you’re more familiar with a dynamic language, such as Ruby, Python, or JavaScript, you might not be used to compiling and running a program as separate steps. Rust is an ahead-of-time compiled language, meaning you can compile a program and give the executable to someone else, and they can run it even without having Rust installed. If you give someone a .rb, .py, or .js file, they need to have a Ruby, Python, or JavaScript implementation installed (respectively). But in those languages, you only need one command to compile and run your program. Everything is a trade-off in language design.">如果你更熟悉像 Ruby、Python 或 JavaScript 这样的动态语言，你可能不习惯将编译和运行程序作为单独的步骤。Rust 是一种<em>提前编译</em>语言，这意味着你可以编译一个程序并将可执行文件交给其他人，即使他们没有安装 Rust 也可以运行它。如果你给某人一个<em>.rb</em>、<em>.py</em> 或 <em>.js</em> 文件，他们需要分别安装 Ruby、Python 或 JavaScript 的实现。但在这些语言中，你只需要一个命令就可以编译和运行你的程序。语言设计中的每件事都是权衡。</p>
+<p data-x-en="Just compiling with rustc is fine for simple programs, but as your project grows, you’ll want to manage all the options and make it easy to share your code. Next, we’ll introduce you to the Cargo tool, which will help you write real-world Rust programs.">只需使用<code>rustc</code>编译对于简单的程序来说已经足够，但随着项目的增长，您将希望管理所有选项并使分享代码变得容易。接下来，我们将向您介绍Cargo工具，它将帮助您编写实际的Rust程序。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch01-01-installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch01-03-hello-cargo.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch01-01-installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch01-03-hello-cargo.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

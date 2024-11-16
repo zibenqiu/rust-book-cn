@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Defining and Instantiating Structs - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch05-01-defining-structs.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="defining-and-instantiating-structs"><a class="header" href="#defining-and-instantiating-structs">定义和实例化结构体</a></h2>
+<p data-x-en="Structs are similar to tuples, discussed in “The Tuple Type” section, in that both hold multiple related values. Like tuples, the pieces of a struct can be different types. Unlike with tuples, in a struct you’ll name each piece of data so it’s clear what the values mean. Adding these names means that structs are more flexible than tuples: you don’t have to rely on the order of the data to specify or access the values of an instance.">结构体类似于在<a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!--
+ignore -->部分讨论的元组，因为它们都包含多个相关值。像元组一样，结构体的各个部分可以是不同的类型。与元组不同，在结构体中，您将为每个数据片段命名，以便明确值的含义。添加这些名称意味着结构体比元组更灵活：您不必依赖数据的顺序来指定或访问实例的值。</p>
+<p data-x-en="To define a struct, we enter the keyword struct and name the entire struct. A struct’s name should describe the significance of the pieces of data being grouped together. Then, inside curly brackets, we define the names and types of the pieces of data, which we call fields. For example, Listing 5-1 shows a struct that stores information about a user account.">要定义一个结构体，我们输入关键字<code>struct</code>并命名整个结构体。结构体的名称应描述被组合在一起的数据片段的重要性。然后，在大括号内，我们定义数据片段的名称和类型，我们称之为<em>字段</em>。例如，列表5-1显示了一个存储用户账户信息的结构体。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre></pre>
+<figcaption>Listing 5-1: A <code>User</code> struct definition</figcaption>
+</figure>
+<p data-x-en="To use a struct after we’ve defined it, we create an instance of that struct by specifying concrete values for each of the fields. We create an instance by stating the name of the struct and then add curly brackets containing key: value pairs, where the keys are the names of the fields and the values are the data we want to store in those fields. We don’t have to specify the fields in the same order in which we declared them in the struct. In other words, the struct definition is like a general template for the type, and instances fill in that template with particular data to create values of the type. For example, we can declare a particular user as shown in Listing 5-2.">要使用定义后的结构体，我们通过为每个字段指定具体的值来创建该结构体的<em>实例</em>。我们通过声明结构体的名称并添加包含<em>键: 值</em>对的大括号来创建实例，其中键是字段的名称，值是我们想要存储在这些字段中的数据。我们不必按照在结构体中声明的相同顺序指定字段。换句话说，结构体定义就像该类型的通用模板，而实例则用特定的数据填充该模板以创建该类型的值。例如，我们可以如清单5-2所示声明一个特定的用户。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-2: Creating an instance of the <code>User</code> struct</figcaption>
+</figure>
+<p data-x-en="To get a specific value from a struct, we use dot notation. For example, to access this user’s email address, we use user1.email. If the instance is mutable, we can change a value by using the dot notation and assigning into a particular field. Listing 5-3 shows how to change the value in the email field of a mutable User instance.">要从结构体中获取特定值，我们使用点表示法。例如，要访问此用户的电子邮件地址，我们使用<code>user1.email</code>。如果实例是可变的，我们可以通过使用点表示法并分配到特定字段来更改值。列表 5-3 显示了如何更改可变 <code>User</code> 实例中 <code>email</code> 字段的值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let mut user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+
+    user1.email = String::from("anotheremail@example.com");
+}</code></pre></pre>
+<figcaption>Listing 5-3: Changing the value in the <code>email</code> field of a <code>User</code> instance</figcaption>
+</figure>
+<p data-x-en="Note that the entire instance must be mutable; Rust doesn’t allow us to mark only certain fields as mutable. As with any expression, we can construct a new instance of the struct as the last expression in the function body to implicitly return that new instance.">请注意，整个实例必须是可变的；Rust 不允许我们仅将某些字段标记为可变。与任何表达式一样，我们可以在函数体的最后一个表达式中构造一个新的结构体实例，以隐式返回该新实例。</p>
+<p data-x-en="Listing 5-4 shows a build_user function that returns a User instance with the given email and username. The active field gets the value of true, and the sign_in_count gets a value of 1.">列表 5-4 显示了一个 <code>build_user</code> 函数，该函数返回一个带有给定电子邮件和用户名的 <code>User</code> 实例。字段 <code>active</code> 获得 <code>true</code> 的值，而 <code>sign_in_count</code> 获得 <code>1</code> 的值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username: username,
+        email: email,
+        sign_in_count: 1,
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let user1 = build_user(
+</span><span class="boring">        String::from("someone@example.com"),
+</span><span class="boring">        String::from("someusername123"),
+</span><span class="boring">    );
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 5-4: A <code>build_user</code> function that takes an email and username and returns a <code>User</code> instance</figcaption>
+</figure>
+<p data-x-en="It makes sense to name the function parameters with the same name as the struct fields, but having to repeat the email and username field names and variables is a bit tedious. If the struct had more fields, repeating each name would get even more annoying. Luckily, there’s a convenient shorthand!">将函数参数命名为与结构体字段相同的名称是有道理的，但不得不重复 <code>email</code> 和 <code>username</code> 字段名和变量名有点繁琐。如果结构体有更多的字段，重复每个名称会变得更加烦人。幸运的是，有一个方便的简写！</p>
+<!-- Old heading. Do not remove or links may break. -->
+<p><a id="using-the-field-init-shorthand-when-variables-and-fields-have-the-same-name"></a></p>
+<h3 id="using-the-field-init-shorthand"><a class="header" href="#using-the-field-init-shorthand">使用字段初始化简写</a></h3>
+<p data-x-en="Because the parameter names and the struct field names are exactly the same in Listing 5-4, we can use the field init shorthand syntax to rewrite build_user so it behaves exactly the same but doesn’t have the repetition of username and email, as shown in Listing 5-5.">因为参数名称和结构体字段名称在清单 5-4 中完全相同，我们可以使用 <em>字段初始化简写</em> 语法重写 <code>build_user</code>，使其行为完全相同，但不会重复 <code>username</code> 和 <code>email</code>，如清单 5-5 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let user1 = build_user(
+</span><span class="boring">        String::from("someone@example.com"),
+</span><span class="boring">        String::from("someusername123"),
+</span><span class="boring">    );
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 5-5: A <code>build_user</code> function that uses field init shorthand because the <code>username</code> and <code>email</code> parameters have the same name as struct fields</figcaption>
+</figure>
+<p data-x-en="Here, we’re creating a new instance of the User struct, which has a field named email. We want to set the email field’s value to the value in the email parameter of the build_user function. Because the email field and the email parameter have the same name, we only need to write email rather than email: email.">这里，我们正在创建一个 <code>User</code> 结构体的新实例，该结构体有一个名为 <code>email</code> 的字段。我们希望将 <code>email</code> 字段的值设置为 <code>build_user</code> 函数的 <code>email</code> 参数的值。因为 <code>email</code> 字段和 <code>email</code> 参数名称相同，所以我们只需要写 <code>email</code> 而不是 <code>email: email</code>。</p>
+<h3 id="creating-instances-from-other-instances-with-struct-update-syntax"><a class="header" href="#creating-instances-from-other-instances-with-struct-update-syntax">使用结构更新语法从其他实例创建实例</a></h3>
+<p data-x-en="It’s often useful to create a new instance of a struct that includes most of the values from another instance, but changes some. You can do this using struct update syntax.">通常很有用的是创建一个结构体的新实例，该实例包含另一个实例的大多数值，但更改了一些值。你可以使用<em>结构更新语法</em>来实现这一点。</p>
+<p data-x-en="First, in Listing 5-6 we show how to create a new User instance in user2 regularly, without the update syntax. We set a new value for email but otherwise use the same values from user1 that we created in Listing 5-2.">首先，在清单 5-6 中我们展示了如何在 <code>user2</code> 中不使用更新语法而常规地创建一个新的 <code>User</code> 实例。我们为 <code>email</code> 设置了一个新值，但其他方面使用了我们在清单 5-2 中创建的 <code>user1</code> 的相同值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+<span class="boring">
+</span><span class="boring">    let user1 = User {
+</span><span class="boring">        email: String::from("someone@example.com"),
+</span><span class="boring">        username: String::from("someusername123"),
+</span><span class="boring">        active: true,
+</span><span class="boring">        sign_in_count: 1,
+</span><span class="boring">    };
+</span>
+    let user2 = User {
+        active: user1.active,
+        username: user1.username,
+        email: String::from("another@example.com"),
+        sign_in_count: user1.sign_in_count,
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-6: Creating a new <code>User</code> instance using all but one of the values from <code>user1</code></figcaption>
+</figure>
+<p data-x-en="Using struct update syntax, we can achieve the same effect with less code, as shown in Listing 5-7. The syntax .. specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance.">通过使用结构体更新语法，我们可以用更少的代码实现相同的效果，如清单 5-7 所示。语法 <code>..</code> 指定未明确设置的其余字段应具有给定实例中字段的相同值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+<span class="boring">
+</span><span class="boring">    let user1 = User {
+</span><span class="boring">        email: String::from("someone@example.com"),
+</span><span class="boring">        username: String::from("someusername123"),
+</span><span class="boring">        active: true,
+</span><span class="boring">        sign_in_count: 1,
+</span><span class="boring">    };
+</span>
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-7: Using struct update syntax to set a new <code>email</code> value for a <code>User</code> instance but to use the rest of the values from <code>user1</code></figcaption>
+</figure>
+<p data-x-en="The code in Listing 5-7 also creates an instance in user2 that has a different value for email but has the same values for the username, active, and sign_in_count fields from user1. The ..user1 must come last to specify that any remaining fields should get their values from the corresponding fields in user1, but we can choose to specify values for as many fields as we want in any order, regardless of the order of the fields in the struct’s definition.">列表 5-7 中的代码还在 <code>user2</code> 中创建了一个实例，该实例的 <code>email</code> 值不同，但 <code>username</code>、<code>active</code> 和 <code>sign_in_count</code> 字段的值与 <code>user1</code> 相同。<code>..user1</code> 必须放在最后，以指定任何剩余字段应从 <code>user1</code> 的相应字段获取值，但我们可以根据需要以任意顺序为任意数量的字段指定值，无论这些字段在结构体定义中的顺序如何。</p>
+<p data-x-en="Note that the struct update syntax uses = like an assignment; this is because it moves the data, just as we saw in the “Variables and Data Interacting with Move” section. In this example, we can no longer use user1 as a whole after creating user2 because the String in the username field of user1 was moved into user2. If we had given user2 new String values for both email and username, and thus only used the active and sign_in_count values from user1, then user1 would still be valid after creating user2. Both active and sign_in_count are types that implement the Copy trait, so the behavior we discussed in the “Stack-Only Data: Copy” section would apply. We can still use user1.email in this example, since its value was not moved out.">请注意，结构体更新语法使用 <code>=</code> 类似于赋值；这是因为
+它会移动数据，就像我们在 <a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“变量和数据的移动交互”</a><!-- ignore --> 部分看到的那样。在这个例子中，创建 <code>user2</code> 之后，我们不能再使用整个 <code>user1</code>，因为 <code>user1</code> 中 <code>username</code> 字段的 <code>String</code> 被移动到了 <code>user2</code>。如果我们为 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都提供了新的 <code>String</code> 值，因此只使用了 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code> 值，那么在创建 <code>user2</code> 之后 <code>user1</code> 仍然有效。<code>active</code> 和 <code>sign_in_count</code> 都是实现了 <code>Copy</code> 特性的类型，因此我们在 <a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“仅栈数据：复制”</a><!-- ignore --> 部分讨论的行为将适用。我们仍然可以使用 <code>user1.email</code>，因为它的值 <em>没有</em> 被移出。</p>
+<h3 id="using-tuple-structs-without-named-fields-to-create-different-types"><a class="header" href="#using-tuple-structs-without-named-fields-to-create-different-types">使用无命名字段的元组结构体创建不同类型的实例</a></h3>
+<p data-x-en="Rust also supports structs that look similar to tuples, called tuple structs. Tuple structs have the added meaning the struct name provides but don’t have names associated with their fields; rather, they just have the types of the fields. Tuple structs are useful when you want to give the whole tuple a name and make the tuple a different type from other tuples, and when naming each field as in a regular struct would be verbose or redundant.">Rust 还支持看起来类似于元组的结构体，称为 <em>元组结构体</em>。元组结构体具有结构体名称提供的附加含义，但它们的字段没有名称；相反，它们只有字段的类型。当您希望为整个元组命名并使该元组与其他元组类型不同，以及在常规结构体中为每个字段命名会显得冗长或重复时，元组结构体非常有用。</p>
+<p data-x-en="To define a tuple struct, start with the struct keyword and the struct name followed by the types in the tuple. For example, here we define and use two tuple structs named Color and Point:">要定义一个元组结构体，从 <code>struct</code> 关键字和结构体名称开始，后跟元组中的类型。例如，这里我们定义并使用了两个名为 <code>Color</code> 和 <code>Point</code> 的元组结构体：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}</code></pre></pre>
+</figure>
+<p data-x-en="Note that the black and origin values are different types because they’re instances of different tuple structs. Each struct you define is its own type, even though the fields within the struct might have the same types. For example, a function that takes a parameter of type Color cannot take a Point as an argument, even though both types are made up of three i32 values. Otherwise, tuple struct instances are similar to tuples in that you can destructure them into their individual pieces, and you can use a . followed by the index to access an individual value. Unlike tuples, tuple structs require you to name the type of the struct when you destructure them. For example, we would write let Point(x, y, z) = point.">请注意，<code>black</code> 和 <code>origin</code> 值是不同类型的，因为它们是不同元组结构体的实例。你定义的每个结构体都是其自己的类型，即使结构体内的字段可能具有相同的类型。例如，一个接受 <code>Color</code> 类型参数的函数不能接受一个 <code>Point</code> 作为参数，即使这两种类型都由三个 <code>i32</code> 值组成。除此之外，元组结构体实例类似于元组，你可以将它们解构为单独的部分，可以使用 <code>.</code> 加上索引来访问单个值。与元组不同，元组结构体在解构时需要指定结构体的类型。例如，我们会写 <code>let Point(x, y, z) = point</code>。</p>
+<h3 id="unit-like-structs-without-any-fields"><a class="header" href="#unit-like-structs-without-any-fields">没有字段的单元结构体</a></h3>
+<p data-x-en="You can also define structs that don’t have any fields! These are called unit-like structs because they behave similarly to (), the unit type that we mentioned in “The Tuple Type” section. Unit-like structs can be useful when you need to implement a trait on some type but don’t have any data that you want to store in the type itself. We’ll discuss traits in Chapter 10. Here’s an example of declaring and instantiating a unit struct named AlwaysEqual:">你也可以定义没有字段的结构体！这些被称为<em>单元类结构体</em>，因为它们的行为类似于<code>()</code>，即我们在<a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore -->部分提到的单元类型。单元类结构体在你需要在某些类型上实现特质但不想在类型本身中存储任何数据时非常有用。我们将在第10章讨论特质。以下是一个声明和实例化名为<code>AlwaysEqual</code>的单元结构体的示例：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}</code></pre></pre>
+</figure>
+<p data-x-en="To define AlwaysEqual, we use the struct keyword, the name we want, and then a semicolon. No need for curly brackets or parentheses! Then we can get an instance of AlwaysEqual in the subject variable in a similar way: using the name we defined, without any curly brackets or parentheses. Imagine that later we’ll implement behavior for this type such that every instance of AlwaysEqual is always equal to every instance of any other type, perhaps to have a known result for testing purposes. We wouldn’t need any data to implement that behavior! You’ll see in Chapter 10 how to define traits and implement them on any type, including unit-like structs.">要定义 <code>AlwaysEqual</code>，我们使用 <code>struct</code> 关键字，我们想要的名字，然后是一个分号。不需要花括号或括号！然后我们可以通过类似的方式在 <code>subject</code> 变量中获取 <code>AlwaysEqual</code> 的实例：使用我们定义的名字，不需要任何花括号或括号。想象一下，稍后我们将为这种类型实现行为，使得每个 <code>AlwaysEqual</code> 的实例都等于任何其他类型的每个实例，也许是为了在测试中有一个已知的结果。实现这种行为我们不需要任何数据！你将在第 10 章中看到如何定义特质并在任何类型上实现它们，包括单元结构体。</p>
+<section class="note" aria-role="note">
+<h3 id="ownership-of-struct-data"><a class="header" href="#ownership-of-struct-data">结构体数据的所有权</a></h3>
+<p data-x-en="In the User struct definition in Listing 5-1, we used the owned String type rather than the &amp;str string slice type. This is a deliberate choice because we want each instance of this struct to own all of its data and for that data to be valid for as long as the entire struct is valid.">在清单 5-1 的 <code>User</code> 结构体定义中，我们使用了拥有型的 <code>String</code> 而不是 <code>&amp;str</code> 字符串切片类型。这是一个有意的选择，因为我们希望这个结构体的每个实例都拥有其所有数据，并且这些数据的有效期与整个结构体的有效期一样长。</p>
+<p data-x-en="It’s also possible for structs to store references to data owned by something else, but to do so requires the use of lifetimes, a Rust feature that we’ll discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct is valid for as long as the struct is. Let’s say you try to store a reference in a struct without specifying lifetimes, like the following; this won’t work:">也可以让结构体存储对其他所有者数据的引用，但这样做需要使用<em>生命周期</em>，这是我们在第10章将讨论的Rust特性。生命周期确保结构体引用的数据在结构体存在期间都是有效的。假设你尝试在结构体中存储一个引用而不指定生命周期，如下所示；这是行不通的：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
+<pre><code class="language-rust ignore does_not_compile">struct User {
+    active: bool,
+    username: &amp;str,
+    email: &amp;str,
+    sign_in_count: u64,
+}
+
+fn main() {
+    let user1 = User {
+        active: true,
+        username: "someusername123",
+        email: "someone@example.com",
+        sign_in_count: 1,
+    };
+}</code></pre>
+</figure>
+<p data-x-en="The compiler will complain that it needs lifetime specifiers:">编译器会抱怨需要生命周期说明符：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling structs v0.1.0 (file:///projects/structs)
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:3:15
+  |
+3 |     username: &amp;str,
+  |               ^ expected named lifetime parameter
+  |
+help: consider introducing a named lifetime parameter
+  |
+1 ~ struct User&lt;'a&gt; {
+2 |     active: bool,
+3 ~     username: &amp;'a str,
+  |
+
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:4:12
+  |
+4 |     email: &amp;str,
+  |            ^ expected named lifetime parameter
+  |
+help: consider introducing a named lifetime parameter
+  |
+1 ~ struct User&lt;'a&gt; {
+2 |     active: bool,
+3 |     username: &amp;str,
+4 ~     email: &amp;'a str,
+  |
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `structs` (bin "structs") due to 2 previous errors
+</code></pre>
+<p data-x-en="In Chapter 10, we’ll discuss how to fix these errors so you can store references in structs, but for now, we’ll fix errors like these using owned types like String instead of references like &amp;str.">在第 10 章中，我们将讨论如何修复这些错误，以便您可以在结构体中存储引用，但目前，我们将使用拥有类型如 <code>String</code> 而不是引用如 <code>&amp;str</code> 来修复此类错误。</p>
+</section>
+<!-- manual-regeneration
+for the error above
+after running update-rustc.sh:
+pbcopy < listings/ch05-using-structs-to-structure-related-data/no-listing-02-reference-in-struct/output.txt
+paste above
+add `> ` before every line -->
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch05-00-structs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch05-02-example-structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch05-00-structs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch05-02-example-structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>

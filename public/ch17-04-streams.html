@@ -1,0 +1,874 @@
+<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Streams - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
+p[data-x-en],
+li[data-x-en] {
+  position: relative;
+}
+p[data-x-en]:hover::after,
+li[data-x-en]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+p[data-x-en]::after,
+li[data-x-en]::after {
+  content: attr(data-x-en);
+  display: block;
+  font-size: 12px;
+  transition: all 0.2s 0.3s;
+  visibility: hidden;
+  opacity: 0;
+  background: #cccccc;
+  z-index: 99;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+/* 译者注释内容 */
+div[type='comment'] {
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #eee;
+}
+div[type='comment']::before {
+  content: '译者注: ';
+  font-weight: 900;
+}
+header a.logo {
+  position: relative;
+}
+header a.logo::after {
+  content: '中文';
+  position: absolute;
+  left: calc(100% + 5px);
+  font-size: 12px;
+  width: 50px;
+  top: -5px;
+}
+#banner-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  padding: 0;
+  z-index: 999;
+}
+#add-info {
+  font-size: 14px;
+}
+blockquote {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style></head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch17-04-streams.json" target="_blank">我来翻译！</a></div>
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="streams"><a class="header" href="#streams">流</a></h2>
+<p data-x-en="So far in this chapter, we have mostly stuck to individual futures. The one big exception was the async channel we used. Recall how we used the receiver for our async channel in the “Message Passing” earlier in the chapter. The async recv method produces a sequence of items over time. This is an instance of a much more general pattern, often called a stream.">到目前为止，在本章中，我们主要关注的是单个的 future。唯一的重大例外是我们使用的异步通道。回想一下我们如何在本章的<a href="ch17-02-concurrency-with-async.html#message-passing">“消息传递”</a>部分中使用异步通道的接收器。异步<code>recv</code>方法随时间生成一系列项目。这是一个更普遍模式的实例，通常称为<em>流</em>。</p>
+<p data-x-en="A sequence of items is something we’ve seen before, when we looked at the Iterator trait in Chapter 13, but there are two differences between iterators and the async channel receiver. The first difference is the element of time: iterators are synchronous, while the channel receiver is asynchronous. The second difference is the API. When working directly with an Iterator, we call its synchronous next method. With the trpl::Receiver stream in particular, we called an asynchronous recv method instead, but these APIs otherwise feel very similar.">一系列项目是我们之前在第 13 章讨论 <code>Iterator</code> 特性时见过的，但迭代器和异步通道接收器之间有两个不同点。第一个不同点是时间因素：迭代器是同步的，而通道接收器是异步的。第二个不同点是 API。当我们直接使用 <code>Iterator</code> 时，我们调用其同步的 <code>next</code> 方法。而对于 <code>trpl::Receiver</code> 流，我们调用的是异步的 <code>recv</code> 方法，但这些 API 否则感觉非常相似。</p>
+<p data-x-en="That similarity isn’t a coincidence. A stream is similar to an asynchronous form of iteration. Whereas the trpl::Receiver specifically waits to receive messages, though, the general-purpose stream API is much more general: it provides the next item the way Iterator does, but asynchronously. The similarity between iterators and streams in Rust means we can actually create a stream from any iterator. As with an iterator, we can work with a stream by calling its next method and then awaiting the output, as in Listing 17-30.">这种相似性并非偶然。流类似于异步形式的迭代。虽然 <code>trpl::Receiver</code> 特定地等待接收消息，但通用的流 API 要广泛得多：它以 <code>Iterator</code> 的方式提供下一个项目，但异步进行。Rust 中迭代器和流之间的相似性意味着我们实际上可以从任何迭代器创建一个流。与迭代器一样，我们可以通过调用流的 <code>next</code> 方法并等待输出来处理流，如示例 17-30 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span>        let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let iter = values.iter().map(|n| n * 2);
+        let mut stream = trpl::stream_from_iter(iter);
+
+        while let Some(value) = stream.next().await {
+            println!("The value was: {value}");
+        }
+<span class="boring">    });
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 17-30: Creating a stream from an iterator and printing its values</figcaption>
+</figure>
+<p data-x-en="We start with an array of numbers, which we convert to an iterator and then call map on to double all the values. Then we convert the iterator into a stream using the trpl::stream_from_iter function. Then we loop over the items in the stream as they arrive with the while let loop.">我们从一个数字数组开始，将其转换为迭代器，然后调用<code>map</code>来将所有值翻倍。然后我们使用<code>trpl::stream_from_iter</code>函数将迭代器转换为流。然后我们使用<code>while let</code>循环遍历流中的项目。</p>
+<p data-x-en="Unfortunately, when we try to run the code, it doesn’t compile. Instead, as we can see in the output, it reports that there is no next method available.">不幸的是，当我们尝试运行代码时，它无法编译。相反，正如我们在输出中看到的，它报告说没有可用的<code>next</code>方法。</p>
+<!-- manual-regeneration
+cd listings/ch17-async-await/listing-17-30
+cargo build
+copy only the error output
+-->
+<pre><code class="language-console">error[E0599]: no method named `next` found for struct `Iter` in the current scope
+  --&gt; src/main.rs:10:40
+   |
+10 |         while let Some(value) = stream.next().await {
+   |                                        ^^^^
+   |
+   = note: the full type name has been written to 'file:///projects/async_await/target/debug/deps/async_await-9de943556a6001b8.long-type-1281356139287206597.txt'
+   = note: consider using `--verbose` to print the full type name to the console
+   = help: items from traits can only be used if the trait is in scope
+help: the following traits which provide `next` are implemented but not in scope; perhaps you want to import one of them
+   |
+1  + use crate::trpl::StreamExt;
+   |
+1  + use futures_util::stream::stream::StreamExt;
+   |
+1  + use std::iter::Iterator;
+   |
+1  + use std::str::pattern::Searcher;
+   |
+help: there is a method `try_next` with a similar name
+   |
+10 |         while let Some(value) = stream.try_next().await {
+   |                                        ~~~~~~~~
+</code></pre>
+<p data-x-en="As the output suggests, the reason for the compiler error is that we need the right trait in scope to be able to use the next method. Given our discussion so far, you might reasonably expect that to be Stream, but the trait we need here is actually StreamExt. The Ext there is for “extension”: this is a common pattern in the Rust community for extending one trait with another.">正如输出所建议的，编译器错误的原因是我们需要正确的特质在作用域内才能使用 <code>next</code> 方法。根据我们到目前为止的讨论，你可能会合理地认为这应该是 <code>Stream</code>，但这里我们需要的特质实际上是 <code>StreamExt</code>。这里的 <code>Ext</code> 表示“扩展”：这是 Rust 社区中扩展一个特质的常见模式。</p>
+<p data-x-en="Why do we need StreamExt instead of Stream, and what does the Stream trait itself do? Briefly, the answer is that throughout the Rust ecosystem, the Stream trait defines a low-level interface which effectively combines the Iterator and Future traits. The StreamExt trait supplies a higher-level set of APIs on top of Stream, including the next method as well as other utility methods similar to those provided by the Iterator trait. We’ll return to the Stream and StreamExt traits in a bit more detail at the end of the chapter. For now, this is enough to let us keep moving.">为什么我们需要<code>StreamExt</code>而不是<code>Stream</code>，<code>Stream</code>特质本身做了什么？简而言之，答案是在整个Rust生态系统中，<code>Stream</code>特质定义了一个低级别的接口，有效地结合了<code>Iterator</code>和<code>Future</code>特质。<code>StreamExt</code>特质在<code>Stream</code>之上提供了一组更高层次的API，包括<code>next</code>方法以及其他类似于<code>Iterator</code>特质提供的实用方法。我们将在本章末尾更详细地回到<code>Stream</code>和<code>StreamExt</code>特质。现在，这些足以让我们继续前进。</p>
+<p data-x-en="The fix to the compiler error is to add a use statement for trpl::StreamExt, as in Listing 17-31.">修复编译器错误的方法是添加一个 <code>use</code> 语句，用于 <code>trpl::StreamExt</code>，如列表 17-31 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span>use trpl::StreamExt;
+
+fn main() {
+    trpl::run(async {
+        let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let iter = values.iter().map(|n| n * 2);
+        let mut stream = trpl::stream_from_iter(iter);
+
+        while let Some(value) = stream.next().await {
+            println!("The value was: {value}");
+        }
+    });
+}</code></pre></pre>
+<figcaption>Listing 17-31: Successfully using an iterator as the basis for a stream</figcaption>
+</figure>
+<p data-x-en="With all those pieces put together, this code works the way we want! What’s more, now that we have StreamExt in scope, we can use all of its utility methods, just as with iterators. For example, in Listing 17-32, we use the filter method to filter out everything but multiples of three and five.">将所有这些部分组合在一起，这段代码就能按我们想要的方式工作！更重要的是，现在我们已经将 <code>StreamExt</code> 引入作用域，我们可以使用它的所有实用方法，就像使用迭代器一样。例如，在示例 17-32 中，我们使用 <code>filter</code> 方法来过滤掉除三和五的倍数之外的所有内容。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span>use trpl::StreamExt;
+
+fn main() {
+    trpl::run(async {
+        let values = 1..101;
+        let iter = values.map(|n| n * 2);
+        let stream = trpl::stream_from_iter(iter);
+
+        let mut filtered =
+            stream.filter(|value| value % 3 == 0 || value % 5 == 0);
+
+        while let Some(value) = filtered.next().await {
+            println!("The value was: {value}");
+        }
+    });
+}</code></pre></pre>
+<figcaption>Listing 17-32: Filtering a <code>Stream</code> with the <code>StreamExt::filter</code> method</figcaption>
+</figure>
+<p data-x-en="Of course, this isn’t very interesting. We could do that with normal iterators and without any async at all. So let’s look at some of the other things we can do which are unique to streams.">当然，这并不是非常有趣。我们可以通过普通的迭代器来实现，完全不需要任何异步。所以让我们看看我们可以做的一些其他事情，这些是流独有的。</p>
+<h3 id="composing-streams"><a class="header" href="#composing-streams">组合流</a></h3>
+<p data-x-en="Many concepts are naturally represented as streams: items becoming available in a queue, or working with more data than can fit in a computer’s memory by only pulling chunks of it from the file system at a time, or data arriving over the network over time. Because streams are futures, we can use them with any other kind of future, too, and we can combine them in interesting ways. For example, we can batch up events to avoid triggering too many network calls, set timeouts on sequences of long-running operations, or throttle user interface events to avoid doing needless work.">许多概念自然地表示为流：项目在队列中变得可用，或者通过一次从文件系统中提取一部分数据来处理超出计算机内存的数据，或者数据随时间通过网络到达。因为流是未来的，我们可以将它们与任何其他类型的未来一起使用，也可以以有趣的方式将它们组合起来。例如，我们可以批量处理事件以避免触发过多的网络调用，为长时间运行的操作序列设置超时，或限制用户界面事件以避免不必要的工作。</p>
+<p data-x-en="Let’s start by building a little stream of messages, as a stand-in for a stream of data we might see from a WebSocket or another real-time communication protocol. In Listing 17-33, we create a function get_messages which returns impl Stream<Item = String>. For its implementation, we create an async channel, loop over the first ten letters of the English alphabet, and send them across the channel.">让我们先构建一个消息流，作为我们可能从WebSocket或其他实时通信协议中看到的数据流的替代品。在清单17-33中，我们创建了一个函数<code>get_messages</code>，它返回<code>impl Stream&lt;Item = String&gt;</code>。在其实现中，我们创建了一个异步通道，遍历英文字母表的前十个字母，并将它们通过通道发送。</p>
+<p data-x-en="We also use a new type: ReceiverStream, which converts the rx receiver from the trpl::channel into a Stream with a next method. Back in main, we use a while let loop to print all the messages from the stream.">我们还使用了一种新的类型：<code>ReceiverStream</code>，它将来自<code>trpl::channel</code>的<code>rx</code>接收器转换为具有<code>next</code>方法的<code>Stream</code>。在<code>main</code>中，我们使用<code>while let</code>循环来打印流中的所有消息。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span>use trpl::{ReceiverStream, Stream, StreamExt};
+
+fn main() {
+    trpl::run(async {
+        let mut messages = get_messages();
+
+        while let Some(message) = messages.next().await {
+            println!("{message}");
+        }
+    });
+}
+
+fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+    let (tx, rx) = trpl::channel();
+
+    let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+    for message in messages {
+        tx.send(format!("Message: '{message}'")).unwrap();
+    }
+
+    ReceiverStream::new(rx)
+}</code></pre></pre>
+<figcaption>Listing 17-33: Using the <code>rx</code> receiver as a <code>ReceiverStream</code></figcaption>
+</figure>
+<p data-x-en="When we run this code, we get exactly the results we would expect:">当我们运行这段代码时，我们得到的正是我们预期的结果：</p>
+<!-- Not extracting output because changes to this output aren't significant;
+the changes are likely to be due to the threads running differently rather than
+changes in the compiler -->
+<pre><code class="language-text">Message: 'a'
+Message: 'b'
+Message: 'c'
+Message: 'd'
+Message: 'e'
+Message: 'f'
+Message: 'g'
+Message: 'h'
+Message: 'i'
+Message: 'j'
+</code></pre>
+<p data-x-en="We could do this with the regular Receiver API, or even the regular Iterator API, though. Let’s add something that requires streams: adding a timeout which applies to every item in the stream, and a delay on the items we emit.">我们可以通过常规的<code>Receiver</code> API，或者甚至是常规的<code>Iterator</code> API来实现这一点。不过，让我们添加一些需要流的东西：为流中的每个项目添加一个超时，并在我们发出的项目上添加延迟。</p>
+<p data-x-en="In Listing 17-34, we start by adding a timeout to the stream with the timeout method, which comes from the StreamExt trait. Then we update the body of the while let loop, because the stream now returns a Result. The Ok variant indicates a message arrived in time; the Err variant indicates that the timeout elapsed before any message arrived. We match on that result and either print the message when we receive it successfully, or print a notice about the timeout. Finally, notice that we pin the messages after applying the timeout to them, because the timeout helper produces a stream which needs to be pinned to be polled.">在清单 17-34 中，我们首先使用来自 <code>StreamExt</code> 特性的 <code>timeout</code> 方法为流添加超时。然后我们更新 <code>while let</code> 循环的主体，因为流现在返回一个 <code>Result</code>。<code>Ok</code> 变体表示消息及时到达；<code>Err</code> 变体表示在任何消息到达之前超时已过期。我们对这个结果进行 <code>match</code>，当成功接收到消息时打印消息，或者打印超时通知。最后，注意我们在应用超时后固定消息，因为超时助手生成的流需要被固定才能被轮询。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span>use std::{pin::pin, time::Duration};
+use trpl::{ReceiverStream, Stream, StreamExt};
+
+fn main() {
+    trpl::run(async {
+        let mut messages =
+            pin!(get_messages().timeout(Duration::from_millis(200)));
+
+        while let Some(result) = messages.next().await {
+            match result {
+                Ok(message) =&gt; println!("{message}"),
+                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+            }
+        }
+    })
+}
+<span class="boring">
+</span><span class="boring">fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+</span><span class="boring">    for message in messages {
+</span><span class="boring">        tx.send(format!("Message: '{message}'")).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 17-34: Using the <code>StreamExt::timeout</code> method to set a time limit on the items in a stream</figcaption>
+</figure>
+<p data-x-en="However, because there are no delays between messages, this timeout does not change the behavior of the program. Let’s add a variable delay to the messages we send. In get_messages, we use the enumerate iterator method with the messages array so that we can get the index of each item we are sending along with the item itself. Then we apply a 100 millisecond delay to even-index items and a 300 millisecond delay to odd-index items, to simulate the different delays we might see from a stream of messages in the real world. Because our timeout is for 200 milliseconds, this should affect half of the messages.">然而，因为消息之间没有延迟，这个超时并不会改变程序的行为。让我们给发送的消息添加一个可变的延迟。在<code>get_messages</code>中，我们使用<code>enumerate</code>迭代器方法与<code>messages</code>数组，这样我们可以获取我们发送的每个项目的索引以及项目本身。然后我们对偶数索引的项目应用100毫秒的延迟，对奇数索引的项目应用300毫秒的延迟，以模拟在现实世界中我们可能从消息流中看到的不同延迟。因为我们的超时时间是200毫秒，这应该会影响一半的消息。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span><span class="boring">        let mut messages =
+</span><span class="boring">            pin!(get_messages().timeout(Duration::from_millis(200)));
+</span><span class="boring">
+</span><span class="boring">        while let Some(result) = messages.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(message) =&gt; println!("{message}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    })
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+    let (tx, rx) = trpl::channel();
+
+    trpl::spawn_task(async move {
+        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+        for (index, message) in messages.into_iter().enumerate() {
+            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+
+            tx.send(format!("Message: '{message}'")).unwrap();
+        }
+    });
+
+    ReceiverStream::new(rx)
+}</code></pre></pre>
+<figcaption>Listing 17-35: Sending messages through <code>tx</code> with an async delay without making <code>get_messages</code> an async function</figcaption>
+</figure>
+<p data-x-en="To sleep between messages in the get_messages function without blocking, we need to use async. However, we can’t make get_messages itself into an async function, because then we’d return a Future<Output = Stream<Item = String>> instead of a Stream<Item = String>>. The caller would have to await get_messages itself to get access to the stream. But remember: everything in a given future happens linearly; concurrency happens between futures. Awaiting get_messages would require it to send all the messages, including sleeping between sending each message, before returning the receiver stream. As a result, the timeout would end up useless. There would be no delays in the stream itself: the delays would all happen before the stream was even available.">为了在 <code>get_messages</code> 函数中不阻塞地在消息之间休眠，我们需要使用 async。但是，我们不能将 <code>get_messages</code> 本身变成一个 async 函数，因为那样我们会返回一个 <code>Future&lt;Output = Stream&lt;Item = String&gt;&gt;</code> 而不是一个 <code>Stream&lt;Item = String&gt;&gt;</code>。调用者必须等待 <code>get_messages</code> 本身才能访问流。但请记住：给定未来中的所有事情都是线性发生的；并发发生在未来之间。等待 <code>get_messages</code> 会要求它在返回接收者流之前发送所有消息，包括在发送每条消息之间休眠。因此，超时将变得无用。流本身不会有延迟：所有延迟都会在流可用之前发生。</p>
+<p data-x-en="Instead, we leave get_messages as a regular function which returns a stream, and spawn a task to handle the async sleep calls.">相反，我们将<code>get_messages</code>保留为一个返回流的普通函数，并启动一个任务来处理异步<code>sleep</code>调用。</p>
+<section class="note" aria-role="note">
+<p data-x-en="Note: calling spawn_task in this way works because we already set up our runtime. Calling this particular implementation of spawn_task without first setting up a runtime will cause a panic. Other implementations choose different tradeoffs: they might spawn a new runtime and so avoid the panic but end up with a bit of extra overhead, or simply not provide a standalone way to spawn tasks without reference to a runtime. You should make sure you know what tradeoff your runtime has chosen and write your code accordingly!">注意：以这种方式调用<code>spawn_task</code>可以工作，因为我们已经设置了我们的运行时。在没有首先设置运行时的情况下调用此特定实现的<code>spawn_task</code>会导致恐慌。其他实现选择了不同的权衡：它们可能会启动一个新的运行时，从而避免恐慌，但最终会增加一些额外的开销，或者根本不会提供一种独立于运行时来启动任务的方法。您应该确保了解您的运行时选择了哪种权衡，并相应地编写代码！</p>
+</section>
+<p data-x-en="Now our code has a much more interesting result! Between every other pair of messages, we see an error reported: Problem: Elapsed(()).">现在我们的代码有了一个更有趣的结果！在每一对消息之间，我们看到一个错误报告：<code>Problem: Elapsed(())</code>。</p>
+<!-- manual-regeneration
+cd listings/ch17-async-await/listing-17-35
+cargo run
+copy only the program output, *not* the compiler output
+-->
+<pre><code class="language-text">Message: 'a'
+Problem: Elapsed(())
+Message: 'b'
+Message: 'c'
+Problem: Elapsed(())
+Message: 'd'
+Message: 'e'
+Problem: Elapsed(())
+Message: 'f'
+Message: 'g'
+Problem: Elapsed(())
+Message: 'h'
+Message: 'i'
+Problem: Elapsed(())
+Message: 'j'
+</code></pre>
+<p data-x-en="The timeout doesn’t prevent the messages from arriving in the end—we still get all of the original messages. This is because our channel is unbounded: it can hold as many messages as we can fit in memory. If the message doesn’t arrive before the timeout, our stream handler will account for that, but when it polls the stream again, the message may now have arrived.">超时并不会阻止消息最终到达——我们仍然会收到所有原始消息。这是因为我们的通道是无界的：它可以容纳我们内存中能容纳的尽可能多的消息。如果消息在超时前没有到达，我们的流处理器会对此进行处理，但当它再次轮询流时，消息可能已经到达。</p>
+<p data-x-en="You can get different behavior if needed by using other kinds of channels, or other kinds of streams more generally. Let’s see one of those in practice in our final example for this section, by combining a stream of time intervals with this stream of messages.">你可以通过使用其他类型的通道，或更广泛地说，使用其他类型的流来获得所需的不同行为。让我们在本节的最后一个例子中通过结合时间间隔流和消息流来实际看看其中一个。</p>
+<h3 id="merging-streams"><a class="header" href="#merging-streams">合并流</a></h3>
+<p data-x-en="First, let’s create another stream, which will emit an item every millisecond if we let it run directly. For simplicity, we can use the sleep function to send a message on a delay, and combine it with the same approach of creating a stream from a channel we used in get_messages. The difference is that this time, we’re going to send back the count of intervals which has elapsed, so the return type will be impl Stream<Item = u32>, and we can call the function get_intervals.">首先，让我们创建另一个流，如果让它直接运行，它将每毫秒发出一个项目。为了简单起见，我们可以使用<code>sleep</code>函数来延迟发送消息，并结合我们在<code>get_messages</code>中使用的方法，从通道创建流。不同的是，这次我们将返回已过去的时间间隔的计数，因此返回类型将是<code>impl Stream&lt;Item = u32&gt;</code>，我们可以将此函数称为<code>get_intervals</code>。</p>
+<p data-x-en="In Listing 17-36, we start by defining a count in the task. (We could define it outside the task, too, but it is clearer to limit the scope of any given variable.) Then we create an infinite loop. Each iteration of the loop asynchronously sleeps for one millisecond, increments the count, and then sends it over the channel. Because this is all wrapped in the task created by spawn_task, all of it will get cleaned up along with the runtime, including the infinite loop.">在清单 17-36 中，我们首先在任务中定义一个 <code>count</code>。（我们也可以在任务外部定义它，但限制任何给定变量的作用域会更清晰。）然后我们创建一个无限循环。循环的每次迭代都会异步休眠一毫秒，增加计数，然后通过通道发送。因为所有这些都封装在由 <code>spawn_task</code> 创建的任务中，所以所有这些都会与运行时一起被清理，包括无限循环。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span><span class="boring">        let mut messages =
+</span><span class="boring">            pin!(get_messages().timeout(Duration::from_millis(200)));
+</span><span class="boring">
+</span><span class="boring">        while let Some(result) = messages.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(message) =&gt; println!("{message}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    })
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+</span><span class="boring">        for (index, message) in messages.into_iter().enumerate() {
+</span><span class="boring">            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+</span><span class="boring">            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+</span><span class="boring">
+</span><span class="boring">            tx.send(format!("Message: '{message}'")).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
+    let (tx, rx) = trpl::channel();
+
+    trpl::spawn_task(async move {
+        let mut count = 0;
+        loop {
+            trpl::sleep(Duration::from_millis(1)).await;
+            count += 1;
+            tx.send(count).unwrap();
+        }
+    });
+
+    ReceiverStream::new(rx)
+}</code></pre></pre>
+<figcaption>Listing 17-36: Creating a stream with a counter that will be emitted once every millisecond</figcaption>
+</figure>
+<p data-x-en="This kind of infinite loop, which only ends when the whole runtime gets torn down, is fairly common in async Rust: many programs need to keep running indefinitely. With async, this doesn’t block anything else, as long as there is at least one await point in each iteration through the loop.">这种无限循环，只有在运行时被完全拆除时才会结束，在异步 Rust 中相当常见：许多程序需要无限期地运行。使用异步，只要循环的每次迭代中至少有一个 await 点，就不会阻塞其他任何内容。</p>
+<p data-x-en="Back in our main function’s async block, we start by calling get_intervals. Then we merge the messages and intervals streams with the merge method, which combines multiple streams into one stream that produces items from any of the source streams as soon as the items are available, without imposing any particular ordering. Finally, we loop over that combined stream instead of over messages (Listing 17-37).">在我们的主函数的异步块中，我们首先调用<code>get_intervals</code>。然后我们使用<code>merge</code>方法将<code>messages</code>和<code>intervals</code>流合并，该方法将多个流合并为一个流，该流会立即从任何源流中生成项目，而不会强加任何特定的顺序。最后，我们遍历这个合并的流而不是<code>messages</code>（清单17-37）。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span>        let messages = get_messages().timeout(Duration::from_millis(200));
+        let intervals = get_intervals();
+        let merged = messages.merge(intervals);
+<span class="boring">
+</span><span class="boring">        while let Some(result) = merged.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(message) =&gt; println!("{message}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    })
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+</span><span class="boring">        for (index, message) in messages.into_iter().enumerate() {
+</span><span class="boring">            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+</span><span class="boring">            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+</span><span class="boring">
+</span><span class="boring">            tx.send(format!("Message: '{message}'")).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let mut count = 0;
+</span><span class="boring">        loop {
+</span><span class="boring">            trpl::sleep(Duration::from_millis(1)).await;
+</span><span class="boring">            count += 1;
+</span><span class="boring">            tx.send(count).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 17-37: Attempting to merge streams of messages and intervals</figcaption>
+</figure>
+<p data-x-en="At this point, neither messages nor intervals needs to be pinned or mutable, because both will be combined into the single merged stream. However, this call to merge does not compile! (Neither does the next call in the while let loop, but we’ll come back to that after fixing this.) The two streams have different types. The messages stream has the type Timeout<impl Stream<Item = String>>, where Timeout is the type which implements Stream for a timeout call. Meanwhile, the intervals stream has the type impl Stream<Item = u32>. To merge these two streams, we need to transform one of them to match the other.">在这一点上，<code>messages</code> 和 <code>intervals</code> 都不需要被固定或可变，因为它们将被合并成单一的 <code>merged</code> 流。然而，这个 <code>merge</code> 调用无法编译！（<code>while let</code> 循环中的 <code>next</code> 调用也无法编译，但我们在解决这个问题后会回到这一点。）这两个流有不同的类型。<code>messages</code> 流的类型为 <code>Timeout&lt;impl Stream&lt;Item = String&gt;&gt;</code>，其中 <code>Timeout</code> 是为 <code>timeout</code> 调用实现 <code>Stream</code> 的类型。同时，<code>intervals</code> 流的类型为 <code>impl Stream&lt;Item = u32&gt;</code>。为了合并这两个流，我们需要将其中一个转换为与另一个匹配。</p>
+<p data-x-en="In Listing 17-38, we rework the intervals stream, because messages is already in the basic format we want and has to handle timeout errors. First, we can use the map helper method to transform the intervals into a string. Second, we need to match the Timeout from messages. Because we don’t actually want a timeout for intervals, though, we can just create a timeout which is longer than the other durations we are using. Here, we create a 10-second timeout with Duration::from_secs(10). Finally, we need to make stream mutable, so that the while let loop’s next calls can iterate through the stream, and pin it so that it’s safe to do so.">在清单 17-38 中，我们重新处理 <code>intervals</code> 流，因为 <code>messages</code> 已经是我们想要的基本格式，并且需要处理超时错误。首先，我们可以使用 <code>map</code> 辅助方法将 <code>intervals</code> 转换为字符串。其次，我们需要匹配来自 <code>messages</code> 的 <code>Timeout</code>。然而，我们实际上并不希望 <code>intervals</code> 有超时，因此我们可以创建一个比我们使用的其他持续时间更长的超时。这里，我们使用 <code>Duration::from_secs(10)</code> 创建一个 10 秒的超时。最后，我们需要将 <code>stream</code> 设置为可变的，以便 <code>while let</code> 循环的 <code>next</code> 调用可以遍历流，并将其固定，以确保这样做是安全的。</p>
+<!-- We cannot directly test this one, because it never stops. -->
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span>        let messages = get_messages().timeout(Duration::from_millis(200));
+        let intervals = get_intervals()
+            .map(|count| format!("Interval: {count}"))
+            .timeout(Duration::from_secs(10));
+        let merged = messages.merge(intervals);
+        let mut stream = pin!(merged);
+<span class="boring">
+</span><span class="boring">        while let Some(result) = stream.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(message) =&gt; println!("{message}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    })
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+</span><span class="boring">        for (index, message) in messages.into_iter().enumerate() {
+</span><span class="boring">            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+</span><span class="boring">            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+</span><span class="boring">
+</span><span class="boring">            tx.send(format!("Message: '{message}'")).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let mut count = 0;
+</span><span class="boring">        loop {
+</span><span class="boring">            trpl::sleep(Duration::from_millis(1)).await;
+</span><span class="boring">            count += 1;
+</span><span class="boring">            tx.send(count).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 17-38: Aligning the types of the the <code>intervals</code> stream with the type of the <code>messages</code> stream</figcaption>
+</figure>
+<p data-x-en="That gets us almost to where we need to be. Everything type checks. If you run this, though, there will be two problems. First, it will never stop! You’ll need to stop it with ctrl-c. Second, the messages from the English alphabet will be buried in the midst of all the interval counter messages:">这让我们<em>几乎</em>达到了我们需要的状态。所有类型都检查通过。但是，如果你运行这段代码，将会出现两个问题。首先，它永远不会停止！你需要用<span class="keystroke">ctrl-c</span>来停止它。其次，来自英文字母的消息将被大量的时间间隔计数器消息所淹没：</p>
+<!-- Not extracting output because changes to this output aren't significant;
+the changes are likely to be due to the tasks running differently rather than
+changes in the compiler -->
+<pre><code class="language-text">--snip--
+Interval: 38
+Interval: 39
+Interval: 40
+Message: 'a'
+Interval: 41
+Interval: 42
+Interval: 43
+--snip--
+</code></pre>
+<p data-x-en="Listing 17-39 shows one way to solve these last two problems. First, we use the throttle method on the intervals stream, so that it doesn’t overwhelm the messages stream. Throttling is a way of limiting the rate at which a function will be called—or, in this case, how often the stream will be polled. Once every hundred milliseconds should do, because that is in the same ballpark as how often our messages arrive.">列表 17-39 展示了解决最后两个问题的一种方法。首先，我们在 <code>intervals</code> 流上使用 <code>throttle</code> 方法，以防止它压垮 <code>messages</code> 流。节流是一种限制函数调用频率的方法——或者在这种情况下，限制流被轮询的频率。每一百毫秒一次应该足够了，因为这与我们的消息到达的频率大致相同。</p>
+<p data-x-en="To limit the number of items we will accept from a stream, we can use the take method. We apply it to the merged stream, because we want to limit the final output, not just one stream or the other.">为了限制我们从流中接受的项目数量，我们可以使用<code>take</code>方法。我们将其应用于<em>合并的</em>流，因为我们要限制最终的输出，而不仅仅是其中一个流或另一个流。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span>        let messages = get_messages().timeout(Duration::from_millis(200));
+        let intervals = get_intervals()
+            .map(|count| format!("Interval: {count}"))
+            .throttle(Duration::from_millis(100))
+            .timeout(Duration::from_secs(10));
+        let merged = messages.merge(intervals).take(20);
+        let mut stream = pin!(merged);
+<span class="boring">
+</span><span class="boring">        while let Some(result) = stream.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(message) =&gt; println!("{message}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    })
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+</span><span class="boring">        for (index, message) in messages.into_iter().enumerate() {
+</span><span class="boring">            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+</span><span class="boring">            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+</span><span class="boring">
+</span><span class="boring">            tx.send(format!("Message: '{message}'")).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
+</span><span class="boring">    let (tx, rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">    trpl::spawn_task(async move {
+</span><span class="boring">        let mut count = 0;
+</span><span class="boring">        loop {
+</span><span class="boring">            trpl::sleep(Duration::from_millis(1)).await;
+</span><span class="boring">            count += 1;
+</span><span class="boring">            tx.send(count).unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    ReceiverStream::new(rx)
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 17-39: Using <code>throttle</code> and <code>take</code> to manage the merged streams</figcaption>
+</figure>
+<p data-x-en="Now when we run the program, it stops after pulling twenty items from the stream, and the intervals don’t overwhelm the messages. We also don’t get Interval: 100 or Interval: 200 or so on, but instead get Interval: 1, Interval: 2, and so on—even though we have a source stream which can produce an event every millisecond. That’s because the throttle call produces a new stream, wrapping the original stream, so that the original stream only gets polled at the throttle rate, not its own “native” rate. We don’t have a bunch of unhandled interval messages we’re choosing to ignore. Instead, we never produce those interval messages in the first place! This is the inherent “laziness” of Rust’s futures at work again, allowing us to choose our performance characteristics.">现在当我们运行程序时，它在从流中拉取二十个项目后停止，而且间隔不会压倒消息。我们也不会得到<code>Interval: 100</code>或<code>Interval: 200</code>等，而是得到<code>Interval: 1</code>、<code>Interval: 2</code>等——尽管我们有一个<em>可以</em>每毫秒生成一个事件的源流。这是因为<code>throttle</code>调用生成了一个新的流，包裹了原始流，使得原始流只在节流速率下被轮询，而不是其自身的“原生”速率。我们没有一堆未处理的间隔消息需要选择忽略。相反，我们从一开始就从未生成这些间隔消息！这是Rust的未来机制固有的“惰性”再次发挥作用，允许我们选择性能特性。</p>
+<!-- manual-regeneration
+cd listings/ch17-async-await/listing-17-39
+cargo run
+copy and paste only the program output
+-->
+<pre><code class="language-text">Interval: 1
+Message: 'a'
+Interval: 2
+Interval: 3
+Problem: Elapsed(())
+Interval: 4
+Message: 'b'
+Interval: 5
+Message: 'c'
+Interval: 6
+Interval: 7
+Problem: Elapsed(())
+Interval: 8
+Message: 'd'
+Interval: 9
+Message: 'e'
+Interval: 10
+Interval: 11
+Problem: Elapsed(())
+Interval: 12
+</code></pre>
+<p data-x-en="There’s one last thing we need to handle: errors! With both of these channel-based streams, the send calls could fail when the other side of the channel closes—and that’s just a matter of how the runtime executes the futures which make up the stream. Up until now we have ignored this by calling unwrap, but in a well-behaved app, we should explicitly handle the error, at minimum by ending the loop so we don’t try to send any more messages! Listing 17-40 shows a simple error strategy: print the issue and then break from the loops. As usual, the correct way to handle a message send error will vary—just make sure you have a strategy.">还有最后一件事需要处理：错误！对于这两个基于通道的流，当通道的另一端关闭时，<code>send</code> 调用可能会失败——这仅仅是运行时执行构成流的未来对象的方式的问题。到目前为止，我们通过调用 <code>unwrap</code> 忽略了这一点，但在一个行为良好的应用程序中，我们应该显式地处理错误，至少通过结束循环来避免尝试发送更多消息！列表 17-40 显示了一个简单的错误处理策略：打印问题，然后从循环中 <code>break</code>。和往常一样，处理消息发送错误的正确方法会有所不同——只需确保你有一个策略。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+</span><span class="boring">
+</span><span class="boring">use std::{pin::pin, time::Duration};
+</span><span class="boring">
+</span><span class="boring">use trpl::{ReceiverStream, Stream, StreamExt};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    trpl::run(async {
+</span><span class="boring">        let messages = get_messages().timeout(Duration::from_millis(200));
+</span><span class="boring">        let intervals = get_intervals()
+</span><span class="boring">            .map(|count| format!("Interval #{count}"))
+</span><span class="boring">            .throttle(Duration::from_millis(500))
+</span><span class="boring">            .timeout(Duration::from_secs(10));
+</span><span class="boring">        let merged = messages.merge(intervals).take(20);
+</span><span class="boring">        let mut stream = pin!(merged);
+</span><span class="boring">
+</span><span class="boring">        while let Some(result) = stream.next().await {
+</span><span class="boring">            match result {
+</span><span class="boring">                Ok(item) =&gt; println!("{item}"),
+</span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
+    let (tx, rx) = trpl::channel();
+
+    trpl::spawn_task(async move {
+        let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+
+        for (index, message) in messages.into_iter().enumerate() {
+            let time_to_sleep = if index % 2 == 0 { 100 } else { 300 };
+            trpl::sleep(Duration::from_millis(time_to_sleep)).await;
+
+            if let Err(send_error) = tx.send(format!("Message: '{message}'")) {
+                eprintln!("Cannot send message '{message}': {send_error}");
+                break;
+            }
+        }
+    });
+
+    ReceiverStream::new(rx)
+}
+
+fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
+    let (tx, rx) = trpl::channel();
+
+    trpl::spawn_task(async move {
+        let mut count = 0;
+        loop {
+            trpl::sleep(Duration::from_millis(1)).await;
+            count += 1;
+
+            if let Err(send_error) = tx.send(count) {
+                eprintln!("Could not send interval {count}: {send_error}");
+                break;
+            };
+        }
+    });
+
+    ReceiverStream::new(rx)
+}</code></pre></pre>
+<figcaption>Listing 17-40: Handling errors and shutting down the loops</figcaption>
+</figure>
+<p data-x-en="Now that we’ve seen a bunch of async in practice, let’s take a step back and dig into a few of the details of how Future, Stream, and the other key traits which Rust uses to make async work.">现在我们已经看到了很多异步的实际应用，让我们退一步，深入探讨一下 Rust 用于实现异步的关键特质 <code>Future</code>、<code>Stream</code> 以及其他一些细节。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch17-03-more-futures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch17-05-traits-for-async.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch17-03-more-futures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch17-05-traits-for-async.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    
+
+</body></html>
