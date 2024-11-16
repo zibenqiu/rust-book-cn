@@ -76,7 +76,7 @@ jobs:
           npm i
           node index.js
 
-      - name: 推送到 gp 分支
+      - name: 推送
         if: env.new_commits == 'true'
         run: |
           git checkout -b temp
