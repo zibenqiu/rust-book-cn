@@ -1,1 +1,158 @@
-{}
+{
+  "References and Borrowing": {
+    "_translate": "<a class=\"header\" href=\"#references-and-borrowing\">引用和借用</a>",
+    "_note": ""
+  },
+  "Here is how you would define and use a calculate_length function that has a reference to an object as a parameter instead of taking ownership of the value:": {
+    "_translate": "这里是如何定义和使用一个<code>calculate_length</code>函数，该函数以对象的引用作为参数，而不是获取值的所有权：",
+    "_note": ""
+  },
+  "The issue with the tuple code in Listing 4-5 is that we have to return the String to the calling function so we can still use the String after the call to calculate_length, because the String was moved into calculate_length. Instead, we can provide a reference to the String value. A reference is like a pointer in that it’s an address we can follow to access the data stored at that address; that data is owned by some other variable. Unlike a pointer, a reference is guaranteed to point to a valid value of a particular type for the life of that reference.": {
+    "_translate": "列表 4-5 中元组代码的问题在于我们必须将 <code>String</code> 返回给调用函数，这样我们才能在调用 <code>calculate_length</code> 之后继续使用 <code>String</code>，因为 <code>String</code> 已经被移动到了 <code>calculate_length</code> 中。相反，我们可以提供一个指向 <code>String</code> 值的引用。一个 <em>引用</em> 类似于指针，它是一个我们可以跟随的地址，用于访问存储在该地址的数据；这些数据由其他某个变量拥有。与指针不同，引用在其生命周期内保证指向特定类型的有效值。",
+    "_note": ""
+  },
+  "First, notice that all the tuple code in the variable declaration and the function return value is gone. Second, note that we pass &s1 into calculate_length and, in its definition, we take &String rather than String. These ampersands represent references, and they allow you to refer to some value without taking ownership of it. Figure 4-6 depicts this concept.": {
+    "_translate": "首先，注意变量声明和函数返回值中的所有元组代码都消失了。其次，注意我们传递<code>&amp;s1</code>到<code>calculate_length</code>，在其定义中，我们接受<code>&amp;String</code>而不是<code>String</code>。这些引用符号代表<em>引用</em>，它们允许你引用某个值而不获取其所有权。图4-6描绘了这一概念。",
+    "_note": ""
+  },
+  "Figure 4-6: A diagram of &String s pointing at String s1": {
+    "_translate": "<span class=\"caption\">图4-6: <code>&amp;String s</code> 指向 <code>String s1</code> 的图示</span>",
+    "_note": ""
+  },
+  "Let’s take a closer look at the function call here:": {
+    "_translate": "让我们更仔细地看看这里的函数调用:",
+    "_note": ""
+  },
+  "Note: The opposite of referencing by using & is dereferencing, which is accomplished with the dereference operator, *. We’ll see some uses of the dereference operator in Chapter 8 and discuss details of dereferencing in Chapter 15.": {
+    "_translate": "注意：使用 <code>&amp;</code> 引用的相反操作是 <em>解引用</em>，这可以通过解引用操作符 <code>*</code> 来完成。我们将在第 8 章中看到解引用操作符的一些用法，并在第 15 章中讨论解引用的详细信息。",
+    "_note": ""
+  },
+  "The &s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because it does not own it, the value it points to will not be dropped when the reference stops being used.": {
+    "_translate": "<code>&amp;s1</code> 语法让我们创建一个引用，该引用<em>指向</em><code>s1</code>的值，但不拥有它。因为不拥有它，所以当引用停止使用时，它所指向的值不会被释放。",
+    "_note": ""
+  },
+  "Likewise, the signature of the function uses & to indicate that the type of the parameter s is a reference. Let’s add some explanatory annotations:": {
+    "_translate": "同样，函数的签名使用 <code>&amp;</code> 来表示参数 <code>s</code> 的类型是一个引用。让我们添加一些解释性的注释：",
+    "_note": ""
+  },
+  "The scope in which the variable s is valid is the same as any function parameter’s scope, but the value pointed to by the reference is not dropped when s stops being used, because s doesn’t have ownership. When functions have references as parameters instead of the actual values, we won’t need to return the values in order to give back ownership, because we never had ownership.": {
+    "_translate": "变量 <code>s</code> 有效的范围与任何函数参数的范围相同，但当 <code>s</code> 不再使用时，引用所指向的值不会被丢弃，因为 <code>s</code> 没有所有权。当函数的参数是引用而不是实际值时，我们不需要返回值以归还所有权，因为我们从未拥有过所有权。",
+    "_note": ""
+  },
+  "We call the action of creating a reference borrowing. As in real life, if a person owns something, you can borrow it from them. When you’re done, you have to give it back. You don’t own it.": {
+    "_translate": "我们将创建引用的行为称为<em>借用</em>。就像在现实生活中，如果一个人拥有某样东西，你可以从他们那里借用。当你用完后，必须归还。你并不拥有它。",
+    "_note": ""
+  },
+  "Here’s the error:": {
+    "_translate": "这里的错误：",
+    "_note": ""
+  },
+  "So, what happens if we try to modify something we’re borrowing? Try the code in Listing 4-6. Spoiler alert: it doesn’t work!": {
+    "_translate": "所以，如果我们尝试修改我们借用的内容会发生什么？尝试清单 4-6 中的代码。剧透警告：它不起作用！",
+    "_note": ""
+  },
+  "Just as variables are immutable by default, so are references. We’re not allowed to modify something we have a reference to.": {
+    "_translate": "正如变量默认是不可变的一样，引用也是如此。我们不允许修改我们有引用的东西。",
+    "_note": ""
+  },
+  "We can fix the code from Listing 4-6 to allow us to modify a borrowed value with just a few small tweaks that use, instead, a mutable reference:": {
+    "_translate": "我们可以修复列表 4-6 中的代码，以允许我们修改借用的值，只需进行一些小的修改，使用 <em>可变引用</em>：",
+    "_note": ""
+  },
+  "Mutable References": {
+    "_translate": "<a class=\"header\" href=\"#mutable-references\">可变引用</a>",
+    "_note": ""
+  },
+  "Mutable references have one big restriction: if you have a mutable reference to a value, you can have no other references to that value. This code that attempts to create two mutable references to s will fail:": {
+    "_translate": "可变引用有一个重要的限制：如果你有一个指向值的可变引用，那么你不能有其他任何指向该值的引用。尝试创建两个指向 <code>s</code> 的可变引用的代码将会失败：",
+    "_note": ""
+  },
+  "First we change s to be mut. Then we create a mutable reference with &mut s where we call the change function, and update the function signature to accept a mutable reference with some_string: &mut String. This makes it very clear that the change function will mutate the value it borrows.": {
+    "_translate": "首先我们将 <code>s</code> 更改为 <code>mut</code>。然后我们在调用 <code>change</code> 函数时使用 <code>&amp;mut s</code> 创建一个可变引用，并将函数签名更新为接受一个可变引用 <code>some_string: &amp;mut String</code>。这使得 <code>change</code> 函数将修改其借用的值这一点非常明确。",
+    "_note": ""
+  },
+  "This error says that this code is invalid because we cannot borrow s as mutable more than once at a time. The first mutable borrow is in r1 and must last until it’s used in the println!, but between the creation of that mutable reference and its usage, we tried to create another mutable reference in r2 that borrows the same data as r1.": {
+    "_translate": "这个错误表示此代码无效，因为我们不能同时多次借用 <code>s</code> 作为可变借用。第一次可变借用在 <code>r1</code> 中，并且必须持续到在 <code>println!</code> 中使用它为止，但在创建该可变引用和使用它之间，我们试图在 <code>r2</code> 中创建另一个可变引用，该引用借用与 <code>r1</code> 相同的数据。",
+    "_note": ""
+  },
+  "The restriction preventing multiple mutable references to the same data at the same time allows for mutation but in a very controlled fashion. It’s something that new Rustaceans struggle with because most languages let you mutate whenever you’d like. The benefit of having this restriction is that Rust can prevent data races at compile time. A data race is similar to a race condition and happens when these three behaviors occur:": {
+    "_translate": "防止同时对同一数据进行多个可变引用的限制允许进行变异，但以非常受控的方式进行。这是新 Rustaceans 会遇到困难的地方，因为大多数语言允许你在任何时候进行变异。拥有此限制的好处是 Rust 可以在编译时防止数据竞争。数据竞争类似于竞态条件，当以下三种行为发生时会出现：<em>数据竞争</em>",
+    "_note": ""
+  },
+  "Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime; Rust prevents this problem by refusing to compile code with data races!": {
+    "_translate": "数据竞争会导致未定义行为，并且在运行时尝试跟踪和修复它们时可能会非常困难；Rust 通过拒绝编译存在数据竞争的代码来防止这个问题！",
+    "_note": ""
+  },
+  "As always, we can use curly brackets to create a new scope, allowing for multiple mutable references, just not simultaneous ones:": {
+    "_translate": "正如往常，我们可以使用大括号来创建一个新的作用域，允许有多个可变引用，只是不能 <em>同时</em> 存在：",
+    "_note": ""
+  },
+  "Rust enforces a similar rule for combining mutable and immutable references. This code results in an error:": {
+    "_translate": "Rust 强制执行类似的规则，用于组合可变和不可变引用。\n这段代码会导致错误：",
+    "_note": ""
+  },
+  "Whew! We also cannot have a mutable reference while we have an immutable one to the same value.": {
+    "_translate": "呼！我们<em>也</em>不能在拥有一个不可变引用的同时拥有一个可变引用到同一个值。",
+    "_note": ""
+  },
+  "Users of an immutable reference don’t expect the value to suddenly change out from under them! However, multiple immutable references are allowed because no one who is just reading the data has the ability to affect anyone else’s reading of the data.": {
+    "_translate": "不可变引用的用户不希望值突然发生变化！然而，允许多个不可变引用，因为只是读取数据的人没有能力影响其他人的数据读取。",
+    "_note": ""
+  },
+  "Note that a reference’s scope starts from where it is introduced and continues through the last time that reference is used. For instance, this code will compile because the last usage of the immutable references, the println!, occurs before the mutable reference is introduced:": {
+    "_translate": "请注意，引用的作用域从其被引入的地方开始，一直持续到最后一次使用该引用的地方。例如，这段代码可以编译，因为最后一次使用不可变引用，即<code>println!</code>，发生在可变引用被引入之前：",
+    "_note": ""
+  },
+  "The scopes of the immutable references r1 and r2 end after the println! where they are last used, which is before the mutable reference r3 is created. These scopes don’t overlap, so this code is allowed: the compiler can tell that the reference is no longer being used at a point before the end of the scope.": {
+    "_translate": "不可变引用 <code>r1</code> 和 <code>r2</code> 的作用域在它们最后一次被使用的 <code>println!</code> 之后结束，这发生在可变引用 <code>r3</code> 创建之前。这些作用域不重叠，因此这段代码是允许的：编译器可以判断引用在作用域结束之前的一个点上不再被使用。",
+    "_note": ""
+  },
+  "Even though borrowing errors may be frustrating at times, remember that it’s the Rust compiler pointing out a potential bug early (at compile time rather than at runtime) and showing you exactly where the problem is. Then you don’t have to track down why your data isn’t what you thought it was.": {
+    "_translate": "虽然借用错误有时可能会令人沮丧，但请记住，这是 Rust 编译器在早期（编译时而不是运行时）指出一个潜在的错误，并准确地显示问题所在。然后你就不必追踪为什么你的数据不是你认为的样子。",
+    "_note": ""
+  },
+  "Dangling References": {
+    "_translate": "<a class=\"header\" href=\"#dangling-references\">悬垂引用</a>",
+    "_note": ""
+  },
+  "Let’s try to create a dangling reference to see how Rust prevents them with a compile-time error:": {
+    "_translate": "让我们尝试创建一个悬垂引用，看看 Rust 如何通过编译时错误来防止它们：<code>let's try to create a dangling reference to see how Rust prevents them with a compile-time error:</code>",
+    "_note": ""
+  },
+  "In languages with pointers, it’s easy to erroneously create a dangling pointer—a pointer that references a location in memory that may have been given to someone else—by freeing some memory while preserving a pointer to that memory. In Rust, by contrast, the compiler guarantees that references will never be dangling references: if you have a reference to some data, the compiler will ensure that the data will not go out of scope before the reference to the data does.": {
+    "_translate": "在具有指针的语言中，很容易错误地创建一个<em>悬空指针</em>——一个引用了可能已被分配给其他人的内存位置的指针——通过释放某些内存同时保留对该内存的指针。相比之下，在 Rust 中，编译器保证引用永远不会是悬空引用：如果你对某些数据有引用，编译器将确保该数据不会在引用数据之前超出作用域。",
+    "_note": ""
+  },
+  "This error message refers to a feature we haven’t covered yet: lifetimes. We’ll discuss lifetimes in detail in Chapter 10. But, if you disregard the parts about lifetimes, the message does contain the key to why this code is a problem:": {
+    "_translate": "这个错误消息提到了一个我们尚未涉及的功能：生命周期。我们将在第 10 章详细讨论生命周期。但是，如果你忽略有关生命周期的部分，消息确实包含了为什么这段代码有问题的关键：",
+    "_note": ""
+  },
+  "Let’s take a closer look at exactly what’s happening at each stage of our dangle code:": {
+    "_translate": "让我们更仔细地看看我们的 <code>dangle</code> 代码在每个阶段究竟发生了什么：",
+    "_note": ""
+  },
+  "The solution here is to return the String directly:": {
+    "_translate": "这里的解决方案是直接返回 <code>String</code>：",
+    "_note": ""
+  },
+  "This works without any problems. Ownership is moved out, and nothing is deallocated.": {
+    "_translate": "这没有任何问题。所有权被移出，但没有任何内容被释放。",
+    "_note": ""
+  },
+  "Because s is created inside dangle, when the code of dangle is finished, s will be deallocated. But we tried to return a reference to it. That means this reference would be pointing to an invalid String. That’s no good! Rust won’t let us do this.": {
+    "_translate": "因为 <code>s</code> 是在 <code>dangle</code> 内创建的，当 <code>dangle</code> 的代码执行完毕时，<code>s</code> 将会被释放。但我们试图返回一个指向它的引用。这意味着这个引用将指向一个无效的 <code>String</code>。这可不好！Rust 不会让我们这样做。",
+    "_note": ""
+  },
+  "The Rules of References": {
+    "_translate": "<a class=\"header\" href=\"#the-rules-of-references\">引用的规则</a>",
+    "_note": ""
+  },
+  "Let’s recap what we’ve discussed about references:": {
+    "_translate": "让我们回顾一下我们讨论过的关于引用的内容：",
+    "_note": ""
+  },
+  "Next, we’ll look at a different kind of reference: slices.": {
+    "_translate": "接下来，我们将研究一种不同的引用类型：切片。",
+    "_note": ""
+  }
+}

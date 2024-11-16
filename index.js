@@ -104,11 +104,10 @@ Promise.all(
       banner.id = 'banner-info';
       // Note: 整站通知
       const p = key.replace('book_src/book', '').replace('.html', '');
-      console.log('p', p);
-      banner.innerHTML = `本文档为 AI + 人工翻译，hover 可以显示原文。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict${p}.json" target="_blank">我来翻译！</a>`;
-      const bodyContainer = document.querySelector('#body-container');
+      banner.innerHTML = `本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict${p}.json" target="_blank">我来翻译！</a>`;
+      const bodyContainer = document.querySelector('#menu-bar');
       if (bodyContainer) {
-        bodyContainer.parentNode.insertBefore(banner, bodyContainer);
+        bodyContainer.insertBefore(banner, bodyContainer.firstChild);
       }
       // Note: 添加 hover 显示原文的样式信息
 
@@ -121,15 +120,15 @@ Promise.all(
             console.log(`${file} 未找到 ${c.container} 标签`);
             return;
           }
-          return (
-            [...container.querySelectorAll(`${c.selector}:not([data-x-en])`)] ||
-            []
-          );
+          return [
+            ...container.querySelectorAll(`${c.selector}:not([data-x-en])`),
+          ];
         })
         .flat()
         .filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
+        rootResolve();
         return;
       }
 
@@ -146,6 +145,7 @@ Promise.all(
         dict = JSON.parse(fs.readFileSync(dictPath, 'utf8'));
       } catch (error) {
         console.error(`${dictPath} 解析失败, 跳过`);
+        rootResolve();
         return;
       }
       Promise.all(
@@ -154,7 +154,10 @@ Promise.all(
             const text = item.innerHTML.trim();
             // Note: 移除换行符
             const pureText = item.textContent.trim().replace(/\s+/gm, ' ');
-            if (!pureText) return;
+            if (!pureText) {
+              resolve();
+              return;
+            }
             if (dict[pureText]) {
               if (dict[pureText]._translate) {
                 item.innerHTML = dict[pureText]._translate;
@@ -180,8 +183,8 @@ Promise.all(
               }
               resolve();
             } else {
-              semaphore.acquire().then(() => {
-                translate(text, { key: file })
+              return semaphore.acquire().then(() => {
+                return translate(text, { key: file })
                   .then((translate) => {
                     console.log('文件:', file, '--------');
                     dict[pureText] = {

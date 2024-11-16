@@ -1,1 +1,74 @@
-{}
+{
+  "Unrecoverable Errors with panic!": {
+    "_translate": "<a class=\"header\" href=\"#unrecoverable-errors-with-panic\">无法恢复的错误与<code>panic!</code></a>",
+    "_note": ""
+  },
+  "Unwinding the Stack or Aborting in Response to a Panic": {
+    "_translate": "<a class=\"header\" href=\"#unwinding-the-stack-or-aborting-in-response-to-a-panic\">在发生恐慌时展开堆栈或中止</a>",
+    "_note": ""
+  },
+  "Sometimes bad things happen in your code, and there’s nothing you can do about it. In these cases, Rust has the panic! macro. There are two ways to cause a panic in practice: by taking an action that causes our code to panic (such as accessing an array past the end) or by explicitly calling the panic! macro. In both cases, we cause a panic in our program. By default, these panics will print a failure message, unwind, clean up the stack, and quit. Via an environment variable, you can also have Rust display the call stack when a panic occurs to make it easier to track down the source of the panic.": {
+    "_translate": "有时在代码中会发生一些无法控制的坏事。在这种情况下，Rust 有 <code>panic!</code> 宏。实际上有两种方式会导致程序崩溃：通过执行导致代码崩溃的操作（例如访问数组末尾之外的元素）或显式调用 <code>panic!</code> 宏。在这两种情况下，我们都会导致程序崩溃。默认情况下，这些崩溃会打印失败消息，展开，清理堆栈并退出。通过环境变量，您还可以让 Rust 在崩溃发生时显示调用堆栈，以便更容易追踪崩溃的来源。",
+    "_note": ""
+  },
+  "By default, when a panic occurs the program starts unwinding, which means Rust walks back up the stack and cleans up the data from each function it encounters. However, walking back and cleaning up is a lot of work. Rust, therefore, allows you to choose the alternative of immediately aborting, which ends the program without cleaning up.": {
+    "_translate": "默认情况下，当发生 panic 时，程序开始 <em>unwinding</em>，这意味着 Rust 会回溯调用栈并清理每个遇到的函数中的数据。然而，回溯和清理是一项繁重的工作。因此，Rust 允许你选择立即 <em>aborting</em>，这会在不进行清理的情况下结束程序。",
+    "_note": ""
+  },
+  "Memory that the program was using will then need to be cleaned up by the operating system. If in your project you need to make the resultant binary as small as possible, you can switch from unwinding to aborting upon a panic by adding panic = 'abort' to the appropriate [profile] sections in your Cargo.toml file. For example, if you want to abort on panic in release mode, add this:": {
+    "_translate": "程序使用的内存将需要由操作系统进行清理。如果你的项目需要使生成的二进制文件尽可能小，可以通过在 <em>Cargo.toml</em> 文件的适当 <code>[profile]</code> 部分中添加 <code>panic = 'abort'</code> 来将 panic 时的行为从展开切换为中止。例如，如果你想在发布模式下在 panic 时中止，添加以下内容：",
+    "_note": ""
+  },
+  "Let’s try calling panic! in a simple program:": {
+    "_translate": "让我们在简单的程序中尝试调用<code>panic!</code>：",
+    "_note": ""
+  },
+  "When you run the program, you’ll see something like this:": {
+    "_translate": "当你运行程序时，你会看到类似这样的内容：",
+    "_note": ""
+  },
+  "The call to panic! causes the error message contained in the last two lines. The first line shows our panic message and the place in our source code where the panic occurred: src/main.rs:2:5 indicates that it’s the second line, fifth character of our src/main.rs file.": {
+    "_translate": "调用 <code>panic!</code> 会导致最后两行中的错误消息。\n第一行显示了我们的 panic 消息以及 panic 发生的位置：<em>src/main.rs:2:5</em> 表示这是我们的 <em>src/main.rs</em> 文件的第二行，第五个字符。",
+    "_note": ""
+  },
+  "In this case, the line indicated is part of our code, and if we go to that line, we see the panic! macro call. In other cases, the panic! call might be in code that our code calls, and the filename and line number reported by the error message will be someone else’s code where the panic! macro is called, not the line of our code that eventually led to the panic! call.": {
+    "_translate": "在这种情况下，指示的行是我们的代码的一部分，如果我们转到该行，我们会看到 <code>panic!</code> 宏调用。在其他情况下，<code>panic!</code> 调用可能在我们的代码调用的代码中，错误消息报告的文件名和行号将是其他人代码中调用 <code>panic!</code> 宏的地方，而不是最终导致 <code>panic!</code> 调用的我们代码的行。",
+    "_note": ""
+  },
+  "We can use the backtrace of the functions the panic! call came from to figure out the part of our code that is causing the problem. To understand how to use a panic! backtrace, let’s look at another example and see what it’s like when a panic! call comes from a library because of a bug in our code instead of from our code calling the macro directly. Listing 9-1 has some code that attempts to access an index in a vector beyond the range of valid indexes.": {
+    "_translate": "我们可以使用 <code>panic!</code> 调用来源的函数回溯来找出导致问题的代码部分。为了了解如何使用 <code>panic!</code> 回溯，让我们看看另一个例子，看看当 <code>panic!</code> 调用是因为我们代码中的错误而来自库，而不是直接从我们的代码调用宏时的情况。列表 9-1 有一些尝试访问向量中超出有效索引范围的索引的代码。",
+    "_note": ""
+  },
+  "Here, we’re attempting to access the 100th element of our vector (which is at index 99 because indexing starts at zero), but the vector has only three elements. In this situation, Rust will panic. Using [] is supposed to return an element, but if you pass an invalid index, there’s no element that Rust could return here that would be correct.": {
+    "_translate": "在这里，我们试图访问向量的第100个元素（索引为99，因为索引从零开始），但向量只有三个元素。在这种情况下，Rust 会引发恐慌。使用 <code>[]</code> 应该返回一个元素，但如果传递了一个无效的索引，这里没有一个元素是 Rust 可以返回的，而且返回的元素也不会是正确的。",
+    "_note": ""
+  },
+  "To protect your program from this sort of vulnerability, if you try to read an element at an index that doesn’t exist, Rust will stop execution and refuse to continue. Let’s try it and see:": {
+    "_translate": "为了保护您的程序免受此类漏洞的影响，如果您尝试读取一个不存在的索引的元素，Rust 将停止执行并拒绝继续。让我们试一试：<code>let a = vec![1, 2, 3]; a[10];</code> 运行此代码将导致程序崩溃，因为索引 10 超出了向量的范围。",
+    "_note": ""
+  },
+  "In C, attempting to read beyond the end of a data structure is undefined behavior. You might get whatever is at the location in memory that would correspond to that element in the data structure, even though the memory doesn’t belong to that structure. This is called a buffer overread and can lead to security vulnerabilities if an attacker is able to manipulate the index in such a way as to read data they shouldn’t be allowed to that is stored after the data structure.": {
+    "_translate": "在 C 语言中，尝试读取数据结构末尾之外的内容是未定义的行为。你可能会得到位于内存中对应于该数据结构中该元素位置的数据，即使该内存不属于该结构。这称为 <em>缓冲区越界读取</em>，如果攻击者能够以某种方式操纵索引以读取数据结构之后存储的不应被访问的数据，这可能会导致安全漏洞。",
+    "_note": ""
+  },
+  "This error points at line 4 of our main.rs where we attempt to access index 99 of the vector in v.": {
+    "_translate": "这个错误指向了我们的<em>main.rs</em>第4行，我们在那里尝试访问向量<code>v</code>中的索引<code>99</code>。",
+    "_note": ""
+  },
+  "That’s a lot of output! The exact output you see might be different depending on your operating system and Rust version. In order to get backtraces with this information, debug symbols must be enabled. Debug symbols are enabled by default when using cargo build or cargo run without the --release flag, as we have here.": {
+    "_translate": "那是很多输出！你看到的确切输出可能因你的操作系统和 Rust 版本而异。为了获得带有这些信息的回溯，必须启用调试符号。调试符号在使用 <code>cargo build</code> 或 <code>cargo run</code> 时默认启用，除非指定了 <code>--release</code> 标志，就像我们这里一样。",
+    "_note": ""
+  },
+  "The note: line tells us that we can set the RUST_BACKTRACE environment variable to get a backtrace of exactly what happened to cause the error. A backtrace is a list of all the functions that have been called to get to this point. Backtraces in Rust work as they do in other languages: the key to reading the backtrace is to start from the top and read until you see files you wrote. That’s the spot where the problem originated. The lines above that spot are code that your code has called; the lines below are code that called your code. These before-and-after lines might include core Rust code, standard library code, or crates that you’re using. Let’s try getting a backtrace by setting the RUST_BACKTRACE environment variable to any value except 0. Listing 9-2 shows output similar to what you’ll see.": {
+    "_translate": "<code>note:</code> 行告诉我们可以通过设置 <code>RUST_BACKTRACE</code> 环境变量来获取导致错误的详细回溯。一个 <em>回溯</em> 是到达此点时调用的所有函数的列表。Rust 中的回溯与其他语言中的工作方式相同：阅读回溯的关键是从顶部开始，直到看到你编写的文件。这就是问题的起源点。该点上方的行是你代码调用的代码；该点下方的行是调用你代码的代码。这些前后行可能包括核心 Rust 代码、标准库代码或你使用的 crate。让我们通过将 <code>RUST_BACKTRACE</code> 环境变量设置为除 <code>0</code> 之外的任何值来尝试获取回溯。列表 9-2 显示了你将看到的类似输出。",
+    "_note": ""
+  },
+  "In the output in Listing 9-2, line 6 of the backtrace points to the line in our project that’s causing the problem: line 4 of src/main.rs. If we don’t want our program to panic, we should start our investigation at the location pointed to by the first line mentioning a file we wrote. In Listing 9-1, where we deliberately wrote code that would panic, the way to fix the panic is to not request an element beyond the range of the vector indexes. When your code panics in the future, you’ll need to figure out what action the code is taking with what values to cause the panic and what the code should do instead.": {
+    "_translate": "在列表 9-2 的输出中，回溯的第 6 行指向了我们项目中导致问题的行：<em>src/main.rs</em> 的第 4 行。如果我们不希望程序崩溃，我们应该从第一个提到我们编写文件的行开始调查。在列表 9-1 中，我们故意编写了会导致崩溃的代码，修复崩溃的方法是不要请求超出向量索引范围的元素。当你的代码在未来崩溃时，你需要弄清楚代码正在使用哪些值执行什么操作导致崩溃，以及代码应该做什么来替代。",
+    "_note": ""
+  },
+  "We’ll come back to panic! and when we should and should not use panic! to handle error conditions in the “To panic! or Not to panic!” section later in this chapter. Next, we’ll look at how to recover from an error using Result.": {
+    "_translate": "我们将回到<a href=\"ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic\">“使用 <code>panic!</code> 还是不使用 <code>panic!</code>”</a><!-- ignore --> 部分，讨论何时应该和不应该使用 <code>panic!</code> 来处理错误条件。接下来，我们将看看如何使用 <code>Result</code> 从错误中恢复。",
+    "_note": ""
+  }
+}

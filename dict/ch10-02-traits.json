@@ -1,1 +1,222 @@
-{}
+{
+  "Traits: Defining Shared Behavior": {
+    "_translate": "<a class=\"header\" href=\"#traits-defining-shared-behavior\">特质：定义共享行为</a>",
+    "_note": ""
+  },
+  "Note: Traits are similar to a feature often called interfaces in other languages, although with some differences.": {
+    "_translate": "注意：Trait 与其它语言中经常称为 <em>接口</em> 的功能类似，尽管有一些不同。",
+    "_note": ""
+  },
+  "A trait defines the functionality a particular type has and can share with other types. We can use traits to define shared behavior in an abstract way. We can use trait bounds to specify that a generic type can be any type that has certain behavior.": {
+    "_translate": "一个 <em>trait</em> 定义了特定类型具有的功能以及可以与其他类型共享的功能。我们可以使用 trait 以抽象的方式定义共享行为。我们可以使用 <em>trait bounds</em> 来指定泛型类型可以是具有某些行为的任何类型。",
+    "_note": ""
+  },
+  "Defining a Trait": {
+    "_translate": "<a class=\"header\" href=\"#defining-a-trait\">定义一个特质</a>",
+    "_note": ""
+  },
+  "A type’s behavior consists of the methods we can call on that type. Different types share the same behavior if we can call the same methods on all of those types. Trait definitions are a way to group method signatures together to define a set of behaviors necessary to accomplish some purpose.": {
+    "_translate": "一个类型的行为主由我们可以调用该类型的方法组成。如果我们可以对所有这些类型调用相同的方法，那么不同的类型就共享相同的行为。特征定义是一种将方法签名组合在一起的方式，以定义实现某个目的所需的一组行为。",
+    "_note": ""
+  },
+  "For example, let’s say we have multiple structs that hold various kinds and amounts of text: a NewsArticle struct that holds a news story filed in a particular location and a Tweet that can have, at most, 280 characters along with metadata that indicates whether it was a new tweet, a retweet, or a reply to another tweet.": {
+    "_translate": "例如，假设我们有多个结构体，它们持有各种类型和数量的文本：<code>NewsArticle</code> 结构体保存在特定地点发布的一篇新闻故事，以及 <code>Tweet</code> 结构体，最多可以包含 280 个字符，以及指示它是新推文、转推还是回复其他推文的元数据。",
+    "_note": ""
+  },
+  "We want to make a media aggregator library crate named aggregator that can display summaries of data that might be stored in a NewsArticle or Tweet instance. To do this, we need a summary from each type, and we’ll request that summary by calling a summarize method on an instance. Listing 10-12 shows the definition of a public Summary trait that expresses this behavior.": {
+    "_translate": "我们想要制作一个名为 <code>aggregator</code> 的媒体聚合库 crate，可以显示可能存储在 <code>NewsArticle</code> 或 <code>Tweet</code> 实例中的数据摘要。为此，我们需要每种类型的摘要，并将通过在实例上调用 <code>summarize</code> 方法来请求该摘要。列表 10-12 显示了一个公共 <code>Summary</code> 特性的定义，该特性表达了这种行为。",
+    "_note": ""
+  },
+  "Here, we declare a trait using the trait keyword and then the trait’s name, which is Summary in this case. We also declare the trait as pub so that crates depending on this crate can make use of this trait too, as we’ll see in a few examples. Inside the curly brackets, we declare the method signatures that describe the behaviors of the types that implement this trait, which in this case is fn summarize(&self) -> String.": {
+    "_translate": "这里，我们使用 <code>trait</code> 关键字和 trait 的名称来声明一个 trait，这个例子中是 <code>Summary</code>。我们还声明 trait 为 <code>pub</code>，以便依赖此 crate 的其他 crate 也可以使用此 trait，我们将在几个示例中看到。在大括号内，我们声明了描述实现此 trait 的类型的行为的方法签名，这里为 <code>fn summarize(&amp;self) -&gt; String</code>。",
+    "_note": ""
+  },
+  "A trait can have multiple methods in its body: the method signatures are listed one per line, and each line ends in a semicolon.": {
+    "_translate": "一个特质可以在其主体中拥有多个方法：方法签名按行列出，每行以分号结尾。",
+    "_note": ""
+  },
+  "After the method signature, instead of providing an implementation within curly brackets, we use a semicolon. Each type implementing this trait must provide its own custom behavior for the body of the method. The compiler will enforce that any type that has the Summary trait will have the method summarize defined with this signature exactly.": {
+    "_translate": "在方法签名之后，我们使用分号而不是在大括号内提供实现。每个实现此特征的类型都必须为其方法体提供自己的自定义行为。编译器将强制任何具有 <code>Summary</code> 特征的类型都必须定义具有此签名的方法 <code>summarize</code>。",
+    "_note": ""
+  },
+  "Implementing a Trait on a Type": {
+    "_translate": "<a class=\"header\" href=\"#implementing-a-trait-on-a-type\">在类型上实现特征</a>",
+    "_note": ""
+  },
+  "Now that we’ve defined the desired signatures of the Summary trait’s methods, we can implement it on the types in our media aggregator. Listing 10-13 shows an implementation of the Summary trait on the NewsArticle struct that uses the headline, the author, and the location to create the return value of summarize. For the Tweet struct, we define summarize as the username followed by the entire text of the tweet, assuming that the tweet content is already limited to 280 characters.": {
+    "_translate": "现在我们已经定义了 <code>Summary</code> 特性方法的期望签名，我们可以在媒体聚合器中的类型上实现它。列表 10-13 显示了在 <code>NewsArticle</code> 结构体上实现 <code>Summary</code> 特性的示例，该实现使用标题、作者和位置来创建 <code>summarize</code> 的返回值。对于 <code>Tweet</code> 结构体，我们将 <code>summarize</code> 定义为用户名加上推文的全部内容，假设推文内容已经限制为 280 个字符。",
+    "_note": ""
+  },
+  "Implementing a trait on a type is similar to implementing regular methods. The difference is that after impl, we put the trait name we want to implement, then use the for keyword, and then specify the name of the type we want to implement the trait for. Within the impl block, we put the method signatures that the trait definition has defined. Instead of adding a semicolon after each signature, we use curly brackets and fill in the method body with the specific behavior that we want the methods of the trait to have for the particular type.": {
+    "_translate": "在类型上实现特质类似于实现常规方法。不同之处在于在 <code>impl</code> 之后，我们放置我们想要实现的特质名称，然后使用 <code>for</code> 关键字，接着指定我们想要为其实现特质的类型的名称。在 <code>impl</code> 块内，我们放置特质定义已定义的方法签名。而不是在每个签名后添加分号，我们使用大括号并用我们希望特质的方法为特定类型具有的特定行为填充方法体。",
+    "_note": ""
+  },
+  "This code prints 1 new tweet: horse_ebooks: of course, as you probably already know, people.": {
+    "_translate": "这段代码打印 <code>1 new tweet: horse_ebooks: 当然，正如你可能已经知道的，人们</code>。",
+    "_note": ""
+  },
+  "Now that the library has implemented the Summary trait on NewsArticle and Tweet, users of the crate can call the trait methods on instances of NewsArticle and Tweet in the same way we call regular methods. The only difference is that the user must bring the trait into scope as well as the types. Here’s an example of how a binary crate could use our aggregator library crate:": {
+    "_translate": "现在库已经在 <code>NewsArticle</code> 和 <code>Tweet</code> 上实现了 <code>Summary</code> 特性，crate 的用户可以像调用普通方法一样在 <code>NewsArticle</code> 和 <code>Tweet</code> 的实例上调用这些特性方法。唯一的区别是用户必须将特性以及类型引入作用域。以下是一个二进制 crate 如何使用我们的 <code>aggregator</code> 库 crate 的示例：",
+    "_note": ""
+  },
+  "Other crates that depend on the aggregator crate can also bring the Summary trait into scope to implement Summary on their own types. One restriction to note is that we can implement a trait on a type only if either the trait or the type, or both, are local to our crate. For example, we can implement standard library traits like Display on a custom type like Tweet as part of our aggregator crate functionality because the type Tweet is local to our aggregator crate. We can also implement Summary on Vec<T> in our aggregator crate because the trait Summary is local to our aggregator crate.": {
+    "_translate": "其他依赖于 <code>aggregator</code> crate 的 crate 也可以将 <code>Summary</code>\n特质引入作用域，以便在它们自己的类型上实现 <code>Summary</code>。需要注意的一个限制是，我们只能在特质或类型（或两者）之一是我们 crate 本地的情况下，在类型上实现特质。例如，我们可以在 <code>aggregator</code> crate 功能中为自定义类型 <code>Tweet</code> 实现标准库特质 <code>Display</code>，因为类型 <code>Tweet</code> 是我们 <code>aggregator</code> crate 的本地类型。我们还可以在 <code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Summary</code>，因为特质 <code>Summary</code> 是我们 <code>aggregator</code>\ncrate 的本地特质。",
+    "_note": ""
+  },
+  "Default Implementations": {
+    "_translate": "<a class=\"header\" href=\"#default-implementations\">默认实现</a>",
+    "_note": ""
+  },
+  "Sometimes it’s useful to have default behavior for some or all of the methods in a trait instead of requiring implementations for all methods on every type. Then, as we implement the trait on a particular type, we can keep or override each method’s default behavior.": {
+    "_translate": "有时为特质中的某些或所有方法提供默认行为是有用的，而不是要求每个类型都实现所有方法。然后，当我们在这个特定类型上实现特质时，我们可以保留或覆盖每个方法的默认行为。",
+    "_note": ""
+  },
+  "But we can’t implement external traits on external types. For example, we can’t implement the Display trait on Vec<T> within our aggregator crate because Display and Vec<T> are both defined in the standard library and aren’t local to our aggregator crate. This restriction is part of a property called coherence, and more specifically the orphan rule, so named because the parent type is not present. This rule ensures that other people’s code can’t break your code and vice versa. Without the rule, two crates could implement the same trait for the same type, and Rust wouldn’t know which implementation to use.": {
+    "_translate": "但是我们不能为外部类型实现外部特征。例如，我们不能在我们的<code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Display</code> 特征，因为 <code>Display</code> 和 <code>Vec&lt;T&gt;</code> 都定义在标准库中，并不是我们 <code>aggregator</code> crate 的本地类型。这个限制是称为<em>一致性</em>的属性的一部分，更具体地说是<em>孤儿规则</em>，之所以这样命名是因为父类型不在场。这条规则确保其他人的代码不会破坏你的代码，反之亦然。如果没有这条规则，两个 crate 可以为同一类型实现相同的特征，Rust 将不知道使用哪个实现。",
+    "_note": ""
+  },
+  "To use a default implementation to summarize instances of NewsArticle, we specify an empty impl block with impl Summary for NewsArticle {}.": {
+    "_translate": "要使用默认实现来总结 <code>NewsArticle</code> 的实例，我们指定一个空的 <code>impl</code> 块，即 <code>impl Summary for NewsArticle {}</code>。",
+    "_note": ""
+  },
+  "In Listing 10-14, we specify a default string for the summarize method of the Summary trait instead of only defining the method signature, as we did in Listing 10-12.": {
+    "_translate": "在清单 10-14 中，我们为 <code>Summary</code> 特性中的 <code>summarize</code> 方法指定了一个默认字符串，而不是像我们在清单 10-12 中那样仅定义方法签名。",
+    "_note": ""
+  },
+  "This code prints New article available! (Read more...).": {
+    "_translate": "这段代码打印 <code>新文章可用！(阅读更多...)</code>。",
+    "_note": ""
+  },
+  "Even though we’re no longer defining the summarize method on NewsArticle directly, we’ve provided a default implementation and specified that NewsArticle implements the Summary trait. As a result, we can still call the summarize method on an instance of NewsArticle, like this:": {
+    "_translate": "即使我们不再直接在 <code>NewsArticle</code> 上定义 <code>summarize</code> 方法，我们也提供了一个默认实现并指定了 <code>NewsArticle</code> 实现了 <code>Summary</code> 特性。因此，我们仍然可以像这样在 <code>NewsArticle</code> 的实例上调用 <code>summarize</code> 方法：",
+    "_note": ""
+  },
+  "Creating a default implementation doesn’t require us to change anything about the implementation of Summary on Tweet in Listing 10-13. The reason is that the syntax for overriding a default implementation is the same as the syntax for implementing a trait method that doesn’t have a default implementation.": {
+    "_translate": "创建默认实现不需要我们更改在清单 10-13 中为 <code>Tweet</code> 实现 <code>Summary</code> 的任何内容。原因是覆盖默认实现的语法与实现没有默认实现的特征方法的语法相同。",
+    "_note": ""
+  },
+  "To use this version of Summary, we only need to define summarize_author when we implement the trait on a type:": {
+    "_translate": "要使用这个版本的<code>Summary</code>，我们只需要在为类型实现特质时定义<code>summarize_author</code>：",
+    "_note": ""
+  },
+  "Default implementations can call other methods in the same trait, even if those other methods don’t have a default implementation. In this way, a trait can provide a lot of useful functionality and only require implementors to specify a small part of it. For example, we could define the Summary trait to have a summarize_author method whose implementation is required, and then define a summarize method that has a default implementation that calls the summarize_author method:": {
+    "_translate": "默认实现可以调用同一特质中的其他方法，即使这些其他方法没有默认实现。通过这种方式，一个特质可以提供大量有用的功能，而只需要实现者指定其中的一小部分。例如，我们可以定义 <code>Summary</code> 特质具有一个 <code>summarize_author</code> 方法，其实现是必需的，然后定义一个 <code>summarize</code> 方法，该方法具有默认实现并调用 <code>summarize_author</code> 方法：",
+    "_note": ""
+  },
+  "After we define summarize_author, we can call summarize on instances of the Tweet struct, and the default implementation of summarize will call the definition of summarize_author that we’ve provided. Because we’ve implemented summarize_author, the Summary trait has given us the behavior of the summarize method without requiring us to write any more code. Here’s what that looks like:": {
+    "_translate": "在我们定义了<code>summarize_author</code>之后，我们可以在<code>Tweet</code>结构体的实例上调用<code>summarize</code>，并且<code>summarize</code>的默认实现将调用我们提供的<code>summarize_author</code>的定义。因为我们实现了<code>summarize_author</code>，所以<code>Summary</code>特质在不需要我们编写更多代码的情况下，为我们提供了<code>summarize</code>方法的行为。这看起来是这样的：",
+    "_note": ""
+  },
+  "Note that it isn’t possible to call the default implementation from an overriding implementation of that same method.": {
+    "_translate": "请注意，无法从同一方法的重写实现中调用默认实现。",
+    "_note": ""
+  },
+  "This code prints 1 new tweet: (Read more from @horse_ebooks...).": {
+    "_translate": "这段代码打印 <code>1 条新推文: (阅读更多来自 @horse_ebooks...)</code>。",
+    "_note": ""
+  },
+  "Traits as Parameters": {
+    "_translate": "<a class=\"header\" href=\"#traits-as-parameters\">特质作为参数</a>",
+    "_note": ""
+  },
+  "Now that you know how to define and implement traits, we can explore how to use traits to define functions that accept many different types. We’ll use the Summary trait we implemented on the NewsArticle and Tweet types in Listing 10-13 to define a notify function that calls the summarize method on its item parameter, which is of some type that implements the Summary trait. To do this, we use the impl Trait syntax, like this:": {
+    "_translate": "现在你已经知道如何定义和实现特质，我们可以探讨如何使用特质来定义接受多种不同类型的函数。我们将使用在清单 10-13 中为 <code>NewsArticle</code> 和 <code>Tweet</code> 类型实现的 <code>Summary</code> 特质来定义一个 <code>notify</code> 函数，该函数在其 <code>item</code> 参数上调用 <code>summarize</code> 方法，该参数是实现了 <code>Summary</code> 特质的某种类型。为此，我们使用 <code>impl Trait</code> 语法，如下所示：",
+    "_note": ""
+  },
+  "The impl Trait syntax works for straightforward cases but is actually syntax sugar for a longer form known as a trait bound; it looks like this:": {
+    "_translate": "<code>impl Trait</code> 语法适用于简单的情况，但实际上它是更长形式的语法糖，这种形式被称为 <em>trait bound</em>；它的样子是这样的：",
+    "_note": ""
+  },
+  "This longer form is equivalent to the example in the previous section but is more verbose. We place trait bounds with the declaration of the generic type parameter after a colon and inside angle brackets.": {
+    "_translate": "这种较长的形式与上一节中的示例等效，但更为冗长。我们在泛型类型参数的声明后使用冒号和尖括号来放置特质边界。",
+    "_note": ""
+  },
+  "Instead of a concrete type for the item parameter, we specify the impl keyword and the trait name. This parameter accepts any type that implements the specified trait. In the body of notify, we can call any methods on item that come from the Summary trait, such as summarize. We can call notify and pass in any instance of NewsArticle or Tweet. Code that calls the function with any other type, such as a String or an i32, won’t compile because those types don’t implement Summary.": {
+    "_translate": "而不是为 <code>item</code> 参数指定具体的类型，我们指定了 <code>impl</code> 关键字和特征名称。此参数接受任何实现了指定特征的类型。在 <code>notify</code> 的函数体中，我们可以调用来自 <code>Summary</code> 特征的任何方法，例如 <code>summarize</code>。我们可以调用 <code>notify</code> 并传入任何 <code>NewsArticle</code> 或 <code>Tweet</code> 的实例。使用任何其他类型（如 <code>String</code> 或 <code>i32</code>）调用该函数的代码将无法编译，因为这些类型没有实现 <code>Summary</code>。",
+    "_note": ""
+  },
+  "The impl Trait syntax is convenient and makes for more concise code in simple cases, while the fuller trait bound syntax can express more complexity in other cases. For example, we can have two parameters that implement Summary. Doing so with the impl Trait syntax looks like this:": {
+    "_translate": "<code>impl Trait</code> 语法在简单情况下非常方便，可以使代码更加简洁，而完整的 trait bound 语法在其他情况下可以表达更多的复杂性。例如，我们可以有两个实现 <code>Summary</code> 的参数。使用 <code>impl Trait</code> 语法如下所示：",
+    "_note": ""
+  },
+  "Using impl Trait is appropriate if we want this function to allow item1 and item2 to have different types (as long as both types implement Summary). If we want to force both parameters to have the same type, however, we must use a trait bound, like this:": {
+    "_translate": "使用 <code>impl Trait</code> 是合适的，如果我们希望这个函数允许 <code>item1</code> 和 <code>item2</code> 具有不同的类型（只要这两种类型都实现了 <code>Summary</code>）。然而，如果我们希望强制两个参数具有相同的类型，我们必须使用一个特质边界，如下所示：",
+    "_note": ""
+  },
+  "The generic type T specified as the type of the item1 and item2 parameters constrains the function such that the concrete type of the value passed as an argument for item1 and item2 must be the same.": {
+    "_translate": "指定为 <code>item1</code> 和 <code>item2</code> 参数类型的泛型类型 <code>T</code> 约束了该函数，使得传递给 <code>item1</code> 和 <code>item2</code> 的参数值的具体类型必须相同。",
+    "_note": ""
+  },
+  "We can also specify more than one trait bound. Say we wanted notify to use display formatting as well as summarize on item: we specify in the notify definition that item must implement both Display and Summary. We can do so using the + syntax:": {
+    "_translate": "我们也可以指定多个特征约束。假设我们希望 <code>notify</code> 使用显示格式化以及对 <code>item</code> 使用 <code>summarize</code>：我们在 <code>notify</code> 的定义中指定 <code>item</code> 必须同时实现 <code>Display</code> 和 <code>Summary</code>。我们可以使用 <code>+</code> 语法来实现：",
+    "_note": ""
+  },
+  "The + syntax is also valid with trait bounds on generic types:": {
+    "_translate": "<code>+</code> 语法在泛型类型的特征边界上也是有效的：",
+    "_note": ""
+  },
+  "With the two trait bounds specified, the body of notify can call summarize and use {} to format item.": {
+    "_translate": "指定了两个 trait bound 后，<code>notify</code> 的主体可以调用 <code>summarize</code> 并使用 <code>{}</code> 来格式化 <code>item</code>。",
+    "_note": ""
+  },
+  "we can use a where clause, like this:": {
+    "_translate": "我们可以使用一个 <code>where</code> 子句，如下所示：",
+    "_note": ""
+  },
+  "Using too many trait bounds has its downsides. Each generic has its own trait bounds, so functions with multiple generic type parameters can contain lots of trait bound information between the function’s name and its parameter list, making the function signature hard to read. For this reason, Rust has alternate syntax for specifying trait bounds inside a where clause after the function signature. So, instead of writing this:": {
+    "_translate": "使用过多的 trait 约束有其缺点。每个泛型都有自己的 trait 约束，因此具有多个泛型类型参数的函数在函数名称和参数列表之间可能包含大量 trait 约束信息，使得函数签名难以阅读。因此，Rust 提供了在函数签名后的 <code>where</code> 子句中指定 trait 约束的替代语法。所以，与其写成这样：",
+    "_note": ""
+  },
+  "This function’s signature is less cluttered: the function name, parameter list, and return type are close together, similar to a function without lots of trait bounds.": {
+    "_translate": "这个函数的签名更加简洁：函数名、参数列表和返回类型紧密相邻，类似于没有大量特征约束的函数。",
+    "_note": ""
+  },
+  "Returning Types That Implement Traits": {
+    "_translate": "<a class=\"header\" href=\"#returning-types-that-implement-traits\">返回实现特质的类型</a>",
+    "_note": ""
+  },
+  "We can also use the impl Trait syntax in the return position to return a value of some type that implements a trait, as shown here:": {
+    "_translate": "我们还可以在返回位置使用 <code>impl Trait</code> 语法来返回实现了某个特质的某种类型的值，如下所示：",
+    "_note": ""
+  },
+  "By using impl Summary for the return type, we specify that the returns_summarizable function returns some type that implements the Summary trait without naming the concrete type. In this case, returns_summarizable returns a Tweet, but the code calling this function doesn’t need to know that.": {
+    "_translate": "通过使用 <code>impl Summary</code> 作为返回类型，我们指定 <code>returns_summarizable</code> 函数返回某种实现了 <code>Summary</code> 特性的类型，而不需要指定具体的类型。在这种情况下，<code>returns_summarizable</code> 返回一个 <code>Tweet</code>，但调用此函数的代码不需要知道这一点。",
+    "_note": ""
+  },
+  "The ability to specify a return type only by the trait it implements is especially useful in the context of closures and iterators, which we cover in Chapter 13. Closures and iterators create types that only the compiler knows or types that are very long to specify. The impl Trait syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type.": {
+    "_translate": "指定返回类型仅通过其实现的特征的能力在闭包和迭代器的上下文中特别有用，我们在第 13 章中会讲到。闭包和迭代器创建的类型只有编译器知道，或者这些类型非常长，难以指定。<code>impl Trait</code> 语法让你可以简洁地指定函数返回某种实现 <code>Iterator</code> 特征的类型，而无需写出一个非常长的类型。",
+    "_note": ""
+  },
+  "However, you can only use impl Trait if you’re returning a single type. For example, this code that returns either a NewsArticle or a Tweet with the return type specified as impl Summary wouldn’t work:": {
+    "_translate": "但是，只有在返回单一类型时，你才能使用 <code>impl Trait</code>。例如，这段代码试图返回一个 <code>NewsArticle</code> 或一个 <code>Tweet</code>，并将其返回类型指定为 <code>impl Summary</code>，这是行不通的：",
+    "_note": ""
+  },
+  "Using Trait Bounds to Conditionally Implement Methods": {
+    "_translate": "<a class=\"header\" href=\"#using-trait-bounds-to-conditionally-implement-methods\">使用特质边界有条件地实现方法</a>",
+    "_note": ""
+  },
+  "Returning either a NewsArticle or a Tweet isn’t allowed due to restrictions around how the impl Trait syntax is implemented in the compiler. We’ll cover how to write a function with this behavior in the “Using Trait Objects That Allow for Values of Different Types” section of Chapter 18.": {
+    "_translate": "返回一个 <code>NewsArticle</code> 或 <code>Tweet</code> 是不允许的，因为有关 <code>impl Trait</code> 语法在编译器中的实现存在限制。我们将在第 18 章的 <a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型的值的特质对象”</a><!--\nignore --> 部分介绍如何编写具有此行为的函数。",
+    "_note": ""
+  },
+  "We can also conditionally implement a trait for any type that implements another trait. Implementations of a trait on any type that satisfies the trait bounds are called blanket implementations and are used extensively in the Rust standard library. For example, the standard library implements the ToString trait on any type that implements the Display trait. The impl block in the standard library looks similar to this code:": {
+    "_translate": "我们还可以为实现另一个特质的任何类型有条件地实现一个特质。在满足特质边界条件的任何类型上实现特质被称为<em>blanket implementations</em>，在Rust标准库中被广泛使用。例如，标准库在任何实现了<code>Display</code>特质的类型上实现了<code>ToString</code>特质。标准库中的<code>impl</code>块看起来类似于以下代码：",
+    "_note": ""
+  },
+  "Because the standard library has this blanket implementation, we can call the to_string method defined by the ToString trait on any type that implements the Display trait. For example, we can turn integers into their corresponding String values like this because integers implement Display:": {
+    "_translate": "因为标准库有这个全局实现，我们可以对任何实现了 <code>Display</code> 特性的类型调用由 <code>ToString</code> 特性定义的 <code>to_string</code> 方法。例如，我们可以将整数转换为其对应的 <code>String</code> 值，因为整数实现了 <code>Display</code>：",
+    "_note": ""
+  },
+  "By using a trait bound with an impl block that uses generic type parameters, we can implement methods conditionally for types that implement the specified traits. For example, the type Pair<T> in Listing 10-15 always implements the new function to return a new instance of Pair<T> (recall from the “Defining Methods” section of Chapter 5 that Self is a type alias for the type of the impl block, which in this case is Pair<T>). But in the next impl block, Pair<T> only implements the cmp_display method if its inner type T implements the PartialOrd trait that enables comparison and the Display trait that enables printing.": {
+    "_translate": "通过在使用泛型类型参数的 <code>impl</code> 块中使用特质约束，我们可以为实现指定特质的类型有条件地实现方法。例如，类型 <code>Pair&lt;T&gt;</code> 在清单 10-15 中始终实现 <code>new</code> 函数以返回 <code>Pair&lt;T&gt;</code> 的新实例（回想第 5 章的 <a href=\"ch05-03-method-syntax.html#defining-methods\">“定义方法”</a><!-- ignore --> 部分，<code>Self</code> 是 <code>impl</code> 块类型的类型别名，在这种情况下是 <code>Pair&lt;T&gt;</code>）。但在下一个 <code>impl</code> 块中，<code>Pair&lt;T&gt;</code> 仅在其内部类型 <code>T</code> 实现了启用比较的 <code>PartialOrd</code> 特质 <em>和</em> 启用打印的 <code>Display</code> 特质时，才实现 <code>cmp_display</code> 方法。",
+    "_note": ""
+  },
+  "Blanket implementations appear in the documentation for the trait in the “Implementors” section.": {
+    "_translate": "毯式实现出现在特征文档的“实现者”部分。",
+    "_note": ""
+  },
+  "Traits and trait bounds let us write code that uses generic type parameters to reduce duplication but also specify to the compiler that we want the generic type to have particular behavior. The compiler can then use the trait bound information to check that all the concrete types used with our code provide the correct behavior. In dynamically typed languages, we would get an error at runtime if we called a method on a type which didn’t define the method. But Rust moves these errors to compile time so we’re forced to fix the problems before our code is even able to run. Additionally, we don’t have to write code that checks for behavior at runtime because we’ve already checked at compile time. Doing so improves performance without having to give up the flexibility of generics.": {
+    "_translate": "特质和特质边界让我们可以使用泛型类型参数编写代码，以减少重复，但同时指定我们希望泛型类型具有特定的行为。编译器可以使用特质边界信息来检查所有使用我们代码的具体类型是否提供了正确的行为。在动态类型语言中，如果我们调用了一个类型未定义的方法，我们会在运行时得到错误。但是 Rust 将这些错误移到了编译时，因此我们必须在代码能够运行之前修复这些问题。此外，我们不必编写在运行时检查行为的代码，因为我们在编译时已经检查过了。这样做在不放弃泛型灵活性的情况下提高了性能。",
+    "_note": ""
+  }
+}
