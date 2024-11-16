@@ -16,6 +16,10 @@ const MAX_CONCURRENT = 2;
 const defaultConfig = (more) => {
   return [
     {
+      container: 'head',
+      selector: 'title',
+    },
+    {
       container: '#page-wrapper #content',
       selector: `p, h1, h2, h3`,
     },
@@ -32,6 +36,12 @@ const config = {
   //   ...defaultConfig('ul li, #part_top h2'),
   // ],
   // 'website/public/docs/index.html': [...defaultConfig('h2, h3')],
+};
+
+const propertyMap = {
+  title: 'Rust 中文',
+  description: 'Rust 中文文档',
+  url: 'https://rust.xheldon.com',
 };
 
 const semaphore = new Semaphore(MAX_CONCURRENT);
@@ -56,6 +66,26 @@ Promise.all(
       document.querySelector('html').setAttribute('lang', 'zh-CN');
       const head = document.querySelector('head');
       if (head) {
+        const metas = head.querySelectorAll('meta');
+        if (metas.length) {
+          metas.forEach((meta) => {
+            const property = meta.getAttribute('property');
+            if (property && propertyMap[property]) {
+              meta.setAttribute('content', propertyMap[property]);
+            }
+          });
+        }
+        Object.keys(propertyMap).forEach((property) => {
+          const meta = document.createElement('meta');
+          meta.setAttribute('name', property);
+          meta.setAttribute('content', propertyMap[property]);
+          head.appendChild(meta);
+
+          const meta2 = document.createElement('meta');
+          meta2.setAttribute('property', `og:${property}`);
+          meta2.setAttribute('content', propertyMap[property]);
+          head.appendChild(meta2);
+        });
         // Note: 增加 google 统计/广告（要吃饭呀）
         // Note: 谷歌统计
         const script = document.createElement('script');
