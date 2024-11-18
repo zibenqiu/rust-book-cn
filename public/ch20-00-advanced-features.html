@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -228,14 +231,11 @@ blockquote {
 <p data-x-en="By now, you’ve learned the most commonly used parts of the Rust programming language. Before we do one more project in Chapter 21, we’ll look at a few aspects of the language you might run into every once in a while, but may not use every day. You can use this chapter as a reference for when you encounter any unknowns. The features covered here are useful in very specific situations. Although you might not reach for them often, we want to make sure you have a grasp of all the features Rust has to offer.">到目前为止，您已经学习了 Rust 编程语言中最常用的部分。在第 21 章我们再做一个项目之前，我们将看看一些您偶尔会遇到但可能不会每天使用的语言方面。您可以将本章用作遇到任何未知内容时的参考。这里涵盖的功能在非常特定的情况下很有用。虽然您可能不会经常使用它们，但我们希望确保您对 Rust 提供的所有功能都有所了解。</p>
 <p data-x-en="In this chapter, we’ll cover:">在本章中，我们将介绍：</p>
 <ul>
-<li>Unsafe Rust: how to opt out of some of Rust’s guarantees and take
-responsibility for manually upholding those guarantees</li>
-<li>Advanced traits: associated types, default type parameters, fully qualified
-syntax, supertraits, and the newtype pattern in relation to traits</li>
-<li>Advanced types: more about the newtype pattern, type aliases, the never type,
-and dynamically sized types</li>
-<li>Advanced functions and closures: function pointers and returning closures</li>
-<li>Macros: ways to define code that defines more code at compile time</li>
+<li data-x-en="Unsafe Rust: how to opt out of some of Rust’s guarantees and take responsibility for manually upholding those guarantees">Unsafe Rust: 如何选择退出 Rust 的某些保证并承担手动维护这些保证的责任</li>
+<li data-x-en="Advanced traits: associated types, default type parameters, fully qualified syntax, supertraits, and the newtype pattern in relation to traits">高级特性：关联类型、默认类型参数、完全限定语法、超特性（supertraits）和与特性相关的新型模式。</li>
+<li data-x-en="Advanced types: more about the newtype pattern, type aliases, the never type, and dynamically sized types">高级类型：更多关于新类型模式、类型别名、永不类型和动态大小类型</li>
+<li data-x-en="Advanced functions and closures: function pointers and returning closures">高级函数和闭包：函数指针和返回闭包</li>
+<li data-x-en="Macros: ways to define code that defines more code at compile time">宏：在编译时定义更多代码的代码定义方式</li>
 </ul>
 <p data-x-en="It’s a panoply of Rust features with something for everyone! Let’s dive in!">这是一系列 Rust 特性，每个人都能找到自己感兴趣的内容！让我们开始吧！</p>
 

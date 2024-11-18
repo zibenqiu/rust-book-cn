@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -374,8 +377,8 @@ pub trait Future {
 <p data-x-en="The specifics of how Pin and Unpin work, and the rules they’re required to uphold, are covered extensively in the API documentation for std::pin, so if you’d like to understand them more deeply, that’s a great place to start."><code>Pin</code> 和 <code>Unpin</code> 的具体工作方式以及它们需要遵守的规则，在 <code>std::pin</code> 的 API 文档中进行了详尽的介绍，因此如果你想更深入地了解它们，这是一个很好的起点。</p>
 <p data-x-en="If you want to understand how things work “under the hood” in even more detail, the official Asynchronous Programming in Rust book has you covered:">如果您想更详细地了解“底层”工作原理，官方的<a href="https://rust-lang.github.io/async-book/"><em>Rust 中的异步编程</em></a>书籍会为您解答：</p>
 <ul>
-<li><a href="https://rust-lang.github.io/async-book/02_execution/01_chapter.html">Chapter 2: Under the Hood: Executing Futures and Tasks</a></li>
-<li><a href="https://rust-lang.github.io/async-book/04_pinning/01_chapter.html">Chapter 4: Pinning</a></li>
+<li data-x-en="Chapter 2: Under the Hood: Executing Futures and Tasks"><a href="https://rust-lang.github.io/async-book/02_execution/01_chapter.html">第 2 章：幕后：执行 Future 和任务</a></li>
+<li data-x-en="Chapter 4: Pinning"><a href="https://rust-lang.github.io/async-book/04_pinning/01_chapter.html">第 4 章：固定</a></li>
 </ul>
 </section>
 <h3 id="the-stream-trait"><a class="header" href="#the-stream-trait">流特质</a></h3>

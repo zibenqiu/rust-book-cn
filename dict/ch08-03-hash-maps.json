@@ -146,5 +146,17 @@
   "Storing Keys with Associated Values in Hash Maps - The Rust Programming Language": {
     "_translate": "在哈希映射中存储带有相关值的键 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.": {
+    "_translate": "给定一个整数列表，使用向量并返回列表的中位数（排序后中间位置的值）和众数（出现次数最多的值；这里使用哈希映射会有帮助）。",
+    "_note": ""
+  },
+  "Convert strings to pig latin. The first consonant of each word is moved to the end of the word and ay is added, so first becomes irst-fay. Words that start with a vowel have hay added to the end instead (apple becomes apple-hay). Keep in mind the details about UTF-8 encoding!": {
+    "_translate": "将字符串转换为猪拉丁文。每个单词的第一个辅音移到单词的末尾，并加上<em>ay</em>，所以<em>first</em>变成<em>irst-fay</em>。以元音开头的单词在末尾加上<em>hay</em>（<em>apple</em>变成<em>apple-hay</em>）。请记住UTF-8编码的细节！",
+    "_note": ""
+  },
+  "Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company; for example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.": {
+    "_translate": "使用哈希映射和向量，创建一个文本界面，允许用户将员工姓名添加到公司的部门中；例如，“将 Sally 添加到工程部”或“将 Amir 添加到销售部”。然后让用户检索某个部门中所有人员的列表或按部门排序的公司中所有人员的列表，按字母顺序排列。",
+    "_note": ""
   }
 }

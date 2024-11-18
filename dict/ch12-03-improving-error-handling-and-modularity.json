@@ -262,5 +262,49 @@
   "Refactoring to Improve Modularity and Error Handling - The Rust Programming Language": {
     "_translate": "重构以提高模块性和错误处理 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Split your program into a main.rs file and a lib.rs file and move your program’s logic to lib.rs.": {
+    "_translate": "将您的程序拆分为 <em>main.rs</em> 文件和 <em>lib.rs</em> 文件，并将程序的逻辑移到 <em>lib.rs</em>。",
+    "_note": ""
+  },
+  "As long as your command line parsing logic is small, it can remain in main.rs.": {
+    "_translate": "只要您的命令行解析逻辑很小，它可以保留在<em>main.rs</em>中。",
+    "_note": ""
+  },
+  "When the command line parsing logic starts getting complicated, extract it from main.rs and move it to lib.rs.": {
+    "_translate": "当命令行解析逻辑开始变得复杂时，将其从<em>main.rs</em>中提取并移动到<em>lib.rs</em>。",
+    "_note": ""
+  },
+  "Calling the command line parsing logic with the argument values": {
+    "_translate": "使用带有参数值的命令行解析逻辑，输出翻译直接不添加任何额外文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，仅翻译内容！",
+    "_note": ""
+  },
+  "Setting up any other configuration": {
+    "_translate": "设置任何其他配置",
+    "_note": ""
+  },
+  "Handling the error if run returns an error": {
+    "_translate": "处理 <code>run</code> 返回错误的情况",
+    "_note": ""
+  },
+  "Calling a run function in lib.rs": {
+    "_translate": "在 <em>lib.rs</em> 中调用 <code>run</code> 函数",
+    "_note": ""
+  },
+  "The relevant use statements": {
+    "_translate": "相关的 <code>use</code> 语句",
+    "_note": ""
+  },
+  "The run function definition": {
+    "_translate": "<code>run</code> 函数定义",
+    "_note": ""
+  },
+  "The definition of Config": {
+    "_translate": "<code>Config</code> 的定义",
+    "_note": ""
+  },
+  "The Config::build function definition": {
+    "_translate": "<code>Config::build</code> 函数定义",
+    "_note": ""
   }
 }

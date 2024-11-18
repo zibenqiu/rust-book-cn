@@ -30,5 +30,21 @@
   "Managing Growing Projects with Packages, Crates, and Modules - The Rust Programming Language": {
     "_translate": "使用包、库和模块管理日益增长的项目 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Packages: A Cargo feature that lets you build, test, and share crates": {
+    "_translate": "<strong>包：</strong> Cargo 的一个功能，允许你构建、测试和分享 crates。",
+    "_note": ""
+  },
+  "Crates: A tree of modules that produces a library or executable": {
+    "_translate": "<strong>Crates:</strong> 一个生成库或可执行文件的模块树",
+    "_note": ""
+  },
+  "Modules and use: Let you control the organization, scope, and privacy of paths": {
+    "_translate": "<strong>模块</strong>和<strong>使用：</strong> 让你控制路径的组织、范围和隐私。",
+    "_note": ""
+  },
+  "Paths: A way of naming an item, such as a struct, function, or module": {
+    "_translate": "<strong>路径：</strong> 一种命名项目的方式，例如结构体、函数或模块。",
+    "_note": ""
   }
 }

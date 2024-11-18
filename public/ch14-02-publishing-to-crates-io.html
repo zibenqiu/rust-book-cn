@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -254,16 +257,9 @@ pub fn add_one(x: i32) -&gt; i32 {
 <h4 id="commonly-used-sections"><a class="header" href="#commonly-used-sections">Commonly Used Sections</a></h4>
 <p data-x-en="We used the # Examples Markdown heading in Listing 14-1 to create a section in the HTML with the title “Examples.” Here are some other sections that crate authors commonly use in their documentation:">我们在清单 14-1 中使用了 <code># Examples</code> Markdown 标题来创建一个标题为“Examples”的 HTML 部分。这里有一些其他部分，crate 作者通常会在他们的文档中使用：</p>
 <ul>
-<li><strong>Panics</strong>: The scenarios in which the function being documented could
-panic. Callers of the function who don’t want their programs to panic should
-make sure they don’t call the function in these situations.</li>
-<li><strong>Errors</strong>: If the function returns a <code>Result</code>, describing the kinds of
-errors that might occur and what conditions might cause those errors to be
-returned can be helpful to callers so they can write code to handle the
-different kinds of errors in different ways.</li>
-<li><strong>Safety</strong>: If the function is <code>unsafe</code> to call (we discuss unsafety in
-Chapter 20), there should be a section explaining why the function is unsafe
-and covering the invariants that the function expects callers to uphold.</li>
+<li data-x-en="Panics: The scenarios in which the function being documented could panic. Callers of the function who don’t want their programs to panic should make sure they don’t call the function in these situations."><strong>恐慌</strong>: 该函数可能引发恐慌的情况。不希望程序恐慌的调用者应确保不在这些情况下调用该函数。</li>
+<li data-x-en="Errors: If the function returns a Result, describing the kinds of errors that might occur and what conditions might cause those errors to be returned can be helpful to callers so they can write code to handle the different kinds of errors in different ways."><strong>错误</strong>: 如果函数返回一个 <code>Result</code>，描述可能会发生哪些类型的错误以及哪些条件可能导致这些错误的发生，对于调用者来说是有帮助的，这样他们可以编写代码以不同方式处理不同类型的错误。</li>
+<li data-x-en="Safety: If the function is unsafe to call (we discuss unsafety in Chapter 20), there should be a section explaining why the function is unsafe and covering the invariants that the function expects callers to uphold."><strong>安全性</strong>: 如果函数调用是<code>不安全的</code>（我们在第20章中讨论不安全性），应该有一个部分解释为什么该函数是不安全的，并涵盖函数期望调用者维护的不变性。</li>
 </ul>
 <p data-x-en="Most documentation comments don’t need all of these sections, but this is a good checklist to remind you of the aspects of your code users will be interested in knowing about.">大多数文档注释并不需要所有这些部分，但这是一个很好的检查列表，可以提醒你用户会对你的代码的哪些方面感兴趣。</p>
 <h4 id="documentation-comments-as-tests"><a class="header" href="#documentation-comments-as-tests">Documentation Comments as Tests</a></h4>

@@ -302,5 +302,17 @@
   "How to Write Tests - The Rust Programming Language": {
     "_translate": "如何编写测试 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Set up any needed data or state.": {
+    "_translate": "设置所需的数据或状态。",
+    "_note": ""
+  },
+  "Run the code you want to test.": {
+    "_translate": "运行您要测试的代码。",
+    "_note": ""
+  },
+  "Assert that the results are what you expect.": {
+    "_translate": "断言结果是你所期望的。",
+    "_note": ""
   }
 }

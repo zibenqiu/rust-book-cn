@@ -170,5 +170,49 @@
   "Concurrency With Async - The Rust Programming Language": {
     "_translate": "并发与异步 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Remove the async block from around either or both of the loops.": {
+    "_translate": "移除围绕任一或两个循环的 async 块。",
+    "_note": ""
+  },
+  "Await each async block immediately after defining it.": {
+    "_translate": "在定义每个异步块后立即等待。",
+    "_note": ""
+  },
+  "Wrap only the first loop in an async block, and await the resulting future after the body of second loop.": {
+    "_translate": "仅将第一个循环包装在异步块中，并在第二个循环的主体之后等待生成的未来。",
+    "_note": ""
+  },
+  "The future returned from trpl::join only completes once both futures passed to it have completed.": {
+    "_translate": "从 <code>trpl::join</code> 返回的 future 只有在传递给它的 <em>两个</em> future 都完成时才会完成。",
+    "_note": ""
+  },
+  "The tx future completes once it finishes sleeping after sending the last message in vals.": {
+    "_translate": "<code>tx</code> 未来在发送 <code>vals</code> 中的最后一条消息后完成睡眠。",
+    "_note": ""
+  },
+  "The rx future won’t complete until the while let loop ends.": {
+    "_translate": "<code>rx</code> 未来不会完成，直到 <code>while let</code> 循环结束。",
+    "_note": ""
+  },
+  "The while let loop won’t end until awaiting rx.recv produces None.": {
+    "_translate": "<code>while let</code> 循环不会结束，直到等待 <code>rx.recv</code> 产生 <code>None</code>。",
+    "_note": ""
+  },
+  "Awaiting rx.recv will only return None once the other end of the channel is closed.": {
+    "_translate": "等待 <code>rx.recv</code> 仅在通道的另一端关闭时返回 <code>None</code>。",
+    "_note": ""
+  },
+  "The channel will only close if we call rx.close or when the sender side, tx, is dropped.": {
+    "_translate": "通道只有在我们调用<code>rx.close</code>或发送方<code>tx</code>被丢弃时才会关闭。",
+    "_note": ""
+  },
+  "We don’t call rx.close anywhere, and tx won’t be dropped until the outermost async block passed to trpl::run ends.": {
+    "_translate": "我们 nowhere 调用 <code>rx.close</code>，并且 <code>tx</code> 不会在传递给 <code>trpl::run</code> 的最外层异步块结束之前被丢弃。",
+    "_note": ""
+  },
+  "The block can’t end because it is blocked on trpl::join completing, which takes us back to the top of this list!": {
+    "_translate": "这个块无法结束，因为它被阻塞在 <code>trpl::join</code> 完成上，这又把我们带回到了这个列表的顶部！",
+    "_note": ""
   }
 }

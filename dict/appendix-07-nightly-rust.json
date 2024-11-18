@@ -134,5 +134,17 @@
   "G - How Rust is Made and “Nightly Rust” - The Rust Programming Language": {
     "_translate": "G - Rust 的制作过程和“Nightly Rust” - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Nightly": {
+    "_translate": "好的，我明白了。请提供您需要翻译的源文本。",
+    "_note": ""
+  },
+  "Beta": {
+    "_translate": "Beta，直接输出翻译内容，不要添加任何额外的文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "Stable": {
+    "_translate": "稳定的，直接输出翻译内容，不添加任何额外的文本。绝对不要添加原文中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
   }
 }

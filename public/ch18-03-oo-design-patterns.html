@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -231,11 +234,10 @@ blockquote {
 <p data-x-en="First, we’re going to implement the state pattern in a more traditional object-oriented way, then we’ll use an approach that’s a bit more natural in Rust. Let’s dig in to incrementally implementing a blog post workflow using the state pattern.">首先，我们将以一种更传统的面向对象方式实现状态模式，然后我们将使用一种在 Rust 中更为自然的方法。让我们逐步实现使用状态模式的博客文章工作流程。</p>
 <p data-x-en="The final functionality will look like this:">最终的功能将如下所示：</p>
 <ol>
-<li>A blog post starts as an empty draft.</li>
-<li>When the draft is done, a review of the post is requested.</li>
-<li>When the post is approved, it gets published.</li>
-<li>Only published blog posts return content to print, so unapproved posts can’t
-accidentally be published.</li>
+<li data-x-en="A blog post starts as an empty draft.">一篇博客文章始于一个空白草稿。</li>
+<li data-x-en="When the draft is done, a review of the post is requested.">当草稿完成后，请求对帖子进行审查。</li>
+<li data-x-en="When the post is approved, it gets published.">当帖子被批准后，它就会发布。</li>
+<li data-x-en="Only published blog posts return content to print, so unapproved posts can’t accidentally be published.">只有已发布的博客文章才会返回内容以供打印，因此未获批准的文章不会意外发布。</li>
 </ol>
 <p data-x-en="Any other changes attempted on a post should have no effect. For example, if we try to approve a draft blog post before we’ve requested a review, the post should remain an unpublished draft.">任何尝试对帖子进行的其他更改都不应产生影响。例如，如果我们尝试在请求审阅之前批准草稿博客文章，文章应保持未发布的草稿状态。</p>
 <p data-x-en="Listing 18-11 shows this workflow in code form: this is an example usage of the API we’ll implement in a library crate named blog. This won’t compile yet because we haven’t implemented the blog crate.">列表 18-11 以代码形式展示了此工作流程：这是我们将要在名为 <code>blog</code> 的库 crate 中实现的 API 的示例用法。这还不能编译，因为我们还没有实现 <code>blog</code> crate。</p>
@@ -690,12 +692,10 @@ impl State for Published {
 <p data-x-en="With the state pattern, the Post methods and the places we use Post don’t need match expressions, and to add a new state, we would only need to add a new struct and implement the trait methods on that one struct.">使用状态模式，<code>Post</code> 方法和使用 <code>Post</code> 的地方不需要 <code>match</code> 表达式，要添加一个新状态，我们只需要添加一个新的结构体并在该结构体上实现特征方法。</p>
 <p data-x-en="The implementation using the state pattern is easy to extend to add more functionality. To see the simplicity of maintaining code that uses the state pattern, try a few of these suggestions:">使用状态模式的实现很容易扩展以添加更多功能。要了解使用状态模式维护代码的简单性，请尝试以下一些建议：</p>
 <ul>
-<li>Add a <code>reject</code> method that changes the post’s state from <code>PendingReview</code> back
-to <code>Draft</code>.</li>
-<li>Require two calls to <code>approve</code> before the state can be changed to <code>Published</code>.</li>
-<li>Allow users to add text content only when a post is in the <code>Draft</code> state.
-Hint: have the state object responsible for what might change about the
-content but not responsible for modifying the <code>Post</code>.</li>
+<li data-x-en="Add a reject method that changes the post’s state from PendingReview back to Draft.">添加一个 <code>reject</code> 方法，将帖子的状态从 <code>PendingReview</code> 变回 <code>Draft</code>。</li>
+<li data-x-en="Require two calls to approve before the state can be changed to Published.">需要两次调用 <code>approve</code> 才能将状态更改为 <code>Published</code>。</li>
+<li data-x-en="Allow users to add text content only when a post is in the Draft state. Hint: have the state object responsible for what might change about the content but not responsible for modifying the Post.">允许用户仅在帖子处于<code>Draft</code>状态时添加文本内容。
+提示：让状态对象负责内容可能发生的变化，但不负责修改<code>Post</code>。</li>
 </ul>
 <p data-x-en="One downside of the state pattern is that, because the states implement the transitions between states, some of the states are coupled to each other. If we add another state between PendingReview and Published, such as Scheduled, we would have to change the code in PendingReview to transition to Scheduled instead. It would be less work if PendingReview didn’t need to change with the addition of a new state, but that would mean switching to another design pattern.">状态模式的一个缺点是，由于状态实现了状态之间的转换，某些状态之间是耦合的。如果我们添加一个在 <code>PendingReview</code> 和 <code>Published</code> 之间的新状态，例如 <code>Scheduled</code>，我们不得不更改 <code>PendingReview</code> 中的代码以转换到 <code>Scheduled</code>。如果 <code>PendingReview</code> 不需要随着新状态的添加而改变，工作量会更小，但这意味着需要切换到另一种设计模式。</p>
 <p data-x-en="Another downside is that we’ve duplicated some logic. To eliminate some of the duplication, we might try to make default implementations for the request_review and approve methods on the State trait that return self; however, this would violate object safety, because the trait doesn’t know what the concrete self will be exactly. We want to be able to use State as a trait object, so we need its methods to be object safe.">另一个缺点是我们复制了一些逻辑。为了减少一些重复，我们可能会尝试为 <code>State</code> 特性上的 <code>request_review</code> 和 <code>approve</code> 方法提供默认实现，这些方法返回 <code>self</code>；然而，这将违反对象安全性，因为特性不知道具体的 <code>self</code> 会是什么。我们希望能够将 <code>State</code> 用作特性对象，因此需要其方法是对象安全的。</p>

@@ -18,5 +18,25 @@
   "Advanced Features - The Rust Programming Language": {
     "_translate": "高级特性 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Unsafe Rust: how to opt out of some of Rust’s guarantees and take responsibility for manually upholding those guarantees": {
+    "_translate": "Unsafe Rust: 如何选择退出 Rust 的某些保证并承担手动维护这些保证的责任",
+    "_note": ""
+  },
+  "Advanced traits: associated types, default type parameters, fully qualified syntax, supertraits, and the newtype pattern in relation to traits": {
+    "_translate": "高级特性：关联类型、默认类型参数、完全限定语法、超特性（supertraits）和与特性相关的新型模式。",
+    "_note": ""
+  },
+  "Advanced functions and closures: function pointers and returning closures": {
+    "_translate": "高级函数和闭包：函数指针和返回闭包",
+    "_note": ""
+  },
+  "Advanced types: more about the newtype pattern, type aliases, the never type, and dynamically sized types": {
+    "_translate": "高级类型：更多关于新类型模式、类型别名、永不类型和动态大小类型",
+    "_note": ""
+  },
+  "Macros: ways to define code that defines more code at compile time": {
+    "_translate": "宏：在编译时定义更多代码的代码定义方式",
+    "_note": ""
   }
 }

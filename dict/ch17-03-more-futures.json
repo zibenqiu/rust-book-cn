@@ -226,5 +226,37 @@
   "Working With Any Number of Futures - The Rust Programming Language": {
     "_translate": "处理任意数量的 Future - 《Rust 编程语言》",
     "_note": ""
+  },
+  "The innermost type is the future itself. We note explicitly that the output of the future is the unit type () by writing Future<Output = ()>.": {
+    "_translate": "最内层的类型是未来本身。我们明确指出，未来的输出是单元类型<code>()</code>，通过写<code>Future&lt;Output = ()&gt;</code>。",
+    "_note": ""
+  },
+  "Then we annotate the trait with dyn to mark it as dynamic.": {
+    "_translate": "然后我们用 <code>dyn</code> 注解这个 trait 以标记它为动态。",
+    "_note": ""
+  },
+  "The entire trait reference is wrapped in a Box.": {
+    "_translate": "整个特征引用被包裹在一个 <code>Box</code> 中。",
+    "_note": ""
+  },
+  "Finally, we state explicitly that futures is a Vec containing these items.": {
+    "_translate": "最后，我们明确指出 <code>futures</code> 是一个包含这些项的 <code>Vec</code>。",
+    "_note": ""
+  },
+  "It needs to be an async function itself so we can await it.": {
+    "_translate": "它本身需要是一个异步函数，这样我们才能等待它。",
+    "_note": ""
+  },
+  "Its first parameter should be a future to run. We can make it generic to allow it to work with any future.": {
+    "_translate": "它的第一个参数应该是要运行的 future。我们可以将其泛化以允许与任何 future 一起使用。",
+    "_note": ""
+  },
+  "Its second parameter will be the maximum time to wait. If we use a Duration, that will make it easy to pass along to trpl::sleep.": {
+    "_translate": "其第二个参数将是最大等待时间。如果我们使用 <code>Duration</code>，这将使其易于传递给 <code>trpl::sleep</code>。",
+    "_note": ""
+  },
+  "It should return a Result. If the future completes successfully, the Result will be Ok with the value produced by the future. If the timeout elapses first, the Result will be Err with the duration that the timeout waited for.": {
+    "_translate": "它应该返回一个 <code>Result</code>。如果未来完成成功，<code>Result</code> 将是 <code>Ok</code>，包含未来产生的值。如果超时先发生，<code>Result</code> 将是 <code>Err</code>，包含超时等待的持续时间。",
+    "_note": ""
   }
 }

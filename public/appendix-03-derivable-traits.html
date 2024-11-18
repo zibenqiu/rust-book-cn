@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -228,11 +231,11 @@ blockquote {
 <p data-x-en="In various places in the book, we’ve discussed the derive attribute, which you can apply to a struct or enum definition. The derive attribute generates code that will implement a trait with its own default implementation on the type you’ve annotated with the derive syntax.">在书中的各个地方，我们讨论了<code>derive</code>属性，你可以将其应用于结构体或枚举定义。<code>derive</code>属性会生成代码，为使用<code>derive</code>语法标注的类型实现带有默认实现的特征。</p>
 <p data-x-en="In this appendix, we provide a reference of all the traits in the standard library that you can use with derive. Each section covers:">在本附录中，我们提供了标准库中所有可以与<code>derive</code>一起使用的特质的参考。每个部分涵盖：</p>
 <ul>
-<li>What operators and methods deriving this trait will enable</li>
-<li>What the implementation of the trait provided by <code>derive</code> does</li>
-<li>What implementing the trait signifies about the type</li>
-<li>The conditions in which you’re allowed or not allowed to implement the trait</li>
-<li>Examples of operations that require the trait</li>
+<li data-x-en="What operators and methods deriving this trait will enable">实现这个特质将启用哪些运算符和方法，输出翻译直接，不添加任何额外的文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有 HTML 标签和属性，仅翻译内容！</li>
+<li data-x-en="What the implementation of the trait provided by derive does"><code>derive</code> 提供的特征实现的作用</li>
+<li data-x-en="What implementing the trait signifies about the type">实现该特征对类型的意义</li>
+<li data-x-en="The conditions in which you’re allowed or not allowed to implement the trait">允许或不允许实现该特征的条件。</li>
+<li data-x-en="Examples of operations that require the trait">需要特征的操作示例，</li>
 </ul>
 <p data-x-en="If you want different behavior from that provided by the derive attribute, consult the standard library documentation for each trait for details of how to manually implement them.">如果您希望的行为与 <code>derive</code> 属性提供的不同，请查阅 <a href="../std/index.html">标准库文档</a><!-- ignore --> 以获取有关如何手动实现每个 trait 的详细信息。</p>
 <p data-x-en="These traits listed here are the only ones defined by the standard library that can be implemented on your types using derive. Other traits defined in the standard library don’t have sensible default behavior, so it’s up to you to implement them in the way that makes sense for what you’re trying to accomplish.">这里列出的这些特质是标准库中唯一可以使用<code>derive</code>在你的类型上实现的。标准库中定义的其他特质没有合理的默认行为，因此需要你自己以适合你目标的方式实现它们。</p>

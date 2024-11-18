@@ -122,5 +122,17 @@
   "Using Threads to Run Code Simultaneously - The Rust Programming Language": {
     "_translate": "使用线程同时运行代码 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Race conditions, where threads are accessing data or resources in an inconsistent order": {
+    "_translate": "竞争条件，其中线程以不一致的顺序访问数据或资源。",
+    "_note": ""
+  },
+  "Deadlocks, where two threads are waiting for each other, preventing both threads from continuing": {
+    "_translate": "死锁，其中两个线程在等待对方，阻止了两个线程的继续执行。",
+    "_note": ""
+  },
+  "Bugs that happen only in certain situations and are hard to reproduce and fix reliably": {
+    "_translate": "仅在某些情况下发生的错误，很难重现和可靠地修复",
+    "_note": ""
   }
 }

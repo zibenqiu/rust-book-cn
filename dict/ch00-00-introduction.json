@@ -154,5 +154,17 @@
   "Introduction - The Rust Programming Language": {
     "_translate": "介绍 - Rust 编程语言",
     "_note": ""
+  },
+  "Cargo, the included dependency manager and build tool, makes adding, compiling, and managing dependencies painless and consistent across the Rust ecosystem.": {
+    "_translate": "Cargo，这个包含的依赖管理和构建工具，使得在 Rust 生态系统中添加、编译和管理依赖变得无痛且一致。",
+    "_note": ""
+  },
+  "The Rustfmt formatting tool ensures a consistent coding style across developers.": {
+    "_translate": "Rustfmt 格式化工具确保了开发者之间的代码风格一致。",
+    "_note": ""
+  },
+  "The rust-analyzer powers Integrated Development Environment (IDE) integration for code completion and inline error messages.": {
+    "_translate": "rust-analyzer 为集成开发环境（IDE）提供代码补全和内联错误消息的功能。",
+    "_note": ""
   }
 }

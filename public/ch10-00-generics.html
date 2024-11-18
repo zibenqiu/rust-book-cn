@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -317,10 +320,9 @@ fn main() {
 <p data-x-en="The largest function has a parameter called list, which represents any concrete slice of i32 values we might pass into the function. As a result, when we call the function, the code runs on the specific values that we pass in."><code>largest</code> 函数有一个名为 <code>list</code> 的参数，它表示我们可能传递给函数的任何具体的 <code>i32</code> 值的切片。因此，当我们调用该函数时，代码会在我们传递的具体值上运行。</p>
 <p data-x-en="In summary, here are the steps we took to change the code from Listing 10-2 to Listing 10-3:">总之，我们采取了以下步骤将代码从清单 10-2 更改为清单 10-3：</p>
 <ol>
-<li>Identify duplicate code.</li>
-<li>Extract the duplicate code into the body of the function, and specify the
-inputs and return values of that code in the function signature.</li>
-<li>Update the two instances of duplicated code to call the function instead.</li>
+<li data-x-en="Identify duplicate code.">识别重复代码。</li>
+<li data-x-en="Extract the duplicate code into the body of the function, and specify the inputs and return values of that code in the function signature.">将重复的代码提取到函数体中，并在函数签名中指定该代码的输入和返回值。</li>
+<li data-x-en="Update the two instances of duplicated code to call the function instead.">将两个重复的代码实例更新为调用该函数。</li>
 </ol>
 <p data-x-en="Next, we’ll use these same steps with generics to reduce code duplication. In the same way that the function body can operate on an abstract list instead of specific values, generics allow code to operate on abstract types.">接下来，我们将使用相同的步骤和泛型来减少代码重复。与函数体可以操作抽象的<code>list</code>而不是特定值一样，泛型允许代码操作抽象类型。</p>
 <p data-x-en="For example, say we had two functions: one that finds the largest item in a slice of i32 values and one that finds the largest item in a slice of char values. How would we eliminate that duplication? Let’s find out!">例如，假设我们有两个函数：一个用于在 <code>i32</code> 值的切片中找到最大项，另一个用于在 <code>char</code> 值的切片中找到最大项。我们如何消除这种重复？让我们来找出答案！</p>

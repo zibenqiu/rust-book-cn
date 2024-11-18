@@ -310,5 +310,53 @@
   "What is Ownership? - The Rust Programming Language": {
     "_translate": "什么是所有权？ - 《Rust编程语言》",
     "_note": ""
+  },
+  "Each value in Rust has an owner.": {
+    "_translate": "Rust 中的每个值都有一个 <em>所有者</em>。",
+    "_note": ""
+  },
+  "There can only be one owner at a time.": {
+    "_translate": "一次只能有一个所有者。",
+    "_note": ""
+  },
+  "When the owner goes out of scope, the value will be dropped.": {
+    "_translate": "当所有者超出作用域时，值将被丢弃。",
+    "_note": ""
+  },
+  "When s comes into scope, it is valid.": {
+    "_translate": "当 <code>s</code> 进入作用域时，它是有效的。",
+    "_note": ""
+  },
+  "It remains valid until it goes out of scope.": {
+    "_translate": "它保持有效，直到它<em>超出</em>作用域。",
+    "_note": ""
+  },
+  "The memory must be requested from the memory allocator at runtime.": {
+    "_translate": "内存必须在运行时从内存分配器请求。",
+    "_note": ""
+  },
+  "We need a way of returning this memory to the allocator when we’re done with our String.": {
+    "_translate": "我们需要一种在使用完 <code>String</code> 后将内存返回给分配器的方法。",
+    "_note": ""
+  },
+  "All the integer types, such as u32.": {
+    "_translate": "所有整数类型，如 <code>u32</code>。",
+    "_note": ""
+  },
+  "All the floating-point types, such as f64.": {
+    "_translate": "所有浮点类型，如 <code>f64</code>。",
+    "_note": ""
+  },
+  "The Boolean type, bool, with values true and false.": {
+    "_translate": "布尔类型，<code>bool</code>，具有值<code>true</code>和<code>false</code>。",
+    "_note": ""
+  },
+  "The character type, char.": {
+    "_translate": "字符类型，<code>char</code>。",
+    "_note": ""
+  },
+  "Tuples, if they only contain types that also implement Copy. For example, (i32, i32) implements Copy, but (i32, String) does not.": {
+    "_translate": "元组，如果它们只包含也实现了<code>Copy</code>的类型。例如，<code>(i32, i32)</code>实现了<code>Copy</code>，但<code>(i32, String)</code>没有。",
+    "_note": ""
   }
 }

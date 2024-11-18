@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -228,12 +231,9 @@ blockquote {
 <p data-x-en="The most straightforward smart pointer is a box, whose type is written Box<T>. Boxes allow you to store data on the heap rather than the stack. What remains on the stack is the pointer to the heap data. Refer to Chapter 4 to review the difference between the stack and the heap.">最直接的智能指针是<em>box</em>，其类型写作<code>Box&lt;T&gt;</code>。Box允许你将数据存储在堆上而不是栈上。留在栈上的是指向堆数据的指针。参阅第4章以回顾栈和堆之间的区别。</p>
 <p data-x-en="Boxes don’t have performance overhead, other than storing their data on the heap instead of on the stack. But they don’t have many extra capabilities either. You’ll use them most often in these situations:">Boxes 不会有性能开销，除了将数据存储在堆上而不是栈上。但它们也没有太多额外的功能。你最常在以下情况下使用它们：</p>
 <ul>
-<li>When you have a type whose size can’t be known at compile time and you want
-to use a value of that type in a context that requires an exact size</li>
-<li>When you have a large amount of data and you want to transfer ownership but
-ensure the data won’t be copied when you do so</li>
-<li>When you want to own a value and you care only that it’s a type that
-implements a particular trait rather than being of a specific type</li>
+<li data-x-en="When you have a type whose size can’t be known at compile time and you want to use a value of that type in a context that requires an exact size">当你有一个在编译时无法确定大小的类型，并且你想在需要确切大小的上下文中使用该类型的值时，</li>
+<li data-x-en="When you have a large amount of data and you want to transfer ownership but ensure the data won’t be copied when you do so">当你有大量的数据并且你想转移所有权，但确保在这样做时数据不会被复制，</li>
+<li data-x-en="When you want to own a value and you care only that it’s a type that implements a particular trait rather than being of a specific type">当你想要拥有一个值，而你只关心它是一个实现了特定特征的类型，而不是特定的类型时，</li>
 </ul>
 <p data-x-en="We’ll demonstrate the first situation in the “Enabling Recursive Types with Boxes” section. In the second case, transferring ownership of a large amount of data can take a long time because the data is copied around on the stack. To improve performance in this situation, we can store the large amount of data on the heap in a box. Then, only the small amount of pointer data is copied around on the stack, while the data it references stays in one place on the heap. The third case is known as a trait object, and Chapter 18 devotes an entire section, “Using Trait Objects That Allow for Values of Different Types,” just to that topic. So what you learn here you’ll apply again in Chapter 18!">我们将通过<a href="#enabling-recursive-types-with-boxes">“使用盒子启用递归类型”</a><!-- ignore -->部分来演示第一种情况。在
 第二种情况下，转移大量数据的所有权可能需要很长时间，因为数据会在栈上被复制。为了在这种情况下提高性能，我们可以将大量数据存储在堆上的盒子中。

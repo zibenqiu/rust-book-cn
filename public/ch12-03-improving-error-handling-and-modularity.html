@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -233,19 +236,16 @@ blockquote {
 <h3 id="separation-of-concerns-for-binary-projects"><a class="header" href="#separation-of-concerns-for-binary-projects">二进制项目中的关注点分离</a></h3>
 <p data-x-en="The organizational problem of allocating responsibility for multiple tasks to the main function is common to many binary projects. As a result, the Rust community has developed guidelines for splitting the separate concerns of a binary program when main starts getting large. This process has the following steps:">将多个任务的责任分配给 <code>main</code> 函数的组织问题是许多二进制项目中常见的问题。因此，Rust 社区已经制定了在 <code>main</code> 开始变大时拆分二进制程序不同关注点的指南。此过程包括以下步骤：</p>
 <ul>
-<li>Split your program into a <em>main.rs</em> file and a <em>lib.rs</em> file and move your
-program’s logic to <em>lib.rs</em>.</li>
-<li>As long as your command line parsing logic is small, it can remain in
-<em>main.rs</em>.</li>
-<li>When the command line parsing logic starts getting complicated, extract it
-from <em>main.rs</em> and move it to <em>lib.rs</em>.</li>
+<li data-x-en="Split your program into a main.rs file and a lib.rs file and move your program’s logic to lib.rs.">将您的程序拆分为 <em>main.rs</em> 文件和 <em>lib.rs</em> 文件，并将程序的逻辑移到 <em>lib.rs</em>。</li>
+<li data-x-en="As long as your command line parsing logic is small, it can remain in main.rs.">只要您的命令行解析逻辑很小，它可以保留在<em>main.rs</em>中。</li>
+<li data-x-en="When the command line parsing logic starts getting complicated, extract it from main.rs and move it to lib.rs.">当命令行解析逻辑开始变得复杂时，将其从<em>main.rs</em>中提取并移动到<em>lib.rs</em>。</li>
 </ul>
 <p data-x-en="The responsibilities that remain in the main function after this process should be limited to the following:">此过程之后保留在 <code>main</code> 函数中的职责应仅限于以下内容：</p>
 <ul>
-<li>Calling the command line parsing logic with the argument values</li>
-<li>Setting up any other configuration</li>
-<li>Calling a <code>run</code> function in <em>lib.rs</em></li>
-<li>Handling the error if <code>run</code> returns an error</li>
+<li data-x-en="Calling the command line parsing logic with the argument values">使用带有参数值的命令行解析逻辑，输出翻译直接不添加任何额外文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，仅翻译内容！</li>
+<li data-x-en="Setting up any other configuration">设置任何其他配置</li>
+<li data-x-en="Calling a run function in lib.rs">在 <em>lib.rs</em> 中调用 <code>run</code> 函数</li>
+<li data-x-en="Handling the error if run returns an error">处理 <code>run</code> 返回错误的情况</li>
 </ul>
 <p data-x-en="This pattern is about separating concerns: main.rs handles running the program and lib.rs handles all the logic of the task at hand. Because you can’t test the main function directly, this structure lets you test all of your program’s logic by moving it into functions in lib.rs. The code that remains in main.rs will be small enough to verify its correctness by reading it. Let’s rework our program by following this process.">这种模式是关于分离关注点的：<em>main.rs</em> 负责运行程序，而 <em>lib.rs</em> 负责处理当前任务的所有逻辑。因为不能直接测试 <code>main</code> 函数，这种结构允许你通过将逻辑移到 <em>lib.rs</em> 中的函数来测试程序的所有逻辑。保留在 <em>main.rs</em> 中的代码将足够小，可以通过阅读来验证其正确性。让我们通过这个过程来重构我们的程序。</p>
 <h4 id="extracting-the-argument-parser"><a class="header" href="#extracting-the-argument-parser">Extracting the Argument Parser</a></h4>
@@ -750,10 +750,10 @@ To an admiring bog!
 <p data-x-en="Our minigrep project is looking good so far! Now we’ll split the src/main.rs file and put some code into the src/lib.rs file. That way, we can test the code and have a src/main.rs file with fewer responsibilities.">我们的 <code>minigrep</code> 项目到目前为止看起来不错！现在我们将拆分 <em>src/main.rs</em> 文件，并将一些代码放入 <em>src/lib.rs</em> 文件中。这样，我们可以测试代码，并且有一个职责更少的 <em>src/main.rs</em> 文件。</p>
 <p data-x-en="Let’s move all the code that isn’t in the main function from src/main.rs to src/lib.rs:">让我们将不在 <code>main</code> 函数中的所有代码从 <em>src/main.rs</em> 移动到 <em>src/lib.rs</em>：</p>
 <ul>
-<li>The <code>run</code> function definition</li>
-<li>The relevant <code>use</code> statements</li>
-<li>The definition of <code>Config</code></li>
-<li>The <code>Config::build</code> function definition</li>
+<li data-x-en="The run function definition"><code>run</code> 函数定义</li>
+<li data-x-en="The relevant use statements">相关的 <code>use</code> 语句</li>
+<li data-x-en="The definition of Config"><code>Config</code> 的定义</li>
+<li data-x-en="The Config::build function definition"><code>Config::build</code> 函数定义</li>
 </ul>
 <p data-x-en="The contents of src/lib.rs should have the signatures shown in Listing 12-13 (we’ve omitted the bodies of the functions for brevity). Note that this won’t compile until we modify src/main.rs in Listing 12-14."><em>src/lib.rs</em> 的内容应该具有如清单 12-13 所示的签名（我们为了简洁起见省略了函数的主体）。请注意，直到我们在清单 12-14 中修改 <em>src/main.rs</em> 之前，这不会编译。</p>
 <figure class="listing">

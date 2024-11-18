@@ -86,5 +86,17 @@
   "Async and Await - The Rust Programming Language": {
     "_translate": "Async 和 Await - 《Rust 编程语言》",
     "_note": ""
+  },
+  "see how to use Rust’s async and await syntax": {
+    "_translate": "了解如何使用 Rust 的 <code>async</code> 和 <code>await</code> 语法",
+    "_note": ""
+  },
+  "look at how multithreading and async provide complementary solutions, which you can even use together in many cases": {
+    "_translate": "看看多线程和异步如何提供互补的解决方案，你甚至可以在许多情况下将它们一起使用。",
+    "_note": ""
+  },
+  "explore how to use the async model to solve some of the same challenges we looked at in Chapter 16": {
+    "_translate": "探索如何使用异步模型来解决我们在第16章中讨论的一些相同挑战",
+    "_note": ""
   }
 }

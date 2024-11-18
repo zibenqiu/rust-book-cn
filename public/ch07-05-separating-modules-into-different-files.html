@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -266,13 +269,13 @@ pub fn eat_at_restaurant() {
 <h3 id="alternate-file-paths"><a class="header" href="#alternate-file-paths">备用文件路径</a></h3>
 <p data-x-en="So far we’ve covered the most idiomatic file paths the Rust compiler uses, but Rust also supports an older style of file path. For a module named front_of_house declared in the crate root, the compiler will look for the module’s code in:">到目前为止，我们已经介绍了 Rust 编译器使用的最符合惯用法的文件路径，但 Rust 也支持一种较旧的文件路径风格。对于在 crate 根目录中声明的名为 <code>front_of_house</code> 的模块，编译器将查找模块的代码在：</p>
 <ul>
-<li><em>src/front_of_house.rs</em> (what we covered)</li>
-<li><em>src/front_of_house/mod.rs</em> (older style, still supported path)</li>
+<li data-x-en="src/front_of_house.rs (what we covered)"><em>src/front_of_house.rs</em> (我们所涵盖的)</li>
+<li data-x-en="src/front_of_house/mod.rs (older style, still supported path)"><em>src/front_of_house/mod.rs</em> (较旧的风格，仍然支持的路径)</li>
 </ul>
 <p data-x-en="For a module named hosting that is a submodule of front_of_house, the compiler will look for the module’s code in:">对于名为 <code>hosting</code> 的模块，它是 <code>front_of_house</code> 的子模块，编译器将在以下位置查找模块的代码：</p>
 <ul>
-<li><em>src/front_of_house/hosting.rs</em> (what we covered)</li>
-<li><em>src/front_of_house/hosting/mod.rs</em> (older style, still supported path)</li>
+<li data-x-en="src/front_of_house/hosting.rs (what we covered)"><em>src/front_of_house/hosting.rs</em> (我们所涵盖的)</li>
+<li data-x-en="src/front_of_house/hosting/mod.rs (older style, still supported path)"><em>src/front_of_house/hosting/mod.rs</em> (较旧的风格，仍然支持的路径)</li>
 </ul>
 <p data-x-en="If you use both styles for the same module, you’ll get a compiler error. Using a mix of both styles for different modules in the same project is allowed, but might be confusing for people navigating your project.">如果您在同一模块中同时使用这两种风格，将会得到编译器错误。
 在同一项目中对不同模块使用这两种风格的混合是允许的，但可能会让浏览您项目的人感到困惑。</p>

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -372,10 +375,9 @@ hi number 9 from the first task!
 <p data-x-en="Here, you’ll see the exact same order every time, which is very different from what we saw with threads. That is because the trpl::join function is fair, meaning it checks each future equally often, alternating between them, and never lets one race ahead if the other is ready. With threads, the operating system decides which thread to check and how long to let it run. With async Rust, the runtime decides which task to check. (In practice, the details get complicated because an async runtime might use operating system threads under the hood as part of how it manages concurrency, so guaranteeing fairness can be more work for a runtime—but it’s still possible!) Runtimes don’t have to guarantee fairness for any given operation, and runtimes often offer different APIs to let you choose whether you want fairness or not.">这里，你会看到完全相同的顺序，这与我们使用线程时看到的情况非常不同。那是因为 <code>trpl::join</code> 函数是 <em>公平的</em>，意味着它会同样频繁地检查每个未来值，交替进行，而不会让一个在未来值准备好时领先。对于线程，操作系统决定检查哪个线程以及让它运行多长时间。对于异步 Rust，运行时决定检查哪个任务。（实际上，细节会变得复杂，因为异步运行时可能在管理并发的过程中在底层使用操作系统线程，因此保证公平性对运行时来说可能更复杂——但仍然是可能的！）运行时不必为任何给定操作保证公平性，而且运行时通常提供不同的 API 让你选择是否需要公平性。</p>
 <p data-x-en="Try some of these different variations on awaiting the futures and see what they do:">尝试这些不同的等待未来的变体，看看它们的作用：</p>
 <ul>
-<li>Remove the async block from around either or both of the loops.</li>
-<li>Await each async block immediately after defining it.</li>
-<li>Wrap only the first loop in an async block, and await the resulting future
-after the body of second loop.</li>
+<li data-x-en="Remove the async block from around either or both of the loops.">移除围绕任一或两个循环的 async 块。</li>
+<li data-x-en="Await each async block immediately after defining it.">在定义每个异步块后立即等待。</li>
+<li data-x-en="Wrap only the first loop in an async block, and await the resulting future after the body of second loop.">仅将第一个循环包装在异步块中，并在第二个循环的主体之后等待生成的未来。</li>
 </ul>
 <p data-x-en="For an extra challenge, see if you can figure out what the output will be in each case before running the code!">为了增加挑战性，看看你是否能在<em>运行代码之前</em>弄清楚每种情况下的输出！</p>
 <h3 id="message-passing"><a class="header" href="#message-passing">消息传递</a></h3>
@@ -482,20 +484,14 @@ after the body of second loop.</li>
 <p data-x-en="With the updated code in Listing 17-11, the messages get printed at 500-millisecond intervals, rather than all in a rush after two seconds.">随着清单 17-11 中更新的代码，消息以 500 毫秒的间隔打印，而不是在两秒后一口气全部打印。</p>
 <p data-x-en="The program still never exits, though, because of the way while let loop interacts with trpl::join:">程序仍然永远不会退出，因为 <code>while let</code> 循环与 <code>trpl::join</code> 的交互方式：</p>
 <ul>
-<li>The future returned from <code>trpl::join</code> only completes once <em>both</em> futures
-passed to it have completed.</li>
-<li>The <code>tx</code> future completes once it finishes sleeping after sending the last
-message in <code>vals</code>.</li>
-<li>The <code>rx</code> future won’t complete until the <code>while let</code> loop ends.</li>
-<li>The <code>while let</code> loop won’t end until awaiting <code>rx.recv</code> produces <code>None</code>.</li>
-<li>Awaiting <code>rx.recv</code> will only return <code>None</code> once the other end of the channel
-is closed.</li>
-<li>The channel will only close if we call <code>rx.close</code> or when the sender side,
-<code>tx</code>, is dropped.</li>
-<li>We don’t call <code>rx.close</code> anywhere, and <code>tx</code> won’t be dropped until the
-outermost async block passed to <code>trpl::run</code> ends.</li>
-<li>The block can’t end because it is blocked on <code>trpl::join</code> completing, which
-takes us back to the top of this list!</li>
+<li data-x-en="The future returned from trpl::join only completes once both futures passed to it have completed.">从 <code>trpl::join</code> 返回的 future 只有在传递给它的 <em>两个</em> future 都完成时才会完成。</li>
+<li data-x-en="The tx future completes once it finishes sleeping after sending the last message in vals."><code>tx</code> 未来在发送 <code>vals</code> 中的最后一条消息后完成睡眠。</li>
+<li data-x-en="The rx future won’t complete until the while let loop ends."><code>rx</code> 未来不会完成，直到 <code>while let</code> 循环结束。</li>
+<li data-x-en="The while let loop won’t end until awaiting rx.recv produces None."><code>while let</code> 循环不会结束，直到等待 <code>rx.recv</code> 产生 <code>None</code>。</li>
+<li data-x-en="Awaiting rx.recv will only return None once the other end of the channel is closed.">等待 <code>rx.recv</code> 仅在通道的另一端关闭时返回 <code>None</code>。</li>
+<li data-x-en="The channel will only close if we call rx.close or when the sender side, tx, is dropped.">通道只有在我们调用<code>rx.close</code>或发送方<code>tx</code>被丢弃时才会关闭。</li>
+<li data-x-en="We don’t call rx.close anywhere, and tx won’t be dropped until the outermost async block passed to trpl::run ends.">我们 nowhere 调用 <code>rx.close</code>，并且 <code>tx</code> 不会在传递给 <code>trpl::run</code> 的最外层异步块结束之前被丢弃。</li>
+<li data-x-en="The block can’t end because it is blocked on trpl::join completing, which takes us back to the top of this list!">这个块无法结束，因为它被阻塞在 <code>trpl::join</code> 完成上，这又把我们带回到了这个列表的顶部！</li>
 </ul>
 <p data-x-en="We could manually close rx by calling rx.close somewhere, but that doesn’t make much sense. Stopping after handling some arbitrary number of messages would make the program shut down, but we could miss messages. We need some other way to make sure that tx gets dropped before the end of the function.">我们可以通过在某个地方调用<code>rx.close</code>来手动关闭<code>rx</code>，但这没有太大意义。在处理了一些任意数量的消息后停止会使程序关闭，但我们可能会错过消息。我们需要某种其他方法来确保<code>tx</code>在函数结束<em>之前</em>被丢弃。</p>
 <p data-x-en="Right now, the async block where we send the messages only borrows tx because sending a message doesn’t require ownership, but if we could move tx into that async block, it would be dropped once that block ends. In Chapter 13, we learned how to use the move keyword with closures, and in Chapter 16, we saw that we often need to move data into closures when working with threads. The same basic dynamics apply to async blocks, so the move keyword works with async blocks just as it does with closures.">目前，我们发送消息的异步块只借用了<code>tx</code>，因为发送消息不需要所有权，但如果我们可以将<code>tx</code>移动到那个异步块中，那么一旦该块结束，<code>tx</code>就会被丢弃。在第13章中，我们学习了如何在闭包中使用<code>move</code>关键字，而在第16章中，我们看到在使用线程时通常需要将数据移动到闭包中。同样的基本动态也适用于异步块，因此<code>move</code>关键字在异步块中的工作方式与在闭包中相同。</p>

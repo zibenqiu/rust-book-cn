@@ -26,5 +26,21 @@
   "Fearless Concurrency - The Rust Programming Language": {
     "_translate": " fearless 并发 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "How to create threads to run multiple pieces of code at the same time": {
+    "_translate": "如何创建线程以同时运行多段代码",
+    "_note": ""
+  },
+  "Message-passing concurrency, where channels send messages between threads": {
+    "_translate": "<em>消息传递</em>并发，其中通道在线程之间发送消息，",
+    "_note": ""
+  },
+  "Shared-state concurrency, where multiple threads have access to some piece of data": {
+    "_translate": "<em>共享状态</em>并发，其中多个线程可以访问某块数据，",
+    "_note": ""
+  },
+  "The Sync and Send traits, which extend Rust’s concurrency guarantees to user-defined types as well as types provided by the standard library": {
+    "_translate": "<code>Sync</code> 和 <code>Send</code> 特性，它们将 Rust 的并发保证扩展到用户定义的类型以及标准库提供的类型。",
+    "_note": ""
   }
 }

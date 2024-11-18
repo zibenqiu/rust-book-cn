@@ -182,5 +182,21 @@
   "Defining an Enum - The Rust Programming Language": {
     "_translate": "定义枚举 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Quit has no data associated with it at all.": {
+    "_translate": "<code>Quit</code> 没有任何与之关联的数据。",
+    "_note": ""
+  },
+  "Move has named fields, like a struct does.": {
+    "_translate": "<code>Move</code> 有命名字段，就像结构体一样。",
+    "_note": ""
+  },
+  "Write includes a single String.": {
+    "_translate": "<code>Write</code> 包含一个 <code>String</code>。",
+    "_note": ""
+  },
+  "ChangeColor includes three i32 values.": {
+    "_translate": "<code>ChangeColor</code> 包含三个 <code>i32</code> 值。",
+    "_note": ""
   }
 }

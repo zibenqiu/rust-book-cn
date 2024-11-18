@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -461,9 +464,9 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p data-x-en="Similar to how you use the Deref trait to override the * operator on immutable references, you can use the DerefMut trait to override the * operator on mutable references.">类似于您使用 <code>Deref</code> 特性来重载不可变引用上的 <code>*</code> 操作符，您可以使用 <code>DerefMut</code> 特性来重载可变引用上的 <code>*</code> 操作符。</p>
 <p data-x-en="Rust does deref coercion when it finds types and trait implementations in three cases:">Rust 在三种情况下发现类型和特征实现时会进行解引用强制：</p>
 <ul>
-<li>From <code>&amp;T</code> to <code>&amp;U</code> when <code>T: Deref&lt;Target=U&gt;</code></li>
-<li>From <code>&amp;mut T</code> to <code>&amp;mut U</code> when <code>T: DerefMut&lt;Target=U&gt;</code></li>
-<li>From <code>&amp;mut T</code> to <code>&amp;U</code> when <code>T: Deref&lt;Target=U&gt;</code></li>
+<li data-x-en="From &amp;T to &amp;U when T: Deref<Target=U>">从 <code>&amp;T</code> 到 <code>&amp;U</code> 当 <code>T: Deref&lt;Target=U&gt;</code></li>
+<li data-x-en="From &amp;mut T to &amp;mut U when T: DerefMut<Target=U>">从 <code>&amp;mut T</code> 到 <code>&amp;mut U</code> 当 <code>T: DerefMut&lt;Target=U&gt;</code></li>
+<li data-x-en="From &amp;mut T to &amp;U when T: Deref<Target=U>">从 <code>&amp;mut T</code> 到 <code>&amp;U</code> 当 <code>T: Deref&lt;Target=U&gt;</code></li>
 </ul>
 <p data-x-en="The first two cases are the same as each other except that the second implements mutability. The first case states that if you have a &amp;T, and T implements Deref to some type U, you can get a &amp;U transparently. The second case states that the same deref coercion happens for mutable references.">前两个案例彼此相同，只是第二个实现了可变性。第一个案例说明，如果你有一个<code>&amp;T</code>，并且<code>T</code>实现了到某种类型<code>U</code>的<code>Deref</code>，你可以透明地获得一个<code>&amp;U</code>。第二个案例说明，对于可变引用，同样的解引用强制也会发生。</p>
 <p data-x-en="The third case is trickier: Rust will also coerce a mutable reference to an immutable one. But the reverse is not possible: immutable references will never coerce to mutable references. Because of the borrowing rules, if you have a mutable reference, that mutable reference must be the only reference to that data (otherwise, the program wouldn’t compile). Converting one mutable reference to one immutable reference will never break the borrowing rules. Converting an immutable reference to a mutable reference would require that the initial immutable reference is the only immutable reference to that data, but the borrowing rules don’t guarantee that. Therefore, Rust can’t make the assumption that converting an immutable reference to a mutable reference is possible.">第三种情况更复杂：Rust 还会将可变引用强制转换为不可变引用。但反向转换是<em>不可能</em>的：不可变引用永远不会强制转换为可变引用。由于借用规则，如果你有一个可变引用，那么这个可变引用必须是该数据的唯一引用（否则，程序将无法编译）。将一个可变引用转换为一个不可变引用永远不会违反借用规则。将不可变引用转换为可变引用需要初始不可变引用是该数据的唯一不可变引用，但借用规则并不能保证这一点。因此，Rust 不能假设将不可变引用转换为可变引用是可能的。</p>

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -228,12 +231,10 @@ blockquote {
 <p data-x-en="Now that we’ve extracted the logic into src/lib.rs and left the argument collecting and error handling in src/main.rs, it’s much easier to write tests for the core functionality of our code. We can call functions directly with various arguments and check return values without having to call our binary from the command line.">现在我们已经将逻辑提取到<em>src/lib.rs</em>中，并将参数收集和错误处理保留在<em>src/main.rs</em>中，为代码的核心功能编写测试变得更加容易。我们可以直接调用带有不同参数的函数并检查返回值，而无需从命令行调用我们的二进制文件。</p>
 <p data-x-en="In this section, we’ll add the searching logic to the minigrep program using the test-driven development (TDD) process with the following steps:">在本节中，我们将使用测试驱动开发（TDD）过程为<code>minigrep</code>程序添加搜索逻辑，具体步骤如下：</p>
 <ol>
-<li>Write a test that fails and run it to make sure it fails for the reason you
-expect.</li>
-<li>Write or modify just enough code to make the new test pass.</li>
-<li>Refactor the code you just added or changed and make sure the tests continue
-to pass.</li>
-<li>Repeat from step 1!</li>
+<li data-x-en="Write a test that fails and run it to make sure it fails for the reason you expect.">编写一个失败的测试并运行它，以确保它确实因为你预期的原因而失败。</li>
+<li data-x-en="Write or modify just enough code to make the new test pass.">编写或修改足够的代码以使新测试通过。</li>
+<li data-x-en="Refactor the code you just added or changed and make sure the tests continue to pass.">重构你刚刚添加或更改的代码，并确保测试继续通过。</li>
+<li data-x-en="Repeat from step 1!">从步骤1重复！</li>
 </ol>
 <p data-x-en="Though it’s just one of many ways to write software, TDD can help drive code design. Writing the test before you write the code that makes the test pass helps to maintain high test coverage throughout the process.">虽然这只是编写软件的众多方法之一，但 TDD 可以帮助驱动代码设计。在编写使测试通过的代码之前先编写测试，有助于在整个过程中保持高测试覆盖率。</p>
 <p data-x-en="We’ll test-drive the implementation of the functionality that will actually do the searching for the query string in the file contents and produce a list of lines that match the query. We’ll add this functionality in a function called search.">我们将测试实现的功能，该功能将在文件内容中搜索查询字符串，并生成与查询匹配的行列表。我们将在一个名为<code>search</code>的函数中添加此功能。</p>
@@ -390,11 +391,11 @@ error: test failed, to rerun pass `--lib`
 <h3 id="writing-code-to-pass-the-test"><a class="header" href="#writing-code-to-pass-the-test">编写通过测试的代码</a></h3>
 <p data-x-en="Currently, our test is failing because we always return an empty vector. To fix that and implement search, our program needs to follow these steps:">目前，我们的测试失败是因为我们总是返回一个空的向量。要修复这个问题并实现<code>search</code>，我们的程序需要遵循以下步骤：</p>
 <ol>
-<li>Iterate through each line of the contents.</li>
-<li>Check whether the line contains our query string.</li>
-<li>If it does, add it to the list of values we’re returning.</li>
-<li>If it doesn’t, do nothing.</li>
-<li>Return the list of results that match.</li>
+<li data-x-en="Iterate through each line of the contents.">遍历内容的每一行。</li>
+<li data-x-en="Check whether the line contains our query string.">检查该行是否包含我们的查询字符串。</li>
+<li data-x-en="If it does, add it to the list of values we’re returning.">如果可以，将其添加到我们要返回的值列表中。</li>
+<li data-x-en="If it doesn’t, do nothing.">如果不行，什么也不做。</li>
+<li data-x-en="Return the list of results that match.">返回匹配的结果列表。</li>
 </ol>
 <p data-x-en="Let’s work through each step, starting with iterating through lines.">让我们逐步进行，从遍历行开始。</p>
 <h4 id="iterating-through-lines-with-the-lines-method"><a class="header" href="#iterating-through-lines-with-the-lines-method">Iterating Through Lines with the <code>lines</code> Method</a></h4>

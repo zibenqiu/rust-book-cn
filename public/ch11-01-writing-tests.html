@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -227,9 +230,9 @@ blockquote {
                         <h2 id="how-to-write-tests"><a class="header" href="#how-to-write-tests">如何编写测试</a></h2>
 <p data-x-en="Tests are Rust functions that verify that the non-test code is functioning in the expected manner. The bodies of test functions typically perform these three actions:">测试是 Rust 函数，用于验证非测试代码是否按预期方式运行。测试函数的主体通常执行以下三个操作：</p>
 <ul>
-<li>Set up any needed data or state.</li>
-<li>Run the code you want to test.</li>
-<li>Assert that the results are what you expect.</li>
+<li data-x-en="Set up any needed data or state.">设置所需的数据或状态。</li>
+<li data-x-en="Run the code you want to test.">运行您要测试的代码。</li>
+<li data-x-en="Assert that the results are what you expect.">断言结果是你所期望的。</li>
 </ul>
 <p data-x-en="Let’s look at the features Rust provides specifically for writing tests that take these actions, which include the test attribute, a few macros, and the should_panic attribute.">让我们看看 Rust 为编写这些操作的测试提供的特性，包括 <code>test</code> 属性、几个宏和 <code>should_panic</code> 属性。</p>
 <h3 id="the-anatomy-of-a-test-function"><a class="header" href="#the-anatomy-of-a-test-function">测试函数的结构</a></h3>

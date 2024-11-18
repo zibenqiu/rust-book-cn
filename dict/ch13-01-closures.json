@@ -182,5 +182,17 @@
   "Closures: Anonymous Functions that Capture Their Environment - The Rust Programming Language": {
     "_translate": "闭包：捕获其环境的匿名函数 - 《Rust编程语言》",
     "_note": ""
+  },
+  "FnMut applies to closures that don’t move captured values out of their body, but that might mutate the captured values. These closures can be called more than once.": {
+    "_translate": "<code>FnMut</code> 适用于不会将其捕获的值移出其作用域的闭包，但可能会修改捕获的值。这些闭包可以被调用多次。",
+    "_note": ""
+  },
+  "FnOnce applies to closures that can be called once. All closures implement at least this trait, because all closures can be called. A closure that moves captured values out of its body will only implement FnOnce and none of the other Fn traits, because it can only be called once.": {
+    "_translate": "<code>FnOnce</code> 适用于只能调用一次的闭包。所有闭包至少实现了这个 trait，因为所有闭包都可以被调用。一个从其体内移出捕获值的闭包将只实现 <code>FnOnce</code> 而不实现其他任何 <code>Fn</code> trait，因为它只能被调用一次。",
+    "_note": ""
+  },
+  "Fn applies to closures that don’t move captured values out of their body and that don’t mutate captured values, as well as closures that capture nothing from their environment. These closures can be called more than once without mutating their environment, which is important in cases such as calling a closure multiple times concurrently.": {
+    "_translate": "<code>Fn</code> 适用于不会将其捕获的值移出其作用域的闭包，以及不会修改其捕获的值的闭包，还包括不从其环境中捕获任何内容的闭包。这些闭包可以在不修改其环境的情况下多次调用，这在并发多次调用闭包的情况下非常重要。",
+    "_note": ""
   }
 }

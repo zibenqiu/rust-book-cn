@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -341,8 +344,8 @@ impl Add&lt;Meters&gt; for Millimeters {
 <p data-x-en="To add Millimeters and Meters, we specify impl Add<Meters> to set the value of the Rhs type parameter instead of using the default of Self.">要添加 <code>Millimeters</code> 和 <code>Meters</code>，我们指定 <code>impl Add&lt;Meters&gt;</code> 以设置 <code>Rhs</code> 类型参数的值，而不是使用默认的 <code>Self</code>。</p>
 <p data-x-en="You’ll use default type parameters in two main ways:">您将主要以两种方式使用默认类型参数：</p>
 <ul>
-<li>To extend a type without breaking existing code</li>
-<li>To allow customization in specific cases most users won’t need</li>
+<li data-x-en="To extend a type without breaking existing code">为了在不破坏现有代码的情况下扩展类型，</li>
+<li data-x-en="To allow customization in specific cases most users won’t need">为了允许在大多数用户不需要的特定情况下进行自定义，</li>
 </ul>
 <p data-x-en="The standard library’s Add trait is an example of the second purpose: usually, you’ll add two like types, but the Add trait provides the ability to customize beyond that. Using a default type parameter in the Add trait definition means you don’t have to specify the extra parameter most of the time. In other words, a bit of implementation boilerplate isn’t needed, making it easier to use the trait.">标准库的 <code>Add</code> 特性是第二个目的的一个例子：
 通常，你会添加两个相同类型的值，但 <code>Add</code> 特性提供了超出这一点的自定义能力。在 <code>Add</code> 特性的定义中使用默认类型参数意味着大多数时候你不必指定额外的参数。换句话说，不需要一些实现样板代码，使得使用该特性更加容易。</p>
