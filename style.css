@@ -65,3 +65,6 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}

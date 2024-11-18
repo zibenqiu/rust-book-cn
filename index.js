@@ -21,7 +21,7 @@ const defaultConfig = (more) => {
     },
     {
       container: '#page-wrapper #content',
-      selector: `p, h1, h2, h3`,
+      selector: `p, h1, h2, h3, li`,
     },
   ];
 };
