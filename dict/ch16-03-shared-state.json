@@ -138,5 +138,13 @@
   "Shared-State Concurrency - The Rust Programming Language": {
     "_translate": "共享状态并发 - 《Rust编程语言》",
     "_note": ""
+  },
+  "You must attempt to acquire the lock before using the data.": {
+    "_translate": "您必须在使用数据之前尝试获取锁。",
+    "_note": ""
+  },
+  "When you’re done with the data that the mutex guards, you must unlock the data so other threads can acquire the lock.": {
+    "_translate": "当你完成对互斥锁保护的数据的操作后，必须解锁数据，以便其他线程可以获取锁。",
+    "_note": ""
   }
 }

@@ -162,5 +162,25 @@
   "C - Derivable Traits - The Rust Programming Language": {
     "_translate": "C - 可派生的特征 - 《Rust编程语言》",
     "_note": ""
+  },
+  "What the implementation of the trait provided by derive does": {
+    "_translate": "<code>derive</code> 提供的特征实现的作用",
+    "_note": ""
+  },
+  "What operators and methods deriving this trait will enable": {
+    "_translate": "实现这个特质将启用哪些运算符和方法，输出翻译直接，不添加任何额外的文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有 HTML 标签和属性，仅翻译内容！",
+    "_note": ""
+  },
+  "What implementing the trait signifies about the type": {
+    "_translate": "实现该特征对类型的意义",
+    "_note": ""
+  },
+  "The conditions in which you’re allowed or not allowed to implement the trait": {
+    "_translate": "允许或不允许实现该特征的条件。",
+    "_note": ""
+  },
+  "Examples of operations that require the trait": {
+    "_translate": "需要特征的操作示例，",
+    "_note": ""
   }
 }

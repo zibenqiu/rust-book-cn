@@ -142,5 +142,41 @@
   "Developing the Library’s Functionality with Test Driven Development - The Rust Programming Language": {
     "_translate": "使用测试驱动开发开发库的功能 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Write a test that fails and run it to make sure it fails for the reason you expect.": {
+    "_translate": "编写一个失败的测试并运行它，以确保它确实因为你预期的原因而失败。",
+    "_note": ""
+  },
+  "Write or modify just enough code to make the new test pass.": {
+    "_translate": "编写或修改足够的代码以使新测试通过。",
+    "_note": ""
+  },
+  "Refactor the code you just added or changed and make sure the tests continue to pass.": {
+    "_translate": "重构你刚刚添加或更改的代码，并确保测试继续通过。",
+    "_note": ""
+  },
+  "Repeat from step 1!": {
+    "_translate": "从步骤1重复！",
+    "_note": ""
+  },
+  "Iterate through each line of the contents.": {
+    "_translate": "遍历内容的每一行。",
+    "_note": ""
+  },
+  "Check whether the line contains our query string.": {
+    "_translate": "检查该行是否包含我们的查询字符串。",
+    "_note": ""
+  },
+  "If it does, add it to the list of values we’re returning.": {
+    "_translate": "如果可以，将其添加到我们要返回的值列表中。",
+    "_note": ""
+  },
+  "If it doesn’t, do nothing.": {
+    "_translate": "如果不行，什么也不做。",
+    "_note": ""
+  },
+  "Return the list of results that match.": {
+    "_translate": "返回匹配的结果列表。",
+    "_note": ""
   }
 }

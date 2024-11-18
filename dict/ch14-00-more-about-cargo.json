@@ -14,5 +14,25 @@
   "More about Cargo and Crates.io - The Rust Programming Language": {
     "_translate": "更多关于 Cargo 和 Crates.io - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Customize your build through release profiles": {
+    "_translate": "通过发布配置自定义构建",
+    "_note": ""
+  },
+  "Organize large projects with workspaces": {
+    "_translate": "使用工作区组织大型项目",
+    "_note": ""
+  },
+  "Publish libraries on crates.io": {
+    "_translate": "在<a href=\"https://crates.io/\">crates.io</a>上发布库",
+    "_note": ""
+  },
+  "Extend Cargo using custom commands": {
+    "_translate": "使用自定义命令扩展 Cargo",
+    "_note": ""
+  },
+  "Install binaries from crates.io": {
+    "_translate": "从<a href=\"https://crates.io/\">crates.io</a>安装二进制文件",
+    "_note": ""
   }
 }

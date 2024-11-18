@@ -282,5 +282,41 @@
   "Unsafe Rust - The Rust Programming Language": {
     "_translate": "Unsafe Rust - Rust 编程语言",
     "_note": ""
+  },
+  "Dereference a raw pointer": {
+    "_translate": "解引用原始指针",
+    "_note": ""
+  },
+  "Call an unsafe function or method": {
+    "_translate": "调用不安全的函数或方法",
+    "_note": ""
+  },
+  "Access or modify a mutable static variable": {
+    "_translate": "访问或修改可变静态变量",
+    "_note": ""
+  },
+  "Implement an unsafe trait": {
+    "_translate": "实现一个不安全的特质",
+    "_note": ""
+  },
+  "Access fields of a union": {
+    "_translate": "访问 <code>union</code> 的字段",
+    "_note": ""
+  },
+  "Are allowed to ignore the borrowing rules by having both immutable and mutable pointers or multiple mutable pointers to the same location": {
+    "_translate": "允许通过同时拥有不可变和可变指针或多个可变指针来忽略借用规则。",
+    "_note": ""
+  },
+  "Aren’t guaranteed to point to valid memory": {
+    "_translate": "不一定指向有效的内存",
+    "_note": ""
+  },
+  "Are allowed to be null": {
+    "_translate": "允许为空",
+    "_note": ""
+  },
+  "Don’t implement any automatic cleanup": {
+    "_translate": "不要实现任何自动清理",
+    "_note": ""
   }
 }

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -244,14 +247,9 @@ blockquote {
 <h3 id="guidelines-for-error-handling"><a class="header" href="#guidelines-for-error-handling">错误处理指南</a></h3>
 <p data-x-en="It’s advisable to have your code panic when it’s possible that your code could end up in a bad state. In this context, a bad state is when some assumption, guarantee, contract, or invariant has been broken, such as when invalid values, contradictory values, or missing values are passed to your code—plus one or more of the following:">建议在代码可能进入不良状态时让代码引发恐慌。在此上下文中，<em>不良状态</em>是指某些假设、保证、契约或不变量被破坏的情况，例如当无效值、矛盾值或缺失值被传递给代码时—加上以下一项或多项：</p>
 <ul>
-<li>The bad state is something that is unexpected, as opposed to something that
-will likely happen occasionally, like a user entering data in the wrong
-format.</li>
-<li>Your code after this point needs to rely on not being in this bad state,
-rather than checking for the problem at every step.</li>
-<li>There’s not a good way to encode this information in the types you use. We’ll
-work through an example of what we mean in the <a href="ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types">“Encoding States and Behavior
-as Types”</a><!-- ignore --> section of Chapter 18.</li>
+<li data-x-en="The bad state is something that is unexpected, as opposed to something that will likely happen occasionally, like a user entering data in the wrong format.">坏状态是指那些意外发生的情况，而不是像用户偶尔输入错误格式数据那样可能会经常发生的情况。</li>
+<li data-x-en="Your code after this point needs to rely on not being in this bad state, rather than checking for the problem at every step.">您的代码从这一点之后需要依赖于不再处于这种不良状态，而不是在每一步都检查问题。</li>
+<li data-x-en="There’s not a good way to encode this information in the types you use. We’ll work through an example of what we mean in the “Encoding States and Behavior as Types” section of Chapter 18.">你使用的类型中没有一个好的方法来编码这些信息。我们将在第 18 章的 <a href="ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types">“将状态和行为编码为类型”</a> 部分通过一个例子来说明我们的意思。</li>
 </ul>
 <p data-x-en="If someone calls your code and passes in values that don’t make sense, it’s best to return an error if you can so the user of the library can decide what they want to do in that case. However, in cases where continuing could be insecure or harmful, the best choice might be to call panic! and alert the person using your library to the bug in their code so they can fix it during development. Similarly, panic! is often appropriate if you’re calling external code that is out of your control and it returns an invalid state that you have no way of fixing.">如果有人调用你的代码并传入了没有意义的值，最好能够返回一个错误，这样库的使用者可以决定在这种情况下他们想要做什么。然而，在继续执行可能会不安全或有害的情况下，最好的选择可能是调用<code>panic!</code>并提醒使用你库的人他们的代码中的错误，以便他们在开发过程中修复它。同样，如果你调用的外部代码不受你控制，并且它返回了一个你无法修复的无效状态，那么调用<code>panic!</code>通常是合适的。</p>
 <p data-x-en="However, when failure is expected, it’s more appropriate to return a Result than to make a panic! call. Examples include a parser being given malformed data or an HTTP request returning a status that indicates you have hit a rate limit. In these cases, returning a Result indicates that failure is an expected possibility that the calling code must decide how to handle.">然而，当失败是可以预期的时，返回一个 <code>Result</code> 比调用 <code>panic!</code> 更合适。例如，解析器接收到格式错误的数据或 HTTP 请求返回的状态表明你已达到速率限制。在这些情况下，返回一个 <code>Result</code> 表示失败是一个预期的可能性，调用代码必须决定如何处理。</p>

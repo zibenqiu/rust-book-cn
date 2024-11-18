@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -228,12 +231,9 @@ blockquote {
 <p data-x-en="In most current operating systems, an executed program’s code is run in a process, and the operating system will manage multiple processes at once. Within a program, you can also have independent parts that run simultaneously. The features that run these independent parts are called threads. For example, a web server could have multiple threads so that it could respond to more than one request at the same time.">在大多数当前的操作系统中，执行的程序的代码是在一个 <em>进程</em> 中运行的，操作系统将同时管理多个进程。在一个程序中，你也可以有同时运行的独立部分。运行这些独立部分的功能称为 <em>线程</em>。例如，一个 web 服务器可以有多个线程，以便它可以同时响应多个请求。</p>
 <p data-x-en="Splitting the computation in your program into multiple threads to run multiple tasks at the same time can improve performance, but it also adds complexity. Because threads can run simultaneously, there’s no inherent guarantee about the order in which parts of your code on different threads will run. This can lead to problems, such as:">将程序中的计算拆分为多个线程以同时运行多个任务可以提高性能，但也会增加复杂性。因为线程可以同时运行，所以不同线程上的代码部分的执行顺序没有固有的保证。这可能导致问题，例如：</p>
 <ul>
-<li>Race conditions, where threads are accessing data or resources in an
-inconsistent order</li>
-<li>Deadlocks, where two threads are waiting for each other, preventing both
-threads from continuing</li>
-<li>Bugs that happen only in certain situations and are hard to reproduce and fix
-reliably</li>
+<li data-x-en="Race conditions, where threads are accessing data or resources in an inconsistent order">竞争条件，其中线程以不一致的顺序访问数据或资源。</li>
+<li data-x-en="Deadlocks, where two threads are waiting for each other, preventing both threads from continuing">死锁，其中两个线程在等待对方，阻止了两个线程的继续执行。</li>
+<li data-x-en="Bugs that happen only in certain situations and are hard to reproduce and fix reliably">仅在某些情况下发生的错误，很难重现和可靠地修复</li>
 </ul>
 <p data-x-en="Rust attempts to mitigate the negative effects of using threads, but programming in a multithreaded context still takes careful thought and requires a code structure that is different from that in programs running in a single thread.">Rust 尝试减轻使用线程的负面影响，但在多线程环境中编程仍然需要仔细思考，并且需要与单线程程序不同的代码结构。</p>
 <p data-x-en="Programming languages implement threads in a few different ways, and many operating systems provide an API the language can call for creating new threads. The Rust standard library uses a 1:1 model of thread implementation, whereby a program uses one operating system thread per one language thread. There are crates that implement other models of threading that make different tradeoffs to the 1:1 model. (Rust’s async system, which we will see in the next chapter, provides another approach to concurrency as well.)">编程语言以几种不同的方式实现线程，许多操作系统提供了语言可以调用的API来创建新线程。Rust标准库使用<em>1:1</em>的线程实现模型，即程序每个语言线程使用一个操作系统线程。有其他实现不同线程模型的crate，这些模型在与1:1模型的权衡上有所不同。（我们将在下一章看到的Rust的异步系统，也提供了另一种并发方法。）</p>

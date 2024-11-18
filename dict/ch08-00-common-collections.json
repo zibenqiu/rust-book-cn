@@ -18,5 +18,17 @@
   "Common Collections - The Rust Programming Language": {
     "_translate": "常用集合 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "A vector allows you to store a variable number of values next to each other.": {
+    "_translate": "A <em>向量</em> 允许你存储相邻的可变数量的值。",
+    "_note": ""
+  },
+  "A string is a collection of characters. We’ve mentioned the String type previously, but in this chapter we’ll talk about it in depth.": {
+    "_translate": "一个 <em>字符串</em> 是字符的集合。我们之前提到过 <code>String</code> 类型，但在本章中我们将深入讨论它。",
+    "_note": ""
+  },
+  "A hash map allows you to associate a value with a specific key. It’s a particular implementation of the more general data structure called a map.": {
+    "_translate": "一个 <em>哈希映射</em> 允许你将一个值与一个特定的键关联起来。它是更通用的数据结构 <em>映射</em> 的一种特定实现。",
+    "_note": ""
   }
 }

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -232,10 +235,9 @@ blockquote {
 <p data-x-en="Smart pointers are usually implemented using structs. Unlike an ordinary struct, smart pointers implement the Deref and Drop traits. The Deref trait allows an instance of the smart pointer struct to behave like a reference so you can write your code to work with either references or smart pointers. The Drop trait allows you to customize the code that’s run when an instance of the smart pointer goes out of scope. In this chapter, we’ll discuss both traits and demonstrate why they’re important to smart pointers.">智能指针通常使用结构体实现。与普通结构体不同，智能指针实现了 <code>Deref</code> 和 <code>Drop</code> 特性。<code>Deref</code> 特性允许智能指针结构体的实例像引用一样行为，因此你可以编写可以与引用或智能指针一起工作的代码。<code>Drop</code> 特性允许你自定义智能指针实例超出作用域时运行的代码。在本章中，我们将讨论这两个特性，并演示它们对智能指针的重要性。</p>
 <p data-x-en="Given that the smart pointer pattern is a general design pattern used frequently in Rust, this chapter won’t cover every existing smart pointer. Many libraries have their own smart pointers, and you can even write your own. We’ll cover the most common smart pointers in the standard library:">鉴于智能指针模式是 Rust 中常用的一种通用设计模式，本章不会涵盖所有现有的智能指针。许多库都有自己的智能指针，你甚至可以编写自己的。我们将介绍标准库中最常见的智能指针：</p>
 <ul>
-<li><code>Box&lt;T&gt;</code> for allocating values on the heap</li>
-<li><code>Rc&lt;T&gt;</code>, a reference counting type that enables multiple ownership</li>
-<li><code>Ref&lt;T&gt;</code> and <code>RefMut&lt;T&gt;</code>, accessed through <code>RefCell&lt;T&gt;</code>, a type that enforces
-the borrowing rules at runtime instead of compile time</li>
+<li data-x-en="Box<T> for allocating values on the heap"><code>Box&lt;T&gt;</code> 用于在堆上分配值</li>
+<li data-x-en="Rc<T>, a reference counting type that enables multiple ownership"><code>Rc&lt;T&gt;</code>，一个引用计数类型，允许多个所有权。</li>
+<li data-x-en="Ref<T> and RefMut<T>, accessed through RefCell<T>, a type that enforces the borrowing rules at runtime instead of compile time"><code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code>，通过 <code>RefCell&lt;T&gt;</code> 访问，这是一种在运行时而不是编译时强制执行借用规则的类型。</li>
 </ul>
 <p data-x-en="In addition, we’ll cover the interior mutability pattern where an immutable type exposes an API for mutating an interior value. We’ll also discuss reference cycles: how they can leak memory and how to prevent them.">此外，我们将介绍 <em>内部可变性</em> 模式，即一个不可变类型暴露出一个用于修改内部值的 API。我们还将讨论 <em>引用循环</em>：它们如何导致内存泄漏以及如何防止它们。</p>
 <p data-x-en="Let’s dive in!">让我们开始吧！</p>

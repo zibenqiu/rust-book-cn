@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -468,18 +471,9 @@ fn main() {
 <p data-x-en="Once a closure has captured a reference or captured ownership of a value from the environment where the closure is defined (thus affecting what, if anything, is moved into the closure), the code in the body of the closure defines what happens to the references or values when the closure is evaluated later (thus affecting what, if anything, is moved out of the closure). A closure body can do any of the following: move a captured value out of the closure, mutate the captured value, neither move nor mutate the value, or capture nothing from the environment to begin with.">一旦闭包从定义闭包的环境中捕获了一个引用或捕获了值的所有权（从而影响了什么，如果有的话，被<em>移入</em>闭包），闭包体中的代码定义了在闭包稍后被求值时引用或值会发生什么（从而影响了什么，如果有的话，被<em>移出</em>闭包）。闭包体可以执行以下任何操作：将捕获的值移出闭包，修改捕获的值，既不移出也不修改值，或者从一开始就从环境中捕获任何内容。</p>
 <p data-x-en="The way a closure captures and handles values from the environment affects which traits the closure implements, and traits are how functions and structs can specify what kinds of closures they can use. Closures will automatically implement one, two, or all three of these Fn traits, in an additive fashion, depending on how the closure’s body handles the values:">闭包捕获和处理环境中的值的方式会影响闭包实现哪些特质，而特质是函数和结构体指定它们可以使用什么类型的闭包的方式。闭包会根据闭包体如何处理值，自动实现这一个、两个或全部三个<code>Fn</code>特质，以累加的方式。</p>
 <ol>
-<li><code>FnOnce</code> applies to closures that can be called once. All closures implement
-at least this trait, because all closures can be called. A closure that
-moves captured values out of its body will only implement <code>FnOnce</code> and none
-of the other <code>Fn</code> traits, because it can only be called once.</li>
-<li><code>FnMut</code> applies to closures that don’t move captured values out of their
-body, but that might mutate the captured values. These closures can be
-called more than once.</li>
-<li><code>Fn</code> applies to closures that don’t move captured values out of their body
-and that don’t mutate captured values, as well as closures that capture
-nothing from their environment. These closures can be called more than once
-without mutating their environment, which is important in cases such as
-calling a closure multiple times concurrently.</li>
+<li data-x-en="FnOnce applies to closures that can be called once. All closures implement at least this trait, because all closures can be called. A closure that moves captured values out of its body will only implement FnOnce and none of the other Fn traits, because it can only be called once."><code>FnOnce</code> 适用于只能调用一次的闭包。所有闭包至少实现了这个 trait，因为所有闭包都可以被调用。一个从其体内移出捕获值的闭包将只实现 <code>FnOnce</code> 而不实现其他任何 <code>Fn</code> trait，因为它只能被调用一次。</li>
+<li data-x-en="FnMut applies to closures that don’t move captured values out of their body, but that might mutate the captured values. These closures can be called more than once."><code>FnMut</code> 适用于不会将其捕获的值移出其作用域的闭包，但可能会修改捕获的值。这些闭包可以被调用多次。</li>
+<li data-x-en="Fn applies to closures that don’t move captured values out of their body and that don’t mutate captured values, as well as closures that capture nothing from their environment. These closures can be called more than once without mutating their environment, which is important in cases such as calling a closure multiple times concurrently."><code>Fn</code> 适用于不会将其捕获的值移出其作用域的闭包，以及不会修改其捕获的值的闭包，还包括不从其环境中捕获任何内容的闭包。这些闭包可以在不修改其环境的情况下多次调用，这在并发多次调用闭包的情况下非常重要。</li>
 </ol>
 <p data-x-en="Let’s look at the definition of the unwrap_or_else method on Option<T> that we used in Listing 13-1:">让我们看看我们在示例 13-1 中使用的 <code>Option&lt;T&gt;</code> 上的 <code>unwrap_or_else</code> 方法的定义：</p>
 <pre><code class="language-rust ignore">impl&lt;T&gt; Option&lt;T&gt; {

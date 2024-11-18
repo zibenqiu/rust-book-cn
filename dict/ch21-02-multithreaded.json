@@ -334,5 +334,41 @@
   "Turning Our Single-Threaded Server into a Multithreaded Server - The Rust Programming Language": {
     "_translate": "将我们的单线程服务器变成多线程服务器 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Define a Worker struct that holds an id and a JoinHandle<()>.": {
+    "_translate": "定义一个 <code>Worker</code> 结构体，其中包含一个 <code>id</code> 和一个 <code>JoinHandle&lt;()&gt;</code>。",
+    "_note": ""
+  },
+  "Change ThreadPool to hold a vector of Worker instances.": {
+    "_translate": "将 <code>ThreadPool</code> 更改为持有 <code>Worker</code> 实例的向量。",
+    "_note": ""
+  },
+  "Define a Worker::new function that takes an id number and returns a Worker instance that holds the id and a thread spawned with an empty closure.": {
+    "_translate": "定义一个 <code>Worker::new</code> 函数，该函数接受一个 <code>id</code> 编号，并返回一个持有 <code>id</code> 和使用空闭包创建的线程的 <code>Worker</code> 实例。",
+    "_note": ""
+  },
+  "The ThreadPool will create a channel and hold on to the sender.": {
+    "_translate": "<code>ThreadPool</code> 将创建一个通道并持有发送者。",
+    "_note": ""
+  },
+  "In ThreadPool::new, use the for loop counter to generate an id, create a new Worker with that id, and store the worker in the vector.": {
+    "_translate": "在 <code>ThreadPool::new</code> 中，使用 <code>for</code> 循环计数器生成一个 <code>id</code>，使用该 <code>id</code> 创建一个新的 <code>Worker</code>，并将工作线程存储在向量中。",
+    "_note": ""
+  },
+  "Each Worker will hold on to the receiver.": {
+    "_translate": "每个 <code>Worker</code> 都将持有接收者。",
+    "_note": ""
+  },
+  "We’ll create a new Job struct that will hold the closures we want to send down the channel.": {
+    "_translate": "我们将创建一个新的<code>Job</code>结构体，用于保存我们想要通过通道发送的闭包。",
+    "_note": ""
+  },
+  "The execute method will send the job it wants to execute through the sender.": {
+    "_translate": "<code>execute</code> 方法会通过发送者发送它想要执行的任务。",
+    "_note": ""
+  },
+  "In its thread, the Worker will loop over its receiver and execute the closures of any jobs it receives.": {
+    "_translate": "在其线程中，<code>Worker</code> 将在其接收器上循环并执行它收到的任何作业的闭包。",
+    "_note": ""
   }
 }

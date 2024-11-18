@@ -158,5 +158,25 @@
   "References and Borrowing - The Rust Programming Language": {
     "_translate": "引用和借用 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Two or more pointers access the same data at the same time.": {
+    "_translate": "两个或更多的指针同时访问相同的数据。",
+    "_note": ""
+  },
+  "At least one of the pointers is being used to write to the data.": {
+    "_translate": "至少有一个指针被用于写入数据。",
+    "_note": ""
+  },
+  "There’s no mechanism being used to synchronize access to the data.": {
+    "_translate": "没有使用任何机制来同步对数据的访问。",
+    "_note": ""
+  },
+  "At any given time, you can have either one mutable reference or any number of immutable references.": {
+    "_translate": "在任何时候，你可以有<em>要么</em>一个可变引用<em>或者</em>任意数量的不可变引用。",
+    "_note": ""
+  },
+  "References must always be valid.": {
+    "_translate": "引用必须始终有效。",
+    "_note": ""
   }
 }

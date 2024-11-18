@@ -282,5 +282,17 @@
   "Macros - The Rust Programming Language": {
     "_translate": "宏 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Custom #[derive] macros that specify code added with the derive attribute used on structs and enums": {
+    "_translate": "自定义 <code>#[derive]</code> 宏，用于指定通过 <code>derive</code> 属性添加到结构体和枚举上的代码",
+    "_note": ""
+  },
+  "Attribute-like macros that define custom attributes usable on any item": {
+    "_translate": "定义可用于任何项的自定义属性的属性类宏",
+    "_note": ""
+  },
+  "Function-like macros that look like function calls but operate on the tokens specified as their argument": {
+    "_translate": "看起来像函数调用但操作其参数指定的标记的函数式宏",
+    "_note": ""
   }
 }

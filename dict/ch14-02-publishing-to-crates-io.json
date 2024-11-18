@@ -246,5 +246,17 @@
   "Publishing a Crate to Crates.io - The Rust Programming Language": {
     "_translate": "发布 Crate 到 Crates.io - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Panics: The scenarios in which the function being documented could panic. Callers of the function who don’t want their programs to panic should make sure they don’t call the function in these situations.": {
+    "_translate": "<strong>恐慌</strong>: 该函数可能引发恐慌的情况。不希望程序恐慌的调用者应确保不在这些情况下调用该函数。",
+    "_note": ""
+  },
+  "Errors: If the function returns a Result, describing the kinds of errors that might occur and what conditions might cause those errors to be returned can be helpful to callers so they can write code to handle the different kinds of errors in different ways.": {
+    "_translate": "<strong>错误</strong>: 如果函数返回一个 <code>Result</code>，描述可能会发生哪些类型的错误以及哪些条件可能导致这些错误的发生，对于调用者来说是有帮助的，这样他们可以编写代码以不同方式处理不同类型的错误。",
+    "_note": ""
+  },
+  "Safety: If the function is unsafe to call (we discuss unsafety in Chapter 20), there should be a section explaining why the function is unsafe and covering the invariants that the function expects callers to uphold.": {
+    "_translate": "<strong>安全性</strong>: 如果函数调用是<code>不安全的</code>（我们在第20章中讨论不安全性），应该有一个部分解释为什么该函数是不安全的，并涵盖函数期望调用者维护的不变性。",
+    "_note": ""
   }
 }

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -232,9 +235,8 @@ blockquote {
 <p data-x-en="Mutex is an abbreviation for mutual exclusion, as in, a mutex allows only one thread to access some data at any given time. To access the data in a mutex, a thread must first signal that it wants access by asking to acquire the mutex’s lock. The lock is a data structure that is part of the mutex that keeps track of who currently has exclusive access to the data. Therefore, the mutex is described as guarding the data it holds via the locking system."><em>Mutex</em> 是 <em>互斥</em> 的缩写，也就是说，一个 mutex 只允许一个线程在任何时候访问某些数据。要访问 mutex 中的数据，线程必须首先通过请求获取 mutex 的 <em>锁</em> 来表明它希望访问。锁是 mutex 的一部分，是一个跟踪谁当前拥有数据独占访问权的数据结构。因此，mutex 通过锁定系统 <em>保护</em> 它持有的数据。</p>
 <p data-x-en="Mutexes have a reputation for being difficult to use because you have to remember two rules:">Mutexes 有 Reputation 为难以使用，因为您必须记住两条规则：</p>
 <ul>
-<li>You must attempt to acquire the lock before using the data.</li>
-<li>When you’re done with the data that the mutex guards, you must unlock the
-data so other threads can acquire the lock.</li>
+<li data-x-en="You must attempt to acquire the lock before using the data.">您必须在使用数据之前尝试获取锁。</li>
+<li data-x-en="When you’re done with the data that the mutex guards, you must unlock the data so other threads can acquire the lock.">当你完成对互斥锁保护的数据的操作后，必须解锁数据，以便其他线程可以获取锁。</li>
 </ul>
 <p data-x-en="For a real-world metaphor for a mutex, imagine a panel discussion at a conference with only one microphone. Before a panelist can speak, they have to ask or signal that they want to use the microphone. When they get the microphone, they can talk for as long as they want to and then hand the microphone to the next panelist who requests to speak. If a panelist forgets to hand the microphone off when they’re finished with it, no one else is able to speak. If management of the shared microphone goes wrong, the panel won’t work as planned!">为了将互斥锁比喻成现实生活中的例子，想象一下在会议上的一个小组讨论，只有一个麦克风。在小组成员可以发言之前，他们必须请求或示意他们想要使用麦克风。当他们拿到麦克风时，他们可以随心所欲地讲话，然后将麦克风交给下一个请求发言的小组成员。如果一个小组成员在完成发言后忘记传递麦克风，其他人就无法发言。如果共享麦克风的管理出现问题，小组讨论将无法按计划进行！</p>
 <p data-x-en="Management of mutexes can be incredibly tricky to get right, which is why so many people are enthusiastic about channels. However, thanks to Rust’s type system and ownership rules, you can’t get locking and unlocking wrong.">管理互斥锁可能非常棘手，这就是为什么那么多人对通道充满热情。然而，得益于 Rust 的类型系统和所有权规则，你不会把加锁和解锁弄错。</p>

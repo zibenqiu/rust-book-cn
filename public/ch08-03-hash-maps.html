@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -369,18 +372,9 @@ Blue: 10
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="Vectors, strings, and hash maps will provide a large amount of functionality necessary in programs when you need to store, access, and modify data. Here are some exercises you should now be equipped to solve:">向量、字符串和哈希映射将在你需要存储、访问和修改数据的程序中提供大量必要的功能。这里有一些你现在应该能够解决的练习：</p>
 <ol>
-<li>Given a list of integers, use a vector and return the median (when sorted,
-the value in the middle position) and mode (the value that occurs most
-often; a hash map will be helpful here) of the list.</li>
-<li>Convert strings to pig latin. The first consonant of each word is moved to
-the end of the word and <em>ay</em> is added, so <em>first</em> becomes <em>irst-fay</em>. Words
-that start with a vowel have <em>hay</em> added to the end instead (<em>apple</em> becomes
-<em>apple-hay</em>). Keep in mind the details about UTF-8 encoding!</li>
-<li>Using a hash map and vectors, create a text interface to allow a user to add
-employee names to a department in a company; for example, “Add Sally to
-Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all
-people in a department or all people in the company by department, sorted
-alphabetically.</li>
+<li data-x-en="Given a list of integers, use a vector and return the median (when sorted, the value in the middle position) and mode (the value that occurs most often; a hash map will be helpful here) of the list.">给定一个整数列表，使用向量并返回列表的中位数（排序后中间位置的值）和众数（出现次数最多的值；这里使用哈希映射会有帮助）。</li>
+<li data-x-en="Convert strings to pig latin. The first consonant of each word is moved to the end of the word and ay is added, so first becomes irst-fay. Words that start with a vowel have hay added to the end instead (apple becomes apple-hay). Keep in mind the details about UTF-8 encoding!">将字符串转换为猪拉丁文。每个单词的第一个辅音移到单词的末尾，并加上<em>ay</em>，所以<em>first</em>变成<em>irst-fay</em>。以元音开头的单词在末尾加上<em>hay</em>（<em>apple</em>变成<em>apple-hay</em>）。请记住UTF-8编码的细节！</li>
+<li data-x-en="Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company; for example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.">使用哈希映射和向量，创建一个文本界面，允许用户将员工姓名添加到公司的部门中；例如，“将 Sally 添加到工程部”或“将 Amir 添加到销售部”。然后让用户检索某个部门中所有人员的列表或按部门排序的公司中所有人员的列表，按字母顺序排列。</li>
 </ol>
 <p data-x-en="The standard library API documentation describes methods that vectors, strings, and hash maps have that will be helpful for these exercises!">标准库 API 文档描述了向量、字符串和哈希映射具有的方法，这些方法对这些练习将有所帮助！</p>
 <p data-x-en="We’re getting into more complex programs in which operations can fail, so it’s a perfect time to discuss error handling. We’ll do that next!">我们正在进入更复杂的程序，在这些程序中操作可能会失败，因此现在是讨论错误处理的绝佳时机。我们接下来就来做这件事！</p>

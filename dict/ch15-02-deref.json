@@ -170,5 +170,17 @@
   "Treating Smart Pointers Like Regular References with the Deref Trait - The Rust Programming Language": {
     "_translate": "将智能指针像常规引用一样处理 - 使用 Deref 特性 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "From &T to &U when T: Deref<Target=U>": {
+    "_translate": "从 <code>&amp;T</code> 到 <code>&amp;U</code> 当 <code>T: Deref&lt;Target=U&gt;</code>",
+    "_note": ""
+  },
+  "From &mut T to &mut U when T: DerefMut<Target=U>": {
+    "_translate": "从 <code>&amp;mut T</code> 到 <code>&amp;mut U</code> 当 <code>T: DerefMut&lt;Target=U&gt;</code>",
+    "_note": ""
+  },
+  "From &mut T to &U when T: Deref<Target=U>": {
+    "_translate": "从 <code>&amp;mut T</code> 到 <code>&amp;U</code> 当 <code>T: Deref&lt;Target=U&gt;</code>",
+    "_note": ""
   }
 }

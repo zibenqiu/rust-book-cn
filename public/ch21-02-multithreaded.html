@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -627,13 +630,10 @@ impl ThreadPool {
 <p data-x-en="Instead of storing a vector of JoinHandle<()> instances in the thread pool, we’ll store instances of the Worker struct. Each Worker will store a single JoinHandle<()> instance. Then we’ll implement a method on Worker that will take a closure of code to run and send it to the already running thread for execution. We’ll also give each worker an id so we can distinguish between the different workers in the pool when logging or debugging.">而不是在线程池中存储 <code>JoinHandle&lt;()&gt;</code> 实例的向量，我们将存储 <code>Worker</code> 结构的实例。每个 <code>Worker</code> 将存储一个 <code>JoinHandle&lt;()&gt;</code> 实例。然后我们将在 <code>Worker</code> 上实现一个方法，该方法将接受一个要运行的闭包代码，并将其发送到已经运行的线程中执行。我们还将给每个工作线程一个 <code>id</code>，以便在日志记录或调试时区分池中的不同工作线程。</p>
 <p data-x-en="Here is the new process that will happen when we create a ThreadPool. We’ll implement the code that sends the closure to the thread after we have Worker set up in this way:">这是我们将要在创建<code>ThreadPool</code>时发生的新流程。我们将在<code>Worker</code>以这种方式设置好之后，实现将闭包发送到线程的代码。</p>
 <ol>
-<li>Define a <code>Worker</code> struct that holds an <code>id</code> and a <code>JoinHandle&lt;()&gt;</code>.</li>
-<li>Change <code>ThreadPool</code> to hold a vector of <code>Worker</code> instances.</li>
-<li>Define a <code>Worker::new</code> function that takes an <code>id</code> number and returns a
-<code>Worker</code> instance that holds the <code>id</code> and a thread spawned with an empty
-closure.</li>
-<li>In <code>ThreadPool::new</code>, use the <code>for</code> loop counter to generate an <code>id</code>, create
-a new <code>Worker</code> with that <code>id</code>, and store the worker in the vector.</li>
+<li data-x-en="Define a Worker struct that holds an id and a JoinHandle<()>.">定义一个 <code>Worker</code> 结构体，其中包含一个 <code>id</code> 和一个 <code>JoinHandle&lt;()&gt;</code>。</li>
+<li data-x-en="Change ThreadPool to hold a vector of Worker instances.">将 <code>ThreadPool</code> 更改为持有 <code>Worker</code> 实例的向量。</li>
+<li data-x-en="Define a Worker::new function that takes an id number and returns a Worker instance that holds the id and a thread spawned with an empty closure.">定义一个 <code>Worker::new</code> 函数，该函数接受一个 <code>id</code> 编号，并返回一个持有 <code>id</code> 和使用空闭包创建的线程的 <code>Worker</code> 实例。</li>
+<li data-x-en="In ThreadPool::new, use the for loop counter to generate an id, create a new Worker with that id, and store the worker in the vector.">在 <code>ThreadPool::new</code> 中，使用 <code>for</code> 循环计数器生成一个 <code>id</code>，使用该 <code>id</code> 创建一个新的 <code>Worker</code>，并将工作线程存储在向量中。</li>
 </ol>
 <p data-x-en="If you’re up for a challenge, try implementing these changes on your own before looking at the code in Listing 21-15.">如果您喜欢挑战，可以尝试在查看清单 21-15 中的代码之前自己实现这些更改。</p>
 <p data-x-en="Ready? Here is Listing 21-15 with one way to make the preceding modifications.">准备好？以下是带有其中一种方法的清单 21-15，用于进行上述修改。</p>
@@ -699,14 +699,11 @@ impl Worker {
 <p data-x-en="We want the Worker structs that we just created to fetch the code to run from a queue held in the ThreadPool and send that code to its thread to run.">我们希望我们刚刚创建的<code>Worker</code>结构体能够从<code>ThreadPool</code>中持有的队列中获取要运行的代码，并将该代码发送到其线程以运行。</p>
 <p data-x-en="The channels we learned about in Chapter 16—a simple way to communicate between two threads—would be perfect for this use case. We’ll use a channel to function as the queue of jobs, and execute will send a job from the ThreadPool to the Worker instances, which will send the job to its thread. Here is the plan:">我们在第16章中学到的通道——一种在两个线程之间进行简单通信的方式——非常适合这种情况。我们将使用一个通道作为作业队列，<code>execute</code> 将从 <code>ThreadPool</code> 向 <code>Worker</code> 实例发送作业，后者将作业发送到其线程。以下是计划：</p>
 <ol>
-<li>The <code>ThreadPool</code> will create a channel and hold on to the sender.</li>
-<li>Each <code>Worker</code> will hold on to the receiver.</li>
-<li>We’ll create a new <code>Job</code> struct that will hold the closures we want to send
-down the channel.</li>
-<li>The <code>execute</code> method will send the job it wants to execute through the
-sender.</li>
-<li>In its thread, the <code>Worker</code> will loop over its receiver and execute the
-closures of any jobs it receives.</li>
+<li data-x-en="The ThreadPool will create a channel and hold on to the sender."><code>ThreadPool</code> 将创建一个通道并持有发送者。</li>
+<li data-x-en="Each Worker will hold on to the receiver.">每个 <code>Worker</code> 都将持有接收者。</li>
+<li data-x-en="We’ll create a new Job struct that will hold the closures we want to send down the channel.">我们将创建一个新的<code>Job</code>结构体，用于保存我们想要通过通道发送的闭包。</li>
+<li data-x-en="The execute method will send the job it wants to execute through the sender."><code>execute</code> 方法会通过发送者发送它想要执行的任务。</li>
+<li data-x-en="In its thread, the Worker will loop over its receiver and execute the closures of any jobs it receives.">在其线程中，<code>Worker</code> 将在其接收器上循环并执行它收到的任何作业的闭包。</li>
 </ol>
 <p data-x-en="Let’s start by creating a channel in ThreadPool::new and holding the sender in the ThreadPool instance, as shown in Listing 21-16. The Job struct doesn’t hold anything for now but will be the type of item we’re sending down the channel.">让我们先在 <code>ThreadPool::new</code> 中创建一个通道，并在 <code>ThreadPool</code> 实例中持有发送者，如清单 21-16 所示。<code>Job</code> 结构体目前不持有任何内容，但将是我们在通道中发送的项的类型。</p>
 <figure class="listing">

@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -308,11 +311,8 @@ blockquote {
 <p data-x-en="Tasks then give additional control over futures, allowing you to choose where and how to group the futures. And it turns out that threads and tasks often work very well together, because tasks can (at least in some runtimes) be moved around between threads. We haven’t mentioned it up until now, but under the hood the Runtime we have been using, including the spawn_blocking and spawn_task functions, is multithreaded by default! Many runtimes use an approach called work stealing to transparently move tasks around between threads based on the current utilization of the threads, with the aim of improving the overall performance of the system. To build that actually requires threads and tasks, and therefore futures.">任务然后提供对未来的<em>额外</em>控制，允许你选择在哪里以及如何分组未来的任务。事实证明，线程和任务通常可以很好地一起工作，因为任务（至少在某些运行时中）可以在线程之间移动。直到现在我们还没有提到，但我们在使用的<code>Runtime</code>，包括<code>spawn_blocking</code>和<code>spawn_task</code>函数，默认情况下是多线程的！许多运行时使用一种称为<em>工作窃取</em>的方法，根据线程的当前利用率透明地在各线程之间移动任务，以提高系统的整体性能。构建这一点实际上需要线程<em>和</em>任务，因此需要未来的任务。</p>
 <p data-x-en="As a default way of thinking about which to use when:">作为默认的思维方式，关于何时使用哪个：</p>
 <ul>
-<li>If the work is <em>very parallelizable</em>, such as processing a bunch of data where
-each part can be processed separately, threads are a better choice.</li>
-<li>If the work is <em>very concurrent</em>, such as handling messages from a bunch of
-different sources which may come in a different intervals or different rates,
-async is a better choice.</li>
+<li data-x-en="If the work is very parallelizable, such as processing a bunch of data where each part can be processed separately, threads are a better choice.">如果工作是<em>非常并行的</em>，比如处理可以分别处理的数据集，线程是更好的选择。</li>
+<li data-x-en="If the work is very concurrent, such as handling messages from a bunch of different sources which may come in a different intervals or different rates, async is a better choice.">如果工作是<em>非常并发的</em>，例如处理来自许多不同来源的消息，这些消息可能以不同的间隔或不同的速率到达，那么异步是一个更好的选择。</li>
 </ul>
 <p data-x-en="And if you need some mix of parallelism and concurrency, you don’t have to choose between threads and async. You can use them together freely, letting each one serve the part it is best at. For example, Listing 17-42 shows a fairly common example of this kind of mix in real-world Rust code.">而且，如果你需要一些并行性和并发性的混合，你不必在线程和异步之间做出选择。你可以自由地将它们一起使用，让每个部分发挥其最擅长的作用。例如，列表 17-42 展示了这种混合在实际的 Rust 代码中一个相当常见的例子。</p>
 <figure class="listing">

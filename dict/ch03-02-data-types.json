@@ -206,5 +206,21 @@
   "Data Types - The Rust Programming Language": {
     "_translate": "数据类型 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Wrap in all modes with the wrapping_* methods, such as wrapping_add.": {
+    "_translate": "在所有模式下使用 <code>wrapping_*</code> 方法进行包装，例如 <code>wrapping_add</code>。",
+    "_note": ""
+  },
+  "Return the None value if there is overflow with the checked_* methods.": {
+    "_translate": "如果使用 <code>checked_*</code> 方法时发生溢出，则返回 <code>None</code> 值。",
+    "_note": ""
+  },
+  "Return the value and a boolean indicating whether there was overflow with the overflowing_* methods.": {
+    "_translate": "返回值和一个布尔值，指示是否发生了溢出，使用 <code>overflowing_*</code> 方法。",
+    "_note": ""
+  },
+  "Saturate at the value’s minimum or maximum values with the saturating_* methods.": {
+    "_translate": "使用 <code>saturating_*</code> 方法在值的最小值或最大值处饱和。",
+    "_note": ""
   }
 }

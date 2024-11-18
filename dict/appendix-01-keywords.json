@@ -58,5 +58,213 @@
   "A - Keywords - The Rust Programming Language": {
     "_translate": "A - 关键字 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "as - perform primitive casting, disambiguate the specific trait containing an item, or rename items in use statements": {
+    "_translate": "<code>as</code> - 执行原始类型转换，区分包含某个项的具体特征，或在 <code>use</code> 语句中重命名项",
+    "_note": ""
+  },
+  "async - return a Future instead of blocking the current thread": {
+    "_translate": "<code>async</code> - 返回一个 <code>Future</code> 而不是阻塞当前线程",
+    "_note": ""
+  },
+  "await - suspend execution until the result of a Future is ready": {
+    "_translate": "<code>await</code> - 暂停执行，直到 <code>Future</code> 的结果准备就绪",
+    "_note": ""
+  },
+  "break - exit a loop immediately": {
+    "_translate": "<code>break</code> - 立即退出循环",
+    "_note": ""
+  },
+  "const - define constant items or constant raw pointers": {
+    "_translate": "<code>const</code> - 定义常量项或常量原始指针",
+    "_note": ""
+  },
+  "continue - continue to the next loop iteration": {
+    "_translate": "<code>continue</code> - 继续下一次循环迭代",
+    "_note": ""
+  },
+  "crate - in a module path, refers to the crate root": {
+    "_translate": "<code>crate</code> - 在模块路径中，指的是 crate 根",
+    "_note": ""
+  },
+  "dyn - dynamic dispatch to a trait object": {
+    "_translate": "<code>dyn</code> - 动态分发到特征对象",
+    "_note": ""
+  },
+  "enum - define an enumeration": {
+    "_translate": "<code>enum</code> - 定义一个枚举",
+    "_note": ""
+  },
+  "else - fallback for if and if let control flow constructs": {
+    "_translate": "<code>else</code> - <code>if</code> 和 <code>if let</code> 控制流结构的回退选项",
+    "_note": ""
+  },
+  "extern - link an external function or variable": {
+    "_translate": "<code>extern</code> - 链接外部函数或变量",
+    "_note": ""
+  },
+  "false - Boolean false literal": {
+    "_translate": "<code>false</code> - 布尔假字面值",
+    "_note": ""
+  },
+  "fn - define a function or the function pointer type": {
+    "_translate": "<code>fn</code> - 定义一个函数或函数指针类型",
+    "_note": ""
+  },
+  "if - branch based on the result of a conditional expression": {
+    "_translate": "<code>if</code> - 根据条件表达式的结果进行分支",
+    "_note": ""
+  },
+  "for - loop over items from an iterator, implement a trait, or specify a higher-ranked lifetime": {
+    "_translate": "<code>for</code> - 遍历来自迭代器的项，实现一个特质，或指定一个高阶生命周期",
+    "_note": ""
+  },
+  "impl - implement inherent or trait functionality": {
+    "_translate": "<code>impl</code> - 实现固有或特征功能",
+    "_note": ""
+  },
+  "in - part of for loop syntax": {
+    "_translate": "<code>in</code> - <code>for</code> 循环语法的一部分",
+    "_note": ""
+  },
+  "loop - loop unconditionally": {
+    "_translate": "<code>loop</code> - 无条件循环",
+    "_note": ""
+  },
+  "let - bind a variable": {
+    "_translate": "<code>let</code> - 绑定一个变量",
+    "_note": ""
+  },
+  "match - match a value to patterns": {
+    "_translate": "<code>match</code> - 将值与模式匹配",
+    "_note": ""
+  },
+  "mod - define a module": {
+    "_translate": "<code>mod</code> - 定义一个模块",
+    "_note": ""
+  },
+  "move - make a closure take ownership of all its captures": {
+    "_translate": "<code>move</code> - 使闭包拥有其所有捕获的变量",
+    "_note": ""
+  },
+  "mut - denote mutability in references, raw pointers, or pattern bindings": {
+    "_translate": "<code>mut</code> - 在引用、原始指针或模式绑定中表示可变性",
+    "_note": ""
+  },
+  "ref - bind by reference": {
+    "_translate": "<code>ref</code> - 按引用绑定",
+    "_note": ""
+  },
+  "pub - denote public visibility in struct fields, impl blocks, or modules": {
+    "_translate": "<code>pub</code> - 表示结构体字段、<code>impl</code> 块或模块的公共可见性",
+    "_note": ""
+  },
+  "return - return from function": {
+    "_translate": "<code>return</code> - 从函数返回",
+    "_note": ""
+  },
+  "Self - a type alias for the type we are defining or implementing": {
+    "_translate": "<code>Self</code> - 一个类型别名，用于我们正在定义或实现的类型。",
+    "_note": ""
+  },
+  "static - global variable or lifetime lasting the entire program execution": {
+    "_translate": "<code>static</code> - 全局变量或持续整个程序执行的生命周期",
+    "_note": ""
+  },
+  "self - method subject or current module": {
+    "_translate": "<code>self</code> - 方法主体或当前模块",
+    "_note": ""
+  },
+  "struct - define a structure": {
+    "_translate": "<code>struct</code> - 定义一个结构",
+    "_note": ""
+  },
+  "super - parent module of the current module": {
+    "_translate": "<code>super</code> - 当前模块的父模块",
+    "_note": ""
+  },
+  "trait - define a trait": {
+    "_translate": "<code>trait</code> - 定义一个特质",
+    "_note": ""
+  },
+  "true - Boolean true literal": {
+    "_translate": "<code>true</code> - 布尔真值字面量",
+    "_note": ""
+  },
+  "type - define a type alias or associated type": {
+    "_translate": "<code>type</code> - 定义类型别名或关联类型",
+    "_note": ""
+  },
+  "union - define a union; is only a keyword when used in a union declaration": {
+    "_translate": "<code>union</code> - 定义一个 <a href=\"../reference/items/unions.html\">联合体</a><!-- ignore -->; 仅在用于联合体声明时才是关键字",
+    "_note": ""
+  },
+  "unsafe - denote unsafe code, functions, traits, or implementations": {
+    "_translate": "<code>unsafe</code> - 表示不安全的代码、函数、特质或实现",
+    "_note": ""
+  },
+  "use - bring symbols into scope": {
+    "_translate": "<code>use</code> - 将符号引入作用域",
+    "_note": ""
+  },
+  "where - denote clauses that constrain a type": {
+    "_translate": "<code>where</code> - 表示限制类型的子句",
+    "_note": ""
+  },
+  "while - loop conditionally based on the result of an expression": {
+    "_translate": "<code>while</code> - 根据表达式的结果有条件地循环",
+    "_note": ""
+  },
+  "abstract": {
+    "_translate": "<code>抽象</code>",
+    "_note": ""
+  },
+  "become": {
+    "_translate": "<code>成为</code>",
+    "_note": ""
+  },
+  "box": {
+    "_translate": "<code>box</code>",
+    "_note": ""
+  },
+  "do": {
+    "_translate": "<code>执行</code>",
+    "_note": ""
+  },
+  "final": {
+    "_translate": "<code>最终</code>",
+    "_note": ""
+  },
+  "macro": {
+    "_translate": "<code>宏</code>",
+    "_note": ""
+  },
+  "override": {
+    "_translate": "<code>覆盖</code>",
+    "_note": ""
+  },
+  "priv": {
+    "_translate": "<code>私</code>",
+    "_note": ""
+  },
+  "try": {
+    "_translate": "<code>尝试</code>",
+    "_note": ""
+  },
+  "typeof": {
+    "_translate": "<code>typeof</code>",
+    "_note": ""
+  },
+  "unsized": {
+    "_translate": "<code>未定大小</code>",
+    "_note": ""
+  },
+  "yield": {
+    "_translate": "<code>yield</code>",
+    "_note": ""
+  },
+  "virtual": {
+    "_translate": "<code>虚拟</code>",
+    "_note": ""
   }
 }

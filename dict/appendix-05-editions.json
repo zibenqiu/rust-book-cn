@@ -46,5 +46,17 @@
   "E - Editions - The Rust Programming Language": {
     "_translate": "E - 版本 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "For active Rust users, a new edition brings together incremental changes into an easy-to-understand package.": {
+    "_translate": "对于活跃的 Rust 用户来说，新版将增量更改整合成一个易于理解的包。",
+    "_note": ""
+  },
+  "For non-users, a new edition signals that some major advancements have landed, which might make Rust worth another look.": {
+    "_translate": "对于非用户来说，新版本的发布意味着一些重大进展已经实现，这可能使 Rust 值得再次关注。",
+    "_note": ""
+  },
+  "For those developing Rust, a new edition provides a rallying point for the project as a whole.": {
+    "_translate": "对于那些开发 Rust 的人来说，新版本为整个项目提供了一个集结点。",
+    "_note": ""
   }
 }

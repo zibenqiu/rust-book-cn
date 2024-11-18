@@ -150,5 +150,13 @@
   "Functions - The Rust Programming Language": {
     "_translate": "函数 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Statements are instructions that perform some action and do not return a value.": {
+    "_translate": "<strong>语句</strong>是执行某些操作的指令，不会返回值。",
+    "_note": ""
+  },
+  "Expressions evaluate to a resultant value. Let’s look at some examples.": {
+    "_translate": "<strong>表达式</strong> 会计算出一个结果值。让我们来看一些例子。",
+    "_note": ""
   }
 }

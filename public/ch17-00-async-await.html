@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -265,11 +268,9 @@ println!("{data}");</code></pre>
 <p data-x-en="When working with async in Rust, we’re always dealing with concurrency. Depending on the hardware, the operating system, and the async runtime we are using—more on async runtimes shortly!—that concurrency may also use parallelism under the hood.">当在 Rust 中使用 async 时，我们总是在处理并发。根据硬件、操作系统以及我们使用的异步运行时——稍后会详细介绍异步运行时！——这种并发在底层也可能使用并行。</p>
 <p data-x-en="Now, let’s dive into how async programming in Rust actually works! In the rest of this chapter, we will:">现在，让我们深入探讨 Rust 中的异步编程实际上是如何工作的！在本章的其余部分，我们将：</p>
 <ul>
-<li>see how to use Rust’s <code>async</code> and <code>await</code> syntax</li>
-<li>explore how to use the async model to solve some of the same challenges we
-looked at in Chapter 16</li>
-<li>look at how multithreading and async provide complementary solutions, which
-you can even use together in many cases</li>
+<li data-x-en="see how to use Rust’s async and await syntax">了解如何使用 Rust 的 <code>async</code> 和 <code>await</code> 语法</li>
+<li data-x-en="explore how to use the async model to solve some of the same challenges we looked at in Chapter 16">探索如何使用异步模型来解决我们在第16章中讨论的一些相同挑战</li>
+<li data-x-en="look at how multithreading and async provide complementary solutions, which you can even use together in many cases">看看多线程和异步如何提供互补的解决方案，你甚至可以在许多情况下将它们一起使用。</li>
 </ul>
 
                     </main>

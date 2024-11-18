@@ -10,5 +10,89 @@
   "F - Translations of the Book - The Rust Programming Language": {
     "_translate": "F - 书籍的翻译 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Português (BR)": {
+    "_translate": "<a href=\"https://github.com/rust-br/rust-book-pt-br\">葡萄牙语</a> (巴西)",
+    "_note": ""
+  },
+  "Português (PT)": {
+    "_translate": "<a href=\"https://github.com/nunojesus/rust-book-pt-pt\">葡萄牙语</a> (PT)",
+    "_note": ""
+  },
+  "简体中文": {
+    "_translate": "<a href=\"https://github.com/KaiserY/trpl-zh-cn\">简体中文</a>",
+    "_note": ""
+  },
+  "正體中文": {
+    "_translate": "<a href=\"https://github.com/rust-tw/book-tw\">简体中文</a>",
+    "_note": ""
+  },
+  "Українська": {
+    "_translate": "<a href=\"https://rust-lang-ua.github.io/rustbook_ukrainian\">乌克兰语</a>",
+    "_note": ""
+  },
+  "Русский": {
+    "_translate": "<a href=\"https://github.com/rust-lang-ru/book\">中文</a>",
+    "_note": ""
+  },
+  "Español, alternate": {
+    "_translate": "<a href=\"https://github.com/thecodix/book\">西班牙语</a>, <a href=\"https://github.com/ManRR/rust-book-es\">备用</a>",
+    "_note": ""
+  },
+  "한국어": {
+    "_translate": "<a href=\"https://github.com/rinthel/rust-lang-book-ko\">中文</a>",
+    "_note": ""
+  },
+  "日本語": {
+    "_translate": "<a href=\"https://github.com/rust-lang-ja/book-ja\">日语</a>",
+    "_note": ""
+  },
+  "Français": {
+    "_translate": "<a href=\"https://github.com/Jimskapt/rust-book-fr\">法语</a>",
+    "_note": ""
+  },
+  "Polski": {
+    "_translate": "<a href=\"https://github.com/paytchoo/book-pl\">波兰语</a>",
+    "_note": ""
+  },
+  "Cebuano": {
+    "_translate": "<a href=\"https://github.com/agentzero1/book\">宿务语</a>",
+    "_note": ""
+  },
+  "Tagalog": {
+    "_translate": "<a href=\"https://github.com/josephace135/book\">菲律宾语</a>",
+    "_note": ""
+  },
+  "Esperanto": {
+    "_translate": "<a href=\"https://github.com/psychoslave/Rust-libro\">世界语</a>",
+    "_note": ""
+  },
+  "ελληνική": {
+    "_translate": "<a href=\"https://github.com/TChatzigiannakis/rust-book-greek\">希腊语</a>",
+    "_note": ""
+  },
+  "Svenska": {
+    "_translate": "<a href=\"https://github.com/sebras/book\">瑞典语</a>",
+    "_note": ""
+  },
+  "Farsi": {
+    "_translate": "<a href=\"https://github.com/RustFarsi/book\">波斯语</a>",
+    "_note": ""
+  },
+  "Deutsch": {
+    "_translate": "<a href=\"https://github.com/rust-lang-de/rustbook-de\">德语</a>",
+    "_note": ""
+  },
+  "हिंदी": {
+    "_translate": "<a href=\"https://github.com/venkatarun95/rust-book-hindi\">中文</a>",
+    "_note": ""
+  },
+  "ไทย": {
+    "_translate": "<a href=\"https://github.com/rust-lang-th/book-th\">泰语</a>",
+    "_note": ""
+  },
+  "Danske": {
+    "_translate": "<a href=\"https://github.com/DanKHansen/book-dk\">丹麦语</a>",
+    "_note": ""
   }
 }

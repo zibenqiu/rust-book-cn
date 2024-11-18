@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -374,10 +377,10 @@ enum IpAddr {
 </figure>
 <p data-x-en="This enum has four variants with different types:">这个枚举有四个不同类型的变体：</p>
 <ul>
-<li><code>Quit</code> has no data associated with it at all.</li>
-<li><code>Move</code> has named fields, like a struct does.</li>
-<li><code>Write</code> includes a single <code>String</code>.</li>
-<li><code>ChangeColor</code> includes three <code>i32</code> values.</li>
+<li data-x-en="Quit has no data associated with it at all."><code>Quit</code> 没有任何与之关联的数据。</li>
+<li data-x-en="Move has named fields, like a struct does."><code>Move</code> 有命名字段，就像结构体一样。</li>
+<li data-x-en="Write includes a single String."><code>Write</code> 包含一个 <code>String</code>。</li>
+<li data-x-en="ChangeColor includes three i32 values."><code>ChangeColor</code> 包含三个 <code>i32</code> 值。</li>
 </ul>
 <p data-x-en="Defining an enum with variants such as the ones in Listing 6-2 is similar to defining different kinds of struct definitions, except the enum doesn’t use the struct keyword and all the variants are grouped together under the Message type. The following structs could hold the same data that the preceding enum variants hold:">定义如清单 6-2 中的枚举变体类似于定义不同类型的结构体，不同之处在于枚举不使用 <code>struct</code> 关键字，并且所有变体都归类在 <code>Message</code> 类型下。以下结构体可以持有与前面枚举变体相同的數據：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">struct QuitMessage; // unit struct

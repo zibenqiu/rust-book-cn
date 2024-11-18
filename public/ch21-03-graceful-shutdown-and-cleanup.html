@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -1037,13 +1040,11 @@ impl Worker {
 </figure>
 <p data-x-en="We could do more here! If you want to continue enhancing this project, here are some ideas:">我们还可以做得更多！如果您想继续增强这个项目，这里有一些想法：</p>
 <ul>
-<li>Add more documentation to <code>ThreadPool</code> and its public methods.</li>
-<li>Add tests of the library’s functionality.</li>
-<li>Change calls to <code>unwrap</code> to more robust error handling.</li>
-<li>Use <code>ThreadPool</code> to perform some task other than serving web requests.</li>
-<li>Find a thread pool crate on <a href="https://crates.io/">crates.io</a> and implement a
-similar web server using the crate instead. Then compare its API and
-robustness to the thread pool we implemented.</li>
+<li data-x-en="Add more documentation to ThreadPool and its public methods.">为 <code>ThreadPool</code> 及其公共方法添加更多文档。</li>
+<li data-x-en="Add tests of the library’s functionality.">添加测试以检验库的功能。</li>
+<li data-x-en="Change calls to unwrap to more robust error handling.">将 <code>unwrap</code> 的调用更改为更健壮的错误处理。</li>
+<li data-x-en="Use ThreadPool to perform some task other than serving web requests.">使用 <code>ThreadPool</code> 执行除处理网页请求之外的某些任务。</li>
+<li data-x-en="Find a thread pool crate on crates.io and implement a similar web server using the crate instead. Then compare its API and robustness to the thread pool we implemented.">在<a href="https://crates.io/">crates.io</a>上找到一个线程池库，并使用该库实现一个类似的Web服务器。然后将其API和健壮性与我们实现的线程池进行比较。</li>
 </ul>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="Well done! You’ve made it to the end of the book! We want to thank you for joining us on this tour of Rust. You’re now ready to implement your own Rust projects and help with other peoples’ projects. Keep in mind that there is a welcoming community of other Rustaceans who would love to help you with any challenges you encounter on your Rust journey."><p>干得好！你已经到达了这本书的结尾！我们要感谢你加入我们这次的Rust之旅。你现在可以开始实现自己的Rust项目，并帮助其他人的项目。请记住，有一个欢迎的Rustaceans社区，他们很乐意在你的Rust之旅中遇到的任何挑战时帮助你。</p></p>

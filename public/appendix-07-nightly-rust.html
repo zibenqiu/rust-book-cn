@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -232,9 +235,9 @@ blockquote {
 <h3 id="choo-choo-release-channels-and-riding-the-trains"><a class="header" href="#choo-choo-release-channels-and-riding-the-trains">嘟，嘟！发布渠道和乘坐火车</a></h3>
 <p data-x-en="Rust development operates on a train schedule. That is, all development is done on the master branch of the Rust repository. Releases follow a software release train model, which has been used by Cisco IOS and other software projects. There are three release channels for Rust:">Rust 开发遵循 <em>列车时间表</em>。也就是说，所有开发都在 Rust 仓库的 <code>master</code> 分支上进行。发布遵循软件发布列车模型，该模型已被 Cisco IOS 和其他软件项目使用。Rust 有三个 <em>发布渠道</em>：</p>
 <ul>
-<li>Nightly</li>
-<li>Beta</li>
-<li>Stable</li>
+<li data-x-en="Nightly">好的，我明白了。请提供您需要翻译的源文本。</li>
+<li data-x-en="Beta">Beta，直接输出翻译内容，不要添加任何额外的文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！</li>
+<li data-x-en="Stable">稳定的，直接输出翻译内容，不添加任何额外的文本。绝对不要添加原文中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！</li>
 </ul>
 <p data-x-en="Most Rust developers primarily use the stable channel, but those who want to try out experimental new features may use nightly or beta.">大多数 Rust 开发者主要使用稳定通道，但那些想要尝试实验性新功能的人可能会使用 nightly 或 beta。</p>
 <p data-x-en="Here’s an example of how the development and release process works: let’s assume that the Rust team is working on the release of Rust 1.5. That release happened in December of 2015, but it will provide us with realistic version numbers. A new feature is added to Rust: a new commit lands on the master branch. Each night, a new nightly version of Rust is produced. Every day is a release day, and these releases are created by our release infrastructure automatically. So as time passes, our releases look like this, once a night:">这是一个开发和发布过程的例子：假设 Rust 团队正在开发 Rust 1.5 的发布。该发布发生在 2015 年 12 月，但它将为我们提供现实的版本号。Rust 添加了一个新功能：<code>master</code> 分支上有一个新的提交。每个晚上，都会生成一个新的 Rust 夜度版本。每天都是发布日，这些发布是由我们的发布基础设施自动创建的。因此，随着时间的推移，我们的发布情况如下，每晚一次：</p>

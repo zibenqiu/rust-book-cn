@@ -22,5 +22,25 @@
   "Patterns and Matching - The Rust Programming Language": {
     "_translate": "模式和匹配 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Literals": {
+    "_translate": "字面量",
+    "_note": ""
+  },
+  "Destructured arrays, enums, structs, or tuples": {
+    "_translate": "解构数组、枚举、结构体或元组",
+    "_note": ""
+  },
+  "Variables": {
+    "_translate": "变量，输出",
+    "_note": ""
+  },
+  "Wildcards": {
+    "_translate": "通配符",
+    "_note": ""
+  },
+  "Placeholders": {
+    "_translate": "占位符，直接输出翻译，不添加任何额外文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
   }
 }

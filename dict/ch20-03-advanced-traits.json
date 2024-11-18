@@ -234,5 +234,13 @@
   "Advanced Traits - The Rust Programming Language": {
     "_translate": "高级特性 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "To extend a type without breaking existing code": {
+    "_translate": "为了在不破坏现有代码的情况下扩展类型，",
+    "_note": ""
+  },
+  "To allow customization in specific cases most users won’t need": {
+    "_translate": "为了允许在大多数用户不需要的特定情况下进行自定义，",
+    "_note": ""
   }
 }

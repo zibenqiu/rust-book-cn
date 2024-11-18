@@ -138,5 +138,17 @@
   "Using Box<T> to Point to Data on the Heap - The Rust Programming Language": {
     "_translate": "使用 Box&lt;T&gt; 指向堆上的数据 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "When you have a type whose size can’t be known at compile time and you want to use a value of that type in a context that requires an exact size": {
+    "_translate": "当你有一个在编译时无法确定大小的类型，并且你想在需要确切大小的上下文中使用该类型的值时，",
+    "_note": ""
+  },
+  "When you have a large amount of data and you want to transfer ownership but ensure the data won’t be copied when you do so": {
+    "_translate": "当你有大量的数据并且你想转移所有权，但确保在这样做时数据不会被复制，",
+    "_note": ""
+  },
+  "When you want to own a value and you care only that it’s a type that implements a particular trait rather than being of a specific type": {
+    "_translate": "当你想要拥有一个值，而你只关心它是一个实现了特定特征的类型，而不是特定的类型时，",
+    "_note": ""
   }
 }

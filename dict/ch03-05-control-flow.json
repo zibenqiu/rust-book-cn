@@ -214,5 +214,17 @@
   "Control Flow - The Rust Programming Language": {
     "_translate": "控制流 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Convert temperatures between Fahrenheit and Celsius.": {
+    "_translate": "将温度在华氏和摄氏之间转换。",
+    "_note": ""
+  },
+  "Generate the nth Fibonacci number.": {
+    "_translate": "生成第<em>n</em>个斐波那契数。",
+    "_note": ""
+  },
+  "Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song.": {
+    "_translate": "打印圣诞颂歌《十二日圣诞》的歌词，利用歌曲中的重复部分。",
+    "_note": ""
   }
 }

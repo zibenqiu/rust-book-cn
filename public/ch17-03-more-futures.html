@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -467,11 +470,10 @@ copy just the compiler error
 </figure>
 <p data-x-en="The type we had to write here is a little involved, so let’s walk through it:">我们在这里必须编写的类型有点复杂，所以让我们逐步分析它：</p>
 <ul>
-<li>The innermost type is the future itself. We note explicitly that the output of
-the future is the unit type <code>()</code> by writing <code>Future&lt;Output = ()&gt;</code>.</li>
-<li>Then we annotate the trait with <code>dyn</code> to mark it as dynamic.</li>
-<li>The entire trait reference is wrapped in a <code>Box</code>.</li>
-<li>Finally, we state explicitly that <code>futures</code> is a <code>Vec</code> containing these items.</li>
+<li data-x-en="The innermost type is the future itself. We note explicitly that the output of the future is the unit type () by writing Future<Output = ()>.">最内层的类型是未来本身。我们明确指出，未来的输出是单元类型<code>()</code>，通过写<code>Future&lt;Output = ()&gt;</code>。</li>
+<li data-x-en="Then we annotate the trait with dyn to mark it as dynamic.">然后我们用 <code>dyn</code> 注解这个 trait 以标记它为动态。</li>
+<li data-x-en="The entire trait reference is wrapped in a Box.">整个特征引用被包裹在一个 <code>Box</code> 中。</li>
+<li data-x-en="Finally, we state explicitly that futures is a Vec containing these items.">最后，我们明确指出 <code>futures</code> 是一个包含这些项的 <code>Vec</code>。</li>
 </ul>
 <p data-x-en="That already made a big difference. Now when we run the compiler, we only have the errors mentioning Unpin. Although there are three of them, notice that each is very similar in its contents.">这已经产生了很大的不同。现在当我们运行编译器时，我们只有提到<code>Unpin</code>的错误。虽然有三个，但请注意，每个错误的内容都非常相似。</p>
 <!-- manual-regeneration
@@ -1035,15 +1037,10 @@ copy just the output
 </figure>
 <p data-x-en="Let’s implement this! To begin, let’s think about the API for timeout:">让我们来实现这个！首先，让我们思考一下 <code>timeout</code> 的 API：</p>
 <ul>
-<li>It needs to be an async function itself so we can await it.</li>
-<li>Its first parameter should be a future to run. We can make it generic to allow
-it to work with any future.</li>
-<li>Its second parameter will be the maximum time to wait. If we use a <code>Duration</code>,
-that will make it easy to pass along to <code>trpl::sleep</code>.</li>
-<li>It should return a <code>Result</code>. If the future completes successfully, the
-<code>Result</code> will be <code>Ok</code> with the value produced by the future. If the timeout
-elapses first, the <code>Result</code> will be <code>Err</code> with the duration that the timeout
-waited for.</li>
+<li data-x-en="It needs to be an async function itself so we can await it.">它本身需要是一个异步函数，这样我们才能等待它。</li>
+<li data-x-en="Its first parameter should be a future to run. We can make it generic to allow it to work with any future.">它的第一个参数应该是要运行的 future。我们可以将其泛化以允许与任何 future 一起使用。</li>
+<li data-x-en="Its second parameter will be the maximum time to wait. If we use a Duration, that will make it easy to pass along to trpl::sleep.">其第二个参数将是最大等待时间。如果我们使用 <code>Duration</code>，这将使其易于传递给 <code>trpl::sleep</code>。</li>
+<li data-x-en="It should return a Result. If the future completes successfully, the Result will be Ok with the value produced by the future. If the timeout elapses first, the Result will be Err with the duration that the timeout waited for.">它应该返回一个 <code>Result</code>。如果未来完成成功，<code>Result</code> 将是 <code>Ok</code>，包含未来产生的值。如果超时先发生，<code>Result</code> 将是 <code>Err</code>，包含超时等待的持续时间。</li>
 </ul>
 <p data-x-en="Listing 17-28 shows this declaration.">列表 17-28 显示了此声明。</p>
 <!-- This is not tested because it intentionally does not compile. -->
@@ -1125,12 +1122,8 @@ async fn timeout&lt;F: Future&gt;(
 <p data-x-en="In practice, you will usually work directly with async and await, and secondarily with functions and macros such as join, join_all, race, and so on. You’ll only need to reach for pin now and again to use them with those APIs.">在实际中，你通常会直接使用 <code>async</code> 和 <code>await</code>，其次会使用诸如 <code>join</code>、<code>join_all</code>、<code>race</code> 等函数和宏。你只需要偶尔使用 <code>pin</code> 来与这些 API 一起使用。</p>
 <p data-x-en="We’ve now seen a number of ways to work with multiple futures at the same time. Up next, we’ll look at how we can work with multiple futures in a sequence over time, with streams. Here are a couple more things you might want to consider first, though:">我们现在看到了同时处理多个未来的几种方法。接下来，我们将看看如何随着时间在一个序列中处理多个未来，使用<em>流</em>。不过，在此之前，这里还有几件你可能想要先考虑的事情：</p>
 <ul>
-<li>
-<p data-x-en="We used a Vec with join_all to wait for all of the futures in some group to finish. How could you use a Vec to process a group of futures in sequence, instead? What are the tradeoffs of doing that?">我们使用了 <code>Vec</code> 和 <code>join_all</code> 来等待某组中所有未来的完成。你如何使用 <code>Vec</code> 来按顺序处理一组未来的？这样做有什么权衡？</p>
-</li>
-<li>
-<p data-x-en="Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it is from the stream part of the crate; it works just fine with any collection of futures.)">查看 <code>futures::stream::FuturesUnordered</code> 类型，来自 <code>futures</code> 库。使用它与使用 <code>Vec</code> 有什么不同？（不要担心它是来自库的 <code>stream</code> 部分；它可以很好地与任何未来的集合一起使用。）</p>
-</li>
+<li data-x-en="We used a Vec with join_all to wait for all of the futures in some group to finish. How could you use a Vec to process a group of futures in sequence, instead? What are the tradeoffs of doing that?">我们使用了 <code>Vec</code> 和 <code>join_all</code> 来等待某组中所有未来的完成。你如何使用 <code>Vec</code> 来按顺序处理一组未来的？这样做有什么权衡？</li>
+<li data-x-en="Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it is from the stream part of the crate; it works just fine with any collection of futures.)">查看 <code>futures::stream::FuturesUnordered</code> 类型，来自 <code>futures</code> 库。使用它与使用 <code>Vec</code> 有什么不同？（不要担心它是来自库的 <code>stream</code> 部分；它可以很好地与任何未来的集合一起使用。）</li>
 </ul>
 
                     </main>

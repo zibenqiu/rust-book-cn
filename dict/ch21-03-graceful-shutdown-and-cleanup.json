@@ -122,5 +122,25 @@
   "Graceful Shutdown and Cleanup - The Rust Programming Language": {
     "_translate": "优雅的关闭和清理 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Add tests of the library’s functionality.": {
+    "_translate": "添加测试以检验库的功能。",
+    "_note": ""
+  },
+  "Add more documentation to ThreadPool and its public methods.": {
+    "_translate": "为 <code>ThreadPool</code> 及其公共方法添加更多文档。",
+    "_note": ""
+  },
+  "Change calls to unwrap to more robust error handling.": {
+    "_translate": "将 <code>unwrap</code> 的调用更改为更健壮的错误处理。",
+    "_note": ""
+  },
+  "Use ThreadPool to perform some task other than serving web requests.": {
+    "_translate": "使用 <code>ThreadPool</code> 执行除处理网页请求之外的某些任务。",
+    "_note": ""
+  },
+  "Find a thread pool crate on crates.io and implement a similar web server using the crate instead. Then compare its API and robustness to the thread pool we implemented.": {
+    "_translate": "在<a href=\"https://crates.io/\">crates.io</a>上找到一个线程池库，并使用该库实现一个类似的Web服务器。然后将其API和健壮性与我们实现的线程池进行比较。",
+    "_note": ""
   }
 }

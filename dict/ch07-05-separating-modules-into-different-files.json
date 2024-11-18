@@ -82,5 +82,21 @@
   "Separating Modules into Different Files - The Rust Programming Language": {
     "_translate": "将模块拆分到不同的文件中 - 《Rust编程语言》",
     "_note": ""
+  },
+  "src/front_of_house.rs (what we covered)": {
+    "_translate": "<em>src/front_of_house.rs</em> (我们所涵盖的)",
+    "_note": ""
+  },
+  "src/front_of_house/mod.rs (older style, still supported path)": {
+    "_translate": "<em>src/front_of_house/mod.rs</em> (较旧的风格，仍然支持的路径)",
+    "_note": ""
+  },
+  "src/front_of_house/hosting.rs (what we covered)": {
+    "_translate": "<em>src/front_of_house/hosting.rs</em> (我们所涵盖的)",
+    "_note": ""
+  },
+  "src/front_of_house/hosting/mod.rs (older style, still supported path)": {
+    "_translate": "<em>src/front_of_house/hosting/mod.rs</em> (较旧的风格，仍然支持的路径)",
+    "_note": ""
   }
 }

@@ -38,5 +38,17 @@
   "Smart Pointers - The Rust Programming Language": {
     "_translate": "智能指针 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Box<T> for allocating values on the heap": {
+    "_translate": "<code>Box&lt;T&gt;</code> 用于在堆上分配值",
+    "_note": ""
+  },
+  "Rc<T>, a reference counting type that enables multiple ownership": {
+    "_translate": "<code>Rc&lt;T&gt;</code>，一个引用计数类型，允许多个所有权。",
+    "_note": ""
+  },
+  "Ref<T> and RefMut<T>, accessed through RefCell<T>, a type that enforces the borrowing rules at runtime instead of compile time": {
+    "_translate": "<code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code>，通过 <code>RefCell&lt;T&gt;</code> 访问，这是一种在运行时而不是编译时强制执行借用规则的类型。",
+    "_note": ""
   }
 }

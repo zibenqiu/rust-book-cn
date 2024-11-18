@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -233,12 +236,10 @@ blockquote {
 <p data-x-en="Many languages are dogmatic about the solutions they offer for handling concurrent problems. For example, Erlang has elegant functionality for message-passing concurrency but has only obscure ways to share state between threads. Supporting only a subset of possible solutions is a reasonable strategy for higher-level languages, because a higher-level language promises benefits from giving up some control to gain abstractions. However, lower-level languages are expected to provide the solution with the best performance in any given situation and have fewer abstractions over the hardware. Therefore, Rust offers a variety of tools for modeling problems in whatever way is appropriate for your situation and requirements.">许多语言对其提供的处理并发问题的解决方案持教条主义态度。例如，Erlang 在消息传递并发方面具有优雅的功能，但在线程之间共享状态的方法却很晦涩。对于高级语言来说，只支持可能解决方案的子集是一种合理的策略，因为高级语言承诺通过放弃一些控制来获得抽象的好处。然而，低级语言则期望在任何给定情况下提供性能最佳的解决方案，并且对硬件的抽象较少。因此，Rust 提供了多种工具，以适应您的情况和需求的任何适当方式来建模问题。</p>
 <p data-x-en="Here are the topics we’ll cover in this chapter:">以下是本章将要讨论的主题：</p>
 <ul>
-<li>How to create threads to run multiple pieces of code at the same time</li>
-<li><em>Message-passing</em> concurrency, where channels send messages between threads</li>
-<li><em>Shared-state</em> concurrency, where multiple threads have access to some piece
-of data</li>
-<li>The <code>Sync</code> and <code>Send</code> traits, which extend Rust’s concurrency guarantees to
-user-defined types as well as types provided by the standard library</li>
+<li data-x-en="How to create threads to run multiple pieces of code at the same time">如何创建线程以同时运行多段代码</li>
+<li data-x-en="Message-passing concurrency, where channels send messages between threads"><em>消息传递</em>并发，其中通道在线程之间发送消息，</li>
+<li data-x-en="Shared-state concurrency, where multiple threads have access to some piece of data"><em>共享状态</em>并发，其中多个线程可以访问某块数据，</li>
+<li data-x-en="The Sync and Send traits, which extend Rust’s concurrency guarantees to user-defined types as well as types provided by the standard library"><code>Sync</code> 和 <code>Send</code> 特性，它们将 Rust 的并发保证扩展到用户定义的类型以及标准库提供的类型。</li>
 </ul>
 
                     </main>

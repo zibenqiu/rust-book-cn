@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -237,12 +240,8 @@ blockquote {
 <h3 id="our-first-async-program"><a class="header" href="#our-first-async-program">我们的第一个异步程序</a></h3>
 <p data-x-en="To keep this chapter focused on learning async, rather than juggling parts of the ecosystem, we have created the trpl crate (trpl is short for “The Rust Programming Language”). It re-exports all the types, traits, and functions you’ll need, primarily from the futures and tokio crates.">为了使本章专注于学习异步编程，而不是处理生态系统中的各个部分，我们创建了 <code>trpl</code> crate (<code>trpl</code> 是 “The Rust Programming Language” 的缩写)。它重新导出了你将需要的所有类型、特征和函数，主要来自 <a href="https://crates.io/crates/futures"><code>futures</code></a> 和 <a href="https://tokio.rs"><code>tokio</code></a> crate。</p>
 <ul>
-<li>
-<p data-x-en="The futures crate is an official home for Rust experimentation for async code, and is actually where the Future type was originally designed."><code>futures</code> crate 是 Rust 异步代码实验的官方场所，实际上 <code>Future</code> 类型最初就是在这里设计的。</p>
-</li>
-<li>
-<p data-x-en="Tokio is the most widely used async runtime in Rust today, especially (but not only!) for web applications. There are other great runtimes out there, and they may be more suitable for your purposes. We use Tokio under the hood for trpl because it’s well-tested and widely used.">Tokio 是当今 Rust 中使用最广泛的异步运行时，尤其是在（但不仅限于！）Web 应用程序中。还有其他优秀的运行时，它们可能更适合您的需求。我们在 <code>trpl</code> 中使用 Tokio 是因为它经过了充分测试并且广泛使用。</p>
-</li>
+<li data-x-en="The futures crate is an official home for Rust experimentation for async code, and is actually where the Future type was originally designed."><code>futures</code> crate 是 Rust 异步代码实验的官方场所，实际上 <code>Future</code> 类型最初就是在这里设计的。</li>
+<li data-x-en="Tokio is the most widely used async runtime in Rust today, especially (but not only!) for web applications. There are other great runtimes out there, and they may be more suitable for your purposes. We use Tokio under the hood for trpl because it’s well-tested and widely used.">Tokio 是当今 Rust 中使用最广泛的异步运行时，尤其是在（但不仅限于！）Web 应用程序中。还有其他优秀的运行时，它们可能更适合您的需求。我们在 <code>trpl</code> 中使用 Tokio 是因为它经过了充分测试并且广泛使用。</li>
 </ul>
 <p data-x-en="In some cases, trpl also renames or wraps the original APIs to let us stay focused on the details relevant to this chapter. If you want to understand what the crate does, we encourage you to check out its source code. You’ll be able to see what crate each re-export comes from, and we’ve left extensive comments explaining what the crate does.">在某些情况下，<code>trpl</code> 也会重命名或包装原始 API，以便我们专注于与本章相关的细节。如果您想了解该 crate 的功能，我们鼓励您查看 <a href="https://github.com/rust-lang/book/tree/main/packages/trpl">其源代码</a>。您将能够看到每个重新导出的 crate 来自哪里，我们还留下了大量注释解释该 crate 的功能。</p>
 <p data-x-en="Create a new binary project named hello-async and add the trpl crate as a dependency:">创建一个名为 <code>hello-async</code> 的新二进制项目，并将 <code>trpl</code> crate 作为依赖项添加：</p>
@@ -316,27 +315,12 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Let’s walk through each part of the transformed version:">让我们逐一解析转换后的每个部分：</p>
 <ul>
-<li>It uses the <code>impl Trait</code> syntax we discussed back in the <a href="ch10-02-traits.html#traits-as-parameters">“Traits as
-Parameters”</a> section in Chapter 10.</li>
-<li>The returned trait is a <code>Future</code>, with an associated type of <code>Output</code>. Notice
-that the <code>Output</code> type is <code>Option&lt;String&gt;</code>, which is the same as the the
-original return type from the <code>async fn</code> version of <code>page_title</code>.</li>
-<li>All of the code called in the body of the original function is wrapped in an
-<code>async move</code> block. Remember that blocks are expressions. This whole block is
-the expression returned from the function.</li>
-<li>This async block produces a value with the type <code>Option&lt;String&gt;</code>, as described
-above. That value matches the <code>Output</code> type in the return type. This is just
-like other blocks you have seen.</li>
-<li>The new function body is an <code>async move</code> block because of how it uses the
-<code>url</code> parameter. (We’ll talk about <code>async</code> vs. <code>async move</code> much more later
-in the chapter.)</li>
-<li>The new version of the function has a kind of lifetime we haven’t seen before
-in the output type: <code>'_</code>. Because the function returns a <code>Future</code> which refers
-to a reference—in this case, the reference from the <code>url</code> parameter—we need to
-tell Rust that we mean for that reference to be included. We don’t have to
-name the lifetime here, because Rust is smart enough to know there is only one
-reference which could be involved, but we <em>do</em> have to be explicit that the
-resulting <code>Future</code> is bound by that lifetime.</li>
+<li data-x-en="It uses the impl Trait syntax we discussed back in the “Traits as Parameters” section in Chapter 10.">它使用我们在第 10 章 <a href="ch10-02-traits.html#traits-as-parameters">“Traits as Parameters”</a> 部分讨论的 <code>impl Trait</code> 语法。</li>
+<li data-x-en="The returned trait is a Future, with an associated type of Output. Notice that the Output type is Option<String>, which is the same as the the original return type from the async fn version of page_title.">返回的特质是一个 <code>Future</code>，具有一个关联类型 <code>Output</code>。注意 <code>Output</code> 类型是 <code>Option&lt;String&gt;</code>，这与 <code>async fn</code> 版本的 <code>page_title</code> 的原始返回类型相同。</li>
+<li data-x-en="All of the code called in the body of the original function is wrapped in an async move block. Remember that blocks are expressions. This whole block is the expression returned from the function.">在原始函数体中调用的所有代码都被包装在一个 <code>async move</code> 块中。记住，块是表达式。这个整个块就是从函数返回的表达式。</li>
+<li data-x-en="This async block produces a value with the type Option<String>, as described above. That value matches the Output type in the return type. This is just like other blocks you have seen.">这个异步块生成一个类型为<code>Option&lt;String&gt;</code>的值，如上所述。该值与返回类型中的<code>Output</code>类型匹配。这与其他你见过的块是一样的。</li>
+<li data-x-en="The new function body is an async move block because of how it uses the url parameter. (We’ll talk about async vs. async move much more later in the chapter.)">新的函数体是一个 <code>async move</code> 块，因为它是如何使用 <code>url</code> 参数的。（我们将在本章后面更详细地讨论 <code>async</code> 与 <code>async move</code>。）</li>
+<li data-x-en="The new version of the function has a kind of lifetime we haven’t seen before in the output type: '_. Because the function returns a Future which refers to a reference—in this case, the reference from the url parameter—we need to tell Rust that we mean for that reference to be included. We don’t have to name the lifetime here, because Rust is smart enough to know there is only one reference which could be involved, but we do have to be explicit that the resulting Future is bound by that lifetime.">新版本的函数在输出类型中有一个我们以前没见过的生命周期：<code>'_</code>。因为函数返回一个引用了引用的<code>Future</code>——在这种情况下，是从<code>url</code>参数来的引用——我们需要告诉Rust我们希望包含这个引用。虽然我们在这里不需要命名生命周期，因为Rust足够聪明，知道只有一个引用可能涉及，但我们<em>确实</em>需要明确指出，结果的<code>Future</code>受该生命周期的约束。</li>
 </ul>
 <p data-x-en="Now we can call page_title in main. To start, we’ll just get the title for a single page. In Listing 17-3, we follow the same pattern we used for getting command line arguments back in Chapter 12. Then we pass the first URL page_title, and await the result. Because the value produced by the future is an Option<String>, we use a match expression to print different messages to account for whether the page had a <title>.">现在我们可以在 <code>main</code> 中调用 <code>page_title</code>。首先，我们只获取单个页面的标题。在清单 17-3 中，我们遵循了第 12 章中用于获取命令行参数的相同模式。然后我们将第一个 URL 传递给 <code>page_title</code>，并等待结果。因为未来产生的值是一个 <code>Option&lt;String&gt;</code>，我们使用一个 <code>match</code> 表达式来打印不同的消息，以考虑页面是否有 <code>&lt;title&gt;</code>。</p>
 <figure class="listing">

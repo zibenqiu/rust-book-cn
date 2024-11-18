@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -227,11 +230,11 @@ blockquote {
                         <h1 id="patterns-and-matching"><a class="header" href="#patterns-and-matching">模式和匹配</a></h1>
 <p data-x-en="Patterns are a special syntax in Rust for matching against the structure of types, both complex and simple. Using patterns in conjunction with match expressions and other constructs gives you more control over a program’s control flow. A pattern consists of some combination of the following:"><em>模式</em> 是 Rust 中用于匹配类型结构（无论是复杂还是简单）的特殊语法。将模式与 <code>match</code> 表达式和其他构造结合使用，可以为您提供更多的程序控制流控制。模式由以下内容的某种组合构成：</p>
 <ul>
-<li>Literals</li>
-<li>Destructured arrays, enums, structs, or tuples</li>
-<li>Variables</li>
-<li>Wildcards</li>
-<li>Placeholders</li>
+<li data-x-en="Literals">字面量</li>
+<li data-x-en="Destructured arrays, enums, structs, or tuples">解构数组、枚举、结构体或元组</li>
+<li data-x-en="Variables">变量，输出</li>
+<li data-x-en="Wildcards">通配符</li>
+<li data-x-en="Placeholders">占位符，直接输出翻译，不添加任何额外文本。绝对不要添加原始翻译内容中没有的符号或标签。记住，保留所有HTML标签和属性，只翻译内容！</li>
 </ul>
 <p data-x-en="Some example patterns include x, (a, 3), and Some(Color::Red). In the contexts in which patterns are valid, these components describe the shape of data. Our program then matches values against the patterns to determine whether it has the correct shape of data to continue running a particular piece of code.">一些示例模式包括<code>x</code>，<code>(a, 3)</code>，和<code>Some(Color::Red)</code>。在模式有效的上下文中，这些组件描述了数据的形状。然后，我们的程序将值与模式进行匹配，以确定是否具有正确的数据形状以继续运行特定的代码。</p>
 <p data-x-en="To use a pattern, we compare it to some value. If the pattern matches the value, we use the value parts in our code. Recall the match expressions in Chapter 6 that used patterns, such as the coin-sorting machine example. If the value fits the shape of the pattern, we can use the named pieces. If it doesn’t, the code associated with the pattern won’t run.">要使用模式，我们需要将其与某个值进行比较。如果模式匹配该值，我们就可以在代码中使用该值的部分。回想第 6 章中使用模式的 <code>match</code> 表达式，例如硬币分类机的例子。如果值符合模式的形状，我们可以使用命名的部分。如果不匹配，与该模式关联的代码将不会运行。</p>

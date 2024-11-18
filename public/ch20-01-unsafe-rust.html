@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -232,11 +235,11 @@ blockquote {
 <p data-x-en="To switch to unsafe Rust, use the unsafe keyword and then start a new block that holds the unsafe code. You can take five actions in unsafe Rust that you can’t in safe Rust, which we call unsafe superpowers. Those superpowers include the ability to:">要切换到不安全的 Rust，使用 <code>unsafe</code> 关键字，然后开始一个新的块
 来包含不安全的代码。在不安全的 Rust 中，你可以执行五种在安全的 Rust 中无法执行的操作，我们称之为 <em>不安全的超能力</em>。这些超能力包括：</p>
 <ul>
-<li>Dereference a raw pointer</li>
-<li>Call an unsafe function or method</li>
-<li>Access or modify a mutable static variable</li>
-<li>Implement an unsafe trait</li>
-<li>Access fields of a <code>union</code></li>
+<li data-x-en="Dereference a raw pointer">解引用原始指针</li>
+<li data-x-en="Call an unsafe function or method">调用不安全的函数或方法</li>
+<li data-x-en="Access or modify a mutable static variable">访问或修改可变静态变量</li>
+<li data-x-en="Implement an unsafe trait">实现一个不安全的特质</li>
+<li data-x-en="Access fields of a union">访问 <code>union</code> 的字段</li>
 </ul>
 <p data-x-en="It’s important to understand that unsafe doesn’t turn off the borrow checker or disable any other of Rust’s safety checks: if you use a reference in unsafe code, it will still be checked. The unsafe keyword only gives you access to these five features that are then not checked by the compiler for memory safety. You’ll still get some degree of safety inside of an unsafe block.">重要的是要理解 <code>unsafe</code> 并不会关闭借用检查器或禁用 Rust 的任何其他安全检查：如果你在不安全代码中使用引用，它仍然会被检查。<code>unsafe</code> 关键字只给你访问这五个特性，这些特性然后不会被编译器检查以确保内存安全。你仍然会在不安全块内获得一定程度的安全性。</p>
 <p data-x-en="In addition, unsafe does not mean the code inside the block is necessarily dangerous or that it will definitely have memory safety problems: the intent is that as the programmer, you’ll ensure the code inside an unsafe block will access memory in a valid way.">此外，<code>unsafe</code> 并不意味着块内的代码一定是危险的或肯定会有内存安全问题：其意图是，作为程序员，您将确保 <code>unsafe</code> 块内的代码将以有效的方式访问内存。</p>
@@ -248,11 +251,10 @@ blockquote {
 --> 部分，我们提到编译器确保引用始终有效。不安全的 Rust 有两种新的类型，称为 <em>原始指针</em>，它们类似于引用。与引用一样，原始指针可以是不可变的或可变的，分别写为 <code>*const T</code> 和 <code>*mut T</code>。星号不是解引用运算符；它是类型名称的一部分。在原始指针的上下文中，<em>不可变</em> 意味着指针在解引用后不能直接赋值。</p>
 <p data-x-en="Different from references and smart pointers, raw pointers:">不同于引用和智能指针，原始指针：</p>
 <ul>
-<li>Are allowed to ignore the borrowing rules by having both immutable and
-mutable pointers or multiple mutable pointers to the same location</li>
-<li>Aren’t guaranteed to point to valid memory</li>
-<li>Are allowed to be null</li>
-<li>Don’t implement any automatic cleanup</li>
+<li data-x-en="Are allowed to ignore the borrowing rules by having both immutable and mutable pointers or multiple mutable pointers to the same location">允许通过同时拥有不可变和可变指针或多个可变指针来忽略借用规则。</li>
+<li data-x-en="Aren’t guaranteed to point to valid memory">不一定指向有效的内存</li>
+<li data-x-en="Are allowed to be null">允许为空</li>
+<li data-x-en="Don’t implement any automatic cleanup">不要实现任何自动清理</li>
 </ul>
 <p data-x-en="By opting out of having Rust enforce these guarantees, you can give up guaranteed safety in exchange for greater performance or the ability to interface with another language or hardware where Rust’s guarantees don’t apply.">通过选择不使用 Rust 强制执行这些保证，您可以放弃保证的安全性，以换取更高的性能或与另一种语言或硬件接口的能力，这些语言或硬件不受 Rust 的保证约束。</p>
 <p data-x-en="Listing 20-1 shows how to create an immutable and a mutable raw pointer.">列表 20-1 显示了如何创建不可变和可变的原始指针。</p>

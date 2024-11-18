@@ -107,6 +107,9 @@ blockquote {
   padding-left: 10px;
   margin-left: 0;
 }
+.content {
+  overflow-y: none;
+}
 </style></head>
     <body>
     <div id="body-container">
@@ -356,9 +359,9 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 <p data-x-en="This error says that this code is invalid because we cannot borrow s as mutable more than once at a time. The first mutable borrow is in r1 and must last until it’s used in the println!, but between the creation of that mutable reference and its usage, we tried to create another mutable reference in r2 that borrows the same data as r1.">这个错误表示此代码无效，因为我们不能同时多次借用 <code>s</code> 作为可变借用。第一次可变借用在 <code>r1</code> 中，并且必须持续到在 <code>println!</code> 中使用它为止，但在创建该可变引用和使用它之间，我们试图在 <code>r2</code> 中创建另一个可变引用，该引用借用与 <code>r1</code> 相同的数据。</p>
 <p data-x-en="The restriction preventing multiple mutable references to the same data at the same time allows for mutation but in a very controlled fashion. It’s something that new Rustaceans struggle with because most languages let you mutate whenever you’d like. The benefit of having this restriction is that Rust can prevent data races at compile time. A data race is similar to a race condition and happens when these three behaviors occur:">防止同时对同一数据进行多个可变引用的限制允许进行变异，但以非常受控的方式进行。这是新 Rustaceans 会遇到困难的地方，因为大多数语言允许你在任何时候进行变异。拥有此限制的好处是 Rust 可以在编译时防止数据竞争。数据竞争类似于竞态条件，当以下三种行为发生时会出现：<em>数据竞争</em></p>
 <ul>
-<li>Two or more pointers access the same data at the same time.</li>
-<li>At least one of the pointers is being used to write to the data.</li>
-<li>There’s no mechanism being used to synchronize access to the data.</li>
+<li data-x-en="Two or more pointers access the same data at the same time.">两个或更多的指针同时访问相同的数据。</li>
+<li data-x-en="At least one of the pointers is being used to write to the data.">至少有一个指针被用于写入数据。</li>
+<li data-x-en="There’s no mechanism being used to synchronize access to the data.">没有使用任何机制来同步对数据的访问。</li>
 </ul>
 <p data-x-en="Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime; Rust prevents this problem by refusing to compile code with data races!">数据竞争会导致未定义行为，并且在运行时尝试跟踪和修复它们时可能会非常困难；Rust 通过拒绝编译存在数据竞争的代码来防止这个问题！</p>
 <p data-x-en="As always, we can use curly brackets to create a new scope, allowing for multiple mutable references, just not simultaneous ones:">正如往常，我们可以使用大括号来创建一个新的作用域，允许有多个可变引用，只是不能 <em>同时</em> 存在：</p>
@@ -495,9 +498,8 @@ for it to be borrowed from
 <h3 id="the-rules-of-references"><a class="header" href="#the-rules-of-references">引用的规则</a></h3>
 <p data-x-en="Let’s recap what we’ve discussed about references:">让我们回顾一下我们讨论过的关于引用的内容：</p>
 <ul>
-<li>At any given time, you can have <em>either</em> one mutable reference <em>or</em> any
-number of immutable references.</li>
-<li>References must always be valid.</li>
+<li data-x-en="At any given time, you can have either one mutable reference or any number of immutable references.">在任何时候，你可以有<em>要么</em>一个可变引用<em>或者</em>任意数量的不可变引用。</li>
+<li data-x-en="References must always be valid.">引用必须始终有效。</li>
 </ul>
 <p data-x-en="Next, we’ll look at a different kind of reference: slices.">接下来，我们将研究一种不同的引用类型：切片。</p>
 

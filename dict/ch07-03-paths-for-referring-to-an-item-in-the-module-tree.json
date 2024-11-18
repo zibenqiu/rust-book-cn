@@ -158,5 +158,13 @@
   "Paths for Referring to an Item in the Module Tree - The Rust Programming Language": {
     "_translate": "路径用于引用模块树中的项 - 《Rust编程语言》",
     "_note": ""
+  },
+  "An absolute path is the full path starting from a crate root; for code from an external crate, the absolute path begins with the crate name, and for code from the current crate, it starts with the literal crate.": {
+    "_translate": "一个<em>绝对路径</em>是从crate根开始的完整路径；对于来自外部crate的代码，绝对路径以crate名称开始，而对于当前crate的代码，它以字面<code>crate</code>开始。",
+    "_note": ""
+  },
+  "A relative path starts from the current module and uses self, super, or an identifier in the current module.": {
+    "_translate": "一个<em>相对路径</em>从当前模块开始，并使用<code>self</code>、<code>super</code>或当前模块中的标识符。",
+    "_note": ""
   }
 }
