@@ -66,5 +66,5 @@ blockquote {
   margin-left: 0;
 }
 .content {
-  overflow-y: none;
+  overflow-y: unset !important;
 }
