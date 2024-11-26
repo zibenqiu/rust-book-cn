@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -507,7 +506,7 @@ fn main() {}</code></pre></pre>
 <p data-x-en="As an example, recall the Sync and Send marker traits we discussed in the “Extensible Concurrency with the Sync and Send Traits” section in Chapter 16: the compiler implements these traits automatically if our types are composed entirely of Send and Sync types. If we implement a type that contains a type that is not Send or Sync, such as raw pointers, and we want to mark that type as Send or Sync, we must use unsafe. Rust can’t verify that our type upholds the guarantees that it can be safely sent across threads or accessed from multiple threads; therefore, we need to do those checks manually and indicate as such with unsafe.">作为示例，回想我们在第 16 章<a href="ch16-04-extensible-concurrency-sync-and-send.html#extensible-concurrency-with-the-sync-and-send-traits">“使用 <code>Sync</code> 和 <code>Send</code> 特性实现可扩展的并发”</a><!-- ignore -->
 部分讨论的 <code>Sync</code> 和 <code>Send</code> 标记特性：如果我们的类型完全由 <code>Send</code> 和 <code>Sync</code> 类型组成，编译器会自动实现这些特性。如果我们实现的类型包含不是 <code>Send</code> 或 <code>Sync</code> 的类型，例如原始指针，并且我们希望将该类型标记为 <code>Send</code> 或 <code>Sync</code>，我们必须使用 <code>unsafe</code>。Rust 无法验证我们的类型是否保持可以安全地跨线程发送或从多个线程访问的保证；因此，我们需要手动进行这些检查并用 <code>unsafe</code> 指示。</p>
 <h3 id="accessing-fields-of-a-union"><a class="header" href="#accessing-fields-of-a-union">访问联合体的字段</a></h3>
-<p data-x-en="The final action that works only with unsafe is accessing fields of a union. A union is similar to a struct, but only one declared field is used in a particular instance at one time. Unions are primarily used to interface with unions in C code. Accessing union fields is unsafe because Rust can’t guarantee the type of the data currently being stored in the union instance. You can learn more about unions in the Rust Reference.">最后一种仅与 <code>unsafe</code> 一起使用的行为是访问 <em>联合体</em> 的字段。一个 <code>union</code> 类似于一个 <code>struct</code>，但在特定实例中一次只能使用一个声明的字段。联合体主要用于与 C 代码中的联合体进行接口。访问联合体字段是不安全的，因为 Rust 无法保证当前存储在联合体实例中的数据类型。您可以在 <a href="../reference/items/unions.html">Rust 参考手册</a> 中了解有关联合体的更多信息。</p>
+<p data-x-en="The final action that works only with unsafe is accessing fields of a union. A union is similar to a struct, but only one declared field is used in a particular instance at one time. Unions are primarily used to interface with unions in C code. Accessing union fields is unsafe because Rust can’t guarantee the type of the data currently being stored in the union instance. You can learn more about unions in the Rust Reference.">最后一种仅与 <code>unsafe</code> 一起使用的行为是访问 <em>联合体</em> 的字段。一个 <code>union</code> 类似于一个 <code>struct</code>，但在特定实例中一次只能使用一个声明的字段。联合体主要用于与 C 代码中的联合体进行接口。访问联合体字段是不安全的，因为 Rust 无法保证当前存储在联合体实例中的数据类型。您可以在 <a href="https://doc.rust-lang.org/reference/items/unions.html" target="_blank">Rust 参考手册</a> 中了解有关联合体的更多信息。</p>
 <h3 id="using-miri-to-check-unsafe-code"><a class="header" href="#using-miri-to-check-unsafe-code">使用Miri检查不安全的代码</a></h3>
 <p data-x-en="When writing unsafe code, you might want to check that what you have written actually is safe and correct. One of the best ways to do that is to use Miri, an official Rust tool for detecting undefined behavior. Whereas the borrow checker is a static tool which works at compile time, Miri is a dynamic tool which works at runtime. It checks your code by running your program, or its test suite, and detecting when you violate the rules its understands about how Rust should work.">当编写不安全的代码时，你可能希望检查你所编写的代码实际上是安全和正确的。一种最好的方法是使用<a href="https://github.com/rust-lang/miri">Miri</a>，一个官方的Rust工具，用于检测未定义行为。虽然借用检查器是一个在编译时工作的<em>静态</em>工具，Miri是一个在运行时工作的<em>动态</em>工具。它通过运行你的程序或其测试套件，并检测你何时违反了其理解的Rust应如何工作的规则来检查你的代码。</p>
 <p data-x-en="Using Miri requires a nightly build of Rust (which we talk about more in Appendix G: How Rust is Made and “Nightly Rust”). You can install both a nightly version of Rust and the Miri tool by typing rustup +nightly component add miri. This does not change what version of Rust your project uses; it only adds the tool to your system so you can use it when you want to. You can run Miri on a project by typing cargo +nightly miri run or cargo +nightly miri test.">使用Miri需要Rust的夜间构建版本（我们将在<a href="appendix-07-nightly-rust.html">附录G：Rust的制作和“夜间Rust”</a>中详细讨论）。您可以通过键入<code>rustup +nightly component add miri</code>来安装Rust的夜间版本和Miri工具。这不会更改您的项目使用的Rust版本；它只是将工具添加到您的系统中，以便您在需要时可以使用它。

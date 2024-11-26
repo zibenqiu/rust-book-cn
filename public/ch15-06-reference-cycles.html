@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -535,7 +534,7 @@ children: RefCell { value: [] } }] } })
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="This chapter covered how to use smart pointers to make different guarantees and trade-offs from those Rust makes by default with regular references. The Box<T> type has a known size and points to data allocated on the heap. The Rc<T> type keeps track of the number of references to data on the heap so that data can have multiple owners. The RefCell<T> type with its interior mutability gives us a type that we can use when we need an immutable type but need to change an inner value of that type; it also enforces the borrowing rules at runtime instead of at compile time.">本章介绍了如何使用智能指针来做出与 Rust 默认使用常规引用时不同的保证和权衡。<code>Box&lt;T&gt;</code> 类型具有已知大小，并指向堆上分配的数据。<code>Rc&lt;T&gt;</code> 类型跟踪堆上数据的引用数量，以便数据可以有多个所有者。<code>RefCell&lt;T&gt;</code> 类型及其内部可变性使我们可以在需要不可变类型但需要更改该类型内部值时使用；它还在运行时而不是编译时强制执行借用规则。</p>
 <p data-x-en="Also discussed were the Deref and Drop traits, which enable a lot of the functionality of smart pointers. We explored reference cycles that can cause memory leaks and how to prevent them using Weak<T>.">还讨论了<code>Deref</code>和<code>Drop</code>特征，它们使智能指针的许多功能得以实现。我们探讨了可能导致内存泄漏的引用循环以及如何使用<code>Weak&lt;T&gt;</code>来防止它们。</p>
-<p data-x-en="If this chapter has piqued your interest and you want to implement your own smart pointers, check out “The Rustonomicon” for more useful information.">如果本章引起了你的兴趣，并且你想要实现自己的智能指针，可以查阅<a href="../nomicon/index.html">“Rustonomicon”</a>获取更多有用的信息。</p>
+<p data-x-en="If this chapter has piqued your interest and you want to implement your own smart pointers, check out “The Rustonomicon” for more useful information.">如果本章引起了你的兴趣，并且你想要实现自己的智能指针，可以查阅<a href="https://doc.rust-lang.org/nomicon/index.html" target="_blank">“Rustonomicon”</a>获取更多有用的信息。</p>
 <p data-x-en="Next, we’ll talk about concurrency in Rust. You’ll even learn about a few new smart pointers.">接下来，我们将讨论 Rust 中的并发。你甚至会学到一些新的智能指针。</p>
 
                     </main>

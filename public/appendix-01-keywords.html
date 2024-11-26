@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -266,7 +265,7 @@ blockquote {
 <li data-x-en="trait - define a trait"><code>trait</code> - 定义一个特质</li>
 <li data-x-en="true - Boolean true literal"><code>true</code> - 布尔真值字面量</li>
 <li data-x-en="type - define a type alias or associated type"><code>type</code> - 定义类型别名或关联类型</li>
-<li data-x-en="union - define a union; is only a keyword when used in a union declaration"><code>union</code> - 定义一个 <a href="../reference/items/unions.html">联合体</a><!-- ignore -->; 仅在用于联合体声明时才是关键字</li>
+<li data-x-en="union - define a union; is only a keyword when used in a union declaration"><code>union</code> - 定义一个 <a href="https://doc.rust-lang.org/reference/items/unions.html" target="_blank">联合体</a><!-- ignore -->; 仅在用于联合体声明时才是关键字</li>
 <li data-x-en="unsafe - denote unsafe code, functions, traits, or implementations"><code>unsafe</code> - 表示不安全的代码、函数、特质或实现</li>
 <li data-x-en="use - bring symbols into scope"><code>use</code> - 将符号引入作用域</li>
 <li data-x-en="where - denote clauses that constrain a type"><code>where</code> - 表示限制类型的子句</li>

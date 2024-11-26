@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -320,7 +319,7 @@ fn area(rectangle: &amp;Rectangle) -&gt; u32 {
 <p data-x-en="Our area function is now defined with one parameter, which we’ve named rectangle, whose type is an immutable borrow of a struct Rectangle instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, main retains its ownership and can continue using rect1, which is the reason we use the &amp; in the function signature and where we call the function.">我们的 <code>area</code> 函数现在定义了一个参数，我们将其命名为 <code>rectangle</code>，其类型是结构体 <code>Rectangle</code> 实例的不可变借用。正如在第 4 章中提到的，我们希望借用结构体而不是获取其所有权。这样，<code>main</code> 保留其所有权并可以继续使用 <code>rect1</code>，这就是我们在函数签名和调用函数时使用 <code>&amp;</code> 的原因。</p>
 <p data-x-en="The area function accesses the width and height fields of the Rectangle instance (note that accessing fields of a borrowed struct instance does not move the field values, which is why you often see borrows of structs). Our function signature for area now says exactly what we mean: calculate the area of Rectangle, using its width and height fields. This conveys that the width and height are related to each other, and it gives descriptive names to the values rather than using the tuple index values of 0 and 1. This is a win for clarity."><code>area</code> 函数访问 <code>Rectangle</code> 实例的 <code>width</code> 和 <code>height</code> 字段（注意，访问借用结构体实例的字段不会移动字段值，这就是为什么你经常看到结构体的借用）。我们的 <code>area</code> 函数签名现在准确地表达了我们的意思：使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段计算其面积。这表明宽度和高度是相互关联的，并且它为这些值提供了描述性的名称，而不是使用元组索引值 <code>0</code> 和 <code>1</code>。这提高了清晰度。</p>
 <h3 id="adding-useful-functionality-with-derived-traits"><a class="header" href="#adding-useful-functionality-with-derived-traits">通过派生特性添加有用的功能</a></h3>
-<p data-x-en="It’d be useful to be able to print an instance of Rectangle while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the println! macro as we have used in previous chapters. This won’t work, however.">在调试我们的程序时，能够打印 <code>Rectangle</code> 的实例并查看其所有字段的值会很有帮助。列表 5-11 尝试使用 <a href="../std/macro.println.html"><code>println!</code> 宏</a><!-- ignore -->，就像我们在前面的章节中使用的一样。然而，这将不起作用。</p>
+<p data-x-en="It’d be useful to be able to print an instance of Rectangle while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the println! macro as we have used in previous chapters. This won’t work, however.">在调试我们的程序时，能够打印 <code>Rectangle</code> 的实例并查看其所有字段的值会很有帮助。列表 5-11 尝试使用 <a href="https://doc.rust-lang.org/std/macro.println.html" target="_blank"><code>println!</code> 宏</a><!-- ignore -->，就像我们在前面的章节中使用的一样。然而，这将不起作用。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">struct Rectangle {
@@ -390,7 +389,7 @@ rect1 is Rectangle {
     height: 50,
 }
 </code></pre>
-<p data-x-en="Another way to print out a value using the Debug format is to use the dbg! macro, which takes ownership of an expression (as opposed to println!, which takes a reference), prints the file and line number of where that dbg! macro call occurs in your code along with the resultant value of that expression, and returns ownership of the value.">另一种使用 <code>Debug</code> 格式打印值的方法是使用 <a href="../std/macro.dbg.html"><code>dbg!</code> 宏</a><!-- ignore -->，它接受一个表达式的所有权（与 <code>println!</code> 不同，后者接受引用），打印该 <code>dbg!</code> 宏调用在代码中的文件和行号以及该表达式的结果值，并返回值的所有权。</p>
+<p data-x-en="Another way to print out a value using the Debug format is to use the dbg! macro, which takes ownership of an expression (as opposed to println!, which takes a reference), prints the file and line number of where that dbg! macro call occurs in your code along with the resultant value of that expression, and returns ownership of the value.">另一种使用 <code>Debug</code> 格式打印值的方法是使用 <a href="https://doc.rust-lang.org/std/macro.dbg.html" target="_blank"><code>dbg!</code> 宏</a><!-- ignore -->，它接受一个表达式的所有权（与 <code>println!</code> 不同，后者接受引用），打印该 <code>dbg!</code> 宏调用在代码中的文件和行号以及该表达式的结果值，并返回值的所有权。</p>
 <section class="note" aria-role="note">
 <p data-x-en="Note: Calling the dbg! macro prints to the standard error console stream (stderr), as opposed to println!, which prints to the standard output console stream (stdout). We’ll talk more about stderr and stdout in the “Writing Error Messages to Standard Error Instead of Standard Output” section in Chapter 12.">注意：调用 <code>dbg!</code> 宏会打印到标准错误控制台流 (<code>stderr</code>)，而 <code>println!</code> 则打印到标准输出控制台流 (<code>stdout</code>)。我们将在 <a href="ch12-06-writing-to-stderr-instead-of-stdout.html">“将错误消息写入标准错误而不是标准输出”章节12部分</a><!-- ignore -->。</p>
 </section>
@@ -423,7 +422,7 @@ fn main() {
 </code></pre>
 <p data-x-en="We can see the first bit of output came from src/main.rs line 10 where we’re debugging the expression 30 * scale, and its resultant value is 60 (the Debug formatting implemented for integers is to print only their value). The dbg! call on line 14 of src/main.rs outputs the value of &amp;rect1, which is the Rectangle struct. This output uses the pretty Debug formatting of the Rectangle type. The dbg! macro can be really helpful when you’re trying to figure out what your code is doing!">我们可以看到第一部分输出来自<em>src/main.rs</em>第10行，我们在调试表达式<code>30 * scale</code>，其结果值为<code>60</code>（为整数实现的<code>Debug</code>格式化仅打印它们的值）。<em>src/main.rs</em>第14行的<code>dbg!</code>调用输出<code>&amp;rect1</code>的值，即<code>Rectangle</code>结构体。此输出使用了<code>Rectangle</code>类型的漂亮<code>Debug</code>格式化。<code>dbg!</code>宏在你试图弄清楚代码在做什么时非常有帮助！</p>
 <p data-x-en="In addition to the Debug trait, Rust has provided a number of traits for us to use with the derive attribute that can add useful behavior to our custom types. Those traits and their behaviors are listed in Appendix C. We’ll cover how to implement these traits with custom behavior as well as how to create your own traits in Chapter 10. There are also many attributes other than derive; for more information, see the “Attributes” section of the Rust Reference.">除了 <code>Debug</code> 特性之外，Rust 还提供了一些特性，我们可以通过 <code>derive</code> 属性使用这些特性，为我们的自定义类型添加有用的行为。这些特性和它们的行为列在 <a href="appendix-03-derivable-traits.html">附录 C</a><!--
-ignore -->。我们将在第 10 章中介绍如何实现这些特性的自定义行为以及如何创建自己的特性。除了 <code>derive</code> 之外，还有许多其他属性；有关更多信息，请参阅 <a href="../reference/attributes.html">Rust 参考手册中的“属性”部分</a>。</p>
+ignore -->。我们将在第 10 章中介绍如何实现这些特性的自定义行为以及如何创建自己的特性。除了 <code>derive</code> 之外，还有许多其他属性；有关更多信息，请参阅 <a href="https://doc.rust-lang.org/reference/attributes.html" target="_blank">Rust 参考手册中的“属性”部分</a>。</p>
 <p data-x-en="Our area function is very specific: it only computes the area of rectangles. It would be helpful to tie this behavior more closely to our Rectangle struct because it won’t work with any other type. Let’s look at how we can continue to refactor this code by turning the area function into an area method defined on our Rectangle type.">我们的 <code>area</code> 函数非常具体：它只计算矩形的面积。
 将这种行为更紧密地与我们的 <code>Rectangle</code> 结构体关联起来会很有帮助，
 因为它对其他任何类型都无效。让我们看看如何通过将 <code>area</code> 函数转换为定义在 <code>Rectangle</code> 类型上的 <code>area</code> <em>方法</em> 来继续重构这段代码。</p>

@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -512,7 +511,7 @@ use std::io::Write;</code></pre>
 </span>use std::collections::*;
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="This use statement brings all public items defined in std::collections into the current scope. Be careful when using the glob operator! Glob can make it harder to tell what names are in scope and where a name used in your program was defined.">这个 <code>use</code> 语句将 <code>std::collections</code> 中定义的所有公共项引入当前作用域。使用通配符时要小心！通配符会使确定哪些名称在作用域内以及程序中使用的名称是在哪里定义的变得更加困难。</p>
-<p data-x-en="The glob operator is often used when testing to bring everything under test into the tests module; we’ll talk about that in the “How to Write Tests” section in Chapter 11. The glob operator is also sometimes used as part of the prelude pattern: see the standard library documentation for more information on that pattern.">通配符操作符通常在测试时用于将所有待测试的内容引入到 <code>tests</code> 模块；我们将在第 11 章的 <a href="ch11-01-writing-tests.html#how-to-write-tests">“如何编写测试”</a><!-- ignore --> 部分讨论这个问题。通配符操作符有时也作为前言模式的一部分使用：请参阅 <a href="../std/prelude/index.html#other-preludes">标准库文档</a><!-- ignore --> 以获取有关该模式的更多信息。</p>
+<p data-x-en="The glob operator is often used when testing to bring everything under test into the tests module; we’ll talk about that in the “How to Write Tests” section in Chapter 11. The glob operator is also sometimes used as part of the prelude pattern: see the standard library documentation for more information on that pattern.">通配符操作符通常在测试时用于将所有待测试的内容引入到 <code>tests</code> 模块；我们将在第 11 章的 <a href="ch11-01-writing-tests.html#how-to-write-tests">“如何编写测试”</a><!-- ignore --> 部分讨论这个问题。通配符操作符有时也作为前言模式的一部分使用：请参阅 <a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes" target="_blank">标准库文档</a><!-- ignore --> 以获取有关该模式的更多信息。</p>
 
                     </main>
 

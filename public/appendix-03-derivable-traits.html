@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -237,7 +236,7 @@ blockquote {
 <li data-x-en="The conditions in which you’re allowed or not allowed to implement the trait">允许或不允许实现该特征的条件。</li>
 <li data-x-en="Examples of operations that require the trait">需要特征的操作示例，</li>
 </ul>
-<p data-x-en="If you want different behavior from that provided by the derive attribute, consult the standard library documentation for each trait for details of how to manually implement them.">如果您希望的行为与 <code>derive</code> 属性提供的不同，请查阅 <a href="../std/index.html">标准库文档</a><!-- ignore --> 以获取有关如何手动实现每个 trait 的详细信息。</p>
+<p data-x-en="If you want different behavior from that provided by the derive attribute, consult the standard library documentation for each trait for details of how to manually implement them.">如果您希望的行为与 <code>derive</code> 属性提供的不同，请查阅 <a href="https://doc.rust-lang.org/std/index.html" target="_blank">标准库文档</a><!-- ignore --> 以获取有关如何手动实现每个 trait 的详细信息。</p>
 <p data-x-en="These traits listed here are the only ones defined by the standard library that can be implemented on your types using derive. Other traits defined in the standard library don’t have sensible default behavior, so it’s up to you to implement them in the way that makes sense for what you’re trying to accomplish.">这里列出的这些特质是标准库中唯一可以使用<code>derive</code>在你的类型上实现的。标准库中定义的其他特质没有合理的默认行为，因此需要你自己以适合你目标的方式实现它们。</p>
 <p data-x-en="An example of a trait that can’t be derived is Display, which handles formatting for end users. You should always consider the appropriate way to display a type to an end user. What parts of the type should an end user be allowed to see? What parts would they find relevant? What format of the data would be most relevant to them? The Rust compiler doesn’t have this insight, so it can’t provide appropriate default behavior for you.">一个不能派生的特征示例是<code>Display</code>，它处理面向用户的格式化。您应该始终考虑以适当的方式向最终用户显示类型。最终用户应该被允许看到类型的哪些部分？他们会觉得哪些部分相关？对他们来说，数据的哪种格式最相关？Rust编译器没有这种洞察力，因此无法为您提供适当的行为。</p>
 <p data-x-en="The list of derivable traits provided in this appendix is not comprehensive: libraries can implement derive for their own traits, making the list of traits you can use derive with truly open-ended. Implementing derive involves using a procedural macro, which is covered in the “Macros” section of Chapter 20.">本附录中提供的可派生特性列表并不全面：

@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -549,7 +548,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p data-x-en="The Box<dyn Error> type is a trait object, which we’ll talk about in the “Using Trait Objects that Allow for Values of Different Types” section in Chapter 18. For now, you can read Box<dyn Error> to mean “any kind of error.” Using ? on a Result value in a main function with the error type Box<dyn Error> is allowed because it allows any Err value to be returned early. Even though the body of this main function will only ever return errors of type std::io::Error, by specifying Box<dyn Error>, this signature will continue to be correct even if more code that returns other errors is added to the body of main."><code>Box&lt;dyn Error&gt;</code> 类型是一个 <em>特征对象</em>，我们将在第 18 章的
 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型值的特征对象”</a><!-- ignore --> 部分讨论。目前，你可以将 <code>Box&lt;dyn Error&gt;</code> 理解为“任何类型的错误”。在具有错误类型 <code>Box&lt;dyn Error&gt;</code> 的 <code>main</code> 函数中对 <code>Result</code> 值使用 <code>?</code> 是允许的，因为它允许任何 <code>Err</code> 值提前返回。尽管这个 <code>main</code> 函数的主体将只会返回 <code>std::io::Error</code> 类型的错误，但通过指定 <code>Box&lt;dyn Error&gt;</code>，即使在 <code>main</code> 函数的主体中添加了返回其他错误的代码，此签名也将继续正确。</p>
 <p data-x-en="When a main function returns a Result<(), E>, the executable will exit with a value of 0 if main returns Ok(()) and will exit with a nonzero value if main returns an Err value. Executables written in C return integers when they exit: programs that exit successfully return the integer 0, and programs that error return some integer other than 0. Rust also returns integers from executables to be compatible with this convention.">当 <code>main</code> 函数返回一个 <code>Result&lt;(), E&gt;</code> 时，如果 <code>main</code> 返回 <code>Ok(())</code>，可执行文件将退出并返回值 <code>0</code>；如果 <code>main</code> 返回一个 <code>Err</code> 值，可执行文件将退出并返回一个非零值。用 C 语言编写的可执行文件在退出时返回整数：成功退出的程序返回整数 <code>0</code>，而发生错误的程序返回一个非 <code>0</code> 的整数。Rust 也从可执行文件返回整数，以兼容这一惯例。</p>
-<p data-x-en="The main function may return any types that implement the std::process::Termination trait, which contains a function report that returns an ExitCode. Consult the standard library documentation for more information on implementing the Termination trait for your own types."><code>main</code> 函数可以返回任何实现了 <a href="../std/process/trait.Termination.html">the <code>std::process::Termination</code> 特性</a><!-- ignore --> 的类型，其中包含一个返回 <code>ExitCode</code> 的函数 <code>report</code>。有关为您的类型实现 <code>Termination</code> 特性的更多信息，请参阅标准库文档。</p>
+<p data-x-en="The main function may return any types that implement the std::process::Termination trait, which contains a function report that returns an ExitCode. Consult the standard library documentation for more information on implementing the Termination trait for your own types."><code>main</code> 函数可以返回任何实现了 <a href="https://doc.rust-lang.org/std/process/trait.Termination.html" target="_blank">the <code>std::process::Termination</code> 特性</a><!-- ignore --> 的类型，其中包含一个返回 <code>ExitCode</code> 的函数 <code>report</code>。有关为您的类型实现 <code>Termination</code> 特性的更多信息，请参阅标准库文档。</p>
 <p data-x-en="Now that we’ve discussed the details of calling panic! or returning Result, let’s return to the topic of how to decide which is appropriate to use in which cases.">现在我们已经讨论了调用<code>panic!</code>或返回<code>Result</code>的细节，让我们回到如何决定在哪些情况下使用哪个主题。</p>
 
                     </main>

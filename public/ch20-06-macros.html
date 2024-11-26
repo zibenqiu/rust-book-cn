@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -272,7 +271,7 @@ macro_rules! vec {
 <p data-x-en="The #[macro_export] annotation indicates that this macro should be made available whenever the crate in which the macro is defined is brought into scope. Without this annotation, the macro can’t be brought into scope."><code>#[macro_export]</code> 注解表示每当定义该宏的 crate 被引入作用域时，此宏也应被提供。如果没有这个注解，宏将无法被引入作用域。</p>
 <p data-x-en="We then start the macro definition with macro_rules! and the name of the macro we’re defining without the exclamation mark. The name, in this case vec, is followed by curly brackets denoting the body of the macro definition.">然后我们用 <code>macro_rules!</code> 和我们定义的宏的名称（<em>不带</em>感叹号）开始宏定义。名称，在这个例子中为 <code>vec</code>，后面跟着表示宏定义主体的大括号。</p>
 <p data-x-en="The structure in the vec! body is similar to the structure of a match expression. Here we have one arm with the pattern ( $( $x:expr ),* ), followed by => and the block of code associated with this pattern. If the pattern matches, the associated block of code will be emitted. Given that this is the only pattern in this macro, there is only one valid way to match; any other pattern will result in an error. More complex macros will have more than one arm."><code>vec!</code> 体内的结构类似于 <code>match</code> 表达式的结构。这里我们有一个带有模式 <code>( $( $x:expr ),* )</code> 的分支，后面跟着 <code>=&gt;</code> 和与此模式关联的代码块。如果模式匹配，将生成关联的代码块。鉴于这是此宏中唯一的模式，只有一种有效的匹配方式；任何其他模式都将导致错误。更复杂的宏将有多个分支。</p>
-<p data-x-en="Valid pattern syntax in macro definitions is different than the pattern syntax covered in Chapter 19 because macro patterns are matched against Rust code structure rather than values. Let’s walk through what the pattern pieces in Listing 20-28 mean; for the full macro pattern syntax, see the Rust Reference.">有效的宏定义中的模式语法与第19章中介绍的模式语法不同，因为宏模式是与Rust代码结构匹配，而不是与值匹配。让我们来分析一下列表20-28中的模式片段的含义；有关完整的宏模式语法，请参阅<a href="../reference/macros-by-example.html">Rust参考手册</a>。</p>
+<p data-x-en="Valid pattern syntax in macro definitions is different than the pattern syntax covered in Chapter 19 because macro patterns are matched against Rust code structure rather than values. Let’s walk through what the pattern pieces in Listing 20-28 mean; for the full macro pattern syntax, see the Rust Reference.">有效的宏定义中的模式语法与第19章中介绍的模式语法不同，因为宏模式是与Rust代码结构匹配，而不是与值匹配。让我们来分析一下列表20-28中的模式片段的含义；有关完整的宏模式语法，请参阅<a href="https://doc.rust-lang.org/reference/macros-by-example.html" target="_blank">Rust参考手册</a>。</p>
 <p data-x-en="First, we use a set of parentheses to encompass the whole pattern. We use a dollar sign ($) to declare a variable in the macro system that will contain the Rust code matching the pattern. The dollar sign makes it clear this is a macro variable as opposed to a regular Rust variable. Next comes a set of parentheses that captures values that match the pattern within the parentheses for use in the replacement code. Within $() is $x:expr, which matches any Rust expression and gives the expression the name $x.">首先，我们使用一组括号来包含整个模式。我们使用美元符号（<code>$</code>）在宏系统中声明一个变量，该变量将包含与模式匹配的Rust代码。美元符号明确表示这是一个宏变量，而不是普通的Rust变量。接下来是一组括号，用于捕获与括号内模式匹配的值，以便在替换代码中使用。在<code>$()</code>内是<code>$x:expr</code>，它匹配任何Rust表达式，并将该表达式命名为<code>$x</code>。</p>
 <p data-x-en="The comma following $() indicates that a literal comma separator character could optionally appear after the code that matches the code in $(). The * specifies that the pattern matches zero or more of whatever precedes the *.">逗号跟随在 <code>$()</code> 之后表示一个字面上的逗号分隔符字符 可以选择性地出现在与 <code>$()</code> 中的代码匹配的代码之后。 <code>*</code> 指定模式匹配零个或多个 <code>*</code> 前面的任何内容。</p>
 <p data-x-en="When we call this macro with vec![1, 2, 3];, the $x pattern matches three times with the three expressions 1, 2, and 3.">当我们用 <code>vec![1, 2, 3];</code> 调用这个宏时，<code>$x</code> 模式会与三个表达式 <code>1</code>、<code>2</code> 和 <code>3</code> 匹配三次。</p>

@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -684,7 +683,7 @@ where
 <p data-x-en="This is the longest function from Listing 10-21 that returns the longer of two string slices. But now it has an extra parameter named ann of the generic type T, which can be filled in by any type that implements the Display trait as specified by the where clause. This extra parameter will be printed using {}, which is why the Display trait bound is necessary. Because lifetimes are a type of generic, the declarations of the lifetime parameter 'a and the generic type parameter T go in the same list inside the angle brackets after the function name.">这是来自列表 10-21 的 <code>longest</code> 函数，它返回两个字符串切片中较长的那个。但现在它有一个额外的参数 <code>ann</code>，其类型为泛型 <code>T</code>，可以由任何实现了 <code>Display</code> 特性的类型填充，如 <code>where</code> 子句所指定。这个额外的参数将使用 <code>{}</code> 打印，这就是为什么需要 <code>Display</code> 特性约束。因为生命周期是一种泛型，所以生命周期参数 <code>'a</code> 和泛型类型参数 <code>T</code> 的声明在函数名称后的尖括号内同一个列表中。</p>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="We covered a lot in this chapter! Now that you know about generic type parameters, traits and trait bounds, and generic lifetime parameters, you’re ready to write code without repetition that works in many different situations. Generic type parameters let you apply the code to different types. Traits and trait bounds ensure that even though the types are generic, they’ll have the behavior the code needs. You learned how to use lifetime annotations to ensure that this flexible code won’t have any dangling references. And all of this analysis happens at compile time, which doesn’t affect runtime performance!">我们在本章中涵盖了大量内容！现在你已经了解了泛型类型参数、特质和特质边界，以及泛型生命周期参数，你已经准备好编写能够在多种不同情况下工作的、不重复的代码。泛型类型参数让你可以将代码应用于不同的类型。特质和特质边界确保即使类型是泛型的，它们也会具有代码所需的行为。你学会了如何使用生命周期注解来确保这种灵活的代码不会有任何悬垂引用。所有这些分析都在编译时发生，不会影响运行时性能！</p>
-<p data-x-en="Believe it or not, there is much more to learn on the topics we discussed in this chapter: Chapter 18 discusses trait objects, which are another way to use traits. There are also more complex scenarios involving lifetime annotations that you will only need in very advanced scenarios; for those, you should read the Rust Reference. But next, you’ll learn how to write tests in Rust so you can make sure your code is working the way it should.">不管你信不信，我们在本章讨论的主题还有更多内容可以学习：第18章讨论了特质对象，这是使用特质的另一种方式。还有一些涉及生命周期注解的更复杂场景，你只有在非常高级的情况下才需要；对于这些，你应该阅读<a href="../reference/index.html">Rust参考手册</a>。但接下来，你将学习如何在Rust中编写测试，以确保你的代码按预期工作。</p>
+<p data-x-en="Believe it or not, there is much more to learn on the topics we discussed in this chapter: Chapter 18 discusses trait objects, which are another way to use traits. There are also more complex scenarios involving lifetime annotations that you will only need in very advanced scenarios; for those, you should read the Rust Reference. But next, you’ll learn how to write tests in Rust so you can make sure your code is working the way it should.">不管你信不信，我们在本章讨论的主题还有更多内容可以学习：第18章讨论了特质对象，这是使用特质的另一种方式。还有一些涉及生命周期注解的更复杂场景，你只有在非常高级的情况下才需要；对于这些，你应该阅读<a href="https://doc.rust-lang.org/reference/index.html" target="_blank">Rust参考手册</a>。但接下来，你将学习如何在Rust中编写测试，以确保你的代码按预期工作。</p>
 
                     </main>
 

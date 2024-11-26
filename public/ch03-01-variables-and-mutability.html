@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -291,7 +290,7 @@ The value of x is: 6
 </span><span class="boring">fn main() {
 </span>const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="The constant’s name is THREE_HOURS_IN_SECONDS and its value is set to the result of multiplying 60 (the number of seconds in a minute) by 60 (the number of minutes in an hour) by 3 (the number of hours we want to count in this program). Rust’s naming convention for constants is to use all uppercase with underscores between words. The compiler is able to evaluate a limited set of operations at compile time, which lets us choose to write out this value in a way that’s easier to understand and verify, rather than setting this constant to the value 10,800. See the Rust Reference’s section on constant evaluation for more information on what operations can be used when declaring constants.">常量的名称是<code>THREE_HOURS_IN_SECONDS</code>，其值设置为60（一分钟的秒数）乘以60（一小时的分钟数）再乘以3（我们在这个程序中想要计算的小时数）。Rust中常量的命名约定是使用全大写并在单词之间使用下划线。编译器能够在编译时评估有限的操作，这使我们能够选择以更容易理解和验证的方式写出这个值，而不是将这个常量设置为10,800。有关声明常量时可以使用哪些操作的更多信息，请参阅<a href="../reference/const_eval.html">Rust参考手册中关于常量评估的部分</a>。</p>
+<p data-x-en="The constant’s name is THREE_HOURS_IN_SECONDS and its value is set to the result of multiplying 60 (the number of seconds in a minute) by 60 (the number of minutes in an hour) by 3 (the number of hours we want to count in this program). Rust’s naming convention for constants is to use all uppercase with underscores between words. The compiler is able to evaluate a limited set of operations at compile time, which lets us choose to write out this value in a way that’s easier to understand and verify, rather than setting this constant to the value 10,800. See the Rust Reference’s section on constant evaluation for more information on what operations can be used when declaring constants.">常量的名称是<code>THREE_HOURS_IN_SECONDS</code>，其值设置为60（一分钟的秒数）乘以60（一小时的分钟数）再乘以3（我们在这个程序中想要计算的小时数）。Rust中常量的命名约定是使用全大写并在单词之间使用下划线。编译器能够在编译时评估有限的操作，这使我们能够选择以更容易理解和验证的方式写出这个值，而不是将这个常量设置为10,800。有关声明常量时可以使用哪些操作的更多信息，请参阅<a href="https://doc.rust-lang.org/reference/const_eval.html" target="_blank">Rust参考手册中关于常量评估的部分</a>。</p>
 <p data-x-en="Constants are valid for the entire time a program runs, within the scope in which they were declared. This property makes constants useful for values in your application domain that multiple parts of the program might need to know about, such as the maximum number of points any player of a game is allowed to earn, or the speed of light.">常量在其声明的作用域内对程序运行的整个时间都有效。这一特性使得常量对于应用程序领域中多个程序部分可能需要了解的值非常有用，例如游戏中任何玩家允许获得的最高分数，或光速。</p>
 <p data-x-en="Naming hardcoded values used throughout your program as constants is useful in conveying the meaning of that value to future maintainers of the code. It also helps to have only one place in your code you would need to change if the hardcoded value needed to be updated in the future.">将程序中使用的硬编码值命名为常量，有助于向未来的代码维护者传达该值的含义。同时，如果将来需要更新硬编码值，这样做也可以确保你只需要在一个地方进行更改。</p>
 <h3 id="shadowing"><a class="header" href="#shadowing">遮蔽</a></h3>

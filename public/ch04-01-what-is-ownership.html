@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -313,7 +312,7 @@ blockquote {
     }                                  // this scope is now over, and s is no
                                        // longer valid
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="There is a natural point at which we can return the memory our String needs to the allocator: when s goes out of scope. When a variable goes out of scope, Rust calls a special function for us. This function is called drop, and it’s where the author of String can put the code to return the memory. Rust calls drop automatically at the closing curly bracket.">有一个自然的时机，我们可以将<code>String</code>所需的内存返回给分配器：当<code>s</code>超出作用域时。当一个变量超出作用域时，Rust会为我们调用一个特殊函数。这个函数被称为<a href="../std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->，这是<code>String</code>的作者可以放置释放内存代码的地方。Rust会在闭合的大括号处自动调用<code>drop</code>。</p>
+<p data-x-en="There is a natural point at which we can return the memory our String needs to the allocator: when s goes out of scope. When a variable goes out of scope, Rust calls a special function for us. This function is called drop, and it’s where the author of String can put the code to return the memory. Rust calls drop automatically at the closing curly bracket.">有一个自然的时机，我们可以将<code>String</code>所需的内存返回给分配器：当<code>s</code>超出作用域时。当一个变量超出作用域时，Rust会为我们调用一个特殊函数。这个函数被称为<a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop" target="_blank"><code>drop</code></a><!-- ignore -->，这是<code>String</code>的作者可以放置释放内存代码的地方。Rust会在闭合的大括号处自动调用<code>drop</code>。</p>
 <section class="note" aria-role="note">
 <p data-x-en="Note: In C++, this pattern of deallocating resources at the end of an item’s lifetime is sometimes called Resource Acquisition Is Initialization (RAII). The drop function in Rust will be familiar to you if you’ve used RAII patterns.">注意：在 C++ 中，这种在项目生命周期结束时释放资源的模式有时被称为 <em>资源获取即初始化 (RAII)</em>。如果您使用过 RAII 模式，Rust 中的 <code>drop</code> 函数对您来说应该很熟悉。</p>
 </section>

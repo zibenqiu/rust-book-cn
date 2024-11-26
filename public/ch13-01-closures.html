@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -295,7 +294,7 @@ fn main() {
 <figcaption>Listing 13-1: Shirt company giveaway situation</figcaption>
 </figure>
 <p data-x-en="The store defined in main has two blue shirts and one red shirt remaining to distribute for this limited-edition promotion. We call the giveaway method for a user with a preference for a red shirt and a user without any preference.">在 <code>main</code> 中定义的 <code>store</code> 还剩下两件蓝色衬衫和一件红色衬衫可以分发给这次限量版促销活动。我们为一个偏好红色衬衫的用户和一个没有特定偏好的用户调用 <code>giveaway</code> 方法。</p>
-<p data-x-en="Again, this code could be implemented in many ways, and here, to focus on closures, we’ve stuck to concepts you’ve already learned except for the body of the giveaway method that uses a closure. In the giveaway method, we get the user preference as a parameter of type Option<ShirtColor> and call the unwrap_or_else method on user_preference. The unwrap_or_else method on Option<T> is defined by the standard library. It takes one argument: a closure without any arguments that returns a value T (the same type stored in the Some variant of the Option<T>, in this case ShirtColor). If the Option<T> is the Some variant, unwrap_or_else returns the value from within the Some. If the Option<T> is the None variant, unwrap_or_else calls the closure and returns the value returned by the closure.">再次，这段代码可以以多种方式实现，这里为了专注于闭包，我们只使用了你已经学过的概念，除了<code>giveaway</code>方法的主体部分使用了闭包。在<code>giveaway</code>方法中，我们获取用户偏好作为类型为<code>Option&lt;ShirtColor&gt;</code>的参数，并在<code>user_preference</code>上调用<code>unwrap_or_else</code>方法。<a href="../std/option/enum.Option.html#method.unwrap_or_else"><code>Option&lt;T&gt;</code>上的<code>unwrap_or_else</code>方法</a><!-- ignore --> 是由标准库定义的。它接受一个参数：一个不带任何参数的闭包，该闭包返回一个值<code>T</code>（与<code>Option&lt;T&gt;</code>中的<code>Some</code>变体存储的类型相同，在这种情况下为<code>ShirtColor</code>）。如果<code>Option&lt;T&gt;</code>是<code>Some</code>变体，<code>unwrap_or_else</code>返回<code>Some</code>中的值。如果<code>Option&lt;T&gt;</code>是<code>None</code>变体，<code>unwrap_or_else</code>调用闭包并返回闭包返回的值。</p>
+<p data-x-en="Again, this code could be implemented in many ways, and here, to focus on closures, we’ve stuck to concepts you’ve already learned except for the body of the giveaway method that uses a closure. In the giveaway method, we get the user preference as a parameter of type Option<ShirtColor> and call the unwrap_or_else method on user_preference. The unwrap_or_else method on Option<T> is defined by the standard library. It takes one argument: a closure without any arguments that returns a value T (the same type stored in the Some variant of the Option<T>, in this case ShirtColor). If the Option<T> is the Some variant, unwrap_or_else returns the value from within the Some. If the Option<T> is the None variant, unwrap_or_else calls the closure and returns the value returned by the closure.">再次，这段代码可以以多种方式实现，这里为了专注于闭包，我们只使用了你已经学过的概念，除了<code>giveaway</code>方法的主体部分使用了闭包。在<code>giveaway</code>方法中，我们获取用户偏好作为类型为<code>Option&lt;ShirtColor&gt;</code>的参数，并在<code>user_preference</code>上调用<code>unwrap_or_else</code>方法。<a href="https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_or_else" target="_blank"><code>Option&lt;T&gt;</code>上的<code>unwrap_or_else</code>方法</a><!-- ignore --> 是由标准库定义的。它接受一个参数：一个不带任何参数的闭包，该闭包返回一个值<code>T</code>（与<code>Option&lt;T&gt;</code>中的<code>Some</code>变体存储的类型相同，在这种情况下为<code>ShirtColor</code>）。如果<code>Option&lt;T&gt;</code>是<code>Some</code>变体，<code>unwrap_or_else</code>返回<code>Some</code>中的值。如果<code>Option&lt;T&gt;</code>是<code>None</code>变体，<code>unwrap_or_else</code>调用闭包并返回闭包返回的值。</p>
 <p data-x-en="We specify the closure expression || self.most_stocked() as the argument to unwrap_or_else. This is a closure that takes no parameters itself (if the closure had parameters, they would appear between the two vertical bars). The body of the closure calls self.most_stocked(). We’re defining the closure here, and the implementation of unwrap_or_else will evaluate the closure later if the result is needed.">我们指定闭包表达式 <code>|| self.most_stocked()</code> 作为 <code>unwrap_or_else</code> 的参数。这是一个不带参数的闭包（如果闭包有参数，它们会出现在两个竖线之间）。闭包的主体调用 <code>self.most_stocked()</code>。我们在这里定义闭包，<code>unwrap_or_else</code> 的实现将在需要结果时稍后评估闭包。</p>
 <p data-x-en="Running this code prints:">运行此代码会打印：</p>
 <pre><code class="language-console">$ cargo run

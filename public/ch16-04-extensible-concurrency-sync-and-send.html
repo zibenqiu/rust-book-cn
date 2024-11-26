@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -240,7 +239,7 @@ blockquote {
 <h3 id="implementing-send-and-sync-manually-is-unsafe"><a class="header" href="#implementing-send-and-sync-manually-is-unsafe">手动实现 <code>Send</code> 和 <code>Sync</code> 是不安全的</a></h3>
 <p data-x-en="Because types that are made up of Send and Sync traits are automatically also Send and Sync, we don’t have to implement those traits manually. As marker traits, they don’t even have any methods to implement. They’re just useful for enforcing invariants related to concurrency.">因为由 <code>Send</code> 和 <code>Sync</code> 特性组成的类型会自动也是 <code>Send</code> 和 <code>Sync</code>，所以我们不必手动实现这些特性。作为标记特性，它们甚至没有任何方法需要实现。它们只是有助于强制执行与并发相关的不变性。</p>
 <p data-x-en="Manually implementing these traits involves implementing unsafe Rust code. We’ll talk about using unsafe Rust code in Chapter 20; for now, the important information is that building new concurrent types not made up of Send and Sync parts requires careful thought to uphold the safety guarantees. “The Rustonomicon” has more information about these guarantees and how to uphold them.">手动实现这些特质涉及到实现不安全的 Rust 代码。
-我们将在第 20 章讨论使用不安全的 Rust 代码；目前，重要的是构建新的并发类型，这些类型不由 <code>Send</code> 和 <code>Sync</code> 组成，需要仔细考虑以维护安全保证。 <a href="../nomicon/index.html">“Rustonomicon”</a> 提供了更多关于这些保证及其维护方法的信息。</p>
+我们将在第 20 章讨论使用不安全的 Rust 代码；目前，重要的是构建新的并发类型，这些类型不由 <code>Send</code> 和 <code>Sync</code> 组成，需要仔细考虑以维护安全保证。 <a href="https://doc.rust-lang.org/nomicon/index.html" target="_blank">“Rustonomicon”</a> 提供了更多关于这些保证及其维护方法的信息。</p>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="This isn’t the last you’ll see of concurrency in this book: the whole next chapter focuses on async programming, and the project in Chapter 21 will use the concepts in this chapter in a more realistic situation than the smaller examples discussed here.">这不会是你在这本书中最后一次看到并发：下一整章将专注于异步编程，第21章的项目将在更现实的情况下使用本章的概念，而不仅仅是这里讨论的小例子。</p>
 <p data-x-en="As mentioned earlier, because very little of how Rust handles concurrency is part of the language, many concurrency solutions are implemented as crates. These evolve more quickly than the standard library, so be sure to search online for the current, state-of-the-art crates to use in multithreaded situations.">正如前面提到的，因为 Rust 处理并发的方式中很少部分是语言本身的一部分，许多并发解决方案都是以 crates 的形式实现的。这些 crates 比标准库进化得更快，所以请务必在线搜索当前最先进的 crates，以便在多线程情况下使用。</p>

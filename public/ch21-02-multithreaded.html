@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -691,7 +690,7 @@ impl Worker {
 <p data-x-en="We’ve changed the name of the field on ThreadPool from threads to workers because it’s now holding Worker instances instead of JoinHandle<()> instances. We use the counter in the for loop as an argument to Worker::new, and we store each new Worker in the vector named workers.">我们将 <code>ThreadPool</code> 上的字段名从 <code>threads</code> 更改为 <code>workers</code>，因为现在它保存的是 <code>Worker</code> 实例而不是 <code>JoinHandle&lt;()&gt;</code> 实例。我们在 <code>for</code> 循环中使用计数器作为 <code>Worker::new</code> 的参数，并将每个新的 <code>Worker</code> 存储在名为 <code>workers</code> 的向量中。</p>
 <p data-x-en="External code (like our server in src/main.rs) doesn’t need to know the implementation details regarding using a Worker struct within ThreadPool, so we make the Worker struct and its new function private. The Worker::new function uses the id we give it and stores a JoinHandle<()> instance that is created by spawning a new thread using an empty closure.">外部代码（如 <em>src/main.rs</em> 中的服务器）不需要知道在 <code>ThreadPool</code> 内部使用 <code>Worker</code> 结构体的实现细节，因此我们将 <code>Worker</code> 结构体及其 <code>new</code> 函数设为私有。<code>Worker::new</code> 函数使用我们提供的 <code>id</code>，并存储一个通过使用空闭包创建的新线程生成的 <code>JoinHandle&lt;()&gt;</code> 实例。</p>
 <section class="note" aria-role="note">
-<p data-x-en="Note: If the operating system can’t create a thread because there aren’t enough system resources, thread::spawn will panic. That will cause our whole server to panic, even though the creation of some threads might succeed. For simplicity’s sake, this behavior is fine, but in a production thread pool implementation, you’d likely want to use std::thread::Builder and its spawn method that returns Result instead.">注意：如果操作系统因为系统资源不足而无法创建线程，<code>thread::spawn</code> 将会 panic。这将导致我们的整个服务器 panic，即使某些线程的创建可能成功。为了简单起见，这种行为是可以接受的，但在生产环境的线程池实现中，你可能希望使用 <a href="../std/thread/struct.Builder.html"><code>std::thread::Builder</code></a><!-- ignore --> 及其 <a href="../std/thread/struct.Builder.html#method.spawn"><code>spawn</code></a><!-- ignore --> 方法，该方法返回 <code>Result</code>。</p>
+<p data-x-en="Note: If the operating system can’t create a thread because there aren’t enough system resources, thread::spawn will panic. That will cause our whole server to panic, even though the creation of some threads might succeed. For simplicity’s sake, this behavior is fine, but in a production thread pool implementation, you’d likely want to use std::thread::Builder and its spawn method that returns Result instead.">注意：如果操作系统因为系统资源不足而无法创建线程，<code>thread::spawn</code> 将会 panic。这将导致我们的整个服务器 panic，即使某些线程的创建可能成功。为了简单起见，这种行为是可以接受的，但在生产环境的线程池实现中，你可能希望使用 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html" target="_blank"><code>std::thread::Builder</code></a><!-- ignore --> 及其 <a href="https://doc.rust-lang.org/std/thread/struct.Builder.html#method.spawn" target="_blank"><code>spawn</code></a><!-- ignore --> 方法，该方法返回 <code>Result</code>。</p>
 </section>
 <p data-x-en="This code will compile and will store the number of Worker instances we specified as an argument to ThreadPool::new. But we’re still not processing the closure that we get in execute. Let’s look at how to do that next.">这段代码将编译，并将我们作为 <code>ThreadPool::new</code> 的参数指定的 <code>Worker</code> 实例的数量存储起来。但我们 <em>仍然</em> 没有处理我们在 <code>execute</code> 中接收到的闭包。接下来让我们看看如何处理这个问题。</p>
 <h4 id="sending-requests-to-threads-via-channels"><a class="header" href="#sending-requests-to-threads-via-channels">Sending Requests to Threads via Channels</a></h4>

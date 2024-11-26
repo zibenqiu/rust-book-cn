@@ -58,7 +58,7 @@ li[data-x-en]::after {
   transition: all 0.2s 0.3s;
   visibility: hidden;
   opacity: 0;
-  background: #cccccc;
+  background: var(--searchbar-bg);
   z-index: 99;
   border-radius: 4px;
   padding: 5px 10px;
@@ -94,7 +94,6 @@ header a.logo::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
   padding: 0;
   z-index: 999;
@@ -345,7 +344,7 @@ blockquote {
 
     let loopback = IpAddr::V6(String::from("::1"));
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="We’ve shown several different ways to define data structures to store version four and version six IP addresses. However, as it turns out, wanting to store IP addresses and encode which kind they are is so common that the standard library has a definition we can use! Let’s look at how the standard library defines IpAddr: it has the exact enum and variants that we’ve defined and used, but it embeds the address data inside the variants in the form of two different structs, which are defined differently for each variant:">我们展示了多种定义数据结构的方法来存储版本四和版本六的IP地址。然而，事实证明，希望存储IP地址并编码它们的类型是如此普遍，以至于<a href="../std/net/enum.IpAddr.html">标准库提供了一个我们可以使用的定义！</a><!-- ignore --> 让我们看看标准库是如何定义<code>IpAddr</code>的：它具有我们定义和使用的确切枚举和变体，但它在变体内部以两种不同的结构体形式嵌入地址数据，每种变体的定义方式不同：</p>
+<p data-x-en="We’ve shown several different ways to define data structures to store version four and version six IP addresses. However, as it turns out, wanting to store IP addresses and encode which kind they are is so common that the standard library has a definition we can use! Let’s look at how the standard library defines IpAddr: it has the exact enum and variants that we’ve defined and used, but it embeds the address data inside the variants in the form of two different structs, which are defined differently for each variant:">我们展示了多种定义数据结构的方法来存储版本四和版本六的IP地址。然而，事实证明，希望存储IP地址并编码它们的类型是如此普遍，以至于<a href="https://doc.rust-lang.org/std/net/enum.IpAddr.html" target="_blank">标准库提供了一个我们可以使用的定义！</a><!-- ignore --> 让我们看看标准库是如何定义<code>IpAddr</code>的：它具有我们定义和使用的确切枚举和变体，但它在变体内部以两种不同的结构体形式嵌入地址数据，每种变体的定义方式不同：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ipv4Addr {
@@ -423,7 +422,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 </blockquote>
 <p data-x-en="The problem with null values is that if you try to use a null value as a not-null value, you’ll get an error of some kind. Because this null or not-null property is pervasive, it’s extremely easy to make this kind of error."><p>空值的问题在于，如果你试图将空值用作非空值，你会得到某种错误。由于这种空或非空的属性是普遍存在的，因此非常容易犯这种错误。</p></p>
 <p data-x-en="However, the concept that null is trying to express is still a useful one: a null is a value that is currently invalid or absent for some reason.">然而，null试图表达的概念仍然是有用的：一个null是一个由于某种原因当前无效或缺失的值。</p>
-<p data-x-en="The problem isn’t really with the concept but with the particular implementation. As such, Rust does not have nulls, but it does have an enum that can encode the concept of a value being present or absent. This enum is Option<T>, and it is defined by the standard library as follows:">问题不在于概念本身，而在于特定的实现。因此，Rust 没有 null，但它确实有一个可以编码值存在或不存在概念的枚举。这个枚举是 <code>Option&lt;T&gt;</code>，并且它是由 <a href="../std/option/enum.Option.html">标准库定义的</a> 如下：</p>
+<p data-x-en="The problem isn’t really with the concept but with the particular implementation. As such, Rust does not have nulls, but it does have an enum that can encode the concept of a value being present or absent. This enum is Option<T>, and it is defined by the standard library as follows:">问题不在于概念本身，而在于特定的实现。因此，Rust 没有 null，但它确实有一个可以编码值存在或不存在概念的枚举。这个枚举是 <code>Option&lt;T&gt;</code>，并且它是由 <a href="https://doc.rust-lang.org/std/option/enum.Option.html" target="_blank">标准库定义的</a> 如下：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
@@ -474,7 +473,7 @@ error: could not compile `enums` (bin "enums") due to 1 previous error
 <p data-x-en="Intense! In effect, this error message means that Rust doesn’t understand how to add an i8 and an Option<i8>, because they’re different types. When we have a value of a type like i8 in Rust, the compiler will ensure that we always have a valid value. We can proceed confidently without having to check for null before using that value. Only when we have an Option<i8> (or whatever type of value we’re working with) do we have to worry about possibly not having a value, and the compiler will make sure we handle that case before using the value.">紧张！实际上，这个错误信息意味着 Rust 不知道如何将 <code>i8</code> 和 <code>Option&lt;i8&gt;</code> 相加，因为它们是不同的类型。当我们有一个像 <code>i8</code> 这样的类型的值时，编译器会确保我们始终有一个有效的值。我们可以自信地使用该值，而无需在使用之前检查是否为 null。只有当我们有一个 <code>Option&lt;i8&gt;</code>（或我们正在处理的任何类型的值）时，我们才需要担心可能没有值，编译器会确保我们在使用该值之前处理这种情况。</p>
 <p data-x-en="In other words, you have to convert an Option<T> to a T before you can perform T operations with it. Generally, this helps catch one of the most common issues with null: assuming that something isn’t null when it actually is.">换句话说，你必须将一个 <code>Option&lt;T&gt;</code> 转换为 <code>T</code> 才能使用 <code>T</code> 进行操作。通常，这有助于捕获与空值最常见的问题之一：假设某物不是空值而实际上它是。</p>
 <p data-x-en="Eliminating the risk of incorrectly assuming a not-null value helps you to be more confident in your code. In order to have a value that can possibly be null, you must explicitly opt in by making the type of that value Option<T>. Then, when you use that value, you are required to explicitly handle the case when the value is null. Everywhere that a value has a type that isn’t an Option<T>, you can safely assume that the value isn’t null. This was a deliberate design decision for Rust to limit null’s pervasiveness and increase the safety of Rust code.">消除错误地假设非空值的风险有助于您对代码更加自信。为了拥有一个可能为空的值，您必须通过将该值的类型设置为<code>Option&lt;T&gt;</code>来显式选择加入。然后，在使用该值时，您需要显式处理值为空的情况。在所有值的类型不是<code>Option&lt;T&gt;</code>的地方，您可以<em>安全地</em>假设该值不是空的。这是Rust的一个故意设计决定，旨在限制空值的普遍性并提高Rust代码的安全性。</p>
-<p data-x-en="So how do you get the T value out of a Some variant when you have a value of type Option<T> so that you can use that value? The Option<T> enum has a large number of methods that are useful in a variety of situations; you can check them out in its documentation. Becoming familiar with the methods on Option<T> will be extremely useful in your journey with Rust.">那么，当你有一个类型为 <code>Option&lt;T&gt;</code> 的值时，如何从 <code>Some</code> 变体中获取 <code>T</code> 值以便使用该值呢？<code>Option&lt;T&gt;</code> 枚举有许多在各种情况下都非常有用的方法；你可以在 <a href="../std/option/enum.Option.html">其文档</a><!-- ignore --> 中查看这些方法。熟悉 <code>Option&lt;T&gt;</code> 的方法将对你的 Rust 之旅极为有用。</p>
+<p data-x-en="So how do you get the T value out of a Some variant when you have a value of type Option<T> so that you can use that value? The Option<T> enum has a large number of methods that are useful in a variety of situations; you can check them out in its documentation. Becoming familiar with the methods on Option<T> will be extremely useful in your journey with Rust.">那么，当你有一个类型为 <code>Option&lt;T&gt;</code> 的值时，如何从 <code>Some</code> 变体中获取 <code>T</code> 值以便使用该值呢？<code>Option&lt;T&gt;</code> 枚举有许多在各种情况下都非常有用的方法；你可以在 <a href="https://doc.rust-lang.org/std/option/enum.Option.html" target="_blank">其文档</a><!-- ignore --> 中查看这些方法。熟悉 <code>Option&lt;T&gt;</code> 的方法将对你的 Rust 之旅极为有用。</p>
 <p data-x-en="In general, in order to use an Option<T> value, you want to have code that will handle each variant. You want some code that will run only when you have a Some(T) value, and this code is allowed to use the inner T. You want some other code to run only if you have a None value, and that code doesn’t have a T value available. The match expression is a control flow construct that does just this when used with enums: it will run different code depending on which variant of the enum it has, and that code can use the data inside the matching value.">一般来说，为了使用 <code>Option&lt;T&gt;</code> 值，你希望有能够处理每个变体的代码。你希望有一些代码仅在你有一个 <code>Some(T)</code> 值时运行，并且这段代码可以使用内部的 <code>T</code>。你希望有其他代码仅在你有一个 <code>None</code> 值时运行，而这段代码没有 <code>T</code> 值可用。<code>match</code> 表达式是一种控制流结构，当与枚举一起使用时，它会根据枚举的哪个变体运行不同的代码，并且这些代码可以使用匹配值中的数据。</p>
 
                     </main>
