@@ -61,20 +61,6 @@ Promise.all(
       const dom = new JSDOM(rawString, { url: 'https://rust.xheldon.com' });
       const document = dom.window.document;
 
-      // Note: 修改 DOM 地址，如果本手册没有，就跳到原始地址
-      for (const a of document.querySelectorAll('a')) {
-        const href = a.href;
-        const url = new URL(href);
-        if (
-          url.origin === 'https://rust.xheldon.com' &&
-          url.pathname?.split('/').length > 2
-        ) {
-          a.href = href.replace(
-            'https://rust.xheldon.com',
-            'https://doc.rust-lang.org'
-          );
-        }
-      }
       // Note: 修改 head 部分的 meta 信息
       document.querySelector('html').setAttribute('lang', 'zh-CN');
       const head = document.querySelector('head');
@@ -254,6 +240,24 @@ Promise.all(
       ).finally(() => {
         // 在文件处理完成后（不管有没有错误,保存更新后的字典
         console.log(`${file} 翻译完成`);
+        // Note: 修改 DOM 地址，如果本手册没有，就跳到原始地址
+        for (const a of document.querySelectorAll('a')) {
+          try {
+            const href = a.href;
+            const url = new URL(href);
+            if (
+              url.origin === 'https://rust.xheldon.com' &&
+              url.pathname?.split('/').length > 2
+            ) {
+              const newHref = href.replace(
+                'https://rust.xheldon.com',
+                'https://doc.rust-lang.org'
+              );
+              a.setAttribute('target', '_blank');
+              a.setAttribute('href', newHref);
+            }
+          } catch (e) {}
+        }
         fs.writeFileSync(dictPath, JSON.stringify(dict, null, 2));
         fs.writeFileSync(file, dom.serialize());
         rootResolve();
@@ -261,5 +265,5 @@ Promise.all(
     });
   })
 ).finally(() => {
-  console.log(`文件全部翻译完成`);
+  console.log('文件全部翻译完成');
 });
