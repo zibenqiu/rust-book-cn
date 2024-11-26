@@ -21,7 +21,7 @@ const defaultConfig = (more) => {
     },
     {
       container: '#page-wrapper #content',
-      selector: `p, h1, h2, h3, li`,
+      selector: 'p, h1, h2, h3, li',
     },
   ];
 };
@@ -46,8 +46,7 @@ const propertyMap = {
 
 const semaphore = new Semaphore(MAX_CONCURRENT);
 // 使用 glob 模块来匹配文件
-let files;
-files = glob.sync(path.resolve(__dirname, `book_src/book/**/*.html`), {
+const files = glob.sync(path.resolve(__dirname, 'book_src/book/**/*.html'), {
   ignore: ['**/print.html'], // 跳过 print 页面 ，因为它是全部页面的集合！
 });
 Promise.all(
@@ -59,23 +58,37 @@ Promise.all(
         process.exit(1);
       }
       const key = path.relative(__dirname, file);
-      const dom = new JSDOM(rawString);
+      const dom = new JSDOM(rawString, { url: 'https://rust.xheldon.com' });
       const document = dom.window.document;
 
+      // Note: 修改 DOM 地址，如果本手册没有，就跳到原始地址
+      for (const a of document.querySelectorAll('a')) {
+        const href = a.href;
+        const url = new URL(href);
+        if (
+          url.origin === 'https://rust.xheldon.com' &&
+          url.pathname?.split('/').length > 2
+        ) {
+          a.href = a.href.replace(
+            'https://rust.xheldon.com',
+            'https://doc.rust-lang.org'
+          );
+        }
+      }
       // Note: 修改 head 部分的 meta 信息
       document.querySelector('html').setAttribute('lang', 'zh-CN');
       const head = document.querySelector('head');
       if (head) {
         const metas = head.querySelectorAll('meta');
         if (metas.length) {
-          metas.forEach((meta) => {
+          for (const meta of metas) {
             const property = meta.getAttribute('property');
             if (property && propertyMap[property]) {
               meta.setAttribute('content', propertyMap[property]);
             }
-          });
+          }
         }
-        Object.keys(propertyMap).forEach((property) => {
+        for (const property of Object.keys(propertyMap)) {
           const meta = document.createElement('meta');
           meta.setAttribute('name', property);
           meta.setAttribute('content', propertyMap[property]);
@@ -85,7 +98,7 @@ Promise.all(
           meta2.setAttribute('property', `og:${property}`);
           meta2.setAttribute('content', propertyMap[property]);
           head.appendChild(meta2);
-        });
+        }
         // Note: 增加 google 统计/广告（要吃饭呀）
         // Note: 谷歌统计
         const script = document.createElement('script');
@@ -144,7 +157,7 @@ Promise.all(
       // Note: 如果 config 中的路径文件不存在，则使用默认，否则使用 config 配置文件
       let list = [];
       list = (config[key] || defaultConfig())
-        .map((c) => {
+        .flatMap((c) => {
           const container = document.querySelector(c.container);
           if (!container) {
             console.log(`${file} 未找到 ${c.container} 标签`);
@@ -154,7 +167,6 @@ Promise.all(
             ...container.querySelectorAll(`${c.selector}:not([data-x-en])`),
           ];
         })
-        .flat()
         .filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
