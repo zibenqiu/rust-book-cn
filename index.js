@@ -69,7 +69,7 @@ Promise.all(
           url.origin === 'https://rust.xheldon.com' &&
           url.pathname?.split('/').length > 2
         ) {
-          a.href = a.href.replace(
+          a.href = href.replace(
             'https://rust.xheldon.com',
             'https://doc.rust-lang.org'
           );
