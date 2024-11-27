@@ -308,7 +308,7 @@
     "_note": ""
   },
   "Note: You won’t just know which traits to use and which methods and functions to call from a crate, so each crate has documentation with instructions for using it. Another neat feature of Cargo is that running the cargo doc --open command will build documentation provided by all your dependencies locally and open it in your browser. If you’re interested in other functionality in the rand crate, for example, run cargo doc --open and click rand in the sidebar on the left.": {
-    "_translate": "注意：您不会仅仅知道要使用哪个特质以及从哪个 crate 调用哪些方法和函数，因此每个 crate 都有包含使用说明的文档。Cargo 的另一个便捷功能是，运行 <code>cargo doc --open</code> 命令将构建所有依赖项提供的文档，并在您的浏览器中打开。例如，如果您对 <code>rand</code> crate 的其他功能感兴趣，可以运行 <code>cargo doc --open</code> 并在左侧边栏中点击 <code>rand</code>。",
+    "_translate": "注意：您可能不一定知道要使用哪个特质以及从哪个 crate 调用哪些方法和函数，因此每个 crate 都有包含使用说明的文档。Cargo 的另一个便捷功能是，运行 <code>cargo doc --open</code> 命令将构建所有依赖项提供的文档，并在您的浏览器中打开。例如，如果您对 <code>rand</code> crate 的其他功能感兴趣，可以运行 <code>cargo doc --open</code> 并在左侧边栏中点击 <code>rand</code>。",
     "_note": ""
   },
   "Try running the program a few times:": {
