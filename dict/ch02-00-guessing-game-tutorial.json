@@ -228,7 +228,7 @@
     "_note": ""
   },
   "Cargo’s coordination of external crates is where Cargo really shines. Before we can write code that uses rand, we need to modify the Cargo.toml file to include the rand crate as a dependency. Open that file now and add the following line to the bottom, beneath the [dependencies] section header that Cargo created for you. Be sure to specify rand exactly as we have here, with this version number, or the code examples in this tutorial may not work:": {
-    "_translate": "Cargo 的外部 crate 协调是 Cargo 真正发光的地方。在我们能够编写使用 <code>rand</code> 的代码之前，我们需要修改 <em>Cargo.toml</em> 文件，将 <code>rand</code> crate 作为依赖项包含进去。现在打开该文件，并在 Cargo 为你创建的 <code>[dependencies]</code> 部分标题下方添加以下行。确保指定 <code>rand</code> 时与这里完全相同，包括这个版本号，否则本教程中的代码示例可能无法工作：",
+    "_translate": "Cargo 在协调外部 crate 方面表现出色。在我们能够编写使用 <code>rand</code> 的代码之前，我们需要修改 <em>Cargo.toml</em> 文件，将 <code>rand</code> crate 作为依赖项包含进去。现在打开该文件，并在 Cargo 为你创建的 <code>[dependencies]</code> 部分标题下方添加以下行。确保指定 <code>rand</code> 时与这里完全相同，包括这个版本号，否则本教程中的代码示例可能无法工作：",
     "_note": ""
   },
   "In the Cargo.toml file, everything that follows a header is part of that section that continues until another section starts. In [dependencies] you tell Cargo which external crates your project depends on and which versions of those crates you require. In this case, we specify the rand crate with the semantic version specifier 0.8.5. Cargo understands Semantic Versioning (sometimes called SemVer), which is a standard for writing version numbers. The specifier 0.8.5 is actually shorthand for ^0.8.5, which means any version that is at least 0.8.5 but below 0.9.0.": {
