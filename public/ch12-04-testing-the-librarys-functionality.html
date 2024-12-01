@@ -397,7 +397,7 @@ error: test failed, to rerun pass `--lib`
 <li data-x-en="Return the list of results that match.">返回匹配的结果列表。</li>
 </ol>
 <p data-x-en="Let’s work through each step, starting with iterating through lines.">让我们逐步进行，从遍历行开始。</p>
-<h4 id="iterating-through-lines-with-the-lines-method"><a class="header" href="#iterating-through-lines-with-the-lines-method">Iterating Through Lines with the <code>lines</code> Method</a></h4>
+<h4 id="iterating-through-lines-with-the-lines-method" data-x-en="Iterating Through Lines with the lines Method"><a class="header" href="#iterating-through-lines-with-the-lines-method">使用 <code>lines</code> 方法遍历行</a></h4>
 <p data-x-en="Rust has a helpful method to handle line-by-line iteration of strings, conveniently named lines, that works as shown in Listing 12-17. Note that this won’t compile yet.">Rust 有一个有助于处理字符串逐行迭代的有用方法，方便地命名为 <code>lines</code>，如清单 12-17 所示。请注意，这还不能编译。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
@@ -452,7 +452,7 @@ error: test failed, to rerun pass `--lib`
 <figcaption>Listing 12-17: Iterating through each line in <code>contents</code></figcaption>
 </figure>
 <p data-x-en="The lines method returns an iterator. We’ll talk about iterators in depth in Chapter 13, but recall that you saw this way of using an iterator in Listing 3-5, where we used a for loop with an iterator to run some code on each item in a collection."><code>lines</code> 方法返回一个迭代器。我们将在<a href="ch13-02-iterators.html">第 13 章</a><!-- ignore -->中深入讨论迭代器，但请回想一下，您在<a href="ch03-05-control-flow.html#looping-through-a-collection-with-for">示例 3-5</a><!-- ignore -->中看到了这种使用迭代器的方式，我们在其中使用了一个<code>for</code>循环和迭代器来对集合中的每个项目运行一些代码。</p>
-<h4 id="searching-each-line-for-the-query"><a class="header" href="#searching-each-line-for-the-query">Searching Each Line for the Query</a></h4>
+<h4 id="searching-each-line-for-the-query" data-x-en="Searching Each Line for the Query"><a class="header" href="#searching-each-line-for-the-query">搜索每一行以查找查询内容</a></h4>
 <p data-x-en="Next, we’ll check whether the current line contains our query string. Fortunately, strings have a helpful method named contains that does this for us! Add a call to the contains method in the search function, as shown in Listing 12-18. Note that this still won’t compile yet.">接下来，我们将检查当前行是否包含我们的查询字符串。
 幸运的是，字符串有一个名为<code>contains</code>的有用方法，可以为我们完成这项工作！在<code>search</code>函数中添加对<code>contains</code>方法的调用，如清单12-18所示。请注意，这仍然无法编译。</p>
 <figure class="listing">
@@ -510,7 +510,7 @@ error: test failed, to rerun pass `--lib`
 <figcaption>Listing 12-18: Adding functionality to see whether the line contains the string in <code>query</code></figcaption>
 </figure>
 <p data-x-en="At the moment, we’re building up functionality. To get the code to compile, we need to return a value from the body as we indicated we would in the function signature.">目前，我们正在构建功能。为了让代码编译通过，我们需要从函数体中返回一个值，正如我们在函数签名中所指示的那样。</p>
-<h4 id="storing-matching-lines"><a class="header" href="#storing-matching-lines">Storing Matching Lines</a></h4>
+<h4 id="storing-matching-lines" data-x-en="Storing Matching Lines"><a class="header" href="#storing-matching-lines">存储匹配的行</a></h4>
 <p data-x-en="To finish this function, we need a way to store the matching lines that we want to return. For that, we can make a mutable vector before the for loop and call the push method to store a line in the vector. After the for loop, we return the vector, as shown in Listing 12-19.">为了完成这个函数，我们需要一种方法来存储我们想要返回的匹配行。为此，我们可以在 <code>for</code> 循环之前创建一个可变向量，并调用 <code>push</code> 方法将 <code>line</code> 存储在向量中。在 <code>for</code> 循环之后，我们返回该向量，如列表 12-19 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
@@ -597,7 +597,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 </code></pre>
 <p data-x-en="Our test passed, so we know it works!">我们的测试通过了，所以我们知道它有效！</p>
 <p data-x-en="At this point, we could consider opportunities for refactoring the implementation of the search function while keeping the tests passing to maintain the same functionality. The code in the search function isn’t too bad, but it doesn’t take advantage of some useful features of iterators. We’ll return to this example in Chapter 13, where we’ll explore iterators in detail, and look at how to improve it.">在这一点上，我们可以考虑在保持测试通过以维护相同功能的同时，重构搜索函数的实现的机会。搜索函数中的代码还不错，但没有充分利用迭代器的一些有用特性。我们将在<a href="ch13-02-iterators.html">第13章</a><!-- ignore -->中详细探讨迭代器，并看看如何改进它。</p>
-<h4 id="using-the-search-function-in-the-run-function"><a class="header" href="#using-the-search-function-in-the-run-function">Using the <code>search</code> Function in the <code>run</code> Function</a></h4>
+<h4 id="using-the-search-function-in-the-run-function" data-x-en="Using the search Function in the run Function"><a class="header" href="#using-the-search-function-in-the-run-function">在 <code>run</code> 函数中使用 <code>search</code> 函数</a></h4>
 <p data-x-en="Now that the search function is working and tested, we need to call search from our run function. We need to pass the config.query value and the contents that run reads from the file to the search function. Then run will print each line returned from search:">现在 <code>search</code> 函数已经可以工作并且经过了测试，我们需要从 <code>run</code> 函数中调用 <code>search</code>。我们需要将 <code>config.query</code> 值和 <code>run</code> 从文件中读取的 <code>contents</code> 传递给 <code>search</code> 函数。然后 <code>run</code> 将打印从 <code>search</code> 返回的每一行：</p>
 <p data-x-en="Filename: src/lib.rs"><span class="filename">文件名: src/lib.rs</span></p>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;

@@ -154,5 +154,13 @@
   "Cargo Workspaces - The Rust Programming Language": {
     "_translate": "Cargo 工作区 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Depending on an External Package in a Workspace": {
+    "_translate": "<a class=\"header\" href=\"#depending-on-an-external-package-in-a-workspace\">在工作区中依赖外部包</a>",
+    "_note": ""
+  },
+  "Adding a Test to a Workspace": {
+    "_translate": "<a class=\"header\" href=\"#adding-a-test-to-a-workspace\">在工作区中添加测试</a>",
+    "_note": ""
   }
 }

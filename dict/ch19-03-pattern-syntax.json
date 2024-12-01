@@ -346,5 +346,37 @@
   "Pattern Syntax - The Rust Programming Language": {
     "_translate": "模式语法 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Destructuring Structs": {
+    "_translate": "<a class=\"header\" href=\"#destructuring-structs\">解构结构体</a>",
+    "_note": ""
+  },
+  "Destructuring Enums": {
+    "_translate": "<a class=\"header\" href=\"#destructuring-enums\">解构枚举</a>",
+    "_note": ""
+  },
+  "Destructuring Nested Structs and Enums": {
+    "_translate": "<a class=\"header\" href=\"#destructuring-nested-structs-and-enums\">解构嵌套的结构体和枚举</a>",
+    "_note": ""
+  },
+  "Destructuring Structs and Tuples": {
+    "_translate": "<a class=\"header\" href=\"#destructuring-structs-and-tuples\">解构结构体和元组</a>",
+    "_note": ""
+  },
+  "Ignoring an Entire Value with _": {
+    "_translate": "<a class=\"header\" href=\"#ignoring-an-entire-value-with-_\">使用 <code>_</code> 忽略整个值</a>",
+    "_note": ""
+  },
+  "Ignoring Parts of a Value with a Nested _": {
+    "_translate": "<a class=\"header\" href=\"#ignoring-parts-of-a-value-with-a-nested-_\">使用嵌套的 <code>_</code> 忽略值的部分</a>",
+    "_note": ""
+  },
+  "Ignoring an Unused Variable by Starting Its Name with _": {
+    "_translate": "<a class=\"header\" href=\"#ignoring-an-unused-variable-by-starting-its-name-with-_\">通过在名称前加<code>_</code>来忽略未使用的变量</a>",
+    "_note": ""
+  },
+  "Ignoring Remaining Parts of a Value with ..": {
+    "_translate": "<a class=\"header\" href=\"#ignoring-remaining-parts-of-a-value-with-\">使用 <code>..</code> 忽略值的剩余部分</a>",
+    "_note": ""
   }
 }

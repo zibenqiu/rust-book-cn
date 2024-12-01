@@ -222,5 +222,37 @@
   "Saturate at the value’s minimum or maximum values with the saturating_* methods.": {
     "_translate": "使用 <code>saturating_*</code> 方法在值的最小值或最大值处饱和。",
     "_note": ""
+  },
+  "Integer Types": {
+    "_translate": "<a class=\"header\" href=\"#integer-types\">整数类型</a>",
+    "_note": ""
+  },
+  "Floating-Point Types": {
+    "_translate": "<a class=\"header\" href=\"#floating-point-types\">浮点类型</a>",
+    "_note": ""
+  },
+  "Floating-point numbers are represented according to the IEEE-754 standard.": {
+    "_translate": "浮点数根据 IEEE-754 标准表示。",
+    "_note": ""
+  },
+  "Numeric Operations": {
+    "_translate": "<a class=\"header\" href=\"#numeric-operations\">数值运算</a>",
+    "_note": ""
+  },
+  "The Boolean Type": {
+    "_translate": "<a class=\"header\" href=\"#the-boolean-type\">布尔类型</a>",
+    "_note": ""
+  },
+  "The Character Type": {
+    "_translate": "<a class=\"header\" href=\"#the-character-type\">字符类型</a>",
+    "_note": ""
+  },
+  "The Tuple Type": {
+    "_translate": "<a class=\"header\" href=\"#the-tuple-type\">元组类型</a>",
+    "_note": ""
+  },
+  "The Array Type": {
+    "_translate": "<a class=\"header\" href=\"#the-array-type\">数组类型</a>",
+    "_note": ""
   }
 }

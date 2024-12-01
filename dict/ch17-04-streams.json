@@ -154,5 +154,9 @@
   "Streams - The Rust Programming Language": {
     "_translate": "Streams - 《Rust 编程语言》",
     "_note": ""
+  },
+  "A sequence of items is something we’ve seen before, when we looked at the Iterator trait in Chapter 13. There are two differences between iterators and the async channel receiver, though. The first is the element of time: iterators are synchronous, while the channel receiver is asynchronous. The second is the API. When working directly with an Iterator, we call its synchronous next method. With the trpl::Receiver stream in particular, we called an asynchronous recv method instead. These APIs otherwise feel very similar.": {
+    "_translate": "一系列项目是我们之前在第 13 章讨论 <code>Iterator</code> 特性时见过的。然而，迭代器和异步通道接收器之间有两个不同点。第一个是时间因素：迭代器是同步的，而通道接收器是异步的。第二个是 API。当我们直接使用 <code>Iterator</code> 时，我们调用其同步的 <code>next</code> 方法。而对于 <code>trpl::Receiver</code> 流，我们调用的是异步的 <code>recv</code> 方法。这些 API 否则感觉非常相似。",
+    "_note": ""
   }
 }

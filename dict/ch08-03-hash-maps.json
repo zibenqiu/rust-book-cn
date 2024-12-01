@@ -158,5 +158,17 @@
   "Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company; for example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.": {
     "_translate": "使用哈希映射和向量，创建一个文本界面，允许用户将员工姓名添加到公司的部门中；例如，“将 Sally 添加到工程部”或“将 Amir 添加到销售部”。然后让用户检索某个部门中所有人员的列表或按部门排序的公司中所有人员的列表，按字母顺序排列。",
     "_note": ""
+  },
+  "Overwriting a Value": {
+    "_translate": "<a class=\"header\" href=\"#overwriting-a-value\">覆盖一个值</a>",
+    "_note": ""
+  },
+  "Adding a Key and Value Only If a Key Isn’t Present": {
+    "_translate": "<a class=\"header\" href=\"#adding-a-key-and-value-only-if-a-key-isnt-present\">仅在键不存在时添加键和值</a>",
+    "_note": ""
+  },
+  "Updating a Value Based on the Old Value": {
+    "_translate": "<a class=\"header\" href=\"#updating-a-value-based-on-the-old-value\">根据旧值更新值</a>",
+    "_note": ""
   }
 }

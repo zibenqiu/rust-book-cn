@@ -146,5 +146,21 @@
   "When you’re done with the data that the mutex guards, you must unlock the data so other threads can acquire the lock.": {
     "_translate": "当你完成对互斥锁保护的数据的操作后，必须解锁数据，以便其他线程可以获取锁。",
     "_note": ""
+  },
+  "The API of Mutex<T>": {
+    "_translate": "<a class=\"header\" href=\"#the-api-of-mutext\">互斥锁 <code>Mutex&lt;T&gt;</code> 的 API</a>",
+    "_note": ""
+  },
+  "Sharing a Mutex<T> Between Multiple Threads": {
+    "_translate": "<a class=\"header\" href=\"#sharing-a-mutext-between-multiple-threads\">在多个线程之间共享 <code>Mutex&lt;T&gt;</code></a>",
+    "_note": ""
+  },
+  "Multiple Ownership with Multiple Threads": {
+    "_translate": "<a class=\"header\" href=\"#multiple-ownership-with-multiple-threads\">多线程中的多重所有权</a>",
+    "_note": ""
+  },
+  "Atomic Reference Counting with Arc<T>": {
+    "_translate": "<a class=\"header\" href=\"#atomic-reference-counting-with-arct\">使用 <code>Arc&lt;T&gt;</code> 进行原子引用计数</a>",
+    "_note": ""
   }
 }

@@ -178,5 +178,13 @@
   "The Slice Type - The Rust Programming Language": {
     "_translate": "切片类型 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "String Literals as Slices": {
+    "_translate": "<a class=\"header\" href=\"#string-literals-as-slices\">字符串字面量作为切片</a>",
+    "_note": ""
+  },
+  "String Slices as Parameters": {
+    "_translate": "<a class=\"header\" href=\"#string-slices-as-parameters\">字符串切片作为参数</a>",
+    "_note": ""
   }
 }

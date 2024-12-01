@@ -102,5 +102,13 @@
   "Improving Our I/O Project - The Rust Programming Language": {
     "_translate": "改善我们的 I/O 项目 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Using the Returned Iterator Directly": {
+    "_translate": "<a class=\"header\" href=\"#using-the-returned-iterator-directly\">直接使用返回的迭代器</a>",
+    "_note": ""
+  },
+  "Using Iterator Trait Methods Instead of Indexing": {
+    "_translate": "<a class=\"header\" href=\"#using-iterator-trait-methods-instead-of-indexing\">使用 <code>Iterator</code> 特性方法而不是索引</a>",
+    "_note": ""
   }
 }

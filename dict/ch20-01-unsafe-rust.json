@@ -318,5 +318,61 @@
   "Don’t implement any automatic cleanup": {
     "_translate": "不要实现任何自动清理",
     "_note": ""
+  },
+  "We’ve created raw pointers by using the raw borrow operators: &raw const num creates a *const i32 immutable raw pointer, and &raw mut num creates a *mut i32 mutable raw pointer. Because we created them directly from a local variable, we know these particular raw pointers are valid, but we can’t make that assumption about just any raw pointer.": {
+    "_translate": "我们通过使用原始借用操作符创建了原始指针：<code>&amp;raw const num</code> 创建一个 <code>*const i32</code> 不可变原始指针，而 <code>&amp;raw mut num</code> 创建一个 <code>*mut i32</code> 可变原始指针。因为它们是直接从一个局部变量创建的，我们知道这些特定的原始指针是有效的，但我们不能对任何原始指针都做出这样的假设。",
+    "_note": ""
+  },
+  "Creating a Safe Abstraction over Unsafe Code": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-safe-abstraction-over-unsafe-code\">在不安全代码上创建安全抽象</a>",
+    "_note": ""
+  },
+  "Using extern Functions to Call External Code": {
+    "_translate": "<a class=\"header\" href=\"#using-extern-functions-to-call-external-code\">使用 <code>extern</code> 函数调用外部代码</a>",
+    "_note": ""
+  },
+  "Listing 20-8 demonstrates how to set up an integration with the abs function from the C standard library. Functions declared within extern blocks are usually unsafe to call from Rust code, so they must also be marked unsafe. The reason is that other languages don’t enforce Rust’s rules and guarantees, and Rust can’t check them, so responsibility falls on the programmer to ensure safety.": {
+    "_translate": "列表 20-8 展示了如何设置与 C 标准库中的 <code>abs</code> 函数的集成。在 <code>extern</code> 块中声明的函数通常从 Rust 代码调用时是不安全的，因此也必须标记为 <code>unsafe</code>。原因是其他语言不会强制执行 Rust 的规则和保证，而 Rust 也无法检查它们，因此确保安全性的责任落在程序员身上。",
+    "_note": ""
+  },
+  "Within the unsafe extern \"C\" block, we list the names and signatures of external functions from another language we want to call. The \"C\" part defines which application binary interface (ABI) the external function uses: the ABI defines how to call the function at the assembly level. The \"C\" ABI is the most common and follows the C programming language’s ABI.": {
+    "_translate": "在 <code>unsafe extern \"C\"</code> 块中，我们列出想要调用的来自另一种语言的外部函数的名称和签名。<code>\"C\"</code> 部分定义了外部函数使用的 <em>应用程序二进制接口 (ABI)</em>：ABI 定义了如何在汇编级别调用函数。<code>\"C\"</code> ABI 是最常用的，并遵循 C 编程语言的 ABI。",
+    "_note": ""
+  },
+  "Marking a function as safe does not inherently make it safe! Instead, it is like a promise you are making to Rust that it is safe. It is still your responsibility to make sure that promise is kept!": {
+    "_translate": "将函数标记为<code>safe</code>并不会使其本身变得安全！相反，这像是你对Rust做出的一个承诺，即它是<em>安全的</em>。你仍然有责任确保这个承诺得以兑现！",
+    "_note": ""
+  },
+  "This particular function does not have any memory safety considerations, though. In fact, we know that any call to abs will always be safe for any i32, so we can use the safe keyword to say that this specific function is safe to call even though it is in an unsafe extern block. Once we make that change, calling it no longer requires an unsafe block, as shown in Listing 20-9.": {
+    "_translate": "这个特定的函数没有任何内存安全问题，尽管如此。\n事实上，我们知道对 <code>abs</code> 的任何调用对于任何 <code>i32</code> 都是安全的，因此我们可以使用 <code>safe</code> 关键字来声明这个特定的函数是安全调用的，\n即使它位于 <code>unsafe extern</code> 块中。一旦我们进行了这一更改，调用它就不再需要 <code>unsafe</code> 块，如清单 20-9 所示。",
+    "_note": ""
+  },
+  "Calling Rust Functions from Other Languages": {
+    "_translate": "<a class=\"header\" href=\"#calling-rust-functions-from-other-languages\">从其他语言调用Rust函数</a>",
+    "_note": ""
+  },
+  "In Rust, global variables are called static variables. Listing 20-10 shows an example declaration and use of a static variable with a string slice as a value.": {
+    "_translate": "在 Rust 中，全局变量被称为 <em>静态</em> 变量。列表 20-10 显示了一个使用字符串切片作为值的静态变量的声明和使用示例。",
+    "_note": ""
+  },
+  "We can also use extern to create an interface that allows other languages to call Rust functions. Instead of creating a whole extern block, we add the extern keyword and specify the ABI to use just before the fn keyword for the relevant function. We also need to add a #[unsafe(no_mangle)] annotation to tell the Rust compiler not to mangle the name of this function. Mangling is when a compiler changes the name we’ve given a function to a different name that contains more information for other parts of the compilation process to consume but is less human readable. Every programming language compiler mangles names slightly differently, so for a Rust function to be nameable by other languages, we must disable the Rust compiler’s name mangling. This is unsafe because there might be name collisions across libraries without the built-in mangling, so it is our responsibility to make sure the name we have exported is safe to export without mangling.": {
+    "_translate": "我们还可以使用 <code>extern</code> 创建一个接口，允许其他语言调用 Rust 函数。我们不必创建一个完整的 <code>extern</code> 块，而是在相关函数的 <code>fn</code> 关键字之前添加 <code>extern</code> 关键字并指定要使用的 ABI。我们还需要添加一个 <code>#[unsafe(no_mangle)]</code> 注解，以告诉 Rust 编译器不要混淆此函数的名称。<em>混淆</em> 是指编译器将我们给定的函数名称更改为包含其他编译过程部分所需更多信息的不同名称，但可读性较差。每种编程语言的编译器对名称的混淆方式都有所不同，因此为了让 Rust 函数能够被其他语言命名，我们必须禁用 Rust 编译器的名称混淆。这是不安全的，因为在没有内置混淆的情况下，库之间可能会发生名称冲突，因此我们必须确保导出的名称在没有混淆的情况下是安全的。",
+    "_note": ""
+  },
+  "A subtle difference between constants and immutable static variables is that values in a static variable have a fixed address in memory. Using the value will always access the same data. Constants, on the other hand, are allowed to duplicate their data whenever they’re used. Another difference is that static variables can be mutable. Accessing and modifying mutable static variables is unsafe. Listing 20-11 shows how to declare, access, and modify a mutable static variable named COUNTER.": {
+    "_translate": "常量和不可变静态变量之间的一个细微差别是，静态变量中的值在内存中有一个固定的地址。使用该值将始终访问相同的数据。另一方面，常量在使用时允许复制其数据。另一个不同之处在于静态变量可以是可变的。访问和修改可变静态变量是<em>不安全的</em>。列表 20-11 显示了如何声明、访问和修改一个名为 <code>COUNTER</code> 的可变静态变量。",
+    "_note": ""
+  },
+  "We can use unsafe to implement an unsafe trait. A trait is unsafe when at least one of its methods has some invariant that the compiler can’t verify. We declare that a trait is unsafe by adding the unsafe keyword before trait and marking the implementation of the trait as unsafe too, as shown in Listing 20-12.": {
+    "_translate": "我们可以使用 <code>unsafe</code> 来实现一个不安全的特质。当特质的至少一个方法具有一些编译器无法验证的不变量时，该特质就是不安全的。我们通过在 <code>trait</code> 前添加 <code>unsafe</code> 关键字来声明一个特质是 <code>unsafe</code> 的，并且也将特质的实现标记为 <code>unsafe</code>，如清单 20-12 所示。",
+    "_note": ""
+  },
+  "When writing unsafe code, you might want to check that what you have written actually is safe and correct. One of the best ways to do that is to use Miri, an official Rust tool for detecting undefined behavior. Whereas the borrow checker is a static tool which works at compile time, Miri is a dynamic tool which works at runtime. It checks your code by running your program, or its test suite, and detecting when you violate the rules it understands about how Rust should work.": {
+    "_translate": "在编写不安全的代码时，您可能希望检查您编写的内容实际上是安全和正确的。做到这一点的最好方法之一是使用<a href=\"https://github.com/rust-lang/miri\">Miri</a>，这是一个官方的 Rust 工具，用于检测未定义行为。虽然借用检查器是一个在编译时工作的<em>静态</em>工具，但 Miri 是一个在运行时工作的<em>动态</em>工具。它通过运行您的程序或其测试套件，并检测您何时违反了它理解的 Rust 应如何工作的规则来检查您的代码。",
+    "_note": ""
+  },
+  "For an example of how helpful this can be, consider what happens when we run it against Listing 20-11:": {
+    "_translate": "为了举例说明这有多有帮助，考虑一下当我们将其运行在示例 20-11 时会发生什么：",
+    "_note": ""
   }
 }

@@ -358,5 +358,21 @@
   "Tuples, if they only contain types that also implement Copy. For example, (i32, i32) implements Copy, but (i32, String) does not.": {
     "_translate": "元组，如果它们只包含也实现了<code>Copy</code>的类型。例如，<code>(i32, i32)</code>实现了<code>Copy</code>，但<code>(i32, String)</code>没有。",
     "_note": ""
+  },
+  "Variables and Data Interacting with Move": {
+    "_translate": "<a class=\"header\" href=\"#variables-and-data-interacting-with-move\">变量和数据与 Move 交互</a>",
+    "_note": ""
+  },
+  "Scope and Assignment": {
+    "_translate": "<a class=\"header\" href=\"#scope-and-assignment\">作用域和赋值</a>",
+    "_note": ""
+  },
+  "Variables and Data Interacting with Clone": {
+    "_translate": "<a class=\"header\" href=\"#variables-and-data-interacting-with-clone\">变量和数据与 Clone 交互</a>",
+    "_note": ""
+  },
+  "Stack-Only Data: Copy": {
+    "_translate": "<a class=\"header\" href=\"#stack-only-data-copy\">仅栈数据：Copy</a>",
+    "_note": ""
   }
 }

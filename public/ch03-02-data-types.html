@@ -254,7 +254,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <p data-x-en="You’ll see different type annotations for other data types.">您将看到其他数据类型的不同类型注解。</p>
 <h3 id="scalar-types"><a class="header" href="#scalar-types">标量类型</a></h3>
 <p data-x-en="A scalar type represents a single value. Rust has four primary scalar types: integers, floating-point numbers, Booleans, and characters. You may recognize these from other programming languages. Let’s jump into how they work in Rust.">一个 <em>标量</em> 类型表示一个单一的值。Rust 有四种主要的标量类型：整数、浮点数、布尔值和字符。你可能从其他编程语言中认识这些类型。让我们来看看它们在 Rust 中是如何工作的。</p>
-<h4 id="integer-types"><a class="header" href="#integer-types">Integer Types</a></h4>
+<h4 id="integer-types" data-x-en="Integer Types"><a class="header" href="#integer-types">整数类型</a></h4>
 <p data-x-en="An integer is a number without a fractional component. We used one integer type in Chapter 2, the u32 type. This type declaration indicates that the value it’s associated with should be an unsigned integer (signed integer types start with i instead of u) that takes up 32 bits of space. Table 3-1 shows the built-in integer types in Rust. We can use any of these variants to declare the type of an integer value.">一个<em>整数</em>是没有小数部分的数字。我们在第2章中使用了一种整数类型，即<code>u32</code>类型。这种类型声明表示其关联的值应该是一个无符号整数（有符号整数类型以<code>i</code>而不是<code>u</code>开头），占用32位空间。表3-1显示了Rust中的内置整数类型。我们可以使用这些变体中的任何一种来声明整数值的类型。</p>
 <p data-x-en="Table 3-1: Integer Types in Rust"><span class="caption">表 3-1：Rust 中的整数类型</span></p>
 <div class="table-wrapper"><table><thead><tr><th>Length</th><th>Signed</th><th>Unsigned</th></tr></thead><tbody>
@@ -299,7 +299,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <li data-x-en="Saturate at the value’s minimum or maximum values with the saturating_* methods.">使用 <code>saturating_*</code> 方法在值的最小值或最大值处饱和。</li>
 </ul>
 </section>
-<h4 id="floating-point-types"><a class="header" href="#floating-point-types">Floating-Point Types</a></h4>
+<h4 id="floating-point-types" data-x-en="Floating-Point Types"><a class="header" href="#floating-point-types">浮点类型</a></h4>
 <p data-x-en="Rust also has two primitive types for floating-point numbers, which are numbers with decimal points. Rust’s floating-point types are f32 and f64, which are 32 bits and 64 bits in size, respectively. The default type is f64 because on modern CPUs, it’s roughly the same speed as f32 but is capable of more precision. All floating-point types are signed.">Rust 也有两种用于<em>浮点数</em>的原始类型，即带有小数点的数字。Rust 的浮点类型是 <code>f32</code> 和 <code>f64</code>，它们的大小分别为 32 位和 64 位。默认类型是 <code>f64</code>，因为在现代 CPU 上，它的速度与 <code>f32</code> 大致相同，但能够提供更高的精度。所有浮点类型都是有符号的。</p>
 <p data-x-en="Here’s an example that shows floating-point numbers in action:">这里有一个示例，展示了浮点数的实际应用：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
@@ -308,8 +308,8 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 
     let y: f32 = 3.0; // f32
 }</code></pre></pre>
-<p data-x-en="Floating-point numbers are represented according to the IEEE-754 standard. The f32 type is a single-precision float, and f64 has double precision.">浮点数根据 IEEE-754 标准表示。<code>f32</code> 类型是单精度浮点数，而 <code>f64</code> 具有双精度。</p>
-<h4 id="numeric-operations"><a class="header" href="#numeric-operations">Numeric Operations</a></h4>
+<p data-x-en="Floating-point numbers are represented according to the IEEE-754 standard.">浮点数根据 IEEE-754 标准表示。</p>
+<h4 id="numeric-operations" data-x-en="Numeric Operations"><a class="header" href="#numeric-operations">数值运算</a></h4>
 <p data-x-en="Rust supports the basic mathematical operations you’d expect for all the number types: addition, subtraction, multiplication, division, and remainder. Integer division truncates toward zero to the nearest integer. The following code shows how you’d use each numeric operation in a let statement:">Rust 支持所有数字类型的基本数学运算：加法、减法、乘法、除法和取余。整数除法会向零舍入到最近的整数。以下代码展示了如何在 <code>let</code> 语句中使用每个数值运算：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
@@ -330,7 +330,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
     let remainder = 43 % 5;
 }</code></pre></pre>
 <p data-x-en="Each expression in these statements uses a mathematical operator and evaluates to a single value, which is then bound to a variable. Appendix B contains a list of all operators that Rust provides.">这些语句中的每个表达式都使用了一个数学运算符，并评估为一个单一的值，然后绑定到一个变量。 <a href="appendix-02-operators.html">附录 B</a><!-- ignore --> 包含了 Rust 提供的所有运算符的列表。</p>
-<h4 id="the-boolean-type"><a class="header" href="#the-boolean-type">The Boolean Type</a></h4>
+<h4 id="the-boolean-type" data-x-en="The Boolean Type"><a class="header" href="#the-boolean-type">布尔类型</a></h4>
 <p data-x-en="As in most other programming languages, a Boolean type in Rust has two possible values: true and false. Booleans are one byte in size. The Boolean type in Rust is specified using bool. For example:">如大多数其他编程语言一样，Rust 中的布尔类型有两种可能的值：<code>true</code> 和 <code>false</code>。布尔值占用一个字节。Rust 中的布尔类型使用 <code>bool</code> 指定。例如：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
@@ -339,7 +339,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
     let f: bool = false; // with explicit type annotation
 }</code></pre></pre>
 <p data-x-en="The main way to use Boolean values is through conditionals, such as an if expression. We’ll cover how if expressions work in Rust in the “Control Flow” section.">使用布尔值的主要方式是通过条件语句，例如 <code>if</code> 表达式。我们将在 <a href="ch03-05-control-flow.html#control-flow">“控制流”</a><!-- ignore --> 部分介绍 Rust 中 <code>if</code> 表达式的工作原理。</p>
-<h4 id="the-character-type"><a class="header" href="#the-character-type">The Character Type</a></h4>
+<h4 id="the-character-type" data-x-en="The Character Type"><a class="header" href="#the-character-type">字符类型</a></h4>
 <p data-x-en="Rust’s char type is the language’s most primitive alphabetic type. Here are some examples of declaring char values:">Rust 的 <code>char</code> 类型是语言中最基本的字母类型。以下是一些声明 <code>char</code> 值的示例：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
@@ -350,7 +350,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <p data-x-en="Note that we specify char literals with single quotes, as opposed to string literals, which use double quotes. Rust’s char type is four bytes in size and represents a Unicode Scalar Value, which means it can represent a lot more than just ASCII. Accented letters; Chinese, Japanese, and Korean characters; emoji; and zero-width spaces are all valid char values in Rust. Unicode Scalar Values range from U+0000 to U+D7FF and U+E000 to U+10FFFF inclusive. However, a “character” isn’t really a concept in Unicode, so your human intuition for what a “character” is may not match up with what a char is in Rust. We’ll discuss this topic in detail in “Storing UTF-8 Encoded Text with Strings” in Chapter 8.">请注意，我们使用单引号指定 <code>char</code> 字面量，而字符串字面量则使用双引号。Rust 的 <code>char</code> 类型大小为四个字节，表示一个 Unicode 标量值，这意味着它可以表示比 ASCII 更多的内容。带重音的字母；中文、日文和韩文字符；表情符号；以及零宽度空格都是 Rust 中有效的 <code>char</code> 值。Unicode 标量值的范围从 <code>U+0000</code> 到 <code>U+D7FF</code> 和 <code>U+E000</code> 到 <code>U+10FFFF</code>（包括这两个范围）。然而，“字符”在 Unicode 中并不是一个真正的概念，因此你对“字符”的直觉可能与 Rust 中的 <code>char</code> 不完全匹配。我们将在第 8 章的 <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“使用字符串存储 UTF-8 编码的文本”</a><!-- ignore --> 中详细讨论这个主题。</p>
 <h3 id="compound-types"><a class="header" href="#compound-types">复合类型</a></h3>
 <p data-x-en="Compound types can group multiple values into one type. Rust has two primitive compound types: tuples and arrays."><em>复合类型</em>可以将多个值组合成一种类型。Rust 有两种原始复合类型：元组和数组。</p>
-<h4 id="the-tuple-type"><a class="header" href="#the-tuple-type">The Tuple Type</a></h4>
+<h4 id="the-tuple-type" data-x-en="The Tuple Type"><a class="header" href="#the-tuple-type">元组类型</a></h4>
 <p data-x-en="A tuple is a general way of grouping together a number of values with a variety of types into one compound type. Tuples have a fixed length: once declared, they cannot grow or shrink in size.">一个 <em>元组</em> 是将多个具有不同类型的值组合成一种复合类型的一般方法。元组具有固定长度：一旦声明，它们不能增长或缩小。</p>
 <p data-x-en="We create a tuple by writing a comma-separated list of values inside parentheses. Each position in the tuple has a type, and the types of the different values in the tuple don’t have to be the same. We’ve added optional type annotations in this example:">我们通过在括号内写入以逗号分隔的值列表来创建元组。元组中的每个位置都有一个类型，元组中不同值的类型不必相同。我们在本例中添加了可选的类型注解：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
@@ -383,7 +383,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 }</code></pre></pre>
 <p data-x-en="This program creates the tuple x and then accesses each element of the tuple using their respective indices. As with most programming languages, the first index in a tuple is 0.">这个程序创建了元组 <code>x</code>，然后使用各自的索引来访问元组中的每个元素。与大多数编程语言一样，元组中的第一个索引是 0。</p>
 <p data-x-en="The tuple without any values has a special name, unit. This value and its corresponding type are both written () and represent an empty value or an empty return type. Expressions implicitly return the unit value if they don’t return any other value.">不含任何值的元组有一个特殊的名字，<em>单元</em>。这个值及其对应的类型都写作 <code>()</code>，表示一个空值或一个空的返回类型。如果表达式没有返回其他值，它们会隐式地返回单元值。</p>
-<h4 id="the-array-type"><a class="header" href="#the-array-type">The Array Type</a></h4>
+<h4 id="the-array-type" data-x-en="The Array Type"><a class="header" href="#the-array-type">数组类型</a></h4>
 <p data-x-en="Another way to have a collection of multiple values is with an array. Unlike a tuple, every element of an array must have the same type. Unlike arrays in some other languages, arrays in Rust have a fixed length.">另一种拥有多个值集合的方法是使用<em>数组</em>。与元组不同，数组中的每个元素必须具有相同的类型。与其他一些语言中的数组不同，Rust 中的数组具有固定的长度。</p>
 <p data-x-en="We write the values in an array as a comma-separated list inside square brackets:">我们以逗号分隔的列表形式在方括号内写入数组的值:</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>

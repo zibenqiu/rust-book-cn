@@ -232,7 +232,7 @@ blockquote {
 <section class="note" aria-role="note">
 <p data-x-en="Note: This section assumes you’ve read the earlier section “Using the Newtype Pattern to Implement External Traits on External Types.”">注意：本节假设您已阅读了前面的部分 <a href="ch20-03-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types">“使用 Newtype 模式在外部类型上实现外部特征。”</a></p>
 </section>
-<p data-x-en="The newtype pattern is also useful for tasks beyond those we’ve discussed so far, including statically enforcing that values are never confused and indicating the units of a value. You saw an example of using newtypes to indicate units in Listing 20-15: recall that the Millimeters and Meters structs wrapped u32 values in a newtype. If we wrote a function with a parameter of type Millimeters, we couldn’t compile a program that accidentally tried to call that function with a value of type Meters or a plain u32.">新类型模式对于我们迄今为止讨论的任务之外的任务也非常有用，包括静态强制值永不混淆和指示值的单位。您在清单 20-15 中看到了使用新类型来指示单位的示例：<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在新类型中。如果我们编写了一个参数类型为 <code>Millimeters</code> 的函数，我们就不能编译一个意外尝试用类型为 <code>Meters</code> 或普通 <code>u32</code> 的值调用该函数的程序。</p>
+<p data-x-en="The newtype pattern is also useful for tasks beyond those we’ve discussed so far, including statically enforcing that values are never confused and indicating the units of a value. You saw an example of using newtypes to indicate units in Listing 20-16: recall that the Millimeters and Meters structs wrapped u32 values in a newtype. If we wrote a function with a parameter of type Millimeters, we couldn’t compile a program that accidentally tried to call that function with a value of type Meters or a plain u32.">新类型模式对于我们迄今为止讨论的任务之外的任务也非常有用，包括静态强制值永不混淆和指示值的单位。您在列表 20-16 中看到了使用新类型来指示单位的示例：<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在新类型中。如果我们编写了一个参数类型为 <code>Millimeters</code> 的函数，我们就不能编译一个意外尝试用类型为 <code>Meters</code> 或普通 <code>u32</code> 的值调用该函数的程序。</p>
 <p data-x-en="We can also use the newtype pattern to abstract away some implementation details of a type: the new type can expose a public API that is different from the API of the private inner type.">我们还可以使用新类型模式来抽象某个类型的某些实现细节：新类型可以暴露一个与私有内部类型API不同的公共API。</p>
 <p data-x-en="Newtypes can also hide internal implementation. For example, we could provide a People type to wrap a HashMap<i32, String> that stores a person’s ID associated with their name. Code using People would only interact with the public API we provide, such as a method to add a name string to the People collection; that code wouldn’t need to know that we assign an i32 ID to names internally. The newtype pattern is a lightweight way to achieve encapsulation to hide implementation details, which we discussed in the “Encapsulation that Hides Implementation Details” section of Chapter 18.">新类型也可以隐藏内部实现。例如，我们可以提供一个<code>People</code>类型来包装一个<code>HashMap&lt;i32, String&gt;</code>，该类型存储与人名相关联的ID。使用<code>People</code>的代码只会与我们提供的公共API交互，例如一个将名称字符串添加到<code>People</code>集合中的方法；该代码不需要知道我们在内部为名称分配了一个<code>i32</code> ID。新类型模式是一种轻量级的实现封装的方法，以隐藏实现细节，我们在第18章的<a href="ch18-01-what-is-oo.html#encapsulation-that-hides-implementation-details">“封装以隐藏实现细节”</a>部分讨论过这一点。</p>
 <h3 id="creating-type-synonyms-with-type-aliases"><a class="header" href="#creating-type-synonyms-with-type-aliases">使用类型别名创建类型同义词</a></h3>
@@ -245,8 +245,8 @@ blockquote {
 </span><span class="boring">
 </span><span class="boring">    println!("x + y = {}", x + y);
 </span><span class="boring">}</span></code></pre></pre>
-<p data-x-en="Now, the alias Kilometers is a synonym for i32; unlike the Millimeters and Meters types we created in Listing 20-15, Kilometers is not a separate, new type. Values that have the type Kilometers will be treated the same as values of type i32:">现在，别名 <code>Kilometers</code> 是 <code>i32</code> 的一个 <em>同义词</em>；与我们在列表 20-15 中创建的 <code>Millimeters</code>
-和 <code>Meters</code> 类型不同，<code>Kilometers</code> 不是一个独立的新类型。类型为 <code>Kilometers</code> 的值将被视为与类型为 <code>i32</code> 的值相同：</p>
+<p data-x-en="Now, the alias Kilometers is a synonym for i32; unlike the Millimeters and Meters types we created in Listing 20-16, Kilometers is not a separate, new type. Values that have the type Kilometers will be treated the same as values of type i32:">现在，别名 <code>Kilometers</code> 是 <code>i32</code> 的一个 <em>同义词</em>；与我们在清单 20-16 中创建的 <code>Millimeters</code>
+和 <code>Meters</code> 类型不同，<code>Kilometers</code> 不是一个独立的新类型。具有 <code>Kilometers</code> 类型的值将被视为与 <code>i32</code> 类型的值相同：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 
@@ -258,7 +258,7 @@ blockquote {
 <p data-x-en="Because Kilometers and i32 are the same type, we can add values of both types and we can pass Kilometers values to functions that take i32 parameters. However, using this method, we don’t get the type checking benefits that we get from the newtype pattern discussed earlier. In other words, if we mix up Kilometers and i32 values somewhere, the compiler will not give us an error.">因为 <code>Kilometers</code> 和 <code>i32</code> 是同一种类型，我们可以将这两种类型的值相加，并且可以将 <code>Kilometers</code> 值传递给接受 <code>i32</code> 参数的函数。然而，使用这种方法，我们无法获得前面讨论的新类型模式带来的类型检查优势。换句话说，如果我们 somewhere 混淆了 <code>Kilometers</code> 和 <code>i32</code> 值，编译器不会给我们错误。</p>
 <p data-x-en="The main use case for type synonyms is to reduce repetition. For example, we might have a lengthy type like this:">类型别名的主要用例是减少重复。例如，我们可能有一个像这样的冗长类型：</p>
 <pre><code class="language-rust ignore">Box&lt;dyn Fn() + Send + 'static&gt;</code></pre>
-<p data-x-en="Writing this lengthy type in function signatures and as type annotations all over the code can be tiresome and error prone. Imagine having a project full of code like that in Listing 20-24.">在函数签名和类型注释中写这样 lengthy 的类型，以及在整个代码中到处写，可能会很累人且容易出错。想象一下，有一个项目充满了像清单 20-24 中那样的代码。</p>
+<p data-x-en="Writing this lengthy type in function signatures and as type annotations all over the code can be tiresome and error prone. Imagine having a project full of code like that in Listing 20-25.">在函数签名和类型注释中写这样冗长的类型，以及在整个代码中到处使用，可能会很累赘且容易出错。想象一下，你的项目中充满了如清单 20-25 所示的代码。</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!("hi"));
@@ -272,9 +272,9 @@ blockquote {
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-24: Using a long type in many places</figcaption>
+<figcaption>Listing 20-25: Using a long type in many places</figcaption>
 </figure>
-<p data-x-en="A type alias makes this code more manageable by reducing the repetition. In Listing 20-25, we’ve introduced an alias named Thunk for the verbose type and can replace all uses of the type with the shorter alias Thunk.">类型别名通过减少重复使这段代码更易于管理。在列表 20-25 中，我们引入了一个名为 <code>Thunk</code> 的别名，用于冗长的类型，并可以用较短的别名 <code>Thunk</code> 替换所有类型的使用。</p>
+<p data-x-en="A type alias makes this code more manageable by reducing the repetition. In Listing 20-26, we’ve introduced an alias named Thunk for the verbose type and can replace all uses of the type with the shorter alias Thunk.">类型别名通过减少重复使这段代码更易于管理。在列表 20-26 中，我们引入了一个名为 <code>Thunk</code> 的别名，用于冗长的类型，并可以用较短的别名 <code>Thunk</code> 替换所有类型的使用。</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
@@ -290,7 +290,7 @@ blockquote {
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-25: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
+<figcaption>Listing 20-26: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
 </figure>
 <p data-x-en="This code is much easier to read and write! Choosing a meaningful name for a type alias can help communicate your intent as well (thunk is a word for code to be evaluated at a later time, so it’s an appropriate name for a closure that gets stored).">这段代码更容易阅读和编写！为类型别名选择一个有意义的名称也有助于传达您的意图（<em>thunk</em> 是一个表示稍后要执行的代码的词，因此它是存储闭包的合适名称）。</p>
 <p data-x-en="Type aliases are also commonly used with the Result<T, E> type for reducing repetition. Consider the std::io module in the standard library. I/O operations often return a Result<T, E> to handle situations when operations fail to work. This library has a std::io::Error struct that represents all possible I/O errors. Many of the functions in std::io will be returning Result<T, E> where the E is std::io::Error, such as these functions in the Write trait:">类型别名也常用于<code>Result&lt;T, E&gt;</code>类型以减少重复。考虑标准库中的<code>std::io</code>模块。I/O操作经常返回一个<code>Result&lt;T, E&gt;</code>来处理操作失败的情况。这个库有一个<code>std::io::Error</code>结构体，表示所有可能的I/O错误。<code>std::io</code>中的许多函数将返回<code>Result&lt;T, E&gt;</code>，其中<code>E</code>是<code>std::io::Error</code>，例如<code>Write</code>特质中的这些函数：</p>
@@ -336,7 +336,7 @@ pub trait Write {
 <span class="boring">    panic!();
 </span>}</code></pre>
 <p data-x-en="This code is read as “the function bar returns never.” Functions that return never are called diverging functions. We can’t create values of the type ! so bar can never possibly return.">这段代码被解读为“函数 <code>bar</code> 永不返回。”永不返回的函数被称为 <em>发散函数</em>。我们不能创建类型为 <code>!</code> 的值，所以 <code>bar</code> 永不可能返回。</p>
-<p data-x-en="But what use is a type you can never create values for? Recall the code from Listing 2-5, part of the number guessing game; we’ve reproduced a bit of it here in Listing 20-26.">但是，一个你永远无法为其创建值的类型有什么用呢？回想一下来自列表 2-5 的代码，这是数字猜谜游戏的一部分；我们在这里的列表 20-26 中重现了一部分。</p>
+<p data-x-en="But what use is a type you can never create values for? Recall the code from Listing 2-5, part of the number guessing game; we’ve reproduced a bit of it here in Listing 20-27.">但是，一个你永远无法为其创建值的类型有什么用呢？回想一下第 2-5 列表中的代码，这是数字猜谜游戏的一部分；我们在这里重现了一部分，见列表 20-27。</p>
 <figure class="listing">
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -379,7 +379,7 @@ pub trait Write {
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 20-26: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
+<figcaption>Listing 20-27: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
 </figure>
 <p data-x-en="At the time, we skipped over some details in this code. In Chapter 6 in “The match Control Flow Operator” section, we discussed that match arms must all return the same type. So, for example, the following code doesn’t work:">当时，我们跳过了一些代码中的细节。在第6章的<a href="ch06-02-match.html#the-match-control-flow-operator">“<code>match</code> 控制流操作符”</a><!-- ignore -->
 部分，我们讨论了<code>match</code> 分支必须都返回相同类型。所以，例如，以下代码无法工作：</p>
@@ -390,7 +390,7 @@ pub trait Write {
         Err(_) =&gt; "hello",
     };
 <span class="boring">}</span></code></pre>
-<p data-x-en="The type of guess in this code would have to be an integer and a string, and Rust requires that guess have only one type. So what does continue return? How were we allowed to return a u32 from one arm and have another arm that ends with continue in Listing 20-26?">在这个代码中，<code>guess</code> 的类型必须是整数 <em>和</em> 字符串，而 Rust 要求 <code>guess</code> 只能有一种类型。那么 <code>continue</code> 返回什么？我们是如何在 Listing 20-26 中从一个分支返回 <code>u32</code>，而另一个分支以 <code>continue</code> 结束的？</p>
+<p data-x-en="The type of guess in this code would have to be an integer and a string, and Rust requires that guess have only one type. So what does continue return? How were we allowed to return a u32 from one arm and have another arm that ends with continue in Listing 20-27?">在这段代码中，<code>guess</code> 的类型必须是整数 <em>和</em> 字符串，而 Rust 要求 <code>guess</code> 只能有一种类型。那么 <code>continue</code> 返回什么？我们是如何在 Listing 20-27 中从一个分支返回 <code>u32</code>，而另一个分支以 <code>continue</code> 结束的？</p>
 <p data-x-en="As you might have guessed, continue has a ! value. That is, when Rust computes the type of guess, it looks at both match arms, the former with a value of u32 and the latter with a ! value. Because ! can never have a value, Rust decides that the type of guess is u32.">正如你可能已经猜到的，<code>continue</code> 有一个 <code>!</code> 值。也就是说，当 Rust 计算 <code>guess</code> 的类型时，它会查看两个匹配臂，前者有一个 <code>u32</code> 值，后者有一个 <code>!</code> 值。因为 <code>!</code> 永远不会有值，Rust 决定 <code>guess</code> 的类型是 <code>u32</code>。</p>
 <p data-x-en="The formal way of describing this behavior is that expressions of type ! can be coerced into any other type. We’re allowed to end this match arm with continue because continue doesn’t return a value; instead, it moves control back to the top of the loop, so in the Err case, we never assign a value to guess.">正式描述这种行为的方式是，类型为<code>!</code>的表达式可以被强制转换为任何其他类型。我们可以在这个<code>match</code>分支的末尾使用<code>continue</code>，因为<code>continue</code>不返回值；相反，它将控制权移回循环的顶部，所以在<code>Err</code>情况下，我们从未给<code>guess</code>赋值。</p>
 <p data-x-en="The never type is useful with the panic! macro as well. Recall the unwrap function that we call on Option<T> values to produce a value or panic with this definition:">从不类型与 <code>panic!</code> 宏一起使用也很有用。回想一下我们在 <code>Option&lt;T&gt;</code> 值上调用的 <code>unwrap</code> 函数，用于生成一个值或在以下定义中 panic：</p>
@@ -409,7 +409,7 @@ pub trait Write {
         }
     }
 }</code></pre>
-<p data-x-en="In this code, the same thing happens as in the match in Listing 20-26: Rust sees that val has the type T and panic! has the type !, so the result of the overall match expression is T. This code works because panic! doesn’t produce a value; it ends the program. In the None case, we won’t be returning a value from unwrap, so this code is valid.">在这个代码中，与清单 20-26 中的 <code>match</code> 一样：Rust 看到 <code>val</code> 有类型 <code>T</code> 而 <code>panic!</code> 有类型 <code>!</code>，因此整个 <code>match</code> 表达式的结果是 <code>T</code>。这段代码可以工作，因为 <code>panic!</code> 不会产生值；它会结束程序。在 <code>None</code> 情况下，我们不会从 <code>unwrap</code> 返回值，所以这段代码是有效的。</p>
+<p data-x-en="In this code, the same thing happens as in the match in Listing 20-27: Rust sees that val has the type T and panic! has the type !, so the result of the overall match expression is T. This code works because panic! doesn’t produce a value; it ends the program. In the None case, we won’t be returning a value from unwrap, so this code is valid.">在这个代码中，与清单 20-27 中的 <code>match</code> 一样：Rust 看到 <code>val</code> 有类型 <code>T</code> 而 <code>panic!</code> 有类型 <code>!</code>，因此整个 <code>match</code> 表达式的结果是 <code>T</code>。这段代码可以工作，因为 <code>panic!</code> 不会产生值；它会结束程序。在 <code>None</code> 情况下，我们不会从 <code>unwrap</code> 返回值，所以这段代码是有效的。</p>
 <p data-x-en="One final expression that has the type ! is a loop:">一个最终表达式，其类型为<code>!</code>，是一个<code>loop</code>：</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    print!("forever ");

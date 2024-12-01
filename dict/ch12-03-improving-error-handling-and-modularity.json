@@ -306,5 +306,37 @@
   "The Config::build function definition": {
     "_translate": "<code>Config::build</code> 函数定义",
     "_note": ""
+  },
+  "Extracting the Argument Parser": {
+    "_translate": "<a class=\"header\" href=\"#extracting-the-argument-parser\">提取参数解析器</a>",
+    "_note": ""
+  },
+  "Grouping Configuration Values": {
+    "_translate": "<a class=\"header\" href=\"#grouping-configuration-values\">分组配置值</a>",
+    "_note": ""
+  },
+  "Creating a Constructor for Config": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-constructor-for-config\">为 <code>Config</code> 创建构造函数</a>",
+    "_note": ""
+  },
+  "Improving the Error Message": {
+    "_translate": "<a class=\"header\" href=\"#improving-the-error-message\">改进错误信息</a>",
+    "_note": ""
+  },
+  "Returning a Result Instead of Calling panic!": {
+    "_translate": "<a class=\"header\" href=\"#returning-a-result-instead-of-calling-panic\">返回 <code>Result</code> 而不是调用 <code>panic!</code></a>",
+    "_note": ""
+  },
+  "Calling Config::build and Handling Errors": {
+    "_translate": "<a class=\"header\" href=\"#calling-configbuild-and-handling-errors\">调用 <code>Config::build</code> 和处理错误</a>",
+    "_note": ""
+  },
+  "Returning Errors from the run Function": {
+    "_translate": "<a class=\"header\" href=\"#returning-errors-from-the-run-function\">从 <code>run</code> 函数返回错误</a>",
+    "_note": ""
+  },
+  "Handling Errors Returned from run in main": {
+    "_translate": "<a class=\"header\" href=\"#handling-errors-returned-from-run-in-main\">处理 <code>main</code> 中 <code>run</code> 返回的错误</a>",
+    "_note": ""
   }
 }

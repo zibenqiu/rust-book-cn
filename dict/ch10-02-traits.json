@@ -222,5 +222,17 @@
   "Traits: Defining Shared Behavior - The Rust Programming Language": {
     "_translate": "特质：定义共享行为 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Trait Bound Syntax": {
+    "_translate": "<a class=\"header\" href=\"#trait-bound-syntax\">Trait Bound 语法</a>",
+    "_note": ""
+  },
+  "Specifying Multiple Trait Bounds with the + Syntax": {
+    "_translate": "<a class=\"header\" href=\"#specifying-multiple-trait-bounds-with-the--syntax\">使用 <code>+</code> 语法指定多个特征约束</a>",
+    "_note": ""
+  },
+  "Clearer Trait Bounds with where Clauses": {
+    "_translate": "<a class=\"header\" href=\"#clearer-trait-bounds-with-where-clauses\">使用 <code>where</code> 子句使特质边界更清晰</a>",
+    "_note": ""
   }
 }

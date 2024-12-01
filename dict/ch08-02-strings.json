@@ -250,5 +250,25 @@
   "Storing UTF-8 Encoded Text with Strings - The Rust Programming Language": {
     "_translate": "使用字符串存储 UTF-8 编码的文本 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Appending to a String with push_str and push": {
+    "_translate": "<a class=\"header\" href=\"#appending-to-a-string-with-push_str-and-push\">使用 <code>push_str</code> 和 <code>push</code> 追加到字符串</a>",
+    "_note": ""
+  },
+  "Concatenation with the + Operator or the format! Macro": {
+    "_translate": "<a class=\"header\" href=\"#concatenation-with-the--operator-or-the-format-macro\">使用 <code>+</code> 运算符或 <code>format!</code> 宏进行连接</a>",
+    "_note": ""
+  },
+  "Internal Representation": {
+    "_translate": "<a class=\"header\" href=\"#internal-representation\">内部表示</a>",
+    "_note": ""
+  },
+  "Bytes and Scalar Values and Grapheme Clusters! Oh My!": {
+    "_translate": "<a class=\"header\" href=\"#bytes-and-scalar-values-and-grapheme-clusters-oh-my\">字节、标量值和图形簇！天哪！</a>",
+    "_note": ""
+  },
+  "You already know that answer will not be З, the first letter. When encoded in UTF-8, the first byte of З is 208 and the second is 151, so it would seem that answer should in fact be 208, but 208 is not a valid character on its own. Returning 208 is likely not what a user would want if they asked for the first letter of this string; however, that’s the only data that Rust has at byte index 0. Users generally don’t want the byte value returned, even if the string contains only Latin letters: if &\"hi\"[0] were valid code that returned the byte value, it would return 104, not h.": {
+    "_translate": "你已经知道 <code>answer</code> 不会是 <code>З</code>，即第一个字母。当用 UTF-8 编码时，<code>З</code> 的第一个字节是 <code>208</code>，第二个字节是 <code>151</code>，所以看起来 <code>answer</code> 应该是 <code>208</code>，但 <code>208</code> 本身不是一个有效的字符。返回 <code>208</code> 可能不是用户询问此字符串的第一个字母时所希望的结果；然而，这是 Rust 在字节索引 0 处唯一拥有的数据。用户通常不希望返回字节值，即使字符串仅包含拉丁字母：<code>&amp;\"hi\"[0]</code> 如果是有效的代码并返回字节值，它会返回 <code>104</code>，而不是 <code>h</code>。",
+    "_note": ""
   }
 }

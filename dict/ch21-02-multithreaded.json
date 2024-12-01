@@ -370,5 +370,37 @@
   "In its thread, the Worker will loop over its receiver and execute the closures of any jobs it receives.": {
     "_translate": "在其线程中，<code>Worker</code> 将在其接收器上循环并执行它收到的任何作业的闭包。",
     "_note": ""
+  },
+  "Creating a Finite Number of Threads": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-finite-number-of-threads\">创建有限数量的线程</a>",
+    "_note": ""
+  },
+  "Spawning a Thread for Each Request": {
+    "_translate": "<a class=\"header\" href=\"#spawning-a-thread-for-each-request\">为每个请求创建一个线程</a>",
+    "_note": ""
+  },
+  "Building ThreadPool Using Compiler Driven Development": {
+    "_translate": "<a class=\"header\" href=\"#building-threadpool-using-compiler-driven-development\">使用编译器驱动开发构建 <code>ThreadPool</code></a>",
+    "_note": ""
+  },
+  "Validating the Number of Threads in new": {
+    "_translate": "<a class=\"header\" href=\"#validating-the-number-of-threads-in-new\">验证 <code>new</code> 中的线程数量</a>",
+    "_note": ""
+  },
+  "Creating Space to Store the Threads": {
+    "_translate": "<a class=\"header\" href=\"#creating-space-to-store-the-threads\">为线程创建存储空间</a>",
+    "_note": ""
+  },
+  "A Worker Struct Responsible for Sending Code from the ThreadPool to a Thread": {
+    "_translate": "<a class=\"header\" href=\"#a-worker-struct-responsible-for-sending-code-from-the-threadpool-to-a-thread\">一个负责从<code>ThreadPool</code>向线程发送代码的<code>Worker</code>结构体</a>",
+    "_note": ""
+  },
+  "Sending Requests to Threads via Channels": {
+    "_translate": "<a class=\"header\" href=\"#sending-requests-to-threads-via-channels\">通过通道向线程发送请求</a>",
+    "_note": ""
+  },
+  "Implementing the execute Method": {
+    "_translate": "<a class=\"header\" href=\"#implementing-the-execute-method\">实现 <code>execute</code> 方法</a>",
+    "_note": ""
   }
 }

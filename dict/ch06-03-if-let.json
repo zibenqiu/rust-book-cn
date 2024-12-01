@@ -58,5 +58,9 @@
   "Concise Control Flow with if let - The Rust Programming Language": {
     "_translate": "使用 if let 简洁控制流程 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "The syntax if let takes a pattern and an expression separated by an equal sign. It works the same way as a match, where the expression is given to the match and the pattern is its first arm. In this case, the pattern is Some(max), and the max binds to the value inside the Some. We can then use max in the body of the if let block in the same way we used max in the corresponding match arm. The code in the if let block only runs if the value matches the pattern.": {
+    "_translate": "<code>if let</code> 语法接受一个模式和一个表达式，二者由等号分隔。它的工作方式与 <code>match</code> 相同，其中表达式被传递给 <code>match</code>，而模式是其第一个分支。在这种情况下，模式是 <code>Some(max)</code>，而 <code>max</code> 绑定到 <code>Some</code> 内的值。然后我们可以在 <code>if let</code> 块的主体中使用 <code>max</code>，就像在对应的 <code>match</code> 分支中使用 <code>max</code> 一样。<code>if let</code> 块中的代码只有在值匹配模式时才会运行。",
+    "_note": ""
   }
 }

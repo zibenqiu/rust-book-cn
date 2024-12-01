@@ -154,5 +154,25 @@
   "Test Organization - The Rust Programming Language": {
     "_translate": "测试组织 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "The Tests Module and #[cfg(test)]": {
+    "_translate": "<a class=\"header\" href=\"#the-tests-module-and-cfgtest\">测试模块和<code>#[cfg(test)]</code></a>",
+    "_note": ""
+  },
+  "Testing Private Functions": {
+    "_translate": "<a class=\"header\" href=\"#testing-private-functions\">测试私有函数</a>",
+    "_note": ""
+  },
+  "The tests Directory": {
+    "_translate": "<a class=\"header\" href=\"#the-tests-directory\">测试目录</a>",
+    "_note": ""
+  },
+  "Submodules in Integration Tests": {
+    "_translate": "<a class=\"header\" href=\"#submodules-in-integration-tests\">集成测试中的子模块</a>",
+    "_note": ""
+  },
+  "Integration Tests for Binary Crates": {
+    "_translate": "<a class=\"header\" href=\"#integration-tests-for-binary-crates\">二进制包的集成测试</a>",
+    "_note": ""
   }
 }

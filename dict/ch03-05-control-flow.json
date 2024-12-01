@@ -226,5 +226,33 @@
   "Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song.": {
     "_translate": "打印圣诞颂歌《十二日圣诞》的歌词，利用歌曲中的重复部分。",
     "_note": ""
+  },
+  "Handling Multiple Conditions with else if": {
+    "_translate": "<a class=\"header\" href=\"#handling-multiple-conditions-with-else-if\">使用 <code>else if</code> 处理多个条件</a>",
+    "_note": ""
+  },
+  "Using if in a let Statement": {
+    "_translate": "<a class=\"header\" href=\"#using-if-in-a-let-statement\">在 <code>let</code> 语句中使用 <code>if</code></a>",
+    "_note": ""
+  },
+  "Repeating Code with loop": {
+    "_translate": "<a class=\"header\" href=\"#repeating-code-with-loop\">使用 <code>loop</code> 重复代码</a>",
+    "_note": ""
+  },
+  "Returning Values from Loops": {
+    "_translate": "<a class=\"header\" href=\"#returning-values-from-loops\">从循环中返回值</a>",
+    "_note": ""
+  },
+  "Loop Labels to Disambiguate Between Multiple Loops": {
+    "_translate": "<a class=\"header\" href=\"#loop-labels-to-disambiguate-between-multiple-loops\">循环标签以区分多个循环</a>",
+    "_note": ""
+  },
+  "Conditional Loops with while": {
+    "_translate": "<a class=\"header\" href=\"#conditional-loops-with-while\">使用 <code>while</code> 的条件循环</a>",
+    "_note": ""
+  },
+  "Looping Through a Collection with for": {
+    "_translate": "<a class=\"header\" href=\"#looping-through-a-collection-with-for\">使用 <code>for</code> 循环遍历集合</a>",
+    "_note": ""
   }
 }

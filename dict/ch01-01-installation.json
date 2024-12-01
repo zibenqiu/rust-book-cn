@@ -118,5 +118,13 @@
   "Installation - The Rust Programming Language": {
     "_translate": "安装 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Text Editors and Integrated Development Environments": {
+    "_translate": "<a class=\"header\" href=\"#text-editors-and-integrated-development-environments\">文本编辑器和集成开发环境</a>",
+    "_note": ""
+  },
+  "This book makes no assumptions about what tools you use to author Rust code. Just about any text editor will get the job done! However, many text editors and integrated development environments (IDEs) have built-in support for Rust. You can always find a fairly current list of many editors and IDEs on the tools page on the Rust website.": {
+    "_translate": "这本书不对你用于编写 Rust 代码的工具做任何假设。\n几乎任何文本编辑器都能完成这项工作！然而，许多文本编辑器和\n集成开发环境（IDE）都内置了对 Rust 的支持。你\n总能在 <a href=\"https://www.rust-lang.org/tools\">工具\n页面</a> 上找到许多编辑器和 IDE 的最新列表。",
+    "_note": ""
   }
 }

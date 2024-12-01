@@ -150,5 +150,17 @@
   "When you want to own a value and you care only that it’s a type that implements a particular trait rather than being of a specific type": {
     "_translate": "当你想要拥有一个值，而你只关心它是一个实现了特定特征的类型，而不是特定的类型时，",
     "_note": ""
+  },
+  "More Information About the Cons List": {
+    "_translate": "<a class=\"header\" href=\"#more-information-about-the-cons-list\">关于 Cons 列表的更多信息</a>",
+    "_note": ""
+  },
+  "Computing the Size of a Non-Recursive Type": {
+    "_translate": "<a class=\"header\" href=\"#computing-the-size-of-a-non-recursive-type\">计算非递归类型的大小</a>",
+    "_note": ""
+  },
+  "Using Box<T> to Get a Recursive Type with a Known Size": {
+    "_translate": "<a class=\"header\" href=\"#using-boxt-to-get-a-recursive-type-with-a-known-size\">使用 <code>Box&lt;T&gt;</code> 获取具有已知大小的递归类型</a>",
+    "_note": ""
   }
 }

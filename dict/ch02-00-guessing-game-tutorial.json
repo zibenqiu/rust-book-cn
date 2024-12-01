@@ -474,5 +474,13 @@
   "Programming a Guessing Game - The Rust Programming Language": {
     "_translate": "编程一个猜数字游戏 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Ensuring Reproducible Builds with the Cargo.lock File": {
+    "_translate": "<a class=\"header\" href=\"#ensuring-reproducible-builds-with-the-cargolock-file\">使用 <em>Cargo.lock</em> 文件确保可重现的构建</a>",
+    "_note": ""
+  },
+  "Updating a Crate to Get a New Version": {
+    "_translate": "<a class=\"header\" href=\"#updating-a-crate-to-get-a-new-version\">更新 Crate 以获取新版本</a>",
+    "_note": ""
   }
 }

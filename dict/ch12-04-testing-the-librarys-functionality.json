@@ -178,5 +178,21 @@
   "Return the list of results that match.": {
     "_translate": "返回匹配的结果列表。",
     "_note": ""
+  },
+  "Iterating Through Lines with the lines Method": {
+    "_translate": "<a class=\"header\" href=\"#iterating-through-lines-with-the-lines-method\">使用 <code>lines</code> 方法遍历行</a>",
+    "_note": ""
+  },
+  "Searching Each Line for the Query": {
+    "_translate": "<a class=\"header\" href=\"#searching-each-line-for-the-query\">搜索每一行以查找查询内容</a>",
+    "_note": ""
+  },
+  "Storing Matching Lines": {
+    "_translate": "<a class=\"header\" href=\"#storing-matching-lines\">存储匹配的行</a>",
+    "_note": ""
+  },
+  "Using the search Function in the run Function": {
+    "_translate": "<a class=\"header\" href=\"#using-the-search-function-in-the-run-function\">在 <code>run</code> 函数中使用 <code>search</code> 函数</a>",
+    "_note": ""
   }
 }

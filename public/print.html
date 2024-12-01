@@ -466,6 +466,12 @@ in your browser.</p>
 <p>Any time a type or function is provided by the standard library and you’re not
 sure what it does or how to use it, use the application programming interface
 (API) documentation to find out!</p>
+<h3 id="text-editors-and-integrated-development-environments"><a class="header" href="#text-editors-and-integrated-development-environments">Text Editors and Integrated Development Environments</a></h3>
+<p>This book makes no assumptions about what tools you use to author Rust code.
+Just about any text editor will get the job done! However, many text editors and
+integrated development environments (IDEs) have built-in support for Rust. You
+can always find a fairly current list of many editors and IDEs on <a href="https://www.rust-lang.org/tools">the tools
+page</a> on the Rust website.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h2>
 <p>Now that you’ve installed Rust, it’s time to write your first Rust program.
 It’s traditional when learning a new language to write a little program that
@@ -2237,8 +2243,7 @@ more precision. All floating-point types are signed.</p>
 
     let y: f32 = 3.0; // f32
 }</code></pre></pre>
-<p>Floating-point numbers are represented according to the IEEE-754 standard. The
-<code>f32</code> type is a single-precision float, and <code>f64</code> has double precision.</p>
+<p>Floating-point numbers are represented according to the IEEE-754 standard.</p>
 <h4 id="numeric-operations"><a class="header" href="#numeric-operations">Numeric Operations</a></h4>
 <p>Rust supports the basic mathematical operations you’d expect for all the number
 types: addition, subtraction, multiplication, division, and remainder. Integer
@@ -3643,9 +3648,9 @@ showing where variables go into and out of scope.</p>
 
     let x = 5;                      // x comes into scope
 
-    makes_copy(x);                  // x would move into the function,
-                                    // but i32 is Copy, so it's okay to still
-                                    // use x afterward
+    makes_copy(x);                  // because i32 implements the Copy trait,
+                                    // x does NOT move into the function,
+    println!("{}", x);              // so it's okay to use x afterward
 
 } // Here, x goes out of scope, then s. But because s's value was moved, nothing
   // special happens.
@@ -6284,8 +6289,8 @@ sign. It works the same way as a <code>match</code>, where the expression is giv
 <code>match</code> and the pattern is its first arm. In this case, the pattern is
 <code>Some(max)</code>, and the <code>max</code> binds to the value inside the <code>Some</code>. We can then
 use <code>max</code> in the body of the <code>if let</code> block in the same way we used <code>max</code> in
-the corresponding <code>match</code> arm. The code in the <code>if let</code> block isn’t run if the
-value doesn’t match the pattern.</p>
+the corresponding <code>match</code> arm. The code in the <code>if let</code> block only runs if the
+value matches the pattern.</p>
 <p>Using <code>if let</code> means less typing, less indentation, and less boilerplate code.
 However, you lose the exhaustive checking that <code>match</code> enforces. Choosing
 between <code>match</code> and <code>if let</code> depends on what you’re doing in your particular
@@ -8039,8 +8044,8 @@ seem that <code>answer</code> should in fact be <code>208</code>, but <code>208<
 on its own. Returning <code>208</code> is likely not what a user would want if they asked
 for the first letter of this string; however, that’s the only data that Rust
 has at byte index 0. Users generally don’t want the byte value returned, even
-if the string contains only Latin letters: if <code>&amp;"hello"[0]</code> were valid code
-that returned the byte value, it would return <code>104</code>, not <code>h</code>.</p>
+if the string contains only Latin letters: if <code>&amp;"hi"[0]</code> were valid code that
+returned the byte value, it would return <code>104</code>, not <code>h</code>.</p>
 <p>The answer, then, is that to avoid returning an unexpected value and causing
 bugs that might not be discovered immediately, Rust doesn’t compile this code
 at all and prevents misunderstandings early in the development process.</p>
@@ -12223,7 +12228,8 @@ binary. To separate these two types of arguments, you list the arguments that
 go to <code>cargo test</code> followed by the separator <code>--</code> and then the ones that go to
 the test binary. Running <code>cargo test --help</code> displays the options you can use
 with <code>cargo test</code>, and running <code>cargo test -- --help</code> displays the options you
-can use after the separator.</p>
+can use after the separator. Those options are also documented in <a href="https://doc.rust-lang.org/rustc/tests/index.html">the “Tests”
+section</a> of the <a href="https://doc.rust-lang.org/rustc/index.html">the rustc book</a>.</p>
 <h3 id="running-tests-in-parallel-or-consecutively"><a class="header" href="#running-tests-in-parallel-or-consecutively">Running Tests in Parallel or Consecutively</a></h3>
 <p>When you run multiple tests, by default they run in parallel using threads,
 meaning they finish running faster and you get feedback quicker. Because the
@@ -22917,13 +22923,12 @@ async channel in the <a href="ch17-02-concurrency-with-async.html#message-passin
 The async <code>recv</code> method produces a sequence of items over time. This is an
 instance of a much more general pattern, often called a <em>stream</em>.</p>
 <p>A sequence of items is something we’ve seen before, when we looked at the
-<code>Iterator</code> trait in Chapter 13, but there are two differences between iterators
-and the async channel receiver. The first difference is the element of time:
-iterators are synchronous, while the channel receiver is asynchronous. The
-second difference is the API. When working directly with an <code>Iterator</code>, we call
-its synchronous <code>next</code> method. With the <code>trpl::Receiver</code> stream in particular,
-we called an  asynchronous <code>recv</code> method instead, but these APIs otherwise feel
-very similar.</p>
+<code>Iterator</code> trait in Chapter 13. There are two differences between iterators and
+the async channel receiver, though. The first is the element of time: iterators
+are synchronous, while the channel receiver is asynchronous. The second is the
+API. When working directly with an <code>Iterator</code>, we call its synchronous <code>next</code>
+method. With the <code>trpl::Receiver</code> stream in particular, we called an
+asynchronous <code>recv</code> method instead. These APIs otherwise feel very similar.</p>
 <p>That similarity isn’t a coincidence. A stream is similar to an asynchronous
 form of iteration. Whereas the <code>trpl::Receiver</code> specifically waits to receive
 messages, though, the general-purpose stream API is much more general: it
@@ -23741,9 +23746,9 @@ loop {
     }
 }</code></pre>
 <p>If Rust compiled it to exactly that code, though, every <code>await</code> would be
-blocking—exactly the opposite of what we were going for! Instead, Rust needs
-makes sure that the loop can hand off control to something which can pause work
-on this future and work on other futures and check this one again later. That
+blocking—exactly the opposite of what we were going for! Instead, Rust makes
+sure that the loop can hand off control to something which can pause work on
+this future and work on other futures and check this one again later. That
 “something” is an async runtime, and this scheduling and coordination work is
 one of the main jobs for a runtime.</p>
 <p>Recall our description (in the <a href="ch17-02-concurrency-with-async.html">Counting</a> section) of waiting on
@@ -23793,10 +23798,10 @@ future with <code>await</code> pins the future implicitly. That’s why we don�
 <code>pin!</code> everywhere we want to await futures.</p>
 <p>However, we’re not directly awaiting a future here. Instead, we construct a new
 future, <code>JoinAll</code>, by passing a collection of futures to the <code>join_all</code>
-function. The signature for <code>join_all</code> produces requires that the type of the
-items in the collection all implement the <code>Future</code> trait, and <code>Box&lt;T&gt;</code> only
-implements <code>Future</code> if the <code>T</code> that it wraps is a future which implements the
-<code>Unpin</code> trait.</p>
+function. The signature for <code>join_all</code> requires that the type of the items in
+the collection all implement the <code>Future</code> trait, and <code>Box&lt;T&gt;</code> only implements
+<code>Future</code> if the <code>T</code> that it wraps is a future which implements the <code>Unpin</code>
+trait.</p>
 <p>That’s a lot! But we can understand it, if we dive a little further into how the
 <code>Future</code> type actually works, in particular around <em>pinning</em>.</p>
 <p>Let’s look again at the definition of <code>Future</code>:</p>
@@ -26783,7 +26788,7 @@ interface with another language or hardware where Rust’s guarantees don’t ap
 raw pointers in safe code; we just can’t dereference raw pointers outside an
 unsafe block, as you’ll see in a bit.</p>
 <p>We’ve created raw pointers by using the raw borrow operators: <code>&amp;raw const num</code>
-creates a <code>*const i32</code> immutable raw pointer, and <code>&amp;raw mut num</code> creates a <code>&amp;mut i32</code> mutable raw pointer. Because we created them directly from a local
+creates a <code>*const i32</code> immutable raw pointer, and <code>&amp;raw mut num</code> creates a <code>*mut i32</code> mutable raw pointer. Because we created them directly from a local
 variable, we know these particular raw pointers are valid, but we can’t make
 that assumption about just any raw pointer.</p>
 <p>To demonstrate this, next we’ll create a raw pointer whose validity we can’t be
@@ -27025,12 +27030,13 @@ programming language to define functions and enable a different (foreign)
 programming language to call those functions.</p>
 <p>Listing 20-8 demonstrates how to set up an integration with the <code>abs</code> function
 from the C standard library. Functions declared within <code>extern</code> blocks are
-always unsafe to call from Rust code. The reason is that other languages don’t
-enforce Rust’s rules and guarantees, and Rust can’t check them, so
-responsibility falls on the programmer to ensure safety.</p>
+usually unsafe to call from Rust code, so they must also be marked <code>unsafe</code>. The
+reason is that other languages don’t enforce Rust’s rules and guarantees, and
+Rust can’t check them, so responsibility falls on the programmer to ensure
+safety.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">extern "C" {
+<pre><pre class="playground"><code class="language-rust edition2021">unsafe extern "C" {
     fn abs(input: i32) -&gt; i32;
 }
 
@@ -27041,28 +27047,50 @@ fn main() {
 }</code></pre></pre>
 <figcaption>Listing 20-8: Declaring and calling an <code>extern</code> function defined in another language</figcaption>
 </figure>
-<p>Within the <code>extern "C"</code> block, we list the names and signatures of external
-functions from another language we want to call. The <code>"C"</code> part defines which
-<em>application binary interface (ABI)</em> the external function uses: the ABI
+<p>Within the <code>unsafe extern "C"</code> block, we list the names and signatures of
+external functions from another language we want to call. The <code>"C"</code> part defines
+which <em>application binary interface (ABI)</em> the external function uses: the ABI
 defines how to call the function at the assembly level. The <code>"C"</code> ABI is the
 most common and follows the C programming language’s ABI.</p>
+<p>This particular function does not have any memory safety considerations, though.
+In fact, we know that any call to <code>abs</code> will always be safe for any <code>i32</code>, so we
+can use the <code>safe</code> keyword to say that this specific function is safe to call
+even though it is in an <code>unsafe extern</code> block. Once we make that change, calling
+it no longer requires an <code>unsafe</code> block, as shown in Listing 20-9.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021">unsafe extern "C" {
+    safe fn abs(input: i32) -&gt; i32;
+}
+
+fn main() {
+    println!("Absolute value of -3 according to C: {}", abs(-3));
+}</code></pre></pre>
+<figcaption>Listing 20-9: Explicitly marking a function as <code>safe</code> within an <code>unsafe extern</code> block and calling it safely</figcaption>
+</figure>
+<p>Marking a function as <code>safe</code> does not inherently make it safe! Instead, it is
+like a promise you are making to Rust that it <em>is</em> safe. It is still your
+responsibility to make sure that promise is kept!</p>
 <section class="note" aria-role="note">
 <h4 id="calling-rust-functions-from-other-languages"><a class="header" href="#calling-rust-functions-from-other-languages">Calling Rust Functions from Other Languages</a></h4>
-<p>We can also use <code>extern</code> to create an interface that allows other languages
-to call Rust functions. Instead of creating a whole <code>extern</code> block, we add
-the <code>extern</code> keyword and specify the ABI to use just before the <code>fn</code> keyword
-for the relevant function. We also need to add a <code>#[no_mangle]</code> annotation to
-tell the Rust compiler not to mangle the name of this function. <em>Mangling</em> is
-when a compiler changes the name we’ve given a function to a different name
+<p>We can also use <code>extern</code> to create an interface that allows other languages to
+call Rust functions. Instead of creating a whole <code>extern</code> block, we add the
+<code>extern</code> keyword and specify the ABI to use just before the <code>fn</code> keyword for
+the relevant function. We also need to add a <code>#[unsafe(no_mangle)]</code> annotation
+to tell the Rust compiler not to mangle the name of this function. <em>Mangling</em>
+is when a compiler changes the name we’ve given a function to a different name
 that contains more information for other parts of the compilation process to
 consume but is less human readable. Every programming language compiler
 mangles names slightly differently, so for a Rust function to be nameable by
-other languages, we must disable the Rust compiler’s name mangling.</p>
+other languages, we must disable the Rust compiler’s name mangling. This is
+unsafe because there might be name collisions across libraries without the
+built-in mangling, so it is our responsibility to make sure the name we have
+exported is safe to export without mangling.</p>
 <p>In the following example, we make the <code>call_from_c</code> function accessible from
 C code, after it’s compiled to a shared library and linked from C:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[no_mangle]
+</span>#[unsafe(no_mangle)]
 pub extern "C" fn call_from_c() {
     println!("Just called a Rust function from C!");
 }
@@ -27073,7 +27101,7 @@ pub extern "C" fn call_from_c() {
 <p>In this book, we’ve not yet talked about <em>global variables</em>, which Rust does
 support but can be problematic with Rust’s ownership rules. If two threads are
 accessing the same mutable global variable, it can cause a data race.</p>
-<p>In Rust, global variables are called <em>static</em> variables. Listing 20-9 shows an
+<p>In Rust, global variables are called <em>static</em> variables. Listing 20-10 shows an
 example declaration and use of a static variable with a string slice as a
 value.</p>
 <figure class="listing">
@@ -27083,7 +27111,7 @@ value.</p>
 fn main() {
     println!("name is: {HELLO_WORLD}");
 }</code></pre></pre>
-<figcaption>Listing 20-9: Defining and using an immutable static variable</figcaption>
+<figcaption>Listing 20-10: Defining and using an immutable static variable</figcaption>
 </figure>
 <p>Static variables are similar to constants, which we discussed in the
 <a href="ch03-01-variables-and-mutability.html#constants">“Differences Between Variables and
@@ -27098,7 +27126,7 @@ values in a static variable have a fixed address in memory. Using the value
 will always access the same data. Constants, on the other hand, are allowed to
 duplicate their data whenever they’re used. Another difference is that static
 variables can be mutable. Accessing and modifying mutable static variables is
-<em>unsafe</em>. Listing 20-10 shows how to declare, access, and modify a mutable
+<em>unsafe</em>. Listing 20-11 shows how to declare, access, and modify a mutable
 static variable named <code>COUNTER</code>.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -27118,7 +27146,7 @@ fn main() {
         println!("COUNTER: {}", COUNTER);
     }
 }</code></pre></pre>
-<figcaption>Listing 20-10: Reading from or writing to a mutable static variable is unsafe</figcaption>
+<figcaption>Listing 20-11: Reading from or writing to a mutable static variable is unsafe</figcaption>
 </figure>
 <p>As with regular variables, we specify mutability using the <code>mut</code> keyword. Any
 code that reads or writes from <code>COUNTER</code> must be within an <code>unsafe</code> block. This
@@ -27142,7 +27170,7 @@ that data accessed from different threads is done safely.</p>
 least one of its methods has some invariant that the compiler can’t verify. We
 declare that a trait is <code>unsafe</code> by adding the <code>unsafe</code> keyword before <code>trait</code>
 and marking the implementation of the trait as <code>unsafe</code> too, as shown in
-Listing 20-11.</p>
+Listing 20-12.</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021">unsafe trait Foo {
     // methods go here
@@ -27153,7 +27181,7 @@ unsafe impl Foo for i32 {
 }
 
 fn main() {}</code></pre></pre>
-<figcaption>Listing 20-11: Defining and implementing an unsafe trait</figcaption>
+<figcaption>Listing 20-12: Defining and implementing an unsafe trait</figcaption>
 </figure>
 <p>By using <code>unsafe impl</code>, we’re promising that we’ll uphold the invariants that
 the compiler can’t verify.</p>
@@ -27180,7 +27208,7 @@ actually is safe and correct. One of the best ways to do that is to use
 <a href="https://github.com/rust-lang/miri">Miri</a>, an official Rust tool for detecting undefined behavior. Whereas
 the borrow checker is a <em>static</em> tool which works at compile time, Miri is a
 <em>dynamic</em> tool which works at runtime. It checks your code by running your
-program, or its test suite, and detecting when you violate the rules its
+program, or its test suite, and detecting when you violate the rules it
 understands about how Rust should work.</p>
 <p>Using Miri requires a nightly build of Rust (which we talk about more in
 <a href="appendix-07-nightly-rust.html">Appendix G: How Rust is Made and “Nightly Rust”</a>). You can install
@@ -27188,7 +27216,7 @@ both a nightly version of Rust and the Miri tool by typing <code>rustup +nightly
 uses; it only adds the tool to your system so you can use it when you want to.
 You can run Miri on a project by typing <code>cargo +nightly miri run</code> or <code>cargo +nightly miri test</code>.</p>
 <p>For an example of how helpful this can be, consider what happens when we run it
-against Listing 20-10:</p>
+against Listing 20-11:</p>
 <pre><code class="language-console">$ cargo +nightly miri run
    Compiling unsafe-example v0.1.0 (file:///projects/unsafe-example)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
@@ -27247,14 +27275,14 @@ the other features discussed in this chapter.</p>
 standard library provides. The associated type is named <code>Item</code> and stands in
 for the type of the values the type implementing the <code>Iterator</code> trait is
 iterating over. The definition of the <code>Iterator</code> trait is as shown in Listing
-20-12.</p>
+20-13.</p>
 <figure class="listing">
 <pre><code class="language-rust noplayground">pub trait Iterator {
     type Item;
 
     fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
 }</code></pre>
-<figcaption>Listing 20-12: The definition of the <code>Iterator</code> trait that has an associated type <code>Item</code></figcaption>
+<figcaption>Listing 20-13: The definition of the <code>Iterator</code> trait that has an associated type <code>Item</code></figcaption>
 </figure>
 <p>The type <code>Item</code> is a placeholder, and the <code>next</code> method’s definition shows that
 it will return values of type <code>Option&lt;Self::Item&gt;</code>. Implementors of the
@@ -27292,14 +27320,14 @@ the <code>Item</code> type is <code>u32</code>:</p>
 </span><span class="boring">}</span></code></pre>
 </figure>
 <p>This syntax seems comparable to that of generics. So why not just define the
-<code>Iterator</code> trait with generics, as shown in Listing 20-13?</p>
+<code>Iterator</code> trait with generics, as shown in Listing 20-14?</p>
 <figure class="listing">
 <pre><code class="language-rust noplayground">pub trait Iterator&lt;T&gt; {
     fn next(&amp;mut self) -&gt; Option&lt;T&gt;;
 }</code></pre>
 <figcaption>Listing A hypothetical definition of the `Iterator` trait using generics</figcaption>
 </figure>
-<p>The difference is that when using generics, as in Listing 20-13, we must
+<p>The difference is that when using generics, as in Listing 20-14, we must
 annotate the types in each implementation; because we can also implement
 <code>Iterator&lt;String&gt; for Counter</code> or any other type, we could have multiple
 implementations of <code>Iterator</code> for <code>Counter</code>. In other words, when a trait has a
@@ -27308,7 +27336,7 @@ the concrete types of the generic type parameters each time. When we use the
 <code>next</code> method on <code>Counter</code>, we would have to provide type annotations to
 indicate which implementation of <code>Iterator</code> we want to use.</p>
 <p>With associated types, we don’t need to annotate types because we can’t
-implement a trait on a type multiple times. In Listing 20-12 with the
+implement a trait on a type multiple times. In Listing 20-13 with the
 definition that uses associated types, we can only choose what the type of
 <code>Item</code> will be once, because there can only be one <code>impl Iterator for Counter</code>.
 We don’t have to specify that we want an iterator of <code>u32</code> values everywhere
@@ -27328,7 +27356,7 @@ in particular situations.</p>
 <p>Rust doesn’t allow you to create your own operators or overload arbitrary
 operators. But you can overload the operations and corresponding traits listed
 in <code>std::ops</code> by implementing the traits associated with the operator. For
-example, in Listing 20-14 we overload the <code>+</code> operator to add two <code>Point</code>
+example, in Listing 20-15 we overload the <code>+</code> operator to add two <code>Point</code>
 instances together. We do this by implementing the <code>Add</code> trait on a <code>Point</code>
 struct:</p>
 <figure class="listing">
@@ -27358,7 +27386,7 @@ fn main() {
         Point { x: 3, y: 3 }
     );
 }</code></pre></pre>
-<figcaption>Listing 20-14: Implementing the <code>Add</code> trait to overload the <code>+</code> operator for <code>Point</code> instances</figcaption>
+<figcaption>Listing 20-15: Implementing the <code>Add</code> trait to overload the <code>+</code> operator for <code>Point</code> instances</figcaption>
 </figure>
 <p>The <code>add</code> method adds the <code>x</code> values of two <code>Point</code> instances and the <code>y</code>
 values of two <code>Point</code> instances to create a new <code>Point</code>. The <code>Add</code> trait has an
@@ -27391,7 +27419,7 @@ units. This thin wrapping of an existing type in another struct is known as the
 Pattern to Implement External Traits on External Types”</a><!-- ignore
 --> section. We want to add values in millimeters to values in meters and have
 the implementation of <code>Add</code> do the conversion correctly. We can implement <code>Add</code>
-for <code>Millimeters</code> with <code>Meters</code> as the <code>Rhs</code>, as shown in Listing 20-15.</p>
+for <code>Millimeters</code> with <code>Meters</code> as the <code>Rhs</code>, as shown in Listing 20-16.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::ops::Add;
@@ -27406,7 +27434,7 @@ impl Add&lt;Meters&gt; for Millimeters {
         Millimeters(self.0 + (other.0 * 1000))
     }
 }</code></pre>
-<figcaption>Listing 20-15: Implementing the <code>Add</code> trait on <code>Millimeters</code> to add <code>Millimeters</code> to <code>Meters</code></figcaption>
+<figcaption>Listing 20-16: Implementing the <code>Add</code> trait on <code>Millimeters</code> to add <code>Millimeters</code> to <code>Meters</code></figcaption>
 </figure>
 <p>To add <code>Millimeters</code> and <code>Meters</code>, we specify <code>impl Add&lt;Meters&gt;</code> to set the
 value of the <code>Rhs</code> type parameter instead of using the default of <code>Self</code>.</p>
@@ -27431,7 +27459,7 @@ another trait’s method, nor does Rust prevent you from implementing both trait
 on one type. It’s also possible to implement a method directly on the type with
 the same name as methods from traits.</p>
 <p>When calling methods with the same name, you’ll need to tell Rust which one you
-want to use. Consider the code in Listing 20-16 where we’ve defined two traits,
+want to use. Consider the code in Listing 20-17 where we’ve defined two traits,
 <code>Pilot</code> and <code>Wizard</code>, that both have a method called <code>fly</code>. We then implement
 both traits on a type <code>Human</code> that already has a method named <code>fly</code> implemented
 on it. Each <code>fly</code> method does something different.</p>
@@ -27466,10 +27494,10 @@ impl Human {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 20-16: Two traits are defined to have a <code>method and are implemented on the</code>Human<code>type, and a</code>fly<code>method is implemented on</code>Human` directly</figcaption>
+<figcaption>Listing 20-17: Two traits are defined to have a <code>method and are implemented on the</code>Human<code>type, and a</code>fly<code>method is implemented on</code>Human` directly</figcaption>
 </figure>
 <p>When we call <code>fly</code> on an instance of <code>Human</code>, the compiler defaults to calling
-the method that is directly implemented on the type, as shown in Listing 20-17.</p>
+the method that is directly implemented on the type, as shown in Listing 20-18.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait Pilot {
@@ -27504,13 +27532,13 @@ the method that is directly implemented on the type, as shown in Listing 20-17.<
     let person = Human;
     person.fly();
 }</code></pre></pre>
-<figcaption>Listing 20-17: Calling <code>fly</code> on an instance of <code>Human</code></figcaption>
+<figcaption>Listing 20-18: Calling <code>fly</code> on an instance of <code>Human</code></figcaption>
 </figure>
 <p>Running this code will print <code>*waving arms furiously*</code>, showing that Rust
 called the <code>fly</code> method implemented on <code>Human</code> directly.</p>
 <p>To call the <code>fly</code> methods from either the <code>Pilot</code> trait or the <code>Wizard</code> trait,
 we need to use more explicit syntax to specify which <code>fly</code> method we mean.
-Listing 20-18 demonstrates this syntax.</p>
+Listing 20-19 demonstrates this syntax.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait Pilot {
@@ -27547,12 +27575,12 @@ Listing 20-18 demonstrates this syntax.</p>
     Wizard::fly(&amp;person);
     person.fly();
 }</code></pre></pre>
-<figcaption>Listing 20-18: Specifying which trait’s <code>fly</code> method we want to call</figcaption>
+<figcaption>Listing 20-19: Specifying which trait’s <code>fly</code> method we want to call</figcaption>
 </figure>
 <p>Specifying the trait name before the method name clarifies to Rust which
 implementation of <code>fly</code> we want to call. We could also write
 <code>Human::fly(&amp;person)</code>, which is equivalent to the <code>person.fly()</code> that we used
-in Listing 20-18, but this is a bit longer to write if we don’t need to
+in Listing 20-19, but this is a bit longer to write if we don’t need to
 disambiguate.</p>
 <p>Running this code prints the following:</p>
 <pre><code class="language-console">$ cargo run
@@ -27569,7 +27597,7 @@ trait to use based on the type of <code>self</code>.</p>
 <p>However, associated functions that are not methods don’t have a <code>self</code>
 parameter. When there are multiple types or traits that define non-method
 functions with the same function name, Rust doesn’t always know which type you
-mean unless you use <em>fully qualified syntax</em>. For example, in Listing 20-19 we
+mean unless you use <em>fully qualified syntax</em>. For example, in Listing 20-20 we
 create a trait for an animal shelter that wants to name all baby dogs <em>Spot</em>.
 We make an <code>Animal</code> trait with an associated non-method function <code>baby_name</code>.
 The <code>Animal</code> trait is implemented for the struct <code>Dog</code>, on which we also
@@ -27597,7 +27625,7 @@ impl Animal for Dog {
 fn main() {
     println!("A baby dog is called a {}", Dog::baby_name());
 }</code></pre></pre>
-<figcaption>Listing 20-19: A trait with an associated function and a type with an associated function of the same name that also implements the trait</figcaption>
+<figcaption>Listing 20-20: A trait with an associated function and a type with an associated function of the same name that also implements the trait</figcaption>
 </figure>
 <p>We implement the code for naming all puppies Spot in the <code>baby_name</code> associated
 function that is defined on <code>Dog</code>. The <code>Dog</code> type also implements the trait
@@ -27615,8 +27643,8 @@ A baby dog is called a Spot
 <p>This output isn’t what we wanted. We want to call the <code>baby_name</code> function that
 is part of the <code>Animal</code> trait that we implemented on <code>Dog</code> so the code prints
 <code>A baby dog is called a puppy</code>. The technique of specifying the trait name that
-we used in Listing 20-18 doesn’t help here; if we change <code>main</code> to the code in
-Listing 20-20, we’ll get a compilation error.</p>
+we used in Listing 20-19 doesn’t help here; if we change <code>main</code> to the code in
+Listing 20-21, we’ll get a compilation error.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">trait Animal {
@@ -27640,7 +27668,7 @@ Listing 20-20, we’ll get a compilation error.</p>
 </span>fn main() {
     println!("A baby dog is called a {}", Animal::baby_name());
 }</code></pre>
-<figcaption>Listing 20-20: Attempting to call the <code>baby_name</code> function from the <code>Animal</code> trait, but Rust doesn’t know which implementation to use</figcaption>
+<figcaption>Listing 20-21: Attempting to call the <code>baby_name</code> function from the <code>Animal</code> trait, but Rust doesn’t know which implementation to use</figcaption>
 </figure>
 <p>Because <code>Animal::baby_name</code> doesn’t have a <code>self</code> parameter, and there could be
 other types that implement the <code>Animal</code> trait, Rust can’t figure out which
@@ -27666,7 +27694,7 @@ error: could not compile `traits-example` (bin "traits-example") due to 1 previo
 </code></pre>
 <p>To disambiguate and tell Rust that we want to use the implementation of
 <code>Animal</code> for <code>Dog</code> as opposed to the implementation of <code>Animal</code> for some other
-type, we need to use fully qualified syntax. Listing 20-21 demonstrates how to
+type, we need to use fully qualified syntax. Listing 20-22 demonstrates how to
 use fully qualified syntax.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -27691,7 +27719,7 @@ use fully qualified syntax.</p>
 </span>fn main() {
     println!("A baby dog is called a {}", &lt;Dog as Animal&gt;::baby_name());
 }</code></pre></pre>
-<figcaption>Listing 20-21: Using fully qualified syntax to specify that we want to call the <code>baby_name</code> function from the <code>Animal</code> trait as implemented on <code>Dog</code></figcaption>
+<figcaption>Listing 20-22: Using fully qualified syntax to specify that we want to call the <code>baby_name</code> function from the <code>Animal</code> trait as implemented on <code>Dog</code></figcaption>
 </figure>
 <p>We’re providing Rust with a type annotation within the angle brackets, which
 indicates we want to call the <code>baby_name</code> method from the <code>Animal</code> trait as
@@ -27735,7 +27763,7 @@ should print the following:</p>
 <code>OutlinePrint</code> trait will work only for types that also implement <code>Display</code> and
 provide the functionality that <code>OutlinePrint</code> needs. We can do that in the
 trait definition by specifying <code>OutlinePrint: Display</code>. This technique is
-similar to adding a trait bound to the trait. Listing 20-22 shows an
+similar to adding a trait bound to the trait. Listing 20-23 shows an
 implementation of the <code>OutlinePrint</code> trait.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -27754,7 +27782,7 @@ trait OutlinePrint: fmt::Display {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 20-22: Implementing the <code>OutlinePrint</code> trait that requires the functionality from <code>Display</code></figcaption>
+<figcaption>Listing 20-23: Implementing the <code>OutlinePrint</code> trait that requires the functionality from <code>Display</code></figcaption>
 </figure>
 <p>Because we’ve specified that <code>OutlinePrint</code> requires the <code>Display</code> trait, we
 can use the <code>to_string</code> function that is automatically implemented for any type
@@ -27885,7 +27913,7 @@ type is elided at compile time.</p>
 orphan rule prevents us from doing directly because the <code>Display</code> trait and the
 <code>Vec&lt;T&gt;</code> type are defined outside our crate. We can make a <code>Wrapper</code> struct
 that holds an instance of <code>Vec&lt;T&gt;</code>; then we can implement <code>Display</code> on
-<code>Wrapper</code> and use the <code>Vec&lt;T&gt;</code> value, as shown in Listing 20-23.</p>
+<code>Wrapper</code> and use the <code>Vec&lt;T&gt;</code> value, as shown in Listing 20-24.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021">use std::fmt;
@@ -27902,7 +27930,7 @@ fn main() {
     let w = Wrapper(vec![String::from("hello"), String::from("world")]);
     println!("w = {w}");
 }</code></pre></pre>
-<figcaption>Listing 20-23: Creating a <code>Wrapper</code> type around <code>Vec&lt;String&gt;</code> to implement <code>Display</code></figcaption>
+<figcaption>Listing 20-24: Creating a <code>Wrapper</code> type around <code>Vec&lt;String&gt;</code> to implement <code>Display</code></figcaption>
 </figure>
 <p>The implementation of <code>Display</code> uses <code>self.0</code> to access the inner <code>Vec&lt;T&gt;</code>,
 because <code>Wrapper</code> is a tuple struct and <code>Vec&lt;T&gt;</code> is the item at index 0 in the
@@ -27935,7 +27963,7 @@ Types.”</a><!-- ignore --></p>
 <p>The newtype pattern is also useful for tasks beyond those we’ve discussed so
 far, including statically enforcing that values are never confused and
 indicating the units of a value. You saw an example of using newtypes to
-indicate units in Listing 20-15: recall that the <code>Millimeters</code> and <code>Meters</code>
+indicate units in Listing 20-16: recall that the <code>Millimeters</code> and <code>Meters</code>
 structs wrapped <code>u32</code> values in a newtype. If we wrote a function with a
 parameter of type <code>Millimeters</code>, we couldn’t compile a program that
 accidentally tried to call that function with a value of type <code>Meters</code> or a
@@ -27966,7 +27994,7 @@ the alias <code>Kilometers</code> to <code>i32</code> like so:</p>
 </span><span class="boring">    println!("x + y = {}", x + y);
 </span><span class="boring">}</span></code></pre></pre>
 <p>Now, the alias <code>Kilometers</code> is a <em>synonym</em> for <code>i32</code>; unlike the <code>Millimeters</code>
-and <code>Meters</code> types we created in Listing 20-15, <code>Kilometers</code> is not a separate,
+and <code>Meters</code> types we created in Listing 20-16, <code>Kilometers</code> is not a separate,
 new type. Values that have the type <code>Kilometers</code> will be treated the same as
 values of type <code>i32</code>:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -27988,7 +28016,7 @@ might have a lengthy type like this:</p>
 <pre><code class="language-rust ignore">Box&lt;dyn Fn() + Send + 'static&gt;</code></pre>
 <p>Writing this lengthy type in function signatures and as type annotations all
 over the code can be tiresome and error prone. Imagine having a project full of
-code like that in Listing 20-24.</p>
+code like that in Listing 20-25.</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!("hi"));
@@ -28002,10 +28030,10 @@ code like that in Listing 20-24.</p>
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-24: Using a long type in many places</figcaption>
+<figcaption>Listing 20-25: Using a long type in many places</figcaption>
 </figure>
 <p>A type alias makes this code more manageable by reducing the repetition. In
-Listing 20-25, we’ve introduced an alias named <code>Thunk</code> for the verbose type and
+Listing 20-26, we’ve introduced an alias named <code>Thunk</code> for the verbose type and
 can replace all uses of the type with the shorter alias <code>Thunk</code>.</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -28022,7 +28050,7 @@ can replace all uses of the type with the shorter alias <code>Thunk</code>.</p>
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-25: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
+<figcaption>Listing 20-26: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
 </figure>
 <p>This code is much easier to read and write! Choosing a meaningful name for a
 type alias can help communicate your intent as well (<em>thunk</em> is a word for code
@@ -28091,7 +28119,7 @@ never are called <em>diverging functions</em>. We can’t create values of the t
 so <code>bar</code> can never possibly return.</p>
 <p>But what use is a type you can never create values for? Recall the code from
 Listing 2-5, part of the number guessing game; we’ve reproduced a bit of it
-here in Listing 20-26.</p>
+here in Listing 20-27.</p>
 <figure class="listing">
 <pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
 </span><span class="boring">use std::cmp::Ordering;
@@ -28134,7 +28162,7 @@ here in Listing 20-26.</p>
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 20-26: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
+<figcaption>Listing 20-27: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
 </figure>
 <p>At the time, we skipped over some details in this code. In Chapter 6 in <a href="ch06-02-match.html#the-match-control-flow-operator">“The
 <code>match</code> Control Flow Operator”</a><!-- ignore -->
@@ -28150,7 +28178,7 @@ example, the following code doesn’t work:</p>
 <p>The type of <code>guess</code> in this code would have to be an integer <em>and</em> a string,
 and Rust requires that <code>guess</code> have only one type. So what does <code>continue</code>
 return? How were we allowed to return a <code>u32</code> from one arm and have another arm
-that ends with <code>continue</code> in Listing 20-26?</p>
+that ends with <code>continue</code> in Listing 20-27?</p>
 <p>As you might have guessed, <code>continue</code> has a <code>!</code> value. That is, when Rust
 computes the type of <code>guess</code>, it looks at both match arms, the former with a
 value of <code>u32</code> and the latter with a <code>!</code> value. Because <code>!</code> can never have a
@@ -28178,7 +28206,7 @@ this definition:</p>
         }
     }
 }</code></pre>
-<p>In this code, the same thing happens as in the <code>match</code> in Listing 20-26: Rust
+<p>In this code, the same thing happens as in the <code>match</code> in Listing 20-27: Rust
 sees that <code>val</code> has the type <code>T</code> and <code>panic!</code> has the type <code>!</code>, so the result
 of the overall <code>match</code> expression is <code>T</code>. This code works because <code>panic!</code>
 doesn’t produce a value; it ends the program. In the <code>None</code> case, we won’t be
@@ -28274,7 +28302,7 @@ closure trait. The <code>fn</code> type is called a <em>function pointer</em>. P
 with function pointers will allow you to use functions as arguments to other
 functions.</p>
 <p>The syntax for specifying that a parameter is a function pointer is similar to
-that of closures, as shown in Listing 20-27, where we’ve defined a function
+that of closures, as shown in Listing 20-28, where we’ve defined a function
 <code>add_one</code> that adds one to its parameter. The function <code>do_twice</code> takes two
 parameters: a function pointer to any function that takes an <code>i32</code> parameter
 and returns an <code>i32</code>, and one <code>i32</code> value. The <code>do_twice</code> function calls the
@@ -28296,7 +28324,7 @@ fn main() {
 
     println!("The answer is: {answer}");
 }</code></pre></pre>
-<figcaption>Listing 20-27: Using the <code>fn</code> type to accept a function pointer as an argument</figcaption>
+<figcaption>Listing 20-28: Using the <code>fn</code> type to accept a function pointer as an argument</figcaption>
 </figure>
 <p>This code prints <code>The answer is: 12</code>. We specify that the parameter <code>f</code> in
 <code>do_twice</code> is an <code>fn</code> that takes one parameter of type <code>i32</code> and returns an
@@ -28458,7 +28486,7 @@ integers:</p>
 <p>We could also use the <code>vec!</code> macro to make a vector of two integers or a vector
 of five string slices. We wouldn’t be able to use a function to do the same
 because we wouldn’t know the number or type of values up front.</p>
-<p>Listing 20-28 shows a slightly simplified definition of the <code>vec!</code> macro.</p>
+<p>Listing 20-29 shows a slightly simplified definition of the <code>vec!</code> macro.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">#[macro_export]
@@ -28473,7 +28501,7 @@ macro_rules! vec {
         }
     };
 }</code></pre>
-<figcaption>Listing 20-28: A simplified version of the <code>vec!</code> macro definition</figcaption>
+<figcaption>Listing 20-29: A simplified version of the <code>vec!</code> macro definition</figcaption>
 </figure>
 <section class="note" aria-role="note">
 <p>Note: The actual definition of the <code>vec!</code> macro in the standard library
@@ -28496,7 +28524,7 @@ one arm.</p>
 <p>Valid pattern syntax in macro definitions is different than the pattern syntax
 covered in Chapter 19 because macro patterns are matched against Rust code
 structure rather than values. Let’s walk through what the pattern pieces in
-Listing 20-28 mean; for the full macro pattern syntax, see the <a href="../reference/macros-by-example.html">Rust
+Listing 20-29 mean; for the full macro pattern syntax, see the <a href="../reference/macros-by-example.html">Rust
 Reference</a>.</p>
 <p>First, we use a set of parentheses to encompass the whole pattern. We use a
 dollar sign (<code>$</code>) to declare a variable in the macro system that will contain
@@ -28537,7 +28565,7 @@ macros do. The three kinds of procedural macros are custom derive,
 attribute-like, and function-like, and all work in a similar fashion.</p>
 <p>When creating procedural macros, the definitions must reside in their own crate
 with a special crate type. This is for complex technical reasons that we hope
-to eliminate in the future. In Listing 20-29, we show how to define a
+to eliminate in the future. In Listing 20-30, we show how to define a
 procedural macro, where <code>some_attribute</code> is a placeholder for using a specific
 macro variety.</p>
 <figure class="listing">
@@ -28547,7 +28575,7 @@ macro variety.</p>
 #[some_attribute]
 pub fn some_name(input: TokenStream) -&gt; TokenStream {
 }</code></pre>
-<figcaption>Listing 20-29: An example of defining a procedural macro</figcaption>
+<figcaption>Listing 20-30: An example of defining a procedural macro</figcaption>
 </figure>
 <p>The function that defines a procedural macro takes a <code>TokenStream</code> as an input
 and produces a <code>TokenStream</code> as an output. The <code>TokenStream</code> type is defined by
@@ -28568,7 +28596,7 @@ we’ll provide a procedural macro so users can annotate their type with
 <code>#[derive(HelloMacro)]</code> to get a default implementation of the <code>hello_macro</code>
 function. The default implementation will print <code>Hello, Macro! My name is TypeName!</code> where <code>TypeName</code> is the name of the type on which this trait has
 been defined. In other words, we’ll write a crate that enables another
-programmer to write code like Listing 20-30 using our crate.</p>
+programmer to write code like Listing 20-31 using our crate.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use hello_macro::HelloMacro;
@@ -28580,7 +28608,7 @@ struct Pancakes;
 fn main() {
     Pancakes::hello_macro();
 }</code></pre>
-<figcaption>Listing 20-30: The code a user of our crate will be able to write when using our procedural macro</figcaption>
+<figcaption>Listing 20-31: The code a user of our crate will be able to write when using our procedural macro</figcaption>
 </figure>
 <p>This code will print <code>Hello, Macro! My name is Pancakes!</code> when we’re done. The
 first step is to make a new library crate, like this:</p>
@@ -28647,7 +28675,7 @@ syn = "2.0"
 quote = "1.0"
 </code></pre>
 </figure>
-<p>To start defining the procedural macro, place the code in Listing 20-31 into
+<p>To start defining the procedural macro, place the code in Listing 20-32 into
 your <em>src/lib.rs</em> file for the <code>hello_macro_derive</code> crate. Note that this code
 won’t compile until we add a definition for the <code>impl_hello_macro</code> function.</p>
 <figure class="listing">
@@ -28664,7 +28692,7 @@ pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
     // Build the trait implementation
     impl_hello_macro(&amp;ast)
 }</code></pre>
-<figcaption>Listing 20-31: Code that most procedural macro crates will require in order to process Rust code</figcaption>
+<figcaption>Listing 20-32: Code that most procedural macro crates will require in order to process Rust code</figcaption>
 </figure>
 <p>Notice that we’ve split the code into the <code>hello_macro_derive</code> function, which
 is responsible for parsing the <code>TokenStream</code>, and the <code>impl_hello_macro</code>
@@ -28692,7 +28720,7 @@ convention most procedural macros follow.</p>
 <code>TokenStream</code> to a data structure that we can then interpret and perform
 operations on. This is where <code>syn</code> comes into play. The <code>parse</code> function in
 <code>syn</code> takes a <code>TokenStream</code> and returns a <code>DeriveInput</code> struct representing the
-parsed Rust code. Listing 20-32 shows the relevant parts of the <code>DeriveInput</code>
+parsed Rust code. Listing 20-33 shows the relevant parts of the <code>DeriveInput</code>
 struct we get from parsing the <code>struct Pancakes;</code> string:</p>
 <figure class="listing">
 <pre><code class="language-rust ignore">DeriveInput {
@@ -28712,7 +28740,7 @@ struct we get from parsing the <code>struct Pancakes;</code> string:</p>
         }
     )
 }</code></pre>
-<figcaption>Listing 20-32: The <code>DeriveInput</code> instance we get when parsing the code that has the macro’s attribute in Listing 20-30</figcaption>
+<figcaption>Listing 20-33: The <code>DeriveInput</code> instance we get when parsing the code that has the macro’s attribute in Listing 20-31</figcaption>
 </figure>
 <p>The fields of this struct show that the Rust code we’ve parsed is a unit struct
 with the <code>ident</code> (identifier, meaning the name) of <code>Pancakes</code>. There are more
@@ -28733,7 +28761,7 @@ conform to the procedural macro API. We’ve simplified this example by using
 about what went wrong by using <code>panic!</code> or <code>expect</code>.</p>
 <p>Now that we have the code to turn the annotated Rust code from a <code>TokenStream</code>
 into a <code>DeriveInput</code> instance, let’s generate the code that implements the
-<code>HelloMacro</code> trait on the annotated type, as shown in Listing 20-33.</p>
+<code>HelloMacro</code> trait on the annotated type, as shown in Listing 20-34.</p>
 <figure class="listing">
 <span class="file-name">Filename: hello_macro_derive/src/lib.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use proc_macro::TokenStream;
@@ -28760,15 +28788,15 @@ into a <code>DeriveInput</code> instance, let’s generate the code that impleme
     };
     gen.into()
 }</code></pre>
-<figcaption>Listing 20-33: Implementing the <code>HelloMacro</code> trait using the parsed Rust code</figcaption>
+<figcaption>Listing 20-34: Implementing the <code>HelloMacro</code> trait using the parsed Rust code</figcaption>
 </figure>
 <p>We get an <code>Ident</code> struct instance containing the name (identifier) of the
-annotated type using <code>ast.ident</code>. The struct in Listing 20-32 shows that when
-we run the <code>impl_hello_macro</code> function on the code in Listing 20-30, the
+annotated type using <code>ast.ident</code>. The struct in Listing 20-33 shows that when
+we run the <code>impl_hello_macro</code> function on the code in Listing 20-31, the
 <code>ident</code> we get will have the <code>ident</code> field with a value of <code>"Pancakes"</code>. Thus,
-the <code>name</code> variable in Listing 20-33 will contain an <code>Ident</code> struct instance
+the <code>name</code> variable in Listing 20-34 will contain an <code>Ident</code> struct instance
 that, when printed, will be the string <code>"Pancakes"</code>, the name of the struct in
-Listing 20-30.</p>
+Listing 20-31.</p>
 <p>The <code>quote!</code> macro lets us define the Rust code that we want to return. The
 compiler expects something different to the direct result of the <code>quote!</code>
 macro’s execution, so we need to convert it to a <code>TokenStream</code>. We do this by
@@ -28792,7 +28820,7 @@ expression to print literally, so we use <code>stringify!</code>. Using <code>st
 saves an allocation by converting <code>#name</code> to a string literal at compile time.</p>
 <p>At this point, <code>cargo build</code> should complete successfully in both <code>hello_macro</code>
 and <code>hello_macro_derive</code>. Let’s hook up these crates to the code in Listing
-20-30 to see the procedural macro in action! Create a new binary project in
+20-31 to see the procedural macro in action! Create a new binary project in
 your <em>projects</em> directory using <code>cargo new pancakes</code>. We need to add
 <code>hello_macro</code> and <code>hello_macro_derive</code> as dependencies in the <code>pancakes</code>
 crate’s <em>Cargo.toml</em>. If you’re publishing your versions of <code>hello_macro</code> and
@@ -28801,7 +28829,7 @@ dependencies; if not, you can specify them as <code>path</code> dependencies as 
 <pre><code class="language-toml">hello_macro = { path = "../hello_macro" }
 hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 </code></pre>
-<p>Put the code in Listing 20-30 into <em>src/main.rs</em>, and run <code>cargo run</code>: it
+<p>Put the code in Listing 20-31 into <em>src/main.rs</em>, and run <code>cargo run</code>: it
 should print <code>Hello, Macro! My name is Pancakes!</code> The implementation of the
 <code>HelloMacro</code> trait from the procedural macro was included without the
 <code>pancakes</code> crate needing to implement it; the <code>#[derive(HelloMacro)]</code> added the

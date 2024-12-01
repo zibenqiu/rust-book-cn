@@ -302,5 +302,17 @@
   "Allow users to add text content only when a post is in the Draft state. Hint: have the state object responsible for what might change about the content but not responsible for modifying the Post.": {
     "_translate": "允许用户仅在帖子处于<code>Draft</code>状态时添加文本内容。\n提示：让状态对象负责内容可能发生的变化，但不负责修改<code>Post</code>。",
     "_note": ""
+  },
+  "Why Not An Enum?": {
+    "_translate": "<a class=\"header\" href=\"#why-not-an-enum\">为什么不使用枚举？</a>",
+    "_note": ""
+  },
+  "Encoding States and Behavior as Types": {
+    "_translate": "<a class=\"header\" href=\"#encoding-states-and-behavior-as-types\">将状态和行为编码为类型</a>",
+    "_note": ""
+  },
+  "Implementing Transitions as Transformations into Different Types": {
+    "_translate": "<a class=\"header\" href=\"#implementing-transitions-as-transformations-into-different-types\">将转换实现为不同类型之间的转换</a>",
+    "_note": ""
   }
 }

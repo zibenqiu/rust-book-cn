@@ -294,5 +294,45 @@
   "Function-like macros that look like function calls but operate on the tokens specified as their argument": {
     "_translate": "看起来像函数调用但操作其参数指定的标记的函数式宏",
     "_note": ""
+  },
+  "Listing 20-29 shows a slightly simplified definition of the vec! macro.": {
+    "_translate": "列表 20-29 显示了 <code>vec!</code> 宏的一个稍微简化的定义。",
+    "_note": ""
+  },
+  "Valid pattern syntax in macro definitions is different than the pattern syntax covered in Chapter 19 because macro patterns are matched against Rust code structure rather than values. Let’s walk through what the pattern pieces in Listing 20-29 mean; for the full macro pattern syntax, see the Rust Reference.": {
+    "_translate": "有效的宏定义中的模式语法与第19章中介绍的模式语法不同，因为宏模式是与Rust代码结构匹配，而不是与值匹配。让我们来分析一下列表20-29中的模式片段的含义；有关完整的宏模式语法，请参阅<a href=\"../reference/macros-by-example.html\">Rust参考手册</a>。",
+    "_note": ""
+  },
+  "When creating procedural macros, the definitions must reside in their own crate with a special crate type. This is for complex technical reasons that we hope to eliminate in the future. In Listing 20-30, we show how to define a procedural macro, where some_attribute is a placeholder for using a specific macro variety.": {
+    "_translate": "在创建过程宏时，定义必须位于具有特殊crate类型的独立crate中。这是出于复杂的技朮原因，我们希望将来能够消除。在清单20-30中，我们展示了如何定义一个过程宏，其中<code>some_attribute</code>是使用特定宏变体的占位符。",
+    "_note": ""
+  },
+  "To start defining the procedural macro, place the code in Listing 20-32 into your src/lib.rs file for the hello_macro_derive crate. Note that this code won’t compile until we add a definition for the impl_hello_macro function.": {
+    "_translate": "要开始定义过程宏，请将列表 20-32 中的代码放入 <em>src/lib.rs</em> 文件中，用于 <code>hello_macro_derive</code> crate。请注意，此代码在我们添加 <code>impl_hello_macro</code> 函数的定义之前是无法编译的。",
+    "_note": ""
+  },
+  "Let’s create a crate named hello_macro that defines a trait named HelloMacro with one associated function named hello_macro. Rather than making our users implement the HelloMacro trait for each of their types, we’ll provide a procedural macro so users can annotate their type with #[derive(HelloMacro)] to get a default implementation of the hello_macro function. The default implementation will print Hello, Macro! My name is TypeName! where TypeName is the name of the type on which this trait has been defined. In other words, we’ll write a crate that enables another programmer to write code like Listing 20-31 using our crate.": {
+    "_translate": "让我们创建一个名为 <code>hello_macro</code> 的 crate，该 crate 定义了一个名为 <code>HelloMacro</code> 的 trait，其中有一个关联函数名为 <code>hello_macro</code>。我们不是让用户为每个类型实现 <code>HelloMacro</code> trait，而是提供一个过程宏，使用户可以通过 <code>#[derive(HelloMacro)]</code> 注解他们的类型来获得 <code>hello_macro</code> 函数的默认实现。默认实现将打印 <code>Hello, Macro! My name is TypeName!</code>，其中 <code>TypeName</code> 是定义此 trait 的类型的名称。换句话说，我们将编写一个 crate，使其他程序员能够使用我们的 crate 编写如清单 20-31 所示的代码。",
+    "_note": ""
+  },
+  "Now that we have the code to turn the annotated Rust code from a TokenStream into a DeriveInput instance, let’s generate the code that implements the HelloMacro trait on the annotated type, as shown in Listing 20-34.": {
+    "_translate": "现在我们有了将带有注解的 Rust 代码从 <code>TokenStream</code> 转换为 <code>DeriveInput</code> 实例的代码，让我们生成实现 <code>HelloMacro</code> 特性到注解类型的代码，如清单 20-34 所示。",
+    "_note": ""
+  },
+  "The hello_macro_derive function first converts the input from a TokenStream to a data structure that we can then interpret and perform operations on. This is where syn comes into play. The parse function in syn takes a TokenStream and returns a DeriveInput struct representing the parsed Rust code. Listing 20-33 shows the relevant parts of the DeriveInput struct we get from parsing the struct Pancakes; string:": {
+    "_translate": "<code>hello_macro_derive</code> 函数首先将 <code>input</code> 从一个 <code>TokenStream</code> 转换为一个我们可以解释和执行操作的数据结构。这就是 <code>syn</code> 发挥作用的地方。<code>syn</code> 中的 <code>parse</code> 函数接受一个 <code>TokenStream</code> 并返回一个表示解析后的 Rust 代码的 <code>DeriveInput</code> 结构体。列表 20-33 显示了从解析 <code>struct Pancakes;</code> 字符串得到的 <code>DeriveInput</code> 结构体的相关部分：",
+    "_note": ""
+  },
+  "We get an Ident struct instance containing the name (identifier) of the annotated type using ast.ident. The struct in Listing 20-33 shows that when we run the impl_hello_macro function on the code in Listing 20-31, the ident we get will have the ident field with a value of \"Pancakes\". Thus, the name variable in Listing 20-34 will contain an Ident struct instance that, when printed, will be the string \"Pancakes\", the name of the struct in Listing 20-31.": {
+    "_translate": "我们使用 <code>ast.ident</code> 获取一个包含注解类型名称（标识符）的 <code>Ident</code> 结构体实例。列表 20-33 中的结构体显示，当我们对列表 20-31 中的代码运行 <code>impl_hello_macro</code> 函数时，我们得到的 <code>ident</code> 将具有值为 <code>\"Pancakes\"</code> 的 <code>ident</code> 字段。因此，列表 20-34 中的 <code>name</code> 变量将包含一个 <code>Ident</code> 结构体实例，当打印时，它将是字符串 <code>\"Pancakes\"</code>，即列表 20-31 中结构体的名称。",
+    "_note": ""
+  },
+  "At this point, cargo build should complete successfully in both hello_macro and hello_macro_derive. Let’s hook up these crates to the code in Listing 20-31 to see the procedural macro in action! Create a new binary project in your projects directory using cargo new pancakes. We need to add hello_macro and hello_macro_derive as dependencies in the pancakes crate’s Cargo.toml. If you’re publishing your versions of hello_macro and hello_macro_derive to crates.io, they would be regular dependencies; if not, you can specify them as path dependencies as follows:": {
+    "_translate": "此时，<code>cargo build</code> 应该在 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 中都成功完成。让我们将这些 crates 连接到列表 20-31 中的代码，看看过程宏如何工作！在 <em>projects</em> 目录中使用 <code>cargo new pancakes</code> 创建一个新的二进制项目。我们需要在 <code>pancakes</code> crate 的 <em>Cargo.toml</em> 中添加 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 作为依赖项。如果你将 <code>hello_macro</code> 和 <code>hello_macro_derive</code> 的版本发布到 <a href=\"https://crates.io/\">crates.io</a>，它们将是常规依赖项；如果不是，你可以将它们指定为 <code>path</code> 依赖项，如下所示：",
+    "_note": ""
+  },
+  "Put the code in Listing 20-31 into src/main.rs, and run cargo run: it should print Hello, Macro! My name is Pancakes! The implementation of the HelloMacro trait from the procedural macro was included without the pancakes crate needing to implement it; the #[derive(HelloMacro)] added the trait implementation.": {
+    "_translate": "将清单 20-31 中的代码放入 <em>src/main.rs</em>，并运行 <code>cargo run</code>：它应该打印 <code>Hello, Macro! My name is Pancakes!</code> 从过程宏实现的 <code>HelloMacro</code> 特性被包含进来，而无需 <code>pancakes</code> crate 自身实现它；<code>#[derive(HelloMacro)]</code> 添加了特性实现。",
+    "_note": ""
   }
 }

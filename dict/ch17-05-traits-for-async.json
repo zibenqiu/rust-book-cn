@@ -222,5 +222,13 @@
   "Chapter 4: Pinning": {
     "_translate": "<a href=\"https://rust-lang.github.io/async-book/04_pinning/01_chapter.html\">第 4 章：固定</a>",
     "_note": ""
+  },
+  "If Rust compiled it to exactly that code, though, every await would be blocking—exactly the opposite of what we were going for! Instead, Rust makes sure that the loop can hand off control to something which can pause work on this future and work on other futures and check this one again later. That “something” is an async runtime, and this scheduling and coordination work is one of the main jobs for a runtime.": {
+    "_translate": "如果 Rust 将其编译为完全相同的代码，那么每个 <code>await</code> 都会是阻塞的——这与我们的目标完全相反！相反，Rust 确保循环可以将控制权交给某个可以暂停此未来的处理并处理其他未来并在稍后再次检查此未来的东西。这个“东西”是一个异步运行时，而这种调度和协调工作是运行时的主要职责之一。",
+    "_note": ""
+  },
+  "However, we’re not directly awaiting a future here. Instead, we construct a new future, JoinAll, by passing a collection of futures to the join_all function. The signature for join_all requires that the type of the items in the collection all implement the Future trait, and Box<T> only implements Future if the T that it wraps is a future which implements the Unpin trait.": {
+    "_translate": "然而，我们在这里并不是直接等待一个未来。相反，我们通过将一个未来集合传递给 <code>join_all</code> 函数来构建一个新的未来，<code>JoinAll</code>。<code>join_all</code> 的签名要求集合中的项目类型都实现 <code>Future</code> 特性，而 <code>Box&lt;T&gt;</code> 只有在其包装的 <code>T</code> 是一个实现 <code>Unpin</code> 特性的未来时才实现 <code>Future</code>。",
+    "_note": ""
   }
 }

@@ -166,5 +166,9 @@
   "A relative path starts from the current module and uses self, super, or an identifier in the current module.": {
     "_translate": "一个<em>相对路径</em>从当前模块开始，并使用<code>self</code>、<code>super</code>或当前模块中的标识符。",
     "_note": ""
+  },
+  "Best Practices for Packages with a Binary and a Library": {
+    "_translate": "<a class=\"header\" href=\"#best-practices-for-packages-with-a-binary-and-a-library\">包含二进制文件和库的包的最佳实践</a>",
+    "_note": ""
   }
 }

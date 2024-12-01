@@ -18,5 +18,9 @@
   "Common Programming Concepts - The Rust Programming Language": {
     "_translate": "常见编程概念 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Keywords": {
+    "_translate": "<a class=\"header\" href=\"#keywords\">关键字</a>",
+    "_note": ""
   }
 }

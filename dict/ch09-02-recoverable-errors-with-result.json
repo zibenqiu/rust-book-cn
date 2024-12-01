@@ -230,5 +230,21 @@
   "Recoverable Errors with Result - The Rust Programming Language": {
     "_translate": "可恢复的错误与 Result - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Alternatives to Using match with Result<T, E>": {
+    "_translate": "<a class=\"header\" href=\"#alternatives-to-using-match-with-resultt-e\">使用 <code>match</code> 与 <code>Result&lt;T, E&gt;</code> 的替代方案</a>",
+    "_note": ""
+  },
+  "Shortcuts for Panic on Error: unwrap and expect": {
+    "_translate": "<a class=\"header\" href=\"#shortcuts-for-panic-on-error-unwrap-and-expect\">错误时引发恐慌的快捷方式： <code>unwrap</code> 和 <code>expect</code></a>",
+    "_note": ""
+  },
+  "A Shortcut for Propagating Errors: the ? Operator": {
+    "_translate": "<a class=\"header\" href=\"#a-shortcut-for-propagating-errors-the--operator\">传播错误的快捷方式：<code>?</code> 操作符</a>",
+    "_note": ""
+  },
+  "Where The ? Operator Can Be Used": {
+    "_translate": "<a class=\"header\" href=\"#where-the--operator-can-be-used\">问号运算符 <code>?</code> 可以使用的地方</a>",
+    "_note": ""
   }
 }

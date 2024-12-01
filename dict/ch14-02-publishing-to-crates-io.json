@@ -258,5 +258,17 @@
   "Safety: If the function is unsafe to call (we discuss unsafety in Chapter 20), there should be a section explaining why the function is unsafe and covering the invariants that the function expects callers to uphold.": {
     "_translate": "<strong>安全性</strong>: 如果函数调用是<code>不安全的</code>（我们在第20章中讨论不安全性），应该有一个部分解释为什么该函数是不安全的，并涵盖函数期望调用者维护的不变性。",
     "_note": ""
+  },
+  "Commonly Used Sections": {
+    "_translate": "<a class=\"header\" href=\"#commonly-used-sections\">常用部分</a>",
+    "_note": ""
+  },
+  "Documentation Comments as Tests": {
+    "_translate": "<a class=\"header\" href=\"#documentation-comments-as-tests\">文档注释作为测试</a>",
+    "_note": ""
+  },
+  "Commenting Contained Items": {
+    "_translate": "<a class=\"header\" href=\"#commenting-contained-items\">注释包含的项</a>",
+    "_note": ""
   }
 }

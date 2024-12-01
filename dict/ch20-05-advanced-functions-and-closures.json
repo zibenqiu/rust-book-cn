@@ -86,5 +86,9 @@
   "Advanced Functions and Closures - The Rust Programming Language": {
     "_translate": "高级函数和闭包 - 《Rust编程语言》",
     "_note": ""
+  },
+  "The syntax for specifying that a parameter is a function pointer is similar to that of closures, as shown in Listing 20-28, where we’ve defined a function add_one that adds one to its parameter. The function do_twice takes two parameters: a function pointer to any function that takes an i32 parameter and returns an i32, and one i32 value. The do_twice function calls the function f twice, passing it the arg value, then adds the two function call results together. The main function calls do_twice with the arguments add_one and 5.": {
+    "_translate": "指定参数为函数指针的语法与闭包的语法相似，如清单 20-28 所示，我们定义了一个将参数加一的函数 <code>add_one</code>。函数 <code>do_twice</code> 接受两个参数：一个指向接受 <code>i32</code> 参数并返回 <code>i32</code> 的任何函数的函数指针，和一个 <code>i32</code> 值。<code>do_twice</code> 函数调用函数 <code>f</code> 两次，将 <code>arg</code> 值传递给它，然后将两次函数调用的结果相加。<code>main</code> 函数使用参数 <code>add_one</code> 和 <code>5</code> 调用 <code>do_twice</code>。",
+    "_note": ""
   }
 }

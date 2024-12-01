@@ -174,5 +174,33 @@
   "Advanced Types - The Rust Programming Language": {
     "_translate": "高级类型 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "The newtype pattern is also useful for tasks beyond those we’ve discussed so far, including statically enforcing that values are never confused and indicating the units of a value. You saw an example of using newtypes to indicate units in Listing 20-16: recall that the Millimeters and Meters structs wrapped u32 values in a newtype. If we wrote a function with a parameter of type Millimeters, we couldn’t compile a program that accidentally tried to call that function with a value of type Meters or a plain u32.": {
+    "_translate": "新类型模式对于我们迄今为止讨论的任务之外的任务也非常有用，包括静态强制值永不混淆和指示值的单位。您在列表 20-16 中看到了使用新类型来指示单位的示例：<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在新类型中。如果我们编写了一个参数类型为 <code>Millimeters</code> 的函数，我们就不能编译一个意外尝试用类型为 <code>Meters</code> 或普通 <code>u32</code> 的值调用该函数的程序。",
+    "_note": ""
+  },
+  "Writing this lengthy type in function signatures and as type annotations all over the code can be tiresome and error prone. Imagine having a project full of code like that in Listing 20-25.": {
+    "_translate": "在函数签名和类型注释中写这样冗长的类型，以及在整个代码中到处使用，可能会很累赘且容易出错。想象一下，你的项目中充满了如清单 20-25 所示的代码。",
+    "_note": ""
+  },
+  "Now, the alias Kilometers is a synonym for i32; unlike the Millimeters and Meters types we created in Listing 20-16, Kilometers is not a separate, new type. Values that have the type Kilometers will be treated the same as values of type i32:": {
+    "_translate": "现在，别名 <code>Kilometers</code> 是 <code>i32</code> 的一个 <em>同义词</em>；与我们在清单 20-16 中创建的 <code>Millimeters</code>\n和 <code>Meters</code> 类型不同，<code>Kilometers</code> 不是一个独立的新类型。具有 <code>Kilometers</code> 类型的值将被视为与 <code>i32</code> 类型的值相同：",
+    "_note": ""
+  },
+  "A type alias makes this code more manageable by reducing the repetition. In Listing 20-26, we’ve introduced an alias named Thunk for the verbose type and can replace all uses of the type with the shorter alias Thunk.": {
+    "_translate": "类型别名通过减少重复使这段代码更易于管理。在列表 20-26 中，我们引入了一个名为 <code>Thunk</code> 的别名，用于冗长的类型，并可以用较短的别名 <code>Thunk</code> 替换所有类型的使用。",
+    "_note": ""
+  },
+  "But what use is a type you can never create values for? Recall the code from Listing 2-5, part of the number guessing game; we’ve reproduced a bit of it here in Listing 20-27.": {
+    "_translate": "但是，一个你永远无法为其创建值的类型有什么用呢？回想一下第 2-5 列表中的代码，这是数字猜谜游戏的一部分；我们在这里重现了一部分，见列表 20-27。",
+    "_note": ""
+  },
+  "The type of guess in this code would have to be an integer and a string, and Rust requires that guess have only one type. So what does continue return? How were we allowed to return a u32 from one arm and have another arm that ends with continue in Listing 20-27?": {
+    "_translate": "在这段代码中，<code>guess</code> 的类型必须是整数 <em>和</em> 字符串，而 Rust 要求 <code>guess</code> 只能有一种类型。那么 <code>continue</code> 返回什么？我们是如何在 Listing 20-27 中从一个分支返回 <code>u32</code>，而另一个分支以 <code>continue</code> 结束的？",
+    "_note": ""
+  },
+  "In this code, the same thing happens as in the match in Listing 20-27: Rust sees that val has the type T and panic! has the type !, so the result of the overall match expression is T. This code works because panic! doesn’t produce a value; it ends the program. In the None case, we won’t be returning a value from unwrap, so this code is valid.": {
+    "_translate": "在这个代码中，与清单 20-27 中的 <code>match</code> 一样：Rust 看到 <code>val</code> 有类型 <code>T</code> 而 <code>panic!</code> 有类型 <code>!</code>，因此整个 <code>match</code> 表达式的结果是 <code>T</code>。这段代码可以工作，因为 <code>panic!</code> 不会产生值；它会结束程序。在 <code>None</code> 情况下，我们不会从 <code>unwrap</code> 返回值，所以这段代码是有效的。",
+    "_note": ""
   }
 }

@@ -178,5 +178,17 @@
   "Reference Cycles Can Leak Memory - The Rust Programming Language": {
     "_translate": "引用循环可能导致内存泄漏 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Creating a Tree Data Structure: a Node with Child Nodes": {
+    "_translate": "<a class=\"header\" href=\"#creating-a-tree-data-structure-a-node-with-child-nodes\">创建树数据结构：具有子节点的<code>Node</code></a>",
+    "_note": ""
+  },
+  "Adding a Reference from a Child to Its Parent": {
+    "_translate": "<a class=\"header\" href=\"#adding-a-reference-from-a-child-to-its-parent\">从子项添加指向其父项的引用</a>",
+    "_note": ""
+  },
+  "Visualizing Changes to strong_count and weak_count": {
+    "_translate": "<a class=\"header\" href=\"#visualizing-changes-to-strong_count-and-weak_count\">可视化 <code>strong_count</code> 和 <code>weak_count</code> 的变化</a>",
+    "_note": ""
   }
 }
