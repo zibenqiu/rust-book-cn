@@ -6,10 +6,8 @@ rm -rf book_src
 
 git clone https://github.com/rust-lang/book.git ./book_src
 cd book_src
-cargo install mdbook --locked
-cargo install --locked --path packages/mdbook-trpl-listing
-cargo install --locked --path packages/mdbook-trpl-note
-mdbook build
+cargo install mdbook --locked --force
+cargo install --locked --path packages/mdbook-trpl
 
 cd ..
 node index.js

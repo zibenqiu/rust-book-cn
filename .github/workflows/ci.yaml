@@ -63,7 +63,7 @@ jobs:
         run: |
           cd book_src
           cargo install mdbook --locked --force
-          cargo install --locked --path packages/mdbook_trpl
+          cargo install --locked --path packages/mdbook-trpl
           mdbook build
 
       - name: 构建中文翻译
