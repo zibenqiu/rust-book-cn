@@ -114,5 +114,9 @@
   "Using Trait Objects That Allow for Values of Different Types - The Rust Programming Language": {
     "_translate": "使用允许不同类型值的 Trait 对象 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "When we use trait objects, Rust must use dynamic dispatch. The compiler doesn’t know all the types that might be used with the code that’s using trait objects, so it doesn’t know which method implemented on which type to call. Instead, at runtime, Rust uses the pointers inside the trait object to know which method to call. This lookup incurs a runtime cost that doesn’t occur with static dispatch. Dynamic dispatch also prevents the compiler from choosing to inline a method’s code, which in turn prevents some optimizations, and Rust has some rules about where you can and cannot use dynamic dispatch, called dyn compatibility. However, we did get extra flexibility in the code that we wrote in Listing 18-5 and were able to support in Listing 18-9, so it’s a trade-off to consider.": {
+    "_translate": "当我们使用特质对象时，Rust 必须使用动态分发。编译器不知道可能与使用特质对象的代码一起使用的所有类型，因此它不知道要调用哪个类型上的哪个方法。相反，在运行时，Rust 使用特质对象内部的指针来确定要调用的方法。这种查找会产生运行时成本，而静态分发则不会发生这种情况。动态分发还阻止编译器选择内联方法的代码，这反过来又阻止了一些优化，Rust 有一些关于可以在哪里以及不能在哪里使用动态分发的规则，称为<a href=\"https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility\"><em>dyn 兼容性</em></a>。然而，我们在清单 18-5 中编写的代码确实获得了额外的灵活性，并且能够在清单 18-9 中支持，所以这是一个需要权衡的问题。",
+    "_note": ""
   }
 }

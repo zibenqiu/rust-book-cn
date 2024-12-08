@@ -258,5 +258,9 @@
   "Building a Single-Threaded Web Server - The Rust Programming Language": {
     "_translate": "构建单线程 Web 服务器 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "In the handle_connection function, we create a new BufReader instance that wraps a reference to the stream. The BufReader adds buffering by managing calls to the std::io::Read trait methods for us.": {
+    "_translate": "在 <code>handle_connection</code> 函数中，我们创建了一个新的 <code>BufReader</code> 实例，该实例包装了对 <code>stream</code> 的引用。 <code>BufReader</code> 通过为我们管理对 <code>std::io::Read</code> 特性方法的调用来添加缓冲。",
+    "_note": ""
   }
 }

@@ -94,5 +94,9 @@
   "Danske": {
     "_translate": "<a href=\"https://github.com/DanKHansen/book-dk\">丹麦语</a>",
     "_note": ""
+  },
+  "Español, alternate, Español por RustLangES": {
+    "_translate": "<a href=\"https://github.com/thecodix/book\">西班牙语</a>, <a href=\"https://github.com/ManRR/rust-book-es\">备用</a>, <a href=\"https://github.com/RustLangES/rust-book-es\">RustLangES 的西班牙语版</a>",
+    "_note": ""
   }
 }

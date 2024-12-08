@@ -253,7 +253,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 <p data-x-en="For convenience, running cargo doc --open will build the HTML for your current crate’s documentation (as well as the documentation for all of your crate’s dependencies) and open the result in a web browser. Navigate to the add_one function and you’ll see how the text in the documentation comments is rendered, as shown in Figure 14-1:">为了方便起见，运行 <code>cargo doc --open</code> 将为您的当前 crate 的文档（以及您的所有 crate 依赖项的文档）构建 HTML，并在网页浏览器中打开结果。导航到 <code>add_one</code> 函数，您将看到文档注释中的文本是如何呈现的，如图 14-1 所示：</p>
 <img alt="Rendered HTML documentation for the `add_one` function of `my_crate`" src="img/trpl14-01.png" class="center">
 <p data-x-en="Figure 14-1: HTML documentation for the add_one function"><span class="caption">图14-1：HTML 文档中的 <code>add_one</code> 函数</span></p>
-<h4 id="commonly-used-sections" data-x-en="Commonly Used Sections"><a class="header" href="#commonly-used-sections">常用部分</a></h4>
+<h4 id="commonly-used-sections"><a class="header" href="#commonly-used-sections">常用部分</a></h4>
 <p data-x-en="We used the # Examples Markdown heading in Listing 14-1 to create a section in the HTML with the title “Examples.” Here are some other sections that crate authors commonly use in their documentation:">我们在清单 14-1 中使用了 <code># Examples</code> Markdown 标题来创建一个标题为“Examples”的 HTML 部分。这里有一些其他部分，crate 作者通常会在他们的文档中使用：</p>
 <ul>
 <li data-x-en="Panics: The scenarios in which the function being documented could panic. Callers of the function who don’t want their programs to panic should make sure they don’t call the function in these situations."><strong>恐慌</strong>: 该函数可能引发恐慌的情况。不希望程序恐慌的调用者应确保不在这些情况下调用该函数。</li>
@@ -261,7 +261,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 <li data-x-en="Safety: If the function is unsafe to call (we discuss unsafety in Chapter 20), there should be a section explaining why the function is unsafe and covering the invariants that the function expects callers to uphold."><strong>安全性</strong>: 如果函数调用是<code>不安全的</code>（我们在第20章中讨论不安全性），应该有一个部分解释为什么该函数是不安全的，并涵盖函数期望调用者维护的不变性。</li>
 </ul>
 <p data-x-en="Most documentation comments don’t need all of these sections, but this is a good checklist to remind you of the aspects of your code users will be interested in knowing about.">大多数文档注释并不需要所有这些部分，但这是一个很好的检查列表，可以提醒你用户会对你的代码的哪些方面感兴趣。</p>
-<h4 id="documentation-comments-as-tests" data-x-en="Documentation Comments as Tests"><a class="header" href="#documentation-comments-as-tests">文档注释作为测试</a></h4>
+<h4 id="documentation-comments-as-tests"><a class="header" href="#documentation-comments-as-tests">文档注释作为测试</a></h4>
 <p data-x-en="Adding example code blocks in your documentation comments can help demonstrate how to use your library, and doing so has an additional bonus: running cargo test will run the code examples in your documentation as tests! Nothing is better than documentation with examples. But nothing is worse than examples that don’t work because the code has changed since the documentation was written. If we run cargo test with the documentation for the add_one function from Listing 14-1, we will see a section in the test results like this:">在文档注释中添加示例代码块可以帮助演示如何使用您的库，这样做还有一个额外的好处：运行<code>cargo test</code>会将文档中的代码示例作为测试运行！没有什么比带有示例的文档更好的了。但没有什么比那些因为代码自文档编写以来已更改而不工作的示例更糟糕的了。如果我们使用第14-1列表中的<code>add_one</code>函数的文档运行<code>cargo test</code>，我们将在测试结果中看到如下部分：</p>
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/listing-14-01/
@@ -276,7 +276,7 @@ test src/lib.rs - add_one (line 5) ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 </code></pre>
 <p data-x-en="Now if we change either the function or the example so the assert_eq! in the example panics and run cargo test again, we’ll see that the doc tests catch that the example and the code are out of sync with each other!">现在，如果我们更改函数或示例，使示例中的 <code>assert_eq!</code> 触发 panic 并再次运行 <code>cargo test</code>，我们会看到文档测试捕获了示例和代码不同步的问题！</p>
-<h4 id="commenting-contained-items" data-x-en="Commenting Contained Items"><a class="header" href="#commenting-contained-items">注释包含的项</a></h4>
+<h4 id="commenting-contained-items"><a class="header" href="#commenting-contained-items">注释包含的项</a></h4>
 <p data-x-en="The style of doc comment //! adds documentation to the item that contains the comments rather than to the items following the comments. We typically use these doc comments inside the crate root file (src/lib.rs by convention) or inside a module to document the crate or the module as a whole.">文档注释风格 <code>//!</code> 会将文档添加到包含注释的项中，而不是添加到注释之后的项中。我们通常在 crate 根文件（按惯例为 <em>src/lib.rs</em>）或模块内部使用这些文档注释，以记录整个 crate 或模块。</p>
 <p data-x-en="For example, to add documentation that describes the purpose of the my_crate crate that contains the add_one function, we add documentation comments that start with //! to the beginning of the src/lib.rs file, as shown in Listing 14-2:">例如，要添加描述包含 <code>add_one</code> 函数的 <code>my_crate</code> crate 目的的文档，我们在 <em>src/lib.rs</em> 文件的开头添加以 <code>//!</code> 开头的文档注释，如清单 14-2 所示：</p>
 <figure class="listing">

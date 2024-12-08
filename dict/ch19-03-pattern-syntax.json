@@ -378,5 +378,13 @@
   "Ignoring Remaining Parts of a Value with ..": {
     "_translate": "<a class=\"header\" href=\"#ignoring-remaining-parts-of-a-value-with-\">使用 <code>..</code> 忽略值的剩余部分</a>",
     "_note": ""
+  },
+  "To create a match expression that compares the values of the outer x and y, rather than introducing a new variable which shadows the existing y variable, we would need to use a match guard conditional instead. We’ll talk about match guards later in the “Extra Conditionals with Match Guards” section.": {
+    "_translate": "要创建一个比较外部 <code>x</code> 和 <code>y</code> 值的 <code>match</code> 表达式，而不是引入一个新的变量来遮盖现有的 <code>y</code> 变量，我们需要使用匹配卫条件。我们将在 <a href=\"#extra-conditionals-with-match-guards\">“使用匹配卫条件的额外条件”</a> 部分讨论匹配卫条件。",
+    "_note": ""
+  },
+  "The match guard if n == y is not a pattern and therefore doesn’t introduce new variables. This y is the outer y rather than a new y shadowing it, and we can look for a value that has the same value as the outer y by comparing n to y.": {
+    "_translate": "匹配卫士 <code>if n == y</code> 不是模式，因此不会引入新的变量。这个 <code>y</code> <em>是</em> 外部的 <code>y</code> 而不是新的 <code>y</code> 遮蔽它，我们可以通过比较 <code>n</code> 和 <code>y</code> 来查找与外部 <code>y</code> 具有相同值的值。",
+    "_note": ""
   }
 }

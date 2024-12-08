@@ -314,5 +314,9 @@
   "Implementing Transitions as Transformations into Different Types": {
     "_translate": "<a class=\"header\" href=\"#implementing-transitions-as-transformations-into-different-types\">将转换实现为不同类型之间的转换</a>",
     "_note": ""
+  },
+  "Another downside is that we’ve duplicated some logic. To eliminate some of the duplication, we might try to make default implementations for the request_review and approve methods on the State trait that return self; however, this would not be dyn compatible, because the trait doesn’t know what the concrete self will be exactly. We want to be able to use State as a trait object, so we need its methods to be dyn compatible.": {
+    "_translate": "另一个缺点是我们复制了一些逻辑。为了消除一些重复，我们可能会尝试为 <code>State</code> 特性上的 <code>request_review</code> 和 <code>approve</code> 方法提供默认实现，这些实现返回 <code>self</code>；然而，这将不兼容 dyn，因为特性不知道具体的 <code>self</code> 会是什么。我们希望能够将 <code>State</code> 作为特性对象使用，因此需要其方法是 dyn 兼容的。",
+    "_note": ""
   }
 }

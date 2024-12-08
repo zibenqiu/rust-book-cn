@@ -263,7 +263,7 @@ string data on the heap." src="img/trpl04-06.svg" class="center"></p>
 </span><span class="boring">fn calculate_length(s: &amp;String) -&gt; usize {
 </span><span class="boring">    s.len()
 </span><span class="boring">}</span></code></pre></pre>
-<p data-x-en="The &amp;s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because it does not own it, the value it points to will not be dropped when the reference stops being used."><code>&amp;s1</code> 语法让我们创建一个引用，该引用<em>指向</em><code>s1</code>的值，但不拥有它。因为不拥有它，所以当引用停止使用时，它所指向的值不会被释放。</p>
+<p data-x-en="The &amp;s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because the reference does not own it, the value it points to will not be dropped when the reference stops being used."><code>&amp;s1</code> 语法让我们创建一个引用，该引用<em>指向</em><code>s1</code>的值，但不拥有它。因为引用不拥有它，所以当引用停止使用时，它所指向的值不会被释放。</p>
 <p data-x-en="Likewise, the signature of the function uses &amp; to indicate that the type of the parameter s is a reference. Let’s add some explanatory annotations:">同样，函数的签名使用 <code>&amp;</code> 来表示参数 <code>s</code> 的类型是一个引用。让我们添加一些解释性的注释：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span><span class="boring">    let s1 = String::from("hello");
@@ -275,8 +275,8 @@ string data on the heap." src="img/trpl04-06.svg" class="center"></p>
 </span><span class="boring">
 </span>fn calculate_length(s: &amp;String) -&gt; usize { // s is a reference to a String
     s.len()
-} // Here, s goes out of scope. But because it does not have ownership of what
-  // it refers to, it is not dropped.</code></pre></pre>
+} // Here, s goes out of scope. But because s does not have ownership of what
+  // it refers to, the value is not dropped.</code></pre></pre>
 <p data-x-en="The scope in which the variable s is valid is the same as any function parameter’s scope, but the value pointed to by the reference is not dropped when s stops being used, because s doesn’t have ownership. When functions have references as parameters instead of the actual values, we won’t need to return the values in order to give back ownership, because we never had ownership.">变量 <code>s</code> 有效的范围与任何函数参数的范围相同，但当 <code>s</code> 不再使用时，引用所指向的值不会被丢弃，因为 <code>s</code> 没有所有权。当函数的参数是引用而不是实际值时，我们不需要返回值以归还所有权，因为我们从未拥有过所有权。</p>
 <p data-x-en="We call the action of creating a reference borrowing. As in real life, if a person owns something, you can borrow it from them. When you’re done, you have to give it back. You don’t own it.">我们将创建引用的行为称为<em>借用</em>。就像在现实生活中，如果一个人拥有某样东西，你可以从他们那里借用。当你用完后，必须归还。你并不拥有它。</p>
 <p data-x-en="So, what happens if we try to modify something we’re borrowing? Try the code in Listing 4-6. Spoiler alert: it doesn’t work!">所以，如果我们尝试修改我们借用的内容会发生什么？尝试清单 4-6 中的代码。剧透警告：它不起作用！</p>

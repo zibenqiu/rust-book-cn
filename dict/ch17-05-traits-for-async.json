@@ -230,5 +230,9 @@
   "However, we’re not directly awaiting a future here. Instead, we construct a new future, JoinAll, by passing a collection of futures to the join_all function. The signature for join_all requires that the type of the items in the collection all implement the Future trait, and Box<T> only implements Future if the T that it wraps is a future which implements the Unpin trait.": {
     "_translate": "然而，我们在这里并不是直接等待一个未来。相反，我们通过将一个未来集合传递给 <code>join_all</code> 函数来构建一个新的未来，<code>JoinAll</code>。<code>join_all</code> 的签名要求集合中的项目类型都实现 <code>Future</code> 特性，而 <code>Box&lt;T&gt;</code> 只有在其包装的 <code>T</code> 是一个实现 <code>Unpin</code> 特性的未来时才实现 <code>Future</code>。",
     "_note": ""
+  },
+  "Back in “Futures and the Async Syntax”, we noted that Future is a trait. Let’s start by taking a closer look at how it works. Here is how Rust defines a Future:": {
+    "_translate": "在<a href=\"ch17-01-futures-and-syntax.html\">“Futures 和异步语法”</a><!-- ignore -->中，我们\n提到 <code>Future</code> 是一个特质。让我们先仔细看看它是如何工作的。以下是 Rust 如何定义 <code>Future</code>：",
+    "_note": ""
   }
 }

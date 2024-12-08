@@ -166,5 +166,9 @@
   "The rust-analyzer powers Integrated Development Environment (IDE) integration for code completion and inline error messages.": {
     "_translate": "rust-analyzer 为集成开发环境（IDE）提供代码补全和内联错误消息的功能。",
     "_note": ""
+  },
+  "You’ll find two kinds of chapters in this book: concept chapters and project chapters. In concept chapters, you’ll learn about an aspect of Rust. In project chapters, we’ll build small programs together, applying what you’ve learned so far. Chapters 2, 12, and 21 are project chapters; the rest are concept chapters.": {
+    "_translate": "你将在本书中找到两种类型的章节：概念章节和项目章节。在概念章节中，你将学习 Rust 的某个方面。在项目章节中，我们将一起构建小型程序，应用你迄今为止所学的知识。第 2、12 和 21 章是项目章节；其余的是概念章节。",
+    "_note": ""
   }
 }

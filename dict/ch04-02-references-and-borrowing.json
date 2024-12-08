@@ -178,5 +178,9 @@
   "References must always be valid.": {
     "_translate": "引用必须始终有效。",
     "_note": ""
+  },
+  "The &s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because the reference does not own it, the value it points to will not be dropped when the reference stops being used.": {
+    "_translate": "<code>&amp;s1</code> 语法让我们创建一个引用，该引用<em>指向</em><code>s1</code>的值，但不拥有它。因为引用不拥有它，所以当引用停止使用时，它所指向的值不会被释放。",
+    "_note": ""
   }
 }

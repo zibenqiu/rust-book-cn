@@ -258,5 +258,9 @@
   "It should return a Result. If the future completes successfully, the Result will be Ok with the value produced by the future. If the timeout elapses first, the Result will be Err with the duration that the timeout waited for.": {
     "_translate": "它应该返回一个 <code>Result</code>。如果未来完成成功，<code>Result</code> 将是 <code>Ok</code>，包含未来产生的值。如果超时先发生，<code>Result</code> 将是 <code>Err</code>，包含超时等待的持续时间。",
     "_note": ""
+  },
+  "In Listing 17-21, we once again use trpl::race to run two futures, slow and fast, against each other. Each one prints a message when it starts running, pauses for some amount of time by calling and awaiting sleep, and then prints another message when it finishes. Then we pass both to trpl::race and wait for one of them to finish. (The outcome here won’t be too surprising: fast wins!) Unlike when we used race back in “Our First Async Program”, we just ignore the Either instance it returns here, because all of the interesting behavior happens in the body of the async blocks.": {
+    "_translate": "在清单 17-21 中，我们再次使用 <code>trpl::race</code> 来运行两个未来，<code>slow</code> 和 <code>fast</code>，彼此竞争。每个未来在开始运行时都会打印一条消息，通过调用并等待 <code>sleep</code> 暂停一段时间，然后在完成时打印另一条消息。然后我们将两者传递给 <code>trpl::race</code> 并等待其中一个完成。（这里的结局不会太令人惊讶：<code>fast</code> 赢了！）与我们在 <a href=\"ch17-01-futures-and-syntax.html#our-first-async-program\">“我们的第一个异步程序”</a><!--\nignore --> 中使用 <code>race</code> 时不同，这里我们只是忽略它返回的 <code>Either</code> 实例，因为所有有趣的行为都发生在异步块的主体中。",
+    "_note": ""
   }
 }

@@ -319,7 +319,7 @@ blockquote {
 <p data-x-en="This pattern has a profound impact on the way Rust code is written. It may seem simple right now, but the behavior of code can be unexpected in more complicated situations when we want to have multiple variables use the data we’ve allocated on the heap. Let’s explore some of those situations now.">这种模式对 Rust 代码的编写方式有着深远的影响。现在看来可能很简单，但在更复杂的情况下，当我们希望多个变量使用我们在堆上分配的数据时，代码的行为可能会出乎意料。现在让我们探讨一些这样的情况。</p>
 <!-- Old heading. Do not remove or links may break. -->
 <p><a id="ways-variables-and-data-interact-move"></a></p>
-<h4 id="variables-and-data-interacting-with-move" data-x-en="Variables and Data Interacting with Move"><a class="header" href="#variables-and-data-interacting-with-move">变量和数据与 Move 交互</a></h4>
+<h4 id="variables-and-data-interacting-with-move"><a class="header" href="#variables-and-data-interacting-with-move">变量和数据与 Move 交互</a></h4>
 <p data-x-en="Multiple variables can interact with the same data in different ways in Rust. Let’s look at an example using an integer in Listing 4-2.">多个变量可以以不同的方式与相同的数据交互在 Rust 中。
 让我们看一个使用整数的例子，如清单 4-2 所示。</p>
 <figure class="listing">
@@ -391,7 +391,7 @@ access the heap data." src="img/trpl04-04.svg" class="center" style="width:
 <p data-x-en="Figure 4-4: Representation in memory after s1 has been invalidated"><span class="caption">图4-4：在 <code>s1</code> 失效后内存中的表示</span></p>
 <p data-x-en="That solves our problem! With only s2 valid, when it goes out of scope it alone will free the memory, and we’re done.">这解决了我们的问题！只有 <code>s2</code> 有效，当它超出作用域时，它将独自释放内存，我们就完成了。</p>
 <p data-x-en="In addition, there’s a design choice that’s implied by this: Rust will never automatically create “deep” copies of your data. Therefore, any automatic copying can be assumed to be inexpensive in terms of runtime performance.">此外，这里还隐含了一个设计选择：Rust 永远不会自动创建数据的“深层”副本。因此，任何<em>自动</em>复制都可以认为在运行时性能上是廉价的。</p>
-<h4 id="scope-and-assignment" data-x-en="Scope and Assignment"><a class="header" href="#scope-and-assignment">作用域和赋值</a></h4>
+<h4 id="scope-and-assignment"><a class="header" href="#scope-and-assignment">作用域和赋值</a></h4>
 <p data-x-en="The inverse of this is true for the relationship between scoping, ownership, and memory being freed via the drop function as well. When you assign a completely new value to an existing variable, Rust will call drop and free the original value’s memory immediately. Consider this code, for example:">这种关系的反面也适用于作用域、所有权和通过 <code>drop</code> 函数释放内存。当你将一个全新的值赋给一个已存在的变量时，Rust 会立即调用 <code>drop</code> 并释放原始值的内存。例如，考虑以下代码：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let mut s = String::from("hello");
@@ -407,7 +407,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 <p data-x-en="The original string thus immediately goes out of scope. Rust will run the drop function on it and its memory will be freed right away. When we print the value at the end, it will be &quot;ahoy, world!&quot;.">原始字符串因此立即超出作用域。Rust 将在它上面运行 <code>drop</code> 函数，其内存将立即被释放。当我们最后打印值时，它将是 <code>"ahoy, world!"</code>。</p>
 <!-- Old heading. Do not remove or links may break. -->
 <p><a id="ways-variables-and-data-interact-clone"></a></p>
-<h4 id="variables-and-data-interacting-with-clone" data-x-en="Variables and Data Interacting with Clone"><a class="header" href="#variables-and-data-interacting-with-clone">变量和数据与 Clone 交互</a></h4>
+<h4 id="variables-and-data-interacting-with-clone"><a class="header" href="#variables-and-data-interacting-with-clone">变量和数据与 Clone 交互</a></h4>
 <p data-x-en="If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called clone. We’ll discuss method syntax in Chapter 5, but because methods are a common feature in many programming languages, you’ve probably seen them before.">如果我们确实想要深度复制<code>String</code>的堆数据，而不仅仅是栈数据，我们可以使用一个常见的方法叫做<code>clone</code>。我们将在第5章讨论方法语法，但因为方法是许多编程语言中的常见特性，你可能之前已经见过它们。</p>
 <p data-x-en="Here’s an example of the clone method in action:">这里是一个 <code>clone</code> 方法的示例：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -418,7 +418,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="This works just fine and explicitly produces the behavior shown in Figure 4-3, where the heap data does get copied.">这完全没有问题，并且显式地产生了图4-3中所示的行为，其中堆数据<em>确实</em>被复制了。</p>
 <p data-x-en="When you see a call to clone, you know that some arbitrary code is being executed and that code may be expensive. It’s a visual indicator that something different is going on.">当你看到对 <code>clone</code> 的调用时，你知道某些任意的代码正在执行，并且这些代码可能是昂贵的。这是一个视觉指示，表明有些不同的事情正在发生。</p>
-<h4 id="stack-only-data-copy" data-x-en="Stack-Only Data: Copy"><a class="header" href="#stack-only-data-copy">仅栈数据：Copy</a></h4>
+<h4 id="stack-only-data-copy"><a class="header" href="#stack-only-data-copy">仅栈数据：Copy</a></h4>
 <p data-x-en="There’s another wrinkle we haven’t talked about yet. This code using integers—part of which was shown in Listing 4-2—works and is valid:">还有我们尚未讨论的一个细节。这段使用整数的代码——部分在清单4-2中展示——可以工作并且是有效的：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let x = 5;

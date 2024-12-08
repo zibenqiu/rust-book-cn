@@ -229,8 +229,8 @@ blockquote {
                         <h2 id="digging-into-the-traits-for-async"><a class="header" href="#digging-into-the-traits-for-async">深入异步特性</a></h2>
 <p data-x-en="Throughout the chapter, we’ve used the Future, Pin, Unpin, Stream, and StreamExt traits in various ways. So far, though, we’ve avoided digging too far into the details of how they work or how they fit together. Much of the time when writing Rust day to day, this is fine. Sometimes, though, you’ll hit situations where understanding a few more of these details matters. In this section, we’ll dig down enough further to help with those situations—while still leaving the really deep dive for other documentation!">在本章中，我们以各种方式使用了<code>Future</code>、<code>Pin</code>、<code>Unpin</code>、<code>Stream</code>和<code>StreamExt</code>特质。然而，到目前为止，我们还没有深入探讨它们的工作原理或它们是如何协同工作的。在日常编写Rust代码时，大多数情况下这样做是没问题的。但有时，您会遇到需要理解更多这些细节的情况。在本节中，我们将深入探讨<em>足够</em>多的细节以帮助处理这些情况——同时仍然将<em>真正</em>深入的内容留给其他文档！</p>
 <h3 id="future"><a class="header" href="#future">未来</a></h3>
-<p data-x-en="Back in Futures and the Async Syntax, we noted that Future is a trait. Let’s start by taking a closer look at how it works. Here is how Rust defines a Future:">在<a href="ch17-01-futures-and-syntax.html">Futures 和异步语法</a>中，我们提到<code>Future</code>
-是一个特质。让我们先仔细看看它是如何工作的。以下是 Rust 如何定义<code>Future</code>：</p>
+<p data-x-en="Back in “Futures and the Async Syntax”, we noted that Future is a trait. Let’s start by taking a closer look at how it works. Here is how Rust defines a Future:">在<a href="ch17-01-futures-and-syntax.html">“Futures 和异步语法”</a><!-- ignore -->中，我们
+提到 <code>Future</code> 是一个特质。让我们先仔细看看它是如何工作的。以下是 Rust 如何定义 <code>Future</code>：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::pin::Pin;

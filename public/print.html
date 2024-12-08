@@ -294,7 +294,7 @@ the topic in a later chapter.</p>
 <p>You’ll find two kinds of chapters in this book: concept chapters and project
 chapters. In concept chapters, you’ll learn about an aspect of Rust. In project
 chapters, we’ll build small programs together, applying what you’ve learned so
-far. Chapters 2, 12, and 20 are project chapters; the rest are concept chapters.</p>
+far. Chapters 2, 12, and 21 are project chapters; the rest are concept chapters.</p>
 <p>Chapter 1 explains how to install Rust, how to write a “Hello, world!” program,
 and how to use Cargo, Rust’s package manager and build tool. Chapter 2 is a
 hands-on introduction to writing a program in Rust, having you build up a
@@ -559,7 +559,7 @@ installed on your computer!</p>
 <p>The body of the <code>main</code> function holds the following code:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    println!("Hello, world!");
+</span>println!("Hello, world!");
 <span class="boring">}</span></code></pre></pre>
 <p>This line does all the work in this little program: it prints text to the
 screen. There are four important details to notice here.</p>
@@ -1561,8 +1561,8 @@ often used when you want to convert a value from one type to another type.</p>
 <p>We bind this new variable to the expression <code>guess.trim().parse()</code>. The <code>guess</code>
 in the expression refers to the original <code>guess</code> variable that contained the
 input as a string. The <code>trim</code> method on a <code>String</code> instance will eliminate any
-whitespace at the beginning and end, which we must do to be able to compare the
-string to the <code>u32</code>, which can only contain numerical data. The user must press
+whitespace at the beginning and end, which we must do before we can convert the
+string to a <code>u32</code>, which can only contain numerical data. The user must press
 <kbd>enter</kbd> to satisfy <code>read_line</code> and input their guess, which adds a
 newline character to the string. For example, if the user types <kbd>5</kbd> and
 presses <kbd>enter</kbd>, <code>guess</code> looks like this: <code>5\n</code>. The <code>\n</code> represents
@@ -1912,7 +1912,8 @@ special meanings, and you’ll be using them to do various tasks in your Rust
 programs; a few have no current functionality associated with them but have
 been reserved for functionality that might be added to Rust in the future. You
 can find a list of the keywords in <a href="appendix-01-keywords.html">Appendix A</a><!-- ignore -->.</p>
-</section><div style="break-before: page; page-break-before: always;"></div><h2 id="variables-and-mutability"><a class="header" href="#variables-and-mutability">Variables and Mutability</a></h2>
+</section>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="variables-and-mutability"><a class="header" href="#variables-and-mutability">Variables and Mutability</a></h2>
 <p>As mentioned in the <a href="ch02-00-guessing-game-tutorial.html#storing-values-with-variables">“Storing Values with
 Variables”</a><!-- ignore --> section, by default,
 variables are immutable. This is one of many nudges Rust gives you to write
@@ -3789,8 +3790,8 @@ Chapter 15.</p>
 </span><span class="boring">    s.len()
 </span><span class="boring">}</span></code></pre></pre>
 <p>The <code>&amp;s1</code> syntax lets us create a reference that <em>refers</em> to the value of <code>s1</code>
-but does not own it. Because it does not own it, the value it points to will
-not be dropped when the reference stops being used.</p>
+but does not own it. Because the reference does not own it, the value it points
+to will not be dropped when the reference stops being used.</p>
 <p>Likewise, the signature of the function uses <code>&amp;</code> to indicate that the type of
 the parameter <code>s</code> is a reference. Let’s add some explanatory annotations:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -3803,8 +3804,8 @@ the parameter <code>s</code> is a reference. Let’s add some explanatory annota
 </span><span class="boring">
 </span>fn calculate_length(s: &amp;String) -&gt; usize { // s is a reference to a String
     s.len()
-} // Here, s goes out of scope. But because it does not have ownership of what
-  // it refers to, it is not dropped.</code></pre></pre>
+} // Here, s goes out of scope. But because s does not have ownership of what
+  // it refers to, the value is not dropped.</code></pre></pre>
 <p>The scope in which the variable <code>s</code> is valid is the same as any function
 parameter’s scope, but the value pointed to by the reference is not dropped
 when <code>s</code> stops being used, because <code>s</code> doesn’t have ownership. When functions
@@ -7378,8 +7379,7 @@ was defined.</p>
 <p>The glob operator is often used when testing to bring everything under test
 into the <code>tests</code> module; we’ll talk about that in the <a href="ch11-01-writing-tests.html#how-to-write-tests">“How to Write
 Tests”</a><!-- ignore --> section in Chapter 11. The glob operator
-is also sometimes used as part of the prelude pattern: see <a href="../std/prelude/index.html#other-preludes">the standard
-library documentation</a><!-- ignore -->
+is also sometimes used as part of the prelude pattern: see <a href="../std/prelude/index.html#other-preludes">the standard library documentation</a><!-- ignore -->
 for more information on that pattern.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="separating-modules-into-different-files"><a class="header" href="#separating-modules-into-different-files">Separating Modules into Different Files</a></h2>
 <p>So far, all the examples in this chapter defined multiple modules in one file.
@@ -14615,14 +14615,14 @@ they’ll be the same case when we check whether the line contains the query.</p
 </span><span class="boring">}</span></code></pre>
 <figcaption>Listing 12-21: Defining the <code>search_case_insensitive</code> function to lowercase the query and the line before comparing them</figcaption>
 </figure>
-<p>First we lowercase the <code>query</code> string and store it in a shadowed variable with
-the same name. Calling <code>to_lowercase</code> on the query is necessary so that no
-matter whether the user’s query is <code>"rust"</code>, <code>"RUST"</code>, <code>"Rust"</code>, or <code>"rUsT"</code>,
-we’ll treat the query as if it were <code>"rust"</code> and be insensitive to the case.
-While <code>to_lowercase</code> will handle basic Unicode, it won’t be 100% accurate. If
-we were writing a real application, we’d want to do a bit more work here, but
-this section is about environment variables, not Unicode, so we’ll leave it at
-that here.</p>
+<p>First we lowercase the <code>query</code> string and store it in a new variable with the
+same name, shadowing the original. Calling <code>to_lowercase</code> on the query is
+necessary so that no matter whether the user’s query is <code>"rust"</code>, <code>"RUST"</code>,
+<code>"Rust"</code>, or <code>"rUsT"</code>, we’ll treat the query as if it were <code>"rust"</code> and be
+insensitive to the case. While <code>to_lowercase</code> will handle basic Unicode, it
+won’t be 100% accurate. If we were writing a real application, we’d want to do a
+bit more work here, but this section is about environment variables, not
+Unicode, so we’ll leave it at that here.</p>
 <p>Note that <code>query</code> is now a <code>String</code> rather than a string slice because calling
 <code>to_lowercase</code> creates new data rather than referencing existing data. Say the
 query is <code>"rUsT"</code>, as an example: that string slice doesn’t contain a lowercase
@@ -16736,8 +16736,7 @@ other, more advanced features to show you how to do the following:</p>
 <li>Extend Cargo using custom commands</li>
 </ul>
 <p>Cargo can do even more than the functionality we cover in this chapter, so for
-a full explanation of all its features, see <a href="https://doc.rust-lang.org/cargo/">its
-documentation</a>.</p>
+a full explanation of all its features, see <a href="https://doc.rust-lang.org/cargo/">its documentation</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="customizing-builds-with-release-profiles"><a class="header" href="#customizing-builds-with-release-profiles">Customizing Builds with Release Profiles</a></h2>
 <p>In Rust, <em>release profiles</em> are predefined and customizable profiles with
 different configurations that allow a programmer to have more control over
@@ -17587,8 +17586,7 @@ binary target, or both.</p>
 <p>All binaries installed with <code>cargo install</code> are stored in the installation
 root’s <em>bin</em> folder. If you installed Rust using <em>rustup.rs</em> and don’t have any
 custom configurations, this directory will be <em>$HOME/.cargo/bin</em>. Ensure that
-directory is in your <code>$PATH</code> to be able to run programs you’ve installed with
-<code>cargo install</code>.</p>
+directory is in your <code>$PATH</code>to be able to run programs you’ve installed with<code>cargo install</code>.</p>
 <p>For example, in Chapter 12 we mentioned that there’s a Rust implementation of
 the <code>grep</code> tool called <code>ripgrep</code> for searching files. To install <code>ripgrep</code>, we
 can run the following:</p>
@@ -18944,9 +18942,10 @@ error: could not compile `limit-tracker` (lib test) due to 1 previous error
 </code></pre>
 <p>We can’t modify the <code>MockMessenger</code> to keep track of the messages, because the
 <code>send</code> method takes an immutable reference to <code>self</code>. We also can’t take the
-suggestion from the error text to use <code>&amp;mut self</code> instead, because then the
-signature of <code>send</code> wouldn’t match the signature in the <code>Messenger</code> trait
-definition (feel free to try and see what error message you get).</p>
+suggestion from the error text to use <code>&amp;mut self</code> in both the <code>impl</code> method and
+the <code>trait</code> definition. We do not want to change the <code>Messenger</code> trait solely
+for the sake of testing. Instead, we need to find a way to make our test code
+work correctly with our existing design.</p>
 <p>This is a situation in which interior mutability can help! We’ll store the
 <code>sent_messages</code> within a <code>RefCell&lt;T&gt;</code>, and then the <code>send</code> method will be
 able to modify <code>sent_messages</code> to store the messages we’ve seen. Listing 15-22
@@ -20092,8 +20091,7 @@ can <em>do</em> with threads.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="using-message-passing-to-transfer-data-between-threads"><a class="header" href="#using-message-passing-to-transfer-data-between-threads">Using Message Passing to Transfer Data Between Threads</a></h2>
 <p>One increasingly popular approach to ensuring safe concurrency is <em>message
 passing</em>, where threads or actors communicate by sending each other messages
-containing data. Here’s the idea in a slogan from <a href="https://golang.org/doc/effective_go.html#concurrency">the Go language
-documentation</a>:
+containing data. Here’s the idea in a slogan from <a href="https://golang.org/doc/effective_go.html#concurrency">the Go language documentation</a>:
 “Do not communicate by sharing memory; instead, share memory by communicating.”</p>
 <p>To accomplish message-sending concurrency, Rust’s standard library provides an
 implementation of <em>channels</em>. A channel is a general programming concept by
@@ -20630,7 +20628,7 @@ error: could not compile `shared-state` (bin "shared-state") due to 1 previous e
 </code></pre>
 <p>Wow, that error message is very wordy! Here’s the important part to focus on:
 <code>`Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely</code>. The compiler is
-also telling us the reason why: <code>the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;` </code>. We’ll talk about <code>Send</code> in the next section: it’s one of
+also telling us the reason why: <code>the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`</code>. We’ll talk about <code>Send</code> in the next section: it’s one of
 the traits that ensures the types we use with threads are meant for use in
 concurrent situations.</p>
 <p>Unfortunately, <code>Rc&lt;T&gt;</code> is not safe to share across threads. When <code>Rc&lt;T&gt;</code>
@@ -20948,8 +20946,8 @@ everything you need to know as we go.</p>
 <p>To keep this chapter focused on learning async, rather than juggling parts of
 the ecosystem, we have created the <code>trpl</code> crate (<code>trpl</code> is short for “The Rust
 Programming Language”). It re-exports all the types, traits, and functions
-you’ll need, primarily from the <a href="https://crates.io/crates/futures"><code>futures</code></a> and <a href="https://tokio.rs"><code>tokio</code></a>
-crates.</p>
+you’ll need, primarily from the <a href="https://crates.io/crates/futures"><code>futures</code></a><!-- ignore --> and
+<a href="https://tokio.rs"><code>tokio</code></a><!-- ignore --> crates.</p>
 <ul>
 <li>
 <p>The <code>futures</code> crate is an official home for Rust experimentation for async
@@ -20964,9 +20962,10 @@ for <code>trpl</code> because it’s well-tested and widely used.</p>
 </ul>
 <p>In some cases, <code>trpl</code> also renames or wraps the original APIs to let us stay
 focused on the details relevant to this chapter. If you want to understand what
-the crate does, we encourage you to check out <a href="https://github.com/rust-lang/book/tree/main/packages/trpl">its source code</a>.
-You’ll be able to see what crate each re-export comes from, and we’ve left
-extensive comments explaining what the crate does.</p>
+the crate does, we encourage you to check out <a href="https://github.com/rust-lang/book/tree/main/packages/trpl">its source
+code</a><!-- ignore -->. You’ll be able to see what crate each
+re-export comes from, and we’ve left extensive comments explaining what the
+crate does.</p>
 <p>Create a new binary project named <code>hello-async</code> and add the <code>trpl</code> crate as a
 dependency:</p>
 <pre><code class="language-console">$ cargo new hello-async
@@ -21012,7 +21011,8 @@ also async.</p>
 <p>We have to explicitly await both of these futures, because futures in Rust are
 <em>lazy</em>: they don’t do anything until you ask them to with <code>await</code>. (In fact,
 Rust will show a compiler warning if you don’t use a future.) This should
-remind you of our discussion of iterators <a href="ch13-02-iterators.html">back in Chapter 13</a>.
+remind you of our discussion of iterators <a href="ch13-02-iterators.html">back in Chapter 13</a><!--
+ignore -->.
 Iterators do nothing unless you call their <code>next</code> method—whether directly, or
 using <code>for</code> loops or methods such as <code>map</code> which use <code>next</code> under the hood. With
 futures, the same basic idea applies: they do nothing unless you explicitly ask
@@ -21090,7 +21090,7 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 <p>Let’s walk through each part of the transformed version:</p>
 <ul>
 <li>It uses the <code>impl Trait</code> syntax we discussed back in the <a href="ch10-02-traits.html#traits-as-parameters">“Traits as
-Parameters”</a> section in Chapter 10.</li>
+Parameters”</a><!-- ignore --> section in Chapter 10.</li>
 <li>The returned trait is a <code>Future</code>, with an associated type of <code>Output</code>. Notice
 that the <code>Output</code> type is <code>Option&lt;String&gt;</code>, which is the same as the the
 original return type from the <code>async fn</code> version of <code>page_title</code>.</li>
@@ -21637,7 +21637,7 @@ match the value.</p>
 <p>The <code>rx.recv</code> call produces a <code>Future</code>, which we await. The runtime will pause
 the <code>Future</code> until it is ready. Once a message arrives, the future will resolve
 to <code>Some(message)</code>, as many times as a message arrives. When the channel closes,
-regardless of whether <em>any</em>  messages have arrived, the future will instead
+regardless of whether <em>any</em> messages have arrived, the future will instead
 resolve to <code>None</code> to indicate that there are no more values, and we should stop
 polling—that is, stop awaiting.</p>
 <p>The <code>while let</code> loop pulls all of this together. If the result of calling
@@ -22000,7 +22000,7 @@ by the compiler for async blocks. You can’t put two different hand-written
 structs in a <code>Vec</code>, and the same thing applies to the different structs
 generated by the compiler.</p>
 <p>To make this work, we need to use <em>trait objects</em>, just as we did in <a href="ch12-03-improving-error-handling-and-modularity.html">“Returning
-Errors from the run function”</a> in Chapter 12. (We’ll cover trait objects
+Errors from the run function”</a><!-- ignore --> in Chapter 12. (We’ll cover trait objects
 in detail in Chapter 18.) Using trait objects lets us treat each of the
 anonymous futures produced by these types as the same type, because all of them
 implement the <code>Future</code> trait.</p>
@@ -22438,9 +22438,9 @@ racing one future against another.</p>
 pauses for some amount of time by calling and awaiting <code>sleep</code>, and then prints
 another message when it finishes. Then we pass both to <code>trpl::race</code> and wait for
 one of them to finish. (The outcome here won’t be too surprising: <code>fast</code> wins!)
-Unlike when we used <code>race</code> back in <a href="ch17-01-futures-and-syntax.html#our-first-async-program">Our First Async Program</a>, we
-just ignore the <code>Either</code> instance it returns here, because all of the
-interesting behavior happens in the body of the async blocks.</p>
+Unlike when we used <code>race</code> back in <a href="ch17-01-futures-and-syntax.html#our-first-async-program">“Our First Async Program”</a><!--
+ignore -->, we just ignore the <code>Either</code> instance it returns here, because all of
+the interesting behavior happens in the body of the async blocks.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -22474,7 +22474,7 @@ passed. Other implementations <em>are</em> fair, and will randomly choose which 
 to poll first. Regardless of whether the implementation of race we’re using is
 fair, though, <em>one</em> of the futures will run up to the first <code>await</code> in its body
 before another task can start.</p>
-<p>Recall from <a href="ch17-01-futures-and-syntax.html#our-first-async-program">Our First Async Program</a> that at each await point,
+<p>Recall from <a href="ch17-01-futures-and-syntax.html#our-first-async-program">Our First Async Program</a><!-- ignore --> that at each await point,
 Rust gives a runtime a chance to pause the task and switch to another one if the
 future being awaited isn’t ready. The inverse is also true: Rust <em>only</em> pauses
 async blocks and hands control back to a runtime at an await point. Everything
@@ -22919,7 +22919,7 @@ with any collection of futures.)</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="streams"><a class="header" href="#streams">Streams</a></h2>
 <p>So far in this chapter, we have mostly stuck to individual futures. The one big
 exception was the async channel we used. Recall how we used the receiver for our
-async channel in the <a href="ch17-02-concurrency-with-async.html#message-passing">“Message Passing”</a> earlier in the chapter.
+async channel in the <a href="ch17-02-concurrency-with-async.html#message-passing">“Message Passing”</a><!-- ignore --> earlier in the chapter.
 The async <code>recv</code> method produces a sequence of items over time. This is an
 instance of a much more general pattern, often called a <em>stream</em>.</p>
 <p>A sequence of items is something we’ve seen before, when we looked at the
@@ -23593,7 +23593,7 @@ channel-based streams, the <code>send</code> calls could fail when the other sid
 channel closes—and that’s just a matter of how the runtime executes the futures
 which make up the stream. Up until now we have ignored this by calling <code>unwrap</code>,
 but in a well-behaved app, we should explicitly handle the error, at minimum by
-ending the loop so we don’t try to send any more messages!  Listing 17-40 shows
+ending the loop so we don’t try to send any more messages! Listing 17-40 shows
 a simple error strategy: print the issue and then <code>break</code> from the loops. As
 usual, the correct way to handle a message send error will vary—just make sure
 you have a strategy.</p>
@@ -23675,9 +23675,9 @@ situations where understanding a few more of these details matters. In this
 section, we’ll dig down <em>enough</em> further to help with those situations—while
 still leaving the <em>really</em> deep dive for other documentation!</p>
 <h3 id="future"><a class="header" href="#future">Future</a></h3>
-<p>Back in <a href="ch17-01-futures-and-syntax.html">Futures and the Async Syntax</a>, we noted that <code>Future</code>
-is a trait. Let’s start by taking a closer look at how it works. Here is how
-Rust defines a <code>Future</code>:</p>
+<p>Back in <a href="ch17-01-futures-and-syntax.html">“Futures and the Async Syntax”</a><!-- ignore -->, we
+noted that <code>Future</code> is a trait. Let’s start by taking a closer look at how it
+works. Here is how Rust defines a <code>Future</code>:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::pin::Pin;
@@ -24766,9 +24766,11 @@ so it doesn’t know which method implemented on which type to call. Instead, at
 runtime, Rust uses the pointers inside the trait object to know which method to
 call. This lookup incurs a runtime cost that doesn’t occur with static
 dispatch. Dynamic dispatch also prevents the compiler from choosing to inline a
-method’s code, which in turn prevents some optimizations. However, we did get
-extra flexibility in the code that we wrote in Listing 18-5 and were able to
-support in Listing 18-9, so it’s a trade-off to consider.</p>
+method’s code, which in turn prevents some optimizations, and Rust has some
+rules about where you can and cannot use dynamic dispatch, called <a href="https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility"><em>dyn
+compatibility</em></a>. However, we did get extra flexibility in the code
+that we wrote in Listing 18-5 and were able to support in Listing 18-9, so it’s
+a trade-off to consider.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="implementing-an-object-oriented-design-pattern"><a class="header" href="#implementing-an-object-oriented-design-pattern">Implementing an Object-Oriented Design Pattern</a></h2>
 <p>The <em>state pattern</em> is an object-oriented design pattern. The crux of the
 pattern is that we define a set of states a value can have internally. The
@@ -25409,9 +25411,9 @@ another design pattern.</p>
 <p>Another downside is that we’ve duplicated some logic. To eliminate some of the
 duplication, we might try to make default implementations for the
 <code>request_review</code> and <code>approve</code> methods on the <code>State</code> trait that return <code>self</code>;
-however, this would violate object safety, because the trait doesn’t know what
+however, this would not be dyn compatible, because the trait doesn’t know what
 the concrete <code>self</code> will be exactly. We want to be able to use <code>State</code> as a
-trait object, so we need its methods to be object safe.</p>
+trait object, so we need its methods to be dyn compatible.</p>
 <p>Other duplication includes the similar implementations of the <code>request_review</code>
 and <code>approve</code> methods on <code>Post</code>. Both methods delegate to the implementation of
 the same method on the value in the <code>state</code> field of <code>Option</code> and set the new
@@ -25724,13 +25726,11 @@ the value of the number. If none of these conditions apply, the background
 color is blue.</p>
 <p>This conditional structure lets us support complex requirements. With the
 hardcoded values we have here, this example will print <code>Using purple as the background color</code>.</p>
-<p>You can see that <code>if let</code> can also introduce shadowed variables in the same way
-that <code>match</code> arms can: the line <code>if let Ok(age) = age</code> introduces a new
-shadowed <code>age</code> variable that contains the value inside the <code>Ok</code> variant. This
-means we need to place the <code>if age &gt; 30</code> condition within that block: we can’t
-combine these two conditions into <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>. The
-shadowed <code>age</code> we want to compare to 30 isn’t valid until the new scope starts
-with the curly bracket.</p>
+<p>You can see that <code>if let</code> can also introduce new variables which shadow existing
+variables in the same way that <code>match</code> arms can: the line <code>if let Ok(age) = age</code>
+introduces a new <code>age</code> variable that contains the value inside the <code>Ok</code> variant,
+shadowing the existing <code>age</code> variable. This means we need to place the <code>if age &gt; 30</code> condition within that block: we can’t combine these two conditions into <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>. The new <code>age</code> we want to compare to 30 isn’t
+valid until the new scope starts with the curly bracket.</p>
 <p>The downside of using <code>if let</code> expressions is that the compiler doesn’t check
 for exhaustiveness, whereas with <code>match</code> expressions it does. If we omitted the
 last <code>else</code> block and therefore missed handling some cases, the compiler would
@@ -26045,7 +26045,7 @@ running this code or reading further.</p>
 
     println!("at the end: x = {x:?}, y = {y}");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-11: A <code>match</code> expression with an arm that introduces a shadowed variable <code>y</code></figcaption>
+<figcaption>Listing 19-11: A <code>match</code> expression with an arm that introduces a new variable which shadows an existing variable <code>y</code></figcaption>
 </figure>
 <p>Let’s walk through what happens when the <code>match</code> expression runs. The pattern
 in the first match arm doesn’t match the defined value of <code>x</code>, so the code
@@ -26065,10 +26065,10 @@ been shadowed. In this hypothetical case, the <code>match</code> would print <co
 <p>When the <code>match</code> expression is done, its scope ends, and so does the scope of
 the inner <code>y</code>. The last <code>println!</code> produces <code>at the end: x = Some(5), y = 10</code>.</p>
 <p>To create a <code>match</code> expression that compares the values of the outer <code>x</code> and
-<code>y</code>, rather than introducing a shadowed variable, we would need to use a match
-guard conditional instead. We’ll talk about match guards later in the <a href="ch19-03-pattern-syntax.html#extra-conditionals-with-match-guards">“Extra
-Conditionals with Match Guards”</a><!--
-ignore --> section.</p>
+<code>y</code>, rather than introducing a new variable which shadows the existing <code>y</code>
+variable, we would need to use a match guard conditional instead. We’ll talk
+about match guards later in the <a href="ch19-03-pattern-syntax.html#extra-conditionals-with-match-guards">“Extra Conditionals with Match
+Guards”</a><!-- ignore --> section.</p>
 <h3 id="multiple-patterns"><a class="header" href="#multiple-patterns">Multiple Patterns</a></h3>
 <p>In <code>match</code> expressions, you can match multiple patterns using the <code>|</code> syntax,
 which is the pattern <em>or</em> operator. For example, in the following code we match
@@ -26588,8 +26588,8 @@ meaning we can use the outer <code>y</code> in the match guard. Instead of speci
 pattern as <code>Some(y)</code>, which would have shadowed the outer <code>y</code>, we specify
 <code>Some(n)</code>. This creates a new variable <code>n</code> that doesn’t shadow anything because
 there is no <code>n</code> variable outside the <code>match</code>.</p>
-<p>The match guard <code>if n == y</code> is not a pattern and therefore doesn’t introduce
-new variables. This <code>y</code> <em>is</em> the outer <code>y</code> rather than a new shadowed <code>y</code>, and
+<p>The match guard <code>if n == y</code> is not a pattern and therefore doesn’t introduce new
+variables. This <code>y</code> <em>is</em> the outer <code>y</code> rather than a new <code>y</code> shadowing it, and
 we can look for a value that has the same value as the outer <code>y</code> by comparing
 <code>n</code> to <code>y</code>.</p>
 <p>You can also use the <em>or</em> operator <code>|</code> in a match guard to specify multiple
@@ -29066,7 +29066,7 @@ loop in the <code>main</code> function, instead of printing a message that says 
 connection, we now call the new <code>handle_connection</code> function and pass the
 <code>stream</code> to it.</p>
 <p>In the <code>handle_connection</code> function, we create a new <code>BufReader</code> instance that
-wraps a reference to the <code>stream</code>. <code>BufReader</code> adds buffering by managing calls
+wraps a reference to the <code>stream</code>. The <code>BufReader</code> adds buffering by managing calls
 to the <code>std::io::Read</code> trait methods for us.</p>
 <p>We create a variable named <code>http_request</code> to collect the lines of the request
 the browser sends to our server. We indicate that we want to collect these
@@ -31648,7 +31648,7 @@ described.</p>
 <ul>
 <li><code>as</code> - perform primitive casting, disambiguate the specific trait containing
 an item, or rename items in <code>use</code> statements</li>
-<li><code>async</code> -  return a <code>Future</code> instead of blocking the current thread</li>
+<li><code>async</code> - return a <code>Future</code> instead of blocking the current thread</li>
 <li><code>await</code> - suspend execution until the result of a <code>Future</code> is ready</li>
 <li><code>break</code> - exit a loop immediately</li>
 <li><code>const</code> - define constant items or constant raw pointers</li>
@@ -32227,8 +32227,7 @@ any Rust edition will continue to see improvements as new stable releases are
 made. However, in some cases, mainly when new keywords are added, some new
 features might only be available in later editions. You will need to switch
 editions if you want to take advantage of such features.</p>
-<p>For more details, the <a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition
-Guide</em></a> is a complete book
+<p>For more details, the <a href="https://doc.rust-lang.org/stable/edition-guide/"><em>Edition Guide</em></a> is a complete book
 about editions that enumerates the differences between editions and explains
 how to automatically upgrade your code to a new edition via <code>cargo fix</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="appendix-f-translations-of-the-book"><a class="header" href="#appendix-f-translations-of-the-book">Appendix F: Translations of the Book</a></h2>
@@ -32240,7 +32239,7 @@ how to automatically upgrade your code to a new edition via <code>cargo fix</cod
 <li><a href="https://github.com/KaiserY/trpl-zh-cn">简体中文</a></li>
 <li><a href="https://github.com/rust-tw/book-tw">正體中文</a></li>
 <li><a href="https://rust-lang-ua.github.io/rustbook_ukrainian">Українська</a></li>
-<li><a href="https://github.com/thecodix/book">Español</a>, <a href="https://github.com/ManRR/rust-book-es">alternate</a></li>
+<li><a href="https://github.com/thecodix/book">Español</a>, <a href="https://github.com/ManRR/rust-book-es">alternate</a>, <a href="https://github.com/RustLangES/rust-book-es">Español por RustLangES</a></li>
 <li><a href="https://github.com/rust-lang-ru/book">Русский</a></li>
 <li><a href="https://github.com/rinthel/rust-lang-book-ko">한국어</a></li>
 <li><a href="https://github.com/rust-lang-ja/book-ja">日本語</a></li>
@@ -32398,8 +32397,7 @@ a <em>Request For Comments (RFC) process</em>. If you’d like an improvement in
 you can write up a proposal, called an RFC.</p>
 <p>Anyone can write RFCs to improve Rust, and the proposals are reviewed and
 discussed by the Rust team, which is comprised of many topic subteams. There’s
-a full list of the teams <a href="https://www.rust-lang.org/governance">on Rust’s
-website</a>, which includes teams for
+a full list of the teams <a href="https://www.rust-lang.org/governance">on Rust’s website</a>, which includes teams for
 each area of the project: language design, compiler implementation,
 infrastructure, documentation, and more. The appropriate team reads the
 proposal and the comments, writes some comments of their own, and eventually,

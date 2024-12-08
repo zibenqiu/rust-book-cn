@@ -154,5 +154,9 @@
   "All the Places Patterns Can Be Used - The Rust Programming Language": {
     "_translate": "所有可以使用模式的地方 - 《Rust编程语言》",
     "_note": ""
+  },
+  "You can see that if let can also introduce new variables which shadow existing variables in the same way that match arms can: the line if let Ok(age) = age introduces a new age variable that contains the value inside the Ok variant, shadowing the existing age variable. This means we need to place the if age > 30 condition within that block: we can’t combine these two conditions into if let Ok(age) = age && age > 30. The new age we want to compare to 30 isn’t valid until the new scope starts with the curly bracket.": {
+    "_translate": "你可以看到 <code>if let</code> 也可以像 <code>match</code> 分支一样引入新的变量，这些变量会遮蔽现有的变量：行 <code>if let Ok(age) = age</code> 引入了一个新的 <code>age</code> 变量，该变量包含 <code>Ok</code> 变体中的值，遮蔽了现有的 <code>age</code> 变量。这意味着我们需要将 <code>if age &gt; 30</code> 条件放在该块内：我们不能将这两个条件组合成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。我们想要与 30 比较的新 <code>age</code> 直到新作用域在大括号开始时才有效。",
+    "_note": ""
   }
 }
