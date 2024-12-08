@@ -56,7 +56,6 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-          cache: true
 
       - name: 安装依赖
         if: env.new_commits == 'true'
