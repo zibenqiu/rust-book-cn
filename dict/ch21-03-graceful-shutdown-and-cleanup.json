@@ -142,5 +142,29 @@
   "Find a thread pool crate on crates.io and implement a similar web server using the crate instead. Then compare its API and robustness to the thread pool we implemented.": {
     "_translate": "在<a href=\"https://crates.io/\">crates.io</a>上找到一个线程池库，并使用该库实现一个类似的Web服务器。然后将其API和健壮性与我们实现的线程池进行比较。",
     "_note": ""
+  },
+  "However, the only time this would come up would be when dropping the Worker. In exchange, we would have to deal with an Option<thread::JoinHandle<()>> everywhere we access worker.thread. Idiomatic Rust uses Option quite a bit, but when you find yourself wrapping something in Option as a workaround even though you know the item will always be present, it is a good idea to look for alternative approaches. They can make your code cleaner and less error-prone.": {
+    "_translate": "然而，这只有在丢弃<code>Worker</code>时才会出现。作为交换，每次访问<code>worker.thread</code>时，我们都必须处理一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>。惯用的Rust代码大量使用<code>Option</code>，但当你发现自己即使知道某个项总是存在，也为了绕过问题而将其包装在<code>Option</code>中时，最好寻找替代方法。这些方法可以使你的代码更简洁，减少错误。",
+    "_note": ""
+  },
+  "In this case, there is a better alternative: the Vec::drain method. It accepts a range parameter to specify which items to remove from the Vec, and returns an iterator of those items. Passing the .. range syntax will remove every value from the Vec.": {
+    "_translate": "在这种情况下，有一个更好的选择：<code>Vec::drain</code> 方法。它接受一个范围参数来指定要从 <code>Vec</code> 中移除的项，并返回这些项的迭代器。传递 <code>..</code> 范围语法将移除 <code>Vec</code> 中的 <em>每个</em> 值。",
+    "_note": ""
+  },
+  "The error tells us we can’t call join because we only have a mutable borrow of each worker and join takes ownership of its argument. To solve this issue, we need to move the thread out of the Worker instance that owns thread so join can consume the thread. One way to do this is by taking the same approach we did in Listing 18-15. If Worker held an Option<thread::JoinHandle<()>>, we could call the take method on the Option to move the value out of the Some variant and leave a None variant in its place. In other words, a Worker that is running would have a Some variant in thread, and when we wanted to clean up a Worker, we would replace Some with None so the Worker doesn’t have a thread to run.": {
+    "_translate": "错误告诉我们，我们不能调用<code>join</code>，因为我们只有每个<code>worker</code>的可变借用，而<code>join</code>需要拥有其参数。为了解决这个问题，我们需要将线程从拥有<code>thread</code>的<code>Worker</code>实例中移出，以便<code>join</code>可以消耗线程。一种方法是采用我们在清单18-15中使用的方法。如果<code>Worker</code>持有一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们可以在<code>Option</code>上调用<code>take</code>方法，将值从<code>Some</code>变体中移出，并在其位置留下一个<code>None</code>变体。换句话说，正在运行的<code>Worker</code>在<code>thread</code>中将有一个<code>Some</code>变体，而当我们想要清理一个<code>Worker</code>时，我们会将<code>Some</code>替换为<code>None</code>，这样<code>Worker</code>就没有线程可以运行。",
+    "_note": ""
+  },
+  "So we need to update the ThreadPool drop implementation like this:": {
+    "_translate": "所以我们需要更新 <code>ThreadPool</code> 的 <code>drop</code> 实现如下：",
+    "_note": ""
+  },
+  "This resolves the compiler error and does not require any other changes to our code.": {
+    "_translate": "这解决了编译器错误，并且不需要对我们的代码进行任何其他更改。",
+    "_note": ""
+  },
+  "First, we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. Unlike with the workers, here we do need to use an Option to be able to move sender out of ThreadPool with Option::take.": {
+    "_translate": "首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。与 <code>workers</code> 不同，这里我们 <em>确实</em> 需要使用 <code>Option</code>，以便能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。",
+    "_note": ""
   }
 }

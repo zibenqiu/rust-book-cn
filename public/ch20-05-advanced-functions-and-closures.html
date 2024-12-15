@@ -280,38 +280,28 @@ fn main() {
 编译成相同的代码，所以使用对你来说更清晰的风格。</p>
 <h3 id="returning-closures"><a class="header" href="#returning-closures">返回闭包</a></h3>
 <p data-x-en="Closures are represented by traits, which means you can’t return closures directly. In most cases where you might want to return a trait, you can instead use the concrete type that implements the trait as the return value of the function. However, you can’t do that with closures because they don’t have a concrete type that is returnable; you’re not allowed to use the function pointer fn as a return type, for example.">闭包由特征（traits）表示，这意味着你不能直接返回闭包。在大多数你可能想要返回特征的情况下，你可以使用实现该特征的具体类型作为函数的返回值。然而，你不能对闭包这样做，因为它们没有可返回的具体类型；例如，你不被允许使用函数指针 <code>fn</code> 作为返回类型。</p>
-<p data-x-en="The following code tries to return a closure directly, but it won’t compile:">以下代码尝试直接返回一个闭包，但无法编译：</p>
-<pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {
+<p data-x-en="Instead, you will normally use the impl Trait syntax we learned about in Chapter 10. You can return any function type, using Fn, FnOnce and FnMut. For example, this code will work just fine:">相反，你通常会使用我们在第 10 章中学到的 <code>impl Trait</code> 语法。你可以返回任何函数类型，使用 <code>Fn</code>、<code>FnOnce</code> 和 <code>FnMut</code>。例如，这段代码将正常工作：</p>
+<pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
     |x| x + 1
 }</code></pre>
-<p data-x-en="The compiler error is as follows:">编译器错误如下：</p>
-<pre><code class="language-console">$ cargo build
-   Compiling functions-example v0.1.0 (file:///projects/functions-example)
-error[E0746]: return type cannot have an unboxed trait object
- --&gt; src/lib.rs:1:25
-  |
-1 | fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {
-  |                         ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
-  |
-help: consider returning an `impl Trait` instead of a `dyn Trait`
-  |
-1 | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
-  |                         ~~~~
-help: alternatively, box the return type, and wrap all of the returned values in `Box::new`
-  |
-1 ~ fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
-2 ~     Box::new(|x| x + 1)
-  |
+<p data-x-en="However, as we noted in the “Closure Type Inference and Annotation” section in Chapter 13, each closure is also its own distinct type. If you need to work with multiple functions that have the same signature but different implementations, you will need to use a trait object for them:">然而，正如我们在第 13 章的<a href="ch13-01-closures.html#closure-type-inference-and-annotation">“闭包类型推断和注解”</a>部分中提到的，每个闭包也是其自身独特类型。如果你需要处理具有相同签名但实现不同的多个函数，你需要为它们使用一个特质对象：</p>
+<pre><code class="language-rust noplayground">fn main() {
+    let handlers = vec![returns_closure(), returns_initialized_closure(123)];
+    for handler in handlers {
+        let output = handler(5);
+        println!("{output}");
+    }
+}
 
-For more information about this error, try `rustc --explain E0746`.
-error: could not compile `functions-example` (lib) due to 1 previous error
-</code></pre>
-<p data-x-en="The error references the Sized trait again! Rust doesn’t know how much space it will need to store the closure. We saw a solution to this problem earlier. We can use a trait object:">错误再次提到了<code>Sized</code>特征！Rust 不知道它需要多少空间来存储闭包。我们之前见过这个问题的解决方案。我们可以使用特征对象：</p>
-<pre><code class="language-rust noplayground">fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
+fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
     Box::new(|x| x + 1)
+}
+
+fn returns_initialized_closure(init: i32) -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
+    Box::new(move |x| x + init)
 }</code></pre>
-<p data-x-en="This code will compile just fine. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.">这段代码可以顺利编译。有关 trait 对象的更多信息，请参阅第 19 章的<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型值的 trait 对象”</a><!--
-ignore -->部分。</p>
+<p data-x-en="This code will compile just fine—but it wouldn’t if we had tried to stick with impl Fn(i32) -> i32. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.">这段代码可以顺利编译——但如果我们坚持使用<code>impl Fn(i32) -&gt; i32</code>的话就编译不过了。关于特质对象的更多内容，请参阅第19章的<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型的值的特质对象”</a><!-- ignore
+-->部分。</p>
 <p data-x-en="Next, let’s look at macros!">接下来，让我们看看宏！</p>
 
                     </main>

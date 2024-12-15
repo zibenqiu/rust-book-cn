@@ -186,5 +186,9 @@
   "String Slices as Parameters": {
     "_translate": "<a class=\"header\" href=\"#string-slices-as-parameters\">字符串切片作为参数</a>",
     "_note": ""
+  },
+  "The first_word function has a &String as a parameter. We don’t need ownership, so this is fine. (In idiomatic Rust, functions do not take ownership of their arguments unless they need to, and the reasons for that will become clear as we keep going!) But what should we return? We don’t really have a way to talk about part of a string. However, we could return the index of the end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7.": {
+    "_translate": "<code>first_word</code> 函数有一个 <code>&amp;String</code> 作为参数。我们不需要所有权，所以这样是可以的。（在惯用的 Rust 中，函数不会获取其参数的所有权，除非它们需要这样做，而这样做的原因将在我们继续学习时变得清晰！）但是我们应该返回什么？我们实际上没有一种方法来描述字符串的一部分。然而，我们可以返回单词结束的位置的索引，该位置由空格指示。让我们尝试这样做，如清单 4-7 所示。",
+    "_note": ""
   }
 }

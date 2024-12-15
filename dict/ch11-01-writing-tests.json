@@ -314,5 +314,13 @@
   "Assert that the results are what you expect.": {
     "_translate": "断言结果是你所期望的。",
     "_note": ""
+  },
+  "The file starts with an example add function, so that we have something to test.": {
+    "_translate": "文件以一个示例 <code>add</code> 函数开始，这样我们就有东西可以测试。",
+    "_note": ""
+  },
+  "The example function body uses the assert_eq! macro to assert that result, which contains the result of calling add with 2 and 2, equals 4. This assertion serves as an example of the format for a typical test. Let’s run it to see that this test passes.": {
+    "_translate": "示例函数体使用 <code>assert_eq!</code> 宏来断言 <code>result</code>，其中包含调用 <code>add</code> 传入 2 和 2 的结果，等于 4。这个断言作为典型测试格式的一个示例。让我们运行它来看看这个测试是否通过。",
+    "_note": ""
   }
 }

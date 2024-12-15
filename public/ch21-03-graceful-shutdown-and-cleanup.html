@@ -332,209 +332,13 @@ note: `JoinHandle::&lt;T&gt;::join` takes ownership of the receiver `self`, whic
 For more information about this error, try `rustc --explain E0507`.
 error: could not compile `hello` (lib) due to 1 previous error
 </code></pre>
-<p data-x-en="The error tells us we can’t call join because we only have a mutable borrow of each worker and join takes ownership of its argument. To solve this issue, we need to move the thread out of the Worker instance that owns thread so join can consume the thread. We did this in Listing 17-15: if Worker holds an Option<thread::JoinHandle<()>> instead, we can call the take method on the Option to move the value out of the Some variant and leave a None variant in its place. In other words, a Worker that is running will have a Some variant in thread, and when we want to clean up a Worker, we’ll replace Some with None so the Worker doesn’t have a thread to run.">错误告诉我们，我们不能调用<code>join</code>，因为我们只有每个<code>worker</code>的可变借用，而<code>join</code>需要拥有其参数。为了解决这个问题，我们需要将线程从拥有<code>thread</code>的<code>Worker</code>实例中移出，以便<code>join</code>可以消耗线程。我们在清单17-15中做到了这一点：如果<code>Worker</code>持有一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们就可以调用<code>Option</code>的<code>take</code>方法，将值从<code>Some</code>变体中移出，并在其位置留下一个<code>None</code>变体。换句话说，正在运行的<code>Worker</code>将在<code>thread</code>中有一个<code>Some</code>变体，而当我们想要清理一个<code>Worker</code>时，我们将用<code>None</code>替换<code>Some</code>，这样<code>Worker</code>就没有线程可以运行。</p>
-<p data-x-en="So we know we want to update the definition of Worker like this:">所以我们知道我们想这样更新 <code>Worker</code> 的定义：</p>
+<p data-x-en="The error tells us we can’t call join because we only have a mutable borrow of each worker and join takes ownership of its argument. To solve this issue, we need to move the thread out of the Worker instance that owns thread so join can consume the thread. One way to do this is by taking the same approach we did in Listing 18-15. If Worker held an Option<thread::JoinHandle<()>>, we could call the take method on the Option to move the value out of the Some variant and leave a None variant in its place. In other words, a Worker that is running would have a Some variant in thread, and when we wanted to clean up a Worker, we would replace Some with None so the Worker doesn’t have a thread to run.">错误告诉我们，我们不能调用<code>join</code>，因为我们只有每个<code>worker</code>的可变借用，而<code>join</code>需要拥有其参数。为了解决这个问题，我们需要将线程从拥有<code>thread</code>的<code>Worker</code>实例中移出，以便<code>join</code>可以消耗线程。一种方法是采用我们在清单18-15中使用的方法。如果<code>Worker</code>持有一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们可以在<code>Option</code>上调用<code>take</code>方法，将值从<code>Some</code>变体中移出，并在其位置留下一个<code>None</code>变体。换句话说，正在运行的<code>Worker</code>在<code>thread</code>中将有一个<code>Some</code>变体，而当我们想要清理一个<code>Worker</code>时，我们会将<code>Some</code>替换为<code>None</code>，这样<code>Worker</code>就没有线程可以运行。</p>
+<p data-x-en="However, the only time this would come up would be when dropping the Worker. In exchange, we would have to deal with an Option<thread::JoinHandle<()>> everywhere we access worker.thread. Idiomatic Rust uses Option quite a bit, but when you find yourself wrapping something in Option as a workaround even though you know the item will always be present, it is a good idea to look for alternative approaches. They can make your code cleaner and less error-prone.">然而，这只有在丢弃<code>Worker</code>时才会出现。作为交换，每次访问<code>worker.thread</code>时，我们都必须处理一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>。惯用的Rust代码大量使用<code>Option</code>，但当你发现自己即使知道某个项总是存在，也为了绕过问题而将其包装在<code>Option</code>中时，最好寻找替代方法。这些方法可以使你的代码更简洁，减少错误。</p>
+<p data-x-en="In this case, there is a better alternative: the Vec::drain method. It accepts a range parameter to specify which items to remove from the Vec, and returns an iterator of those items. Passing the .. range syntax will remove every value from the Vec.">在这种情况下，有一个更好的选择：<code>Vec::drain</code> 方法。它接受一个范围参数来指定要从 <code>Vec</code> 中移除的项，并返回这些项的迭代器。传递 <code>..</code> 范围语法将移除 <code>Vec</code> 中的 <em>每个</em> 值。</p>
+<p data-x-en="So we need to update the ThreadPool drop implementation like this:">所以我们需要更新 <code>ThreadPool</code> 的 <code>drop</code> 实现如下：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
-</span><span class="boring">    thread,
-</span><span class="boring">};
-</span><span class="boring">
-</span><span class="boring">pub struct ThreadPool {
-</span><span class="boring">    workers: Vec&lt;Worker&gt;,
-</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
-</span><span class="boring">
-</span><span class="boring">impl ThreadPool {
-</span><span class="boring">    /// Create a new ThreadPool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// The size is the number of threads in the pool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// # Panics
-</span><span class="boring">    ///
-</span><span class="boring">    /// The `new` function will panic if the size is zero.
-</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
-</span><span class="boring">        assert!(size &gt; 0);
-</span><span class="boring">
-</span><span class="boring">        let (sender, receiver) = mpsc::channel();
-</span><span class="boring">
-</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
-</span><span class="boring">
-</span><span class="boring">        let mut workers = Vec::with_capacity(size);
-</span><span class="boring">
-</span><span class="boring">        for id in 0..size {
-</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
-</span><span class="boring">        }
-</span><span class="boring">
-</span><span class="boring">        ThreadPool { workers, sender }
-</span><span class="boring">    }
-</span><span class="boring">
-</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
-</span><span class="boring">    where
-</span><span class="boring">        F: FnOnce() + Send + 'static,
-</span><span class="boring">    {
-</span><span class="boring">        let job = Box::new(f);
-</span><span class="boring">
-</span><span class="boring">        self.sender.send(job).unwrap();
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">impl Drop for ThreadPool {
-</span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        for worker in &amp;mut self.workers {
-</span><span class="boring">            println!("Shutting down worker {}", worker.id);
-</span><span class="boring">
-</span><span class="boring">            worker.thread.join().unwrap();
-</span><span class="boring">        }
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span>struct Worker {
-    id: usize,
-    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
-}
-<span class="boring">
-</span><span class="boring">impl Worker {
-</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-</span><span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
-</span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
-</span><span class="boring">
-</span><span class="boring">            job();
-</span><span class="boring">        });
-</span><span class="boring">
-</span><span class="boring">        Worker { id, thread }
-</span><span class="boring">    }
-</span><span class="boring">}</span></code></pre>
-</figure>
-<p data-x-en="Now let’s lean on the compiler to find the other places that need to change. Checking this code, we get two errors:">现在让我们依赖编译器来找到其他需要更改的地方。
-检查这段代码，我们得到了两个错误：</p>
-<pre><code class="language-console">$ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
-error[E0599]: no method named `join` found for enum `Option` in the current scope
-    --&gt; src/lib.rs:52:27
-     |
-52   |             worker.thread.join().unwrap();
-     |                           ^^^^ method not found in `Option&lt;JoinHandle&lt;()&gt;&gt;`
-     |
-note: the method `join` exists on the type `JoinHandle&lt;()&gt;`
-    --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1763:5
-     |
-1763 |     pub fn join(self) -&gt; Result&lt;T&gt; {
-     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-help: consider using `Option::expect` to unwrap the `JoinHandle&lt;()&gt;` value, panicking if the value is an `Option::None`
-     |
-52   |             worker.thread.expect("REASON").join().unwrap();
-     |                          +++++++++++++++++
-
-error[E0308]: mismatched types
-  --&gt; src/lib.rs:72:22
-   |
-72 |         Worker { id, thread }
-   |                      ^^^^^^ expected `Option&lt;JoinHandle&lt;()&gt;&gt;`, found `JoinHandle&lt;_&gt;`
-   |
-   = note: expected enum `Option&lt;JoinHandle&lt;()&gt;&gt;`
-            found struct `JoinHandle&lt;_&gt;`
-help: try wrapping the expression in `Some`
-   |
-72 |         Worker { id, thread: Some(thread) }
-   |                      +++++++++++++      +
-
-Some errors have detailed explanations: E0308, E0599.
-For more information about an error, try `rustc --explain E0308`.
-error: could not compile `hello` (lib) due to 2 previous errors
-</code></pre>
-<p data-x-en="Let’s address the second error, which points to the code at the end of Worker::new; we need to wrap the thread value in Some when we create a new Worker. Make the following changes to fix this error:">让我们解决第二个错误，它指向<code>Worker::new</code>末尾的代码；我们需要在创建新的<code>Worker</code>时将<code>thread</code>值包装在<code>Some</code>中。进行以下更改以修复此错误：</p>
-<figure class="listing">
-<span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
-</span><span class="boring">    thread,
-</span><span class="boring">};
-</span><span class="boring">
-</span><span class="boring">pub struct ThreadPool {
-</span><span class="boring">    workers: Vec&lt;Worker&gt;,
-</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
-</span><span class="boring">
-</span><span class="boring">impl ThreadPool {
-</span><span class="boring">    /// Create a new ThreadPool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// The size is the number of threads in the pool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// # Panics
-</span><span class="boring">    ///
-</span><span class="boring">    /// The `new` function will panic if the size is zero.
-</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
-</span><span class="boring">        assert!(size &gt; 0);
-</span><span class="boring">
-</span><span class="boring">        let (sender, receiver) = mpsc::channel();
-</span><span class="boring">
-</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
-</span><span class="boring">
-</span><span class="boring">        let mut workers = Vec::with_capacity(size);
-</span><span class="boring">
-</span><span class="boring">        for id in 0..size {
-</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
-</span><span class="boring">        }
-</span><span class="boring">
-</span><span class="boring">        ThreadPool { workers, sender }
-</span><span class="boring">    }
-</span><span class="boring">
-</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
-</span><span class="boring">    where
-</span><span class="boring">        F: FnOnce() + Send + 'static,
-</span><span class="boring">    {
-</span><span class="boring">        let job = Box::new(f);
-</span><span class="boring">
-</span><span class="boring">        self.sender.send(job).unwrap();
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">impl Drop for ThreadPool {
-</span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        for worker in &amp;mut self.workers {
-</span><span class="boring">            println!("Shutting down worker {}", worker.id);
-</span><span class="boring">
-</span><span class="boring">            worker.thread.join().unwrap();
-</span><span class="boring">        }
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">struct Worker {
-</span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span>impl Worker {
-    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
-
-<span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
-</span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
-</span><span class="boring">
-</span><span class="boring">            job();
-</span><span class="boring">        });
-</span><span class="boring">
-</span>        Worker {
-            id,
-            thread: Some(thread),
-        }
-    }
-}</code></pre>
-</figure>
-<p data-x-en="The first error is in our Drop implementation. We mentioned earlier that we intended to call take on the Option value to move thread out of worker. The following changes will do so:">第一个错误在我们的 <code>Drop</code> 实现中。我们之前提到，打算对 <code>Option</code> 值调用 <code>take</code> 以将 <code>thread</code> 从 <code>worker</code> 中移出。以下更改将实现这一点：</p>
-<figure class="listing">
-<span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::{
 </span><span class="boring">    sync::{mpsc, Arc, Mutex},
 </span><span class="boring">    thread,
 </span><span class="boring">};
@@ -582,19 +386,17 @@ error: could not compile `hello` (lib) due to 2 previous errors
 </span><span class="boring">
 </span>impl Drop for ThreadPool {
     fn drop(&amp;mut self) {
-        for worker in &amp;mut self.workers {
+        for worker in self.workers.drain(..) {
             println!("Shutting down worker {}", worker.id);
 
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
+            worker.thread.join().unwrap();
         }
     }
 }
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Worker {
@@ -607,14 +409,11 @@ error: could not compile `hello` (lib) due to 2 previous errors
 </span><span class="boring">            job();
 </span><span class="boring">        });
 </span><span class="boring">
-</span><span class="boring">        Worker {
-</span><span class="boring">            id,
-</span><span class="boring">            thread: Some(thread),
-</span><span class="boring">        }
+</span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
 </figure>
-<p data-x-en="As discussed in Chapter 18, the take method on Option takes the Some variant out and leaves None in its place. We’re using if let to destructure the Some and get the thread; then we call join on the thread. If a worker’s thread is already None, we know that worker has already had its thread cleaned up, so nothing happens in that case.">如第 18 章所述，<code>Option</code> 上的 <code>take</code> 方法取出 <code>Some</code> 变体并在其位置留下 <code>None</code>。我们使用 <code>if let</code> 来解构 <code>Some</code> 并获取线程；然后我们在该线程上调用 <code>join</code>。如果某个工作线程已经是 <code>None</code>，我们知道该工作线程已经被清理，因此在这种情况下不会发生任何事情。</p>
+<p data-x-en="This resolves the compiler error and does not require any other changes to our code.">这解决了编译器错误，并且不需要对我们的代码进行任何其他更改。</p>
 <h3 id="signaling-to-the-threads-to-stop-listening-for-jobs"><a class="header" href="#signaling-to-the-threads-to-stop-listening-for-jobs">向线程发出停止监听任务的信号</a></h3>
 <p data-x-en="With all the changes we’ve made, our code compiles without any warnings. However, the bad news is this code doesn’t function the way we want it to yet. The key is the logic in the closures run by the threads of the Worker instances: at the moment, we call join, but that won’t shut down the threads because they loop forever looking for jobs. If we try to drop our ThreadPool with our current implementation of drop, the main thread will block forever waiting for the first thread to finish.">随着我们所做的所有更改，我们的代码编译时没有任何警告。
 然而，坏消息是这段代码还没有按我们希望的方式工作。
@@ -622,7 +421,7 @@ error: could not compile `hello` (lib) due to 2 previous errors
 因为它们会无限循环地寻找任务。如果我们尝试使用当前实现的<code>drop</code>来删除我们的<code>ThreadPool</code>，主线程将
 永远阻塞等待第一个线程完成。</p>
 <p data-x-en="To fix this problem, we’ll need a change in the ThreadPool drop implementation and then a change in the Worker loop.">为了解决这个问题，我们需要更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，然后更改 <code>Worker</code> 循环。</p>
-<p data-x-en="First, we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. We use the same Option and take technique as we did with the thread to be able to move sender out of ThreadPool:">首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。我们使用与处理线程时相同的 <code>Option</code> 和 <code>take</code> 技术，以便能够将 <code>sender</code> 从 <code>ThreadPool</code> 中移出：</p>
+<p data-x-en="First, we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. Unlike with the workers, here we do need to use an Option to be able to move sender out of ThreadPool with Option::take.">首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。与 <code>workers</code> 不同，这里我们 <em>确实</em> 需要使用 <code>Option</code>，以便能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground not_desired_behavior"><span class="boring">use std::{
@@ -681,19 +480,17 @@ impl Drop for ThreadPool {
     fn drop(&amp;mut self) {
         drop(self.sender.take());
 
-        for worker in &amp;mut self.workers {
+        for worker in self.workers.drain(..) {
             println!("Shutting down worker {}", worker.id);
 
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
+            worker.thread.join().unwrap();
         }
     }
 }
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Worker {
@@ -706,10 +503,7 @@ impl Drop for ThreadPool {
 </span><span class="boring">            job();
 </span><span class="boring">        });
 </span><span class="boring">
-</span><span class="boring">        Worker {
-</span><span class="boring">            id,
-</span><span class="boring">            thread: Some(thread),
-</span><span class="boring">        }
+</span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
 <figcaption>Listing 21-23: Explicitly drop <code>sender</code> before joining the worker threads</figcaption>
@@ -770,19 +564,17 @@ impl Drop for ThreadPool {
 </span><span class="boring">    fn drop(&amp;mut self) {
 </span><span class="boring">        drop(self.sender.take());
 </span><span class="boring">
-</span><span class="boring">        for worker in &amp;mut self.workers {
+</span><span class="boring">        for worker in self.workers.drain(..) {
 </span><span class="boring">            println!("Shutting down worker {}", worker.id);
 </span><span class="boring">
-</span><span class="boring">            if let Some(thread) = worker.thread.take() {
-</span><span class="boring">                thread.join().unwrap();
-</span><span class="boring">            }
+</span><span class="boring">            worker.thread.join().unwrap();
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Worker {
@@ -803,10 +595,7 @@ impl Drop for ThreadPool {
             }
         });
 
-        Worker {
-            id,
-            thread: Some(thread),
-        }
+        Worker { id, thread }
     }
 }</code></pre>
 <figcaption>Listing 21-24: Explicitly break out of the loop when <code>recv</code> returns an error</figcaption>

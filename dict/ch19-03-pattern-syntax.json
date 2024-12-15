@@ -386,5 +386,17 @@
   "The match guard if n == y is not a pattern and therefore doesn’t introduce new variables. This y is the outer y rather than a new y shadowing it, and we can look for a value that has the same value as the outer y by comparing n to y.": {
     "_translate": "匹配卫士 <code>if n == y</code> 不是模式，因此不会引入新的变量。这个 <code>y</code> <em>是</em> 外部的 <code>y</code> 而不是新的 <code>y</code> 遮蔽它，我们可以通过比较 <code>n</code> 和 <code>y</code> 来查找与外部 <code>y</code> 具有相同值的值。",
     "_note": ""
+  },
+  "You can match multiple patterns using the | syntax, which is the pattern or operator. For example, in the following code we match the value of x against the match arms, the first of which has an or option, meaning if the value of x matches either of the values in that arm, that arm’s code will run:": {
+    "_translate": "您可以使用 <code>|</code> 语法匹配多个模式，这是模式 <em>或</em>\n运算符。例如，在以下代码中，我们根据 <code>x</code> 的值进行匹配，其中第一个匹配臂有一个 <em>或</em> 选项，这意味着如果 <code>x</code> 的值与该臂中的任何一个值匹配，该臂的代码将运行：",
+    "_note": ""
+  },
+  "Named variables are irrefutable patterns that match any value, and we’ve used them many times in the book. However, there is a complication when you use named variables in match, if let, or while let expressions. Because each of these kinds of expression starts a new scope, variables declared as part of a pattern inside the expression will shadow those with the same name outside, as is the case with all variables. In Listing 19-11, we declare a variable named x with the value Some(5) and a variable y with the value 10. We then create a match expression on the value x. Look at the patterns in the match arms and println! at the end, and try to figure out what the code will print before running this code or reading further.": {
+    "_translate": "命名变量是不可反驳的模式，可以匹配任何值，我们在书中多次使用了它们。然而，当你在 <code>match</code>、<code>if let</code> 或 <code>while let</code> 表达式中使用命名变量时，会出现一个复杂情况。因为这些表达式中的每一种都会开始一个新的作用域，所以在表达式内部作为模式声明的变量会遮蔽外部同名的变量，这与所有变量的情况一样。在清单 19-11 中，我们声明了一个名为 <code>x</code> 的变量，其值为 <code>Some(5)</code>，以及一个值为 <code>10</code> 的变量 <code>y</code>。然后，我们对值 <code>x</code> 创建了一个 <code>match</code> 表达式。查看匹配臂中的模式和最后的 <code>println!</code>，并尝试在运行此代码或继续阅读之前，弄清楚代码将打印什么。",
+    "_note": ""
+  },
+  "A match guard is an additional if condition, specified after the pattern in a match arm, that must also match for that arm to be chosen. Match guards are useful for expressing more complex ideas than a pattern alone allows. They are only available in match expressions, not in if let or while let expressions.": {
+    "_translate": "一个 <em>匹配卫士</em> 是一个额外的 <code>if</code> 条件，在 <code>match</code> 分支的模式之后指定，该分支被选择之前此条件也必须匹配。匹配卫士对于表达比单独的模式更复杂的想法非常有用。它们仅在 <code>match</code> 表达式中可用，而在 <code>if let</code> 或 <code>while let</code> 表达式中不可用。",
+    "_note": ""
   }
 }

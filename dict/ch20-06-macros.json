@@ -334,5 +334,9 @@
   "Put the code in Listing 20-31 into src/main.rs, and run cargo run: it should print Hello, Macro! My name is Pancakes! The implementation of the HelloMacro trait from the procedural macro was included without the pancakes crate needing to implement it; the #[derive(HelloMacro)] added the trait implementation.": {
     "_translate": "将清单 20-31 中的代码放入 <em>src/main.rs</em>，并运行 <code>cargo run</code>：它应该打印 <code>Hello, Macro! My name is Pancakes!</code> 从过程宏实现的 <code>HelloMacro</code> 特性被包含进来，而无需 <code>pancakes</code> crate 自身实现它；<code>#[derive(HelloMacro)]</code> 添加了特性实现。",
     "_note": ""
+  },
+  "The comma following $() indicates that a literal comma separator character must appear between each instance of the code that matches the code within $(). The * specifies that the pattern matches zero or more of whatever precedes the *.": {
+    "_translate": "逗号跟随在 <code>$()</code> 之后表示必须在每个与 <code>$()</code> 内部代码匹配的代码实例之间出现一个字面上的逗号分隔符。 <code>*</code> 指定模式匹配零个或多个 <code>*</code> 前面的任何内容。",
+    "_note": ""
   }
 }

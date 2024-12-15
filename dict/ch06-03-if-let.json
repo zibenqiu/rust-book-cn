@@ -62,5 +62,45 @@
   "The syntax if let takes a pattern and an expression separated by an equal sign. It works the same way as a match, where the expression is given to the match and the pattern is its first arm. In this case, the pattern is Some(max), and the max binds to the value inside the Some. We can then use max in the body of the if let block in the same way we used max in the corresponding match arm. The code in the if let block only runs if the value matches the pattern.": {
     "_translate": "<code>if let</code> 语法接受一个模式和一个表达式，二者由等号分隔。它的工作方式与 <code>match</code> 相同，其中表达式被传递给 <code>match</code>，而模式是其第一个分支。在这种情况下，模式是 <code>Some(max)</code>，而 <code>max</code> 绑定到 <code>Some</code> 内的值。然后我们可以在 <code>if let</code> 块的主体中使用 <code>max</code>，就像在对应的 <code>match</code> 分支中使用 <code>max</code> 一样。<code>if let</code> 块中的代码只有在值匹配模式时才会运行。",
     "_note": ""
+  },
+  "Concise Control Flow with if let and let else - The Rust Programming Language": {
+    "_translate": "使用 if let 和 let else 实现简洁的控制流 - 《Rust 编程语言》",
+    "_note": ""
+  },
+  "Concise Control Flow with if let and let else": {
+    "_translate": "<a class=\"header\" href=\"#concise-control-flow-with-if-let-and-let-else\">使用 <code>if let</code> 和 <code>let else</code> 实现简洁的控制流</a>",
+    "_note": ""
+  },
+  "Staying on the “happy path” with let else": {
+    "_translate": "<a class=\"header\" href=\"#staying-on-the-happy-path-with-let-else\">使用 <code>let else</code> 保持在“顺利路径”上</a>",
+    "_note": ""
+  },
+  "Then we might use if let to match on the type of coin, introducing a state variable within the body of the condition, as in Listing 6-7.": {
+    "_translate": "然后我们可能会使用 <code>if let</code> 来匹配硬币的类型，在条件体中引入一个 <code>state</code> 变量，如列表 6-7 所示。",
+    "_note": ""
+  },
+  "One common pattern is to perform some computation when a value is present and return a default value otherwise. Continuing on with our example of coins with a UsState value, if we wanted to say something funny depending on how old the state on the quarter was, we might introduce a method on UsState to check the age of a state, like so:": {
+    "_translate": "一个常见的模式是在值存在时执行某些计算，否则返回一个默认值。继续我们关于带有 <code>UsState</code> 值的硬币的例子，如果我们想根据硬币上州的年龄说一些有趣的话，我们可能会在 <code>UsState</code> 上引入一个方法来检查州的年龄，如下所示：",
+    "_note": ""
+  },
+  "This is a bit annoying to follow in its own way, though! One branch of the if let produces a value, and the other one returns from the function entirely.": {
+    "_translate": "这以它自己的方式有点令人烦恼！<code>if let</code>的一个分支产生一个值，而另一个分支则完全从函数返回。",
+    "_note": ""
+  },
+  "That gets the job done, but it has pushed the work into the body of the if let statement, and if the work to be done is more complicated, it might be hard to follow exactly how the top-level branches relate. We could also take advantage of the fact that expressions produce a value either to produce the state from the if let or to return early, as in Listing 6-8. (You could do similar with a match, of course!)": {
+    "_translate": "这完成了任务，但将工作推到了 <code>if let</code> 语句的主体中，如果要完成的工作更复杂，可能很难跟踪顶级分支之间的关系。我们也可以利用表达式产生值这一事实，从 <code>if let</code> 生成 <code>state</code> 或提前返回，如列表 6-8 所示。（当然，你也可以用 <code>match</code> 做类似的事情！）",
+    "_note": ""
+  },
+  "In Listing 6-9, you can see how Listing 6-8 looks when using let-else in place of if let. Notice that it stays “on the happy path” in the main body of the function this way, without having significantly different control flow for two branches the way the if let did.": {
+    "_translate": "在清单 6-9 中，你可以看到使用 <code>let</code>-<code>else</code> 代替 <code>if let</code> 时，清单 6-8 的样子。请注意，这样可以在函数的主要部分保持“在顺利的路径上”，而不会像 <code>if let</code> 那样在两个分支中产生显著不同的控制流。",
+    "_note": ""
+  },
+  "To make this common pattern nicer to express, Rust has let-else. The let-else syntax takes a pattern on the left side and an expression on the right, very similar to if let, but it does not have an if branch, only an else branch. If the pattern matches, it will bind the value from the pattern in the outer scope. If the pattern does not match, the program will flow into the else arm, which must return from the function.": {
+    "_translate": "为了使这种常见的模式表达得更优雅，Rust 引入了 <code>let</code>-<code>else</code>。<code>let</code>-<code>else</code> 语法在左侧接受一个模式，在右侧接受一个表达式，非常类似于 <code>if let</code>，但它没有 <code>if</code> 分支，只有 <code>else</code> 分支。如果模式匹配，它将在外部作用域中绑定模式中的值。如果模式 <em>不</em> 匹配，程序将流入 <code>else</code> 分支，该分支必须从函数返回。",
+    "_note": ""
+  },
+  "If you have a situation in which your program has logic that is too verbose to express using a match, remember that if let and let else are in your Rust toolbox as well.": {
+    "_translate": "如果你的情况是程序中的逻辑过于冗长，无法用 <code>match</code> 表达，记得 <code>if let</code> 和 <code>let else</code> 也是你 Rust 工具箱中的选项。",
+    "_note": ""
   }
 }

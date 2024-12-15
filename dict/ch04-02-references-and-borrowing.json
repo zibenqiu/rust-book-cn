@@ -182,5 +182,9 @@
   "The &s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because the reference does not own it, the value it points to will not be dropped when the reference stops being used.": {
     "_translate": "<code>&amp;s1</code> 语法让我们创建一个引用，该引用<em>指向</em><code>s1</code>的值，但不拥有它。因为引用不拥有它，所以当引用停止使用时，它所指向的值不会被释放。",
     "_note": ""
+  },
+  "Note that a reference’s scope starts from where it is introduced and continues through the last time that reference is used. For instance, this code will compile because the last usage of the immutable references is in the println!, before the mutable reference is introduced:": {
+    "_translate": "请注意，引用的作用域从其被引入的地方开始，一直持续到最后一次使用该引用的地方。例如，这段代码可以编译，因为不可变引用的最后使用是在 <code>println!</code> 中，而在那之后才引入了可变引用：",
+    "_note": ""
   }
 }

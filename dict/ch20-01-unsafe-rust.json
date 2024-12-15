@@ -374,5 +374,9 @@
   "For an example of how helpful this can be, consider what happens when we run it against Listing 20-11:": {
     "_translate": "为了举例说明这有多有帮助，考虑一下当我们将其运行在示例 20-11 时会发生什么：",
     "_note": ""
+  },
+  "Note: In earlier versions of Rust, the body of an unsafe function was treated as an unsafe block, so you could perform any unsafe operation within the body of an unsafe function. In later versions of Rust, the compiler will warn you that you need to use an unsafe block to perform unsafe operations in the body of an unsafe function. This is because Rust now distinguishes between unsafe fn, which defines what you need to do to call the function safely, and an unsafe block, where you actually uphold that “contract” the function establishes.": {
+    "_translate": "注意：在 Rust 的早期版本中，不安全函数的主体被视为 <code>unsafe</code> 块，因此你可以在 <code>unsafe</code> 函数的主体内执行任何不安全操作。在 Rust 的较新版本中，编译器会警告你需要使用 <code>unsafe</code> 块来在不安全函数的主体内执行不安全操作。这是因为 Rust 现在区分了 <code>unsafe fn</code>，它定义了你需要做什么来安全地调用该函数，以及 <code>unsafe</code> 块，你实际上是在这里履行该函数建立的“契约”。",
+    "_note": ""
   }
 }

@@ -194,5 +194,9 @@
   "Fn applies to closures that don’t move captured values out of their body and that don’t mutate captured values, as well as closures that capture nothing from their environment. These closures can be called more than once without mutating their environment, which is important in cases such as calling a closure multiple times concurrently.": {
     "_translate": "<code>Fn</code> 适用于不会将其捕获的值移出其作用域的闭包，以及不会修改其捕获的值的闭包，还包括不从其环境中捕获任何内容的闭包。这些闭包可以在不修改其环境的情况下多次调用，这在并发多次调用闭包的情况下非常重要。",
     "_note": ""
+  },
+  "Note: If what we want to do doesn’t require capturing a value from the environment, we can use the name of a function rather than a closure. For example, we could call unwrap_or_else(Vec::new) on a Option<Vec<T>> value to get a new, empty vector if the value is None. The compiler automatically implements whichever of the Fn traits is applicable for a function definition.": {
+    "_translate": "注意：如果我们不需要从环境中捕获值，我们可以使用函数名而不是闭包。例如，我们可以在 <code>Option&lt;Vec&lt;T&gt;&gt;</code> 值上调用 <code>unwrap_or_else(Vec::new)</code>，如果值为 <code>None</code>，则获取一个新的空向量。编译器会自动为函数定义实现适用的 <code>Fn</code> 特性。",
+    "_note": ""
   }
 }

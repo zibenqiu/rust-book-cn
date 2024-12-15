@@ -563,15 +563,14 @@ installed on your computer!</p>
 <span class="boring">}</span></code></pre></pre>
 <p>This line does all the work in this little program: it prints text to the
 screen. There are four important details to notice here.</p>
-<p>First, Rust style is to indent with four spaces, not a tab.</p>
-<p>Second, <code>println!</code> calls a Rust macro. If it had called a function instead, it
+<p>First, <code>println!</code> calls a Rust macro. If it had called a function instead, it
 would be entered as <code>println</code> (without the <code>!</code>). We’ll discuss Rust macros in
 more detail in Chapter 20. For now, you just need to know that using a <code>!</code>
 means that you’re calling a macro instead of a normal function and that macros
 don’t always follow the same rules as functions.</p>
-<p>Third, you see the <code>"Hello, world!"</code> string. We pass this string as an argument
+<p>Second, you see the <code>"Hello, world!"</code> string. We pass this string as an argument
 to <code>println!</code>, and the string is printed to the screen.</p>
-<p>Fourth, we end the line with a semicolon (<code>;</code>), which indicates that this
+<p>Third, we end the line with a semicolon (<code>;</code>), which indicates that this
 expression is over and the next one is ready to begin. Most lines of Rust code
 end with a semicolon.</p>
 <h3 id="compiling-and-running-are-separate-steps"><a class="header" href="#compiling-and-running-are-separate-steps">Compiling and Running Are Separate Steps</a></h3>
@@ -3965,8 +3964,8 @@ one who is just reading the data has the ability to affect anyone else’s
 reading of the data.</p>
 <p>Note that a reference’s scope starts from where it is introduced and continues
 through the last time that reference is used. For instance, this code will
-compile because the last usage of the immutable references, the <code>println!</code>,
-occurs before the mutable reference is introduced:</p>
+compile because the last usage of the immutable references is in the <code>println!</code>,
+before the mutable reference is introduced:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let mut s = String::from("hello");
 
@@ -4096,10 +4095,12 @@ one word, so the entire string should be returned.</p>
 <p>Let’s work through how we’d write the signature of this function without using
 slices, to understand the problem that slices will solve:</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?</code></pre>
-<p>The <code>first_word</code> function has a <code>&amp;String</code> as a parameter. We don’t want
-ownership, so this is fine. But what should we return? We don’t really have a
-way to talk about <em>part</em> of a string. However, we could return the index of the
-end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7.</p>
+<p>The <code>first_word</code> function has a <code>&amp;String</code> as a parameter. We don’t need
+ownership, so this is fine. (In idiomatic Rust, functions do not take ownership
+of their arguments unless they need to, and the reasons for that will become
+clear as we keep going!) But what should we return? We don’t really have a way
+to talk about part of a string. However, we could return the index of the end of
+the word, indicated by a space. Let’s try that, as shown in Listing 4-7.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021">fn first_word(s: &amp;String) -&gt; usize {
@@ -4202,8 +4203,9 @@ uses the <code>first_word</code> function from Listing 4-7.</p>
 
     s.clear(); // this empties the String, making it equal to ""
 
-    // word still has the value 5 here, but there's no more string that
-    // we could meaningfully use the value 5 with. word is now totally invalid!
+    // `word` still has the value `5` here, but `s` no longer has any content
+    // that we could meaningfully use with the value `5`, so `word` is now
+    // totally invalid!
 }</code></pre></pre>
 <figcaption>Listing 4-8: Storing the result from calling the <code>first_word</code> function and then changing the <code>String</code> contents</figcaption>
 </figure>
@@ -6257,7 +6259,7 @@ code in this case.</p>
 19</a><!-- ignore -->. For now, we’re going to move on to the
 <code>if let</code> syntax, which can be useful in situations where the <code>match</code> expression
 is a bit wordy.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="concise-control-flow-with-if-let"><a class="header" href="#concise-control-flow-with-if-let">Concise Control Flow with <code>if let</code></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="concise-control-flow-with-if-let-and-let-else"><a class="header" href="#concise-control-flow-with-if-let-and-let-else">Concise Control Flow with <code>if let</code> and <code>let else</code></a></h2>
 <p>The <code>if let</code> syntax lets you combine <code>if</code> and <code>let</code> into a less verbose way to
 handle values that match one pattern while ignoring the rest. Consider the
 program in Listing 6-6 that matches on an <code>Option&lt;u8&gt;</code> value in the
@@ -6352,8 +6354,212 @@ expression, like this:</p>
         count += 1;
     }
 <span class="boring">}</span></code></pre></pre>
+<h2 id="staying-on-the-happy-path-with-let-else"><a class="header" href="#staying-on-the-happy-path-with-let-else">Staying on the “happy path” with <code>let else</code></a></h2>
+<p>One common pattern is to perform some computation when a value is present and
+return a default value otherwise. Continuing on with our example of coins with a
+<code>UsState</code> value, if we wanted to say something funny depending on how old the
+state on the quarter was, we might introduce a method on <code>UsState</code> to check the
+age of a state, like so:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+</span><span class="boring">enum UsState {
+</span><span class="boring">    Alabama,
+</span><span class="boring">    Alaska,
+</span><span class="boring">    // --snip--
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl UsState {
+    fn existed_in(&amp;self, year: u16) -&gt; bool {
+        match self {
+            UsState::Alabama =&gt; year &gt;= 1819,
+            UsState::Alaska =&gt; year &gt;= 1959,
+            // -- snip --
+        }
+    }
+}
+<span class="boring">
+</span><span class="boring">enum Coin {
+</span><span class="boring">    Penny,
+</span><span class="boring">    Nickel,
+</span><span class="boring">    Dime,
+</span><span class="boring">    Quarter(UsState),
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn describe_state_quarter(coin: Coin) -&gt; Option&lt;String&gt; {
+</span><span class="boring">    if let Coin::Quarter(state) = coin {
+</span><span class="boring">        if state.existed_in(1900) {
+</span><span class="boring">            Some(format!("{state:?} is pretty old, for America!"))
+</span><span class="boring">        } else {
+</span><span class="boring">            Some(format!("{state:?} is relatively new."))
+</span><span class="boring">        }
+</span><span class="boring">    } else {
+</span><span class="boring">        None
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    if let Some(desc) = describe_state_quarter(Coin::Quarter(UsState::Alaska)) {
+</span><span class="boring">        println!("{desc}");
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre></pre>
+<p>Then we might use <code>if let</code> to match on the type of coin, introducing a <code>state</code>
+variable within the body of the condition, as in Listing 6-7.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+</span><span class="boring">enum UsState {
+</span><span class="boring">    Alabama,
+</span><span class="boring">    Alaska,
+</span><span class="boring">    // --snip--
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl UsState {
+</span><span class="boring">    fn existed_in(&amp;self, year: u16) -&gt; bool {
+</span><span class="boring">        match self {
+</span><span class="boring">            UsState::Alabama =&gt; year &gt;= 1819,
+</span><span class="boring">            UsState::Alaska =&gt; year &gt;= 1959,
+</span><span class="boring">            // -- snip --
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">enum Coin {
+</span><span class="boring">    Penny,
+</span><span class="boring">    Nickel,
+</span><span class="boring">    Dime,
+</span><span class="boring">    Quarter(UsState),
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn describe_state_quarter(coin: Coin) -&gt; Option&lt;String&gt; {
+    if let Coin::Quarter(state) = coin {
+        if state.existed_in(1900) {
+            Some(format!("{state:?} is pretty old, for America!"))
+        } else {
+            Some(format!("{state:?} is relatively new."))
+        }
+    } else {
+        None
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    if let Some(desc) = describe_state_quarter(Coin::Quarter(UsState::Alaska)) {
+</span><span class="boring">        println!("{desc}");
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 6-7: Using</figcaption>
+</figure>
+<p>That gets the job done, but it has pushed the work into the body of the <code>if let</code>
+statement, and if the work to be done is more complicated, it might be hard to
+follow exactly how the top-level branches relate. We could also take advantage
+of the fact that expressions produce a value either to produce the <code>state</code> from
+the <code>if let</code> or to return early, as in Listing 6-8. (You could do similar with a
+<code>match</code>, of course!)</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+</span><span class="boring">enum UsState {
+</span><span class="boring">    Alabama,
+</span><span class="boring">    Alaska,
+</span><span class="boring">    // --snip--
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl UsState {
+</span><span class="boring">    fn existed_in(&amp;self, year: u16) -&gt; bool {
+</span><span class="boring">        match self {
+</span><span class="boring">            UsState::Alabama =&gt; year &gt;= 1819,
+</span><span class="boring">            UsState::Alaska =&gt; year &gt;= 1959,
+</span><span class="boring">            // -- snip --
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">enum Coin {
+</span><span class="boring">    Penny,
+</span><span class="boring">    Nickel,
+</span><span class="boring">    Dime,
+</span><span class="boring">    Quarter(UsState),
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn describe_state_quarter(coin: Coin) -&gt; Option&lt;String&gt; {
+    let state = if let Coin::Quarter(state) = coin {
+        state
+    } else {
+        return None;
+    };
+
+    if state.existed_in(1900) {
+        Some(format!("{state:?} is pretty old, for America!"))
+    } else {
+        Some(format!("{state:?} is relatively new."))
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    if let Some(desc) = describe_state_quarter(Coin::Quarter(UsState::Alaska)) {
+</span><span class="boring">        println!("{desc}");
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 6-8: Using <code>if let</code> to produce a value or return early.</figcaption>
+</figure>
+<p>This is a bit annoying to follow in its own way, though! One branch of the <code>if let</code> produces a value, and the other one returns from the function entirely.</p>
+<p>To make this common pattern nicer to express, Rust has <code>let</code>-<code>else</code>. The
+<code>let</code>-<code>else</code> syntax takes a pattern on the left side and an expression on the
+right, very similar to <code>if let</code>, but it does not have an <code>if</code> branch, only an
+<code>else</code> branch. If the pattern matches, it will bind the value from the pattern
+in the outer scope. If the pattern does <em>not</em> match, the program will flow into
+the <code>else</code> arm, which must return from the function.</p>
+<p>In Listing 6-9, you can see how Listing 6-8 looks when using <code>let</code>-<code>else</code> in
+place of <code>if let</code>. Notice that it stays “on the happy path” in the main body of
+the function this way, without having significantly different control flow for
+two branches the way the <code>if let</code> did.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+</span><span class="boring">enum UsState {
+</span><span class="boring">    Alabama,
+</span><span class="boring">    Alaska,
+</span><span class="boring">    // --snip--
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl UsState {
+</span><span class="boring">    fn existed_in(&amp;self, year: u16) -&gt; bool {
+</span><span class="boring">        match self {
+</span><span class="boring">            UsState::Alabama =&gt; year &gt;= 1819,
+</span><span class="boring">            UsState::Alaska =&gt; year &gt;= 1959,
+</span><span class="boring">            // -- snip --
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">enum Coin {
+</span><span class="boring">    Penny,
+</span><span class="boring">    Nickel,
+</span><span class="boring">    Dime,
+</span><span class="boring">    Quarter(UsState),
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn describe_state_quarter(coin: Coin) -&gt; Option&lt;String&gt; {
+    let Coin::Quarter(state) = coin else {
+        return None;
+    };
+
+    if state.existed_in(1900) {
+        Some(format!("{state:?} is pretty old, for America!"))
+    } else {
+        Some(format!("{state:?} is relatively new."))
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    if let Some(desc) = describe_state_quarter(Coin::Quarter(UsState::Alaska)) {
+</span><span class="boring">        println!("{desc}");
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 6-9: Using <code>let</code>-<code>else</code> to clarify the flow through the function.</figcaption>
+</figure>
 <p>If you have a situation in which your program has logic that is too verbose to
-express using a <code>match</code>, remember that <code>if let</code> is in your Rust toolbox as well.</p>
+express using a <code>match</code>, remember that <code>if let</code> and <code>let else</code> are in your Rust
+toolbox as well.</p>
 <h2 id="summary-5"><a class="header" href="#summary-5">Summary</a></h2>
 <p>We’ve now covered how to use enums to create custom types that can be one of a
 set of enumerated values. We’ve shown how the standard library’s <code>Option&lt;T&gt;</code>
@@ -11306,15 +11512,17 @@ mod tests {
 }</code></pre>
 <figcaption>Listing 11-1: The code generated automatically by <code>cargo new</code></figcaption>
 </figure>
+<p>The file starts with an example <code>add</code> function, so that we have something
+to test.</p>
 <p>For now, let’s focus solely on the <code>it_works</code> function. Note the <code>#[test]</code>
 annotation: this attribute indicates this is a test function, so the test
 runner knows to treat this function as a test. We might also have non-test
 functions in the <code>tests</code> module to help set up common scenarios or perform
 common operations, so we always need to indicate which functions are tests.</p>
 <p>The example function body uses the <code>assert_eq!</code> macro to assert that <code>result</code>,
-which contains the result of adding 2 and 2, equals 4. This assertion serves as
-an example of the format for a typical test. Let’s run it to see that this test
-passes.</p>
+which contains the result of calling <code>add</code> with 2 and 2, equals 4. This
+assertion serves as an example of the format for a typical test. Let’s run it
+to see that this test passes.</p>
 <p>The <code>cargo test</code> command runs all tests in our project, as shown in Listing
 11-2.</p>
 <figure class="listing">
@@ -11360,7 +11568,7 @@ ignore the <code>Doc-tests</code> output.</p>
 <p>Let’s start to customize the test to our own needs. First, change the name of
 the <code>it_works</code> function to a different name, such as <code>exploration</code>, like so:</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
-<pre><code class="language-rust noplayground">pub fn add(left: usize, right: usize) -&gt; usize {
+<pre><code class="language-rust noplayground">pub fn add(left: u64, right: u64) -&gt; u64 {
     left + right
 }
 
@@ -11401,7 +11609,7 @@ is to call the <code>panic!</code> macro. Enter the new test as a function named
 <code>another</code>, so your <em>src/lib.rs</em> file looks like Listing 11-3.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust panics noplayground">pub fn add(left: usize, right: usize) -&gt; usize {
+<pre><code class="language-rust panics noplayground">pub fn add(left: u64, right: u64) -&gt; u64 {
     left + right
 }
 
@@ -12184,7 +12392,7 @@ our bug is!</p>
 <h3 id="using-resultt-e-in-tests"><a class="header" href="#using-resultt-e-in-tests">Using <code>Result&lt;T, E&gt;</code> in Tests</a></h3>
 <p>Our tests so far all panic when they fail. We can also write tests that use
 <code>Result&lt;T, E&gt;</code>! Here’s the test from Listing 11-1, rewritten to use <code>Result&lt;T, E&gt;</code> and return an <code>Err</code> instead of panicking:</p>
-<pre><code class="language-rust noplayground"><span class="boring">pub fn add(left: usize, right: usize) -&gt; usize {
+<pre><code class="language-rust noplayground"><span class="boring">pub fn add(left: u64, right: u64) -&gt; u64 {
 </span><span class="boring">    left + right
 </span><span class="boring">}
 </span><span class="boring">
@@ -12465,7 +12673,7 @@ listing as arguments all tests you do want to run, you can instead annotate the
 time-consuming tests using the <code>ignore</code> attribute to exclude them, as shown
 here:</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
-<pre><code class="language-rust noplayground"><span class="boring">pub fn add(left: usize, right: usize) -&gt; usize {
+<pre><code class="language-rust noplayground"><span class="boring">pub fn add(left: u64, right: u64) -&gt; u64 {
 </span><span class="boring">    left + right
 </span><span class="boring">}
 </span><span class="boring">
@@ -15574,12 +15782,12 @@ called. If the <code>Option</code> is <code>None</code>, <code>f</code> will be 
 closures implement <code>FnOnce</code>, <code>unwrap_or_else</code> accepts all three kinds of
 closures and is as flexible as it can be.</p>
 <section class="note" aria-role="note">
-<p>Note: Functions can implement all three of the <code>Fn</code> traits too. If what we
-want to do doesn’t require capturing a value from the environment, we can use
-the name of a function rather than a closure where we need something that
-implements one of the <code>Fn</code> traits. For example, on an <code>Option&lt;Vec&lt;T&gt;&gt;</code> value,
-we could call <code>unwrap_or_else(Vec::new)</code> to get a new, empty vector if the
-value is <code>None</code>.</p>
+<p>Note: If what we want to do doesn’t require capturing a value from the
+environment, we can use the name of a function rather than a closure. For
+example, we could call <code>unwrap_or_else(Vec::new)</code> on a <code>Option&lt;Vec&lt;T&gt;&gt;</code> value
+to get a new, empty vector if the value is <code>None</code>. The compiler automatically
+implements whichever of the <code>Fn</code> traits is applicable for a function
+definition.</p>
 </section>
 <p>Now let’s look at the standard library method <code>sort_by_key</code> defined on slices,
 to see how that differs from <code>unwrap_or_else</code> and why <code>sort_by_key</code> uses
@@ -19592,7 +19800,7 @@ We still have <code>leaf</code> as one of the children of <code>branch</code>. O
 reference to its parent. We use the <code>borrow_mut</code> method on the
 <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> in the <code>parent</code> field of <code>leaf</code>, and then we use the
 <code>Rc::downgrade</code> function to create a <code>Weak&lt;Node&gt;</code> reference to <code>branch</code> from
-the <code>Rc&lt;Node&gt;</code> in <code>branch.</code></p>
+the <code>Rc&lt;Node&gt;</code> in <code>branch</code>.</p>
 <p>When we print the parent of <code>leaf</code> again, this time we’ll get a <code>Some</code> variant
 holding <code>branch</code>: now <code>leaf</code> can access its parent! When we print <code>leaf</code>, we
 also avoid the cycle that eventually ended in a stack overflow like we had in
@@ -24750,16 +24958,15 @@ didn’t mean to pass and so should pass a different type or we should implement
 <code>Draw</code> on <code>String</code> so that <code>Screen</code> is able to call <code>draw</code> on it.</p>
 <h3 id="trait-objects-perform-dynamic-dispatch"><a class="header" href="#trait-objects-perform-dynamic-dispatch">Trait Objects Perform Dynamic Dispatch</a></h3>
 <p>Recall in the <a href="ch10-01-syntax.html#performance-of-code-using-generics">“Performance of Code Using
-Generics”</a><!-- ignore --> section in
-Chapter 10 our discussion on the monomorphization process performed by the
-compiler when we use trait bounds on generics: the compiler generates
-nongeneric implementations of functions and methods for each concrete type that
-we use in place of a generic type parameter. The code that results from
-monomorphization is doing <em>static dispatch</em>, which is when the compiler knows
-what method you’re calling at compile time. This is opposed to <em>dynamic
-dispatch</em>, which is when the compiler can’t tell at compile time which method
-you’re calling. In dynamic dispatch cases, the compiler emits code that at
-runtime will figure out which method to call.</p>
+Generics”</a><!-- ignore --> section in Chapter
+10 our discussion on the monomorphization process performed on generics by the
+compiler: the compiler generates nongeneric implementations of functions and
+methods for each concrete type that we use in place of a generic type parameter.
+The code that results from monomorphization is doing <em>static dispatch</em>, which is
+when the compiler knows what method you’re calling at compile time. This is
+opposed to <em>dynamic dispatch</em>, which is when the compiler can’t tell at compile
+time which method you’re calling. In dynamic dispatch cases, the compiler emits
+code that at runtime will figure out which method to call.</p>
 <p>When we use trait objects, Rust must use dynamic dispatch. The compiler doesn’t
 know all the types that might be used with the code that’s using trait objects,
 so it doesn’t know which method implemented on which type to call. Instead, at
@@ -25901,11 +26108,11 @@ to match. Patterns that can fail to match for some possible value are
 <code>Some</code>, the <code>Some(x)</code> pattern will not match.</p>
 <p>Function parameters, <code>let</code> statements, and <code>for</code> loops can only accept
 irrefutable patterns, because the program cannot do anything meaningful when
-values don’t match. The <code>if let</code> and <code>while let</code> expressions accept
-refutable and irrefutable patterns, but the compiler warns against
-irrefutable patterns because by definition they’re intended to handle possible
-failure: the functionality of a conditional is in its ability to perform
-differently depending on success or failure.</p>
+values don’t match. The <code>if let</code> and <code>while let</code> expressions and the
+<code>let</code>-<code>else</code> statement accept refutable and irrefutable patterns, but the
+compiler warns against irrefutable patterns because by definition they’re
+intended to handle possible failure: the functionality of a conditional is in
+its ability to perform differently depending on success or failure.</p>
 <p>In general, you shouldn’t have to worry about the distinction between refutable
 and irrefutable patterns; however, you do need to be familiar with the concept
 of refutability so you can respond when you see it in an error message. In
@@ -26022,15 +26229,15 @@ when you want your code to take an action if it gets a particular concrete
 value.</p>
 <h3 id="matching-named-variables"><a class="header" href="#matching-named-variables">Matching Named Variables</a></h3>
 <p>Named variables are irrefutable patterns that match any value, and we’ve used
-them many times in the book. However, there is a complication when you use
-named variables in <code>match</code> expressions. Because <code>match</code> starts a new scope,
-variables declared as part of a pattern inside the <code>match</code> expression will
-shadow those with the same name outside the <code>match</code> construct, as is the case
-with all variables. In Listing 19-11, we declare a variable named <code>x</code> with the
-value <code>Some(5)</code> and a variable <code>y</code> with the value <code>10</code>. We then create a
-<code>match</code> expression on the value <code>x</code>. Look at the patterns in the match arms and
-<code>println!</code> at the end, and try to figure out what the code will print before
-running this code or reading further.</p>
+them many times in the book. However, there is a complication when you use named
+variables in <code>match</code>, <code>if let</code>, or <code>while let</code> expressions. Because each of
+these kinds of expression starts a new scope, variables declared as part of a
+pattern inside the expression will shadow those with the same name outside, as
+is the case with all variables. In Listing 19-11, we declare a variable named
+<code>x</code> with the value <code>Some(5)</code> and a variable <code>y</code> with the value <code>10</code>. We then
+create a <code>match</code> expression on the value <code>x</code>. Look at the patterns in the match
+arms and <code>println!</code> at the end, and try to figure out what the code will print
+before running this code or reading further.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -26070,11 +26277,10 @@ variable, we would need to use a match guard conditional instead. We’ll talk
 about match guards later in the <a href="ch19-03-pattern-syntax.html#extra-conditionals-with-match-guards">“Extra Conditionals with Match
 Guards”</a><!-- ignore --> section.</p>
 <h3 id="multiple-patterns"><a class="header" href="#multiple-patterns">Multiple Patterns</a></h3>
-<p>In <code>match</code> expressions, you can match multiple patterns using the <code>|</code> syntax,
-which is the pattern <em>or</em> operator. For example, in the following code we match
-the value of <code>x</code> against the match arms, the first of which has an <em>or</em> option,
-meaning if the value of <code>x</code> matches either of the values in that arm, that
-arm’s code will run:</p>
+<p>You can match multiple patterns using the <code>|</code> syntax, which is the pattern <em>or</em>
+operator. For example, in the following code we match the value of <code>x</code> against
+the match arms, the first of which has an <em>or</em> option, meaning if the value of
+<code>x</code> matches either of the values in that arm, that arm’s code will run:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let x = 1;
 
@@ -26532,7 +26738,9 @@ compiler error because using <code>..</code> in two places like this is ambiguou
 <h3 id="extra-conditionals-with-match-guards"><a class="header" href="#extra-conditionals-with-match-guards">Extra Conditionals with Match Guards</a></h3>
 <p>A <em>match guard</em> is an additional <code>if</code> condition, specified after the pattern in
 a <code>match</code> arm, that must also match for that arm to be chosen. Match guards are
-useful for expressing more complex ideas than a pattern alone allows.</p>
+useful for expressing more complex ideas than a pattern alone allows. They are
+only available in <code>match</code> expressions, not in <code>if let</code> or <code>while let</code>
+expressions.</p>
 <p>The condition can use variables created in the pattern. Listing 19-26 shows a
 <code>match</code> where the first arm has the pattern <code>Some(x)</code> and also has a match
 guard of <code>if x % 2 == 0</code> (which will be true if the number is even).</p>
@@ -26876,9 +27084,16 @@ error: could not compile `unsafe-example` (bin "unsafe-example") due to 1 previo
 <p>With the <code>unsafe</code> block, we’re asserting to Rust that we’ve read the function’s
 documentation, we understand how to use it properly, and we’ve verified that
 we’re fulfilling the contract of the function.</p>
-<p>Bodies of unsafe functions are effectively <code>unsafe</code> blocks, so to perform other
-unsafe operations within an unsafe function, we don’t need to add another
-<code>unsafe</code> block.</p>
+<section class="note" aria-role="note">
+<p>Note: In earlier versions of Rust, the body of an unsafe function was treated
+as an <code>unsafe</code> block, so you could perform any unsafe operation within the
+body of an <code>unsafe</code> function. In later versions of Rust, the compiler will
+warn you that you need to use an <code>unsafe</code> block to perform unsafe operations
+in the body of an unsafe function. This is because Rust now distinguishes
+between <code>unsafe fn</code>, which defines what you need to do to call the function
+safely, and an <code>unsafe</code> block, where you actually uphold that “contract” the
+function establishes.</p>
+</section>
 <h4 id="creating-a-safe-abstraction-over-unsafe-code"><a class="header" href="#creating-a-safe-abstraction-over-unsafe-code">Creating a Safe Abstraction over Unsafe Code</a></h4>
 <p>Just because a function contains unsafe code doesn’t mean we need to mark the
 entire function as unsafe. In fact, wrapping unsafe code in a safe function is
@@ -28386,42 +28601,37 @@ use the concrete type that implements the trait as the return value of the
 function. However, you can’t do that with closures because they don’t have a
 concrete type that is returnable; you’re not allowed to use the function
 pointer <code>fn</code> as a return type, for example.</p>
-<p>The following code tries to return a closure directly, but it won’t compile:</p>
-<pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {
+<p>Instead, you will normally use the <code>impl Trait</code> syntax we learned about in
+Chapter 10. You can return any function type, using <code>Fn</code>, <code>FnOnce</code> and <code>FnMut</code>.
+For example, this code will work just fine:</p>
+<pre><code class="language-rust ignore does_not_compile">fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
     |x| x + 1
 }</code></pre>
-<p>The compiler error is as follows:</p>
-<pre><code class="language-console">$ cargo build
-   Compiling functions-example v0.1.0 (file:///projects/functions-example)
-error[E0746]: return type cannot have an unboxed trait object
- --&gt; src/lib.rs:1:25
-  |
-1 | fn returns_closure() -&gt; dyn Fn(i32) -&gt; i32 {
-  |                         ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
-  |
-help: consider returning an `impl Trait` instead of a `dyn Trait`
-  |
-1 | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
-  |                         ~~~~
-help: alternatively, box the return type, and wrap all of the returned values in `Box::new`
-  |
-1 ~ fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
-2 ~     Box::new(|x| x + 1)
-  |
+<p>However, as we noted in the <a href="ch13-01-closures.html#closure-type-inference-and-annotation">“Closure Type Inference and
+Annotation”</a><!-- ignore --> section in Chapter 13, each closure
+is also its own distinct type. If you need to work with multiple functions that
+have the same signature but different implementations, you will need to use a
+trait object for them:</p>
+<pre><code class="language-rust noplayground">fn main() {
+    let handlers = vec![returns_closure(), returns_initialized_closure(123)];
+    for handler in handlers {
+        let output = handler(5);
+        println!("{output}");
+    }
+}
 
-For more information about this error, try `rustc --explain E0746`.
-error: could not compile `functions-example` (lib) due to 1 previous error
-</code></pre>
-<p>The error references the <code>Sized</code> trait again! Rust doesn’t know how much space
-it will need to store the closure. We saw a solution to this problem earlier.
-We can use a trait object:</p>
-<pre><code class="language-rust noplayground">fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
+fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
     Box::new(|x| x + 1)
+}
+
+fn returns_initialized_closure(init: i32) -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
+    Box::new(move |x| x + init)
 }</code></pre>
-<p>This code will compile just fine. For more about trait objects, refer to the
-section <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects That Allow for Values of Different
-Types”</a><!--
-ignore --> in Chapter 19.</p>
+<p>This code will compile just fine—but it wouldn’t if we had tried to stick with
+<code>impl Fn(i32) -&gt; i32</code>. For more about trait objects, refer to the section
+<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects That Allow for Values of Different
+Types”</a><!-- ignore
+--> in Chapter 19.</p>
 <p>Next, let’s look at macros!</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="macros"><a class="header" href="#macros">Macros</a></h2>
 <p>We’ve used macros like <code>println!</code> throughout this book, but we haven’t fully
@@ -28534,8 +28744,9 @@ parentheses that captures values that match the pattern within the parentheses
 for use in the replacement code. Within <code>$()</code> is <code>$x:expr</code>, which matches any
 Rust expression and gives the expression the name <code>$x</code>.</p>
 <p>The comma following <code>$()</code> indicates that a literal comma separator character
-could optionally appear after the code that matches the code in <code>$()</code>. The <code>*</code>
-specifies that the pattern matches zero or more of whatever precedes the <code>*</code>.</p>
+must appear between each instance of the code that matches the code within
+<code>$()</code>. The <code>*</code> specifies that the pattern matches zero or more of whatever
+precedes the <code>*</code>.</p>
 <p>When we call this macro with <code>vec![1, 2, 3];</code>, the <code>$x</code> pattern matches three
 times with the three expressions <code>1</code>, <code>2</code>, and <code>3</code>.</p>
 <p>Now let’s look at the pattern in the body of the code associated with this arm:
@@ -30862,222 +31073,30 @@ note: `JoinHandle::&lt;T&gt;::join` takes ownership of the receiver `self`, whic
 For more information about this error, try `rustc --explain E0507`.
 error: could not compile `hello` (lib) due to 1 previous error
 </code></pre>
-<p>The error tells us we can’t call <code>join</code> because we only have a mutable borrow
-of each <code>worker</code> and <code>join</code> takes ownership of its argument. To solve this
-issue, we need to move the thread out of the <code>Worker</code> instance that owns
-<code>thread</code> so <code>join</code> can consume the thread. We did this in Listing 17-15: if
-<code>Worker</code> holds an <code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code> instead, we can call the
-<code>take</code> method on the <code>Option</code> to move the value out of the <code>Some</code> variant and
-leave a <code>None</code> variant in its place. In other words, a <code>Worker</code> that is running
-will have a <code>Some</code> variant in <code>thread</code>, and when we want to clean up a
-<code>Worker</code>, we’ll replace <code>Some</code> with <code>None</code> so the <code>Worker</code> doesn’t have a
-thread to run.</p>
-<p>So we know we want to update the definition of <code>Worker</code> like this:</p>
+<p>The error tells us we can’t call <code>join</code> because we only have a mutable borrow of
+each <code>worker</code> and <code>join</code> takes ownership of its argument. To solve this issue,
+we need to move the thread out of the <code>Worker</code> instance that owns <code>thread</code> so
+<code>join</code> can consume the thread. One way to do this is by taking the same approach
+we did in Listing 18-15. If <code>Worker</code> held an <code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>,
+we could call the <code>take</code> method on the <code>Option</code> to move the value out of the
+<code>Some</code> variant and leave a <code>None</code> variant in its place. In other words, a
+<code>Worker</code> that is running would have a <code>Some</code> variant in <code>thread</code>, and when we
+wanted to clean up a <code>Worker</code>, we would replace <code>Some</code> with <code>None</code> so the
+<code>Worker</code> doesn’t have a thread to run.</p>
+<p>However, the <em>only</em> time this would come up would be when dropping the <code>Worker</code>.
+In exchange, we would have to deal with an <code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>
+everywhere we access <code>worker.thread</code>. Idiomatic Rust uses <code>Option</code> quite a bit,
+but when you find yourself wrapping something in <code>Option</code> as a workaround even
+though you know the item will always be present, it is a good idea to look for
+alternative approaches. They can make your code cleaner and less error-prone.</p>
+<p>In this case, there is a better alternative: the <code>Vec::drain</code> method. It accepts
+a range parameter to specify which items to remove from the <code>Vec</code>, and returns
+an iterator of those items. Passing the <code>..</code> range syntax will remove <em>every</em>
+value from the <code>Vec</code>.</p>
+<p>So we need to update the <code>ThreadPool</code> <code>drop</code> implementation like this:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
-</span><span class="boring">    thread,
-</span><span class="boring">};
-</span><span class="boring">
-</span><span class="boring">pub struct ThreadPool {
-</span><span class="boring">    workers: Vec&lt;Worker&gt;,
-</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
-</span><span class="boring">
-</span><span class="boring">impl ThreadPool {
-</span><span class="boring">    /// Create a new ThreadPool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// The size is the number of threads in the pool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// # Panics
-</span><span class="boring">    ///
-</span><span class="boring">    /// The `new` function will panic if the size is zero.
-</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
-</span><span class="boring">        assert!(size &gt; 0);
-</span><span class="boring">
-</span><span class="boring">        let (sender, receiver) = mpsc::channel();
-</span><span class="boring">
-</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
-</span><span class="boring">
-</span><span class="boring">        let mut workers = Vec::with_capacity(size);
-</span><span class="boring">
-</span><span class="boring">        for id in 0..size {
-</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
-</span><span class="boring">        }
-</span><span class="boring">
-</span><span class="boring">        ThreadPool { workers, sender }
-</span><span class="boring">    }
-</span><span class="boring">
-</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
-</span><span class="boring">    where
-</span><span class="boring">        F: FnOnce() + Send + 'static,
-</span><span class="boring">    {
-</span><span class="boring">        let job = Box::new(f);
-</span><span class="boring">
-</span><span class="boring">        self.sender.send(job).unwrap();
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">impl Drop for ThreadPool {
-</span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        for worker in &amp;mut self.workers {
-</span><span class="boring">            println!("Shutting down worker {}", worker.id);
-</span><span class="boring">
-</span><span class="boring">            worker.thread.join().unwrap();
-</span><span class="boring">        }
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span>struct Worker {
-    id: usize,
-    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
-}
-<span class="boring">
-</span><span class="boring">impl Worker {
-</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-</span><span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
-</span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
-</span><span class="boring">
-</span><span class="boring">            job();
-</span><span class="boring">        });
-</span><span class="boring">
-</span><span class="boring">        Worker { id, thread }
-</span><span class="boring">    }
-</span><span class="boring">}</span></code></pre>
-</figure>
-<p>Now let’s lean on the compiler to find the other places that need to change.
-Checking this code, we get two errors:</p>
-<pre><code class="language-console">$ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
-error[E0599]: no method named `join` found for enum `Option` in the current scope
-    --&gt; src/lib.rs:52:27
-     |
-52   |             worker.thread.join().unwrap();
-     |                           ^^^^ method not found in `Option&lt;JoinHandle&lt;()&gt;&gt;`
-     |
-note: the method `join` exists on the type `JoinHandle&lt;()&gt;`
-    --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1763:5
-     |
-1763 |     pub fn join(self) -&gt; Result&lt;T&gt; {
-     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-help: consider using `Option::expect` to unwrap the `JoinHandle&lt;()&gt;` value, panicking if the value is an `Option::None`
-     |
-52   |             worker.thread.expect("REASON").join().unwrap();
-     |                          +++++++++++++++++
-
-error[E0308]: mismatched types
-  --&gt; src/lib.rs:72:22
-   |
-72 |         Worker { id, thread }
-   |                      ^^^^^^ expected `Option&lt;JoinHandle&lt;()&gt;&gt;`, found `JoinHandle&lt;_&gt;`
-   |
-   = note: expected enum `Option&lt;JoinHandle&lt;()&gt;&gt;`
-            found struct `JoinHandle&lt;_&gt;`
-help: try wrapping the expression in `Some`
-   |
-72 |         Worker { id, thread: Some(thread) }
-   |                      +++++++++++++      +
-
-Some errors have detailed explanations: E0308, E0599.
-For more information about an error, try `rustc --explain E0308`.
-error: could not compile `hello` (lib) due to 2 previous errors
-</code></pre>
-<p>Let’s address the second error, which points to the code at the end of
-<code>Worker::new</code>; we need to wrap the <code>thread</code> value in <code>Some</code> when we create a
-new <code>Worker</code>. Make the following changes to fix this error:</p>
-<figure class="listing">
-<span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
-</span><span class="boring">    thread,
-</span><span class="boring">};
-</span><span class="boring">
-</span><span class="boring">pub struct ThreadPool {
-</span><span class="boring">    workers: Vec&lt;Worker&gt;,
-</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
-</span><span class="boring">
-</span><span class="boring">impl ThreadPool {
-</span><span class="boring">    /// Create a new ThreadPool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// The size is the number of threads in the pool.
-</span><span class="boring">    ///
-</span><span class="boring">    /// # Panics
-</span><span class="boring">    ///
-</span><span class="boring">    /// The `new` function will panic if the size is zero.
-</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
-</span><span class="boring">        assert!(size &gt; 0);
-</span><span class="boring">
-</span><span class="boring">        let (sender, receiver) = mpsc::channel();
-</span><span class="boring">
-</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
-</span><span class="boring">
-</span><span class="boring">        let mut workers = Vec::with_capacity(size);
-</span><span class="boring">
-</span><span class="boring">        for id in 0..size {
-</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
-</span><span class="boring">        }
-</span><span class="boring">
-</span><span class="boring">        ThreadPool { workers, sender }
-</span><span class="boring">    }
-</span><span class="boring">
-</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
-</span><span class="boring">    where
-</span><span class="boring">        F: FnOnce() + Send + 'static,
-</span><span class="boring">    {
-</span><span class="boring">        let job = Box::new(f);
-</span><span class="boring">
-</span><span class="boring">        self.sender.send(job).unwrap();
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">impl Drop for ThreadPool {
-</span><span class="boring">    fn drop(&amp;mut self) {
-</span><span class="boring">        for worker in &amp;mut self.workers {
-</span><span class="boring">            println!("Shutting down worker {}", worker.id);
-</span><span class="boring">
-</span><span class="boring">            worker.thread.join().unwrap();
-</span><span class="boring">        }
-</span><span class="boring">    }
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">struct Worker {
-</span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
-</span><span class="boring">}
-</span><span class="boring">
-</span>impl Worker {
-    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        // --snip--
-
-<span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
-</span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
-</span><span class="boring">
-</span><span class="boring">            job();
-</span><span class="boring">        });
-</span><span class="boring">
-</span>        Worker {
-            id,
-            thread: Some(thread),
-        }
-    }
-}</code></pre>
-</figure>
-<p>The first error is in our <code>Drop</code> implementation. We mentioned earlier that we
-intended to call <code>take</code> on the <code>Option</code> value to move <code>thread</code> out of <code>worker</code>.
-The following changes will do so:</p>
-<figure class="listing">
-<span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::{
 </span><span class="boring">    sync::{mpsc, Arc, Mutex},
 </span><span class="boring">    thread,
 </span><span class="boring">};
@@ -31125,19 +31144,17 @@ The following changes will do so:</p>
 </span><span class="boring">
 </span>impl Drop for ThreadPool {
     fn drop(&amp;mut self) {
-        for worker in &amp;mut self.workers {
+        for worker in self.workers.drain(..) {
             println!("Shutting down worker {}", worker.id);
 
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
+            worker.thread.join().unwrap();
         }
     }
 }
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Worker {
@@ -31150,18 +31167,12 @@ The following changes will do so:</p>
 </span><span class="boring">            job();
 </span><span class="boring">        });
 </span><span class="boring">
-</span><span class="boring">        Worker {
-</span><span class="boring">            id,
-</span><span class="boring">            thread: Some(thread),
-</span><span class="boring">        }
+</span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
 </figure>
-<p>As discussed in Chapter 18, the <code>take</code> method on <code>Option</code> takes the <code>Some</code>
-variant out and leaves <code>None</code> in its place. We’re using <code>if let</code> to destructure
-the <code>Some</code> and get the thread; then we call <code>join</code> on the thread. If a worker’s
-thread is already <code>None</code>, we know that worker has already had its thread
-cleaned up, so nothing happens in that case.</p>
+<p>This resolves the compiler error and does not require any other changes to our
+code.</p>
 <h3 id="signaling-to-the-threads-to-stop-listening-for-jobs"><a class="header" href="#signaling-to-the-threads-to-stop-listening-for-jobs">Signaling to the Threads to Stop Listening for Jobs</a></h3>
 <p>With all the changes we’ve made, our code compiles without any warnings.
 However, the bad news is this code doesn’t function the way we want it to yet.
@@ -31174,9 +31185,9 @@ block forever waiting for the first thread to finish.</p>
 implementation and then a change in the <code>Worker</code> loop.</p>
 <p>First, we’ll change the <code>ThreadPool</code> <code>drop</code> implementation to explicitly drop
 the <code>sender</code> before waiting for the threads to finish. Listing 21-23 shows the
-changes to <code>ThreadPool</code> to explicitly drop <code>sender</code>. We use the same <code>Option</code>
-and <code>take</code> technique as we did with the thread to be able to move <code>sender</code> out
-of <code>ThreadPool</code>:</p>
+changes to <code>ThreadPool</code> to explicitly drop <code>sender</code>. Unlike with the <code>workers</code>,
+here we <em>do</em> need to use an <code>Option</code> to be able to move <code>sender</code> out of
+<code>ThreadPool</code> with <code>Option::take</code>.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground not_desired_behavior"><span class="boring">use std::{
@@ -31235,19 +31246,17 @@ impl Drop for ThreadPool {
     fn drop(&amp;mut self) {
         drop(self.sender.take());
 
-        for worker in &amp;mut self.workers {
+        for worker in self.workers.drain(..) {
             println!("Shutting down worker {}", worker.id);
 
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
+            worker.thread.join().unwrap();
         }
     }
 }
 <span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">impl Worker {
@@ -31260,10 +31269,7 @@ impl Drop for ThreadPool {
 </span><span class="boring">            job();
 </span><span class="boring">        });
 </span><span class="boring">
-</span><span class="boring">        Worker {
-</span><span class="boring">            id,
-</span><span class="boring">            thread: Some(thread),
-</span><span class="boring">        }
+</span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
 <figcaption>Listing 21-23: Explicitly drop <code>sender</code> before joining the worker threads</figcaption>
@@ -31328,19 +31334,17 @@ finish when the <code>ThreadPool</code> <code>drop</code> implementation calls <
 </span><span class="boring">    fn drop(&amp;mut self) {
 </span><span class="boring">        drop(self.sender.take());
 </span><span class="boring">
-</span><span class="boring">        for worker in &amp;mut self.workers {
+</span><span class="boring">        for worker in self.workers.drain(..) {
 </span><span class="boring">            println!("Shutting down worker {}", worker.id);
 </span><span class="boring">
-</span><span class="boring">            if let Some(thread) = worker.thread.take() {
-</span><span class="boring">                thread.join().unwrap();
-</span><span class="boring">            }
+</span><span class="boring">            worker.thread.join().unwrap();
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">struct Worker {
 </span><span class="boring">    id: usize,
-</span><span class="boring">    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
 </span><span class="boring">}
 </span><span class="boring">
 </span>impl Worker {
@@ -31361,10 +31365,7 @@ finish when the <code>ThreadPool</code> <code>drop</code> implementation calls <
             }
         });
 
-        Worker {
-            id,
-            thread: Some(thread),
-        }
+        Worker { id, thread }
     }
 }</code></pre>
 <figcaption>Listing 21-24: Explicitly break out of the loop when <code>recv</code> returns an error</figcaption>

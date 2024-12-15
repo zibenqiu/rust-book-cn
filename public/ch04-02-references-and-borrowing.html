@@ -404,7 +404,7 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 </code></pre>
 <p data-x-en="Whew! We also cannot have a mutable reference while we have an immutable one to the same value.">呼！我们<em>也</em>不能在拥有一个不可变引用的同时拥有一个可变引用到同一个值。</p>
 <p data-x-en="Users of an immutable reference don’t expect the value to suddenly change out from under them! However, multiple immutable references are allowed because no one who is just reading the data has the ability to affect anyone else’s reading of the data.">不可变引用的用户不希望值突然发生变化！然而，允许多个不可变引用，因为只是读取数据的人没有能力影响其他人的数据读取。</p>
-<p data-x-en="Note that a reference’s scope starts from where it is introduced and continues through the last time that reference is used. For instance, this code will compile because the last usage of the immutable references, the println!, occurs before the mutable reference is introduced:">请注意，引用的作用域从其被引入的地方开始，一直持续到最后一次使用该引用的地方。例如，这段代码可以编译，因为最后一次使用不可变引用，即<code>println!</code>，发生在可变引用被引入之前：</p>
+<p data-x-en="Note that a reference’s scope starts from where it is introduced and continues through the last time that reference is used. For instance, this code will compile because the last usage of the immutable references is in the println!, before the mutable reference is introduced:">请注意，引用的作用域从其被引入的地方开始，一直持续到最后一次使用该引用的地方。例如，这段代码可以编译，因为不可变引用的最后使用是在 <code>println!</code> 中，而在那之后才引入了可变引用：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let mut s = String::from("hello");
 

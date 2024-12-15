@@ -90,5 +90,17 @@
   "The syntax for specifying that a parameter is a function pointer is similar to that of closures, as shown in Listing 20-28, where we’ve defined a function add_one that adds one to its parameter. The function do_twice takes two parameters: a function pointer to any function that takes an i32 parameter and returns an i32, and one i32 value. The do_twice function calls the function f twice, passing it the arg value, then adds the two function call results together. The main function calls do_twice with the arguments add_one and 5.": {
     "_translate": "指定参数为函数指针的语法与闭包的语法相似，如清单 20-28 所示，我们定义了一个将参数加一的函数 <code>add_one</code>。函数 <code>do_twice</code> 接受两个参数：一个指向接受 <code>i32</code> 参数并返回 <code>i32</code> 的任何函数的函数指针，和一个 <code>i32</code> 值。<code>do_twice</code> 函数调用函数 <code>f</code> 两次，将 <code>arg</code> 值传递给它，然后将两次函数调用的结果相加。<code>main</code> 函数使用参数 <code>add_one</code> 和 <code>5</code> 调用 <code>do_twice</code>。",
     "_note": ""
+  },
+  "Instead, you will normally use the impl Trait syntax we learned about in Chapter 10. You can return any function type, using Fn, FnOnce and FnMut. For example, this code will work just fine:": {
+    "_translate": "相反，你通常会使用我们在第 10 章中学到的 <code>impl Trait</code> 语法。你可以返回任何函数类型，使用 <code>Fn</code>、<code>FnOnce</code> 和 <code>FnMut</code>。例如，这段代码将正常工作：",
+    "_note": ""
+  },
+  "However, as we noted in the “Closure Type Inference and Annotation” section in Chapter 13, each closure is also its own distinct type. If you need to work with multiple functions that have the same signature but different implementations, you will need to use a trait object for them:": {
+    "_translate": "然而，正如我们在第 13 章的<a href=\"ch13-01-closures.html#closure-type-inference-and-annotation\">“闭包类型推断和注解”</a>部分中提到的，每个闭包也是其自身独特类型。如果你需要处理具有相同签名但实现不同的多个函数，你需要为它们使用一个特质对象：",
+    "_note": ""
+  },
+  "This code will compile just fine—but it wouldn’t if we had tried to stick with impl Fn(i32) -> i32. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.": {
+    "_translate": "这段代码可以顺利编译——但如果我们坚持使用<code>impl Fn(i32) -&gt; i32</code>的话就编译不过了。关于特质对象的更多内容，请参阅第19章的<a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型的值的特质对象”</a><!-- ignore\n-->部分。",
+    "_note": ""
   }
 }
