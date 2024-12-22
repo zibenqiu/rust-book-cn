@@ -378,5 +378,13 @@
   "Note: In earlier versions of Rust, the body of an unsafe function was treated as an unsafe block, so you could perform any unsafe operation within the body of an unsafe function. In later versions of Rust, the compiler will warn you that you need to use an unsafe block to perform unsafe operations in the body of an unsafe function. This is because Rust now distinguishes between unsafe fn, which defines what you need to do to call the function safely, and an unsafe block, where you actually uphold that “contract” the function establishes.": {
     "_translate": "注意：在 Rust 的早期版本中，不安全函数的主体被视为 <code>unsafe</code> 块，因此你可以在 <code>unsafe</code> 函数的主体内执行任何不安全操作。在 Rust 的较新版本中，编译器会警告你需要使用 <code>unsafe</code> 块来在不安全函数的主体内执行不安全操作。这是因为 Rust 现在区分了 <code>unsafe fn</code>，它定义了你需要做什么来安全地调用该函数，以及 <code>unsafe</code> 块，你实际上是在这里履行该函数建立的“契约”。",
     "_note": ""
+  },
+  "Static variables are similar to constants, which we discussed in the “Constants” section in Chapter 3. The names of static variables are in SCREAMING_SNAKE_CASE by convention. Static variables can only store references with the 'static lifetime, which means the Rust compiler can figure out the lifetime and we aren’t required to annotate it explicitly. Accessing an immutable static variable is safe.": {
+    "_translate": "静态变量类似于我们在第 3 章<a href=\"ch03-01-variables-and-mutability.html#constants\">“常量”</a>部分讨论的常量。按照惯例，静态变量的名称使用<code>SCREAMING_SNAKE_CASE</code>。静态变量只能存储具有<code>'static</code>生命周期的引用，这意味着 Rust 编译器可以推断出生命周期，我们不需要显式注解。访问不可变的静态变量是安全的。",
+    "_note": ""
+  },
+  "For a much deeper exploration of how to work effectively with unsafe Rust, read Rust’s official guide to the subject, the Rustonomicon.": {
+    "_translate": "对于如何有效地使用不安全的 Rust 进行更深入的探索，请阅读 Rust 的官方指南，<a href=\"https://doc.rust-lang.org/nomicon/\">Rustonomicon</a>。",
+    "_note": ""
   }
 }

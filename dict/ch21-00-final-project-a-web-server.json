@@ -54,5 +54,13 @@
   "Improve the throughput of our server with a thread pool.": {
     "_translate": "使用线程池提高我们服务器的吞吐量。",
     "_note": ""
+  },
+  "Figure 21-1: Our final shared project": {
+    "_translate": "<span class=\"caption\">图21-1：我们的最终共享项目</span>",
+    "_note": ""
+  },
+  "For our final project, we’ll make a web server that says “hello” and looks like Figure 21-1 in a web browser.": {
+    "_translate": "对于我们的最终项目，我们将制作一个在网页浏览器中显示“hello”并看起来像图21-1的网页服务器。",
+    "_note": ""
   }
 }

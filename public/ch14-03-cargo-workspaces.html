@@ -235,7 +235,6 @@ $ cd add
 </code></pre>
 <p data-x-en="Next, in the add directory, we create the Cargo.toml file that will configure the entire workspace. This file won’t have a [package] section. Instead, it will start with a [workspace] section that will allow us to add members to the workspace. We also make a point to use the latest and greatest version of Cargo’s resolver algorithm in our workspace by setting the resolver to &quot;2&quot;.">接下来，在 <em>add</em> 目录中，我们创建 <em>Cargo.toml</em> 文件，该文件将配置整个工作区。此文件将没有 <code>[package]</code> 部分。
 相反，它将以 <code>[workspace]</code> 部分开始，这将允许我们向工作区添加成员。我们还通过将 <code>resolver</code> 设置为 <code>"2"</code> 来确保在工作区中使用最新和最强大的 Cargo 解析器算法。</p>
-<p data-x-en="by specifying the path to the package with our binary crate; in this case, that path is adder:">通过指定包含我们二进制文件的包的路径；在这种情况下，该路径是<em>adder</em>：</p>
 <p data-x-en="Filename: Cargo.toml"><span class="filename">文件名: Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
 resolver = "2"

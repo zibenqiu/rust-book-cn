@@ -486,5 +486,9 @@
   "We bind this new variable to the expression guess.trim().parse(). The guess in the expression refers to the original guess variable that contained the input as a string. The trim method on a String instance will eliminate any whitespace at the beginning and end, which we must do before we can convert the string to a u32, which can only contain numerical data. The user must press enter to satisfy read_line and input their guess, which adds a newline character to the string. For example, if the user types 5 and presses enter, guess looks like this: 5\\n. The \\n represents “newline.” (On Windows, pressing enter results in a carriage return and a newline, \\r\\n.) The trim method eliminates \\n or \\r\\n, resulting in just 5.": {
     "_translate": "我们将这个新变量绑定到表达式 <code>guess.trim().parse()</code>。表达式中的 <code>guess</code>\n指的是包含输入字符串的原始 <code>guess</code> 变量。在 <code>String</code> 实例上调用的 <code>trim</code> 方法将删除开头和结尾的任何空白，这必须在我们将字符串转换为 <code>u32</code> 之前完成，因为 <code>u32</code> 只能包含数字数据。用户必须按 <kbd>enter</kbd> 以满足 <code>read_line</code> 并输入他们的猜测，这会在字符串中添加一个换行符。例如，如果用户输入 <kbd>5</kbd> 并按 <kbd>enter</kbd>，<code>guess</code> 看起来像这样： <code>5\\n</code>。<code>\\n</code> 表示“换行”。（在 Windows 上，按 <kbd>enter</kbd> 会产生回车和换行，<code>\\r\\n</code>。）<code>trim</code> 方法会删除 <code>\\n</code> 或 <code>\\r\\n</code>，结果只剩下 <code>5</code>。",
     "_note": ""
+  },
+  "Result’s variants are Ok and Err. The Ok variant indicates the operation was successful, and it contains the successfully generated value. The Err variant means the operation failed, and it contains information about how or why the operation failed.": {
+    "_translate": "<code>Result</code> 的变体是 <code>Ok</code> 和 <code>Err</code>。 <code>Ok</code> 变体表示操作成功，并且包含成功生成的值。 <code>Err</code> 变体表示操作失败，并且包含有关操作失败的方式或原因的信息。",
+    "_note": ""
   }
 }

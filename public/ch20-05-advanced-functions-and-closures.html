@@ -300,8 +300,8 @@ fn returns_closure() -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
 fn returns_initialized_closure(init: i32) -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt; {
     Box::new(move |x| x + init)
 }</code></pre>
-<p data-x-en="This code will compile just fine—but it wouldn’t if we had tried to stick with impl Fn(i32) -> i32. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 19.">这段代码可以顺利编译——但如果我们坚持使用<code>impl Fn(i32) -&gt; i32</code>的话就编译不过了。关于特质对象的更多内容，请参阅第19章的<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型的值的特质对象”</a><!-- ignore
--->部分。</p>
+<p data-x-en="This code will compile just fine—but it wouldn’t if we had tried to stick with impl Fn(i32) -> i32. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 18.">这段代码可以顺利编译——但如果我们将 <code>impl Fn(i32) -&gt; i32</code> 保留下来，就无法编译了。有关 trait 对象的更多信息，请参阅第 18 章的 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型的值的 trait 对象”</a><!-- ignore
+--> 部分。</p>
 <p data-x-en="Next, let’s look at macros!">接下来，让我们看看宏！</p>
 
                     </main>

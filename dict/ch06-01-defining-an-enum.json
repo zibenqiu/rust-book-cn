@@ -198,5 +198,9 @@
   "ChangeColor includes three i32 values.": {
     "_translate": "<code>ChangeColor</code> 包含三个 <code>i32</code> 值。",
     "_note": ""
+  },
+  "The <T> syntax is a feature of Rust we haven’t talked about yet. It’s a generic type parameter, and we’ll cover generics in more detail in Chapter 10. For now, all you need to know is that <T> means that the Some variant of the Option enum can hold one piece of data of any type, and that each concrete type that gets used in place of T makes the overall Option<T> type a different type. Here are some examples of using Option values to hold number types and char types:": {
+    "_translate": "<code>&lt;T&gt;</code> 语法是 Rust 的一个我们尚未讨论过的特性。它是一个泛型类型参数，我们将在第 10 章中更详细地介绍泛型。目前，你只需要知道 <code>&lt;T&gt;</code> 表示 <code>Option</code> 枚举的 <code>Some</code> 变体可以持有一个任何类型的单个数据，并且每个用于替代 <code>T</code> 的具体类型都会使整体的 <code>Option&lt;T&gt;</code> 类型成为一个不同的类型。以下是一些使用 <code>Option</code> 值来持有数字类型和字符类型的示例：",
+    "_note": ""
   }
 }

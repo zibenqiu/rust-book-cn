@@ -1076,8 +1076,8 @@ possible state a <em>variant</em>.</p>
 <p><a href="ch06-00-enums.html">Chapter 6</a><!-- ignore --> will cover enums in more detail. The purpose
 of these <code>Result</code> types is to encode error-handling information.</p>
 <p><code>Result</code>’s variants are <code>Ok</code> and <code>Err</code>. The <code>Ok</code> variant indicates the
-operation was successful, and inside <code>Ok</code> is the successfully generated value.
-The <code>Err</code> variant means the operation failed, and <code>Err</code> contains information
+operation was successful, and it contains the successfully generated value.
+The <code>Err</code> variant means the operation failed, and it contains information
 about how or why the operation failed.</p>
 <p>Values of the <code>Result</code> type, like values of any type, have methods defined on
 them. An instance of <code>Result</code> has an <a href="../std/result/enum.Result.html#method.expect"><code>expect</code> method</a><!-- ignore -->
@@ -5283,7 +5283,7 @@ pointer first. In other words, if <code>object</code> is a pointer,
 <code>object-&gt;something()</code> is similar to <code>(*object).something()</code>.</p>
 <p>Rust doesn’t have an equivalent to the <code>-&gt;</code> operator; instead, Rust has a
 feature called <em>automatic referencing and dereferencing</em>. Calling methods is
-one of the few places in Rust that has this behavior.</p>
+one of the few places in Rust with this behavior.</p>
 <p>Here’s how it works: when you call a method with <code>object.something()</code>, Rust
 automatically adds in <code>&amp;</code>, <code>&amp;mut</code>, or <code>*</code> so <code>object</code> matches the signature of
 the method. In other words, the following are the same:</p>
@@ -5817,7 +5817,7 @@ For now, all you need to know is that <code>&lt;T&gt;</code> means that the <cod
 the <code>Option</code> enum can hold one piece of data of any type, and that each
 concrete type that gets used in place of <code>T</code> makes the overall <code>Option&lt;T&gt;</code> type
 a different type. Here are some examples of using <code>Option</code> values to hold
-number types and string types:</p>
+number types and char types:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
     let some_char = Some('e');
@@ -5904,7 +5904,7 @@ matching value.</p>
 allows you to compare a value against a series of patterns and then execute
 code based on which pattern matches. Patterns can be made up of literal values,
 variable names, wildcards, and many other things; <a href="ch19-00-patterns.html">Chapter
-18</a><!-- ignore --> covers all the different kinds of patterns
+19</a><!-- ignore --> covers all the different kinds of patterns
 and what they do. The power of <code>match</code> comes from the expressiveness of the
 patterns and the fact that the compiler confirms that all possible cases are
 handled.</p>
@@ -10017,9 +10017,9 @@ generic type after <code>impl</code>, Rust can identify that the type in the ang
 brackets in <code>Point</code> is a generic type rather than a concrete type. We could
 have chosen a different name for this generic parameter than the generic
 parameter declared in the struct definition, but using the same name is
-conventional. Methods written within an <code>impl</code> that declares the generic type
-will be defined on any instance of the type, no matter what concrete type ends
-up substituting for the generic type.</p>
+conventional. If you write a method within an <code>impl</code> that declares a generic
+type, that method will be defined on any instance of the type, no matter what
+concrete type ends up substituting for the generic type.</p>
 <p>We can also specify constraints on generic types when defining methods on the
 type. We could, for example, implement methods only on <code>Point&lt;f32&gt;</code> instances
 rather than on <code>Point&lt;T&gt;</code> instances with any generic type. In Listing 10-10 we
@@ -11359,7 +11359,7 @@ string literals have the <code>'static</code> lifetime, which we can annotate as
 <span class="boring">}</span></code></pre></pre>
 <p>The text of this string is stored directly in the program’s binary, which is
 always available. Therefore, the lifetime of all string literals is <code>'static</code>.</p>
-<p>You might see suggestions to use the <code>'static</code> lifetime in error messages. But
+<p>You might see suggestions in error messages to use the <code>'static</code> lifetime. But
 before specifying <code>'static</code> as the lifetime for a reference, think about
 whether the reference you have actually lives the entire lifetime of your
 program or not, and whether you want it to. Most of the time, an error message
@@ -17483,8 +17483,6 @@ Instead, it will start with a <code>[workspace]</code> section that will allow u
 members to the workspace. We also make a point to use the latest and greatest
 version of Cargo’s resolver algorithm in our workspace by setting the
 <code>resolver</code> to <code>"2"</code>.</p>
-<p>by specifying the path to the package with our binary
-crate; in this case, that path is <em>adder</em>:</p>
 <p><span class="filename">Filename: Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
 resolver = "2"
@@ -27329,8 +27327,7 @@ fn main() {
 <figcaption>Listing 20-10: Defining and using an immutable static variable</figcaption>
 </figure>
 <p>Static variables are similar to constants, which we discussed in the
-<a href="ch03-01-variables-and-mutability.html#constants">“Differences Between Variables and
-Constants”</a><!-- ignore --> section
+<a href="ch03-01-variables-and-mutability.html#constants">“Constants”</a><!-- ignore --> section
 in Chapter 3. The names of static variables are in <code>SCREAMING_SNAKE_CASE</code> by
 convention. Static variables can only store references with the <code>'static</code>
 lifetime, which means the Rust compiler can figure out the lifetime and we
@@ -27470,6 +27467,8 @@ reason to use <code>unsafe</code> code, you can do so, and having the explicit <
 annotation makes it easier to track down the source of problems when they occur.
 Whenever you write unsafe code, you can use Miri to help you be more confident
 that the code you have written upholds Rust’s rules.</p>
+<p>For a much deeper exploration of how to work effectively with unsafe Rust, read
+Rust’s official guide to the subject, the <a href="https://doc.rust-lang.org/nomicon/">Rustonomicon</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="advanced-traits"><a class="header" href="#advanced-traits">Advanced Traits</a></h2>
 <p>We first covered traits in the <a href="ch10-02-traits.html#traits-defining-shared-behavior">“Traits: Defining Shared
 Behavior”</a><!-- ignore --> section of Chapter
@@ -28631,7 +28630,7 @@ fn returns_initialized_closure(init: i32) -&gt; Box&lt;dyn Fn(i32) -&gt; i32&gt;
 <code>impl Fn(i32) -&gt; i32</code>. For more about trait objects, refer to the section
 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects That Allow for Values of Different
 Types”</a><!-- ignore
---> in Chapter 19.</p>
+--> in Chapter 18.</p>
 <p>Next, let’s look at macros!</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="macros"><a class="header" href="#macros">Macros</a></h2>
 <p>We’ve used macros like <code>println!</code> throughout this book, but we haven’t fully
@@ -29101,9 +29100,9 @@ chapter, we’ll build one more project together to demonstrate some of the
 concepts we covered in the final chapters, as well as recap some earlier
 lessons.</p>
 <p>For our final project, we’ll make a web server that says “hello” and looks like
-Figure 20-1 in a web browser.</p>
-<p><img src="img/trpl20-01.png" alt="hello from rust" /></p>
-<p><span class="caption">Figure 20-1: Our final shared project</span></p>
+Figure 21-1 in a web browser.</p>
+<p><img src="img/trpl21-01.png" alt="hello from rust" /></p>
+<p><span class="caption">Figure 21-1: Our final shared project</span></p>
 <p>Here is our plan for building the web server:</p>
 <ol>
 <li>Learn a bit about TCP and HTTP.</li>
@@ -32237,12 +32236,12 @@ how to automatically upgrade your code to a new edition via <code>cargo fix</cod
 <ul>
 <li><a href="https://github.com/rust-br/rust-book-pt-br">Português</a> (BR)</li>
 <li><a href="https://github.com/nunojesus/rust-book-pt-pt">Português</a> (PT)</li>
-<li><a href="https://github.com/KaiserY/trpl-zh-cn">简体中文</a></li>
+<li>简体中文: <a href="https://github.com/KaiserY/trpl-zh-cn">KaiserY/trpl-zh-cn</a>, <a href="https://github.com/gnu4cn/rust-lang-Zh_CN">gnu4cn/rust-lang-Zh_CN</a></li>
 <li><a href="https://github.com/rust-tw/book-tw">正體中文</a></li>
 <li><a href="https://rust-lang-ua.github.io/rustbook_ukrainian">Українська</a></li>
 <li><a href="https://github.com/thecodix/book">Español</a>, <a href="https://github.com/ManRR/rust-book-es">alternate</a>, <a href="https://github.com/RustLangES/rust-book-es">Español por RustLangES</a></li>
 <li><a href="https://github.com/rust-lang-ru/book">Русский</a></li>
-<li><a href="https://github.com/rinthel/rust-lang-book-ko">한국어</a></li>
+<li><a href="https://github.com/rust-kr/doc.rust-kr.org">한국어</a></li>
 <li><a href="https://github.com/rust-lang-ja/book-ja">日本語</a></li>
 <li><a href="https://github.com/Jimskapt/rust-book-fr">Français</a></li>
 <li><a href="https://github.com/paytchoo/book-pl">Polski</a></li>

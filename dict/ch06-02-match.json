@@ -158,5 +158,9 @@
   "The match Control Flow Construct - The Rust Programming Language": {
     "_translate": "匹配控制流结构 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Rust has an extremely powerful control flow construct called match that allows you to compare a value against a series of patterns and then execute code based on which pattern matches. Patterns can be made up of literal values, variable names, wildcards, and many other things; Chapter 19 covers all the different kinds of patterns and what they do. The power of match comes from the expressiveness of the patterns and the fact that the compiler confirms that all possible cases are handled.": {
+    "_translate": "Rust 拥有一个极其强大的控制流结构叫做 <code>match</code>，它允许你将一个值与一系列模式进行比较，然后根据匹配的模式执行代码。模式可以由字面值、变量名、通配符和许多其他元素组成；<a href=\"ch19-00-patterns.html\">第 19 章</a><!-- ignore --> 涵盖了所有不同类型的模式及其功能。<code>match</code> 的强大之处在于模式的表达力以及编译器确认所有可能的情况都已处理。",
+    "_note": ""
   }
 }

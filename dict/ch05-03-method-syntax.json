@@ -134,5 +134,9 @@
   "Method Syntax - The Rust Programming Language": {
     "_translate": "方法语法 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Rust doesn’t have an equivalent to the -> operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust with this behavior.": {
+    "_translate": "Rust 没有等同于 <code>-&gt;</code> 操作符的语法；相反，Rust 有一个称为 <em>自动引用和解引用</em> 的特性。调用方法是 Rust 中具有这种行为的少数地方之一。",
+    "_note": ""
   }
 }
