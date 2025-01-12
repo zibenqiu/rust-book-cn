@@ -54,5 +54,9 @@
   "Comparing Performance: Loops vs. Iterators - The Rust Programming Language": {
     "_translate": "比较性能：循环与迭代器 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "The two implementations have similar performance! We won’t explain the benchmark code here, because the point is not to prove that the two versions are equivalent but to get a general sense of how these two implementations compare performance-wise.": {
+    "_translate": "这两种实现的性能相似！我们不会在这里解释基准测试代码，因为重点不是证明这两个版本是等效的，而是大致了解这两种实现的性能比较。",
+    "_note": ""
   }
 }

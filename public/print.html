@@ -16864,10 +16864,10 @@ version of <code>search</code> using the <code>for</code> loop and the version u
 <pre><code class="language-text">test bench_search_for  ... bench:  19,620,300 ns/iter (+/- 915,700)
 test bench_search_iter ... bench:  19,234,900 ns/iter (+/- 657,200)
 </code></pre>
-<p>The iterator version was slightly faster! We won’t explain the benchmark code
-here, because the point is not to prove that the two versions are equivalent
-but to get a general sense of how these two implementations compare
-performance-wise.</p>
+<p>The two implementations have similar performance! We won’t explain the
+benchmark code here, because the point is not to prove that the two versions
+are equivalent but to get a general sense of how these two implementations
+compare performance-wise.</p>
 <p>For a more comprehensive benchmark, you should check using various texts of
 various sizes as the <code>contents</code>, different words and words of different lengths
 as the <code>query</code>, and all kinds of other variations. The point is this:
@@ -17574,18 +17574,15 @@ add_one = { path = "../add_one" }
 <p>Cargo doesn’t assume that crates in a workspace will depend on each other, so
 we need to be explicit about the dependency relationships.</p>
 <p>Next, let’s use the <code>add_one</code> function (from the <code>add_one</code> crate) in the
-<code>adder</code> crate. Open the <em>adder/src/main.rs</em> file and add a <code>use</code> line at the
-top to bring the new <code>add_one</code> library crate into scope. Then change the <code>main</code>
+<code>adder</code> crate. Open the <em>adder/src/main.rs</em> file and change the <code>main</code>
 function to call the <code>add_one</code> function, as in Listing 14-7.</p>
 <figure class="listing">
 <span class="file-name">Filename: adder/src/main.rs</span>
-<pre><code class="language-rust ignore">use add_one;
-
-fn main() {
+<pre><code class="language-rust ignore">fn main() {
     let num = 10;
     println!("Hello, world! {num} plus one is {}!", add_one::add_one(num));
 }</code></pre>
-<figcaption>Listing 14-7: Using the <code>add_one</code> library crate from the <code>adder</code> crate</figcaption>
+<figcaption>Listing 14-7: Using the <code>add_one</code> library crate in the <code>adder</code> crate</figcaption>
 </figure>
 <p>Let’s build the workspace by running <code>cargo build</code> in the top-level <em>add</em>
 directory!</p>
@@ -20991,7 +20988,7 @@ Once you get your code to compile, you can rest assured that it will happily
 run on multiple threads without the kinds of hard-to-track-down bugs common in
 other languages. Concurrent programming is no longer a concept to be afraid of:
 go forth and make your programs concurrent, fearlessly!</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="async-and-await"><a class="header" href="#async-and-await">Async and Await</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="async-and-await"><a class="header" href="#async-and-await">Async and Await</a></h1>
 <p>Many operations we ask the computer to do can take a while to finish. For
 example, if you used a video editor to create a video of a family celebration,
 exporting it could take anywhere from minutes to hours. Similarly, downloading a
@@ -21969,7 +21966,7 @@ it shuts down gracefully after the last message is sent and received.</p>
 
         let rx_fut = async {
             while let Some(value) = rx.recv().await {
-                eprintln!("received '{value}'");
+                println!("received '{value}'");
             }
         };
 
@@ -27539,7 +27536,7 @@ the <code>Item</code> type is <code>u32</code>:</p>
 <pre><code class="language-rust noplayground">pub trait Iterator&lt;T&gt; {
     fn next(&amp;mut self) -&gt; Option&lt;T&gt;;
 }</code></pre>
-<figcaption>Listing A hypothetical definition of the `Iterator` trait using generics</figcaption>
+<figcaption>Listing 20-14: A hypothetical definition of the <code>Iterator</code> trait using generics</figcaption>
 </figure>
 <p>The difference is that when using generics, as in Listing 20-14, we must
 annotate the types in each implementation; because we can also implement
@@ -31095,7 +31092,9 @@ value from the <code>Vec</code>.</p>
 <p>So we need to update the <code>ThreadPool</code> <code>drop</code> implementation like this:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::{
 </span><span class="boring">    sync::{mpsc, Arc, Mutex},
 </span><span class="boring">    thread,
 </span><span class="boring">};
@@ -31168,7 +31167,8 @@ value from the <code>Vec</code>.</p>
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
-</span><span class="boring">}</span></code></pre>
+</span><span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
 </figure>
 <p>This resolves the compiler error and does not require any other changes to our
 code.</p>
@@ -32205,8 +32205,9 @@ landed, which might make Rust worth another look.</li>
 <li>For those developing Rust, a new edition provides a rallying point for the
 project as a whole.</li>
 </ul>
-<p>At the time of this writing, three Rust editions are available: Rust 2015, Rust
-2018, and Rust 2021. This book is written using Rust 2021 edition idioms.</p>
+<p>At the time of this writing, four Rust editions are available: Rust 2015, Rust
+2018, Rust 2021, and Rust 2024. This book is written using Rust 2024 edition
+idioms.</p>
 <p>The <code>edition</code> key in <em>Cargo.toml</em> indicates which edition the compiler should
 use for your code. If the key doesn’t exist, Rust uses <code>2015</code> as the edition
 value for backward compatibility reasons.</p>
@@ -32250,7 +32251,7 @@ how to automatically upgrade your code to a new edition via <code>cargo fix</cod
 <li><a href="https://github.com/psychoslave/Rust-libro">Esperanto</a></li>
 <li><a href="https://github.com/TChatzigiannakis/rust-book-greek">ελληνική</a></li>
 <li><a href="https://github.com/sebras/book">Svenska</a></li>
-<li><a href="https://github.com/RustFarsi/book">Farsi</a></li>
+<li><a href="https://github.com/RustFarsi/book">Farsi</a>, <a href="https://github.com/persian-rust/book">Persian (FA)</a></li>
 <li><a href="https://github.com/rust-lang-de/rustbook-de">Deutsch</a></li>
 <li><a href="https://github.com/venkatarun95/rust-book-hindi">हिंदी</a></li>
 <li><a href="https://github.com/rust-lang-th/book-th">ไทย</a></li>

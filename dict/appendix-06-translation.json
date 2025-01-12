@@ -102,5 +102,9 @@
   "简体中文: KaiserY/trpl-zh-cn, gnu4cn/rust-lang-Zh_CN": {
     "_translate": "简体中文: <a href=\"https://github.com/KaiserY/trpl-zh-cn\">KaiserY/trpl-zh-cn</a>, <a href=\"https://github.com/gnu4cn/rust-lang-Zh_CN\">gnu4cn/rust-lang-Zh_CN</a>",
     "_note": ""
+  },
+  "Farsi, Persian (FA)": {
+    "_translate": "<a href=\"https://github.com/RustFarsi/book\">波斯语</a>, <a href=\"https://github.com/persian-rust/book\">波斯语 (FA)</a>",
+    "_note": ""
   }
 }

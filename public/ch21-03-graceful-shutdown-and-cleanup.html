@@ -338,7 +338,9 @@ error: could not compile `hello` (lib) due to 1 previous error
 <p data-x-en="So we need to update the ThreadPool drop implementation like this:">所以我们需要更新 <code>ThreadPool</code> 的 <code>drop</code> 实现如下：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::{
 </span><span class="boring">    sync::{mpsc, Arc, Mutex},
 </span><span class="boring">    thread,
 </span><span class="boring">};
@@ -411,7 +413,8 @@ error: could not compile `hello` (lib) due to 1 previous error
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
-</span><span class="boring">}</span></code></pre>
+</span><span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
 </figure>
 <p data-x-en="This resolves the compiler error and does not require any other changes to our code.">这解决了编译器错误，并且不需要对我们的代码进行任何其他更改。</p>
 <h3 id="signaling-to-the-threads-to-stop-listening-for-jobs"><a class="header" href="#signaling-to-the-threads-to-stop-listening-for-jobs">向线程发出停止监听任务的信号</a></h3>

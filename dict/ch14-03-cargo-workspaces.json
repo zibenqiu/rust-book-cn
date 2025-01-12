@@ -162,5 +162,9 @@
   "Adding a Test to a Workspace": {
     "_translate": "<a class=\"header\" href=\"#adding-a-test-to-a-workspace\">在工作区中添加测试</a>",
     "_note": ""
+  },
+  "Next, let’s use the add_one function (from the add_one crate) in the adder crate. Open the adder/src/main.rs file and change the main function to call the add_one function, as in Listing 14-7.": {
+    "_translate": "接下来，让我们在 <code>adder</code> crate 中使用 <code>add_one</code> crate 中的 <code>add_one</code> 函数。打开 <em>adder/src/main.rs</em> 文件，并将 <code>main</code> 函数修改为调用 <code>add_one</code> 函数，如清单 14-7 所示。",
+    "_note": ""
   }
 }

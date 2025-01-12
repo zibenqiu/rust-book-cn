@@ -521,7 +521,7 @@ hi number 9 from the first task!
 
         let rx_fut = async {
             while let Some(value) = rx.recv().await {
-                eprintln!("received '{value}'");
+                println!("received '{value}'");
             }
         };
 

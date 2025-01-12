@@ -58,5 +58,9 @@
   "For those developing Rust, a new edition provides a rallying point for the project as a whole.": {
     "_translate": "对于那些开发 Rust 的人来说，新版本为整个项目提供了一个集结点。",
     "_note": ""
+  },
+  "At the time of this writing, four Rust editions are available: Rust 2015, Rust 2018, Rust 2021, and Rust 2024. This book is written using Rust 2024 edition idioms.": {
+    "_translate": "在撰写本文时，有四个 Rust 版本可用：Rust 2015、Rust 2018、Rust 2021 和 Rust 2024。本书使用 Rust 2024 版本的惯用法编写。",
+    "_note": ""
   }
 }
