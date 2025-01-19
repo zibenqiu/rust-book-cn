@@ -490,20 +490,23 @@ fn main() {
 /// behavior, so you *must* guarantee you only call it from a single thread at
 /// a time.
 unsafe fn add_to_count(inc: u32) {
-    COUNTER += inc;
+    unsafe {
+        COUNTER += inc;
+    }
 }
 
 fn main() {
     unsafe {
         // SAFETY: This is only called from a single thread in `main`.
         add_to_count(3);
-        println!("COUNTER: {}", COUNTER);
+        println!("COUNTER: {}", *(&amp;raw const COUNTER));
     }
 }</code></pre></pre>
 <figcaption>Listing 20-11: Reading from or writing to a mutable static variable is unsafe</figcaption>
 </figure>
-<p data-x-en="As with regular variables, we specify mutability using the mut keyword. Any code that reads or writes from COUNTER must be within an unsafe block. This code compiles and prints COUNTER: 3 as we would expect because it’s single threaded. Having multiple threads access COUNTER would likely result in data races, so it is undefined behavior. Therefore, we need to mark the entire function as unsafe, and document the safety limitation, so anyone calling the function knows what they are and are not allowed to do safely.">与常规变量一样，我们使用 <code>mut</code> 关键字指定可变性。任何读取或写入 <code>COUNTER</code> 的代码都必须在 <code>unsafe</code> 块中。这段代码编译并打印 <code>COUNTER: 3</code>，正如我们所期望的那样，因为它是在单线程中运行的。如果多个线程访问 <code>COUNTER</code>，可能会导致数据竞争，因此这是未定义的行为。因此，我们需要将整个函数标记为 <code>unsafe</code>，并记录安全限制，以便调用该函数的任何人都知道他们可以和不可以安全地做什么。</p>
+<p data-x-en="As with regular variables, we specify mutability using the mut keyword. Any code that reads or writes from COUNTER must be within an unsafe block. The code in Listing 20-11 compiles and prints COUNTER: 3 as we would expect because it’s single threaded. Having multiple threads access COUNTER would likely result in data races, so it is undefined behavior. Therefore, we need to mark the entire function as unsafe, and document the safety limitation, so anyone calling the function knows what they are and are not allowed to do safely.">与常规变量一样，我们使用 <code>mut</code> 关键字指定可变性。任何读取或写入 <code>COUNTER</code> 的代码都必须在 <code>unsafe</code> 块中。清单 20-11 中的代码编译并打印 <code>COUNTER: 3</code>，这符合我们的预期，因为它是在单线程中运行的。如果多个线程访问 <code>COUNTER</code>，可能会导致数据竞争，因此这是未定义行为。因此，我们需要将整个函数标记为 <code>unsafe</code>，并记录安全限制，以便调用该函数的任何人知道他们可以安全地做什么和不能做什么。</p>
 <p data-x-en="Whenever we write an unsafe function, it is idiomatic to write a comment starting with SAFETY and explaining what the caller needs to do to call the function safely. Likewise, whenever we perform an unsafe operation, it is idiomatic to write a comment starting with SAFETY to explain how the safety rules are upheld.">每当我们编写一个不安全的函数时，习惯上会写一个以 <code>SAFETY</code> 开头的注释，解释调用者需要做什么才能安全地调用该函数。同样，每当执行不安全操作时，习惯上也会写一个以 <code>SAFETY</code> 开头的注释，解释如何遵守安全规则。</p>
+<p data-x-en="Additionally, the compiler will not allow you to create references to a mutable static variable. You can only access it via a raw pointer, created with one of the raw borrow operators. That includes in cases where the reference is created invisibly, as when it is used in the println! in this code listing. The requirement that references to static mutable variables can only be created via raw pointers helps make the safety requirements for using them more obvious.">此外，编译器不允许你创建指向可变静态变量的引用。你只能通过原始指针访问它，而原始指针是使用其中一个原始借用操作符创建的。这包括在引用被隐式创建的情况下，例如在本代码列表中的 <code>println!</code> 中使用时。要求只能通过原始指针创建对静态可变变量的引用，有助于使使用它们的安全要求更加明显。</p>
 <p data-x-en="With mutable data that is globally accessible, it’s difficult to ensure there are no data races, which is why Rust considers mutable static variables to be unsafe. Where possible, it’s preferable to use the concurrency techniques and thread-safe smart pointers we discussed in Chapter 16 so the compiler checks that data accessed from different threads is done safely.">对于全局可访问的可变数据，很难确保没有数据竞争，这就是为什么 Rust 认为可变静态变量是不安全的。在可能的情况下，最好使用我们在第 16 章中讨论的并发技术和线程安全的智能指针，以便编译器检查从不同线程访问的数据是否安全。</p>
 <h3 id="implementing-an-unsafe-trait"><a class="header" href="#implementing-an-unsafe-trait">实现一个不安全的特质</a></h3>
 <p data-x-en="We can use unsafe to implement an unsafe trait. A trait is unsafe when at least one of its methods has some invariant that the compiler can’t verify. We declare that a trait is unsafe by adding the unsafe keyword before trait and marking the implementation of the trait as unsafe too, as shown in Listing 20-12.">我们可以使用 <code>unsafe</code> 来实现一个不安全的特质。当特质的至少一个方法具有一些编译器无法验证的不变量时，该特质就是不安全的。我们通过在 <code>trait</code> 前添加 <code>unsafe</code> 关键字来声明一个特质是 <code>unsafe</code> 的，并且也将特质的实现标记为 <code>unsafe</code>，如清单 20-12 所示。</p>

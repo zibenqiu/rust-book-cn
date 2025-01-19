@@ -386,5 +386,13 @@
   "For a much deeper exploration of how to work effectively with unsafe Rust, read Rust’s official guide to the subject, the Rustonomicon.": {
     "_translate": "对于如何有效地使用不安全的 Rust 进行更深入的探索，请阅读 Rust 的官方指南，<a href=\"https://doc.rust-lang.org/nomicon/\">Rustonomicon</a>。",
     "_note": ""
+  },
+  "Additionally, the compiler will not allow you to create references to a mutable static variable. You can only access it via a raw pointer, created with one of the raw borrow operators. That includes in cases where the reference is created invisibly, as when it is used in the println! in this code listing. The requirement that references to static mutable variables can only be created via raw pointers helps make the safety requirements for using them more obvious.": {
+    "_translate": "此外，编译器不允许你创建指向可变静态变量的引用。你只能通过原始指针访问它，而原始指针是使用其中一个原始借用操作符创建的。这包括在引用被隐式创建的情况下，例如在本代码列表中的 <code>println!</code> 中使用时。要求只能通过原始指针创建对静态可变变量的引用，有助于使使用它们的安全要求更加明显。",
+    "_note": ""
+  },
+  "As with regular variables, we specify mutability using the mut keyword. Any code that reads or writes from COUNTER must be within an unsafe block. The code in Listing 20-11 compiles and prints COUNTER: 3 as we would expect because it’s single threaded. Having multiple threads access COUNTER would likely result in data races, so it is undefined behavior. Therefore, we need to mark the entire function as unsafe, and document the safety limitation, so anyone calling the function knows what they are and are not allowed to do safely.": {
+    "_translate": "与常规变量一样，我们使用 <code>mut</code> 关键字指定可变性。任何读取或写入 <code>COUNTER</code> 的代码都必须在 <code>unsafe</code> 块中。清单 20-11 中的代码编译并打印 <code>COUNTER: 3</code>，这符合我们的预期，因为它是在单线程中运行的。如果多个线程访问 <code>COUNTER</code>，可能会导致数据竞争，因此这是未定义行为。因此，我们需要将整个函数标记为 <code>unsafe</code>，并记录安全限制，以便调用该函数的任何人知道他们可以安全地做什么和不能做什么。",
+    "_note": ""
   }
 }

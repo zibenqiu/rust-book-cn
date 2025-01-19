@@ -27345,30 +27345,39 @@ static variable named <code>COUNTER</code>.</p>
 /// behavior, so you *must* guarantee you only call it from a single thread at
 /// a time.
 unsafe fn add_to_count(inc: u32) {
-    COUNTER += inc;
+    unsafe {
+        COUNTER += inc;
+    }
 }
 
 fn main() {
     unsafe {
         // SAFETY: This is only called from a single thread in `main`.
         add_to_count(3);
-        println!("COUNTER: {}", COUNTER);
+        println!("COUNTER: {}", *(&amp;raw const COUNTER));
     }
 }</code></pre></pre>
 <figcaption>Listing 20-11: Reading from or writing to a mutable static variable is unsafe</figcaption>
 </figure>
 <p>As with regular variables, we specify mutability using the <code>mut</code> keyword. Any
-code that reads or writes from <code>COUNTER</code> must be within an <code>unsafe</code> block. This
-code compiles and prints <code>COUNTER: 3</code> as we would expect because it’s single
-threaded. Having multiple threads access <code>COUNTER</code> would likely result in data
-races, so it is undefined behavior. Therefore, we need to mark the entire
-function as <code>unsafe</code>, and document the safety limitation, so anyone calling the
-function knows what they are and are not allowed to do safely.</p>
+code that reads or writes from <code>COUNTER</code> must be within an <code>unsafe</code> block. The
+code in Listing 20-11 compiles and prints <code>COUNTER: 3</code> as we would expect
+because it’s single threaded. Having multiple threads access <code>COUNTER</code> would
+likely result in data races, so it is undefined behavior. Therefore, we need to
+mark the entire function as <code>unsafe</code>, and document the safety limitation, so
+anyone calling the function knows what they are and are not allowed to do
+safely.</p>
 <p>Whenever we write an unsafe function, it is idiomatic to write a comment
 starting with <code>SAFETY</code> and explaining what the caller needs to do to call the
 function safely. Likewise, whenever we perform an unsafe operation, it is
 idiomatic to write a comment starting with <code>SAFETY</code> to explain how the safety
 rules are upheld.</p>
+<p>Additionally, the compiler will not allow you to create references to a mutable
+static variable. You can only access it via a raw pointer, created with one of
+the raw borrow operators. That includes in cases where the reference is created
+invisibly, as when it is used in the <code>println!</code> in this code listing. The
+requirement that references to static mutable variables can only be created via
+raw pointers helps make the safety requirements for using them more obvious.</p>
 <p>With mutable data that is globally accessible, it’s difficult to ensure there
 are no data races, which is why Rust considers mutable static variables to be
 unsafe. Where possible, it’s preferable to use the concurrency techniques and
@@ -31693,19 +31702,48 @@ in a union declaration</li>
 <p>The following keywords do not yet have any functionality but are reserved by
 Rust for potential future use.</p>
 <ul>
-<li><code>abstract</code></li>
-<li><code>become</code></li>
-<li><code>box</code></li>
-<li><code>do</code></li>
-<li><code>final</code></li>
-<li><code>macro</code></li>
-<li><code>override</code></li>
-<li><code>priv</code></li>
-<li><code>try</code></li>
-<li><code>typeof</code></li>
-<li><code>unsized</code></li>
-<li><code>virtual</code></li>
-<li><code>yield</code></li>
+<li>
+<p><code>abstract</code></p>
+</li>
+<li>
+<p><code>become</code></p>
+</li>
+<li>
+<p><code>box</code></p>
+</li>
+<li>
+<p><code>do</code></p>
+</li>
+<li>
+<p><code>final</code></p>
+</li>
+<li>
+<p><code>gen</code></p>
+</li>
+<li>
+<p><code>macro</code></p>
+</li>
+<li>
+<p><code>override</code></p>
+</li>
+<li>
+<p><code>priv</code></p>
+</li>
+<li>
+<p><code>try</code></p>
+</li>
+<li>
+<p><code>typeof</code></p>
+</li>
+<li>
+<p><code>unsized</code></p>
+</li>
+<li>
+<p><code>virtual</code></p>
+</li>
+<li>
+<p><code>yield</code></p>
+</li>
 </ul>
 <h3 id="raw-identifiers"><a class="header" href="#raw-identifiers">Raw Identifiers</a></h3>
 <p><em>Raw identifiers</em> are the syntax that lets you use keywords where they wouldn’t
@@ -31737,15 +31775,15 @@ fn main() {
 <p>This code will compile without any errors. Note the <code>r#</code> prefix on the function
 name in its definition as well as where the function is called in <code>main</code>.</p>
 <p>Raw identifiers allow you to use any word you choose as an identifier, even if
-that word happens to be a reserved keyword. This gives us more freedom to
-choose identifier names, as well as lets us integrate with programs written in
-a language where these words aren’t keywords. In addition, raw identifiers
-allow you to use libraries written in a different Rust edition than your crate
-uses. For example, <code>try</code> isn’t a keyword in the 2015 edition but is in the 2018
-edition. If you depend on a library that’s written using the 2015 edition and
-has a <code>try</code> function, you’ll need to use the raw identifier syntax, <code>r#try</code> in
-this case, to call that function from your 2018 edition code. See <a href="appendix-05-editions.html">Appendix
-E</a><!-- ignore --> for more information on editions.</p>
+that word happens to be a reserved keyword. This gives us more freedom to choose
+identifier names, as well as lets us integrate with programs written in a
+language where these words aren’t keywords. In addition, raw identifiers allow
+you to use libraries written in a different Rust edition than your crate uses.
+For example, <code>try</code> isn’t a keyword in the 2015 edition but is in the 2018, 2021,
+and 2024 editions. If you depend on a library that’s written using the 2015
+edition and has a <code>try</code> function, you’ll need to use the raw identifier syntax,
+<code>r#try</code> in this case, to call that function from your 2018 edition code. See
+<a href="appendix-05-editions.html">Appendix E</a><!-- ignore --> for more information on editions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="appendix-b-operators-and-symbols"><a class="header" href="#appendix-b-operators-and-symbols">Appendix B: Operators and Symbols</a></h2>
 <p>This appendix contains a glossary of Rust’s syntax, including operators and
 other symbols that appear by themselves or in the context of paths, generics,
