@@ -202,5 +202,9 @@
   "In this code, the same thing happens as in the match in Listing 20-27: Rust sees that val has the type T and panic! has the type !, so the result of the overall match expression is T. This code works because panic! doesn’t produce a value; it ends the program. In the None case, we won’t be returning a value from unwrap, so this code is valid.": {
     "_translate": "在这个代码中，与清单 20-27 中的 <code>match</code> 一样：Rust 看到 <code>val</code> 有类型 <code>T</code> 而 <code>panic!</code> 有类型 <code>!</code>，因此整个 <code>match</code> 表达式的结果是 <code>T</code>。这段代码可以工作，因为 <code>panic!</code> 不会产生值；它会结束程序。在 <code>None</code> 情况下，我们不会从 <code>unwrap</code> 返回值，所以这段代码是有效的。",
     "_note": ""
+  },
+  "Redirecting...": {
+    "_translate": "重定向...",
+    "_note": ""
   }
 }

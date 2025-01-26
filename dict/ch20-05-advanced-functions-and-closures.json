@@ -106,5 +106,9 @@
   "This code will compile just fine—but it wouldn’t if we had tried to stick with impl Fn(i32) -> i32. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 18.": {
     "_translate": "这段代码可以顺利编译——但如果我们将 <code>impl Fn(i32) -&gt; i32</code> 保留下来，就无法编译了。有关 trait 对象的更多信息，请参阅第 18 章的 <a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型的值的 trait 对象”</a><!-- ignore\n--> 部分。",
     "_note": ""
+  },
+  "Redirecting...": {
+    "_translate": "重定向...",
+    "_note": ""
   }
 }

@@ -302,5 +302,9 @@
   "As an example, let’s say we want to implement Display on Vec<T>, which the orphan rule prevents us from doing directly because the Display trait and the Vec<T> type are defined outside our crate. We can make a Wrapper struct that holds an instance of Vec<T>; then we can implement Display on Wrapper and use the Vec<T> value, as shown in Listing 20-24.": {
     "_translate": "作为一个例子，假设我们想要在 <code>Vec&lt;T&gt;</code> 上实现 <code>Display</code>，但由于孤儿规则，我们不能直接这样做，因为 <code>Display</code> 特性和 <code>Vec&lt;T&gt;</code> 类型都是在我们的 crate 之外定义的。我们可以创建一个包含 <code>Vec&lt;T&gt;</code> 实例的 <code>Wrapper</code> 结构体；然后我们可以在 <code>Wrapper</code> 上实现 <code>Display</code> 并使用 <code>Vec&lt;T&gt;</code> 值，如清单 20-24 所示。",
     "_note": ""
+  },
+  "Redirecting...": {
+    "_translate": "重定向...",
+    "_note": ""
   }
 }

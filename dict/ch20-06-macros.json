@@ -338,5 +338,9 @@
   "The comma following $() indicates that a literal comma separator character must appear between each instance of the code that matches the code within $(). The * specifies that the pattern matches zero or more of whatever precedes the *.": {
     "_translate": "逗号跟随在 <code>$()</code> 之后表示必须在每个与 <code>$()</code> 内部代码匹配的代码实例之间出现一个字面上的逗号分隔符。 <code>*</code> 指定模式匹配零个或多个 <code>*</code> 前面的任何内容。",
     "_note": ""
+  },
+  "Redirecting...": {
+    "_translate": "重定向...",
+    "_note": ""
   }
 }

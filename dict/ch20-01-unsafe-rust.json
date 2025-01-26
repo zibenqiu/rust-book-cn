@@ -394,5 +394,9 @@
   "As with regular variables, we specify mutability using the mut keyword. Any code that reads or writes from COUNTER must be within an unsafe block. The code in Listing 20-11 compiles and prints COUNTER: 3 as we would expect because it’s single threaded. Having multiple threads access COUNTER would likely result in data races, so it is undefined behavior. Therefore, we need to mark the entire function as unsafe, and document the safety limitation, so anyone calling the function knows what they are and are not allowed to do safely.": {
     "_translate": "与常规变量一样，我们使用 <code>mut</code> 关键字指定可变性。任何读取或写入 <code>COUNTER</code> 的代码都必须在 <code>unsafe</code> 块中。清单 20-11 中的代码编译并打印 <code>COUNTER: 3</code>，这符合我们的预期，因为它是在单线程中运行的。如果多个线程访问 <code>COUNTER</code>，可能会导致数据竞争，因此这是未定义行为。因此，我们需要将整个函数标记为 <code>unsafe</code>，并记录安全限制，以便调用该函数的任何人知道他们可以安全地做什么和不能做什么。",
     "_note": ""
+  },
+  "To perform unsafe operations in the body of an unsafe function, you still need to use an unsafe block just as within a regular function, and the compiler will warn you if you forget. This helps to keep unsafe blocks as small as possible, as unsafe operations may not be needed across the whole function body.": {
+    "_translate": "要在不安全函数的主体中执行不安全操作，您仍然需要使用<code>unsafe</code>块，就像在普通函数中一样，编译器会在您忘记时提醒您。这有助于将<code>unsafe</code>块保持尽可能小，因为不安全操作可能并不需要在整个函数体中使用。",
+    "_note": ""
   }
 }
