@@ -226,14 +226,14 @@ blockquote {
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="applying-concurrency-with-async" data-x-en="Applying Concurrency with Async"><a class="header" href="#applying-concurrency-with-async">使用异步应用并发</a></h2>
+                        <h2 id="applying-concurrency-with-async"><a class="header" href="#applying-concurrency-with-async">使用异步应用并发</a></h2>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="concurrency-with-async"></a></p>
 <p data-x-en="In this section, we’ll apply async to some of the same concurrency challenges we tackled with threads in chapter 16. Because we already talked about a lot of the key ideas there, in this section we’ll focus on what’s different between threads and futures.">在本节中，我们将把异步应用到我们在第16章用线程解决的一些相同的并发挑战上。因为我们已经在那讨论了很多关键概念，所以在本节中我们将重点关注线程和未来的不同之处。</p>
 <p data-x-en="In many cases, the APIs for working with concurrency using async are very similar to those for using threads. In other cases, they end up being quite different. Even when the APIs look similar between threads and async, they often have different behavior—and they nearly always have different performance characteristics.">在许多情况下，使用 async 进行并发操作的 API 与使用线程的 API 非常相似。在其他情况下，它们最终会变得相当不同。即使线程和 async 之间的 API <em>看起来</em>相似，它们通常也有不同的行为——而且它们几乎总是有不同的性能特征。</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="counting"></a></p>
-<h3 id="creating-a-new-task-with-spawn_task" data-x-en="Creating a New Task with spawn_task"><a class="header" href="#creating-a-new-task-with-spawn_task">使用<code>spawn_task</code>创建新任务</a></h3>
+<h3 id="creating-a-new-task-with-spawn_task"><a class="header" href="#creating-a-new-task-with-spawn_task">使用<code>spawn_task</code>创建新任务</a></h3>
 <p data-x-en="The first operation we tackled in Creating a New Thread with Spawn was counting up on two separate threads. Let’s do the same using async. The trpl crate supplies a spawn_task function that looks very similar to the thread::spawn API, and a sleep function that is an async version of the thread::sleep API. We can use these together to implement the counting example, as shown in Listing 17-6.">我们在<a href="ch16-01-threads.html#creating-a-new-thread-with-spawn">使用spawn创建新线程</a><!-- ignore -->中处理的第一个操作是在两个独立的线程上进行计数。
 让我们使用async来做同样的事情。<code>trpl</code>库提供了一个<code>spawn_task</code>函数
 它看起来非常类似于<code>thread::spawn</code> API，以及一个<code>sleep</code>函数
@@ -383,7 +383,7 @@ hi number 9 from the first task!
 <p data-x-en="For an extra challenge, see if you can figure out what the output will be in each case before running the code!">为了增加挑战性，看看你是否能在<em>运行代码之前</em>弄清楚每种情况下的输出！</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="message-passing"></a></p>
-<h3 id="counting-up-on-two-tasks-using-message-passing" data-x-en="Counting Up on Two Tasks Using Message Passing"><a class="header" href="#counting-up-on-two-tasks-using-message-passing">使用消息传递在两个任务上计数</a></h3>
+<h3 id="counting-up-on-two-tasks-using-message-passing"><a class="header" href="#counting-up-on-two-tasks-using-message-passing">使用消息传递在两个任务上计数</a></h3>
 <p data-x-en="Sharing data between futures will also be familiar: we’ll use message passing again, but this time with async versions of the types and functions. We’ll take a slightly different path than we did in Using Message Passing to Transfer Data Between Threads to illustrate some of the key differences between thread-based and futures-based concurrency. In Listing 17-9, we’ll begin with just a single async block—not spawning a separate task as we spawned a separate thread.">在 futures 之间共享数据也会很熟悉：我们将再次使用消息传递，但这次使用异步版本的类型和函数。我们将采取与<a href="ch16-02-message-passing.html">使用消息传递在线程之间传输数据</a>中稍有不同的路径，以说明基于线程的并发和基于 futures 的并发之间的一些关键差异。在示例 17-9 中，我们将从一个单一的 async 块开始——<em>不</em>像我们之前创建单独的线程那样创建单独的任务。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>

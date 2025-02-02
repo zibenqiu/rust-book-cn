@@ -226,7 +226,7 @@ blockquote {
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="working-with-any-number-of-futures" data-x-en="Working with Any Number of Futures"><a class="header" href="#working-with-any-number-of-futures">处理任意数量的 Future</a></h2>
+                        <h2 id="working-with-any-number-of-futures"><a class="header" href="#working-with-any-number-of-futures">处理任意数量的 Future</a></h2>
 <p data-x-en="When we switched from using two futures to three in the previous section, we also had to switch from using join to using join3. It would be annoying to have to call a different function every time we changed the number of futures we wanted to join. Happily, we have a macro form of join to which we can pass an arbitrary number of arguments. It also handles awaiting the futures itself. Thus, we could rewrite the code from Listing 17-13 to use join! instead of join3, as in Listing 17-14.">当我们从使用两个 future 转变为使用三个 future 时，我们还必须从使用 <code>join</code> 转变为使用 <code>join3</code>。每次我们改变想要连接的 future 数量时，都必须调用不同的函数，这会很烦人。幸运的是，我们有一个 <code>join</code> 的宏形式，可以传递任意数量的参数。它还自行处理等待 future。因此，我们可以将列表 17-13 中的代码重写为使用 <code>join!</code> 而不是 <code>join3</code>，如列表 17-14 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -748,7 +748,7 @@ received 'you'
 </figure>
 <p data-x-en="We can use trpl::join! to await them, because it allows us to pass in multiple future types and produces a tuple of those types. We cannot use trpl::join_all, because it requires all of the futures passed in to have the same type. Remember, that error is what got us started on this adventure with Pin!">我们可以使用<code>trpl::join!</code>来等待它们，因为它允许我们传入多个未来类型并生成这些类型的元组。我们<em>不能</em>使用<code>trpl::join_all</code>，因为它要求传入的所有未来必须具有相同的类型。记住，那个错误是我们开始这次与<code>Pin</code>的冒险的原因！</p>
 <p data-x-en="This is a fundamental tradeoff: we can either deal with a dynamic number of futures with join_all, as long as they all have the same type, or we can deal with a set number of futures with the join functions or the join! macro, even if they have different types. This is the same scenario we’d face when working with any other types in Rust. Futures are not special, even though we have some nice syntax for working with them, and that’s a good thing.">这是一个基本的权衡：我们可以使用<code>join_all</code>处理动态数量的未来对象，只要它们都具有相同的类型，或者我们可以使用<code>join</code>函数或<code>join!</code>宏处理固定数量的未来对象，即使它们具有不同的类型。这与我们在Rust中处理任何其他类型时面临的情况相同。未来对象并不特殊，尽管我们有一些不错的语法来处理它们，这是一件好事。</p>
-<h3 id="racing-futures" data-x-en="Racing Futures"><a class="header" href="#racing-futures">竞赛的未来</a></h3>
+<h3 id="racing-futures"><a class="header" href="#racing-futures">竞赛的未来</a></h3>
 <p data-x-en="When we “join” futures with the join family of functions and macros, we require all of them to finish before we move on. Sometimes, though, we only need some future from a set to finish before we move on—kind of similar to racing one future against another.">当我们使用 <code>join</code> 系列函数和宏“连接”未来值时，我们要求 <em>所有</em> 未来值都完成之后才继续前进。然而，有时我们只需要 <em>某些</em> 未来值从一组中完成之后就可以继续前进——有点类似于让一个未来值与另一个未来值竞赛。</p>
 <p data-x-en="In Listing 17-21, we once again use trpl::race to run two futures, slow and fast, against each other.">在清单 17-21 中，我们再次使用 <code>trpl::race</code> 来运行两个未来值，<code>slow</code> 和 <code>fast</code>，相互竞争。</p>
 <figure class="listing">
@@ -787,7 +787,7 @@ ignore --> 中使用 <code>race</code> 时不同，这里我们只是忽略它�
 <p data-x-en="But how would you hand control back to the runtime in those cases?">但是在这些情况下，你<em>如何</em>将控制权交还给运行时？</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="yielding"></a></p>
-<h3 id="yielding-control-to-the-runtime" data-x-en="Yielding Control to the Runtime"><a class="header" href="#yielding-control-to-the-runtime">将控制权交给运行时</a></h3>
+<h3 id="yielding-control-to-the-runtime"><a class="header" href="#yielding-control-to-the-runtime">将控制权交给运行时</a></h3>
 <p data-x-en="Let’s simulate a long-running operation. Listing 17-22 introduces a slow function.">让我们模拟一个长时间运行的操作。清单 17-22 引入了一个 <code>slow</code> 函数。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -1130,8 +1130,9 @@ async fn timeout&lt;F: Future&gt;(
 <p data-x-en="In practice, you’ll usually work directly with async and await, and secondarily with functions and macros such as join, join_all, race, and so on. You’ll only need to reach for pin now and again to use futures with those APIs.">在实际中，你通常会直接使用 <code>async</code> 和 <code>await</code>，其次会使用诸如 <code>join</code>、<code>join_all</code>、<code>race</code> 等函数和宏。你只需要偶尔使用 <code>pin</code> 来与这些 API 一起使用 futures。</p>
 <p data-x-en="We’ve now seen a number of ways to work with multiple futures at the same time. Up next, we’ll look at how we can work with multiple futures in a sequence over time with streams. Here are a couple more things you might want to consider first, though:">我们现在看到了同时处理多个未来的几种方法。接下来，我们将看看如何使用<em>流</em>在一段时间内按顺序处理多个未来。不过，在此之前，你可能还想考虑以下几点：</p>
 <ul>
-<li data-x-en="We used a Vec with join_all to wait for all of the futures in some group to finish. How could you use a Vec to process a group of futures in sequence instead? What are the tradeoffs of doing that?"><p>我们使用了 <code>Vec</code> 和 <code>join_all</code> 来等待某组中所有未来的完成。你如何使用 <code>Vec</code> 来按顺序处理一组未来的任务？这样做有什么权衡？</p></li>
-<li data-x-en="Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it’s from the stream part of the crate; it works just fine with any collection of futures.)"><p>看看 <code>futures</code> 库中的 <code>futures::stream::FuturesUnordered</code> 类型。使用它与使用 <code>Vec</code> 有什么不同？（不用担心它是从库的 <code>stream</code> 部分来的；它可以很好地与任何未来的集合一起使用。）</p></li>
+<li data-x-en="We used a Vec with join_all to wait for all of the futures in some group to finish. How could you use a Vec to process a group of futures in sequence instead? What are the tradeoffs of doing that?">我们使用了 <code>Vec</code> 和 <code>join_all</code> 来等待某组中所有未来的完成。你如何使用 <code>Vec</code> 来按顺序处理一组未来的？这样做有什么权衡？</li>
+<li data-x-en="Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it’s from the stream part of the crate; it works just fine with any collection of futures.)">查看 <code>futures::stream::FuturesUnordered</code> 类型，来自 <code>futures</code>
+库。使用它与使用 <code>Vec</code> 有什么不同？（不用担心它是从库的 <code>stream</code> 部分来的；它可以很好地与任何未来的集合一起使用。）</li>
 </ul>
 
                     </main>

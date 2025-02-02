@@ -226,13 +226,13 @@ blockquote {
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="a-closer-look-at-the-traits-for-async" data-x-en="A Closer Look at the Traits for Async"><a class="header" href="#a-closer-look-at-the-traits-for-async">深入探讨异步特性</a></h2>
+                        <h2 id="a-closer-look-at-the-traits-for-async"><a class="header" href="#a-closer-look-at-the-traits-for-async">深入探讨异步特性</a></h2>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="digging-into-the-traits-for-async"></a></p>
 <p data-x-en="Throughout the chapter, we’ve used the Future, Pin, Unpin, Stream, and StreamExt traits in various ways. So far, though, we’ve avoided getting too far into the details of how they work or how they fit together, which is fine most of the time for your day-to-day Rust work. Sometimes, though, you’ll encounter situations where you’ll need to understand a few more of these details. In this section, we’ll dig in just enough to help in those scenarios, still leaving the really deep dive for other documentation.">在本章中，我们以各种方式使用了<code>Future</code>、<code>Pin</code>、<code>Unpin</code>、<code>Stream</code>和<code>StreamExt</code>特质。到目前为止，我们避免深入探讨它们的工作原理或它们如何协同工作，这在大多数日常的Rust工作中是完全可以的。然而，有时你会遇到需要了解这些细节的情况。在本节中，我们将深入探讨足够的内容以帮助解决这些情况，但仍将更深入的探讨留给其他文档。</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="future"></a></p>
-<h3 id="the-future-trait" data-x-en="The Future Trait"><a class="header" href="#the-future-trait">《<code>Future</code> 特性》</a></h3>
+<h3 id="the-future-trait"><a class="header" href="#the-future-trait">《<code>Future</code> 特性》</a></h3>
 <p data-x-en="Let’s start by taking a closer look at how the Future trait works. Here’s how Rust defines it:">让我们先仔细看看 <code>Future</code> 特性是如何工作的。以下是 Rust 对其的定义：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -300,7 +300,7 @@ loop {
 当未来尚未准备好时，将其重新置于休眠状态。</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="pinning-and-the-pin-and-unpin-traits"></a></p>
-<h3 id="the-pin-and-unpin-traits" data-x-en="The Pin and Unpin Traits"><a class="header" href="#the-pin-and-unpin-traits">《<code>Pin</code> 和 <code>Unpin</code> 特性》</a></h3>
+<h3 id="the-pin-and-unpin-traits"><a class="header" href="#the-pin-and-unpin-traits">《<code>Pin</code> 和 <code>Unpin</code> 特性》</a></h3>
 <p data-x-en="When we introduced the idea of pinning in Listing 17-16, we ran into a very gnarly error message. Here is the relevant part of it again:">当我们介绍固定（pinning）的概念时，在清单 17-16 中遇到了一个非常棘手的错误信息。以下是相关部分：</p>
 <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-16
@@ -343,8 +343,8 @@ pub trait Future {
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="The cx parameter and its Context type are the key to how a runtime actually knows when to check any given future while still being lazy. Again, the details of how that works are beyond the scope of this chapter, and you generally only need to think about this when writing a custom Future implementation. We’ll focus instead on the type for self, as this is the first time we’ve seen a method where self has a type annotation. A type annotation for self is works like type annotations for other function parameters, but with two key differences:"><code>cx</code> 参数及其 <code>Context</code> 类型是运行时实际上知道何时检查给定的未来同时仍然保持惰性化的关键。再次，这些工作原理的细节超出了本章的范围，通常只有在编写自定义 <code>Future</code> 实现时才需要考虑这一点。我们将重点放在 <code>self</code> 的类型上，因为这是第一次看到 <code>self</code> 有类型注解的方法。<code>self</code> 的类型注解与其他函数参数的类型注解类似，但有两个关键区别：</p>
 <ul>
-<li data-x-en="It tells Rust what type self must be for the method to be called."><p>它告诉 Rust 调用该方法时 <code>self</code> 必须是什么类型。</p></li>
-<li data-x-en="It can’t be just any type. It’s restricted to the type on which the method is implemented, a reference or smart pointer to that type, or a Pin wrapping a reference to that type."><p>它不能是任意类型。它被限制为实现该方法的类型、该类型的引用或智能指针，或者是包装该类型引用的<code>Pin</code>。</p></li>
+<li data-x-en="It tells Rust what type self must be for the method to be called.">它告诉 Rust <code>self</code> 必须是什么类型才能调用该方法。</li>
+<li data-x-en="It can’t be just any type. It’s restricted to the type on which the method is implemented, a reference or smart pointer to that type, or a Pin wrapping a reference to that type.">它不能是任意类型。它被限制为实现该方法的类型、该类型的引用或智能指针，或者是一个包裹该类型引用的<code>Pin</code>。</li>
 </ul>
 <p data-x-en="We’ll see more on this syntax in Chapter 18. For now, it’s enough to know that if we want to poll a future to check whether it is Pending or Ready(Output), we need a Pin-wrapped mutable reference to the type.">我们将在<a href="ch18-00-oop.html">第 18 章</a><!-- ignore -->中看到更多关于这种语法的内容。目前，
 知道如果我们想要轮询一个未来以检查它是<code>Pending</code>还是<code>Ready(Output)</code>，我们需要一个<code>Pin</code>包装的可变引用就足够了。</p>

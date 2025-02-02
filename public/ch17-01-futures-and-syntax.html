@@ -242,7 +242,7 @@ $ cd hello-async
 $ cargo add trpl
 </code></pre>
 <p data-x-en="Now we can use the various pieces provided by trpl to write our first async program. We’ll build a little command line tool that fetches two web pages, pulls the <title> element from each, and prints out the title of whichever page finishes that whole process first.">现在我们可以使用 <code>trpl</code> 提供的各种组件来编写我们的第一个异步程序。我们将构建一个小的命令行工具，该工具将获取两个网页，从每个网页中提取 <code>&lt;title&gt;</code> 元素，并打印出首先完成整个过程的页面的标题。</p>
-<h3 id="defining-the-page_title-function" data-x-en="Defining the page_title Function"><a class="header" href="#defining-the-page_title-function">定义 page_title 函数</a></h3>
+<h3 id="defining-the-page_title-function"><a class="header" href="#defining-the-page_title-function">定义 page_title 函数</a></h3>
 <p data-x-en="Let’s start by writing a function that takes one page URL as a parameter, makes a request to it, and returns the text of the title element (see Listing 17-1).">让我们先编写一个函数，该函数以一个页面URL作为参数，向其发出请求，并返回标题元素的文本（参见清单17-1）。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -317,7 +317,7 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 <li data-x-en="The new version of the function has a kind of lifetime we haven’t seen before in the output type: '_. Because the function returns a future that refers to a reference—in this case, the reference from the url parameter—we need to tell Rust that we want that reference to be included. We don’t have to name the lifetime here, because Rust is smart enough to know there’s only one reference that could be involved, but we do have to be explicit that the resulting future is bound by that lifetime.">新版本的函数在输出类型中有一种我们以前没见过的生命周期：<code>'_</code>。因为函数返回一个引用了引用的未来——在这种情况下，是从 <code>url</code> 参数来的引用——我们需要告诉 Rust 我们希望包含这个引用。我们不必在这里命名生命周期，因为 Rust 足够聪明，知道只有一个引用可能涉及，但我们<em>确实</em>必须明确表示结果的未来受该生命周期的约束。</li>
 </ul>
 <p data-x-en="Now we can call page_title in main.">现在我们可以在 <code>main</code> 中调用 <code>page_title</code>。</p>
-<h2 id="determining-a-single-pages-title" data-x-en="Determining a Single Page’s Title"><a class="header" href="#determining-a-single-pages-title">确定单个页面的标题</a></h2>
+<h2 id="determining-a-single-pages-title"><a class="header" href="#determining-a-single-pages-title">确定单个页面的标题</a></h2>
 <p data-x-en="To start, we’ll just get the title for a single page. In Listing 17-3, we follow the same pattern we used in Chapter 12 to get command line arguments in the Accepting Command Line Arguments section. Then we pass the first URL page_title and await the result. Because the value produced by the future is an Option<String>, we use a match expression to print different messages to account for whether the page had a <title>.">首先，我们只获取单个页面的标题。在清单 17-3 中，我们遵循了在第 12 章 <a href="ch12-01-accepting-command-line-arguments.html">接受命令行参数</a><!-- ignore --> 部分中用于获取命令行参数的相同模式。然后我们传递第一个 URL <code>page_title</code> 并等待结果。因为未来产生的值是一个 <code>Option&lt;String&gt;</code>，我们使用一个 <code>match</code> 表达式来打印不同的消息，以考虑页面是否有 <code>&lt;title&gt;</code>。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -420,7 +420,7 @@ The title for https://www.rust-lang.org was
 <p data-x-en="Note: Some runtimes provide macros so you can write an async main function. Those macros rewrite async fn main() { ... } to be a normal fn main, which does the same thing we did by hand in Listing 17-5: call a function that runs a future to completion the way trpl::run does.">注意：某些运行时提供了宏，因此您可以编写异步 <code>main</code> 函数。这些宏将 <code>async fn main() { ... }</code> 重写为普通的 <code>fn main</code>，这与我们在清单 17-5 中手动所做的相同：调用一个运行未来直到完成的函数，就像 <code>trpl::run</code> 那样。</p>
 </section>
 <p data-x-en="Now let’s put these pieces together and see how we can write concurrent code.">现在让我们把这些部分放在一起，看看我们如何编写并发代码。</p>
-<h3 id="racing-our-two-urls-against-each-other" data-x-en="Racing Our Two URLs Against Each Other"><a class="header" href="#racing-our-two-urls-against-each-other">将我们的两个URL进行竞速测试</a></h3>
+<h3 id="racing-our-two-urls-against-each-other"><a class="header" href="#racing-our-two-urls-against-each-other">将我们的两个URL进行竞速测试</a></h3>
 <p data-x-en="In Listing 17-5, we call page_title with two different URLs passed in from the command line and race them.">在清单 17-5 中，我们使用从命令行传递的两个不同 URL 调用 <code>page_title</code> 并对它们进行竞速。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
