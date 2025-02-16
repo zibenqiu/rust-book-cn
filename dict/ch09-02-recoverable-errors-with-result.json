@@ -246,5 +246,9 @@
   "Where The ? Operator Can Be Used": {
     "_translate": "<a class=\"header\" href=\"#where-the--operator-can-be-used\">问号运算符 <code>?</code> 可以使用的地方</a>",
     "_note": ""
+  },
+  "The Box<dyn Error> type is a trait object, which we’ll talk about in “Using Trait Objects That Allow for Values of Different Types” in Chapter 18. For now, you can read Box<dyn Error> to mean “any kind of error.” Using ? on a Result value in a main function with the error type Box<dyn Error> is allowed because it allows any Err value to be returned early. Even though the body of this main function will only ever return errors of type std::io::Error, by specifying Box<dyn Error>, this signature will continue to be correct even if more code that returns other errors is added to the body of main.": {
+    "_translate": "<code>Box&lt;dyn Error&gt;</code> 类型是一个 <em>trait 对象</em>，我们将在第 18 章的 <a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型的值的 trait 对象”</a><!--\nignore --> 中讨论。现在，你可以将 <code>Box&lt;dyn Error&gt;</code> 理解为“任何类型的错误”。在具有错误类型 <code>Box&lt;dyn Error&gt;</code> 的 <code>main</code> 函数中对 <code>Result</code> 值使用 <code>?</code> 是允许的，因为它允许任何 <code>Err</code> 值提前返回。尽管这个 <code>main</code> 函数的主体将只会返回 <code>std::io::Error</code> 类型的错误，但通过指定 <code>Box&lt;dyn Error&gt;</code>，即使在 <code>main</code> 函数的主体中添加返回其他错误的代码，此签名也将继续有效。",
+    "_note": ""
   }
 }

@@ -262,5 +262,37 @@
   "In the handle_connection function, we create a new BufReader instance that wraps a reference to the stream. The BufReader adds buffering by managing calls to the std::io::Read trait methods for us.": {
     "_translate": "在 <code>handle_connection</code> 函数中，我们创建了一个新的 <code>BufReader</code> 实例，该实例包装了对 <code>stream</code> 的引用。 <code>BufReader</code> 通过为我们管理对 <code>std::io::Read</code> 特性方法的调用来添加缓冲。",
     "_note": ""
+  },
+  "The bind function returns a Result<T, E>, which indicates that it’s possible for binding to fail. For example, connecting to port 80 requires administrator privileges (non-administrators can listen only on ports higher than 1023), so if we tried to connect to port 80 without being an administrator, binding wouldn’t work. Binding also wouldn’t work, for example, if we ran two instances of our program and so had two programs listening to the same port. Because we’re writing a basic server just for learning purposes, we won’t worry about handling these kinds of errors; instead, we use unwrap to stop the program if errors happen.": {
+    "_translate": "<code>bind</code> 函数返回一个 <code>Result&lt;T, E&gt;</code>，这表明绑定可能会失败。例如，连接到 80 端口需要管理员权限（非管理员只能监听 1023 以上的端口），因此如果我们不是管理员却尝试连接到 80 端口，绑定将无法成功。同样，如果我们运行了两个程序实例，导致两个程序监听同一个端口，绑定也会失败。因为我们编写的是一个仅供学习的基本服务器，所以我们不会处理这些类型的错误；相反，我们使用 <code>unwrap</code> 来在发生错误时停止程序。",
+    "_note": ""
+  },
+  "Sometimes you’ll see multiple messages printed for one browser request; the reason might be that the browser is making a request for the page as well as a request for other resources, like the favicon.ico icon that appears in the browser tab.": {
+    "_translate": "有时你会看到一个浏览器请求会打印多条消息；原因可能是浏览器正在请求页面以及像 <em>favicon.ico</em> 这样的其他资源，这些资源会出现在浏览器标签中。",
+    "_note": ""
+  },
+  "Let’s try running this code! Invoke cargo run in the terminal and then load 127.0.0.1:7878 in a web browser. The browser should show an error message like “Connection reset” because the server isn’t currently sending back any data. But when you look at your terminal, you should see several messages that were printed when the browser connected to the server!": {
+    "_translate": "让我们尝试运行这段代码！在终端中调用<code>cargo run</code>，然后在网页浏览器中加载<em>127.0.0.1:7878</em>。浏览器应该会显示一个错误消息，如“连接重置”，因为服务器当前没有返回任何数据。但当你查看终端时，你应该会看到浏览器连接到服务器时打印的几条消息！",
+    "_note": ""
+  },
+  "Here is an example response that uses HTTP version 1.1, and has a status code of 200, an OK reason phrase, no headers, and no body:": {
+    "_translate": "这是一个使用 HTTP 1.1 版本的示例响应，状态码为 200，原因短语为 OK，没有头部和正文：",
+    "_note": ""
+  },
+  "The next part of the request line is /, which indicates the uniform resource identifier (URI) the client is requesting: a URI is almost, but not quite, the same as a uniform resource locator (URL). The difference between URIs and URLs isn’t important for our purposes in this chapter, but the HTTP spec uses the term URI, so we can just mentally substitute URL for URI here.": {
+    "_translate": "请求行的下一部分是<em>/</em>，它表示客户端请求的<em>统一资源标识符</em> <em>(URI)</em>：URI 几乎，但不完全是，与<em>统一资源定位符</em> <em>(URL)</em>相同。在本章中，URI 和 URL 之间的区别并不重要，但 HTTP 规范使用了 URI 这个术语，因此我们可以在这里将<em>URI</em>理解为<em>URL</em>。",
+    "_note": ""
+  },
+  "With these changes, let’s run our code and make a request. We’re no longer printing any data to the terminal, so we won’t see any output other than the output from Cargo. When you load 127.0.0.1:7878 in a web browser, you should get a blank page instead of an error. You’ve just handcoded receiving an HTTP request and sending a response!": {
+    "_translate": "有了这些更改，让我们运行代码并发出请求。我们不再将任何数据打印到终端，因此除了 Cargo 的输出外，我们不会看到任何其他输出。当您在网页浏览器中加载 <em>127.0.0.1:7878</em> 时，您应该会得到一个空白页面而不是错误。您刚刚手写了接收 HTTP 请求和发送响应的代码！",
+    "_note": ""
+  },
+  "We’ve added fs to the use statement to bring the standard library’s filesystem module into scope. The code for reading the contents of a file to a string should look familiar; we used it when we read the contents of a file for our I/O project in Listing 12-4.": {
+    "_translate": "我们已经将 <code>fs</code> 添加到 <code>use</code> 语句中，以将标准库的文件系统模块引入作用域。读取文件内容到字符串的代码应该看起来很熟悉；我们在第 12-4 节的 I/O 项目中读取文件内容时使用过它。",
+    "_note": ""
+  },
+  "At the moment, the if and else blocks have a lot of repetition: they’re both reading files and writing the contents of the files to the stream. The only differences are the status line and the filename. Let’s make the code more concise by pulling out those differences into separate if and else lines that will assign the values of the status line and the filename to variables; we can then use those variables unconditionally in the code to read the file and write the response. Listing 21-9 shows the resultant code after replacing the large if and else blocks.": {
+    "_translate": "目前，<code>if</code> 和 <code>else</code> 块有很多重复：它们都在读取文件并将文件内容写入流中。唯一的区别是状态行和文件名。让我们通过将这些差异提取到单独的 <code>if</code> 和 <code>else</code> 行中，将状态行和文件名的值分配给变量，从而使代码更简洁；然后我们可以在读取文件和写入响应的代码中无条件地使用这些变量。列表 21-9 显示了替换大的 <code>if</code> 和 <code>else</code> 块后的代码。",
+    "_note": ""
   }
 }

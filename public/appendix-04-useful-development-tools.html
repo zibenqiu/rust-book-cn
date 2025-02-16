@@ -240,27 +240,25 @@ blockquote {
 <h3 id="fix-your-code-with-rustfix"><a class="header" href="#fix-your-code-with-rustfix">使用 <code>rustfix</code> 修复您的代码</a></h3>
 <p data-x-en="The rustfix tool is included with Rust installations and can automatically fix compiler warnings that have a clear way to correct the problem that’s likely what you want. It’s likely you’ve seen compiler warnings before. For example, consider this code:">rustfix 工具随 Rust 安装包一起提供，可以自动修复有明确修正方法的编译器警告，这些修正方法很可能是你想要的。你可能之前见过编译器警告。例如，考虑以下代码：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn do_something() {}
-
-fn main() {
-    for i in 0..100 {
-        do_something();
-    }
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut x = 42;
+    println!("{x}");
 }</code></pre></pre>
-<p data-x-en="Here, we’re calling the do_something function 100 times, but we never use the variable i in the body of the for loop. Rust warns us about that:">在这里，我们调用 <code>do_something</code> 函数 100 次，但在 <code>for</code> 循环的主体中从未使用变量 <code>i</code>。Rust 会警告我们这一点：</p>
+<p data-x-en="Here, we’re defining variable x as mutable, but we never actually mutate it. Rust warns us about that:">这里，我们将变量 <code>x</code> 定义为可变的，但实际上我们从未修改过它。
+Rust 会警告我们这一点：</p>
 <pre><code class="language-console">$ cargo build
    Compiling myprogram v0.1.0 (file:///projects/myprogram)
-warning: unused variable: `i`
- --&gt; src/main.rs:4:9
+warning: variable does not need to be mutable
+ --&gt; src/main.rs:2:9
   |
-4 |     for i in 0..100 {
-  |         ^ help: consider using `_i` instead
+2 |     let mut x = 0;
+  |         ----^
+  |         |
+  |         help: remove this `mut`
   |
-  = note: #[warn(unused_variables)] on by default
-
-    Finished dev [unoptimized + debuginfo] target(s) in 0.50s
+  = note: `#[warn(unused_mut)]` on by default
 </code></pre>
-<p data-x-en="The warning suggests that we use _i as a name instead: the underscore indicates that we intend for this variable to be unused. We can automatically apply that suggestion using the rustfix tool by running the command cargo fix:">警告建议我们使用 <code>_i</code> 作为名称：下划线表示我们打算不使用此变量。我们可以使用 <code>rustfix</code> 工具通过运行命令 <code>cargo fix</code> 自动应用该建议：</p>
+<p data-x-en="The warning suggests that we remove the mut keyword. We can automatically apply that suggestion using the rustfix tool by running the command cargo fix:">警告建议我们移除 <code>mut</code> 关键字。我们可以使用 <code>rustfix</code> 工具通过运行命令 <code>cargo fix</code> 自动应用该建议：</p>
 <pre><code class="language-console">$ cargo fix
     Checking myprogram v0.1.0 (file:///projects/myprogram)
       Fixing src/main.rs (1 fix)
@@ -268,14 +266,11 @@ warning: unused variable: `i`
 </code></pre>
 <p data-x-en="When we look at src/main.rs again, we’ll see that cargo fix has changed the code:">当我们再次查看 <em>src/main.rs</em> 时，我们会看到 <code>cargo fix</code> 已经更改了代码：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn do_something() {}
-
-fn main() {
-    for _i in 0..100 {
-        do_something();
-    }
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 42;
+    println!("{x}");
 }</code></pre></pre>
-<p data-x-en="The for loop variable is now named _i, and the warning no longer appears."><code>for</code> 循环变量现在命名为 <code>_i</code>，警告不再出现。</p>
+<p data-x-en="The x variable is now immutable, and the warning no longer appears."><code>x</code> 变量现在是不可变的，警告不再出现。</p>
 <p data-x-en="You can also use the cargo fix command to transition your code between different Rust editions. Editions are covered in Appendix E.">您还可以使用 <code>cargo fix</code> 命令在不同的 Rust 版本之间转换您的代码。版本在 <a href="appendix-05-editions.html">附录 E</a> 中介绍。</p>
 <h3 id="more-lints-with-clippy"><a class="header" href="#more-lints-with-clippy">更多 Clippy 检查</a></h3>
 <p data-x-en="The Clippy tool is a collection of lints to analyze your code so you can catch common mistakes and improve your Rust code.">Clippy 工具是一组用于分析您的代码的 lint，以便您可以捕捉常见错误并改进您的 Rust 代码。</p>

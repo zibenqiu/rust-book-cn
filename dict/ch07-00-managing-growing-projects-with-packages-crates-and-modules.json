@@ -46,5 +46,9 @@
   "Paths: A way of naming an item, such as a struct, function, or module": {
     "_translate": "<strong>路径：</strong> 一种命名项目的方式，例如结构体、函数或模块。",
     "_note": ""
+  },
+  "The programs we’ve written so far have been in one module in one file. As a project grows, you should organize code by splitting it into multiple modules and then multiple files. A package can contain multiple binary crates and optionally one library crate. As a package grows, you can extract parts into separate crates that become external dependencies. This chapter covers all these techniques. For very large projects comprising a set of interrelated packages that evolve together, Cargo provides workspaces, which we’ll cover in “Cargo Workspaces” in Chapter 14.": {
+    "_translate": "我们迄今为止编写的程序都在一个文件中的一个模块里。随着项目的增长，你应该通过将其拆分为多个模块，然后拆分为多个文件来组织代码。一个包可以包含多个二进制crate，并且可以选择性地包含一个库crate。随着包的增长，你可以将部分提取到单独的crate中，这些crate将成为外部依赖。本章将涵盖所有这些技术。对于由一组相互关联且共同演进的包组成的大项目，Cargo 提供了<em>工作区</em>，我们将在<a href=\"ch14-03-cargo-workspaces.html\">“Cargo 工作区”</a><!-- ignore -->第14章中介绍。",
+    "_note": ""
   }
 }

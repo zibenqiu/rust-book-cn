@@ -158,5 +158,9 @@
   "You can see that if let can also introduce new variables which shadow existing variables in the same way that match arms can: the line if let Ok(age) = age introduces a new age variable that contains the value inside the Ok variant, shadowing the existing age variable. This means we need to place the if age > 30 condition within that block: we can’t combine these two conditions into if let Ok(age) = age && age > 30. The new age we want to compare to 30 isn’t valid until the new scope starts with the curly bracket.": {
     "_translate": "你可以看到 <code>if let</code> 也可以像 <code>match</code> 分支一样引入新的变量，这些变量会遮蔽现有的变量：行 <code>if let Ok(age) = age</code> 引入了一个新的 <code>age</code> 变量，该变量包含 <code>Ok</code> 变体中的值，遮蔽了现有的 <code>age</code> 变量。这意味着我们需要将 <code>if age &gt; 30</code> 条件放在该块内：我们不能将这两个条件组合成 <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>。我们想要与 30 比较的新 <code>age</code> 直到新作用域在大括号开始时才有效。",
     "_note": ""
+  },
+  "One requirement for match expressions is that they need to be exhaustive in the sense that all possibilities for the value in the match expression must be accounted for. One way to ensure you’ve covered every possibility is to have a catch-all pattern for the last arm: for example, a variable name matching any value can never fail and thus covers every remaining case.": {
+    "_translate": "一个对 <code>match</code> 表达式的要求是它们需要是 <em>穷尽的</em>，也就是说 <code>match</code> 表达式中的值的所有可能性都必须被考虑到。确保你涵盖了每一种可能性的一种方法是在最后一个分支中使用一个通配模式：例如，一个匹配任何值的变量名永远不会失败，因此涵盖了所有剩余的情况。",
+    "_note": ""
   }
 }

@@ -322,5 +322,21 @@
   "The example function body uses the assert_eq! macro to assert that result, which contains the result of calling add with 2 and 2, equals 4. This assertion serves as an example of the format for a typical test. Let’s run it to see that this test passes.": {
     "_translate": "示例函数体使用 <code>assert_eq!</code> 宏来断言 <code>result</code>，其中包含调用 <code>add</code> 传入 2 和 2 的结果，等于 4。这个断言作为典型测试格式的一个示例。让我们运行它来看看这个测试是否通过。",
     "_note": ""
+  },
+  "It’s possible to mark a test as ignored so it doesn’t run in a particular instance; we’ll cover that in the “Ignoring Some Tests Unless Specifically Requested” section later in this chapter. Because we haven’t done that here, the summary shows 0 ignored. We can also pass an argument to the cargo test command to run only tests whose name matches a string; this is called filtering and we’ll cover that in the “Running a Subset of Tests by Name” section. Here we haven’t filtered the tests being run, so the end of the summary shows 0 filtered out.": {
+    "_translate": "可以将测试标记为忽略，这样在特定情况下就不会运行；我们将在本章后面的<a href=\"ch11-02-running-tests.html#ignoring-some-tests-unless-specifically-requested\">“除非特别要求，否则忽略某些测试”</a>部分介绍。因为我们在这里没有这样做，所以摘要显示<code>0 ignored</code>。我们还可以向<code>cargo test</code>命令传递一个参数，以仅运行名称与字符串匹配的测试；这称为<em>过滤</em>，我们将在<a href=\"ch11-02-running-tests.html#running-a-subset-of-tests-by-name\">“按名称运行测试子集”</a>部分介绍。这里我们没有过滤正在运行的测试，所以摘要的末尾显示<code>0 filtered out</code>。",
+    "_note": ""
+  },
+  "Our test caught the bug! The it_adds_two test failed, and the message tells us that the assertion that failed was assertion `left == right` failed and what the left and right values are. This message helps us start debugging: the left argument, where we had the result of calling add_two(2), was 5 but the right argument was 4. You can imagine that this would be especially helpful when we have a lot of tests going on.": {
+    "_translate": "我们的测试捕获了这个bug！<code>it_adds_two</code> 测试失败了，消息告诉我们失败的断言是 <code>assertion `left == right` failed</code> 以及 <code>left</code> 和 <code>right</code> 的值是什么。这条消息帮助我们开始调试：<code>left</code> 参数，即调用 <code>add_two(2)</code> 的结果，是 <code>5</code>，但 <code>right</code> 参数是 <code>4</code>。你可以想象，当我们有很多测试时，这会特别有帮助。",
+    "_note": ""
+  },
+  "Note that in some languages and test frameworks, the parameters to equality assertion functions are called expected and actual, and the order in which we specify the arguments matters. However, in Rust, they’re called left and right, and the order in which we specify the value we expect and the value the code produces doesn’t matter. We could write the assertion in this test as assert_eq!(4, result), which would result in the same failure message that that displays assertion failed: `(left == right)`.": {
+    "_translate": "请注意，在某些语言和测试框架中，相等性断言函数的参数被称为 <code>expected</code> 和 <code>actual</code>，并且我们指定参数的顺序很重要。然而，在 Rust 中，它们被称为 <code>left</code> 和 <code>right</code>，并且我们指定期望值和代码生成值的顺序并不重要。我们可以在测试中将断言写为 <code>assert_eq!(4, result)</code>，这将导致相同的失败消息，显示 <code>assertion failed: `(left == right)`</code>。",
+    "_note": ""
+  },
+  "You can also add a custom message to be printed with the failure message as optional arguments to the assert!, assert_eq!, and assert_ne! macros. Any arguments specified after the required arguments are passed along to the format! macro (discussed in “Concatenation with the + Operator or the format! Macro” in Chapter 8), so you can pass a format string that contains {} placeholders and values to go in those placeholders. Custom messages are useful for documenting what an assertion means; when a test fails, you’ll have a better idea of what the problem is with the code.": {
+    "_translate": "你还可以向 <code>assert!</code>、<code>assert_eq!</code> 和 <code>assert_ne!</code> 宏添加自定义消息，作为可选参数与失败消息一起打印。在必需参数之后指定的任何参数都会传递给 <code>format!</code> 宏（在<a href=\"ch08-02-strings.html#concatenation-with-the--operator-or-the-format-macro\">“使用 <code>+</code> 运算符或 <code>format!</code> 宏进行连接”</a><!--\nignore --> 第 8 章中讨论），因此你可以传递一个包含 <code>{}</code> 占位符的格式字符串和要填入这些占位符的值。自定义消息对于记录断言的含义很有用；当测试失败时，你将更好地了解代码的问题所在。",
+    "_note": ""
   }
 }

@@ -50,5 +50,9 @@
   "Ref<T> and RefMut<T>, accessed through RefCell<T>, a type that enforces the borrowing rules at runtime instead of compile time": {
     "_translate": "<code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code>，通过 <code>RefCell&lt;T&gt;</code> 访问，这是一种在运行时而不是编译时强制执行借用规则的类型。",
     "_note": ""
+  },
+  "Smart pointers are usually implemented using structs. Unlike an ordinary struct, smart pointers implement the Deref and Drop traits. The Deref trait allows an instance of the smart pointer struct to behave like a reference so you can write your code to work with either references or smart pointers. The Drop trait allows you to customize the code that’s run when an instance of the smart pointer goes out of scope. In this chapter, we’ll discuss both of these traits and demonstrate why they’re important to smart pointers.": {
+    "_translate": "智能指针通常使用结构体实现。与普通结构体不同，智能指针实现了<code>Deref</code>和<code>Drop</code>特质。<code>Deref</code>特质允许智能指针结构体的实例像引用一样行为，因此你可以编写可以与引用或智能指针一起工作的代码。<code>Drop</code>特质允许你自定义智能指针实例超出作用域时运行的代码。在本章中，我们将讨论这两个特质，并演示它们对智能指针的重要性。",
+    "_note": ""
   }
 }

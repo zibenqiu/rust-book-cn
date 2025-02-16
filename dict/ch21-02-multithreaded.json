@@ -402,5 +402,117 @@
   "Implementing the execute Method": {
     "_translate": "<a class=\"header\" href=\"#implementing-the-execute-method\">实现 <code>execute</code> 方法</a>",
     "_note": ""
+  },
+  "Right now, the server will process each request in turn, meaning it won’t process a second connection until the first is finished processing. If the server received more and more requests, this serial execution would be less and less optimal. If the server receives a request that takes a long time to process, subsequent requests will have to wait until the long request is finished, even if the new requests can be processed quickly. We’ll need to fix this, but first we’ll look at the problem in action.": {
+    "_translate": "目前，服务器会依次处理每个请求，这意味着它不会在处理完第一个请求之前处理第二个连接。如果服务器接收到越来越多的请求，这种串行执行将变得越来越不高效。如果服务器接收到一个需要很长时间处理的请求，后续的请求将不得不等待，直到长时间的请求处理完毕，即使新的请求可以快速处理。我们需要解决这个问题，但首先我们将看看问题的实际表现。",
+    "_note": ""
+  },
+  "We’ll look at how a slow-processing request can affect other requests made to our current server implementation. Listing 21-10 implements handling a request to /sleep with a simulated slow response that will cause the server to sleep for five seconds before responding.": {
+    "_translate": "我们将研究一个处理缓慢的请求如何影响向我们当前服务器实现发出的其他请求。清单 21-10 实现了处理对 <em>/sleep</em> 的请求，该请求具有模拟的缓慢响应，将导致服务器在响应前休眠五秒。",
+    "_note": ""
+  },
+  "We switched from if to match now that we have three cases. We need to explicitly match on a slice of request_line to pattern match against the string literal values; match doesn’t do automatic referencing and dereferencing, like the equality method does.": {
+    "_translate": "我们现在从 <code>if</code> 切换到 <code>match</code>，因为我们有三种情况。我们需要显式地匹配 <code>request_line</code> 的切片，以便对字符串字面值进行模式匹配；<code>match</code> 不会像等式方法那样自动引用和取消引用。",
+    "_note": ""
+  },
+  "The first arm is the same as the if block from Listing 21-9. The second arm matches a request to /sleep. When that request is received, the server will sleep for five seconds before rendering the successful HTML page. The third arm is the same as the else block from Listing 21-9.": {
+    "_translate": "第一个分支与列表 21-9 中的 <code>if</code> 块相同。第二个分支\n匹配对 <em>/sleep</em> 的请求。当收到该请求时，服务器将在呈现成功的 HTML 页面之前\n休眠五秒。第三个分支\n与列表 21-9 中的 <code>else</code> 块相同。",
+    "_note": ""
+  },
+  "Start the server using cargo run. Then open two browser windows: one for http://127.0.0.1:7878/ and the other for http://127.0.0.1:7878/sleep. If you enter the / URI a few times, as before, you’ll see it respond quickly. But if you enter /sleep and then load /, you’ll see that / waits until sleep has slept for its full five seconds before loading.": {
+    "_translate": "使用 <code>cargo run</code> 启动服务器。然后打开两个浏览器窗口：一个用于 <em>http://127.0.0.1:7878/</em>，另一个用于 <em>http://127.0.0.1:7878/sleep</em>。如果你多次输入 <em>/</em> URI，就像之前一样，你会看到它响应很快。但如果你输入 <em>/sleep</em> 然后加载 <em>/</em>，你会看到 <em>/</em> 会等待 <code>sleep</code> 完成其完整的五秒后才加载。",
+    "_note": ""
+  },
+  "We’ll limit the number of threads in the pool to a small number to protect us from DoS attacks; if we had our program create a new thread for each request as it came in, someone making 10 million requests to our server could create havoc by using up all our server’s resources and grinding the processing of requests to a halt.": {
+    "_translate": "我们将线程池中的线程数量限制为一个小数目，以保护我们免受 DoS 攻击；如果我们让程序在每个请求到来时都创建一个新线程，那么有人向我们的服务器发送 1000 万个请求就可能会耗尽我们服务器的所有资源，导致请求处理停滞。",
+    "_note": ""
+  },
+  "This technique is just one of many ways to improve the throughput of a web server. Other options you might explore are the fork/join model, the single-threaded async I/O model, and the multi-threaded async I/O model. If you’re interested in this topic, you can read more about other solutions and try to implement them; with a low-level language like Rust, all of these options are possible.": {
+    "_translate": "这种技术只是提高Web服务器吞吐量的众多方法之一。其他你可以探索的选项包括分叉/加入模型、单线程异步I/O模型和多线程异步I/O模型。如果你对这个话题感兴趣，可以阅读更多关于其他解决方案的信息并尝试实现它们；使用像Rust这样的低级语言，所有这些选项都是可能的。",
+    "_note": ""
+  },
+  "We want our thread pool to work in a similar, familiar way so that switching from threads to a thread pool doesn’t require large changes to the code that uses our API. Listing 21-12 shows the hypothetical interface for a ThreadPool struct we want to use instead of thread::spawn.": {
+    "_translate": "我们希望我们的线程池以一种类似且熟悉的方式工作，以便从线程切换到线程池时，不需要对使用我们API的代码进行大的更改。列表21-12展示了我们希望使用的<code>ThreadPool</code>结构体的假设接口，用以替代<code>thread::spawn</code>。",
+    "_note": ""
+  },
+  "Create a src/lib.rs file that contains the following, which is the simplest definition of a ThreadPool struct that we can have for now:": {
+    "_translate": "创建一个 <em>src/lib.rs</em> 文件，其中包含以下内容，这是我们目前可以拥有的最简单的 <code>ThreadPool</code> 结构体定义：",
+    "_note": ""
+  },
+  "Great! This error tells us we need a ThreadPool type or module, so we’ll build one now. Our ThreadPool implementation will be independent of the kind of work our web server is doing. So let’s switch the hello crate from a binary crate to a library crate to hold our ThreadPool implementation. After we change to a library crate, we could also use the separate thread pool library for any work we want to do using a thread pool, not just for serving web requests.": {
+    "_translate": "很好！这个错误告诉我们需要一个<code>ThreadPool</code>类型或模块，所以我们现在就来构建一个。我们的<code>ThreadPool</code>实现将独立于我们的Web服务器正在执行的工作类型。因此，让我们将<code>hello</code> crate从一个二进制crate转换为一个库crate来保存我们的<code>ThreadPool</code>实现。在转换为库crate之后，我们还可以使用单独的线程池库来执行任何我们想要使用线程池的工作，而不仅仅是处理Web请求。",
+    "_note": ""
+  },
+  "We chose usize as the type of the size parameter because we know that a negative number of threads doesn’t make any sense. We also know we’ll use this 4 as the number of elements in a collection of threads, which is what the usize type is for, as discussed in “Integer Types” in Chapter 3.": {
+    "_translate": "我们选择<code>usize</code>作为<code>size</code>参数的类型，因为我们知道负数的线程数量是没有意义的。我们还知道我们将使用这个<code>4</code>作为线程集合中元素的数量，这就是<code>usize</code>类型的作用，如在<a href=\"ch03-02-data-types.html#integer-types\">“整数类型”</a>中讨论的那样。",
+    "_note": ""
+  },
+  "Now the error occurs because we don’t have an execute method on ThreadPool. Recall from “Creating a Finite Number of Threads” that we decided our thread pool should have an interface similar to thread::spawn. In addition, we’ll implement the execute function so it takes the closure it’s given and gives it to an idle thread in the pool to run.": {
+    "_translate": "现在错误发生是因为我们在 <code>ThreadPool</code> 上没有一个 <code>execute</code> 方法。\n回想 <a href=\"#creating-a-finite-number-of-threads\">“创建有限数量的线程”</a><!-- ignore --> 中我们决定\n我们的线程池应该有一个类似于 <code>thread::spawn</code> 的接口。此外，我们将实现 <code>execute</code> 函数，使其接受给定的闭包并将其交给池中的空闲线程来运行。",
+    "_note": ""
+  },
+  "Again, this is the simplest implementation of the execute method: it does nothing, but we’re only trying to make our code compile. Let’s check it again:": {
+    "_translate": "再次，这是 <code>execute</code> 方法的最简单实现：它什么也不做，但我们只是试图让我们的代码编译。让我们再次检查它：",
+    "_note": ""
+  },
+  "We’ll define the execute method on ThreadPool to take a closure as a parameter. Recall from “Moving Captured Values Out of the Closure and the Fn Traits” in Chapter 13 that we can take closures as parameters with three different traits: Fn, FnMut, and FnOnce. We need to decide which kind of closure to use here. We know we’ll end up doing something similar to the standard library thread::spawn implementation, so we can look at what bounds the signature of thread::spawn has on its parameter. The documentation shows us the following:": {
+    "_translate": "我们将为 <code>ThreadPool</code> 定义 <code>execute</code> 方法，以闭包作为参数。回想 <a href=\"ch13-01-closures.html#moving-captured-values-out-of-the-closure-and-the-fn-traits\">“从闭包中移出捕获的值和 <code>Fn</code> 特性”</a><!-- ignore --> 第 13 章中，我们可以使用三种不同的特性来接受闭包作为参数：<code>Fn</code>、<code>FnMut</code> 和 <code>FnOnce</code>。我们需要决定在这里使用哪种闭包。我们知道最终会做类似于标准库 <code>thread::spawn</code> 实现的事情，因此可以查看 <code>thread::spawn</code> 的参数签名有哪些约束。文档显示如下：",
+    "_note": ""
+  },
+  "We’ve brought std::thread into scope in the library crate because we’re using thread::JoinHandle as the type of the items in the vector in ThreadPool.": {
+    "_translate": "我们已经将<code>std::thread</code>引入库crate中，因为我们正在使用<code>thread::JoinHandle</code>作为<code>ThreadPool</code>中向量项的类型。",
+    "_note": ""
+  },
+  "We aren’t doing anything with the parameters to new and execute. Let’s implement the bodies of these functions with the behavior we want. To start, let’s think about new. Earlier we chose an unsigned type for the size parameter because a pool with a negative number of threads makes no sense. However, a pool with zero threads also makes no sense, yet zero is a perfectly valid usize. We’ll add code to check that size is greater than zero before we return a ThreadPool instance and have the program panic if it receives a zero by using the assert! macro, as shown in Listing 21-13.": {
+    "_translate": "我们没有对 <code>new</code> 和 <code>execute</code> 的参数做任何处理。让我们实现这些函数的主体，使其具有我们想要的行为。首先，让我们考虑 <code>new</code>。早些时候，我们为 <code>size</code> 参数选择了一个无符号类型，因为具有负数个线程的线程池是没有意义的。然而，具有零个线程的线程池也没有意义，但零是一个完全有效的 <code>usize</code>。我们将在返回 <code>ThreadPool</code> 实例之前添加代码检查 <code>size</code> 是否大于零，并使用 <code>assert!</code> 宏在接收到零时使程序崩溃，如清单 21-13 所示。",
+    "_note": ""
+  },
+  "We’ll implement this behavior by introducing a new data structure between the ThreadPool and the threads that will manage this new behavior. We’ll call this data structure Worker, which is a common term in pooling implementations. The Worker picks up code that needs to be run and runs the code in the Worker’s thread.": {
+    "_translate": "我们将通过在 <code>ThreadPool</code> 和线程之间引入一个新的数据结构来实现这种行为，该数据结构将管理这种新行为。我们将这个数据结构称为 <em>Worker</em>，这是池实现中常用的一个术语。<code>Worker</code> 会拾取需要运行的代码并在 <code>Worker</code> 的线程中运行这些代码。",
+    "_note": ""
+  },
+  "Once a valid size is received, our ThreadPool creates a new vector that can hold size items. The with_capacity function performs the same task as Vec::new but with an important difference: it pre-allocates space in the vector. Because we know we need to store size elements in the vector, doing this allocation up front is slightly more efficient than using Vec::new, which resizes itself as elements are inserted.": {
+    "_translate": "一旦收到有效的大小，我们的<code>ThreadPool</code>将创建一个可以容纳<code>size</code>个项目的向量。<code>with_capacity</code>函数执行与<code>Vec::new</code>相同的任务，但有一个重要的区别：它预先分配了向量中的空间。因为我们知道需要在向量中存储<code>size</code>个元素，所以预先进行这种分配比使用<code>Vec::new</code>稍微更有效，后者在插入元素时会自行调整大小。",
+    "_note": ""
+  },
+  "Think of people working in the kitchen at a restaurant: the workers wait until orders come in from customers, and then they’re responsible for taking those orders and fulfilling them.": {
+    "_translate": "想想在餐厅厨房工作的人员：工人们等待顾客的订单，然后他们负责接收这些订单并完成它们。",
+    "_note": ""
+  },
+  "Let’s try passing a receiver of the channel into each Worker as the thread pool creates the channel. We know we want to use the receiver in the thread that the Worker instances spawn, so we’ll reference the receiver parameter in the closure. The code in Listing 21-17 won’t quite compile yet.": {
+    "_translate": "让我们尝试在创建通道时将通道的接收者传递给每个<code>Worker</code>。我们知道我们希望在<code>Worker</code>实例启动的线程中使用接收者，因此我们将在闭包中引用<code>receiver</code>参数。清单21-17中的代码还不能完全编译。",
+    "_note": ""
+  },
+  "Instead of storing a vector of JoinHandle<()> instances in the thread pool, we’ll store instances of the Worker struct. Each Worker will store a single JoinHandle<()> instance. Then we’ll implement a method on Worker that will take a closure of code to run and send it to the already running thread for execution. We’ll also give each Worker an id so we can distinguish between the different instances of Worker in the pool when logging or debugging.": {
+    "_translate": "而不是在线程池中存储 <code>JoinHandle&lt;()&gt;</code> 实例的向量，\n我们将存储 <code>Worker</code> 结构的实例。每个 <code>Worker</code> 将存储一个\n<code>JoinHandle&lt;()&gt;</code> 实例。然后我们将在 <code>Worker</code> 上实现一个方法，\n该方法将接受一个要运行的闭包代码，并将其发送到已经运行的线程中执行。我们还将给每个 <code>Worker</code> 一个 <code>id</code>，\n以便在日志记录或调试时区分线程池中不同的 <code>Worker</code> 实例。",
+    "_note": ""
+  },
+  "The code is trying to pass receiver to multiple Worker instances. This won’t work, as you’ll recall from Chapter 16: the channel implementation that Rust provides is multiple producer, single consumer. This means we can’t just clone the consuming end of the channel to fix this code. We also don’t want to send a message multiple times to multiple consumers; we want one list of messages with multiple Worker instances such that each message gets processed once.": {
+    "_translate": "代码试图将<code>receiver</code>传递给多个<code>Worker</code>实例。这不会奏效，正如你在第16章中所回忆的：Rust提供的通道实现是多<em>生产者</em>，单<em>消费者</em>。这意味着我们不能简单地克隆通道的消费端来修复这段代码。我们也不希望将消息多次发送给多个消费者；我们希望有一个消息列表，其中包含多个<code>Worker</code>实例，每个消息只被处理一次。",
+    "_note": ""
+  },
+  "Recall the thread-safe smart pointers discussed in Chapter 16: to share ownership across multiple threads and allow the threads to mutate the value, we need to use Arc<Mutex<T>>. The Arc type will let multiple Worker instances own the receiver, and Mutex will ensure that only one Worker gets a job from the receiver at a time. Listing 21-18 shows the changes we need to make.": {
+    "_translate": "回顾第16章讨论的线程安全智能指针：为了在多个线程之间共享所有权并允许线程修改值，我们需要使用<code>Arc&lt;Mutex&lt;T&gt;&gt;</code>。<code>Arc</code>类型将允许多个<code>Worker</code>实例拥有接收者，而<code>Mutex</code>将确保一次只有一个<code>Worker</code>从接收者那里获取任务。列表21-18显示了我们需要进行的更改。",
+    "_note": ""
+  },
+  "In ThreadPool::new, we put the receiver in an Arc and a Mutex. For each new Worker, we clone the Arc to bump the reference count so the Worker instances can share ownership of the receiver.": {
+    "_translate": "在 <code>ThreadPool::new</code> 中，我们将接收者放入一个 <code>Arc</code> 和一个 <code>Mutex</code>。对于每个新的 <code>Worker</code>，我们克隆 <code>Arc</code> 以增加引用计数，这样 <code>Worker</code> 实例就可以共享接收者的所有权。",
+    "_note": ""
+  },
+  "Let’s finally implement the execute method on ThreadPool. We’ll also change Job from a struct to a type alias for a trait object that holds the type of closure that execute receives. As discussed in “Creating Type Synonyms with Type Aliases” in Chapter 20, type aliases allow us to make long types shorter for ease of use. Look at Listing 21-19.": {
+    "_translate": "让我们最终在 <code>ThreadPool</code> 上实现 <code>execute</code> 方法。我们还将 <code>Job</code> 从一个结构体改为一个类型别名，该别名表示 <code>execute</code> 接收的闭包类型。正如在第 20 章的 <a href=\"ch20-03-advanced-types.html#creating-type-synonyms-with-type-aliases\">“使用类型别名创建类型同义词”</a><!-- ignore --> 中讨论的那样，类型别名允许我们将长类型缩短以方便使用。请看示例 21-19。",
+    "_note": ""
+  },
+  "But we’re not quite done yet! In the Worker, our closure being passed to thread::spawn still only references the receiving end of the channel. Instead, we need the closure to loop forever, asking the receiving end of the channel for a job and running the job when it gets one. Let’s make the change shown in Listing 21-20 to Worker::new.": {
+    "_translate": "但我们的工作还没有完成！在 <code>Worker</code> 中，我们传递给 <code>thread::spawn</code> 的闭包仍然只是 <em>引用</em> 通道的接收端。相反，我们需要闭包无限循环，向通道的接收端请求任务，并在接收到任务时运行任务。让我们对 <code>Worker::new</code> 进行如清单 21-20 所示的更改。",
+    "_note": ""
+  },
+  "Note: If you open /sleep in multiple browser windows simultaneously, they might load one at a time in five-second intervals. Some web browsers execute multiple instances of the same request sequentially for caching reasons. This limitation is not caused by our web server.": {
+    "_translate": "注意：如果您同时在多个浏览器窗口中打开<em>/sleep</em>，它们可能会每隔五秒依次加载。一些网络浏览器出于缓存原因会顺序执行同一请求的多个实例。此限制并非由我们的网络服务器引起。",
+    "_note": ""
+  },
+  "The code in Listing 21-20 that uses let job = receiver.lock().unwrap().recv().unwrap(); works because with let, any temporary values used in the expression on the right hand side of the equal sign are immediately dropped when the let statement ends. However, while let (and if let and match) does not drop temporary values until the end of the associated block. In Listing 21-21, the lock remains held for the duration of the call to job(), meaning other Worker instances cannot receive jobs.": {
+    "_translate": "列表 21-20 中的代码使用 <code>let job = receiver.lock().unwrap().recv().unwrap();</code> 可以工作，因为使用 <code>let</code> 时，等号右侧表达式中使用的任何临时值在 <code>let</code> 语句结束时会立即被丢弃。然而，<code>while let</code>（以及 <code>if let</code> 和 <code>match</code>）不会在关联块结束之前丢弃临时值。在列表 21-21 中，锁在整个调用 <code>job()</code> 的期间一直被持有，这意味着其他 <code>Worker</code> 实例无法接收任务。",
+    "_note": ""
   }
 }

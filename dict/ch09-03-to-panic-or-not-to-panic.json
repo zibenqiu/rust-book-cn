@@ -130,5 +130,9 @@
   "There’s not a good way to encode this information in the types you use. We’ll work through an example of what we mean in the “Encoding States and Behavior as Types” section of Chapter 18.": {
     "_translate": "你使用的类型中没有一个好的方法来编码这些信息。我们将在第 18 章的 <a href=\"ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types\">“将状态和行为编码为类型”</a> 部分通过一个例子来说明我们的意思。",
     "_note": ""
+  },
+  "There’s not a good way to encode this information in the types you use. We’ll work through an example of what we mean in “Encoding States and Behavior as Types” in Chapter 18.": {
+    "_translate": "你使用的类型中没有一个好的方法来编码这些信息。我们将在第 18 章的<a href=\"ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types\">“将状态和行为编码为类型”</a>中通过一个例子来说明我们的意思。",
+    "_note": ""
   }
 }

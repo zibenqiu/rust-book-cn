@@ -166,5 +166,45 @@
   "First, we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. Unlike with the workers, here we do need to use an Option to be able to move sender out of ThreadPool with Option::take.": {
     "_translate": "首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。与 <code>workers</code> 不同，这里我们 <em>确实</em> 需要使用 <code>Option</code>，以便能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。",
     "_note": ""
+  },
+  "First, we loop through each of the thread pool workers. We use &mut for this because self is a mutable reference, and we also need to be able to mutate worker. For each worker, we print a message saying that this particular Worker instance is shutting down, and then we call join on that Worker instance’s thread. If the call to join fails, we use unwrap to make Rust panic and go into an ungraceful shutdown.": {
+    "_translate": "首先，我们遍历线程池中的每个 <code>workers</code>。我们使用 <code>&amp;mut</code>，因为 <code>self</code> 是一个可变引用，同时我们也需要能够修改 <code>worker</code>。对于每个工作线程，我们打印一条消息，说明这个特定的 <code>Worker</code> 实例正在关闭，然后我们调用该 <code>Worker</code> 实例线程的 <code>join</code> 方法。如果 <code>join</code> 调用失败，我们使用 <code>unwrap</code> 使 Rust 发生恐慌并进入非优雅的关闭状态。",
+    "_note": ""
+  },
+  "The error tells us we can’t call join because we only have a mutable borrow of each worker and join takes ownership of its argument. To solve this issue, we need to move the thread out of the Worker instance that owns thread so join can consume the thread. One way to do this is by taking the same approach we did in Listing 18-15. If Worker held an Option<thread::JoinHandle<()>>, we could call the take method on the Option to move the value out of the Some variant and leave a None variant in its place. In other words, a Worker that is running would have a Some variant in thread, and when we wanted to clean up a Worker, we’d replace Some with None so the Worker wouldn’t have a thread to run.": {
+    "_translate": "错误告诉我们，我们不能调用<code>join</code>，因为我们只有每个<code>worker</code>的可变借用，而<code>join</code>需要拥有其参数。为了解决这个问题，我们需要将线程从拥有<code>thread</code>的<code>Worker</code>实例中移出，以便<code>join</code>可以消耗线程。一种方法是采用我们在清单18-15中使用的方法。如果<code>Worker</code>持有一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们可以在<code>Option</code>上调用<code>take</code>方法，将值从<code>Some</code>变体中移出，并在其位置留下一个<code>None</code>变体。换句话说，正在运行的<code>Worker</code>将在<code>thread</code>中有一个<code>Some</code>变体，而当我们想要清理一个<code>Worker</code>时，我们会用<code>None</code>替换<code>Some</code>，这样<code>Worker</code>就不会有线程可以运行。",
+    "_note": ""
+  },
+  "However, the only time this would come up would be when dropping the Worker. In exchange, we’d have to deal with an Option<thread::JoinHandle<()>> anywhere we accessed worker.thread. Idiomatic Rust uses Option quite a bit, but when you find yourself wrapping something you know will always be present in Option as a workaround like this, it’s a good idea to look for alternative approaches. They can make your code cleaner and less error-prone.": {
+    "_translate": "然而，这只有在丢弃<code>Worker</code>时才会出现。作为交换，我们在访问<code>worker.thread</code>的任何地方都必须处理一个<code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>。惯用的Rust代码大量使用<code>Option</code>，但当你发现自己将某个已知始终存在的东西包装在<code>Option</code>中作为变通方法时，最好寻找替代方法。它们可以使你的代码更干净，更不容易出错。",
+    "_note": ""
+  },
+  "In this case, a better alternative exists: the Vec::drain method. It accepts a range parameter to specify which items to remove from the Vec, and returns an iterator of those items. Passing the .. range syntax will remove every value from the Vec.": {
+    "_translate": "在这种情况下，存在一个更好的替代方案：<code>Vec::drain</code> 方法。它接受一个范围参数来指定要从 <code>Vec</code> 中移除的项，并返回这些项的迭代器。传递 <code>..</code> 范围语法将移除 <code>Vec</code> 中的 <em>每个</em> 值。",
+    "_note": ""
+  },
+  "With all the changes we’ve made, our code compiles without any warnings. However, the bad news is that this code doesn’t function the way we want it to yet. The key is the logic in the closures run by the threads of the Worker instances: at the moment, we call join, but that won’t shut down the threads because they loop forever looking for jobs. If we try to drop our ThreadPool with our current implementation of drop, the main thread will block forever, waiting for the first thread to finish.": {
+    "_translate": "随着我们所做的所有更改，我们的代码编译时没有任何警告。\n然而，坏消息是这段代码还没有按我们希望的方式工作。关键在于由<code>Worker</code>实例的线程运行的闭包中的逻辑：目前，我们调用<code>join</code>，但这不会关闭线程，因为它们会无限循环地寻找任务。如果我们尝试使用当前实现的<code>drop</code>来删除我们的<code>ThreadPool</code>，主线程将永远阻塞，等待第一个线程完成。",
+    "_note": ""
+  },
+  "First we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. Unlike with the thread, here we do need to use an Option to be able to move sender out of ThreadPool with Option::take.": {
+    "_translate": "首先我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。与线程不同，这里我们 <em>确实</em> 需要使用 <code>Option</code>，以便能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。",
+    "_note": ""
+  },
+  "Dropping sender closes the channel, which indicates no more messages will be sent. When that happens, all the calls to recv that the Worker instances do in the infinite loop will return an error. In Listing 21-24, we change the Worker loop to gracefully exit the loop in that case, which means the threads will finish when the ThreadPool drop implementation calls join on them.": {
+    "_translate": "释放 <code>sender</code> 会关闭通道，这表示不会再发送更多消息。当这种情况发生时，<code>Worker</code> 实例在无限循环中对 <code>recv</code> 的所有调用将返回错误。在清单 21-24 中，我们更改了 <code>Worker</code> 循环，以便在这种情况下优雅地退出循环，这意味着当 <code>ThreadPool</code> 的 <code>drop</code> 实现调用 <code>join</code> 时，线程将结束。",
+    "_note": ""
+  },
+  "You might see a different ordering of Worker IDs and messages printed. We can see how this code works from the messages: Worker instances 0 and 3 got the first two requests. The server stopped accepting connections after the second connection, and the Drop implementation on ThreadPool starts executing before Worker 3 even starts its job. Dropping the sender disconnects all the Worker instances and tells them to shut down. The Worker instances each print a message when they disconnect, and then the thread pool calls join to wait for each Worker thread to finish.": {
+    "_translate": "你可能会看到不同的 <code>Worker</code> ID 和消息打印顺序。我们可以通过这些消息了解代码的工作原理：<code>Worker</code> 实例 0 和 3 获得了前两个请求。服务器在第二个连接后停止接受连接，而 <code>ThreadPool</code> 上的 <code>Drop</code> 实现甚至在 <code>Worker</code> 3 开始其任务之前就开始执行。释放 <code>sender</code> 会断开所有 <code>Worker</code> 实例的连接并告诉它们关闭。每个 <code>Worker</code> 实例在断开连接时都会打印一条消息，然后线程池调用 <code>join</code> 以等待每个 <code>Worker</code> 线程完成。",
+    "_note": ""
+  },
+  "Notice one interesting aspect of this particular execution: the ThreadPool dropped the sender, and before any Worker received an error, we tried to join Worker 0. Worker 0 had not yet gotten an error from recv, so the main thread blocked waiting for Worker 0 to finish. In the meantime, Worker 3 received a job and then all threads received an error. When Worker 0 finished, the main thread waited for the rest of the Worker instances to finish. At that point, they had all exited their loops and stopped.": {
+    "_translate": "注意这个特定执行的一个有趣方面：<code>ThreadPool</code> 丢弃了 <code>sender</code>，并且在任何 <code>Worker</code> 收到错误之前，我们尝试加入 <code>Worker</code> 0。<code>Worker</code> 0 尚未从 <code>recv</code> 收到错误，因此主线程阻塞等待 <code>Worker</code> 0 完成。在此期间，<code>Worker</code> 3 收到了一个任务，然后所有线程都收到了错误。当 <code>Worker</code> 0 完成时，主线程等待其余的 <code>Worker</code> 实例完成。那时，它们都已经退出了循环并停止。",
+    "_note": ""
+  },
+  "Well done! You’ve made it to the end of the book! We want to thank you for joining us on this tour of Rust. You’re now ready to implement your own Rust projects and help with other people’s projects. Keep in mind that there is a welcoming community of other Rustaceans who would love to help you with any challenges you encounter on your Rust journey.": {
+    "_translate": "干得好！你已经读到了这本书的最后！我们要感谢你加入我们这次的Rust之旅。你现在可以开始实现自己的Rust项目，并帮助其他人的项目。请记住，有一个欢迎你的Rustaceans社区，他们很乐意在你的Rust之旅中遇到的任何挑战时帮助你。",
+    "_note": ""
   }
 }

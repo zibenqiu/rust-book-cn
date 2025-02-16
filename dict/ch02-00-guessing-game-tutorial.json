@@ -490,5 +490,9 @@
   "Result’s variants are Ok and Err. The Ok variant indicates the operation was successful, and it contains the successfully generated value. The Err variant means the operation failed, and it contains information about how or why the operation failed.": {
     "_translate": "<code>Result</code> 的变体是 <code>Ok</code> 和 <code>Err</code>。 <code>Ok</code> 变体表示操作成功，并且包含成功生成的值。 <code>Err</code> 变体表示操作失败，并且包含有关操作失败的方式或原因的信息。",
     "_note": ""
+  },
+  "If parse is not able to turn the string into a number, it will return an Err value that contains more information about the error. The Err value does not match the Ok(num) pattern in the first match arm, but it does match the Err(_) pattern in the second arm. The underscore, _, is a catch-all value; in this example, we’re saying we want to match all Err values, no matter what information they have inside them. So the program will execute the second arm’s code, continue, which tells the program to go to the next iteration of the loop and ask for another guess. So, effectively, the program ignores all errors that parse might encounter!": {
+    "_translate": "如果 <code>parse</code> 无法将字符串转换为数字，它将返回一个包含更多错误信息的 <code>Err</code> 值。<code>Err</code> 值不匹配第一个 <code>match</code> 分支中的 <code>Ok(num)</code> 模式，但匹配第二个分支中的 <code>Err(_)</code> 模式。下划线 <code>_</code> 是一个通配符；在这个例子中，我们表示我们想要匹配所有 <code>Err</code> 值，无论它们内部包含什么信息。因此，程序将执行第二个分支的代码 <code>continue</code>，这告诉程序跳到 <code>loop</code> 的下一次迭代并请求另一个猜测。因此，程序实际上忽略了 <code>parse</code> 可能遇到的所有错误！",
+    "_note": ""
   }
 }

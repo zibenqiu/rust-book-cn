@@ -182,5 +182,21 @@
   "Examples of operations that require the trait": {
     "_translate": "需要特征的操作示例，",
     "_note": ""
+  },
+  "Deriving PartialOrd implements the partial_cmp method, which returns an Option<Ordering> that will be None when the values given don’t produce an ordering. An example of a value that doesn’t produce an ordering, even though most values of that type can be compared, is the NaN floating point value. Calling partial_cmp with any floating point number and the NaN floating point value will return None.": {
+    "_translate": "派生 <code>PartialOrd</code> 实现了 <code>partial_cmp</code> 方法，该方法返回一个 <code>Option&lt;Ordering&gt;</code>，当给定的值无法产生排序时，该值将为 <code>None</code>。一个无法产生排序的值的例子是 <code>NaN</code> 浮点值，即使该类型的大多数值可以进行比较。使用任何浮点数和 <code>NaN</code> 浮点值调用 <code>partial_cmp</code> 都将返回 <code>None</code>。",
+    "_note": ""
+  },
+  "The Clone trait allows you to explicitly create a deep copy of a value, and the duplication process might involve running arbitrary code and copying heap data. See Variables and Data Interacting with Clone” in Chapter 4 for more information on Clone.": {
+    "_translate": "<code>Clone</code> 特性允许你显式地创建一个值的深拷贝，复制过程可能涉及运行任意代码和复制堆数据。有关 <code>Clone</code> 的更多信息，请参见第 4 章的“<a href=\"ch04-01-what-is-ownership.html#variables-and-data-interacting-with-clone\">变量和数据与 Clone 交互</a>”部分。",
+    "_note": ""
+  },
+  "The Copy trait allows you to duplicate a value by only copying bits stored on the stack; no arbitrary code is necessary. See “Stack-Only Data: Copy” in Chapter 4 for more information on Copy.": {
+    "_translate": "<code>Copy</code> 特性允许你通过仅复制栈上存储的位来复制一个值；不需要任意代码。有关 <code>Copy</code> 的更多信息，请参见第 4 章的 <a href=\"ch04-01-what-is-ownership.html#stack-only-data-copy\">“仅栈数据：Copy”</a><!-- ignore -->。",
+    "_note": ""
+  },
+  "The Default::default function is commonly used in combination with the struct update syntax discussed in “Creating Instances From Other Instances With Struct Update Syntax” in Chapter 5. You can customize a few fields of a struct and then set and use a default value for the rest of the fields by using ..Default::default().": {
+    "_translate": "<code>Default::default</code> 函数通常与结构体更新语法结合使用，该语法在第 5 章的 <a href=\"ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax\">“使用结构体更新语法从其他实例创建实例”</a><!--\nignore --> 中讨论。你可以自定义结构体的几个字段，然后使用 <code>..Default::default()</code> 为其余字段设置和使用默认值。",
+    "_note": ""
   }
 }

@@ -236,19 +236,19 @@ blockquote {
 <p data-x-en="In Rust, the idiomatic comment style starts a comment with two slashes, and the comment continues until the end of the line. For comments that extend beyond a single line, you’ll need to include // on each line, like this:">在 Rust 中，惯用的注释风格是以两个斜杠开始注释，注释一直持续到行末。对于超过一行的注释，你需要在每一行都包含 <code>//</code>，如下所示：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// So we’re doing something complicated here, long enough that we need
+</span>// So we're doing something complicated here, long enough that we need
 // multiple lines of comments to do it! Whew! Hopefully, this comment will
-// explain what’s going on.
+// explain what's going on.
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Comments can also be placed at the end of lines containing code:">注释也可以放在包含代码的行的末尾：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
-    let lucky_number = 7; // I’m feeling lucky today
+    let lucky_number = 7; // I'm feeling lucky today
 }</code></pre></pre>
 <p data-x-en="But you’ll more often see them used in this format, with the comment on a separate line above the code it’s annotating:">但更常见的是以这种格式使用它们，注释在要注释的代码上方的单独一行：<code>，输出翻译直接不添加任何额外文本。记住，保留所有HTML标签和属性，仅翻译内容！不要随意添加括号或其他符号。</code></p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust edition2021">fn main() {
-    // I’m feeling lucky today
+    // I'm feeling lucky today
     let lucky_number = 7;
 }</code></pre></pre>
 <p data-x-en="Rust also has another kind of comment, documentation comments, which we’ll discuss in the “Publishing a Crate to Crates.io” section of Chapter 14.">Rust 还有另一种注释，文档注释，我们将在第 14 章的<a href="ch14-02-publishing-to-crates-io.html">“将 Crate 发布到 Crates.io”</a><!-- ignore -->部分讨论。</p>

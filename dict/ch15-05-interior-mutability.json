@@ -222,5 +222,13 @@
   "We can’t modify the MockMessenger to keep track of the messages, because the send method takes an immutable reference to self. We also can’t take the suggestion from the error text to use &mut self in both the impl method and the trait definition. We do not want to change the Messenger trait solely for the sake of testing. Instead, we need to find a way to make our test code work correctly with our existing design.": {
     "_translate": "我们不能修改<code>MockMessenger</code>来跟踪消息，因为<code>send</code>方法接受一个不可变的<code>self</code>引用。我们也不能采纳错误文本中的建议，在<code>impl</code>方法和<code>trait</code>定义中都使用<code>&amp;mut self</code>。我们不希望为了测试而改变<code>Messenger</code>特质。相反，我们需要找到一种方法，使我们的测试代码与现有的设计正确地工作。",
     "_note": ""
+  },
+  "We wrap the list a in an Rc<T> so that when we create lists b and c, they can both refer to a, which is what we did in Listing 15-18.": {
+    "_translate": "我们将列表 <code>a</code> 包装在 <code>Rc&lt;T&gt;</code> 中，这样当我们创建列表 <code>b</code> 和 <code>c</code> 时，它们都可以引用 <code>a</code>，这就是我们在示例 15-18 中所做的。",
+    "_note": ""
+  },
+  "After we’ve created the lists in a, b, and c, we want to add 10 to the value in value. We do this by calling borrow_mut on value, which uses the automatic dereferencing feature we discussed in Chapter 5 (see “Where’s the -> Operator?”) to dereference the Rc<T> to the inner RefCell<T> value. The borrow_mut method returns a RefMut<T> smart pointer, and we use the dereference operator on it and change the inner value.": {
+    "_translate": "在创建了 <code>a</code>、<code>b</code> 和 <code>c</code> 中的列表后，我们希望将 10 加到 <code>value</code> 中的值。我们通过调用 <code>value</code> 上的 <code>borrow_mut</code> 方法来实现这一点，该方法使用我们在第 5 章中讨论的自动解引用功能（参见 <a href=\"ch05-03-method-syntax.html#wheres-the---operator\">“<code>-&gt;</code> 运算符在哪里？”</a><!-- ignore -->）来解引用 <code>Rc&lt;T&gt;</code> 到内部的 <code>RefCell&lt;T&gt;</code> 值。<code>borrow_mut</code> 方法返回一个 <code>RefMut&lt;T&gt;</code> 智能指针，我们对其使用解引用运算符并更改内部值。",
+    "_note": ""
   }
 }

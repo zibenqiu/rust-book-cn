@@ -170,5 +170,13 @@
   "You’ll find two kinds of chapters in this book: concept chapters and project chapters. In concept chapters, you’ll learn about an aspect of Rust. In project chapters, we’ll build small programs together, applying what you’ve learned so far. Chapters 2, 12, and 21 are project chapters; the rest are concept chapters.": {
     "_translate": "你将在本书中找到两种类型的章节：概念章节和项目章节。在概念章节中，你将学习 Rust 的某个方面。在项目章节中，我们将一起构建小型程序，应用你迄今为止所学的知识。第 2、12 和 21 章是项目章节；其余的是概念章节。",
     "_note": ""
+  },
+  "Rust is for people who crave speed and stability in a language. By speed, we mean both how quickly Rust code can run and the speed at which Rust lets you write programs. The Rust compiler’s checks ensure stability through feature additions and refactoring. This is in contrast to the brittle legacy code in languages without these checks, which developers are often afraid to modify. By striving for zero-cost abstractions—higher-level features that compile to lower-level code as fast as code written manually—Rust endeavors to make safe code be fast code as well.": {
+    "_translate": "Rust 是为那些渴望在语言中获得速度和稳定性的用户设计的。这里的速度，既指 Rust 代码运行的快，也指 Rust 让你编写程序的速度快。Rust 编译器的检查确保了通过功能添加和重构实现的稳定性。这与没有这些检查的语言中的脆弱遗留代码形成对比，开发人员通常害怕修改这些代码。通过追求零成本抽象——编译成与手动编写的低级代码一样快的高级功能——Rust 力求使安全的代码也是快速的代码。",
+    "_note": ""
+  },
+  "Finally, some appendixes contain useful information about the language in a more reference-like format. Appendix A covers Rust’s keywords, Appendix B covers Rust’s operators and symbols, Appendix C covers derivable traits provided by the standard library, Appendix D covers some useful development tools, and Appendix E explains Rust editions. In Appendix F, you can find translations of the book, and in Appendix G we’ll cover how Rust is made and what nightly Rust is.": {
+    "_translate": "最后，一些附录以更参考手册的形式包含了关于语言的有用信息。<strong>附录 A</strong> 涵盖了 Rust 的关键字，<strong>附录 B</strong>\n涵盖了 Rust 的运算符和符号，<strong>附录 C</strong> 涵盖了标准库提供的可派生特性，<strong>附录 D</strong> 涵盖了一些有用的开发\n工具，<strong>附录 E</strong> 解释了 Rust 版本。在 <strong>附录 F</strong> 中，您可以\n找到本书的翻译，而在 <strong>附录 G</strong> 中我们将介绍 Rust 的制作过程以及什么是夜间构建的 Rust。",
+    "_note": ""
   }
 }

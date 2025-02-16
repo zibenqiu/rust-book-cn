@@ -174,5 +174,13 @@
   "Integration Tests for Binary Crates": {
     "_translate": "<a class=\"header\" href=\"#integration-tests-for-binary-crates\">二进制包的集成测试</a>",
     "_note": ""
+  },
+  "Note that the internal_adder function is not marked as pub. Tests are just Rust code, and the tests module is just another module. As we discussed in “Paths for Referring to an Item in the Module Tree”, items in child modules can use the items in their ancestor modules. In this test, we bring all of the tests module’s parent’s items into scope with use super::*, and then the test can call internal_adder. If you don’t think private functions should be tested, there’s nothing in Rust that will compel you to do so.": {
+    "_translate": "请注意，<code>internal_adder</code> 函数没有标记为 <code>pub</code>。测试只是 Rust 代码，<code>tests</code> 模块也只是另一个模块。正如我们在 <a href=\"ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html\">“模块树中引用项的路径”</a><!-- ignore --> 中讨论的那样，子模块中的项可以使用其祖先模块中的项。在这个测试中，我们使用 <code>use super::*</code> 将 <code>tests</code> 模块的父模块的所有项引入作用域，然后测试就可以调用 <code>internal_adder</code>。如果你认为不应该测试私有函数，Rust 中没有任何东西会强迫你这样做。",
+    "_note": ""
+  },
+  "This is the older naming convention that Rust also understands that we mentioned in “Alternate File Paths” in Chapter 7. Naming the file this way tells Rust not to treat the common module as an integration test file. When we move the setup function code into tests/common/mod.rs and delete the tests/common.rs file, the section in the test output will no longer appear. Files in subdirectories of the tests directory don’t get compiled as separate crates or have sections in the test output.": {
+    "_translate": "这是我们在第 7 章<a href=\"ch07-05-separating-modules-into-different-files.html#alternate-file-paths\">“备用文件路径”</a><!-- ignore -->中提到的旧命名约定，Rust 也理解这种命名方式。这样命名文件可以告诉 Rust 不要将 <code>common</code> 模块视为集成测试文件。当我们把 <code>setup</code> 函数的代码移到 <em>tests/common/mod.rs</em> 并删除 <em>tests/common.rs</em> 文件时，测试输出中的部分将不再出现。<em>tests</em> 目录的子目录中的文件不会被编译为单独的 crate，也不会在测试输出中显示部分。",
+    "_note": ""
   }
 }

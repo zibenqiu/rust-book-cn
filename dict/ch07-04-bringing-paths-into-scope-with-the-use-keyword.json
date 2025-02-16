@@ -162,5 +162,17 @@
   "Bringing Paths Into Scope with the use Keyword - The Rust Programming Language": {
     "_translate": "使用 use 关键字将路径引入作用域 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "Then, to bring rand definitions into the scope of our package, we added a use line starting with the name of the crate, rand, and listed the items we wanted to bring into scope. Recall that in “Generating a Random Number” in Chapter 2, we brought the Rng trait into scope and called the rand::thread_rng function:": {
+    "_translate": "然后，为了将 <code>rand</code> 的定义引入我们包的作用域，我们添加了一行以 crate 名称 <code>rand</code> 开头的 <code>use</code> 语句，并列出了我们想要引入作用域的项。回想一下在第 2 章的 <a href=\"ch02-00-guessing-game-tutorial.html#generating-a-random-number\">“生成随机数”</a><!-- ignore --> 中，我们将 <code>Rng</code> 特性引入了作用域并调用了 <code>rand::thread_rng</code> 函数：",
+    "_note": ""
+  },
+  "Re-exporting is useful when the internal structure of your code is different from how programmers calling your code would think about the domain. For example, in this restaurant metaphor, the people running the restaurant think about “front of house” and “back of house.” But customers visiting a restaurant probably won’t think about the parts of the restaurant in those terms. With pub use, we can write our code with one structure but expose a different structure. Doing so makes our library well organized for programmers working on the library and programmers calling the library. We’ll look at another example of pub use and how it affects your crate’s documentation in “Exporting a Convenient Public API with pub use” in Chapter 14.": {
+    "_translate": "重新导出在你的代码内部结构与调用你代码的程序员对领域的理解不同时非常有用。例如，在这个餐厅比喻中，经营餐厅的人会想到“前台”和“后台”。但访问餐厅的顾客可能不会用这些术语来思考餐厅的各个部分。通过<code>pub use</code>，我们可以用一种结构编写代码，但暴露另一种结构。这样做可以使我们的库对编写库的程序员和调用库的程序员都井井有条。我们将在第14章的<a href=\"ch14-02-publishing-to-crates-io.html#exporting-a-convenient-public-api-with-pub-use\">“使用<code>pub use</code>导出方便的公共API”</a>中查看另一个<code>pub use</code>的例子及其如何影响你的crate的文档。",
+    "_note": ""
+  },
+  "The glob operator is often used when testing to bring everything under test into the tests module; we’ll talk about that in “How to Write Tests” in Chapter 11. The glob operator is also sometimes used as part of the prelude pattern: see the standard library documentation for more information on that pattern.": {
+    "_translate": "通配符操作符通常在测试时用于将所有待测试的内容引入到<code>tests</code>模块中；我们将在第11章的<a href=\"ch11-01-writing-tests.html#how-to-write-tests\">“如何编写测试”</a>中讨论这个问题。通配符操作符也经常作为前导模式的一部分使用：有关该模式的更多信息，请参阅<a href=\"../std/prelude/index.html#other-preludes\">标准库文档</a>。",
+    "_note": ""
   }
 }

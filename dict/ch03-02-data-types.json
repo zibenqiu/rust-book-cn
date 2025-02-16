@@ -254,5 +254,13 @@
   "The Array Type": {
     "_translate": "<a class=\"header\" href=\"#the-array-type\">数组类型</a>",
     "_note": ""
+  },
+  "Return the value and a Boolean indicating whether there was overflow with the overflowing_* methods.": {
+    "_translate": "返回值和一个布尔值，指示是否发生了溢出，使用 <code>overflowing_*</code> 方法。",
+    "_note": ""
+  },
+  "Each signed variant can store numbers from −(2n − 1) to 2n − 1 − 1 inclusive, where n is the number of bits that variant uses. So an i8 can store numbers from −(27) to 27 − 1, which equals −128 to 127. Unsigned variants can store numbers from 0 to 2n − 1, so a u8 can store numbers from 0 to 28 − 1, which equals 0 to 255.": {
+    "_translate": "每个有符号变体可以存储从 −(2<sup>n − 1</sup>) 到 2<sup>n − 1</sup> − 1（包括）的数字，其中 <em>n</em> 是该变体使用的位数。所以 <code>i8</code> 可以存储从 −(2<sup>7</sup>) 到 2<sup>7</sup> − 1 的数字，即 −128 到 127。无符号变体可以存储从 0 到 2<sup>n</sup> − 1 的数字，因此 <code>u8</code> 可以存储从 0 到 2<sup>8</sup> − 1 的数字，即 0 到 255。",
+    "_note": ""
   }
 }

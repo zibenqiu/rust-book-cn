@@ -273,7 +273,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 当可以假设数字为正数时，它会显示没有符号。
 带符号的数字使用<a href="https://en.wikipedia.org/wiki/Two%27s_complement">二进制补码</a><!-- ignore
 -->表示。</p>
-<p data-x-en="Each signed variant can store numbers from -(2n - 1) to 2n - 1 - 1 inclusive, where n is the number of bits that variant uses. So an i8 can store numbers from -(27) to 27 - 1, which equals -128 to 127. Unsigned variants can store numbers from 0 to 2n - 1, so a u8 can store numbers from 0 to 28 - 1, which equals 0 to 255.">每个有符号变体可以存储从 -(2<sup>n - 1</sup>) 到 2<sup>n - 1</sup> - 1（包括）的数字，其中 <em>n</em> 是该变体使用的位数。所以一个 <code>i8</code> 可以存储从 -(2<sup>7</sup>) 到 2<sup>7</sup> - 1 的数字，即 -128 到 127。无符号变体可以存储从 0 到 2<sup>n</sup> - 1 的数字，因此一个 <code>u8</code> 可以存储从 0 到 2<sup>8</sup> - 1 的数字，即 0 到 255。</p>
+<p data-x-en="Each signed variant can store numbers from −(2n − 1) to 2n − 1 − 1 inclusive, where n is the number of bits that variant uses. So an i8 can store numbers from −(27) to 27 − 1, which equals −128 to 127. Unsigned variants can store numbers from 0 to 2n − 1, so a u8 can store numbers from 0 to 28 − 1, which equals 0 to 255.">每个有符号变体可以存储从 −(2<sup>n − 1</sup>) 到 2<sup>n − 1</sup> − 1（包括）的数字，其中 <em>n</em> 是该变体使用的位数。所以 <code>i8</code> 可以存储从 −(2<sup>7</sup>) 到 2<sup>7</sup> − 1 的数字，即 −128 到 127。无符号变体可以存储从 0 到 2<sup>n</sup> − 1 的数字，因此 <code>u8</code> 可以存储从 0 到 2<sup>8</sup> − 1 的数字，即 0 到 255。</p>
 <p data-x-en="Additionally, the isize and usize types depend on the architecture of the computer your program is running on, which is denoted in the table as “arch”: 64 bits if you’re on a 64-bit architecture and 32 bits if you’re on a 32-bit architecture.">此外，<code>isize</code> 和 <code>usize</code> 类型取决于你的程序运行的计算机的架构，表中表示为“arch”：
 如果你在 64 位架构上，则为 64 位；如果你在 32 位架构上，则为 32 位。</p>
 <p data-x-en="You can write integer literals in any of the forms shown in Table 3-2. Note that number literals that can be multiple numeric types allow a type suffix, such as 57u8, to designate the type. Number literals can also use _ as a visual separator to make the number easier to read, such as 1_000, which will have the same value as if you had specified 1000.">您可以使用表 3-2 中显示的任何形式编写整数字面量。请注意，可以是多种数字类型的数字字面量允许使用类型后缀，例如 <code>57u8</code>，来指定类型。数字字面量还可以使用 <code>_</code> 作为视觉分隔符，使数字更易于阅读，例如 <code>1_000</code>，其值与您指定 <code>1000</code> 时相同。</p>
@@ -295,7 +295,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <ul>
 <li data-x-en="Wrap in all modes with the wrapping_* methods, such as wrapping_add.">在所有模式下使用 <code>wrapping_*</code> 方法进行包装，例如 <code>wrapping_add</code>。</li>
 <li data-x-en="Return the None value if there is overflow with the checked_* methods.">如果使用 <code>checked_*</code> 方法时发生溢出，则返回 <code>None</code> 值。</li>
-<li data-x-en="Return the value and a boolean indicating whether there was overflow with the overflowing_* methods.">返回值和一个布尔值，指示是否发生了溢出，使用 <code>overflowing_*</code> 方法。</li>
+<li data-x-en="Return the value and a Boolean indicating whether there was overflow with the overflowing_* methods.">返回值和一个布尔值，指示是否发生了溢出，使用 <code>overflowing_*</code> 方法。</li>
 <li data-x-en="Saturate at the value’s minimum or maximum values with the saturating_* methods.">使用 <code>saturating_*</code> 方法在值的最小值或最大值处饱和。</li>
 </ul>
 </section>

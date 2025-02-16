@@ -106,5 +106,17 @@
   "D - Useful Development Tools - The Rust Programming Language": {
     "_translate": "D - 有用的开发工具 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Here, we’re defining variable x as mutable, but we never actually mutate it. Rust warns us about that:": {
+    "_translate": "这里，我们将变量 <code>x</code> 定义为可变的，但实际上我们从未修改过它。\nRust 会警告我们这一点：",
+    "_note": ""
+  },
+  "The warning suggests that we remove the mut keyword. We can automatically apply that suggestion using the rustfix tool by running the command cargo fix:": {
+    "_translate": "警告建议我们移除 <code>mut</code> 关键字。我们可以使用 <code>rustfix</code> 工具通过运行命令 <code>cargo fix</code> 自动应用该建议：",
+    "_note": ""
+  },
+  "The x variable is now immutable, and the warning no longer appears.": {
+    "_translate": "<code>x</code> 变量现在是不可变的，警告不再出现。",
+    "_note": ""
   }
 }

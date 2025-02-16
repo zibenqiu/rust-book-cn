@@ -170,5 +170,9 @@
   "Note that we have to declare T just after impl so we can use T to specify that we’re implementing methods on the type Point<T>. By declaring T as a generic type after impl, Rust can identify that the type in the angle brackets in Point is a generic type rather than a concrete type. We could have chosen a different name for this generic parameter than the generic parameter declared in the struct definition, but using the same name is conventional. If you write a method within an impl that declares a generic type, that method will be defined on any instance of the type, no matter what concrete type ends up substituting for the generic type.": {
     "_translate": "请注意，我们必须在 <code>impl</code> 之后声明 <code>T</code>，这样我们才能使用 <code>T</code> 来指定我们正在为类型 <code>Point&lt;T&gt;</code> 实现方法。通过在 <code>impl</code> 之后声明 <code>T</code> 为泛型类型，Rust 可以识别 <code>Point</code> 角括号中的类型是泛型类型而不是具体类型。我们可以选择与结构体定义中声明的泛型参数不同的名称，但使用相同的名称是惯例。如果你在一个声明了泛型类型的 <code>impl</code> 中编写方法，那么该方法将定义在该类型的任何实例上，无论最终用什么具体类型替代泛型类型。",
     "_note": ""
+  },
+  "To parameterize the types in a new single function, we need to name the type parameter, just as we do for the value parameters to a function. You can use any identifier as a type parameter name. But we’ll use T because, by convention, type parameter names in Rust are short, often just one letter, and Rust’s type-naming convention is CamelCase. Short for type, T is the default choice of most Rust programmers.": {
+    "_translate": "为了在新函数中参数化类型，我们需要命名类型参数，就像我们为函数的值参数命名一样。你可以使用任何标识符作为类型参数名。但我们将使用<code>T</code>，因为按照惯例，Rust 中的类型参数名较短，通常只是一个字母，而 Rust 的类型命名约定是驼峰式大小写。作为<em>类型</em>的缩写，<code>T</code> 是大多数 Rust 程序员的默认选择。",
+    "_note": ""
   }
 }

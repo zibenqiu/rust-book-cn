@@ -82,5 +82,13 @@
   "Next, let’s look at macros!": {
     "_translate": "接下来，让我们看看宏！",
     "_note": ""
+  },
+  "Note that we must use the fully qualified syntax that we talked about in “Advanced Traits” because there are multiple functions available named to_string. Here, we’re using the to_string function defined in the ToString trait, which the standard library has implemented for any type that implements Display.": {
+    "_translate": "请注意，我们必须使用我们在\n<a href=\"ch20-02-advanced-traits.html#advanced-traits\">“高级特质”</a><!-- ignore --> 中讨论的完全限定语法，因为有多个名为 <code>to_string</code> 的函数可用。在这里，我们使用的是 <code>ToString</code> 特质中定义的 <code>to_string</code> 函数，标准库为任何实现了 <code>Display</code> 的类型实现了这个函数。",
+    "_note": ""
+  },
+  "Recall from “Enum values” in Chapter 6 that the name of each enum variant that we define also becomes an initializer function. We can use these initializer functions as function pointers that implement the closure traits, which means we can specify the initializer functions as arguments for methods that take closures, like so:": {
+    "_translate": "回忆在第 6 章<a href=\"ch06-01-defining-an-enum.html#enum-values\">“枚举值”</a><!-- ignore -->中，我们定义的每个枚举变体的名称也成为了初始化函数。我们可以将这些初始化函数用作实现闭包特征的函数指针，这意味着我们可以将初始化函数指定为接受闭包的方法的参数，如下所示：",
+    "_note": ""
   }
 }

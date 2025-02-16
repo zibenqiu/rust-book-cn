@@ -26,5 +26,9 @@
   "Writing Automated Tests - The Rust Programming Language": {
     "_translate": "编写自动化测试 - 《Rust编程语言》",
     "_note": ""
+  },
+  "In his 1972 essay “The Humble Programmer,” Edsger W. Dijkstra said that “program testing can be a very effective way to show the presence of bugs, but it is hopelessly inadequate for showing their absence.” That doesn’t mean we shouldn’t try to test as much as we can!": {
+    "_translate": "在他的1972年论文《谦逊的程序员》中，Edsger W. Dijkstra 说，“程序测试可以是非常有效的方法来显示错误的存在，但对于证明错误的不存在则完全无能为力。”这并不意味着我们不应该尽力进行尽可能多的测试！",
+    "_note": ""
   }
 }

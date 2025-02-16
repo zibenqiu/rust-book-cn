@@ -142,5 +142,17 @@
   "Using Message Passing to Transfer Data Between Threads - The Rust Programming Language": {
     "_translate": "使用消息传递在线程之间传输数据 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Let’s move the transmitting end into a spawned thread and have it send one string so that the spawned thread is communicating with the main thread, as shown in Listing 16-7. This is like putting a rubber duck in the river upstream or sending a chat message from one thread to another.": {
+    "_translate": "让我们将发送端移到一个新创建的线程中，并让它发送一个字符串，这样新创建的线程就可以与主线程通信，如清单 16-7 所示。这就像在河流上游放一个橡皮鸭，或者从一个线程向另一个线程发送聊天消息。",
+    "_note": ""
+  },
+  "Again, we’re using thread::spawn to create a new thread and then using move to move tx into the closure so that the spawned thread owns tx. The spawned thread needs to own the transmitter to be able to send messages through the channel.": {
+    "_translate": "再次，我们使用 <code>thread::spawn</code> 创建一个新线程，然后使用 <code>move</code>\n将 <code>tx</code> 移动到闭包中，以便新线程拥有 <code>tx</code>。新线程需要拥有发送方才能通过通道发送消息。",
+    "_note": ""
+  },
+  "The transmitter has a send method that takes the value we want to send. The send method returns a Result<T, E> type, so if the receiver has already been dropped and there’s nowhere to send a value, the send operation will return an error. In this example, we’re calling unwrap to panic in case of an error. But in a real application, we would handle it properly: return to Chapter 9 to review strategies for proper error handling.": {
+    "_translate": "发送方有一个 <code>send</code> 方法，用于接收我们想要发送的值。<code>send</code> 方法返回一个 <code>Result&lt;T, E&gt;</code> 类型，因此如果接收方已经释放并且没有地方可以发送值，发送操作将返回一个错误。在这个例子中，我们调用 <code>unwrap</code> 在出现错误时引发恐慌。但在实际应用中，我们应该妥善处理错误：返回第 9 章复习正确的错误处理策略。",
+    "_note": ""
   }
 }

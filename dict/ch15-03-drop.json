@@ -94,5 +94,9 @@
   "Running Code on Cleanup with the Drop Trait - The Rust Programming Language": {
     "_translate": "使用 Drop Trait 在清理时运行代码 - 《Rust 编程语言》",
     "_note": ""
+  },
+  "We’re introducing Drop in the context of smart pointers because the functionality of the Drop trait is almost always used when implementing a smart pointer. For example, when a Box<T> is dropped, it will deallocate the space on the heap that the box points to.": {
+    "_translate": "我们正在智能指针的上下文中介绍<code>Drop</code>，因为<code>Drop</code>特征的功能几乎总是在实现智能指针时使用。例如，当<code>Box&lt;T&gt;</code>被丢弃时，它将释放该盒子指向的堆上的空间。",
+    "_note": ""
   }
 }
