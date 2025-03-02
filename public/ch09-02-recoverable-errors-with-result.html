@@ -230,7 +230,7 @@ blockquote {
 <p data-x-en="Most errors aren’t serious enough to require the program to stop entirely. Sometimes when a function fails it’s for a reason that you can easily interpret and respond to. For example, if you try to open a file and that operation fails because the file doesn’t exist, you might want to create the file instead of terminating the process.">大多数错误并不严重到需要程序完全停止。<br>有时，当一个函数失败时，原因是你很容易解释并作出反应的。例如，如果你尝试打开一个文件，而该操作失败是因为文件不存在，你可能希望创建该文件而不是终止进程。</p>
 <p data-x-en="Recall from “Handling Potential Failure with Result” in Chapter 2 that the Result enum is defined as having two variants, Ok and Err, as follows:">回想在第 2 章的 <a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-result">“使用 <code>Result</code> 处理潜在失败”</a><!--
 ignore --> 中，<code>Result</code> 枚举被定义为具有两个变体，<code>Ok</code> 和 <code>Err</code>，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {
     Ok(T),
@@ -241,7 +241,7 @@ ignore --> 中，<code>Result</code> 枚举被定义为具有两个变体，<cod
 <p data-x-en="Let’s call a function that returns a Result value because the function could fail. In Listing 9-3 we try to open a file.">让我们调用一个返回 <code>Result</code> 值的函数，因为该函数可能会失败。在示例 9-3 中，我们尝试打开一个文件。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file_result = File::open("hello.txt");
@@ -255,7 +255,7 @@ fn main() {
 <p data-x-en="We need to add to the code in Listing 9-3 to take different actions depending on the value File::open returns. Listing 9-4 shows one way to handle the Result using a basic tool, the match expression that we discussed in Chapter 6.">我们需要在清单 9-3 的代码中添加内容，以便根据 <code>File::open</code> 返回的值采取不同的行动。清单 9-4 展示了一种使用基本工具 <code>match</code> 表达式处理 <code>Result</code> 的方法，我们在第 6 章中讨论过这个表达式。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file_result = File::open("hello.txt");
@@ -274,6 +274,7 @@ fn main() {
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/error-handling`
+
 thread 'main' panicked at src/main.rs:8:23:
 Problem opening the file: Os { code: 2, kind: NotFound, message: "No such file or directory" }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -333,7 +334,7 @@ fn main() {
 <p data-x-en="Using match works well enough, but it can be a bit verbose and doesn’t always communicate intent well. The Result<T, E> type has many helper methods defined on it to do various, more specific tasks. The unwrap method is a shortcut method implemented just like the match expression we wrote in Listing 9-4. If the Result value is the Ok variant, unwrap will return the value inside the Ok. If the Result is the Err variant, unwrap will call the panic! macro for us. Here is an example of unwrap in action:">使用<code>match</code>效果很好，但有时会显得有些冗长，并且不总是能很好地传达意图。<code>Result&lt;T, E&gt;</code>类型定义了许多辅助方法，用于执行各种更具体的任务。<code>unwrap</code>方法是一个快捷方法，实现方式与我们在清单9-4中编写的<code>match</code>表达式相同。如果<code>Result</code>值是<code>Ok</code>变体，<code>unwrap</code>将返回<code>Ok</code>中的值。如果<code>Result</code>是<code>Err</code>变体，<code>unwrap</code>将为我们调用<code>panic!</code>宏。以下是一个<code>unwrap</code>的使用示例：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file = File::open("hello.txt").unwrap();
@@ -353,7 +354,7 @@ called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, messa
 您的意图，并使追踪恐慌的来源更容易。 <code>expect</code> 的语法如下：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file = File::open("hello.txt")
@@ -378,7 +379,7 @@ hello.txt should be included in this project: Os { code: 2, kind: NotFound, mess
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file panics. We do want to include it for reader experimentation purposes, but
 don't want to include it for rustdoc testing purposes. -->
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -415,7 +416,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file panics. We do want to include it for reader experimentation purposes, but
 don't want to include it for rustdoc testing purposes. -->
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -439,7 +440,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file panics. We do want to include it for reader experimentation purposes, but
 don't want to include it for rustdoc testing purposes. -->
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -461,7 +462,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <!-- Deliberately not using rustdoc_include here; the `main` function in the
 file panics. We do want to include it for reader experimentation purposes, but
 don't want to include it for rustdoc testing purposes. -->
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::io;
@@ -511,7 +512,7 @@ error: could not compile `error-handling` (bin "error-handling") due to 1 previo
 <p data-x-en="To fix the error, you have two choices. One choice is to change the return type of your function to be compatible with the value you’re using the ? operator on as long as you have no restrictions preventing that. The other choice is to use a match or one of the Result<T, E> methods to handle the Result<T, E> in whatever way is appropriate.">要修复错误，你有两个选择。一个选择是更改函数的返回类型，使其与你使用 <code>?</code> 操作符的值兼容，只要你没有限制阻止这样做。另一个选择是使用 <code>match</code> 或 <code>Result&lt;T, E&gt;</code> 的方法之一来以适当的方式处理 <code>Result&lt;T, E&gt;</code>。</p>
 <p data-x-en="The error message also mentioned that ? can be used with Option<T> values as well. As with using ? on Result, you can only use ? on Option in a function that returns an Option. The behavior of the ? operator when called on an Option<T> is similar to its behavior when called on a Result<T, E>: if the value is None, the None will be returned early from the function at that point. If the value is Some, the value inside the Some is the resultant value of the expression, and the function continues. Listing 9-11 has an example of a function that finds the last character of the first line in the given text.">错误消息还提到，<code>?</code> 也可以与 <code>Option&lt;T&gt;</code> 值一起使用。与在 <code>Result</code> 上使用 <code>?</code> 一样，你只能在返回 <code>Option</code> 的函数中使用 <code>?</code>。当在 <code>Option&lt;T&gt;</code> 上调用 <code>?</code> 操作符时，其行为类似于在 <code>Result&lt;T, E&gt;</code> 上调用时的行为：如果值是 <code>None</code>，则在该点函数会提前返回 <code>None</code>。如果值是 <code>Some</code>，则 <code>Some</code> 内的值是表达式的结果值，函数继续执行。列表 9-11 有一个示例函数，该函数查找给定文本中第一行的最后一个字符。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
+<pre><pre class="playground"><code class="language-rust edition2024">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()
 }
 <span class="boring">

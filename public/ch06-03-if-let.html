@@ -229,7 +229,7 @@ blockquote {
                         <h2 id="concise-control-flow-with-if-let-and-let-else"><a class="header" href="#concise-control-flow-with-if-let-and-let-else">使用 <code>if let</code> 和 <code>let else</code> 实现简洁的控制流</a></h2>
 <p data-x-en="The if let syntax lets you combine if and let into a less verbose way to handle values that match one pattern while ignoring the rest. Consider the program in Listing 6-6 that matches on an Option<u8> value in the config_max variable but only wants to execute code if the value is the Some variant."><code>if let</code> 语法让你可以将 <code>if</code> 和 <code>let</code> 结合起来，以一种更简洁的方式处理匹配某个模式的值，同时忽略其他值。考虑列表 6-6 中的程序，该程序在 <code>config_max</code> 变量上匹配一个 <code>Option&lt;u8&gt;</code> 值，但只有当值是 <code>Some</code> 变体时才执行代码。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let config_max = Some(3u8);
     match config_max {
         Some(max) =&gt; println!("The maximum is configured to be {max}"),
@@ -240,7 +240,7 @@ blockquote {
 </figure>
 <p data-x-en="If the value is Some, we print out the value in the Some variant by binding the value to the variable max in the pattern. We don’t want to do anything with the None value. To satisfy the match expression, we have to add _ => () after processing just one variant, which is annoying boilerplate code to add.">如果值是 <code>Some</code>，我们通过在模式中将值绑定到变量 <code>max</code> 来打印 <code>Some</code> 变体中的值。我们不想对 <code>None</code> 值做任何处理。为了满足 <code>match</code> 表达式，我们必须在处理一个变体后添加 <code>_ =&gt; ()</code>，这添加了一些令人烦恼的样板代码。</p>
 <p data-x-en="Instead, we could write this in a shorter way using if let. The following code behaves the same as the match in Listing 6-6:">相反，我们可以使用 <code>if let</code> 以更简洁的方式编写。以下代码的行为与列表 6-6 中的 <code>match</code> 相同：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let config_max = Some(3u8);
     if let Some(max) = config_max {
         println!("The maximum is configured to be {max}");
@@ -250,7 +250,7 @@ blockquote {
 <p data-x-en="Using if let means less typing, less indentation, and less boilerplate code. However, you lose the exhaustive checking that match enforces. Choosing between match and if let depends on what you’re doing in your particular situation and whether gaining conciseness is an appropriate trade-off for losing exhaustive checking.">使用<code>if let</code>意味着更少的输入，更少的缩进，以及更少的样板代码。然而，你会失去<code>match</code>强制的详尽检查。选择<code>match</code>和<code>if let</code>取决于你在特定情况下的操作，以及获得简洁性是否是失去详尽检查的合适权衡。</p>
 <p data-x-en="In other words, you can think of if let as syntax sugar for a match that runs code when the value matches one pattern and then ignores all other values.">换句话说，你可以将<code>if let</code>视为一种<code>match</code>的语法糖，它在值匹配一个模式时运行代码，然后忽略所有其他值。</p>
 <p data-x-en="We can include an else with an if let. The block of code that goes with the else is the same as the block of code that would go with the _ case in the match expression that is equivalent to the if let and else. Recall the Coin enum definition in Listing 6-4, where the Quarter variant also held a UsState value. If we wanted to count all non-quarter coins we see while also announcing the state of the quarters, we could do that with a match expression, like this:">我们可以包含一个 <code>else</code> 与 <code>if let</code> 一起使用。与 <code>else</code> 一起的代码块与等效于 <code>if let</code> 和 <code>else</code> 的 <code>match</code> 表达式中的 <code>_</code> 情况下的代码块相同。回想一下在清单 6-4 中的 <code>Coin</code> 枚举定义，其中 <code>Quarter</code> 变体还包含一个 <code>UsState</code> 值。如果我们想计算所有非季度硬币，同时宣布季度硬币的州，我们可以使用一个 <code>match</code> 表达式，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
@@ -273,7 +273,7 @@ blockquote {
     }
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Or we could use an if let and else expression, like this:">或者我们可以使用 <code>if let</code> 和 <code>else</code> 表达式，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
@@ -298,7 +298,7 @@ blockquote {
 <span class="boring">}</span></code></pre></pre>
 <h2 id="staying-on-the-happy-path-with-let-else"><a class="header" href="#staying-on-the-happy-path-with-let-else">使用 <code>let else</code> 保持在“顺利路径”上</a></h2>
 <p data-x-en="One common pattern is to perform some computation when a value is present and return a default value otherwise. Continuing on with our example of coins with a UsState value, if we wanted to say something funny depending on how old the state on the quarter was, we might introduce a method on UsState to check the age of a state, like so:">一个常见的模式是在值存在时执行某些计算，否则返回一个默认值。继续我们关于带有 <code>UsState</code> 值的硬币的例子，如果我们想根据硬币上州的年龄说一些有趣的话，我们可能会在 <code>UsState</code> 上引入一个方法来检查州的年龄，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
@@ -342,7 +342,7 @@ blockquote {
 <p data-x-en="Then we might use if let to match on the type of coin, introducing a state variable within the body of the condition, as in Listing 6-7.">然后我们可能会使用 <code>if let</code> 来匹配硬币的类型，在条件体中引入一个 <code>state</code> 变量，如列表 6-7 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
@@ -388,7 +388,7 @@ blockquote {
 <p data-x-en="That gets the job done, but it has pushed the work into the body of the if let statement, and if the work to be done is more complicated, it might be hard to follow exactly how the top-level branches relate. We could also take advantage of the fact that expressions produce a value either to produce the state from the if let or to return early, as in Listing 6-8. (You could do similar with a match, of course!)">这完成了任务，但将工作推到了 <code>if let</code> 语句的主体中，如果要完成的工作更复杂，可能很难跟踪顶级分支之间的关系。我们也可以利用表达式产生值这一事实，从 <code>if let</code> 生成 <code>state</code> 或提前返回，如列表 6-8 所示。（当然，你也可以用 <code>match</code> 做类似的事情！）</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,
@@ -438,7 +438,7 @@ blockquote {
 <p data-x-en="In Listing 6-9, you can see how Listing 6-8 looks when using let-else in place of if let. Notice that it stays “on the happy path” in the main body of the function this way, without having significantly different control flow for two branches the way the if let did.">在清单 6-9 中，你可以看到使用 <code>let</code>-<code>else</code> 代替 <code>if let</code> 时，清单 6-8 的样子。请注意，这样可以在函数的主要部分保持“在顺利的路径上”，而不会像 <code>if let</code> 那样在两个分支中产生显著不同的控制流。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)] // so we can inspect the state in a minute
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
 </span><span class="boring">    Alaska,

@@ -234,5 +234,61 @@
   "Clearer Trait Bounds with where Clauses": {
     "_translate": "<a class=\"header\" href=\"#clearer-trait-bounds-with-where-clauses\">使用 <code>where</code> 子句使特质边界更清晰</a>",
     "_note": ""
+  },
+  "For example, let’s say we have multiple structs that hold various kinds and amounts of text: a NewsArticle struct that holds a news story filed in a particular location and a SocialPost that can have, at most, 280 characters along with metadata that indicates whether it was a new post, a repost, or a reply to another post.": {
+    "_translate": "例如，假设我们有多个结构体，它们持有各种类型和数量的文本：一个 <code>NewsArticle</code> 结构体，用于存储在特定地点发布的新闻故事，以及一个 <code>SocialPost</code> 结构体，最多可以包含 280 个字符，以及元数据，指示它是新帖子、转发还是回复其他帖子。",
+    "_note": ""
+  },
+  "We want to make a media aggregator library crate named aggregator that can display summaries of data that might be stored in a NewsArticle or SocialPost instance. To do this, we need a summary from each type, and we’ll request that summary by calling a summarize method on an instance. Listing 10-12 shows the definition of a public Summary trait that expresses this behavior.": {
+    "_translate": "我们想要制作一个名为 <code>aggregator</code> 的媒体聚合库 crate，可以显示可能存储在 <code>NewsArticle</code> 或 <code>SocialPost</code> 实例中的数据摘要。为此，我们需要每种类型的摘要，并将通过调用实例上的 <code>summarize</code> 方法来请求该摘要。列表 10-12 显示了一个公共 <code>Summary</code> 特性的定义，该特性表达了这种行为。",
+    "_note": ""
+  },
+  "Now that we’ve defined the desired signatures of the Summary trait’s methods, we can implement it on the types in our media aggregator. Listing 10-13 shows an implementation of the Summary trait on the NewsArticle struct that uses the headline, the author, and the location to create the return value of summarize. For the SocialPost struct, we define summarize as the username followed by the entire text of the post, assuming that the post content is already limited to 280 characters.": {
+    "_translate": "现在我们已经定义了 <code>Summary</code> 特性方法的期望签名，我们可以在媒体聚合器中的类型上实现它。列表 10-13 显示了在 <code>NewsArticle</code> 结构体上实现 <code>Summary</code> 特性的示例，该实现使用标题、作者和位置来创建 <code>summarize</code> 的返回值。对于 <code>SocialPost</code> 结构体，我们将 <code>summarize</code> 定义为用户名后跟帖子的全部文本，假设帖子内容已经限制为 280 个字符。",
+    "_note": ""
+  },
+  "Now that the library has implemented the Summary trait on NewsArticle and SocialPost, users of the crate can call the trait methods on instances of NewsArticle and SocialPost in the same way we call regular methods. The only difference is that the user must bring the trait into scope as well as the types. Here’s an example of how a binary crate could use our aggregator library crate:": {
+    "_translate": "现在库已经在 <code>NewsArticle</code> 和 <code>SocialPost</code> 上实现了 <code>Summary</code> 特性，crate 的用户可以像调用普通方法一样在 <code>NewsArticle</code> 和 <code>SocialPost</code> 的实例上调用这些特性方法。唯一的区别是用户必须将特性以及类型引入作用域。以下是一个二进制 crate 如何使用我们的 <code>aggregator</code> 库 crate 的示例：",
+    "_note": ""
+  },
+  "This code prints 1 new post: horse_ebooks: of course, as you probably already know, people.": {
+    "_translate": "这段代码打印 <code>1 new post: horse_ebooks: of course, as you probably already know, people</code>.",
+    "_note": ""
+  },
+  "Creating a default implementation doesn’t require us to change anything about the implementation of Summary on SocialPost in Listing 10-13. The reason is that the syntax for overriding a default implementation is the same as the syntax for implementing a trait method that doesn’t have a default implementation.": {
+    "_translate": "创建默认实现并不需要我们更改在清单 10-13 中为 <code>SocialPost</code> 实现 <code>Summary</code> 的任何内容。原因是覆盖默认实现的语法与实现没有默认实现的特征方法的语法相同。",
+    "_note": ""
+  },
+  "After we define summarize_author, we can call summarize on instances of the SocialPost struct, and the default implementation of summarize will call the definition of summarize_author that we’ve provided. Because we’ve implemented summarize_author, the Summary trait has given us the behavior of the summarize method without requiring us to write any more code. Here’s what that looks like:": {
+    "_translate": "在我们定义了<code>summarize_author</code>之后，我们可以在<code>SocialPost</code>结构体的实例上调用<code>summarize</code>，默认实现的<code>summarize</code>将调用我们提供的<code>summarize_author</code>的定义。因为我们实现了<code>summarize_author</code>，<code>Summary</code>特质在不要求我们编写更多代码的情况下，为我们提供了<code>summarize</code>方法的行为。这看起来是这样的：",
+    "_note": ""
+  },
+  "Other crates that depend on the aggregator crate can also bring the Summary trait into scope to implement Summary on their own types. One restriction to note is that we can implement a trait on a type only if either the trait or the type, or both, are local to our crate. For example, we can implement standard library traits like Display on a custom type like SocialPost as part of our aggregator crate functionality because the type SocialPost is local to our aggregator crate. We can also implement Summary on Vec<T> in our aggregator crate because the trait Summary is local to our aggregator crate.": {
+    "_translate": "其他依赖于 <code>aggregator</code> crate 的 crate 也可以将 <code>Summary</code>\n特质引入作用域，以便在它们自己的类型上实现 <code>Summary</code>。需要注意的一个限制是，我们只能在特质或类型（或两者）之一是我们 crate 本地的情况下，在该类型上实现特质。例如，我们可以在我们的 <code>aggregator</code> crate 功能中为自定义类型 <code>SocialPost</code> 实现标准库特质如 <code>Display</code>，因为类型 <code>SocialPost</code> 是我们 <code>aggregator</code> crate 本地的。我们还可以在我们的 <code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Summary</code>，因为特质 <code>Summary</code> 是我们 <code>aggregator</code>\ncrate 本地的。",
+    "_note": ""
+  },
+  "This code prints 1 new post: (Read more from @horse_ebooks...).": {
+    "_translate": "这段代码打印 <code>1 new post: (Read more from @horse_ebooks...)</code>。",
+    "_note": ""
+  },
+  "Now that you know how to define and implement traits, we can explore how to use traits to define functions that accept many different types. We’ll use the Summary trait we implemented on the NewsArticle and SocialPost types in Listing 10-13 to define a notify function that calls the summarize method on its item parameter, which is of some type that implements the Summary trait. To do this, we use the impl Trait syntax, like this:": {
+    "_translate": "现在你已经知道如何定义和实现特质，我们可以探讨如何使用特质来定义接受多种不同类型的函数。我们将使用在清单 10-13 中为 <code>NewsArticle</code> 和 <code>SocialPost</code> 类型实现的 <code>Summary</code> 特质来定义一个 <code>notify</code> 函数，该函数在其 <code>item</code> 参数上调用 <code>summarize</code> 方法，该参数是实现了 <code>Summary</code> 特质的某种类型。为此，我们使用 <code>impl Trait</code> 语法，如下所示：",
+    "_note": ""
+  },
+  "Instead of a concrete type for the item parameter, we specify the impl keyword and the trait name. This parameter accepts any type that implements the specified trait. In the body of notify, we can call any methods on item that come from the Summary trait, such as summarize. We can call notify and pass in any instance of NewsArticle or SocialPost. Code that calls the function with any other type, such as a String or an i32, won’t compile because those types don’t implement Summary.": {
+    "_translate": "我们为 <code>item</code> 参数指定了 <code>impl</code> 关键字和特质名称，而不是具体的类型。这个参数接受任何实现了指定特质的类型。在 <code>notify</code> 的函数体中，我们可以调用来自 <code>Summary</code> 特质的任何方法，例如 <code>summarize</code>。我们可以调用 <code>notify</code> 并传入任何 <code>NewsArticle</code> 或 <code>SocialPost</code> 的实例。如果使用其他类型（如 <code>String</code> 或 <code>i32</code>）调用该函数，代码将无法编译，因为这些类型没有实现 <code>Summary</code>。",
+    "_note": ""
+  },
+  "By using impl Summary for the return type, we specify that the returns_summarizable function returns some type that implements the Summary trait without naming the concrete type. In this case, returns_summarizable returns a SocialPost, but the code calling this function doesn’t need to know that.": {
+    "_translate": "通过使用 <code>impl Summary</code> 作为返回类型，我们指定 <code>returns_summarizable</code> 函数返回某种实现了 <code>Summary</code> 特性的类型，而不需要指明具体的类型。在这种情况下，<code>returns_summarizable</code> 返回一个 <code>SocialPost</code>，但调用此函数的代码不需要知道这一点。",
+    "_note": ""
+  },
+  "However, you can only use impl Trait if you’re returning a single type. For example, this code that returns either a NewsArticle or a SocialPost with the return type specified as impl Summary wouldn’t work:": {
+    "_translate": "但是，只有在返回单一类型时，你才能使用 <code>impl Trait</code>。例如，这段代码试图返回一个 <code>NewsArticle</code> 或 <code>SocialPost</code>，并将其返回类型指定为 <code>impl Summary</code>，这是行不通的：",
+    "_note": ""
+  },
+  "Returning either a NewsArticle or a SocialPost isn’t allowed due to restrictions around how the impl Trait syntax is implemented in the compiler. We’ll cover how to write a function with this behavior in the “Using Trait Objects That Allow for Values of Different Types” section of Chapter 18.": {
+    "_translate": "返回一个 <code>NewsArticle</code> 或 <code>SocialPost</code> 是不允许的，因为编译器在实现 <code>impl Trait</code> 语法时存在限制。我们将在第 18 章的 <a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型值的特质对象”</a> 部分介绍如何编写具有此行为的函数。",
+    "_note": ""
   }
 }

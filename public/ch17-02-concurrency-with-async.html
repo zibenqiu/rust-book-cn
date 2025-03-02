@@ -241,7 +241,7 @@ blockquote {
 来实现计数示例，如列表17-6所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use std::time::Duration;
 
@@ -284,7 +284,7 @@ hi number 5 from the first task!
 <p data-x-en="This version stops as soon as the for loop in the body of the main async block finishes, because the task spawned by spawn_task is shut down when the main function ends. If you want it to run all the way to the task’s completion, you will need to use a join handle to wait for the first task to complete. With threads, we used the join method to “block” until the thread was done running. In Listing 17-7, we can use await to do the same thing, because the task handle itself is a future. Its Output type is a Result, so we also unwrap it after awaiting it.">这个版本会在主异步块体中的 <code>for</code> 循环结束时停止，因为由 <code>spawn_task</code> 启动的任务在 <code>main</code> 函数结束时会被关闭。如果你想让它一直运行到任务完成，你需要使用一个 join 句柄来等待第一个任务完成。对于线程，我们使用 <code>join</code> 方法来“阻塞”直到线程运行完毕。在示例 17-7 中，我们可以使用 <code>await</code> 来做同样的事情，因为任务句柄本身就是一个未来。它的 <code>Output</code> 类型是一个 <code>Result</code>，所以在等待它之后我们还需要解开它。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -330,7 +330,7 @@ hi number 9 from the first task!
 <p data-x-en="In the section Waiting for All Threads to Finishing Using join Handles, we showed how to use the join method on the JoinHandle type returned when you call std::thread::spawn. The trpl::join function is similar, but for futures. When you give it two futures, it produces a single new future whose output is a tuple containing the output of each future you passed in once they both complete. Thus, in Listing 17-8, we use trpl::join to wait for both fut1 and fut2 to finish. We do not await fut1 and fut2 but instead the new future produced by trpl::join. We ignore the output, because it’s just a tuple containing two unit values.">在章节 <a href="ch16-01-threads.html#waiting-for-all-threads-to-finish-using-join-handles">使用 <code>join</code> 句柄等待所有线程完成</a><!-- ignore --> 中，我们展示了如何在调用 <code>std::thread::spawn</code> 时返回的 <code>JoinHandle</code> 类型上使用 <code>join</code> 方法。<code>trpl::join</code> 函数类似，但用于未来值。当你给它两个未来值时，它会产生一个新的未来值，其输出是一个包含你传入的每个未来值输出的元组，一旦它们 <em>都</em> 完成。因此，在清单 17-8 中，我们使用 <code>trpl::join</code> 等待 <code>fut1</code> 和 <code>fut2</code> 都完成。我们 <em>不</em> 等待 <code>fut1</code> 和 <code>fut2</code>，而是等待由 <code>trpl::join</code> 产生的新未来值。我们忽略输出，因为这只是包含两个单元值的元组。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -387,7 +387,7 @@ hi number 9 from the first task!
 <p data-x-en="Sharing data between futures will also be familiar: we’ll use message passing again, but this time with async versions of the types and functions. We’ll take a slightly different path than we did in Using Message Passing to Transfer Data Between Threads to illustrate some of the key differences between thread-based and futures-based concurrency. In Listing 17-9, we’ll begin with just a single async block—not spawning a separate task as we spawned a separate thread.">在 futures 之间共享数据也会很熟悉：我们将再次使用消息传递，但这次使用异步版本的类型和函数。我们将采取与<a href="ch16-02-message-passing.html">使用消息传递在线程之间传输数据</a>中稍有不同的路径，以说明基于线程的并发和基于 futures 的并发之间的一些关键差异。在示例 17-9 中，我们将从一个单一的 async 块开始——<em>不</em>像我们之前创建单独的线程那样创建单独的任务。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    trpl::run(async {
@@ -503,7 +503,7 @@ hi number 9 from the first task!
 <p data-x-en="In Listing 17-12, we change the block used to send messages from async to async move. When we run this version of the code, it shuts down gracefully after the last message is sent and received.">在清单 17-12 中，我们将用于发送消息的块从 <code>async</code> 更改为 <code>async move</code>。当我们运行 <em>此</em> 版本的代码时，它会在发送和接收最后一条消息后优雅地关闭。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -539,7 +539,7 @@ hi number 9 from the first task!
 <p data-x-en="This async channel is also a multiple-producer channel, so we can call clone on tx if we want to send messages from multiple futures, as shown in Listing 17-13.">这个异步通道也是一个多生产者通道，因此如果我们要从多个 future 发送消息，可以对 <code>tx</code> 调用 <code>clone</code>，如清单 17-13 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">

@@ -252,7 +252,7 @@ $ cd hello_world
 <p data-x-en="Now open the main.rs file you just created and enter the code in Listing 1-1.">现在打开你刚刚创建的<em>main.rs</em>文件，并输入列表1-1中的代码。</p>
 <figure class="listing">
 <span class="file-name">Filename: main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     println!("Hello, world!");
 }</code></pre></pre>
 <figcaption>Listing 1-1: A program that prints <code>Hello, world!</code></figcaption>
@@ -271,7 +271,7 @@ Hello, world!
 <p data-x-en="If Hello, world! did print, congratulations! You’ve officially written a Rust program. That makes you a Rust programmer—welcome!">如果 <code>Hello, world!</code> 确实打印出来了，恭喜！您已经正式编写了一个 Rust 程序。这使您成为了一名 Rust 程序员——欢迎！</p>
 <h3 id="anatomy-of-a-rust-program"><a class="header" href="#anatomy-of-a-rust-program">Rust 程序的结构</a></h3>
 <p data-x-en="Let’s review this “Hello, world!” program in detail. Here’s the first piece of the puzzle:">让我们详细回顾这个“Hello, world！”程序。这是第一个谜题部分：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
 
 }</code></pre></pre>
 <p data-x-en="These lines define a function named main. The main function is special: it is always the first code that runs in every executable Rust program. Here, the first line declares a function named main that has no parameters and returns nothing. If there were parameters, they would go inside the parentheses ().">这些行定义了一个名为<code>main</code>的函数。<code>main</code>函数是特殊的：它是每个可执行Rust程序中首先运行的代码。在这里，第一行声明了一个名为<code>main</code>的函数，该函数没有参数且不返回任何值。如果有参数，它们将放在括号<code>()</code>内。</p>
@@ -280,11 +280,11 @@ Hello, world!
 <p data-x-en="Note: If you want to stick to a standard style across Rust projects, you can use an automatic formatter tool called rustfmt to format your code in a particular style (more on rustfmt in Appendix D). The Rust team has included this tool with the standard Rust distribution, as rustc is, so it should already be installed on your computer!">注意：如果您希望在 Rust 项目中保持一致的风格，可以使用一个名为 <code>rustfmt</code> 的自动格式化工具来将代码格式化为特定风格（更多关于 <code>rustfmt</code> 的内容请参见 <a href="appendix-04-useful-development-tools.html">附录 D</a><!-- ignore -->）。Rust 团队已将此工具包含在标准的 Rust 分发包中，就像 <code>rustc</code> 一样，因此它应该已经安装在您的计算机上！</p>
 </section>
 <p data-x-en="The body of the main function holds the following code:"><code>main</code> 函数的主体包含以下代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>println!("Hello, world!");
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="This line does all the work in this little program: it prints text to the screen. There are four important details to notice here.">这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有四个重要的细节需要注意。</p>
+<p data-x-en="This line does all the work in this little program: it prints text to the screen. There are three important details to notice here.">这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有三个重要的细节需要注意。</p>
 <p data-x-en="First, println! calls a Rust macro. If it had called a function instead, it would be entered as println (without the !). We’ll discuss Rust macros in more detail in Chapter 20. For now, you just need to know that using a ! means that you’re calling a macro instead of a normal function and that macros don’t always follow the same rules as functions.">首先，<code>println!</code> 调用了一个 Rust 宏。如果它调用的是一个函数，那么它将被写为 <code>println</code>（没有 <code>!</code>）。我们将在第 20 章详细讨论 Rust 宏。现在，你只需要知道使用 <code>!</code> 意味着你调用的是一个宏而不是普通函数，并且宏并不总是遵循与函数相同的规则。</p>
 <p data-x-en="Second, you see the &quot;Hello, world!&quot; string. We pass this string as an argument to println!, and the string is printed to the screen.">其次，您看到 <code>"Hello, world!"</code> 字符串。我们将这个字符串作为参数传递给 <code>println!</code>，然后字符串会被打印到屏幕上。</p>
 <p data-x-en="Third, we end the line with a semicolon (;), which indicates that this expression is over and the next one is ready to begin. Most lines of Rust code end with a semicolon.">第三，我们在行末加上分号（<code>;</code>），这表示该表达式已结束，下一个表达式可以开始。大多数 Rust 代码行以分号结尾。</p>

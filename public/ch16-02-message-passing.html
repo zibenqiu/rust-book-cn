@@ -247,7 +247,7 @@ fn main() {
 <p data-x-en="Let’s move the transmitting end into a spawned thread and have it send one string so that the spawned thread is communicating with the main thread, as shown in Listing 16-7. This is like putting a rubber duck in the river upstream or sending a chat message from one thread to another.">让我们将发送端移到一个新创建的线程中，并让它发送一个字符串，这样新创建的线程就可以与主线程通信，如清单 16-7 所示。这就像在河流上游放一个橡皮鸭，或者从一个线程向另一个线程发送聊天消息。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::sync::mpsc;
 use std::thread;
 
 fn main() {
@@ -266,7 +266,7 @@ fn main() {
 <p data-x-en="In Listing 16-8, we’ll get the value from the receiver in the main thread. This is like retrieving the rubber duck from the water at the end of the river or receiving a chat message.">在清单 16-8 中，我们将在主线程中从接收者获取值。这就像从河的尽头水中取出橡皮鸭或接收聊天消息。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::sync::mpsc;
 use std::thread;
 
 fn main() {

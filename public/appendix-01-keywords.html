@@ -305,7 +305,7 @@ blockquote {
 </code></pre>
 <p data-x-en="The error shows that you can’t use the keyword match as the function identifier. To use match as a function name, you need to use the raw identifier syntax, like this:">错误显示你不能将关键字<code>match</code>用作函数标识符。要将<code>match</code>用作函数名，你需要使用原始标识符语法，如下所示：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn r#match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
+<pre><pre class="playground"><code class="language-rust edition2024">fn r#match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
     haystack.contains(needle)
 }
 

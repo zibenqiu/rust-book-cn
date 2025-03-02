@@ -230,7 +230,7 @@ blockquote {
 <p data-x-en="When we switched from using two futures to three in the previous section, we also had to switch from using join to using join3. It would be annoying to have to call a different function every time we changed the number of futures we wanted to join. Happily, we have a macro form of join to which we can pass an arbitrary number of arguments. It also handles awaiting the futures itself. Thus, we could rewrite the code from Listing 17-13 to use join! instead of join3, as in Listing 17-14.">当我们从使用两个 future 转变为使用三个 future 时，我们还必须从使用 <code>join</code> 转变为使用 <code>join3</code>。每次我们改变想要连接的 future 数量时，都必须调用不同的函数，这会很烦人。幸运的是，我们有一个 <code>join</code> 的宏形式，可以传递任意数量的参数。它还自行处理等待 future。因此，我们可以将列表 17-13 中的代码重写为使用 <code>join!</code> 而不是 <code>join3</code>，如列表 17-14 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -347,8 +347,7 @@ copy just the compiler error
    |                      ----- the found `async` block
 ...
 45 |         let futures = vec![tx1_fut, rx_fut, tx_fut];
-   |                                     ^^^^^^ expected `async` block, found a 
-different `async` block
+   |                                     ^^^^^^ expected `async` block, found a different `async` block
    |
    = note: expected `async` block `{async block@src/main.rs:10:23: 10:33}`
               found `async` block `{async block@src/main.rs:24:22: 24:27}`
@@ -504,9 +503,9 @@ cargo build
     = note: no two async blocks, even if identical, have the same type
     = help: consider pinning your async block and casting it to a trait object
 note: associated function defined here
-   --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/alloc/src/boxed.rs:255:12
+   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/alloc/src/boxed.rs:252:12
     |
-255 |     pub fn new(x: T) -&gt; Self {
+252 |     pub fn new(x: T) -&gt; Self {
     |            ^^^
 
 error[E0308]: mismatched types
@@ -528,16 +527,16 @@ error[E0308]: mismatched types
     = note: no two async blocks, even if identical, have the same type
     = help: consider pinning your async block and casting it to a trait object
 note: associated function defined here
-   --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/alloc/src/boxed.rs:255:12
+   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/alloc/src/boxed.rs:252:12
     |
-255 |     pub fn new(x: T) -&gt; Self {
+252 |     pub fn new(x: T) -&gt; Self {
     |            ^^^
 
 error[E0277]: `{async block@src/main.rs:10:23: 10:33}` cannot be unpinned
    --&gt; src/main.rs:48:24
     |
 48  |         trpl::join_all(futures).await;
-    |         -------------- ^^^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`, which is required by `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;: Future`
+    |         -------------- ^^^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`
     |         |
     |         required by a bound introduced by this call
     |
@@ -545,7 +544,7 @@ error[E0277]: `{async block@src/main.rs:10:23: 10:33}` cannot be unpinned
             consider using `Box::pin` if you need to access the pinned value outside of the current scope
     = note: required for `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;` to implement `Future`
 note: required by a bound in `join_all`
-   --&gt; file:///home/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-util-0.3.30/src/future/join_all.rs:105:14
+   --&gt; file:///home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.30/src/future/join_all.rs:105:14
     |
 102 | pub fn join_all&lt;I&gt;(iter: I) -&gt; JoinAll&lt;I::Item&gt;
     |        -------- required by a bound in this function
@@ -557,13 +556,13 @@ error[E0277]: `{async block@src/main.rs:10:23: 10:33}` cannot be unpinned
   --&gt; src/main.rs:48:9
    |
 48 |         trpl::join_all(futures).await;
-   |         ^^^^^^^^^^^^^^^^^^^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`, which is required by `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;: Future`
+   |         ^^^^^^^^^^^^^^^^^^^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`
    |
    = note: consider using the `pin!` macro
            consider using `Box::pin` if you need to access the pinned value outside of the current scope
    = note: required for `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;` to implement `Future`
 note: required by a bound in `futures_util::future::join_all::JoinAll`
-  --&gt; file:///home/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-util-0.3.30/src/future/join_all.rs:29:8
+  --&gt; file:///home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.30/src/future/join_all.rs:29:8
    |
 27 | pub struct JoinAll&lt;F&gt;
    |            ------- required by a bound in this struct
@@ -575,13 +574,13 @@ error[E0277]: `{async block@src/main.rs:10:23: 10:33}` cannot be unpinned
   --&gt; src/main.rs:48:33
    |
 48 |         trpl::join_all(futures).await;
-   |                                 ^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`, which is required by `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;: Future`
+   |                                 ^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`
    |
    = note: consider using the `pin!` macro
            consider using `Box::pin` if you need to access the pinned value outside of the current scope
    = note: required for `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;` to implement `Future`
 note: required by a bound in `futures_util::future::join_all::JoinAll`
-  --&gt; file:///home/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-util-0.3.30/src/future/join_all.rs:29:8
+  --&gt; file:///home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.30/src/future/join_all.rs:29:8
    |
 27 | pub struct JoinAll&lt;F&gt;
    |            ------- required by a bound in this struct
@@ -598,11 +597,11 @@ note: required by a bound in `futures_util::future::join_all::JoinAll`
 这些future本身。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{
 </span><span class="boring">    future::Future,
-</span><span class="boring">    pin::{pin, Pin},
+</span><span class="boring">    pin::{Pin, pin},
 </span><span class="boring">    time::Duration,
 </span><span class="boring">};
 </span><span class="boring">
@@ -671,11 +670,11 @@ received 'you'
 <p data-x-en="However, we must still be explicit about the type of the pinned reference; otherwise, Rust will still not know to interpret these as dynamic trait objects, which is what we need them to be in the Vec. We therefore pin! each future when we define it, and define futures as a Vec containing pinned mutable references to the dynamic future type, as in Listing 17-19.">然而，我们必须明确指出固定引用的类型；否则，Rust 仍然不知道将这些解释为动态特征对象，而这正是我们需要它们在 <code>Vec</code> 中成为的。因此，我们在定义每个未来时都使用 <code>pin!</code>，并将 <code>futures</code> 定义为包含指向动态未来类型的固定可变引用的 <code>Vec</code>，如清单 17-19 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{
 </span><span class="boring">    future::Future,
-</span><span class="boring">    pin::{pin, Pin},
+</span><span class="boring">    pin::{Pin, pin},
 </span><span class="boring">    time::Duration,
 </span><span class="boring">};
 </span><span class="boring">
@@ -732,7 +731,7 @@ received 'you'
 <p data-x-en="We got this far by ignoring the fact that we might have different Output types. For example, in Listing 17-20, the anonymous future for a implements Future<Output = u32>, the anonymous future for b implements Future<Output = &amp;str>, and the anonymous future for c implements Future<Output = bool>.">我们通过忽略我们可能有不同的<code>Output</code>类型这一事实才走到这一步。例如，在示例 17-20 中，<code>a</code>的匿名未来实现了<code>Future&lt;Output = u32&gt;</code>，<code>b</code>的匿名未来实现了<code>Future&lt;Output = &amp;str&gt;</code>，<code>c</code>的匿名未来实现了<code>Future&lt;Output = bool&gt;</code>。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    trpl::run(async {
@@ -753,7 +752,7 @@ received 'you'
 <p data-x-en="In Listing 17-21, we once again use trpl::race to run two futures, slow and fast, against each other.">在清单 17-21 中，我们再次使用 <code>trpl::race</code> 来运行两个未来值，<code>slow</code> 和 <code>fast</code>，相互竞争。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -791,7 +790,7 @@ ignore --> 中使用 <code>race</code> 时不同，这里我们只是忽略它�
 <p data-x-en="Let’s simulate a long-running operation. Listing 17-22 introduces a slow function.">让我们模拟一个长时间运行的操作。清单 17-22 引入了一个 <code>slow</code> 函数。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{thread, time::Duration};
 </span><span class="boring">
@@ -811,7 +810,7 @@ ignore --> 中使用 <code>race</code> 时不同，这里我们只是忽略它�
 <p data-x-en="In Listing 17-23, we use slow to emulate doing this kind of CPU-bound work in a pair of futures.">在清单 17-23 中，我们使用 <code>slow</code> 来模拟在一对 future 中执行这种 CPU 密集型工作。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{thread, time::Duration};
 </span><span class="boring">
@@ -868,7 +867,7 @@ copy just the output
 <p data-x-en="We can already see this kind of handoff happening in Listing 17-23: if we removed the trpl::sleep at the end of the a future, it would complete without the b future running at all. Let’s try using the sleep function as a starting point for letting operations switch off making progress, as shown in Listing 17-24.">我们已经在清单 17-23 中看到了这种交接的发生：如果我们移除 <code>a</code> 未来末尾的 <code>trpl::sleep</code>，它将在 <code>b</code> 未来完全不运行的情况下完成。让我们尝试使用 <code>sleep</code> 函数作为让操作交替进行的起点，如清单 17-24 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{thread, time::Duration};
 </span><span class="boring">
@@ -930,7 +929,7 @@ copy just the output
 <p data-x-en="We don’t really want to sleep here, though: we want to make progress as fast as we can. We just need to hand back control to the runtime. We can do that directly, using the yield_now function. In Listing 17-25, we replace all those sleep calls with yield_now.">我们并不真的想在这里<em>睡眠</em>：我们希望尽可能快地取得进展。我们只需要将控制权交还给运行时。我们可以直接使用<code>yield_now</code>函数来实现。在清单17-25中，我们将所有那些<code>sleep</code>调用替换为<code>yield_now</code>。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{thread, time::Duration};
 </span><span class="boring">
@@ -974,7 +973,7 @@ copy just the output
 <p data-x-en="You can see this for yourself by setting up a little benchmark, such as the one in Listing 17-26. (This isn’t an especially rigorous way to do performance testing, but it suffices to show the difference here.)">你可以通过设置一个小基准测试自己看看，例如列表 17-26 中的示例。（这并不是一种特别严谨的性能测试方法，但足以显示这里的差异。）</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::{Duration, Instant};
 </span><span class="boring">
@@ -1087,7 +1086,7 @@ copy just the output
 <p data-x-en="In Listing 17-29, we match on the result of awaiting trpl::race.">在清单 17-29 中，我们对 <code>trpl::race</code> 的结果进行匹配。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{future::Future, time::Duration};
 </span><span class="boring">

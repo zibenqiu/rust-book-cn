@@ -420,6 +420,7 @@ help: consider changing this to be a mutable reference in the `impl` method and 
 
 For more information about this error, try `rustc --explain E0596`.
 error: could not compile `limit-tracker` (lib test) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
 </code></pre>
 <p data-x-en="We can’t modify the MockMessenger to keep track of the messages, because the send method takes an immutable reference to self. We also can’t take the suggestion from the error text to use &amp;mut self in both the impl method and the trait definition. We do not want to change the Messenger trait solely for the sake of testing. Instead, we need to find a way to make our test code work correctly with our existing design.">我们不能修改<code>MockMessenger</code>来跟踪消息，因为<code>send</code>方法接受一个不可变的<code>self</code>引用。我们也不能采纳错误文本中的建议，在<code>impl</code>方法和<code>trait</code>定义中都使用<code>&amp;mut self</code>。我们不希望为了测试而改变<code>Messenger</code>特质。相反，我们需要找到一种方法，使我们的测试代码与现有的设计正确地工作。</p>
 <p data-x-en="This is a situation in which interior mutability can help! We’ll store the sent_messages within a RefCell<T>, and then the send method will be able to modify sent_messages to store the messages we’ve seen. Listing 15-22 shows what that looks like:">这是一个内部可变性可以提供帮助的情况！我们将 <code>sent_messages</code> 存储在 <code>RefCell&lt;T&gt;</code> 中，然后 <code>send</code> 方法将能够修改 <code>sent_messages</code> 以存储我们看到的消息。清单 15-22 显示了这看起来像什么：</p>
@@ -600,6 +601,7 @@ test tests::it_sends_an_over_75_percent_warning_message ... FAILED
 failures:
 
 ---- tests::it_sends_an_over_75_percent_warning_message stdout ----
+
 thread 'tests::it_sends_an_over_75_percent_warning_message' panicked at src/lib.rs:60:53:
 already borrowed: BorrowMutError
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -619,7 +621,7 @@ error: test failed, to rerun pass `--lib`
 <p data-x-en="For example, recall the cons list example in Listing 15-18 where we used Rc<T> to allow multiple lists to share ownership of another list. Because Rc<T> holds only immutable values, we can’t change any of the values in the list once we’ve created them. Let’s add in RefCell<T> to gain the ability to change the values in the lists. Listing 15-24 shows that by using a RefCell<T> in the Cons definition, we can modify the value stored in all the lists:">例如，回想一下列表 15-18 中的 cons 列表示例，我们在其中使用了 <code>Rc&lt;T&gt;</code> 以允许多个列表共享另一个列表的所有权。由于 <code>Rc&lt;T&gt;</code> 仅持有不可变值，因此我们一旦创建了列表中的值就无法更改它们。让我们添加 <code>RefCell&lt;T&gt;</code> 以获得更改列表中值的能力。列表 15-24 显示，通过在 <code>Cons</code> 定义中使用 <code>RefCell&lt;T&gt;</code>，我们可以修改所有列表中存储的值：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 enum List {
     Cons(Rc&lt;RefCell&lt;i32&gt;&gt;, Rc&lt;List&gt;),
     Nil,

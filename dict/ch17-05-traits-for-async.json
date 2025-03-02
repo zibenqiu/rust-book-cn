@@ -438,5 +438,17 @@
   "In the version of StreamExt used in the trpl crate, the trait not only defines the next method but also supplies a default implementation of next that correctly handles the details of calling Stream::poll_next. This means that even when you need to write your own streaming data type, you only have to implement Stream, and then anyone who uses your data type can use StreamExt and its methods with it automatically.": {
     "_translate": "在 <code>trpl</code> crate 中使用的 <code>StreamExt</code> 版本中，该 trait 不仅定义了 <code>next</code> 方法，还提供了一个默认的 <code>next</code> 实现，该实现正确处理了调用 <code>Stream::poll_next</code> 的细节。这意味着即使你需要编写自己的流数据类型，你也<em>只需</em>实现 <code>Stream</code>，然后任何使用你数据类型的人就可以自动使用 <code>StreamExt</code> 及其方法。",
     "_note": ""
+  },
+  "That’s a lot to absorb! To really understand it, let’s dive a little further into how the Future trait actually works, in particular around pinning.": {
+    "_translate": "这有很多需要吸收的内容！为了真正理解它，让我们进一步探讨 <code>Future</code> 特性实际上是如何工作的，特别是关于 <em>固定</em>。",
+    "_note": ""
+  },
+  "The cx parameter and its Context type are the key to how a runtime actually knows when to check any given future while still being lazy. Again, the details of how that works are beyond the scope of this chapter, and you generally only need to think about this when writing a custom Future implementation. We’ll focus instead on the type for self, as this is the first time we’ve seen a method where self has a type annotation. A type annotation for self works like type annotations for other function parameters, but with two key differences:": {
+    "_translate": "<code>cx</code> 参数及其 <code>Context</code> 类型是运行时实际知道何时检查给定的未来同时仍然保持惰性化的关键。再次，这些工作原理的细节超出了本章的范围，通常只有在编写自定义 <code>Future</code> 实现时才需要考虑这一点。相反，我们将重点放在 <code>self</code> 的类型上，因为这是第一次看到 <code>self</code> 有类型注解的方法。<code>self</code> 的类型注解与其他函数参数的类型注解类似，但有两个关键区别：",
+    "_note": ""
+  },
+  "However, most types are perfectly safe to move around, even if they happen to be behind a Pin wrapper. We only need to think about pinning when items have internal references. Primitive values such as numbers and Booleans obviously don’t have any internal references, so they’re safe. Neither do most types you normally work with in Rust. You can move around a Vec, for example, without worrying. Given only what we have seen so far, if you have a Pin<Vec<String>>, you’d have to do everything via the safe but restrictive APIs provided by Pin, even though a Vec<String> is always safe to move if there are no other references to it. We need a way to tell the compiler that it’s fine to move items around in cases like this—and there’s where Unpin comes into play.": {
+    "_translate": "然而，大多数类型即使在 <code>Pin</code> 包装器后面也是完全安全的。只有当项目具有内部引用时，我们才需要考虑固定。显然，数字和布尔值等原始值没有任何内部引用，因此它们是安全的。大多数你在 Rust 中通常使用的类型也是如此。例如，你可以随意移动 <code>Vec</code>，而无需担心。根据我们迄今为止所见，如果你有一个 <code>Pin&lt;Vec&lt;String&gt;&gt;</code>，即使 <code>Vec&lt;String&gt;</code> 在没有其他引用的情况下总是可以安全移动的，你也必须通过 <code>Pin</code> 提供的安全但受限的 API 来完成所有操作。我们需要一种方法来告诉编译器，在这种情况下移动项目是安全的——这就是 <code>Unpin</code> 发挥作用的地方。",
+    "_note": ""
   }
 }

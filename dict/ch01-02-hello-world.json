@@ -158,5 +158,9 @@
   "Third, we end the line with a semicolon (;), which indicates that this expression is over and the next one is ready to begin. Most lines of Rust code end with a semicolon.": {
     "_translate": "第三，我们在行末加上分号（<code>;</code>），这表示该表达式已结束，下一个表达式可以开始。大多数 Rust 代码行以分号结尾。",
     "_note": ""
+  },
+  "This line does all the work in this little program: it prints text to the screen. There are three important details to notice here.": {
+    "_translate": "这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有三个重要的细节需要注意。",
+    "_note": ""
   }
 }

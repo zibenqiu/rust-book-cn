@@ -312,7 +312,7 @@ pub fn eat_at_restaurant() {
 习惯上会指定完整路径。列表 7-14 展示了将标准库中的 <code>HashMap</code> 结构体引入二进制 crate 作用域的习惯用法。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::collections::HashMap;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::collections::HashMap;
 
 fn main() {
     let mut map = HashMap::new();
@@ -415,7 +415,7 @@ fn main() {
 </span>}</code></pre>
 <p data-x-en="Members of the Rust community have made many packages available at crates.io, and pulling any of them into your package involves these same steps: listing them in your package’s Cargo.toml file and using use to bring items from their crates into scope.">Rust 社区的成员在 <a href="https://crates.io/">crates.io</a> 上提供了许多包，将其中任何一个引入你的包中都涉及以下相同步骤：在你的包的 <em>Cargo.toml</em> 文件中列出它们，并使用 <code>use</code> 将它们的包中的项引入作用域。</p>
 <p data-x-en="Note that the standard std library is also a crate that’s external to our package. Because the standard library is shipped with the Rust language, we don’t need to change Cargo.toml to include std. But we do need to refer to it with use to bring items from there into our package’s scope. For example, with HashMap we would use this line:">请注意，标准库 <code>std</code> 也是一个位于我们包外部的 crate。因为标准库是随 Rust 语言一起分发的，我们不需要修改 <em>Cargo.toml</em> 来包含 <code>std</code>。但我们需要使用 <code>use</code> 来将其中的项引入到我们包的作用域中。例如，对于 <code>HashMap</code>，我们会使用这一行：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::HashMap;
 <span class="boring">}</span></code></pre></pre>
@@ -506,7 +506,7 @@ use std::io::Write;</code></pre>
 <p data-x-en="This line brings std::io and std::io::Write into scope.">这行将 <code>std::io</code> 和 <code>std::io::Write</code> 引入作用域。</p>
 <h3 id="the-glob-operator"><a class="header" href="#the-glob-operator">通配符操作符</a></h3>
 <p data-x-en="If we want to bring all public items defined in a path into scope, we can specify that path followed by the * glob operator:">如果我们想将路径中定义的<em>所有</em>公共项引入作用域，我们可以指定该路径后跟<code>*</code>通配符：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::collections::*;
 <span class="boring">}</span></code></pre></pre>

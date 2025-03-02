@@ -232,7 +232,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="To define a struct, we enter the keyword struct and name the entire struct. A struct’s name should describe the significance of the pieces of data being grouped together. Then, inside curly brackets, we define the names and types of the pieces of data, which we call fields. For example, Listing 5-1 shows a struct that stores information about a user account.">要定义一个结构体，我们输入关键字<code>struct</code>并命名整个结构体。结构体的名称应描述被组合在一起的数据片段的重要性。然后，在大括号内，我们定义数据片段的名称和类型，我们称之为<em>字段</em>。例如，列表5-1显示了一个存储用户账户信息的结构体。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024">struct User {
     active: bool,
     username: String,
     email: String,
@@ -245,7 +245,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="To use a struct after we’ve defined it, we create an instance of that struct by specifying concrete values for each of the fields. We create an instance by stating the name of the struct and then add curly brackets containing key: value pairs, where the keys are the names of the fields and the values are the data we want to store in those fields. We don’t have to specify the fields in the same order in which we declared them in the struct. In other words, the struct definition is like a general template for the type, and instances fill in that template with particular data to create values of the type. For example, we can declare a particular user as shown in Listing 5-2.">要使用定义后的结构体，我们通过为每个字段指定具体的值来创建该结构体的<em>实例</em>。我们通过声明结构体的名称并添加包含<em>键: 值</em>对的大括号来创建实例，其中键是字段的名称，值是我们想要存储在这些字段中的数据。我们不必按照在结构体中声明的相同顺序指定字段。换句话说，结构体定义就像该类型的通用模板，而实例则用特定的数据填充该模板以创建该类型的值。例如，我们可以如清单5-2所示声明一个特定的用户。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -265,7 +265,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="To get a specific value from a struct, we use dot notation. For example, to access this user’s email address, we use user1.email. If the instance is mutable, we can change a value by using the dot notation and assigning into a particular field. Listing 5-3 shows how to change the value in the email field of a mutable User instance.">要从结构体中获取特定值，我们使用点表示法。例如，要访问此用户的电子邮件地址，我们使用<code>user1.email</code>。如果实例是可变的，我们可以通过使用点表示法并分配到特定字段来更改值。列表 5-3 显示了如何更改可变 <code>User</code> 实例中 <code>email</code> 字段的值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -288,7 +288,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="Listing 5-4 shows a build_user function that returns a User instance with the given email and username. The active field gets the value of true, and the sign_in_count gets a value of 1.">列表 5-4 显示了一个 <code>build_user</code> 函数，该函数返回一个带有给定电子邮件和用户名的 <code>User</code> 实例。字段 <code>active</code> 获得 <code>true</code> 的值，而 <code>sign_in_count</code> 获得 <code>1</code> 的值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -319,7 +319,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="Because the parameter names and the struct field names are exactly the same in Listing 5-4, we can use the field init shorthand syntax to rewrite build_user so it behaves exactly the same but doesn’t have the repetition of username and email, as shown in Listing 5-5.">因为参数名称和结构体字段名称在清单 5-4 中完全相同，我们可以使用 <em>字段初始化简写</em> 语法重写 <code>build_user</code>，使其行为完全相同，但不会重复 <code>username</code> 和 <code>email</code>，如清单 5-5 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -349,7 +349,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="First, in Listing 5-6 we show how to create a new User instance in user2 regularly, without the update syntax. We set a new value for email but otherwise use the same values from user1 that we created in Listing 5-2.">首先，在清单 5-6 中我们展示了如何在 <code>user2</code> 中不使用更新语法而常规地创建一个新的 <code>User</code> 实例。我们为 <code>email</code> 设置了一个新值，但其他方面使用了我们在清单 5-2 中创建的 <code>user1</code> 的相同值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -378,7 +378,7 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <p data-x-en="Using struct update syntax, we can achieve the same effect with less code, as shown in Listing 5-7. The syntax .. specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance.">通过使用结构体更新语法，我们可以用更少的代码实现相同的效果，如清单 5-7 所示。语法 <code>..</code> 指定未明确设置的其余字段应具有给定实例中字段的相同值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct User {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
 </span><span class="boring">    email: String,
@@ -403,14 +403,18 @@ ignore -->部分讨论的元组，因为它们都包含多个相关值。像元�
 <figcaption>Listing 5-7: Using struct update syntax to set a new <code>email</code> value for a <code>User</code> instance but to use the rest of the values from <code>user1</code></figcaption>
 </figure>
 <p data-x-en="The code in Listing 5-7 also creates an instance in user2 that has a different value for email but has the same values for the username, active, and sign_in_count fields from user1. The ..user1 must come last to specify that any remaining fields should get their values from the corresponding fields in user1, but we can choose to specify values for as many fields as we want in any order, regardless of the order of the fields in the struct’s definition.">列表 5-7 中的代码还在 <code>user2</code> 中创建了一个实例，该实例的 <code>email</code> 值不同，但 <code>username</code>、<code>active</code> 和 <code>sign_in_count</code> 字段的值与 <code>user1</code> 相同。<code>..user1</code> 必须放在最后，以指定任何剩余字段应从 <code>user1</code> 的相应字段获取值，但我们可以根据需要以任意顺序为任意数量的字段指定值，无论这些字段在结构体定义中的顺序如何。</p>
-<p data-x-en="Note that the struct update syntax uses = like an assignment; this is because it moves the data, just as we saw in the “Variables and Data Interacting with Move” section. In this example, we can no longer use user1 as a whole after creating user2 because the String in the username field of user1 was moved into user2. If we had given user2 new String values for both email and username, and thus only used the active and sign_in_count values from user1, then user1 would still be valid after creating user2. Both active and sign_in_count are types that implement the Copy trait, so the behavior we discussed in the “Stack-Only Data: Copy” section would apply. We can still use user1.email in this example, since its value was not moved out.">请注意，结构体更新语法使用 <code>=</code> 类似于赋值；这是因为
-它会移动数据，就像我们在 <a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“变量和数据的移动交互”</a><!-- ignore --> 部分看到的那样。在这个例子中，创建 <code>user2</code> 之后，我们不能再使用整个 <code>user1</code>，因为 <code>user1</code> 中 <code>username</code> 字段的 <code>String</code> 被移动到了 <code>user2</code>。如果我们为 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都提供了新的 <code>String</code> 值，因此只使用了 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code> 值，那么在创建 <code>user2</code> 之后 <code>user1</code> 仍然有效。<code>active</code> 和 <code>sign_in_count</code> 都是实现了 <code>Copy</code> 特性的类型，因此我们在 <a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“仅栈数据：复制”</a><!-- ignore --> 部分讨论的行为将适用。我们仍然可以使用 <code>user1.email</code>，因为它的值 <em>没有</em> 被移出。</p>
+<p data-x-en="Note that the struct update syntax uses = like an assignment; this is because it moves the data, just as we saw in the “Variables and Data Interacting with Move” section. In this example, we can no longer use user1 after creating user2 because the String in the username field of user1 was moved into user2. If we had given user2 new String values for both email and username, and thus only used the active and sign_in_count values from user1, then user1 would still be valid after creating user2. Both active and sign_in_count are types that implement the Copy trait, so the behavior we discussed in the “Stack-Only Data: Copy” section would apply. We can still use user1.email in this example, because its value was not moved out.">请注意，结构体更新语法使用 <code>=</code> 类似于赋值；这是因为
+它会移动数据，就像我们在 <a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“变量和数据的移动交互”</a><!-- ignore --> 部分看到的那样。在这个例子中，创建 <code>user2</code> 之后我们不能再使用
+<code>user1</code>，因为 <code>user1</code> 的 <code>username</code> 字段中的 <code>String</code> 被移动到了 <code>user2</code>。如果我们为 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都提供了新的 <code>String</code> 值，因此只使用了 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code>
+值，那么创建 <code>user2</code> 之后 <code>user1</code> 仍然有效。
+<code>active</code> 和 <code>sign_in_count</code> 都是实现了 <code>Copy</code> 特性的类型，因此我们在 <a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“仅栈数据：复制”</a><!-- ignore -->
+部分讨论的行为将适用。我们仍然可以使用 <code>user1.email</code>，因为它的值 <em>没有</em> 被移出。</p>
 <h3 id="using-tuple-structs-without-named-fields-to-create-different-types"><a class="header" href="#using-tuple-structs-without-named-fields-to-create-different-types">使用无命名字段的元组结构体创建不同类型的实例</a></h3>
 <p data-x-en="Rust also supports structs that look similar to tuples, called tuple structs. Tuple structs have the added meaning the struct name provides but don’t have names associated with their fields; rather, they just have the types of the fields. Tuple structs are useful when you want to give the whole tuple a name and make the tuple a different type from other tuples, and when naming each field as in a regular struct would be verbose or redundant.">Rust 还支持看起来类似于元组的结构体，称为 <em>元组结构体</em>。元组结构体具有结构体名称提供的附加含义，但它们的字段没有名称；相反，它们只有字段的类型。当您希望为整个元组命名并使该元组与其他元组类型不同，以及在常规结构体中为每个字段命名会显得冗长或重复时，元组结构体非常有用。</p>
 <p data-x-en="To define a tuple struct, start with the struct keyword and the struct name followed by the types in the tuple. For example, here we define and use two tuple structs named Color and Point:">要定义一个元组结构体，从 <code>struct</code> 关键字和结构体名称开始，后跟元组中的类型。例如，这里我们定义并使用了两个名为 <code>Color</code> 和 <code>Point</code> 的元组结构体：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">struct Color(i32, i32, i32);
+<pre><pre class="playground"><code class="language-rust edition2024">struct Color(i32, i32, i32);
 struct Point(i32, i32, i32);
 
 fn main() {
@@ -423,7 +427,7 @@ fn main() {
 <p data-x-en="You can also define structs that don’t have any fields! These are called unit-like structs because they behave similarly to (), the unit type that we mentioned in “The Tuple Type” section. Unit-like structs can be useful when you need to implement a trait on some type but don’t have any data that you want to store in the type itself. We’ll discuss traits in Chapter 10. Here’s an example of declaring and instantiating a unit struct named AlwaysEqual:">你也可以定义没有字段的结构体！这些被称为<em>单元类结构体</em>，因为它们的行为类似于<code>()</code>，即我们在<a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore -->部分提到的单元类型。单元类结构体在你需要在某些类型上实现特质但不想在类型本身中存储任何数据时非常有用。我们将在第10章讨论特质。以下是一个声明和实例化名为<code>AlwaysEqual</code>的单元结构体的示例：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">struct AlwaysEqual;
+<pre><pre class="playground"><code class="language-rust edition2024">struct AlwaysEqual;
 
 fn main() {
     let subject = AlwaysEqual;

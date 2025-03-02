@@ -138,5 +138,9 @@
   "Rust doesn’t have an equivalent to the -> operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust with this behavior.": {
     "_translate": "Rust 没有等同于 <code>-&gt;</code> 操作符的语法；相反，Rust 有一个称为 <em>自动引用和解引用</em> 的特性。调用方法是 Rust 中具有这种行为的少数地方之一。",
     "_note": ""
+  },
+  "Methods are similar to functions: we declare them with the fn keyword and a name, they can have parameters and a return value, and they contain some code that’s run when the method is called from somewhere else. Unlike functions, methods are defined within the context of a struct (or an enum or a trait object, which we cover in Chapter 6 and Chapter 18, respectively), and their first parameter is always self, which represents the instance of the struct the method is being called on.": {
+    "_translate": "<em>方法</em> 与函数类似：我们使用 <code>fn</code> 关键字和一个名称声明它们，它们可以有参数和返回值，并且包含一些代码，当从其他地方调用该方法时，这些代码将运行。与函数不同，方法是在结构体（或枚举或特征对象，我们将在 <a href=\"ch06-00-enums.html\">第六章</a><!-- ignore --> 和 <a href=\"ch18-02-trait-objects.html\">第十八章</a><!-- ignore --> 中分别介绍）的上下文中定义的，并且它们的第一个参数始终是 <code>self</code>，表示调用该方法的结构体实例。",
+    "_note": ""
   }
 }

@@ -233,8 +233,8 @@ blockquote {
 </section>
 <h3 id="defining-a-trait"><a class="header" href="#defining-a-trait">定义一个特质</a></h3>
 <p data-x-en="A type’s behavior consists of the methods we can call on that type. Different types share the same behavior if we can call the same methods on all of those types. Trait definitions are a way to group method signatures together to define a set of behaviors necessary to accomplish some purpose.">一个类型的行为主由我们可以调用该类型的方法组成。如果我们可以对所有这些类型调用相同的方法，那么不同的类型就共享相同的行为。特征定义是一种将方法签名组合在一起的方式，以定义实现某个目的所需的一组行为。</p>
-<p data-x-en="For example, let’s say we have multiple structs that hold various kinds and amounts of text: a NewsArticle struct that holds a news story filed in a particular location and a Tweet that can have, at most, 280 characters along with metadata that indicates whether it was a new tweet, a retweet, or a reply to another tweet.">例如，假设我们有多个结构体，它们持有各种类型和数量的文本：<code>NewsArticle</code> 结构体保存在特定地点发布的一篇新闻故事，以及 <code>Tweet</code> 结构体，最多可以包含 280 个字符，以及指示它是新推文、转推还是回复其他推文的元数据。</p>
-<p data-x-en="We want to make a media aggregator library crate named aggregator that can display summaries of data that might be stored in a NewsArticle or Tweet instance. To do this, we need a summary from each type, and we’ll request that summary by calling a summarize method on an instance. Listing 10-12 shows the definition of a public Summary trait that expresses this behavior.">我们想要制作一个名为 <code>aggregator</code> 的媒体聚合库 crate，可以显示可能存储在 <code>NewsArticle</code> 或 <code>Tweet</code> 实例中的数据摘要。为此，我们需要每种类型的摘要，并将通过在实例上调用 <code>summarize</code> 方法来请求该摘要。列表 10-12 显示了一个公共 <code>Summary</code> 特性的定义，该特性表达了这种行为。</p>
+<p data-x-en="For example, let’s say we have multiple structs that hold various kinds and amounts of text: a NewsArticle struct that holds a news story filed in a particular location and a SocialPost that can have, at most, 280 characters along with metadata that indicates whether it was a new post, a repost, or a reply to another post.">例如，假设我们有多个结构体，它们持有各种类型和数量的文本：一个 <code>NewsArticle</code> 结构体，用于存储在特定地点发布的新闻故事，以及一个 <code>SocialPost</code> 结构体，最多可以包含 280 个字符，以及元数据，指示它是新帖子、转发还是回复其他帖子。</p>
+<p data-x-en="We want to make a media aggregator library crate named aggregator that can display summaries of data that might be stored in a NewsArticle or SocialPost instance. To do this, we need a summary from each type, and we’ll request that summary by calling a summarize method on an instance. Listing 10-12 shows the definition of a public Summary trait that expresses this behavior.">我们想要制作一个名为 <code>aggregator</code> 的媒体聚合库 crate，可以显示可能存储在 <code>NewsArticle</code> 或 <code>SocialPost</code> 实例中的数据摘要。为此，我们需要每种类型的摘要，并将通过调用实例上的 <code>summarize</code> 方法来请求该摘要。列表 10-12 显示了一个公共 <code>Summary</code> 特性的定义，该特性表达了这种行为。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub trait Summary {
@@ -246,7 +246,7 @@ blockquote {
 <p data-x-en="After the method signature, instead of providing an implementation within curly brackets, we use a semicolon. Each type implementing this trait must provide its own custom behavior for the body of the method. The compiler will enforce that any type that has the Summary trait will have the method summarize defined with this signature exactly.">在方法签名之后，我们使用分号而不是在大括号内提供实现。每个实现此特征的类型都必须为其方法体提供自己的自定义行为。编译器将强制任何具有 <code>Summary</code> 特征的类型都必须定义具有此签名的方法 <code>summarize</code>。</p>
 <p data-x-en="A trait can have multiple methods in its body: the method signatures are listed one per line, and each line ends in a semicolon.">一个特质可以在其主体中拥有多个方法：方法签名按行列出，每行以分号结尾。</p>
 <h3 id="implementing-a-trait-on-a-type"><a class="header" href="#implementing-a-trait-on-a-type">在类型上实现特征</a></h3>
-<p data-x-en="Now that we’ve defined the desired signatures of the Summary trait’s methods, we can implement it on the types in our media aggregator. Listing 10-13 shows an implementation of the Summary trait on the NewsArticle struct that uses the headline, the author, and the location to create the return value of summarize. For the Tweet struct, we define summarize as the username followed by the entire text of the tweet, assuming that the tweet content is already limited to 280 characters.">现在我们已经定义了 <code>Summary</code> 特性方法的期望签名，我们可以在媒体聚合器中的类型上实现它。列表 10-13 显示了在 <code>NewsArticle</code> 结构体上实现 <code>Summary</code> 特性的示例，该实现使用标题、作者和位置来创建 <code>summarize</code> 的返回值。对于 <code>Tweet</code> 结构体，我们将 <code>summarize</code> 定义为用户名加上推文的全部内容，假设推文内容已经限制为 280 个字符。</p>
+<p data-x-en="Now that we’ve defined the desired signatures of the Summary trait’s methods, we can implement it on the types in our media aggregator. Listing 10-13 shows an implementation of the Summary trait on the NewsArticle struct that uses the headline, the author, and the location to create the return value of summarize. For the SocialPost struct, we define summarize as the username followed by the entire text of the post, assuming that the post content is already limited to 280 characters.">现在我们已经定义了 <code>Summary</code> 特性方法的期望签名，我们可以在媒体聚合器中的类型上实现它。列表 10-13 显示了在 <code>NewsArticle</code> 结构体上实现 <code>Summary</code> 特性的示例，该实现使用标题、作者和位置来创建 <code>summarize</code> 的返回值。对于 <code>SocialPost</code> 结构体，我们将 <code>summarize</code> 定义为用户名后跟帖子的全部文本，假设帖子内容已经限制为 280 个字符。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">pub trait Summary {
@@ -266,40 +266,40 @@ impl Summary for NewsArticle {
     }
 }
 
-pub struct Tweet {
+pub struct SocialPost {
     pub username: String,
     pub content: String,
     pub reply: bool,
-    pub retweet: bool,
+    pub repost: bool,
 }
 
-impl Summary for Tweet {
+impl Summary for SocialPost {
     fn summarize(&amp;self) -&gt; String {
         format!("{}: {}", self.username, self.content)
     }
 }</code></pre>
-<figcaption>Listing 10-13: Implementing the <code>Summary</code> trait on the <code>NewsArticle</code> and <code>Tweet</code> types</figcaption>
+<figcaption>Listing 10-13: Implementing the <code>Summary</code> trait on the <code>NewsArticle</code> and <code>SocialPost</code> types</figcaption>
 </figure>
 <p data-x-en="Implementing a trait on a type is similar to implementing regular methods. The difference is that after impl, we put the trait name we want to implement, then use the for keyword, and then specify the name of the type we want to implement the trait for. Within the impl block, we put the method signatures that the trait definition has defined. Instead of adding a semicolon after each signature, we use curly brackets and fill in the method body with the specific behavior that we want the methods of the trait to have for the particular type.">在类型上实现特质类似于实现常规方法。不同之处在于在 <code>impl</code> 之后，我们放置我们想要实现的特质名称，然后使用 <code>for</code> 关键字，接着指定我们想要为其实现特质的类型的名称。在 <code>impl</code> 块内，我们放置特质定义已定义的方法签名。而不是在每个签名后添加分号，我们使用大括号并用我们希望特质的方法为特定类型具有的特定行为填充方法体。</p>
-<p data-x-en="Now that the library has implemented the Summary trait on NewsArticle and Tweet, users of the crate can call the trait methods on instances of NewsArticle and Tweet in the same way we call regular methods. The only difference is that the user must bring the trait into scope as well as the types. Here’s an example of how a binary crate could use our aggregator library crate:">现在库已经在 <code>NewsArticle</code> 和 <code>Tweet</code> 上实现了 <code>Summary</code> 特性，crate 的用户可以像调用普通方法一样在 <code>NewsArticle</code> 和 <code>Tweet</code> 的实例上调用这些特性方法。唯一的区别是用户必须将特性以及类型引入作用域。以下是一个二进制 crate 如何使用我们的 <code>aggregator</code> 库 crate 的示例：</p>
-<pre><code class="language-rust ignore">use aggregator::{Summary, Tweet};
+<p data-x-en="Now that the library has implemented the Summary trait on NewsArticle and SocialPost, users of the crate can call the trait methods on instances of NewsArticle and SocialPost in the same way we call regular methods. The only difference is that the user must bring the trait into scope as well as the types. Here’s an example of how a binary crate could use our aggregator library crate:">现在库已经在 <code>NewsArticle</code> 和 <code>SocialPost</code> 上实现了 <code>Summary</code> 特性，crate 的用户可以像调用普通方法一样在 <code>NewsArticle</code> 和 <code>SocialPost</code> 的实例上调用这些特性方法。唯一的区别是用户必须将特性以及类型引入作用域。以下是一个二进制 crate 如何使用我们的 <code>aggregator</code> 库 crate 的示例：</p>
+<pre><code class="language-rust ignore">use aggregator::{SocialPost, Summary};
 
 fn main() {
-    let tweet = Tweet {
+    let post = SocialPost {
         username: String::from("horse_ebooks"),
         content: String::from(
             "of course, as you probably already know, people",
         ),
         reply: false,
-        retweet: false,
+        repost: false,
     };
 
-    println!("1 new tweet: {}", tweet.summarize());
+    println!("1 new social post: {}", post.summarize());
 }</code></pre>
-<p data-x-en="This code prints 1 new tweet: horse_ebooks: of course, as you probably already know, people.">这段代码打印 <code>1 new tweet: horse_ebooks: 当然，正如你可能已经知道的，人们</code>。</p>
-<p data-x-en="Other crates that depend on the aggregator crate can also bring the Summary trait into scope to implement Summary on their own types. One restriction to note is that we can implement a trait on a type only if either the trait or the type, or both, are local to our crate. For example, we can implement standard library traits like Display on a custom type like Tweet as part of our aggregator crate functionality because the type Tweet is local to our aggregator crate. We can also implement Summary on Vec<T> in our aggregator crate because the trait Summary is local to our aggregator crate.">其他依赖于 <code>aggregator</code> crate 的 crate 也可以将 <code>Summary</code>
-特质引入作用域，以便在它们自己的类型上实现 <code>Summary</code>。需要注意的一个限制是，我们只能在特质或类型（或两者）之一是我们 crate 本地的情况下，在类型上实现特质。例如，我们可以在 <code>aggregator</code> crate 功能中为自定义类型 <code>Tweet</code> 实现标准库特质 <code>Display</code>，因为类型 <code>Tweet</code> 是我们 <code>aggregator</code> crate 的本地类型。我们还可以在 <code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Summary</code>，因为特质 <code>Summary</code> 是我们 <code>aggregator</code>
-crate 的本地特质。</p>
+<p data-x-en="This code prints 1 new post: horse_ebooks: of course, as you probably already know, people.">这段代码打印 <code>1 new post: horse_ebooks: of course, as you probably already know, people</code>.</p>
+<p data-x-en="Other crates that depend on the aggregator crate can also bring the Summary trait into scope to implement Summary on their own types. One restriction to note is that we can implement a trait on a type only if either the trait or the type, or both, are local to our crate. For example, we can implement standard library traits like Display on a custom type like SocialPost as part of our aggregator crate functionality because the type SocialPost is local to our aggregator crate. We can also implement Summary on Vec<T> in our aggregator crate because the trait Summary is local to our aggregator crate.">其他依赖于 <code>aggregator</code> crate 的 crate 也可以将 <code>Summary</code>
+特质引入作用域，以便在它们自己的类型上实现 <code>Summary</code>。需要注意的一个限制是，我们只能在特质或类型（或两者）之一是我们 crate 本地的情况下，在该类型上实现特质。例如，我们可以在我们的 <code>aggregator</code> crate 功能中为自定义类型 <code>SocialPost</code> 实现标准库特质如 <code>Display</code>，因为类型 <code>SocialPost</code> 是我们 <code>aggregator</code> crate 本地的。我们还可以在我们的 <code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Summary</code>，因为特质 <code>Summary</code> 是我们 <code>aggregator</code>
+crate 本地的。</p>
 <p data-x-en="But we can’t implement external traits on external types. For example, we can’t implement the Display trait on Vec<T> within our aggregator crate because Display and Vec<T> are both defined in the standard library and aren’t local to our aggregator crate. This restriction is part of a property called coherence, and more specifically the orphan rule, so named because the parent type is not present. This rule ensures that other people’s code can’t break your code and vice versa. Without the rule, two crates could implement the same trait for the same type, and Rust wouldn’t know which implementation to use.">但是我们不能为外部类型实现外部特征。例如，我们不能在我们的<code>aggregator</code> crate 中为 <code>Vec&lt;T&gt;</code> 实现 <code>Display</code> 特征，因为 <code>Display</code> 和 <code>Vec&lt;T&gt;</code> 都定义在标准库中，并不是我们 <code>aggregator</code> crate 的本地类型。这个限制是称为<em>一致性</em>的属性的一部分，更具体地说是<em>孤儿规则</em>，之所以这样命名是因为父类型不在场。这条规则确保其他人的代码不会破坏你的代码，反之亦然。如果没有这条规则，两个 crate 可以为同一类型实现相同的特征，Rust 将不知道使用哪个实现。</p>
 <h3 id="default-implementations"><a class="header" href="#default-implementations">默认实现</a></h3>
 <p data-x-en="Sometimes it’s useful to have default behavior for some or all of the methods in a trait instead of requiring implementations for all methods on every type. Then, as we implement the trait on a particular type, we can keep or override each method’s default behavior.">有时为特质中的某些或所有方法提供默认行为是有用的，而不是要求每个类型都实现所有方法。然后，当我们在这个特定类型上实现特质时，我们可以保留或覆盖每个方法的默认行为。</p>
@@ -321,14 +321,14 @@ crate 的本地特质。</p>
 </span><span class="boring">
 </span><span class="boring">impl Summary for NewsArticle {}
 </span><span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">impl Summary for Tweet {
+</span><span class="boring">impl Summary for SocialPost {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
 </span><span class="boring">        format!("{}: {}", self.username, self.content)
 </span><span class="boring">    }
@@ -353,7 +353,7 @@ crate 的本地特质。</p>
     println!("New article available! {}", article.summarize());
 <span class="boring">}</span></code></pre>
 <p data-x-en="This code prints New article available! (Read more...).">这段代码打印 <code>新文章可用！(阅读更多...)</code>。</p>
-<p data-x-en="Creating a default implementation doesn’t require us to change anything about the implementation of Summary on Tweet in Listing 10-13. The reason is that the syntax for overriding a default implementation is the same as the syntax for implementing a trait method that doesn’t have a default implementation.">创建默认实现不需要我们更改在清单 10-13 中为 <code>Tweet</code> 实现 <code>Summary</code> 的任何内容。原因是覆盖默认实现的语法与实现没有默认实现的特征方法的语法相同。</p>
+<p data-x-en="Creating a default implementation doesn’t require us to change anything about the implementation of Summary on SocialPost in Listing 10-13. The reason is that the syntax for overriding a default implementation is the same as the syntax for implementing a trait method that doesn’t have a default implementation.">创建默认实现并不需要我们更改在清单 10-13 中为 <code>SocialPost</code> 实现 <code>Summary</code> 的任何内容。原因是覆盖默认实现的语法与实现没有默认实现的特征方法的语法相同。</p>
 <p data-x-en="Default implementations can call other methods in the same trait, even if those other methods don’t have a default implementation. In this way, a trait can provide a lot of useful functionality and only require implementors to specify a small part of it. For example, we could define the Summary trait to have a summarize_author method whose implementation is required, and then define a summarize method that has a default implementation that calls the summarize_author method:">默认实现可以调用同一特质中的其他方法，即使这些其他方法没有默认实现。通过这种方式，一个特质可以提供大量有用的功能，而只需要实现者指定其中的一小部分。例如，我们可以定义 <code>Summary</code> 特质具有一个 <code>summarize_author</code> 方法，其实现是必需的，然后定义一个 <code>summarize</code> 方法，该方法具有默认实现并调用 <code>summarize_author</code> 方法：</p>
 <pre><code class="language-rust noplayground">pub trait Summary {
     fn summarize_author(&amp;self) -&gt; String;
@@ -363,14 +363,14 @@ crate 的本地特质。</p>
     }
 }
 <span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">impl Summary for Tweet {
+</span><span class="boring">impl Summary for SocialPost {
 </span><span class="boring">    fn summarize_author(&amp;self) -&gt; String {
 </span><span class="boring">        format!("@{}", self.username)
 </span><span class="boring">    }
@@ -384,37 +384,37 @@ crate 的本地特质。</p>
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span>impl Summary for Tweet {
+</span>impl Summary for SocialPost {
     fn summarize_author(&amp;self) -&gt; String {
         format!("@{}", self.username)
     }
 }</code></pre>
-<p data-x-en="After we define summarize_author, we can call summarize on instances of the Tweet struct, and the default implementation of summarize will call the definition of summarize_author that we’ve provided. Because we’ve implemented summarize_author, the Summary trait has given us the behavior of the summarize method without requiring us to write any more code. Here’s what that looks like:">在我们定义了<code>summarize_author</code>之后，我们可以在<code>Tweet</code>结构体的实例上调用<code>summarize</code>，并且<code>summarize</code>的默认实现将调用我们提供的<code>summarize_author</code>的定义。因为我们实现了<code>summarize_author</code>，所以<code>Summary</code>特质在不需要我们编写更多代码的情况下，为我们提供了<code>summarize</code>方法的行为。这看起来是这样的：</p>
-<pre><code class="language-rust ignore"><span class="boring">use aggregator::{self, Summary, Tweet};
+<p data-x-en="After we define summarize_author, we can call summarize on instances of the SocialPost struct, and the default implementation of summarize will call the definition of summarize_author that we’ve provided. Because we’ve implemented summarize_author, the Summary trait has given us the behavior of the summarize method without requiring us to write any more code. Here’s what that looks like:">在我们定义了<code>summarize_author</code>之后，我们可以在<code>SocialPost</code>结构体的实例上调用<code>summarize</code>，默认实现的<code>summarize</code>将调用我们提供的<code>summarize_author</code>的定义。因为我们实现了<code>summarize_author</code>，<code>Summary</code>特质在不要求我们编写更多代码的情况下，为我们提供了<code>summarize</code>方法的行为。这看起来是这样的：</p>
+<pre><code class="language-rust ignore"><span class="boring">use aggregator::{self, SocialPost, Summary};
 </span><span class="boring">
 </span><span class="boring">fn main() {
-</span>    let tweet = Tweet {
+</span>    let post = SocialPost {
         username: String::from("horse_ebooks"),
         content: String::from(
             "of course, as you probably already know, people",
         ),
         reply: false,
-        retweet: false,
+        repost: false,
     };
 
-    println!("1 new tweet: {}", tweet.summarize());
+    println!("1 new social post: {}", post.summarize());
 <span class="boring">}</span></code></pre>
-<p data-x-en="This code prints 1 new tweet: (Read more from @horse_ebooks...).">这段代码打印 <code>1 条新推文: (阅读更多来自 @horse_ebooks...)</code>。</p>
+<p data-x-en="This code prints 1 new post: (Read more from @horse_ebooks...).">这段代码打印 <code>1 new post: (Read more from @horse_ebooks...)</code>。</p>
 <p data-x-en="Note that it isn’t possible to call the default implementation from an overriding implementation of that same method.">请注意，无法从同一方法的重写实现中调用默认实现。</p>
 <h3 id="traits-as-parameters"><a class="header" href="#traits-as-parameters">特质作为参数</a></h3>
-<p data-x-en="Now that you know how to define and implement traits, we can explore how to use traits to define functions that accept many different types. We’ll use the Summary trait we implemented on the NewsArticle and Tweet types in Listing 10-13 to define a notify function that calls the summarize method on its item parameter, which is of some type that implements the Summary trait. To do this, we use the impl Trait syntax, like this:">现在你已经知道如何定义和实现特质，我们可以探讨如何使用特质来定义接受多种不同类型的函数。我们将使用在清单 10-13 中为 <code>NewsArticle</code> 和 <code>Tweet</code> 类型实现的 <code>Summary</code> 特质来定义一个 <code>notify</code> 函数，该函数在其 <code>item</code> 参数上调用 <code>summarize</code> 方法，该参数是实现了 <code>Summary</code> 特质的某种类型。为此，我们使用 <code>impl Trait</code> 语法，如下所示：</p>
+<p data-x-en="Now that you know how to define and implement traits, we can explore how to use traits to define functions that accept many different types. We’ll use the Summary trait we implemented on the NewsArticle and SocialPost types in Listing 10-13 to define a notify function that calls the summarize method on its item parameter, which is of some type that implements the Summary trait. To do this, we use the impl Trait syntax, like this:">现在你已经知道如何定义和实现特质，我们可以探讨如何使用特质来定义接受多种不同类型的函数。我们将使用在清单 10-13 中为 <code>NewsArticle</code> 和 <code>SocialPost</code> 类型实现的 <code>Summary</code> 特质来定义一个 <code>notify</code> 函数，该函数在其 <code>item</code> 参数上调用 <code>summarize</code> 方法，该参数是实现了 <code>Summary</code> 特质的某种类型。为此，我们使用 <code>impl Trait</code> 语法，如下所示：</p>
 <pre><code class="language-rust ignore"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
 </span><span class="boring">}
@@ -432,14 +432,14 @@ crate 的本地特质。</p>
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">impl Summary for Tweet {
+</span><span class="boring">impl Summary for SocialPost {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
 </span><span class="boring">        format!("{}: {}", self.username, self.content)
 </span><span class="boring">    }
@@ -448,7 +448,7 @@ crate 的本地特质。</p>
 </span>pub fn notify(item: &amp;impl Summary) {
     println!("Breaking news! {}", item.summarize());
 }</code></pre>
-<p data-x-en="Instead of a concrete type for the item parameter, we specify the impl keyword and the trait name. This parameter accepts any type that implements the specified trait. In the body of notify, we can call any methods on item that come from the Summary trait, such as summarize. We can call notify and pass in any instance of NewsArticle or Tweet. Code that calls the function with any other type, such as a String or an i32, won’t compile because those types don’t implement Summary.">而不是为 <code>item</code> 参数指定具体的类型，我们指定了 <code>impl</code> 关键字和特征名称。此参数接受任何实现了指定特征的类型。在 <code>notify</code> 的函数体中，我们可以调用来自 <code>Summary</code> 特征的任何方法，例如 <code>summarize</code>。我们可以调用 <code>notify</code> 并传入任何 <code>NewsArticle</code> 或 <code>Tweet</code> 的实例。使用任何其他类型（如 <code>String</code> 或 <code>i32</code>）调用该函数的代码将无法编译，因为这些类型没有实现 <code>Summary</code>。</p>
+<p data-x-en="Instead of a concrete type for the item parameter, we specify the impl keyword and the trait name. This parameter accepts any type that implements the specified trait. In the body of notify, we can call any methods on item that come from the Summary trait, such as summarize. We can call notify and pass in any instance of NewsArticle or SocialPost. Code that calls the function with any other type, such as a String or an i32, won’t compile because those types don’t implement Summary.">我们为 <code>item</code> 参数指定了 <code>impl</code> 关键字和特质名称，而不是具体的类型。这个参数接受任何实现了指定特质的类型。在 <code>notify</code> 的函数体中，我们可以调用来自 <code>Summary</code> 特质的任何方法，例如 <code>summarize</code>。我们可以调用 <code>notify</code> 并传入任何 <code>NewsArticle</code> 或 <code>SocialPost</code> 的实例。如果使用其他类型（如 <code>String</code> 或 <code>i32</code>）调用该函数，代码将无法编译，因为这些类型没有实现 <code>Summary</code>。</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="fixing-the-largest-function-with-trait-bounds"></a></p>
 <h4 id="trait-bound-syntax"><a class="header" href="#trait-bound-syntax">Trait Bound 语法</a></h4>
@@ -499,32 +499,32 @@ where
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">impl Summary for Tweet {
+</span><span class="boring">impl Summary for SocialPost {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
 </span><span class="boring">        format!("{}: {}", self.username, self.content)
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn returns_summarizable() -&gt; impl Summary {
-    Tweet {
+    SocialPost {
         username: String::from("horse_ebooks"),
         content: String::from(
             "of course, as you probably already know, people",
         ),
         reply: false,
-        retweet: false,
+        repost: false,
     }
 }</code></pre>
-<p data-x-en="By using impl Summary for the return type, we specify that the returns_summarizable function returns some type that implements the Summary trait without naming the concrete type. In this case, returns_summarizable returns a Tweet, but the code calling this function doesn’t need to know that.">通过使用 <code>impl Summary</code> 作为返回类型，我们指定 <code>returns_summarizable</code> 函数返回某种实现了 <code>Summary</code> 特性的类型，而不需要指定具体的类型。在这种情况下，<code>returns_summarizable</code> 返回一个 <code>Tweet</code>，但调用此函数的代码不需要知道这一点。</p>
+<p data-x-en="By using impl Summary for the return type, we specify that the returns_summarizable function returns some type that implements the Summary trait without naming the concrete type. In this case, returns_summarizable returns a SocialPost, but the code calling this function doesn’t need to know that.">通过使用 <code>impl Summary</code> 作为返回类型，我们指定 <code>returns_summarizable</code> 函数返回某种实现了 <code>Summary</code> 特性的类型，而不需要指明具体的类型。在这种情况下，<code>returns_summarizable</code> 返回一个 <code>SocialPost</code>，但调用此函数的代码不需要知道这一点。</p>
 <p data-x-en="The ability to specify a return type only by the trait it implements is especially useful in the context of closures and iterators, which we cover in Chapter 13. Closures and iterators create types that only the compiler knows or types that are very long to specify. The impl Trait syntax lets you concisely specify that a function returns some type that implements the Iterator trait without needing to write out a very long type.">指定返回类型仅通过其实现的特征的能力在闭包和迭代器的上下文中特别有用，我们在第 13 章中会讲到。闭包和迭代器创建的类型只有编译器知道，或者这些类型非常长，难以指定。<code>impl Trait</code> 语法让你可以简洁地指定函数返回某种实现 <code>Iterator</code> 特征的类型，而无需写出一个非常长的类型。</p>
-<p data-x-en="However, you can only use impl Trait if you’re returning a single type. For example, this code that returns either a NewsArticle or a Tweet with the return type specified as impl Summary wouldn’t work:">但是，只有在返回单一类型时，你才能使用 <code>impl Trait</code>。例如，这段代码试图返回一个 <code>NewsArticle</code> 或一个 <code>Tweet</code>，并将其返回类型指定为 <code>impl Summary</code>，这是行不通的：</p>
+<p data-x-en="However, you can only use impl Trait if you’re returning a single type. For example, this code that returns either a NewsArticle or a SocialPost with the return type specified as impl Summary wouldn’t work:">但是，只有在返回单一类型时，你才能使用 <code>impl Trait</code>。例如，这段代码试图返回一个 <code>NewsArticle</code> 或 <code>SocialPost</code>，并将其返回类型指定为 <code>impl Summary</code>，这是行不通的：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Summary {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String;
 </span><span class="boring">}
@@ -542,14 +542,14 @@ where
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">pub struct Tweet {
+</span><span class="boring">pub struct SocialPost {
 </span><span class="boring">    pub username: String,
 </span><span class="boring">    pub content: String,
 </span><span class="boring">    pub reply: bool,
-</span><span class="boring">    pub retweet: bool,
+</span><span class="boring">    pub repost: bool,
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">impl Summary for Tweet {
+</span><span class="boring">impl Summary for SocialPost {
 </span><span class="boring">    fn summarize(&amp;self) -&gt; String {
 </span><span class="boring">        format!("{}: {}", self.username, self.content)
 </span><span class="boring">    }
@@ -569,18 +569,17 @@ where
             ),
         }
     } else {
-        Tweet {
+        SocialPost {
             username: String::from("horse_ebooks"),
             content: String::from(
                 "of course, as you probably already know, people",
             ),
             reply: false,
-            retweet: false,
+            repost: false,
         }
     }
 }</code></pre>
-<p data-x-en="Returning either a NewsArticle or a Tweet isn’t allowed due to restrictions around how the impl Trait syntax is implemented in the compiler. We’ll cover how to write a function with this behavior in the “Using Trait Objects That Allow for Values of Different Types” section of Chapter 18.">返回一个 <code>NewsArticle</code> 或 <code>Tweet</code> 是不允许的，因为有关 <code>impl Trait</code> 语法在编译器中的实现存在限制。我们将在第 18 章的 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型的值的特质对象”</a><!--
-ignore --> 部分介绍如何编写具有此行为的函数。</p>
+<p data-x-en="Returning either a NewsArticle or a SocialPost isn’t allowed due to restrictions around how the impl Trait syntax is implemented in the compiler. We’ll cover how to write a function with this behavior in the “Using Trait Objects That Allow for Values of Different Types” section of Chapter 18.">返回一个 <code>NewsArticle</code> 或 <code>SocialPost</code> 是不允许的，因为编译器在实现 <code>impl Trait</code> 语法时存在限制。我们将在第 18 章的 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型值的特质对象”</a> 部分介绍如何编写具有此行为的函数。</p>
 <h3 id="using-trait-bounds-to-conditionally-implement-methods"><a class="header" href="#using-trait-bounds-to-conditionally-implement-methods">使用特质边界有条件地实现方法</a></h3>
 <p data-x-en="By using a trait bound with an impl block that uses generic type parameters, we can implement methods conditionally for types that implement the specified traits. For example, the type Pair<T> in Listing 10-15 always implements the new function to return a new instance of Pair<T> (recall from the “Defining Methods” section of Chapter 5 that Self is a type alias for the type of the impl block, which in this case is Pair<T>). But in the next impl block, Pair<T> only implements the cmp_display method if its inner type T implements the PartialOrd trait that enables comparison and the Display trait that enables printing.">通过在使用泛型类型参数的 <code>impl</code> 块中使用特质约束，我们可以为实现指定特质的类型有条件地实现方法。例如，类型 <code>Pair&lt;T&gt;</code> 在清单 10-15 中始终实现 <code>new</code> 函数以返回 <code>Pair&lt;T&gt;</code> 的新实例（回想第 5 章的 <a href="ch05-03-method-syntax.html#defining-methods">“定义方法”</a><!-- ignore --> 部分，<code>Self</code> 是 <code>impl</code> 块类型的类型别名，在这种情况下是 <code>Pair&lt;T&gt;</code>）。但在下一个 <code>impl</code> 块中，<code>Pair&lt;T&gt;</code> 仅在其内部类型 <code>T</code> 实现了启用比较的 <code>PartialOrd</code> 特质 <em>和</em> 启用打印的 <code>Display</code> 特质时，才实现 <code>cmp_display</code> 方法。</p>
 <figure class="listing">
@@ -614,7 +613,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
     // --snip--
 }</code></pre>
 <p data-x-en="Because the standard library has this blanket implementation, we can call the to_string method defined by the ToString trait on any type that implements the Display trait. For example, we can turn integers into their corresponding String values like this because integers implement Display:">因为标准库有这个全局实现，我们可以对任何实现了 <code>Display</code> 特性的类型调用由 <code>ToString</code> 特性定义的 <code>to_string</code> 方法。例如，我们可以将整数转换为其对应的 <code>String</code> 值，因为整数实现了 <code>Display</code>：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = 3.to_string();
 <span class="boring">}</span></code></pre></pre>

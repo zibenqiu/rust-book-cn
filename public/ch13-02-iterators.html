@@ -231,7 +231,7 @@ blockquote {
 <p data-x-en="In Rust, iterators are lazy, meaning they have no effect until you call methods that consume the iterator to use it up. For example, the code in Listing 13-10 creates an iterator over the items in the vector v1 by calling the iter method defined on Vec<T>. This code by itself doesn’t do anything useful.">在 Rust 中，迭代器是<em>惰性</em>的，这意味着直到你调用消耗迭代器的方法来使用它之前，它们没有任何效果。例如，清单 13-10 中的代码通过调用定义在 <code>Vec&lt;T&gt;</code> 上的 <code>iter</code> 方法创建了一个遍历向量 <code>v1</code> 中项的迭代器。这段代码本身并没有什么实际用途。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let v1 = vec![1, 2, 3];
 
     let v1_iter = v1.iter();
@@ -242,7 +242,7 @@ blockquote {
 <p data-x-en="In the example in Listing 13-11, we separate the creation of the iterator from the use of the iterator in the for loop. When the for loop is called using the iterator in v1_iter, each element in the iterator is used in one iteration of the loop, which prints out each value.">在示例 13-11 中，我们将迭代器的创建与在 <code>for</code> 循环中使用迭代器分离开来。当使用 <code>v1_iter</code> 中的迭代器调用 <code>for</code> 循环时，迭代器中的每个元素都会在循环的一次迭代中被使用，从而打印出每个值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let v1 = vec![1, 2, 3];
 
     let v1_iter = v1.iter();
@@ -257,7 +257,7 @@ blockquote {
 <p data-x-en="Iterators handle all that logic for you, cutting down on repetitive code you could potentially mess up. Iterators give you more flexibility to use the same logic with many different kinds of sequences, not just data structures you can index into, like vectors. Let’s examine how iterators do that.">迭代器为您处理所有这些逻辑，减少了可能会出错的重复代码。迭代器使您能够更灵活地使用相同的逻辑处理许多不同类型的序列，而不仅仅是您可以索引的数据结构，如向量。让我们看看迭代器是如何做到这一点的。</p>
 <h3 id="the-iterator-trait-and-the-next-method"><a class="header" href="#the-iterator-trait-and-the-next-method">《<code>Iterator</code> 特性与 <code>next</code> 方法》</a></h3>
 <p data-x-en="All iterators implement a trait named Iterator that is defined in the standard library. The definition of the trait looks like this:">所有迭代器都实现了标准库中定义的一个名为 <code>Iterator</code> 的特征。该特征的定义如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Iterator {
     type Item;
@@ -317,7 +317,7 @@ blockquote {
 <code>map</code>方法返回一个新的迭代器，该迭代器生成修改后的项目。这里的闭包创建了一个新的迭代器，其中向量中的每个项目都将增加1：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust not_desired_behavior edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust not_desired_behavior edition2024"><span class="boring">fn main() {
 </span>    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
 
     v1.iter().map(|x| x + 1);
@@ -349,7 +349,7 @@ warning: `iterators` (bin "iterators") generated 1 warning
 <p data-x-en="In Listing 13-15, we collect the results of iterating over the iterator that’s returned from the call to map into a vector. This vector will end up containing each item from the original vector incremented by 1.">在清单 13-15 中，我们将从调用 <code>map</code> 返回的迭代器上迭代的结果收集到一个向量中。这个向量最终将包含原始向量中的每个元素加 1 后的结果。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
 
     let v2: Vec&lt;_&gt; = v1.iter().map(|x| x + 1).collect();

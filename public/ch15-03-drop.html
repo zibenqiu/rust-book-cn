@@ -234,7 +234,7 @@ blockquote {
 <p data-x-en="Listing 15-14 shows a CustomSmartPointer struct whose only custom functionality is that it will print Dropping CustomSmartPointer! when the instance goes out of scope, to show when Rust runs the drop function.">列表 15-14 显示了一个 <code>CustomSmartPointer</code> 结构体，其唯一的自定义功能是在实例超出作用域时打印 <code>Dropping CustomSmartPointer!</code>，以显示 Rust 何时运行 <code>drop</code> 函数。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">struct CustomSmartPointer {
+<pre><pre class="playground"><code class="language-rust edition2024">struct CustomSmartPointer {
     data: String,
 }
 
@@ -315,7 +315,7 @@ error: could not compile `drop-example` (bin "drop-example") due to 1 previous e
 <p data-x-en="The std::mem::drop function is different from the drop method in the Drop trait. We call it by passing as an argument the value we want to force drop. The function is in the prelude, so we can modify main in Listing 15-15 to call the drop function, as shown in Listing 15-16:"><code>std::mem::drop</code> 函数与 <code>Drop</code> 特性中的 <code>drop</code> 方法不同。我们通过传递想要强制丢弃的值作为参数来调用它。该函数在前言中，因此我们可以修改列表 15-15 中的 <code>main</code> 来调用 <code>drop</code> 函数，如列表 15-16 所示：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct CustomSmartPointer {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct CustomSmartPointer {
 </span><span class="boring">    data: String,
 </span><span class="boring">}
 </span><span class="boring">

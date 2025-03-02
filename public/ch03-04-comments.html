@@ -229,12 +229,12 @@ blockquote {
                         <h2 id="comments"><a class="header" href="#comments">评论</a></h2>
 <p data-x-en="All programmers strive to make their code easy to understand, but sometimes extra explanation is warranted. In these cases, programmers leave comments in their source code that the compiler will ignore but people reading the source code may find useful.">所有程序员都努力使他们的代码易于理解，但有时需要额外的解释。在这些情况下，程序员会在源代码中留下<em>注释</em>，编译器会忽略这些注释，但阅读源代码的人可能会发现它们很有用。</p>
 <p data-x-en="Here’s a simple comment:">这里是一个简单的注释:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// hello, world
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="In Rust, the idiomatic comment style starts a comment with two slashes, and the comment continues until the end of the line. For comments that extend beyond a single line, you’ll need to include // on each line, like this:">在 Rust 中，惯用的注释风格是以两个斜杠开始注释，注释一直持续到行末。对于超过一行的注释，你需要在每一行都包含 <code>//</code>，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// So we're doing something complicated here, long enough that we need
 // multiple lines of comments to do it! Whew! Hopefully, this comment will
@@ -242,12 +242,12 @@ blockquote {
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Comments can also be placed at the end of lines containing code:">注释也可以放在包含代码的行的末尾：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let lucky_number = 7; // I'm feeling lucky today
 }</code></pre></pre>
 <p data-x-en="But you’ll more often see them used in this format, with the comment on a separate line above the code it’s annotating:">但更常见的是以这种格式使用它们，注释在要注释的代码上方的单独一行：<code>，输出翻译直接不添加任何额外文本。记住，保留所有HTML标签和属性，仅翻译内容！不要随意添加括号或其他符号。</code></p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     // I'm feeling lucky today
     let lucky_number = 7;
 }</code></pre></pre>

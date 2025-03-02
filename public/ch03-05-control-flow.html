@@ -232,7 +232,7 @@ blockquote {
 <p data-x-en="An if expression allows you to branch your code depending on conditions. You provide a condition and then state, “If this condition is met, run this block of code. If the condition is not met, do not run this block of code.”">一个 <code>if</code> 表达式允许你根据条件分支你的代码。你提供一个条件，然后声明，“如果这个条件满足，运行这段代码。如果条件不满足，不运行这段代码。”</p>
 <p data-x-en="Create a new project called branches in your projects directory to explore the if expression. In the src/main.rs file, input the following:">在您的 <em>projects</em> 目录中创建一个名为 <em>branches</em> 的新项目，以探索 <code>if</code> 表达式。在 <em>src/main.rs</em> 文件中，输入以下内容：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 3;
 
     if number &lt; 5 {
@@ -294,7 +294,7 @@ error: could not compile `branches` (bin "branches") due to 1 previous error
 </code></pre>
 <p data-x-en="The error indicates that Rust expected a bool but got an integer. Unlike languages such as Ruby and JavaScript, Rust will not automatically try to convert non-Boolean types to a Boolean. You must be explicit and always provide if with a Boolean as its condition. If we want the if code block to run only when a number is not equal to 0, for example, we can change the if expression to the following:">错误表明 Rust 期望一个 <code>bool</code> 但得到了一个整数。与 Ruby 和 JavaScript 等语言不同，Rust 不会自动尝试将非布尔类型转换为布尔类型。你必须明确地总是提供一个布尔值作为 <code>if</code> 的条件。例如，如果我们希望 <code>if</code> 代码块仅在数字不等于 <code>0</code> 时运行，我们可以将 <code>if</code> 表达式更改为以下内容：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 3;
 
     if number != 0 {
@@ -305,7 +305,7 @@ error: could not compile `branches` (bin "branches") due to 1 previous error
 <h4 id="handling-multiple-conditions-with-else-if"><a class="header" href="#handling-multiple-conditions-with-else-if">使用 <code>else if</code> 处理多个条件</a></h4>
 <p data-x-en="You can use multiple conditions by combining if and else in an else if expression. For example:">您可以使用多个条件，通过在 <code>else if</code> 表达式中结合 <code>if</code> 和 <code>else</code>。例如：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 6;
 
     if number % 4 == 0 {
@@ -331,7 +331,7 @@ number is divisible by 3
 <p data-x-en="Because if is an expression, we can use it on the right side of a let statement to assign the outcome to a variable, as in Listing 3-2.">因为 <code>if</code> 是一个表达式，我们可以在 <code>let</code> 语句的右侧使用它，将结果赋值给一个变量，如列表 3-2 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let condition = true;
     let number = if condition { 5 } else { 6 };
 
@@ -404,7 +404,7 @@ again!
 <p data-x-en="We also used continue in the guessing game, which in a loop tells the program to skip over any remaining code in this iteration of the loop and go to the next iteration.">我们还在猜数字游戏中使用了<code>continue</code>，它在循环中告诉程序跳过本次循环中剩余的代码并进入下一次循环。</p>
 <h4 id="returning-values-from-loops"><a class="header" href="#returning-values-from-loops">从循环中返回值</a></h4>
 <p data-x-en="One of the uses of a loop is to retry an operation you know might fail, such as checking whether a thread has completed its job. You might also need to pass the result of that operation out of the loop to the rest of your code. To do this, you can add the value you want returned after the break expression you use to stop the loop; that value will be returned out of the loop so you can use it, as shown here:">一个 <code>loop</code> 的用途是重试你认为可能会失败的操作，例如检查线程是否已完成其任务。你可能还需要将该操作的结果从循环中传递到代码的其余部分。为此，你可以在用于停止循环的 <code>break</code> 表达式后添加你希望返回的值；该值将从循环中返回，以便你可以使用它，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut counter = 0;
 
     let result = loop {
@@ -421,7 +421,7 @@ again!
 <p data-x-en="You can also return from inside a loop. While break only exits the current loop, return always exits the current function.">你也可以从循环内部 <code>return</code>。虽然 <code>break</code> 只退出当前循环，<code>return</code> 总是退出当前函数。</p>
 <h4 id="loop-labels-to-disambiguate-between-multiple-loops"><a class="header" href="#loop-labels-to-disambiguate-between-multiple-loops">循环标签以区分多个循环</a></h4>
 <p data-x-en="If you have loops within loops, break and continue apply to the innermost loop at that point. You can optionally specify a loop label on a loop that you can then use with break or continue to specify that those keywords apply to the labeled loop instead of the innermost loop. Loop labels must begin with a single quote. Here’s an example with two nested loops:">如果您有嵌套的循环，<code>break</code> 和 <code>continue</code> 适用于该点最内层的循环。您可以选择在循环上指定一个 <em>循环标签</em>，然后可以使用 <code>break</code> 或 <code>continue</code> 与该标签一起指定这些关键字适用于标记的循环而不是最内层的循环。循环标签必须以单引号开头。以下是一个包含两个嵌套循环的示例：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut count = 0;
     'counting_up: loop {
         println!("count = {count}");
@@ -462,7 +462,7 @@ End count = 2
 <p data-x-en="A program will often need to evaluate a condition within a loop. While the condition is true, the loop runs. When the condition ceases to be true, the program calls break, stopping the loop. It’s possible to implement behavior like this using a combination of loop, if, else, and break; you could try that now in a program, if you’d like. However, this pattern is so common that Rust has a built-in language construct for it, called a while loop. In Listing 3-3, we use while to loop the program three times, counting down each time, and then, after the loop, print a message and exit.">一个程序通常需要在循环中评估一个条件。当条件为<code>true</code>时，循环运行。当条件不再为<code>true</code>时，程序调用<code>break</code>，停止循环。可以使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>的组合来实现类似的行为；如果你愿意，现在可以在一个程序中尝试这样做。然而，这种模式非常常见，以至于Rust为此提供了一个内置的语言结构，称为<code>while</code>循环。在清单3-3中，我们使用<code>while</code>循环三次，每次循环都进行倒计数，然后，在循环结束后，打印一条消息并退出。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut number = 3;
 
     while number != 0 {
@@ -480,7 +480,7 @@ End count = 2
 <p data-x-en="You can also use the while construct to loop over the elements of a collection, such as an array. For example, the loop in Listing 3-4 prints each element in the array a.">你也可以使用 <code>while</code> 构造来遍历集合（如数组）的元素。例如，列表 3-4 中的循环会打印数组 <code>a</code> 中的每个元素。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
     let mut index = 0;
 
@@ -508,7 +508,7 @@ the value is: 50
 <p data-x-en="As a more concise alternative, you can use a for loop and execute some code for each item in a collection. A for loop looks like the code in Listing 3-5.">作为更简洁的替代方案，您可以使用 <code>for</code> 循环并为集合中的每个项目执行一些代码。一个 <code>for</code> 循环看起来像列表 3-5 中的代码。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
 
     for element in a {
@@ -522,7 +522,7 @@ the value is: 50
 <p data-x-en="The safety and conciseness of for loops make them the most commonly used loop construct in Rust. Even in situations in which you want to run some code a certain number of times, as in the countdown example that used a while loop in Listing 3-3, most Rustaceans would use a for loop. The way to do that would be to use a Range, provided by the standard library, which generates all numbers in sequence starting from one number and ending before another number."><code>for</code> 循环的安全性和简洁性使它们成为 Rust 中使用最广泛的循环结构。即使在您希望运行某段代码特定次数的情况下，例如在使用 <code>while</code> 循环的倒计时示例（如列表 3-3 所示），大多数 Rustaceans 也会使用 <code>for</code> 循环。实现这一点的方法是使用标准库提供的 <code>Range</code>，它会生成从一个数字开始到另一个数字之前的所有数字。</p>
 <p data-x-en="Here’s what the countdown would look like using a for loop and another method we’ve not yet talked about, rev, to reverse the range:">这里是一个使用 <code>for</code> 循环和我们尚未讨论的另一种方法 <code>rev</code> 来反转范围的倒计时示例：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     for number in (1..4).rev() {
         println!("{number}!");
     }

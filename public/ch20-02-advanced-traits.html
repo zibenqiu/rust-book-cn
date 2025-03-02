@@ -284,7 +284,7 @@ blockquote {
 <p data-x-en="Rust doesn’t allow you to create your own operators or overload arbitrary operators. But you can overload the operations and corresponding traits listed in std::ops by implementing the traits associated with the operator. For example, in Listing 20-15 we overload the + operator to add two Point instances together. We do this by implementing the Add trait on a Point struct:">Rust 不允许你创建自己的运算符或重载任意运算符。但你可以通过实现与运算符关联的特征来重载 <code>std::ops</code> 中列出的操作和相应的特征。例如，在示例 20-15 中，我们重载了 <code>+</code> 运算符以将两个 <code>Point</code> 实例相加。我们通过在 <code>Point</code> 结构体上实现 <code>Add</code> 特征来实现这一点：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::ops::Add;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::ops::Add;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 struct Point {
@@ -313,7 +313,7 @@ fn main() {
 </figure>
 <p data-x-en="The add method adds the x values of two Point instances and the y values of two Point instances to create a new Point. The Add trait has an associated type named Output that determines the type returned from the add method."><code>add</code> 方法将两个 <code>Point</code> 实例的 <code>x</code> 值和两个 <code>Point</code> 实例的 <code>y</code> 值相加，以创建一个新的 <code>Point</code>。 <code>Add</code> 特性有一个名为 <code>Output</code> 的关联类型，用于确定 <code>add</code> 方法的返回类型。</p>
 <p data-x-en="The default generic type in this code is within the Add trait. Here is its definition:">此代码中的默认泛型类型在 <code>Add</code> 特性中。这是它的定义：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait Add&lt;Rhs=Self&gt; {
     type Output;
@@ -356,7 +356,7 @@ impl Add&lt;Meters&gt; for Millimeters {
 <p data-x-en="When calling methods with the same name, you’ll need to tell Rust which one you want to use. Consider the code in Listing 20-17 where we’ve defined two traits, Pilot and Wizard, that both have a method called fly. We then implement both traits on a type Human that already has a method named fly implemented on it. Each fly method does something different.">当调用同名方法时，你需要告诉 Rust 你想要使用哪一个。考虑列表 20-17 中的代码，我们定义了两个特质，<code>Pilot</code> 和 <code>Wizard</code>，它们都有一个名为 <code>fly</code> 的方法。然后我们在一个已经实现了名为 <code>fly</code> 的方法的类型 <code>Human</code> 上实现了这两个特质。每个 <code>fly</code> 方法都做不同的事情。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">trait Pilot {
+<pre><pre class="playground"><code class="language-rust edition2024">trait Pilot {
     fn fly(&amp;self);
 }
 
@@ -390,7 +390,7 @@ impl Human {
 <p data-x-en="When we call fly on an instance of Human, the compiler defaults to calling the method that is directly implemented on the type, as shown in Listing 20-18.">当我们对 <code>Human</code> 的实例调用 <code>fly</code> 时，编译器默认调用直接在类型上实现的方法，如列表 20-18 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait Pilot {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">trait Pilot {
 </span><span class="boring">    fn fly(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
@@ -430,7 +430,7 @@ impl Human {
 列表 20-19 演示了这种语法。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait Pilot {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">trait Pilot {
 </span><span class="boring">    fn fly(&amp;self);
 </span><span class="boring">}
 </span><span class="boring">
@@ -480,7 +480,7 @@ Up!
 <p data-x-en="However, associated functions that are not methods don’t have a self parameter. When there are multiple types or traits that define non-method functions with the same function name, Rust doesn’t always know which type you mean unless you use fully qualified syntax. For example, in Listing 20-20 we create a trait for an animal shelter that wants to name all baby dogs Spot. We make an Animal trait with an associated non-method function baby_name. The Animal trait is implemented for the struct Dog, on which we also provide an associated non-method function baby_name directly.">然而，非方法的关联函数没有 <code>self</code> 参数。当有多个类型或特征定义了具有相同函数名的非方法函数时，除非使用 <em>完全限定语法</em>，否则 Rust 并不总是知道你指的是哪个类型。例如，在清单 20-20 中，我们为一个动物收容所创建了一个特征，该收容所希望将所有小狗命名为 <em>Spot</em>。我们创建了一个 <code>Animal</code> 特征，其中包含一个关联的非方法函数 <code>baby_name</code>。该 <code>Animal</code> 特征被实现为结构体 <code>Dog</code>，我们还在其上直接提供了一个关联的非方法函数 <code>baby_name</code>。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">trait Animal {
+<pre><pre class="playground"><code class="language-rust edition2024">trait Animal {
     fn baby_name() -&gt; String;
 }
 
@@ -560,7 +560,7 @@ error: could not compile `traits-example` (bin "traits-example") due to 1 previo
 <p data-x-en="To disambiguate and tell Rust that we want to use the implementation of Animal for Dog as opposed to the implementation of Animal for some other type, we need to use fully qualified syntax. Listing 20-22 demonstrates how to use fully qualified syntax.">为了消除歧义并告诉 Rust 我们想要使用 <code>Dog</code> 的 <code>Animal</code> 实现，而不是其他类型的 <code>Animal</code> 实现，我们需要使用完全限定语法。列表 20-22 展示了如何使用完全限定语法。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait Animal {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">trait Animal {
 </span><span class="boring">    fn baby_name() -&gt; String;
 </span><span class="boring">}
 </span><span class="boring">
@@ -608,7 +608,7 @@ A baby dog is called a puppy
 <p data-x-en="In the implementation of the outline_print method, we want to use the Display trait’s functionality. Therefore, we need to specify that the OutlinePrint trait will work only for types that also implement Display and provide the functionality that OutlinePrint needs. We can do that in the trait definition by specifying OutlinePrint: Display. This technique is similar to adding a trait bound to the trait. Listing 20-23 shows an implementation of the OutlinePrint trait.">在实现 <code>outline_print</code> 方法时，我们希望使用 <code>Display</code> 特性的功能。因此，我们需要指定 <code>OutlinePrint</code> 特性仅适用于也实现了 <code>Display</code> 的类型，并提供 <code>OutlinePrint</code> 需要的功能。我们可以在特性定义中通过指定 <code>OutlinePrint: Display</code> 来实现这一点。这种技术类似于为特性添加特性边界。列表 20-23 显示了 <code>OutlinePrint</code> 特性的一个实现。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::fmt;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::fmt;
 
 trait OutlinePrint: fmt::Display {
     fn outline_print(&amp;self) {
@@ -694,7 +694,7 @@ error: could not compile `traits-example` (bin "traits-example") due to 2 previo
 <p data-x-en="To fix this, we implement Display on Point and satisfy the constraint that OutlinePrint requires, like so:">为了修复这个问题，我们在 <code>Point</code> 上实现了 <code>Display</code>，并满足了 <code>OutlinePrint</code> 所需的约束，如下所示：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">trait OutlinePrint: fmt::Display {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">trait OutlinePrint: fmt::Display {
 </span><span class="boring">    fn outline_print(&amp;self) {
 </span><span class="boring">        let output = self.to_string();
 </span><span class="boring">        let len = output.len();
@@ -733,7 +733,7 @@ impl fmt::Display for Point {
 <p data-x-en="As an example, let’s say we want to implement Display on Vec<T>, which the orphan rule prevents us from doing directly because the Display trait and the Vec<T> type are defined outside our crate. We can make a Wrapper struct that holds an instance of Vec<T>; then we can implement Display on Wrapper and use the Vec<T> value, as shown in Listing 20-24.">作为一个例子，假设我们想要在 <code>Vec&lt;T&gt;</code> 上实现 <code>Display</code>，但由于孤儿规则，我们不能直接这样做，因为 <code>Display</code> 特性和 <code>Vec&lt;T&gt;</code> 类型都是在我们的 crate 之外定义的。我们可以创建一个包含 <code>Vec&lt;T&gt;</code> 实例的 <code>Wrapper</code> 结构体；然后我们可以在 <code>Wrapper</code> 上实现 <code>Display</code> 并使用 <code>Vec&lt;T&gt;</code> 值，如清单 20-24 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::fmt;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::fmt;
 
 struct Wrapper(Vec&lt;String&gt;);
 

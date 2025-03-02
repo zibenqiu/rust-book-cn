@@ -251,7 +251,7 @@ blockquote {
 <p data-x-en="The code in Listing 19-1 determines what color to make your background based on a series of checks for several conditions. For this example, we’ve created variables with hardcoded values that a real program might receive from user input.">清单 19-1 中的代码根据一系列检查多个条件来确定背景颜色。在这个例子中，我们创建了具有硬编码值的变量，这些值在实际程序中可能来自用户输入。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let favorite_color: Option&lt;&amp;str&gt; = None;
     let is_tuesday = false;
     let age: Result&lt;u8, _&gt; = "34".parse();
@@ -279,7 +279,7 @@ blockquote {
 <h3 id="while-let-conditional-loops"><a class="header" href="#while-let-conditional-loops"><code>while let</code> 条件循环</a></h3>
 <p data-x-en="Similar in construction to if let, the while let conditional loop allows a while loop to run for as long as a pattern continues to match. We first saw a while let loop in Chapter 17, where we used it to keep looping as long as a stream produced new values. Similarly, in Listing 19-2 we show a while let loop that waits on messages sent between threads, but in this case checking a Result instead of an Option.">与 <code>if let</code> 的构造类似，<code>while let</code> 条件循环允许 <code>while</code> 循环在模式继续匹配的情况下一直运行。我们在第 17 章首次看到了 <code>while let</code> 循环，当时我们使用它来在流产生新值时持续循环。同样，在清单 19-2 中，我们展示了一个 <code>while let</code> 循环，该循环等待线程间发送的消息，但在此情况下检查的是 <code>Result</code> 而不是 <code>Option</code>。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let (tx, rx) = std::sync::mpsc::channel();
     std::thread::spawn(move || {
         for val in [1, 2, 3] {
@@ -297,7 +297,7 @@ blockquote {
 <h3 id="for-loops"><a class="header" href="#for-loops"><code>for</code> 循环</a></h3>
 <p data-x-en="In a for loop, the value that directly follows the keyword for is a pattern. For example, in for x in y the x is the pattern. Listing 19-3 demonstrates how to use a pattern in a for loop to destructure, or break apart, a tuple as part of the for loop.">在 <code>for</code> 循环中，直接跟在 <code>for</code> 关键字后面的值是一个模式。例如，在 <code>for x in y</code> 中，<code>x</code> 是模式。列表 19-3 展示了如何在 <code>for</code> 循环中使用模式来解构，或拆分，一个元组作为 <code>for</code> 循环的一部分。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let v = vec!['a', 'b', 'c'];
 
     for (index, value) in v.iter().enumerate() {
@@ -318,7 +318,7 @@ c is at index 2
 <p data-x-en="We adapt an iterator using the enumerate method so it produces a value and the index for that value, placed into a tuple. The first value produced is the tuple (0, 'a'). When this value is matched to the pattern (index, value), index will be 0 and value will be 'a', printing the first line of the output.">我们使用 <code>enumerate</code> 方法来调整迭代器，使其生成一个值和该值的索引，并将它们放入一个元组中。生成的第一个值是元组 <code>(0, 'a')</code>。当这个值与模式 <code>(index, value)</code> 匹配时，<code>index</code> 将是 <code>0</code>，<code>value</code> 将是 <code>'a'</code>，打印输出的第一行。</p>
 <h3 id="let-statements"><a class="header" href="#let-statements"><code>let</code> 语句</a></h3>
 <p data-x-en="Prior to this chapter, we had only explicitly discussed using patterns with match and if let, but in fact, we’ve used patterns in other places as well, including in let statements. For example, consider this straightforward variable assignment with let:">在本章之前，我们只明确讨论了在 <code>match</code> 和 <code>if let</code> 中使用模式，但实际上，我们在其他地方也使用了模式，包括在 <code>let</code> 语句中。例如，考虑这个简单的变量赋值语句：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let x = 5;
 <span class="boring">}</span></code></pre></pre>
@@ -329,7 +329,7 @@ c is at index 2
 <p data-x-en="In statements like let x = 5; with a variable name in the PATTERN slot, the variable name is just a particularly simple form of a pattern. Rust compares the expression against the pattern and assigns any names it finds. So in the let x = 5; example, x is a pattern that means “bind what matches here to the variable x.” Because the name x is the whole pattern, this pattern effectively means “bind everything to the variable x, whatever the value is.”">在像 <code>let x = 5;</code> 这样的语句中，变量名位于 <code>PATTERN</code> 位置，变量名只是模式的一种特别简单的形式。Rust 会将表达式与模式进行比较，并绑定它找到的任何名称。所以在 <code>let x = 5;</code> 示例中，<code>x</code> 是一个表示“将此处匹配的内容绑定到变量 <code>x</code>”的模式。由于名称 <code>x</code> 是整个模式，这个模式实际上意味着“将所有内容绑定到变量 <code>x</code>，无论值是什么。”</p>
 <p data-x-en="To see the pattern matching aspect of let more clearly, consider Listing 19-4, which uses a pattern with let to destructure a tuple.">要更清楚地看到 <code>let</code> 的模式匹配方面，请考虑列表 19-4，它使用带有 <code>let</code> 的模式来解构一个元组。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let (x, y, z) = (1, 2, 3);
 <span class="boring">}</span></code></pre></pre>
 <figcaption>Listing 19-4: Using a pattern to destructure a tuple and create three variables at once</figcaption>
@@ -363,7 +363,7 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 <h3 id="function-parameters"><a class="header" href="#function-parameters">函数参数</a></h3>
 <p data-x-en="Function parameters can also be patterns. The code in Listing 19-6, which declares a function named foo that takes one parameter named x of type i32, should by now look familiar.">函数参数也可以是模式。清单 19-6 中的代码声明了一个名为 <code>foo</code> 的函数，该函数接受一个名为 <code>x</code> 的参数，类型为 <code>i32</code>，现在应该看起来很熟悉。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021">fn foo(x: i32) {
+<pre><pre class="playground"><code class="language-rust edition2024">fn foo(x: i32) {
     // code goes here
 }
 <span class="boring">
@@ -373,7 +373,7 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 <p data-x-en="The x part is a pattern! As we did with let, we could match a tuple in a function’s arguments to the pattern. Listing 19-7 splits the values in a tuple as we pass it to a function."><code>x</code> 部分是一个模式！就像我们使用 <code>let</code> 一样，我们可以在函数的参数中将元组与模式匹配。列表 19-7 在我们将元组传递给函数时拆分了元组中的值。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
+<pre><pre class="playground"><code class="language-rust edition2024">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
     println!("Current location: ({x}, {y})");
 }
 

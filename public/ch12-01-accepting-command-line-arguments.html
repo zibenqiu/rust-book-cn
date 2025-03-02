@@ -242,7 +242,7 @@ $ cd minigrep
 <p data-x-en="The code in Listing 12-1 allows your minigrep program to read any command line arguments passed to it, and then collect the values into a vector.">清单 12-1 中的代码允许您的 <code>minigrep</code> 程序读取传递给它的任何命令行参数，然后将这些值收集到一个向量中。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::env;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::env;
 
 fn main() {
     let args: Vec&lt;String&gt; = env::args().collect();

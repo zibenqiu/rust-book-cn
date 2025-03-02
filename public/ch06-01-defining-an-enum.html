@@ -231,7 +231,7 @@ blockquote {
 <p data-x-en="Let’s look at a situation we might want to express in code and see why enums are useful and more appropriate than structs in this case. Say we need to work with IP addresses. Currently, two major standards are used for IP addresses: version four and version six. Because these are the only possibilities for an IP address that our program will come across, we can enumerate all possible variants, which is where enumeration gets its name.">让我们来看一个我们可能想要在代码中表达的情况，并看看为什么枚举比结构体在这种情况下更有用和更合适。假设我们需要处理 IP 地址。目前，IP 地址使用两个主要标准：第四版和第六版。因为这些是我们程序会遇到的唯一可能的 IP 地址，我们可以<em>枚举</em>所有可能的变体，这就是枚举名称的由来。</p>
 <p data-x-en="Any IP address can be either a version four or a version six address, but not both at the same time. That property of IP addresses makes the enum data structure appropriate because an enum value can only be one of its variants. Both version four and version six addresses are still fundamentally IP addresses, so they should be treated as the same type when the code is handling situations that apply to any kind of IP address.">任何IP地址都可以是版本四或版本六的地址，但不能同时是两者。这一IP地址的特性使得枚举数据结构变得合适，因为枚举值只能是其变体之一。无论是版本四还是版本六的地址，它们本质上仍然是IP地址，因此在代码处理适用于任何类型IP地址的情况时，应将它们视为同一类型。</p>
 <p data-x-en="We can express this concept in code by defining an IpAddrKind enumeration and listing the possible kinds an IP address can be, V4 and V6. These are the variants of the enum:">我们可以用代码表示这个概念，通过定义一个 <code>IpAddrKind</code> 枚举并列出 IP 地址可以是的类型，<code>V4</code> 和 <code>V6</code>。这些是枚举的变体：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024">enum IpAddrKind {
     V4,
     V6,
 }
@@ -248,7 +248,7 @@ blockquote {
 <p data-x-en="IpAddrKind is now a custom data type that we can use elsewhere in our code."><code>IpAddrKind</code> 现在是一个自定义数据类型，我们可以在代码的其他地方使用。</p>
 <h3 id="enum-values"><a class="header" href="#enum-values">枚举值</a></h3>
 <p data-x-en="We can create instances of each of the two variants of IpAddrKind like this:">我们可以像这样创建 <code>IpAddrKind</code> 的两个变体的实例：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -263,7 +263,7 @@ blockquote {
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p data-x-en="Note that the variants of the enum are namespaced under its identifier, and we use a double colon to separate the two. This is useful because now both values IpAddrKind::V4 and IpAddrKind::V6 are of the same type: IpAddrKind. We can then, for instance, define a function that takes any IpAddrKind:">请注意，枚举的变体在其标识符下命名空间化，我们使用双冒号将两者分隔。这很有用，因为现在两个值<code>IpAddrKind::V4</code>和<code>IpAddrKind::V6</code>都是同一类型：<code>IpAddrKind</code>。然后，例如，我们可以定义一个接受任何<code>IpAddrKind</code>的函数：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -278,7 +278,7 @@ blockquote {
 </span><span class="boring">
 </span>fn route(ip_kind: IpAddrKind) {}</code></pre></pre>
 <p data-x-en="And we can call this function with either variant:">并且我们可以用任一变体调用此函数：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -294,7 +294,7 @@ blockquote {
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p data-x-en="Using enums has even more advantages. Thinking more about our IP address type, at the moment we don’t have a way to store the actual IP address data; we only know what kind it is. Given that you just learned about structs in Chapter 5, you might be tempted to tackle this problem with structs as shown in Listing 6-1.">使用枚举还有更多优势。更多地思考我们的 IP 地址类型，目前我们没有一种方法来存储实际的 IP 地址<em>数据</em>；我们只知道它的<em>类型</em>。鉴于你刚刚在第 5 章学习了结构体，你可能会倾向于用结构体来解决这个问题，如列表 6-1 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
         V6,
@@ -322,7 +322,7 @@ blockquote {
 而不是在结构体内使用枚举，我们可以直接将数据放入每个枚举
 变体中。这个新的 <code>IpAddr</code> 枚举定义说明 <code>V4</code> 和 <code>V6</code>
 变体都将具有关联的 <code>String</code> 值：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(String),
         V6(String),
@@ -334,7 +334,7 @@ blockquote {
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="We attach data to each variant of the enum directly, so there is no need for an extra struct. Here, it’s also easier to see another detail of how enums work: the name of each enum variant that we define also becomes a function that constructs an instance of the enum. That is, IpAddr::V4() is a function call that takes a String argument and returns an instance of the IpAddr type. We automatically get this constructor function defined as a result of defining the enum.">我们将数据直接附加到枚举的每个变体上，因此不需要额外的结构体。在这里，也可以更容易地看到枚举工作方式的另一个细节：我们定义的每个枚举变体的名称也成为了构造枚举实例的函数。也就是说，<code>IpAddr::V4()</code> 是一个函数调用，它接受一个 <code>String</code> 参数并返回一个 <code>IpAddr</code> 类型的实例。由于定义了枚举，我们自动获得了这个构造函数的定义。</p>
 <p data-x-en="There’s another advantage to using an enum rather than a struct: each variant can have different types and amounts of associated data. Version four IP addresses will always have four numeric components that will have values between 0 and 255. If we wanted to store V4 addresses as four u8 values but still express V6 addresses as one String value, we wouldn’t be able to with a struct. Enums handle this case with ease:">使用枚举而不是结构体的另一个优势是：每个变体可以有不同的类型和数量的关联数据。IPv4 地址将始终具有四个数值组件，其值在 0 到 255 之间。如果我们想将 <code>V4</code> 地址存储为四个 <code>u8</code> 值，但仍然将 <code>V6</code> 地址表示为一个 <code>String</code> 值，使用结构体是无法实现的。枚举可以轻松处理这种情况：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(u8, u8, u8, u8),
         V6(String),
@@ -345,7 +345,7 @@ blockquote {
     let loopback = IpAddr::V6(String::from("::1"));
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="We’ve shown several different ways to define data structures to store version four and version six IP addresses. However, as it turns out, wanting to store IP addresses and encode which kind they are is so common that the standard library has a definition we can use! Let’s look at how the standard library defines IpAddr: it has the exact enum and variants that we’ve defined and used, but it embeds the address data inside the variants in the form of two different structs, which are defined differently for each variant:">我们展示了多种定义数据结构的方法来存储版本四和版本六的IP地址。然而，事实证明，希望存储IP地址并编码它们的类型是如此普遍，以至于<a href="https://doc.rust-lang.org/std/net/enum.IpAddr.html" target="_blank">标准库提供了一个我们可以使用的定义！</a><!-- ignore --> 让我们看看标准库是如何定义<code>IpAddr</code>的：它具有我们定义和使用的确切枚举和变体，但它在变体内部以两种不同的结构体形式嵌入地址数据，每种变体的定义方式不同：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ipv4Addr {
     // --snip--
@@ -364,7 +364,7 @@ enum IpAddr {
 <p data-x-en="Note that even though the standard library contains a definition for IpAddr, we can still create and use our own definition without conflict because we haven’t brought the standard library’s definition into our scope. We’ll talk more about bringing types into scope in Chapter 7.">请注意，即使标准库中包含 <code>IpAddr</code> 的定义，我们仍然可以创建并使用我们自己的定义而不会发生冲突，因为我们还没有将标准库的定义引入到我们的作用域中。我们将在第 7 章中更详细地讨论将类型引入作用域的问题。</p>
 <p data-x-en="Let’s look at another example of an enum in Listing 6-2: this one has a wide variety of types embedded in its variants.">让我们来看另一个枚举的例子，如清单 6-2 所示：这个枚举在其变体中嵌入了各种类型的值。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021">enum Message {
+<pre><pre class="playground"><code class="language-rust edition2024">enum Message {
     Quit,
     Move { x: i32, y: i32 },
     Write(String),
@@ -382,7 +382,7 @@ enum IpAddr {
 <li data-x-en="ChangeColor includes three i32 values."><code>ChangeColor</code> 包含三个 <code>i32</code> 值。</li>
 </ul>
 <p data-x-en="Defining an enum with variants such as the ones in Listing 6-2 is similar to defining different kinds of struct definitions, except the enum doesn’t use the struct keyword and all the variants are grouped together under the Message type. The following structs could hold the same data that the preceding enum variants hold:">定义如清单 6-2 中的枚举变体类似于定义不同类型的结构体，不同之处在于枚举不使用 <code>struct</code> 关键字，并且所有变体都归类在 <code>Message</code> 类型下。以下结构体可以持有与前面枚举变体相同的數據：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">struct QuitMessage; // unit struct
+<pre><pre class="playground"><code class="language-rust edition2024">struct QuitMessage; // unit struct
 struct MoveMessage {
     x: i32,
     y: i32,
@@ -393,7 +393,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 </span><span class="boring">fn main() {}</span></code></pre></pre>
 <p data-x-en="But if we used the different structs, each of which has its own type, we couldn’t as easily define a function to take any of these kinds of messages as we could with the Message enum defined in Listing 6-2, which is a single type.">但是，如果我们使用了不同的结构体，每个结构体都有自己的类型，我们就不能像使用在清单 6-2 中定义的 <code>Message</code> 枚举那样轻松地定义一个可以接受这些消息中任何一种的函数，因为 <code>Message</code> 枚举是一个单一类型。</p>
 <p data-x-en="There is one more similarity between enums and structs: just as we’re able to define methods on structs using impl, we’re also able to define methods on enums. Here’s a method named call that we could define on our Message enum:">枚举和结构体之间还有一个相似之处：就像我们可以在结构体上使用 <code>impl</code> 定义方法一样，我们也可以在枚举上定义方法。这是一个可以在我们的 <code>Message</code> 枚举上定义的方法，名为 <code>call</code>：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    enum Message {
 </span><span class="boring">        Quit,
 </span><span class="boring">        Move { x: i32, y: i32 },
@@ -423,7 +423,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <p data-x-en="The problem with null values is that if you try to use a null value as a not-null value, you’ll get an error of some kind. Because this null or not-null property is pervasive, it’s extremely easy to make this kind of error."><p>空值的问题在于，如果你试图将空值用作非空值，你会得到某种错误。由于这种空或非空的属性是普遍存在的，因此非常容易犯这种错误。</p></p>
 <p data-x-en="However, the concept that null is trying to express is still a useful one: a null is a value that is currently invalid or absent for some reason.">然而，null试图表达的概念仍然是有用的：一个null是一个由于某种原因当前无效或缺失的值。</p>
 <p data-x-en="The problem isn’t really with the concept but with the particular implementation. As such, Rust does not have nulls, but it does have an enum that can encode the concept of a value being present or absent. This enum is Option<T>, and it is defined by the standard library as follows:">问题不在于概念本身，而在于特定的实现。因此，Rust 没有 null，但它确实有一个可以编码值存在或不存在概念的枚举。这个枚举是 <code>Option&lt;T&gt;</code>，并且它是由 <a href="https://doc.rust-lang.org/std/option/enum.Option.html" target="_blank">标准库定义的</a> 如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
     None,
@@ -432,7 +432,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="The Option<T> enum is so useful that it’s even included in the prelude; you don’t need to bring it into scope explicitly. Its variants are also included in the prelude: you can use Some and None directly without the Option:: prefix. The Option<T> enum is still just a regular enum, and Some(T) and None are still variants of type Option<T>."><code>Option&lt;T&gt;</code> 枚举非常有用，甚至被包含在前言中；你无需显式地将其引入作用域。它的变体也被包含在前言中：你可以直接使用 <code>Some</code> 和 <code>None</code>，而无需 <code>Option::</code> 前缀。<code>Option&lt;T&gt;</code> 枚举仍然是一个普通的枚举，<code>Some(T)</code> 和 <code>None</code> 仍然是 <code>Option&lt;T&gt;</code> 类型的变体。</p>
 <p data-x-en="The <T> syntax is a feature of Rust we haven’t talked about yet. It’s a generic type parameter, and we’ll cover generics in more detail in Chapter 10. For now, all you need to know is that <T> means that the Some variant of the Option enum can hold one piece of data of any type, and that each concrete type that gets used in place of T makes the overall Option<T> type a different type. Here are some examples of using Option values to hold number types and char types:"><code>&lt;T&gt;</code> 语法是 Rust 的一个我们尚未讨论过的特性。它是一个泛型类型参数，我们将在第 10 章中更详细地介绍泛型。目前，你只需要知道 <code>&lt;T&gt;</code> 表示 <code>Option</code> 枚举的 <code>Some</code> 变体可以持有一个任何类型的单个数据，并且每个用于替代 <code>T</code> 的具体类型都会使整体的 <code>Option&lt;T&gt;</code> 类型成为一个不同的类型。以下是一些使用 <code>Option</code> 值来持有数字类型和字符类型的示例：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
     let some_char = Some('e');
 
@@ -462,8 +462,8 @@ error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
   |
   = help: the trait `Add&lt;Option&lt;i8&gt;&gt;` is not implemented for `i8`
   = help: the following other types implement trait `Add&lt;Rhs&gt;`:
-            `&amp;'a i8` implements `Add&lt;i8&gt;`
-            `&amp;i8` implements `Add&lt;&amp;i8&gt;`
+            `&amp;i8` implements `Add&lt;i8&gt;`
+            `&amp;i8` implements `Add`
             `i8` implements `Add&lt;&amp;i8&gt;`
             `i8` implements `Add`
 

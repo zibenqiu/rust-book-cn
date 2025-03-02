@@ -255,13 +255,13 @@ blockquote {
 示例手动放在一个 <code>main</code> 函数中。因此，我们的示例将更加简洁，让我们能够专注于实际的细节而不是
 样板代码。</p>
 <p data-x-en="As a first example of ownership, we’ll look at the scope of some variables. A scope is the range within a program for which an item is valid. Take the following variable:">作为所有权的第一个例子，我们将看看一些变量的<em>作用域</em>。作用域是程序中一个项目有效的范围。考虑以下变量：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = "hello";
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="The variable s refers to a string literal, where the value of the string is hardcoded into the text of our program. The variable is valid from the point at which it’s declared until the end of the current scope. Listing 4-1 shows a program with comments annotating where the variable s would be valid.">变量<code>s</code>引用一个字符串字面量，其中字符串的值被硬编码到我们程序的文本中。该变量从声明点开始有效，直到当前<em>作用域</em>的结束。清单4-1显示了一个带有注释的程序，注释说明了变量<code>s</code>有效的范围。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    {                      // s is not valid here, it’s not yet declared
         let s = "hello";   // s is valid from this point forward
 
@@ -280,13 +280,13 @@ blockquote {
 <p data-x-en="To illustrate the rules of ownership, we need a data type that is more complex than those we covered in the “Data Types” section of Chapter 3. The types covered previously are of a known size, can be stored on the stack and popped off the stack when their scope is over, and can be quickly and trivially copied to make a new, independent instance if another part of code needs to use the same value in a different scope. But we want to look at data that is stored on the heap and explore how Rust knows when to clean up that data, and the String type is a great example.">为了说明所有权的规则，我们需要一个比我们在第 3 章<a href="ch03-02-data-types.html#data-types">“数据类型”</a><!-- ignore -->部分讨论的更复杂的数据类型。之前讨论的类型是已知大小的，可以存储在栈上，并且当它们的作用域结束时可以从栈中弹出，如果另一部分代码需要在不同的作用域中使用相同的值，可以快速且简单地复制以创建一个新的独立实例。但我们现在想查看存储在堆上的数据，并探讨 Rust 是如何知道何时清理这些数据的，<code>String</code> 类型是一个很好的例子。</p>
 <p data-x-en="We’ll concentrate on the parts of String that relate to ownership. These aspects also apply to other complex data types, whether they are provided by the standard library or created by you. We’ll discuss String in more depth in Chapter 8.">我们将专注于与所有权相关的<code>String</code>部分。这些方面也适用于其他复杂数据类型，无论是标准库提供的还是你创建的。我们将在<a href="ch08-02-strings.html">第8章</a><!-- ignore -->中更深入地讨论<code>String</code>。</p>
 <p data-x-en="We’ve already seen string literals, where a string value is hardcoded into our program. String literals are convenient, but they aren’t suitable for every situation in which we may want to use text. One reason is that they’re immutable. Another is that not every string value can be known when we write our code: for example, what if we want to take user input and store it? For these situations, Rust has a second string type, String. This type manages data allocated on the heap and as such is able to store an amount of text that is unknown to us at compile time. You can create a String from a string literal using the from function, like so:">我们已经看到了字符串字面量，其中字符串值被硬编码到我们的程序中。字符串字面量很方便，但它们并不适用于我们可能想要使用文本的每种情况。一个原因是它们是不可变的。另一个原因是并非每个字符串值在我们编写代码时都能知道：例如，如果我们想接收用户输入并存储它怎么办？对于这些情况，Rust 有第二种字符串类型，<code>String</code>。这种类型管理在堆上分配的数据，因此能够存储在编译时对我们未知的文本量。你可以使用 <code>from</code> 函数从字符串字面量创建一个 <code>String</code>，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="The double colon :: operator allows us to namespace this particular from function under the String type rather than using some sort of name like string_from. We’ll discuss this syntax more in the “Method Syntax” section of Chapter 5, and when we talk about namespacing with modules in “Paths for Referring to an Item in the Module Tree” in Chapter 7.">双冒号 <code>::</code> 操作符允许我们将这个特定的 <code>from</code> 函数命名空间化在 <code>String</code> 类型下，而不是使用类似 <code>string_from</code> 这样的名称。我们将在第 5 章的 <a href="ch05-03-method-syntax.html#method-syntax">“方法语法”</a><!-- ignore --> 部分更详细地讨论这种语法，以及在第 7 章的 <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“模块树中引用项的路径”</a><!-- ignore --> 部分讨论使用模块进行命名空间化。</p>
 <p data-x-en="This kind of string can be mutated:">这种字符串<em>可以</em>被修改:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("hello");
 
     s.push_str(", world!"); // push_str() appends a literal to a String
@@ -304,7 +304,7 @@ blockquote {
 <p data-x-en="That first part is done by us: when we call String::from, its implementation requests the memory it needs. This is pretty much universal in programming languages.">那第一部分是由我们完成的：当我们调用<code>String::from</code>时，其实现会请求所需的内存。这在编程语言中几乎是普遍的。</p>
 <p data-x-en="However, the second part is different. In languages with a garbage collector (GC), the GC keeps track of and cleans up memory that isn’t being used anymore, and we don’t need to think about it. In most languages without a GC, it’s our responsibility to identify when memory is no longer being used and to call code to explicitly free it, just as we did to request it. Doing this correctly has historically been a difficult programming problem. If we forget, we’ll waste memory. If we do it too early, we’ll have an invalid variable. If we do it twice, that’s a bug too. We need to pair exactly one allocate with exactly one free.">然而，第二部分是不同的。在具有<em>垃圾收集器 (GC)</em>的语言中，GC 会跟踪并清理不再使用的内存，我们不需要考虑这个问题。在大多数没有 GC 的语言中，我们需要识别何时内存不再被使用，并调用代码显式地释放它，就像我们请求它时所做的那样。正确地做到这一点历来是一个困难的编程问题。如果我们忘记了，我们会浪费内存。如果我们做得太早，我们会有一个无效的变量。如果我们做两次，那也是一个错误。我们需要将一个<code>allocate</code>与一个<code>free</code>精确配对。</p>
 <p data-x-en="Rust takes a different path: the memory is automatically returned once the variable that owns it goes out of scope. Here’s a version of our scope example from Listing 4-1 using a String instead of a string literal:">Rust 采取了不同的路径：一旦拥有内存的变量超出作用域，内存就会自动返回。这是使用 <code>String</code> 而不是字符串字面量的 Listing 4-1 作用域示例的版本：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    {
         let s = String::from("hello"); // s is valid from this point forward
 
@@ -323,7 +323,7 @@ blockquote {
 <p data-x-en="Multiple variables can interact with the same data in different ways in Rust. Let’s look at an example using an integer in Listing 4-2.">多个变量可以以不同的方式与相同的数据交互在 Rust 中。
 让我们看一个使用整数的例子，如清单 4-2 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
 <span class="boring">}</span></code></pre></pre>
@@ -331,7 +331,7 @@ blockquote {
 </figure>
 <p data-x-en="We can probably guess what this is doing: “bind the value 5 to x; then make a copy of the value in x and bind it to y.” We now have two variables, x and y, and both equal 5. This is indeed what is happening, because integers are simple values with a known, fixed size, and these two 5 values are pushed onto the stack.">我们可以猜到这是在做什么：“将值<code>5</code>绑定到<code>x</code>；然后复制<code>x</code>中的值并将其绑定到<code>y</code>。”现在我们有两个变量，<code>x</code>和<code>y</code>，它们都等于<code>5</code>。确实如此，因为整数是具有已知固定大小的简单值，这两个<code>5</code>值被推送到栈上。</p>
 <p data-x-en="Now let’s look at the String version:">现在让我们看看<code>String</code>版本：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("hello");
     let s2 = s1;
 <span class="boring">}</span></code></pre></pre>
@@ -393,7 +393,7 @@ access the heap data." src="img/trpl04-04.svg" class="center" style="width:
 <p data-x-en="In addition, there’s a design choice that’s implied by this: Rust will never automatically create “deep” copies of your data. Therefore, any automatic copying can be assumed to be inexpensive in terms of runtime performance.">此外，这里还隐含了一个设计选择：Rust 永远不会自动创建数据的“深层”副本。因此，任何<em>自动</em>复制都可以认为在运行时性能上是廉价的。</p>
 <h4 id="scope-and-assignment"><a class="header" href="#scope-and-assignment">作用域和赋值</a></h4>
 <p data-x-en="The inverse of this is true for the relationship between scoping, ownership, and memory being freed via the drop function as well. When you assign a completely new value to an existing variable, Rust will call drop and free the original value’s memory immediately. Consider this code, for example:">这种关系的反面也适用于作用域、所有权和通过 <code>drop</code> 函数释放内存。当你将一个全新的值赋给一个已存在的变量时，Rust 会立即调用 <code>drop</code> 并释放原始值的内存。例如，考虑以下代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("hello");
     s = String::from("ahoy");
 
@@ -410,7 +410,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 <h4 id="variables-and-data-interacting-with-clone"><a class="header" href="#variables-and-data-interacting-with-clone">变量和数据与 Clone 交互</a></h4>
 <p data-x-en="If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called clone. We’ll discuss method syntax in Chapter 5, but because methods are a common feature in many programming languages, you’ve probably seen them before.">如果我们确实想要深度复制<code>String</code>的堆数据，而不仅仅是栈数据，我们可以使用一个常见的方法叫做<code>clone</code>。我们将在第5章讨论方法语法，但因为方法是许多编程语言中的常见特性，你可能之前已经见过它们。</p>
 <p data-x-en="Here’s an example of the clone method in action:">这里是一个 <code>clone</code> 方法的示例：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("hello");
     let s2 = s1.clone();
 
@@ -420,7 +420,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 <p data-x-en="When you see a call to clone, you know that some arbitrary code is being executed and that code may be expensive. It’s a visual indicator that something different is going on.">当你看到对 <code>clone</code> 的调用时，你知道某些任意的代码正在执行，并且这些代码可能是昂贵的。这是一个视觉指示，表明有些不同的事情正在发生。</p>
 <h4 id="stack-only-data-copy"><a class="header" href="#stack-only-data-copy">仅栈数据：Copy</a></h4>
 <p data-x-en="There’s another wrinkle we haven’t talked about yet. This code using integers—part of which was shown in Listing 4-2—works and is valid:">还有我们尚未讨论的一个细节。这段使用整数的代码——部分在清单4-2中展示——可以工作并且是有效的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
 
@@ -442,7 +442,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 <p data-x-en="The mechanics of passing a value to a function are similar to those when assigning a value to a variable. Passing a variable to a function will move or copy, just as assignment does. Listing 4-3 has an example with some annotations showing where variables go into and out of scope.">将值传递给函数的机制与将值赋给变量时的机制相似。将变量传递给函数会移动或复制，就像赋值一样。清单 4-3 有一个带有注释的示例，显示了变量何时进入和退出作用域。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s = String::from("hello");  // s comes into scope
 
     takes_ownership(s);             // s's value moves into the function...
@@ -472,7 +472,7 @@ fn makes_copy(some_integer: i32) { // some_integer comes into scope
 <p data-x-en="Returning values can also transfer ownership. Listing 4-4 shows an example of a function that returns some value, with similar annotations as those in Listing 4-3.">返回值也可以转移所有权。清单 4-4 显示了一个返回某些值的函数示例，其注释与清单 4-3 中的类似。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s1 = gives_ownership();        // gives_ownership moves its return
                                        // value into s1
 
@@ -509,7 +509,7 @@ fn takes_and_gives_back(a_string: String) -&gt; String {
 <p data-x-en="Rust does let us return multiple values using a tuple, as shown in Listing 4-5.">Rust 确实允许我们使用元组返回多个值，如列表 4-5 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s1 = String::from("hello");
 
     let (s2, len) = calculate_length(s1);

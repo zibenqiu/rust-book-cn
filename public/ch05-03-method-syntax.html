@@ -227,12 +227,12 @@ blockquote {
                 <div id="content" class="content">
                     <main>
                         <h2 id="method-syntax"><a class="header" href="#method-syntax">方法语法</a></h2>
-<p data-x-en="Methods are similar to functions: we declare them with the fn keyword and a name, they can have parameters and a return value, and they contain some code that’s run when the method is called from somewhere else. Unlike functions, methods are defined within the context of a struct (or an enum or a trait object, which we cover in Chapter 6 and Chapter 17, respectively), and their first parameter is always self, which represents the instance of the struct the method is being called on."><em>方法</em> 与函数类似：我们使用 <code>fn</code> 关键字和一个名称声明它们，它们可以有参数和返回值，并且包含一些代码，当从其他地方调用方法时这些代码会被执行。与函数不同，方法是在结构体（或枚举或特征对象，我们分别在 <a href="ch06-00-enums.html">第六章</a><!-- ignore --> 和 <a href="ch18-02-trait-objects.html">第十七章</a><!-- ignore --> 中介绍）的上下文中定义的，它们的第一个参数总是 <code>self</code>，表示调用该方法的结构体实例。</p>
+<p data-x-en="Methods are similar to functions: we declare them with the fn keyword and a name, they can have parameters and a return value, and they contain some code that’s run when the method is called from somewhere else. Unlike functions, methods are defined within the context of a struct (or an enum or a trait object, which we cover in Chapter 6 and Chapter 18, respectively), and their first parameter is always self, which represents the instance of the struct the method is being called on."><em>方法</em> 与函数类似：我们使用 <code>fn</code> 关键字和一个名称声明它们，它们可以有参数和返回值，并且包含一些代码，当从其他地方调用该方法时，这些代码将运行。与函数不同，方法是在结构体（或枚举或特征对象，我们将在 <a href="ch06-00-enums.html">第六章</a><!-- ignore --> 和 <a href="ch18-02-trait-objects.html">第十八章</a><!-- ignore --> 中分别介绍）的上下文中定义的，并且它们的第一个参数始终是 <code>self</code>，表示调用该方法的结构体实例。</p>
 <h3 id="defining-methods"><a class="header" href="#defining-methods">定义方法</a></h3>
 <p data-x-en="Let’s change the area function that has a Rectangle instance as a parameter and instead make an area method defined on the Rectangle struct, as shown in Listing 5-13.">让我们将有一个 <code>Rectangle</code> 实例作为参数的 <code>area</code> 函数改为在 <code>Rectangle</code> 结构体上定义的 <code>area</code> 方法，如清单 5-13 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
@@ -269,7 +269,7 @@ fn main() {
 <p data-x-en="Note that we can choose to give a method the same name as one of the struct’s fields. For example, we can define a method on Rectangle that is also named width:">请注意，我们可以选择将方法命名为与结构体的某个字段相同。例如，我们可以在 <code>Rectangle</code> 上定义一个也名为 <code>width</code> 的方法：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
 </span><span class="boring">    height: u32,
@@ -300,7 +300,7 @@ fn main() {
 <p data-x-en="Rust doesn’t have an equivalent to the -> operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust with this behavior.">Rust 没有等同于 <code>-&gt;</code> 操作符的语法；相反，Rust 有一个称为 <em>自动引用和解引用</em> 的特性。调用方法是 Rust 中具有这种行为的少数地方之一。</p>
 <p data-x-en="Here’s how it works: when you call a method with object.something(), Rust automatically adds in &amp;, &amp;mut, or * so object matches the signature of the method. In other words, the following are the same:">这里是它的运作方式：当你用 <code>object.something()</code> 调用一个方法时，Rust 会自动添加 <code>&amp;</code>、<code>&amp;mut</code> 或 <code>*</code> 使 <code>object</code> 与方法的签名匹配。换句话说，以下内容是相同的：</p>
 <!-- CAN'T EXTRACT SEE BUG https://github.com/rust-lang/mdBook/issues/1127 -->
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[derive(Debug,Copy,Clone)]
 </span><span class="boring">struct Point {
@@ -353,7 +353,7 @@ Can rect1 hold rect3? false
 <p data-x-en="We know we want to define a method, so it will be within the impl Rectangle block. The method name will be can_hold, and it will take an immutable borrow of another Rectangle as a parameter. We can tell what the type of the parameter will be by looking at the code that calls the method: rect1.can_hold(&amp;rect2) passes in &amp;rect2, which is an immutable borrow to rect2, an instance of Rectangle. This makes sense because we only need to read rect2 (rather than write, which would mean we’d need a mutable borrow), and we want main to retain ownership of rect2 so we can use it again after calling the can_hold method. The return value of can_hold will be a Boolean, and the implementation will check whether the width and height of self are greater than the width and height of the other Rectangle, respectively. Let’s add the new can_hold method to the impl block from Listing 5-13, shown in Listing 5-15.">我们知道要定义一个方法，所以它将在 <code>impl Rectangle</code> 块内。方法名将是 <code>can_hold</code>，并且它将接受另一个 <code>Rectangle</code> 的不可变借用作为参数。我们可以通过查看调用该方法的代码来判断参数的类型：<code>rect1.can_hold(&amp;rect2)</code> 传递了 <code>&amp;rect2</code>，这是对 <code>rect2</code>（一个 <code>Rectangle</code> 实例）的不可变借用。这很有道理，因为我们只需要读取 <code>rect2</code>（而不是写入，这将意味着我们需要一个可变借用），并且我们希望 <code>main</code> 保留 <code>rect2</code> 的所有权，以便在调用 <code>can_hold</code> 方法后可以再次使用它。<code>can_hold</code> 的返回值将是一个布尔值，实现将检查 <code>self</code> 的宽度和高度是否分别大于另一个 <code>Rectangle</code> 的宽度和高度。让我们将新的 <code>can_hold</code> 方法添加到列表 5-13 中的 <code>impl</code> 块中，如列表 5-15 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
 </span><span class="boring">    height: u32,
@@ -393,7 +393,7 @@ Can rect1 hold rect3? false
 <p data-x-en="All functions defined within an impl block are called associated functions because they’re associated with the type named after the impl. We can define associated functions that don’t have self as their first parameter (and thus are not methods) because they don’t need an instance of the type to work with. We’ve already used one function like this: the String::from function that’s defined on the String type.">所有在 <code>impl</code> 块中定义的函数都称为 <em>关联函数</em>，因为它们与 <code>impl</code> 之后命名的类型相关联。我们可以定义没有 <code>self</code> 作为其第一个参数的关联函数（因此它们不是方法），因为它们不需要类型的实例来工作。我们已经使用过一个这样的函数：<code>String::from</code> 函数，它定义在 <code>String</code> 类型上。</p>
 <p data-x-en="Associated functions that aren’t methods are often used for constructors that will return a new instance of the struct. These are often called new, but new isn’t a special name and isn’t built into the language. For example, we could choose to provide an associated function named square that would have one dimension parameter and use that as both width and height, thus making it easier to create a square Rectangle rather than having to specify the same value twice:">不是方法的关联函数通常用于返回结构体新实例的构造函数。这些函数通常被称为<code>new</code>，但<code>new</code>并不是一个特殊名称，也不是语言内置的。例如，我们可以选择提供一个名为<code>square</code>的关联函数，该函数有一个维度参数，并将其用作宽度和高度，从而使得创建一个<code>Rectangle</code>正方形更加容易，而不需要指定相同的值两次：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
 </span><span class="boring">    height: u32,
@@ -416,7 +416,7 @@ Can rect1 hold rect3? false
 <h3 id="multiple-impl-blocks"><a class="header" href="#multiple-impl-blocks">多个 <code>impl</code> 块</a></h3>
 <p data-x-en="Each struct is allowed to have multiple impl blocks. For example, Listing 5-15 is equivalent to the code shown in Listing 5-16, which has each method in its own impl block.">每个结构体都可以有多个<code>impl</code>块。例如，列表 5-15 等同于列表 5-16 中的代码，其中每个方法都在其自己的<code>impl</code>块中。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
 </span><span class="boring">    height: u32,

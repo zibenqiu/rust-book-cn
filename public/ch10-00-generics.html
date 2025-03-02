@@ -237,7 +237,7 @@ blockquote {
 <p data-x-en="We’ll begin with the short program in Listing 10-1 that finds the largest number in a list.">我们将从列表 10-1 中的简短程序开始，该程序用于在列表中找到最大的数字。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let mut largest = &amp;number_list[0];
@@ -257,7 +257,7 @@ blockquote {
 <p data-x-en="We’ve now been tasked with finding the largest number in two different lists of numbers. To do so, we can choose to duplicate the code in Listing 10-1 and use the same logic at two different places in the program, as shown in Listing 10-2.">我们现在被要求在两个不同的数字列表中找到最大的数字。为此，我们可以选择复制列表10-1中的代码，并在程序的两个不同位置使用相同的逻辑，如列表10-2所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
 
     let mut largest = &amp;number_list[0];
@@ -289,7 +289,7 @@ blockquote {
 <p data-x-en="In Listing 10-3, we extract the code that finds the largest number into a function named largest. Then we call the function to find the largest number in the two lists from Listing 10-2. We could also use the function on any other list of i32 values we might have in the future.">在清单 10-3 中，我们将查找最大数字的代码提取到一个名为 <code>largest</code> 的函数中。然后我们调用该函数来查找清单 10-2 中两个列表的最大数字。我们也可以在将来可能拥有的任何其他 <code>i32</code> 值列表上使用该函数。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn largest(list: &amp;[i32]) -&gt; &amp;i32 {
+<pre><pre class="playground"><code class="language-rust edition2024">fn largest(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
 
     for item in list {

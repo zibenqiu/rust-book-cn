@@ -236,14 +236,14 @@ blockquote {
 <h3 id="creating-a-new-string"><a class="header" href="#creating-a-new-string">创建一个新的字符串</a></h3>
 <p data-x-en="Many of the same operations available with Vec<T> are available with String as well because String is actually implemented as a wrapper around a vector of bytes with some extra guarantees, restrictions, and capabilities. An example of a function that works the same way with Vec<T> and String is the new function to create an instance, shown in Listing 8-11.">许多与 <code>Vec&lt;T&gt;</code> 可用的操作对于 <code>String</code> 也同样可用，因为 <code>String</code> 实际上是围绕一个带有某些额外保证、限制和功能的字节向量实现的。一个在 <code>Vec&lt;T&gt;</code> 和 <code>String</code> 中以相同方式工作的函数示例是用于创建实例的 <code>new</code> 函数，如清单 8-11 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::new();
 <span class="boring">}</span></code></pre></pre>
 <figcaption>Listing 8-11: Creating a new, empty <code>String</code></figcaption>
 </figure>
 <p data-x-en="This line creates a new, empty string called s, into which we can then load data. Often, we’ll have some initial data with which we want to start the string. For that, we use the to_string method, which is available on any type that implements the Display trait, as string literals do. Listing 8-12 shows two examples.">这行代码创建了一个名为<code>s</code>的新空字符串，我们可以向其中加载数据。通常，我们希望用一些初始数据来开始字符串。为此，我们使用<code>to_string</code>方法，该方法在任何实现了<code>Display</code>特征的类型上都可用，字符串字面量也是如此。列表8-12展示了两个例子。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let data = "initial contents";
 
     let s = data.to_string();
@@ -256,7 +256,7 @@ blockquote {
 <p data-x-en="This code creates a string containing initial contents.">这段代码创建了一个包含 <code>initial contents</code> 的字符串。</p>
 <p data-x-en="We can also use the function String::from to create a String from a string literal. The code in Listing 8-13 is equivalent to the code in Listing 8-12 that uses to_string.">我们也可以使用函数<code>String::from</code>从字符串字面量创建一个<code>String</code>。列表 8-13 中的代码等同于使用<code>to_string</code>的列表 8-12 中的代码。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s = String::from("initial contents");
 <span class="boring">}</span></code></pre></pre>
 <figcaption>Listing 8-13: Using the <code>String::from</code> function to create a <code>String</code> from a string literal</figcaption>
@@ -264,7 +264,7 @@ blockquote {
 <p data-x-en="Because strings are used for so many things, we can use many different generic APIs for strings, providing us with a lot of options. Some of them can seem redundant, but they all have their place! In this case, String::from and to_string do the same thing, so which one you choose is a matter of style and readability.">因为字符串被用于许多事情，我们可以为字符串使用许多不同的通用 API，这为我们提供了很多选择。其中一些可能看起来冗余，但它们都有其用武之地！在这种情况下，<code>String::from</code> 和 <code>to_string</code> 做的是同一件事，所以选择哪一个取决于风格和可读性。</p>
 <p data-x-en="Remember that strings are UTF-8 encoded, so we can include any properly encoded data in them, as shown in Listing 8-14.">记住字符串是 UTF-8 编码的，因此我们可以包含任何正确编码的数据，如清单 8-14 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let hello = String::from("السلام عليكم");
     let hello = String::from("Dobrý den");
     let hello = String::from("Hello");
@@ -285,7 +285,7 @@ blockquote {
 <h4 id="appending-to-a-string-with-push_str-and-push"><a class="header" href="#appending-to-a-string-with-push_str-and-push">使用 <code>push_str</code> 和 <code>push</code> 追加到字符串</a></h4>
 <p data-x-en="We can grow a String by using the push_str method to append a string slice, as shown in Listing 8-15.">我们可以使用 <code>push_str</code> 方法来追加一个字符串切片，从而扩展 <code>String</code>，如清单 8-15 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("foo");
     s.push_str("bar");
 <span class="boring">}</span></code></pre></pre>
@@ -293,7 +293,7 @@ blockquote {
 </figure>
 <p data-x-en="After these two lines, s will contain foobar. The push_str method takes a string slice because we don’t necessarily want to take ownership of the parameter. For example, in the code in Listing 8-16, we want to be able to use s2 after appending its contents to s1.">在这两行之后，<code>s</code> 将包含 <code>foobar</code>。<code>push_str</code> 方法接受一个字符串切片，因为我们不一定希望获取参数的所有权。例如，在清单 8-16 的代码中，我们希望在将 <code>s2</code> 的内容追加到 <code>s1</code> 之后仍能使用 <code>s2</code>。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s1 = String::from("foo");
     let s2 = "bar";
     s1.push_str(s2);
@@ -304,7 +304,7 @@ blockquote {
 <p data-x-en="If the push_str method took ownership of s2, we wouldn’t be able to print its value on the last line. However, this code works as we’d expect!">如果 <code>push_str</code> 方法获取了 <code>s2</code> 的所有权，我们就无法在最后一行打印它的值。然而，这段代码如我们所期望的那样工作！</p>
 <p data-x-en="The push method takes a single character as a parameter and adds it to the String. Listing 8-17 adds the letter l to a String using the push method."><code>push</code> 方法接受一个字符作为参数，并将其添加到 <code>String</code> 中。列表 8-17 使用 <code>push</code> 方法将字母 <em>l</em> 添加到 <code>String</code> 中。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("lo");
     s.push('l');
 <span class="boring">}</span></code></pre></pre>
@@ -314,7 +314,7 @@ blockquote {
 <h4 id="concatenation-with-the--operator-or-the-format-macro"><a class="header" href="#concatenation-with-the--operator-or-the-format-macro">使用 <code>+</code> 运算符或 <code>format!</code> 宏进行连接</a></h4>
 <p data-x-en="Often, you’ll want to combine two existing strings. One way to do so is to use the + operator, as shown in Listing 8-18.">经常地，你可能想要将两个已有的字符串组合起来。一种方法是使用 <code>+</code> 运算符，如清单 8-18 所示。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("Hello, ");
     let s2 = String::from("world!");
     let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
@@ -328,7 +328,7 @@ blockquote {
 <p data-x-en="The reason we’re able to use &amp;s2 in the call to add is that the compiler can coerce the &amp;String argument into a &amp;str. When we call the add method, Rust uses a deref coercion, which here turns &amp;s2 into &amp;s2[..]. We’ll discuss deref coercion in more depth in Chapter 15. Because add does not take ownership of the s parameter, s2 will still be a valid String after this operation.">我们能够在调用 <code>&amp;s2</code> 时使用 <code>add</code> 是因为编译器可以将 <code>&amp;String</code> 参数 <em>强制转换</em> 为 <code>&amp;str</code>。当我们调用 <code>add</code> 方法时，Rust 使用 <em>解引用强制转换</em>，这会将 <code>&amp;s2</code> 转换为 <code>&amp;s2[..]</code>。我们将在第 15 章更深入地讨论解引用强制转换。因为 <code>add</code> 不会获取 <code>s</code> 参数的所有权，所以在此次操作后 <code>s2</code> 仍然是一个有效的 <code>String</code>。</p>
 <p data-x-en="Second, we can see in the signature that add takes ownership of self because self does not have an &amp;. This means s1 in Listing 8-18 will be moved into the add call and will no longer be valid after that. So, although let s3 = s1 + &amp;s2; looks like it will copy both strings and create a new one, this statement actually takes ownership of s1, appends a copy of the contents of s2, and then returns ownership of the result. In other words, it looks like it’s making a lot of copies, but it isn’t; the implementation is more efficient than copying.">其次，我们从签名中可以看到 <code>add</code> 获取了 <code>self</code> 的所有权，因为 <code>self</code> 没有 <code>&amp;</code>。这意味着在示例 8-18 中的 <code>s1</code> 将被移动到 <code>add</code> 调用中，并且在那之后将不再有效。因此，虽然 <code>let s3 = s1 + &amp;s2;</code> 看起来像是会复制两个字符串并创建一个新的，但实际上这个语句获取了 <code>s1</code> 的所有权，追加了 <code>s2</code> 内容的副本，然后返回结果的所有权。换句话说，它看起来像是在做很多复制，但实际上并没有；实现比复制更高效。</p>
 <p data-x-en="If we need to concatenate multiple strings, the behavior of the + operator gets unwieldy:">如果我们需要连接多个字符串，<code>+</code> 运算符的行为会变得难以管理：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("tic");
     let s2 = String::from("tac");
     let s3 = String::from("toe");
@@ -336,7 +336,7 @@ blockquote {
     let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="At this point, s will be tic-tac-toe. With all of the + and &quot; characters, it’s difficult to see what’s going on. For combining strings in more complicated ways, we can instead use the format! macro:">在这一点上，<code>s</code> 将是 <code>tic-tac-toe</code>。由于所有的 <code>+</code> 和 <code>"</code> 字符，很难看清发生了什么。对于更复杂地组合字符串，我们可以使用 <code>format!</code> 宏：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("tic");
     let s2 = String::from("tac");
     let s3 = String::from("toe");
@@ -362,10 +362,10 @@ error[E0277]: the type `str` cannot be indexed by `{integer}`
 3 |     let h = s1[0];
   |                ^ string indices are ranges of `usize`
   |
-  = help: the trait `SliceIndex&lt;str&gt;` is not implemented for `{integer}`, which is required by `String: Index&lt;_&gt;`
   = note: you can use `.chars().nth()` or `.bytes().nth()`
           for more information, see chapter 8 in The Book: &lt;https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings&gt;
-  = help: the trait `SliceIndex&lt;[_]&gt;` is implemented for `usize`
+  = help: the trait `SliceIndex&lt;str&gt;` is not implemented for `{integer}`
+          but trait `SliceIndex&lt;[_]&gt;` is implemented for `usize`
   = help: for that trait implementation, expected `[_]`, found `str`
   = note: required for `String` to implement `Index&lt;{integer}&gt;`
 
@@ -377,7 +377,7 @@ error: could not compile `collections` (bin "collections") due to 1 previous err
 内存中存储字符串的。</p>
 <h4 id="internal-representation"><a class="header" href="#internal-representation">内部表示</a></h4>
 <p data-x-en="A String is a wrapper over a Vec<u8>. Let’s look at some of our properly encoded UTF-8 example strings from Listing 8-14. First, this one:">一个 <code>String</code> 是 <code>Vec&lt;u8&gt;</code> 的包装。让我们看看来自列表 8-14 的一些正确编码的 UTF-8 示例字符串。首先，这个：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    let hello = String::from("السلام عليكم");
 </span><span class="boring">    let hello = String::from("Dobrý den");
 </span><span class="boring">    let hello = String::from("Hello");
@@ -391,7 +391,7 @@ error: could not compile `collections` (bin "collections") due to 1 previous err
 </span>    let hello = String::from("Hola");
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="In this case, len will be 4, which means the vector storing the string &quot;Hola&quot; is 4 bytes long. Each of these letters takes one byte when encoded in UTF-8. The following line, however, may surprise you (note that this string begins with the capital Cyrillic letter Ze, not the number 3):">在这种情况下，<code>len</code> 将是 <code>4</code>，这意味着存储字符串 <code>"Hola"</code> 的向量长度为 4 个字节。这些字母中的每一个在 UTF-8 编码中都占用一个字节。然而，下一行可能会让你感到惊讶（注意，这个字符串以大写的西里尔字母 <em>Ze</em> 开头，而不是数字 3）：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    let hello = String::from("السلام عليكم");
 </span><span class="boring">    let hello = String::from("Dobrý den");
 </span><span class="boring">    let hello = String::from("Hello");
@@ -426,7 +426,7 @@ let answer = &amp;hello[0];</code></pre>
 <h3 id="slicing-strings"><a class="header" href="#slicing-strings">字符串切片</a></h3>
 <p data-x-en="Indexing into a string is often a bad idea because it’s not clear what the return type of the string-indexing operation should be: a byte value, a character, a grapheme cluster, or a string slice. If you really need to use indices to create string slices, therefore, Rust asks you to be more specific.">索引到字符串通常是一个不好的主意，因为不清楚字符串索引操作的返回类型应该是：字节值、字符、字母群集还是字符串切片。因此，如果你确实需要使用索引创建字符串切片，Rust 会要求你更加具体。</p>
 <p data-x-en="Rather than indexing using [] with a single number, you can use [] with a range to create a string slice containing particular bytes:">而不是使用 <code>[]</code> 和单个数字进行索引，您可以使用 <code>[]</code> 和范围来创建包含特定字节的字符串切片：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let hello = "Здравствуйте";
 
@@ -440,6 +440,7 @@ let s = &amp;hello[0..4];
    Compiling collections v0.1.0 (file:///projects/collections)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/collections`
+
 thread 'main' panicked at src/main.rs:4:19:
 byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -447,7 +448,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p data-x-en="You should use caution when creating string slices with ranges, because doing so can crash your program.">您在使用范围创建字符串切片时应谨慎，因为这样做可能会导致程序崩溃。</p>
 <h3 id="methods-for-iterating-over-strings"><a class="header" href="#methods-for-iterating-over-strings">遍历字符串的方法</a></h3>
 <p data-x-en="The best way to operate on pieces of strings is to be explicit about whether you want characters or bytes. For individual Unicode scalar values, use the chars method. Calling chars on “Зд” separates out and returns two values of type char, and you can iterate over the result to access each element:">操作字符串片段的最佳方式是明确你想要的是字符还是字节。对于单个 Unicode 标量值，使用 <code>chars</code> 方法。对 “Зд” 调用 <code>chars</code> 会分离并返回两个类型为 <code>char</code> 的值，你可以遍历结果以访问每个元素：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for c in "Зд".chars() {
     println!("{c}");
@@ -458,7 +459,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 д
 </code></pre>
 <p data-x-en="Alternatively, the bytes method returns each raw byte, which might be appropriate for your domain:">或者，<code>bytes</code> 方法返回每个原始字节，这可能适合您的领域：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for b in "Зд".bytes() {
     println!("{b}");

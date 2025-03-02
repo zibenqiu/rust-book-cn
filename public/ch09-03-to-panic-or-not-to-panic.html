@@ -235,7 +235,7 @@ blockquote {
 <p data-x-en="If a method call fails in a test, you’d want the whole test to fail, even if that method isn’t the functionality under test. Because panic! is how a test is marked as a failure, calling unwrap or expect is exactly what should happen.">如果在测试中方法调用失败，即使该方法不是测试的功能，你也希望整个测试失败。因为 <code>panic!</code> 是标记测试失败的方式，所以调用 <code>unwrap</code> 或 <code>expect</code> 正是应该发生的事情。</p>
 <h3 id="cases-in-which-you-have-more-information-than-the-compiler"><a class="header" href="#cases-in-which-you-have-more-information-than-the-compiler">您比编译器拥有更多信息的情况</a></h3>
 <p data-x-en="It would also be appropriate to call unwrap or expect when you have some other logic that ensures the Result will have an Ok value, but the logic isn’t something the compiler understands. You’ll still have a Result value that you need to handle: whatever operation you’re calling still has the possibility of failing in general, even though it’s logically impossible in your particular situation. If you can ensure by manually inspecting the code that you’ll never have an Err variant, it’s perfectly acceptable to call unwrap, and even better to document the reason you think you’ll never have an Err variant in the expect text. Here’s an example:">在你有其他逻辑确保 <code>Result</code> 将会有一个 <code>Ok</code> 值，但这些逻辑不是编译器能理解的情况下，调用 <code>unwrap</code> 或 <code>expect</code> 也是合适的。你仍然需要处理一个 <code>Result</code> 值：你调用的任何操作在一般情况下仍然有可能失败，即使在你的特定情况下逻辑上是不可能的。如果你可以通过手动检查代码确保永远不会有一个 <code>Err</code> 变体，调用 <code>unwrap</code> 是完全可以接受的，甚至更好是在 <code>expect</code> 文本中记录你认为永远不会有一个 <code>Err</code> 变体的原因。这里有一个例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::net::IpAddr;
 
     let home: IpAddr = "127.0.0.1"
@@ -305,7 +305,7 @@ blockquote {
 <p data-x-en="However, this is not an ideal solution: if it were absolutely critical that the program only operated on values between 1 and 100, and it had many functions with this requirement, having a check like this in every function would be tedious (and might impact performance).">然而，这并不是一个理想的解决方案：如果程序绝对需要仅对1到100之间的值进行操作，并且有许多函数都有这个要求，那么在每个函数中都进行这样的检查会很繁琐（并且可能影响性能）。</p>
 <p data-x-en="Instead, we can make a new type and put the validations in a function to create an instance of the type rather than repeating the validations everywhere. That way, it’s safe for functions to use the new type in their signatures and confidently use the values they receive. Listing 9-13 shows one way to define a Guess type that will only create an instance of Guess if the new function receives a value between 1 and 100.">相反，我们可以创建一个新类型，并将验证放在一个函数中来创建该类型的实例，而不是在每个地方重复验证。这样，函数可以在其签名中安全地使用新类型，并且可以自信地使用接收到的值。清单 9-13 展示了一种定义 <code>Guess</code> 类型的方法，该类型只有在 <code>new</code> 函数接收到 1 到 100 之间的值时才会创建 <code>Guess</code> 的实例。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct Guess {
     value: i32,

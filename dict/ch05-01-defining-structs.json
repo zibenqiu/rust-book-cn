@@ -118,5 +118,9 @@
   "Defining and Instantiating Structs - The Rust Programming Language": {
     "_translate": "定义和实例化结构体 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Note that the struct update syntax uses = like an assignment; this is because it moves the data, just as we saw in the “Variables and Data Interacting with Move” section. In this example, we can no longer use user1 after creating user2 because the String in the username field of user1 was moved into user2. If we had given user2 new String values for both email and username, and thus only used the active and sign_in_count values from user1, then user1 would still be valid after creating user2. Both active and sign_in_count are types that implement the Copy trait, so the behavior we discussed in the “Stack-Only Data: Copy” section would apply. We can still use user1.email in this example, because its value was not moved out.": {
+    "_translate": "请注意，结构体更新语法使用 <code>=</code> 类似于赋值；这是因为\n它会移动数据，就像我们在 <a href=\"ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move\">“变量和数据的移动交互”</a><!-- ignore --> 部分看到的那样。在这个例子中，创建 <code>user2</code> 之后我们不能再使用\n<code>user1</code>，因为 <code>user1</code> 的 <code>username</code> 字段中的 <code>String</code> 被移动到了 <code>user2</code>。如果我们为 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都提供了新的 <code>String</code> 值，因此只使用了 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code>\n值，那么创建 <code>user2</code> 之后 <code>user1</code> 仍然有效。\n<code>active</code> 和 <code>sign_in_count</code> 都是实现了 <code>Copy</code> 特性的类型，因此我们在 <a href=\"ch04-01-what-is-ownership.html#stack-only-data-copy\">“仅栈数据：复制”</a><!-- ignore -->\n部分讨论的行为将适用。我们仍然可以使用 <code>user1.email</code>，因为它的值 <em>没有</em> 被移出。",
+    "_note": ""
   }
 }

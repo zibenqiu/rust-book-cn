@@ -233,7 +233,7 @@ blockquote {
 <p data-x-en="In the previous section, we saw that we could build a stream by using an async channel and spawning an async task we could call from synchronous code. We can do the exact same thing with a thread. In Listing 17-40, we used trpl::spawn_task and trpl::sleep. In Listing 17-41, we replace those with the thread::spawn and thread::sleep APIs from the standard library in the get_intervals function.">在上一节中，我们看到可以使用异步通道和异步任务来构建一个流，这些任务可以从同步代码中调用。我们也可以用线程做完全相同的事情。在清单 17-40 中，我们使用了 <code>trpl::spawn_task</code> 和 <code>trpl::sleep</code>。在清单 17-41 中，我们用标准库中的 <code>thread::spawn</code> 和 <code>thread::sleep</code> API 替换了它们，在 <code>get_intervals</code> 函数中。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{pin::pin, thread, time::Duration};
 </span><span class="boring">
@@ -317,7 +317,7 @@ blockquote {
 <p data-x-en="And if you need both parallelism and concurrency, you don’t have to choose between threads and async. You can use them together freely, letting each one play the part it’s best at. For example, Listing 17-42 shows a fairly common example of this kind of mix in real-world Rust code.">而且，如果您需要并行性和并发性，您不必在线程和异步之间做出选择。您可以自由地将它们一起使用，让每一种发挥其最擅长的作用。例如，列表 17-42 展示了这种混合在实际 Rust 代码中相当常见的一种情况。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // for mdbook test
 </span><span class="boring">
 </span>use std::{thread, time::Duration};
 

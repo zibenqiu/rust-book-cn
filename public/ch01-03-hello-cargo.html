@@ -252,7 +252,7 @@ $ cd hello_cargo
 <pre><code class="language-toml">[package]
 name = "hello_cargo"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 </code></pre>
@@ -264,7 +264,7 @@ edition = "2021"
 <p data-x-en="The last line, [dependencies], is the start of a section for you to list any of your project’s dependencies. In Rust, packages of code are referred to as crates. We won’t need any other crates for this project, but we will in the first project in Chapter 2, so we’ll use this dependencies section then.">最后一行，<code>[dependencies]</code>，是你列出项目依赖的开始。在 Rust 中，代码包被称为<em>crates</em>。我们在这个项目中不需要其他 crates，但在第 2 章的第一个项目中需要，所以那时我们会使用这个依赖部分。</p>
 <p data-x-en="Now open src/main.rs and take a look:">现在打开 <em>src/main.rs</em> 并查看：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     println!("Hello, world!");
 }</code></pre></pre>
 <p data-x-en="Cargo has generated a “Hello, world!” program for you, just like the one we wrote in Listing 1-1! So far, the differences between our project and the project Cargo generated are that Cargo placed the code in the src directory and we have a Cargo.toml configuration file in the top directory.">Cargo 为您生成了一个“Hello, world!”程序，就像我们在清单 1-1 中编写的一样！到目前为止，我们的项目和 Cargo 生成的项目之间的区别在于 Cargo 将代码放在了 <em>src</em> 目录中，而我们在顶级目录中有一个 <em>Cargo.toml</em> 配置文件。</p>

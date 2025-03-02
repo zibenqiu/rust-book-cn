@@ -90,5 +90,9 @@
   "Recall from “Enum values” in Chapter 6 that the name of each enum variant that we define also becomes an initializer function. We can use these initializer functions as function pointers that implement the closure traits, which means we can specify the initializer functions as arguments for methods that take closures, like so:": {
     "_translate": "回忆在第 6 章<a href=\"ch06-01-defining-an-enum.html#enum-values\">“枚举值”</a><!-- ignore -->中，我们定义的每个枚举变体的名称也成为了初始化函数。我们可以将这些初始化函数用作实现闭包特征的函数指针，这意味着我们可以将初始化函数指定为接受闭包的方法的参数，如下所示：",
     "_note": ""
+  },
+  "Closures are represented by traits, which means you can’t return closures directly. In most cases where you might want to return a trait, you can instead use the concrete type that implements the trait as the return value of the function. However, you can’t usually do that with closures because they don’t usually have a concrete type that is returnable. You’re not allowed to use the function pointer fn as a return type if the closure captures any values from its scope, for example.": {
+    "_translate": "闭包由特征（traits）表示，这意味着你不能直接返回闭包。在大多数你可能想要返回特征的情况下，你可以使用实现该特征的具体类型作为函数的返回值。然而，通常你不能对闭包这样做，因为它们通常没有可返回的具体类型。例如，如果闭包捕获了其作用域中的任何值，你不能使用函数指针 <code>fn</code> 作为返回类型。",
+    "_note": ""
   }
 }

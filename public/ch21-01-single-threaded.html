@@ -239,7 +239,7 @@ $ cd hello
 <p data-x-en="Now enter the code in Listing 21-1 in src/main.rs to start. This code will listen at the local address 127.0.0.1:7878 for incoming TCP streams. When it gets an incoming stream, it will print Connection established!.">现在在 <em>src/main.rs</em> 中输入清单 21-1 的代码以开始。此代码将在本地地址 <code>127.0.0.1:7878</code> 监听传入的 TCP 流。当它收到传入的流时，它将打印 <code>Connection established!</code>。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021">use std::net::TcpListener;
+<pre><pre class="playground"><code class="language-rust no_run edition2024">use std::net::TcpListener;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -270,8 +270,8 @@ Connection established!
 <p data-x-en="Let’s implement the functionality to read the request from the browser! To separate the concerns of first getting a connection and then taking some action with the connection, we’ll start a new function for processing connections. In this new handle_connection function, we’ll read data from the TCP stream and print it so we can see the data being sent from the browser. Change the code to look like Listing 21-2.">让我们实现从浏览器读取请求的功能！为了将首先获取连接和然后对连接采取某些行动的关注点分开，我们将开始一个用于处理连接的新函数。在这个新的<code>handle_connection</code>函数中，我们将从TCP流中读取数据并打印出来，这样我们就可以看到从浏览器发送的数据。将代码更改为如清单21-2所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021">use std::{
-    io::{prelude::*, BufReader},
+<pre><pre class="playground"><code class="language-rust no_run edition2024">use std::{
+    io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
 };
 
@@ -353,8 +353,8 @@ message-body
 <p data-x-en="The status code 200 is the standard success response. The text is a tiny successful HTTP response. Let’s write this to the stream as our response to a successful request! From the handle_connection function, remove the println! that was printing the request data and replace it with the code in Listing 21-3.">状态码 200 是标准的成功响应。文本是一个小小的成功 HTTP 响应。让我们将此写入流作为我们对成功请求的响应！从 <code>handle_connection</code> 函数中，移除打印请求数据的 <code>println!</code>，并用列表 21-3 中的代码替换它。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
-</span><span class="boring">    io::{prelude::*, BufReader},
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">};
 </span><span class="boring">
@@ -405,9 +405,9 @@ message-body
 <p data-x-en="This is a minimal HTML5 document with a heading and some text. To return this from the server when a request is received, we’ll modify handle_connection as shown in Listing 21-5 to read the HTML file, add it to the response as a body, and send it.">这是一个包含标题和一些文本的最小 HTML5 文档。为了在收到请求时从服务器返回此内容，我们将按照清单 21-5 所示修改 <code>handle_connection</code> 以读取 HTML 文件，将其作为响应的正文添加，并发送它。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024">use std::{
     fs,
-    io::{prelude::*, BufReader},
+    io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
 };
 // --snip--
@@ -449,9 +449,9 @@ message-body
 <p data-x-en="Right now, our web server will return the HTML in the file no matter what the client requested. Let’s add functionality to check that the browser is requesting / before returning the HTML file and return an error if the browser requests anything else. For this we need to modify handle_connection, as shown in Listing 21-6. This new code checks the content of the request received against what we know a request for / looks like and adds if and else blocks to treat requests differently.">目前，我们的Web服务器无论客户端请求什么，都会返回文件中的HTML。让我们添加功能，检查浏览器是否请求了<em>/</em>，然后再返回HTML文件，如果浏览器请求了其他内容，则返回错误。为此，我们需要修改<code>handle_connection</code>，如清单21-6所示。这段新代码会检查收到的请求内容是否与我们已知的请求<em>/</em>的内容相符，并添加<code>if</code>和<code>else</code>块来不同地处理请求。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">};
 </span><span class="boring">
@@ -493,9 +493,9 @@ fn handle_connection(mut stream: TcpStream) {
 <p data-x-en="Now let’s add the code in Listing 21-7 to the else block to return a response with the status code 404, which signals that the content for the request was not found. We’ll also return some HTML for a page to render in the browser indicating the response to the end user.">现在让我们在清单 21-7 中添加代码到 <code>else</code> 块中，以返回状态码为 404 的响应，这表示请求的内容未找到。我们还将返回一些 HTML，以便在浏览器中渲染一个页面，向最终用户显示响应。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">};
 </span><span class="boring">
@@ -561,9 +561,9 @@ fn handle_connection(mut stream: TcpStream) {
 <p data-x-en="At the moment, the if and else blocks have a lot of repetition: they’re both reading files and writing the contents of the files to the stream. The only differences are the status line and the filename. Let’s make the code more concise by pulling out those differences into separate if and else lines that will assign the values of the status line and the filename to variables; we can then use those variables unconditionally in the code to read the file and write the response. Listing 21-9 shows the resultant code after replacing the large if and else blocks.">目前，<code>if</code> 和 <code>else</code> 块有很多重复：它们都在读取文件并将文件内容写入流中。唯一的区别是状态行和文件名。让我们通过将这些差异提取到单独的 <code>if</code> 和 <code>else</code> 行中，将状态行和文件名的值分配给变量，从而使代码更简洁；然后我们可以在读取文件和写入响应的代码中无条件地使用这些变量。列表 21-9 显示了替换大的 <code>if</code> 和 <code>else</code> 块后的代码。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">};
 </span><span class="boring">

@@ -265,7 +265,7 @@ error: could not compile `variables` (bin "variables") due to 1 previous error
 虽然变量默认是不可变的，但您可以通过在变量名前添加<code>mut</code>来使其可变，就像您在<a href="ch02-00-guessing-game-tutorial.html#storing-values-with-variables">第2章</a><!-- ignore -->中所做的那样。添加<code>mut</code>还可以向未来的代码读者传达意图，表明代码的其他部分将更改此变量的值。</p>
 <p data-x-en="For example, let’s change src/main.rs to the following:">例如，让我们将 <em>src/main.rs</em> 更改为以下内容：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut x = 5;
     println!("The value of x is: {x}");
     x = 6;
@@ -286,7 +286,7 @@ The value of x is: 6
 <p data-x-en="Constants can be declared in any scope, including the global scope, which makes them useful for values that many parts of code need to know about.">常量可以在任何作用域中声明，包括全局作用域，这使得它们对于许多代码部分需要了解的值非常有用。</p>
 <p data-x-en="The last difference is that constants may be set only to a constant expression, not the result of a value that could only be computed at runtime.">最后一个不同点是常量只能设置为常量表达式，不能设置为只能在运行时计算的值的结果。</p>
 <p data-x-en="Here’s an example of a constant declaration:">这是一个常量声明的例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 <span class="boring">}</span></code></pre></pre>
@@ -296,7 +296,7 @@ The value of x is: 6
 <h3 id="shadowing"><a class="header" href="#shadowing">遮蔽</a></h3>
 <p data-x-en="As you saw in the guessing game tutorial in Chapter 2, you can declare a new variable with the same name as a previous variable. Rustaceans say that the first variable is shadowed by the second, which means that the second variable is what the compiler will see when you use the name of the variable. In effect, the second variable overshadows the first, taking any uses of the variable name to itself until either it itself is shadowed or the scope ends. We can shadow a variable by using the same variable’s name and repeating the use of the let keyword as follows:">正如你在<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">第2章</a><!-- ignore -->的猜数字游戏教程中所见，你可以声明一个与先前变量同名的新变量。Rustaceans 说，第一个变量被第二个变量<em>遮蔽</em>了，这意味着当你使用变量名时，编译器将看到的是第二个变量。实际上，第二个变量遮蔽了第一个变量，将变量名的任何使用指向自己，直到它自己被遮蔽或作用域结束。我们可以通过使用相同的变量名并重复使用<code>let</code>关键字来遮蔽一个变量，如下所示：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x = 5;
 
     let x = x + 1;
@@ -318,7 +318,7 @@ The value of x is: 6
 </code></pre>
 <p data-x-en="Shadowing is different from marking a variable as mut because we’ll get a compile-time error if we accidentally try to reassign to this variable without using the let keyword. By using let, we can perform a few transformations on a value but have the variable be immutable after those transformations have been completed.">阴影与将变量标记为<code>mut</code>不同，因为如果我们不小心尝试在没有使用<code>let</code>关键字的情况下重新赋值给这个变量，我们会得到一个编译时错误。通过使用<code>let</code>，我们可以在值上执行一些转换，但在这些转换完成后，变量将变为不可变。</p>
 <p data-x-en="The other difference between mut and shadowing is that because we’re effectively creating a new variable when we use the let keyword again, we can change the type of the value but reuse the same name. For example, say our program asks a user to show how many spaces they want between some text by inputting space characters, and then we want to store that input as a number:"><code>mut</code> 和遮蔽之间的另一个区别是，由于我们在再次使用 <code>let</code> 关键字时实际上是创建了一个新变量，因此我们可以更改值的类型但重用相同的名称。例如，假设我们的程序要求用户通过输入空格字符来显示他们希望在某些文本之间有多少个空格，然后我们希望将该输入存储为数字：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let spaces = "   ";
     let spaces = spaces.len();
 <span class="boring">}</span></code></pre></pre>

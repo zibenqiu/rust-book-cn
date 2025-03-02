@@ -386,5 +386,13 @@
   "You have built a small working web scraper now! Pick a couple URLs and run the command line tool. You may discover that some sites are consistently faster than others, while in other cases the faster site varies from run to run. More importantly, you’ve learned the basics of working with futures, so now we can dig deeper into what we can do with async.": {
     "_translate": "你现在已经构建了一个小型的可工作的网络爬虫！选择几个URL并运行命令行工具。你可能会发现有些网站始终比其他网站快，而在其他情况下，较快的网站则会随着运行而变化。更重要的是，你已经学会了使用futures的基础知识，现在我们可以更深入地探讨我们可以用async做些什么。",
     "_note": ""
+  },
+  "Note: This is different from the behavior we saw in the previous chapter when using thread::spawn in Creating a New Thread with spawn, where the closure we passed to another thread started running immediately. It’s also different from how many other languages approach async. But it’s important for Rust to be able to provide its performance guarantees, just as it is with iterators.": {
+    "_translate": "注意：这与我们在<a href=\"ch16-01-threads.html#creating-a-new-thread-with-spawn\">使用 <code>thread::spawn</code> 创建新线程</a>一节中看到的行为不同，在该节中，我们传递给另一个线程的闭包会立即开始运行。这也与其他许多语言处理异步的方式不同。但是，对于 Rust 而言，能够提供其性能保证非常重要，就像迭代器一样。",
+    "_note": ""
+  },
+  "Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! Instead, we called the trpl::run function in main to set up a runtime and run the future returned by the async block until it is done.": {
+    "_translate": "现在你可以理解为什么编译器在第 17-3 节中阻止我们将 <code>main</code> 本身设为异步函数了。如果 <code>main</code> 是一个异步函数，那么就需要有其他东西来管理 <code>main</code> 返回的未来状态机，但 <code>main</code> 是程序的起点！相反，我们在 <code>main</code> 中调用了 <code>trpl::run</code> 函数来设置运行时并运行 <code>async</code> 块返回的未来，直到它完成。",
+    "_note": ""
   }
 }

@@ -232,9 +232,9 @@ blockquote {
 <p data-x-en="We’ll look at how a slow-processing request can affect other requests made to our current server implementation. Listing 21-10 implements handling a request to /sleep with a simulated slow response that will cause the server to sleep for five seconds before responding.">我们将研究一个处理缓慢的请求如何影响向我们当前服务器实现发出的其他请求。清单 21-10 实现了处理对 <em>/sleep</em> 的请求，该请求具有模拟的缓慢响应，将导致服务器在响应前休眠五秒。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024">use std::{
     fs,
-    io::{prelude::*, BufReader},
+    io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
     thread,
     time::Duration,
@@ -299,9 +299,9 @@ fn handle_connection(mut stream: TcpStream) {
 <p data-x-en="First, let’s explore how our code might look if it did create a new thread for every connection. As mentioned earlier, this isn’t our final plan due to the problems with potentially spawning an unlimited number of threads, but it is a starting point to get a working multithreaded server first. Then we’ll add the thread pool as an improvement, and contrasting the two solutions will be easier. Listing 21-11 shows the changes to make to main to spawn a new thread to handle each stream within the for loop.">首先，让我们看看如果为每个连接创建一个新线程，代码可能会是什么样子。如前所述，这不是我们的最终计划，因为可能会产生无限数量的线程，但这是一个起点，首先实现一个多线程服务器。然后我们将添加线程池作为改进，对比两种解决方案将更容易。清单 21-11 显示了对 <code>main</code> 的更改，以在 <code>for</code> 循环中为每个流生成一个新线程。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -352,7 +352,7 @@ fn handle_connection(mut stream: TcpStream) {
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -422,7 +422,7 @@ error: could not compile `hello` (bin "hello") due to 1 previous error
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 <span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -865,7 +865,7 @@ error: could not compile `hello` (lib) due to 1 previous error
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::{
-    sync::{mpsc, Arc, Mutex},
+    sync::{Arc, Mutex, mpsc},
     thread,
 };
 // --snip--
@@ -937,7 +937,7 @@ error: could not compile `hello` (lib) due to 1 previous error
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -1008,7 +1008,7 @@ impl ThreadPool {
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -1062,12 +1062,14 @@ impl ThreadPool {
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        let thread = thread::spawn(move || loop {
-            let job = receiver.lock().unwrap().recv().unwrap();
+        let thread = thread::spawn(move || {
+            loop {
+                let job = receiver.lock().unwrap().recv().unwrap();
 
-            println!("Worker {id} got a job; executing.");
+                println!("Worker {id} got a job; executing.");
 
-            job();
+                job();
+            }
         });
 
         Worker { id, thread }
@@ -1132,7 +1134,7 @@ Worker 2 got a job; executing.
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">

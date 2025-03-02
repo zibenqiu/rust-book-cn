@@ -236,7 +236,7 @@ ignore --> 新类型模式对于我们迄今为止讨论的任务之外的任务
 ignore -->第18章中讨论过。</p>
 <h3 id="creating-type-synonyms-with-type-aliases"><a class="header" href="#creating-type-synonyms-with-type-aliases">使用类型别名创建类型同义词</a></h3>
 <p data-x-en="Rust provides the ability to declare a type alias to give an existing type another name. For this we use the type keyword. For example, we can create the alias Kilometers to i32 like so:">Rust 提供了声明 <em>类型别名</em> 的能力，为现有类型赋予另一个名称。为此我们使用 <code>type</code> 关键字。例如，我们可以创建 <code>Kilometers</code> 作为 <code>i32</code> 的别名，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 <span class="boring">
 </span><span class="boring">    let x: i32 = 5;
@@ -246,7 +246,7 @@ ignore -->第18章中讨论过。</p>
 </span><span class="boring">}</span></code></pre></pre>
 <p data-x-en="Now, the alias Kilometers is a synonym for i32; unlike the Millimeters and Meters types we created in Listing 20-16, Kilometers is not a separate, new type. Values that have the type Kilometers will be treated the same as values of type i32:">现在，别名 <code>Kilometers</code> 是 <code>i32</code> 的一个 <em>同义词</em>；与我们在清单 20-16 中创建的 <code>Millimeters</code>
 和 <code>Meters</code> 类型不同，<code>Kilometers</code> 不是一个独立的新类型。类型为 <code>Kilometers</code> 的值将被视为与类型为 <code>i32</code> 的值相同：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    type Kilometers = i32;
 
     let x: i32 = 5;
@@ -260,7 +260,7 @@ ignore -->第18章中讨论过。</p>
 <pre><code class="language-rust ignore">Box&lt;dyn Fn() + Send + 'static&gt;</code></pre>
 <p data-x-en="Writing this lengthy type in function signatures and as type annotations all over the code can be tiresome and error prone. Imagine having a project full of code like that in Listing 20-25.">在函数签名和类型注释中写这样冗长的类型，以及在整个代码中到处使用，可能会很累人且容易出错。想象一下，你的项目中充满了如清单 20-25 所示的代码。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!("hi"));
 
     fn takes_long_type(f: Box&lt;dyn Fn() + Send + 'static&gt;) {
@@ -276,7 +276,7 @@ ignore -->第18章中讨论过。</p>
 </figure>
 <p data-x-en="A type alias makes this code more manageable by reducing the repetition. In Listing 20-26, we’ve introduced an alias named Thunk for the verbose type and can replace all uses of the type with the shorter alias Thunk.">类型别名通过减少重复使这段代码更易于管理。在列表 20-26 中，我们引入了一个名为 <code>Thunk</code> 的别名，用于冗长的类型，并可以用较短的别名 <code>Thunk</code> 替换所有类型的使用。</p>
 <figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 
     let f: Thunk = Box::new(|| println!("hi"));

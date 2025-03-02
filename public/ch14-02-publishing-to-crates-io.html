@@ -416,8 +416,8 @@ pub mod utils {
 <p data-x-en="The art crate users can still see and use the internal structure from Listing 14-3 as demonstrated in Listing 14-4, or they can use the more convenient structure in Listing 14-5, as shown in Listing 14-6:"><code>art</code> crate 的用户仍然可以查看和使用来自列表 14-3 的内部结构，如列表 14-4 所示，或者他们可以使用列表 14-5 中更方便的结构，如列表 14-6 所示：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore">use art::mix;
-use art::PrimaryColor;
+<pre><code class="language-rust ignore">use art::PrimaryColor;
+use art::mix;
 
 fn main() {
     // --snip--
@@ -445,7 +445,8 @@ name = "guessing_game"
 </code></pre>
 <p data-x-en="Even if you’ve chosen a unique name, when you run cargo publish to publish the crate at this point, you’ll get a warning and then an error:">即使您选择了一个独特的名称，当您运行<code>cargo publish</code>来发布此阶段的 crate 时，您会收到一个警告，然后是一个错误：</p>
 <!-- manual-regeneration
-cd listings/ch14-more-about-cargo/listing-14-01/
+Create a new package with an unregistered name, making no further modifications
+  to the generated package, so it is missing the description and license fields.
 cargo publish
 copy just the relevant lines below
 -->
@@ -457,7 +458,7 @@ See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for
 error: failed to publish to registry at https://crates.io
 
 Caused by:
-  the remote server responded with an error (status 400 Bad Request): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for more information on configuring these field
+  the remote server responded with an error (status 400 Bad Request): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for more information on configuring these fields
 </code></pre>
 <p data-x-en="This errors because you’re missing some crucial information: a description and license are required so people will know what your crate does and under what terms they can use it. In Cargo.toml, add a description that’s just a sentence or two, because it will appear with your crate in search results. For the license field, you need to give a license identifier value. The Linux Foundation’s Software Package Data Exchange (SPDX) lists the identifiers you can use for this value. For example, to specify that you’ve licensed your crate using the MIT License, add the MIT identifier:">这会出错，因为你缺少一些关键信息：需要提供描述和许可证，这样人们才能知道你的crate是做什么的，以及他们可以在什么条件下使用它。在<em>Cargo.toml</em>中，添加一个简短的描述，因为这将出现在搜索结果中与你的crate一起。对于<code>license</code>字段，你需要提供一个<em>许可证标识符值</em>。<a href="http://spdx.org/licenses/">Linux基金会的软件包数据交换（SPDX）</a>列出了你可以用于此值的标识符。例如，要指定你使用MIT许可证授权你的crate，添加<code>MIT</code>标识符：</p>
 <p data-x-en="Filename: Cargo.toml"><span class="filename">文件名: Cargo.toml</span></p>
@@ -472,7 +473,7 @@ license = "MIT"
 <pre><code class="language-toml">[package]
 name = "guessing_game"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "A fun game where you guess what number the computer has chosen."
 license = "MIT OR Apache-2.0"
 

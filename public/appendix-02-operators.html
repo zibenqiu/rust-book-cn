@@ -254,7 +254,9 @@ blockquote {
 <tr><td><code>-</code></td><td><code>expr - expr</code></td><td>Arithmetic subtraction</td><td><code>Sub</code></td></tr>
 <tr><td><code>-=</code></td><td><code>var -= expr</code></td><td>Arithmetic subtraction and assignment</td><td><code>SubAssign</code></td></tr>
 <tr><td><code>-&gt;</code></td><td><code>fn(...) -&gt; type</code>, <code>|…| -&gt; type</code></td><td>Function and closure return type</td><td></td></tr>
-<tr><td><code>.</code></td><td><code>expr.ident</code></td><td>Member access</td><td></td></tr>
+<tr><td><code>.</code></td><td><code>expr.ident</code></td><td>Field access</td><td></td></tr>
+<tr><td><code>.</code></td><td><code>expr.ident(expr, ...)</code></td><td>Method call</td><td></td></tr>
+<tr><td><code>.</code></td><td><code>expr.0</code>, <code>expr.1</code>, etc.</td><td>Tuple indexing</td><td></td></tr>
 <tr><td><code>..</code></td><td><code>..</code>, <code>expr..</code>, <code>..expr</code>, <code>expr..expr</code></td><td>Right-exclusive range literal</td><td><code>PartialOrd</code></td></tr>
 <tr><td><code>..=</code></td><td><code>..=expr</code>, <code>expr..=expr</code></td><td>Right-inclusive range literal</td><td><code>PartialOrd</code></td></tr>
 <tr><td><code>..</code></td><td><code>..expr</code></td><td>Struct literal update syntax</td><td></td></tr>
@@ -366,8 +368,8 @@ blockquote {
 <tr><td><code>/**...*/</code></td><td>Outer block doc comment</td></tr>
 </tbody></table>
 </div>
-<p data-x-en="Table B-8 shows symbols that appear in the context of using tuples.">表 B-8 显示了在使用元组时出现的符号。</p>
-<p data-x-en="Table B-8: Tuples"><span class="caption">表 B-8：元组</span></p>
+<p data-x-en="Table B-8 shows the contexts in which parentheses are used.">表B-8显示了使用括号的上下文。</p>
+<p data-x-en="Table B-8: Parentheses"><span class="caption">表 B-8：括号</span></p>
 <div class="table-wrapper"><table><thead><tr><th>Symbol</th><th>Explanation</th></tr></thead><tbody>
 <tr><td><code>()</code></td><td>Empty tuple (aka unit), both literal and type</td></tr>
 <tr><td><code>(expr)</code></td><td>Parenthesized expression</td></tr>
@@ -376,7 +378,6 @@ blockquote {
 <tr><td><code>(expr, ...)</code></td><td>Tuple expression</td></tr>
 <tr><td><code>(type, ...)</code></td><td>Tuple type</td></tr>
 <tr><td><code>expr(expr, ...)</code></td><td>Function call expression; also used to initialize tuple <code>struct</code>s and tuple <code>enum</code> variants</td></tr>
-<tr><td><code>expr.0</code>, <code>expr.1</code>, etc.</td><td>Tuple indexing</td></tr>
 </tbody></table>
 </div>
 <p data-x-en="Table B-9 shows the contexts in which curly braces are used.">表 B-9 显示了使用大括号的上下文。</p>

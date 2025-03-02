@@ -276,7 +276,7 @@ error: could not compile `cons-list` (bin "cons-list") due to 1 previous error
 <p data-x-en="Instead, we’ll change our definition of List to use Rc<T> in place of Box<T>, as shown in Listing 15-18. Each Cons variant will now hold a value and an Rc<T> pointing to a List. When we create b, instead of taking ownership of a, we’ll clone the Rc<List> that a is holding, thereby increasing the number of references from one to two and letting a and b share ownership of the data in that Rc<List>. We’ll also clone a when creating c, increasing the number of references from two to three. Every time we call Rc::clone, the reference count to the data within the Rc<List> will increase, and the data won’t be cleaned up unless there are zero references to it.">相反，我们将更改 <code>List</code> 的定义，用 <code>Rc&lt;T&gt;</code> 替换 <code>Box&lt;T&gt;</code>，如清单 15-18 所示。每个 <code>Cons</code> 变体现在将持有一个值和一个指向 <code>List</code> 的 <code>Rc&lt;T&gt;</code>。当我们创建 <code>b</code> 时，不是获取 <code>a</code> 的所有权，而是克隆 <code>a</code> 持有的 <code>Rc&lt;List&gt;</code>，从而将引用数从一增加到二，使 <code>a</code> 和 <code>b</code> 共享该 <code>Rc&lt;List&gt;</code> 中的数据的所有权。在创建 <code>c</code> 时，我们也会克隆 <code>a</code>，将引用数从二增加到三。每次调用 <code>Rc::clone</code> 时，<code>Rc&lt;List&gt;</code> 中数据的引用计数都会增加，除非引用计数为零，否则数据不会被清理。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">enum List {
+<pre><pre class="playground"><code class="language-rust edition2024">enum List {
     Cons(i32, Rc&lt;List&gt;),
     Nil,
 }
@@ -298,7 +298,7 @@ fn main() {
 <p data-x-en="In Listing 15-19, we’ll change main so it has an inner scope around list c; then we can see how the reference count changes when c goes out of scope.">在清单 15-19 中，我们将更改 <code>main</code>，使其在列表 <code>c</code> 周围有一个内部作用域；然后我们可以看到当 <code>c</code> 超出作用域时引用计数如何变化。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum List {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, Rc&lt;List&gt;),
 </span><span class="boring">    Nil,
 </span><span class="boring">}

@@ -311,7 +311,7 @@ The user with preference None gets Blue
 <p data-x-en="As with variables, we can add type annotations if we want to increase explicitness and clarity at the cost of being more verbose than is strictly necessary. Annotating the types for a closure would look like the definition shown in Listing 13-2. In this example, we’re defining a closure and storing it in a variable rather than defining the closure in the spot we pass it as an argument as we did in Listing 13-1.">与变量一样，如果我们要以增加冗余为代价来提高明确性和清晰度，可以添加类型注解。为闭包注解类型看起来像示例 13-2 中的定义。在这个例子中，我们定义了一个闭包并将其存储在一个变量中，而不是像在示例 13-1 中那样在传递闭包作为参数的地方定义闭包。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::thread;
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
 </span><span class="boring">fn generate_workout(intensity: u32, random_number: u32) {
@@ -395,7 +395,7 @@ error: could not compile `closure-example` (bin "closure-example") due to 1 prev
 <p data-x-en="In Listing 13-4, we define a closure that captures an immutable reference to the vector named list because it only needs an immutable reference to print the value:">在清单 13-4 中，我们定义了一个捕获对名为 <code>list</code> 的向量的不可变引用的闭包，因为它只需要一个不可变引用来打印值：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let list = vec![1, 2, 3];
     println!("Before defining closure: {list:?}");
 
@@ -410,8 +410,6 @@ error: could not compile `closure-example` (bin "closure-example") due to 1 prev
 <p data-x-en="This example also illustrates that a variable can bind to a closure definition, and we can later call the closure by using the variable name and parentheses as if the variable name were a function name.">这个例子还说明了一个变量可以绑定到闭包定义，我们可以通过使用变量名和括号来调用闭包，就像变量名是一个函数名一样。</p>
 <p data-x-en="Because we can have multiple immutable references to list at the same time, list is still accessible from the code before the closure definition, after the closure definition but before the closure is called, and after the closure is called. This code compiles, runs, and prints:">因为我们可以同时拥有 <code>list</code> 的多个不可变引用，<code>list</code> 仍然可以在闭包定义之前的代码中访问，在闭包定义之后但闭包被调用之前访问，以及在闭包被调用之后访问。这段代码可以编译、运行并打印：</p>
 <pre><code class="language-console">$ cargo run
-     Locking 1 package to latest compatible version
-      Adding closure-example v0.1.0 (/Users/chris/dev/rust-lang/book/tmp/listings/ch13-functional-features/listing-13-04)
    Compiling closure-example v0.1.0 (file:///projects/closure-example)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/closure-example`
@@ -423,7 +421,7 @@ After calling closure: [1, 2, 3]
 <p data-x-en="Next, in Listing 13-5, we change the closure body so that it adds an element to the list vector. The closure now captures a mutable reference:">接下来，在清单 13-5 中，我们更改闭包体，使其向 <code>list</code> 向量添加一个元素。闭包现在捕获一个可变引用：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut list = vec![1, 2, 3];
     println!("Before defining closure: {list:?}");
 
@@ -436,8 +434,6 @@ After calling closure: [1, 2, 3]
 </figure>
 <p data-x-en="This code compiles, runs, and prints:">这段代码编译、运行并打印：</p>
 <pre><code class="language-console">$ cargo run
-     Locking 1 package to latest compatible version
-      Adding closure-example v0.1.0 (/Users/chris/dev/rust-lang/book/tmp/listings/ch13-functional-features/listing-13-05)
    Compiling closure-example v0.1.0 (file:///projects/closure-example)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/closure-example`
@@ -449,7 +445,7 @@ After calling closure: [1, 2, 3, 7]
 <p data-x-en="This technique is mostly useful when passing a closure to a new thread to move the data so that it’s owned by the new thread. We’ll discuss threads and why you would want to use them in detail in Chapter 16 when we talk about concurrency, but for now, let’s briefly explore spawning a new thread using a closure that needs the move keyword. Listing 13-6 shows Listing 13-4 modified to print the vector in a new thread rather than in the main thread:">这种技术在将闭包传递给新线程以移动数据，使数据由新线程拥有时非常有用。我们将在第16章讨论线程以及为什么要在讨论并发时使用它们，但目前，让我们简要探讨一下使用需要<code>move</code>关键字的闭包来启动新线程。列表13-6显示了修改后的列表13-4，它在新线程中而不是主线程中打印向量：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 
 fn main() {
     let list = vec![1, 2, 3];
@@ -495,7 +491,7 @@ fn main() {
 <p data-x-en="Now let’s look at the standard library method sort_by_key defined on slices, to see how that differs from unwrap_or_else and why sort_by_key uses FnMut instead of FnOnce for the trait bound. The closure gets one argument in the form of a reference to the current item in the slice being considered, and returns a value of type K that can be ordered. This function is useful when you want to sort a slice by a particular attribute of each item. In Listing 13-7, we have a list of Rectangle instances and we use sort_by_key to order them by their width attribute from low to high:">现在让我们看看定义在切片上的标准库方法<code>sort_by_key</code>，看看它与<code>unwrap_or_else</code>有何不同，以及为什么<code>sort_by_key</code>使用<code>FnMut</code>而不是<code>FnOnce</code>作为特质边界。闭包接收一个参数，形式为当前考虑的切片项的引用，并返回一个可以排序的类型<code>K</code>的值。当你想根据每个项的特定属性对切片进行排序时，此函数非常有用。在列表13-7中，我们有一个<code>Rectangle</code>实例列表，并使用<code>sort_by_key</code>按其<code>width</code>属性从低到高对它们进行排序：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
@@ -586,7 +582,7 @@ error: could not compile `rectangles` (bin "rectangles") due to 1 previous error
 <p data-x-en="The error points to the line in the closure body that moves value out of the environment. To fix this, we need to change the closure body so that it doesn’t move values out of the environment. To count the number of times the closure is called, keeping a counter in the environment and incrementing its value in the closure body is a more straightforward way to calculate that. The closure in Listing 13-9 works with sort_by_key because it is only capturing a mutable reference to the num_sort_operations counter and can therefore be called more than once:">错误指向了闭包体中将 <code>value</code> 移出环境的行。要修复此问题，我们需要更改闭包体，使其不从环境中移出值。为了计算闭包被调用的次数，可以在环境中保留一个计数器，并在闭包体中增加其值，这是一种更直接的计算方法。列表 13-9 中的闭包可以与 <code>sort_by_key</code> 一起工作，因为它只捕获了 <code>num_sort_operations</code> 计数器的可变引用，因此可以被调用多次：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,

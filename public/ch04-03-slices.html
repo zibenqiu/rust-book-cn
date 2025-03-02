@@ -234,7 +234,7 @@ blockquote {
 <p data-x-en="The first_word function has a &amp;String as a parameter. We don’t need ownership, so this is fine. (In idiomatic Rust, functions do not take ownership of their arguments unless they need to, and the reasons for that will become clear as we keep going!) But what should we return? We don’t really have a way to talk about part of a string. However, we could return the index of the end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7."><code>first_word</code> 函数有一个 <code>&amp;String</code> 作为参数。我们不需要所有权，所以这样是可以的。（在惯用的 Rust 中，函数不会获取其参数的所有权，除非它们需要这样做，而这样做的原因将在我们继续学习时变得清晰！）但是我们应该返回什么？我们实际上没有一种方法来描述字符串的一部分。然而，我们可以返回单词结束的位置的索引，该位置由空格指示。让我们尝试这样做，如清单 4-7 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn first_word(s: &amp;String) -&gt; usize {
+<pre><pre class="playground"><code class="language-rust edition2024">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
 
     for (i, &amp;item) in bytes.iter().enumerate() {
@@ -300,7 +300,7 @@ blockquote {
 <p data-x-en="We now have a way to find out the index of the end of the first word in the string, but there’s a problem. We’re returning a usize on its own, but it’s only a meaningful number in the context of the &amp;String. In other words, because it’s a separate value from the String, there’s no guarantee that it will still be valid in the future. Consider the program in Listing 4-8 that uses the first_word function from Listing 4-7.">我们现在有一种方法可以找到字符串中第一个单词结尾的索引，但有一个问题。我们单独返回一个<code>usize</code>，但只有在<code>&amp;String</code>的上下文中这个数字才有意义。换句话说，因为它是一个与<code>String</code>分离的值，所以无法保证它将来仍然有效。考虑列表4-8中的程序，该程序使用了列表4-7中的<code>first_word</code>函数。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
 </span><span class="boring">    for (i, &amp;item) in bytes.iter().enumerate() {
@@ -332,7 +332,7 @@ blockquote {
 <p data-x-en="Luckily, Rust has a solution to this problem: string slices.">幸运的是，Rust 有一个解决这个问题的方案：字符串切片。</p>
 <h3 id="string-slices"><a class="header" href="#string-slices">字符串切片</a></h3>
 <p data-x-en="A string slice is a reference to part of a String, and it looks like this:">一个 <em>字符串切片</em> 是对 <code>String</code> 的一部分的引用，它看起来像这样：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s = String::from("hello world");
 
     let hello = &amp;s[0..5];
@@ -346,7 +346,7 @@ the heap. The third table rep-resents the stack data of the slice world, which
 has a length value of 5 and points to byte 6 of the heap data table." src="img/trpl04-07.svg" class="center" style="width: 50%;"></p>
 <p data-x-en="Figure 4-7: String slice referring to part of a String"><span class="caption">图4-7：指向 <code>String</code> 部分的字符串切片</span></p>
 <p data-x-en="With Rust’s .. range syntax, if you want to start at index 0, you can drop the value before the two periods. In other words, these are equal:">使用 Rust 的 <code>..</code> 范围语法，如果你想从索引 0 开始，可以省略两个点之前的值。换句话说，这些是相等的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
@@ -354,7 +354,7 @@ let slice = &amp;s[0..2];
 let slice = &amp;s[..2];
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="By the same token, if your slice includes the last byte of the String, you can drop the trailing number. That means these are equal:">同样地，如果您的切片包含 <code>String</code> 的最后一个字节，您可以省略尾部的数字。这意味着以下两者是相等的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
@@ -364,7 +364,7 @@ let slice = &amp;s[3..len];
 let slice = &amp;s[3..];
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="You can also drop both values to take a slice of the entire string. So these are equal:">你也可以丢弃两个值来获取整个字符串的切片。所以这些是相等的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
@@ -379,7 +379,7 @@ let slice = &amp;s[..];
 <p data-x-en="With all this information in mind, let’s rewrite first_word to return a slice. The type that signifies “string slice” is written as &amp;str:">考虑到所有这些信息，让我们重写 <code>first_word</code> 以返回一个切片。表示“字符串切片”的类型写为 <code>&amp;str</code>：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn first_word(s: &amp;String) -&gt; &amp;str {
+<pre><pre class="playground"><code class="language-rust edition2024">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();
 
     for (i, &amp;item) in bytes.iter().enumerate() {
@@ -445,7 +445,7 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 <p><a id="string-literals-are-slices"></a></p>
 <h4 id="string-literals-as-slices"><a class="header" href="#string-literals-as-slices">字符串字面量作为切片</a></h4>
 <p data-x-en="Recall that we talked about string literals being stored inside the binary. Now that we know about slices, we can properly understand string literals:">回想我们提到字符串字面量是存储在二进制文件中的。现在我们了解了切片，可以正确理解字符串字面量：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = "Hello, world!";
 <span class="boring">}</span></code></pre></pre>
@@ -494,7 +494,7 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 <p data-x-en="Defining a function to take a string slice instead of a reference to a String makes our API more general and useful without losing any functionality:">将函数定义为接受字符串切片而不是 <code>String</code> 的引用，可以使我们的 API 更加通用和有用，而不会失去任何功能：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
 </span><span class="boring">    for (i, &amp;item) in bytes.iter().enumerate() {
@@ -530,12 +530,12 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 </figure>
 <h3 id="other-slices"><a class="header" href="#other-slices">其他切片</a></h3>
 <p data-x-en="String slices, as you might imagine, are specific to strings. But there’s a more general slice type too. Consider this array:">字符串切片，正如你可能想象的那样，是特定于字符串的。但也有一个更通用的切片类型。考虑这个数组：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [1, 2, 3, 4, 5];
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Just as we might want to refer to part of a string, we might want to refer to part of an array. We’d do so like this:">正如我们可能想要引用字符串的一部分，我们也可能想要引用数组的一部分。我们会这样做：<code></code></p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [1, 2, 3, 4, 5];
 

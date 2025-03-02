@@ -248,20 +248,20 @@ cd ../../..
 <pre><code class="language-toml">[package]
 name = "guessing_game"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 </code></pre>
 <p data-x-en="As you saw in Chapter 1, cargo new generates a “Hello, world!” program for you. Check out the src/main.rs file:">正如你在第 1 章中看到的，<code>cargo new</code> 为你生成了一个“Hello, world!”程序。查看 <em>src/main.rs</em> 文件：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     println!("Hello, world!");
 }</code></pre></pre>
 <p data-x-en="Now let’s compile this “Hello, world!” program and run it in the same step using the cargo run command:">现在让我们使用 <code>cargo run</code> 命令在同一步骤中编译并运行这个“Hello, world!”程序：</p>
 <pre><code class="language-console">$ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s
-     Running `target/debug/guessing_game`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running `file:///projects/guessing_game/target/debug/guessing_game`
 Hello, world!
 </code></pre>
 <p data-x-en="The run command comes in handy when you need to rapidly iterate on a project, as we’ll do in this game, quickly testing each iteration before moving on to the next one."><code>run</code> 命令在你需要快速迭代项目时非常有用，就像我们在制作这个游戏时一样，每次迭代后快速测试，然后再进行下一次迭代。</p>
@@ -463,7 +463,7 @@ warning: `guessing_game` (bin "guessing_game") generated 1 warning
 </span>    println!("You guessed: {}", guess);
 <span class="boring">}</span></code></pre>
 <p data-x-en="This line prints the string that now contains the user’s input. The {} set of curly brackets is a placeholder: think of {} as little crab pincers that hold a value in place. When printing the value of a variable, the variable name can go inside the curly brackets. When printing the result of evaluating an expression, place empty curly brackets in the format string, then follow the format string with a comma-separated list of expressions to print in each empty curly bracket placeholder in the same order. Printing a variable and the result of an expression in one call to println! would look like this:">这行代码打印现在包含用户输入的字符串。`<code>{}</code>` 这组花括号是一个占位符：可以将 `<code>{}</code>` 想象为小螃蟹的钳子，用来夹住一个值。当打印变量的值时，变量名可以放在花括号内。当打印表达式求值的结果时，在格式字符串中放置空花括号，然后在格式字符串后面跟随一个以逗号分隔的表达式列表，按顺序打印每个空花括号占位符中的内容。在一个 `println!` 调用中同时打印变量和表达式的结果如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let x = 5;
 let y = 10;
@@ -512,29 +512,25 @@ cargo clean
 cargo build -->
 <figure class="listing">
 <pre><code class="language-console">$ cargo build
-    Updating crates.io index
-     Locking 16 packages to latest compatible versions
-      Adding wasi v0.11.0+wasi-snapshot-preview1 (latest: v0.13.3+wasi-0.2.2)
-      Adding zerocopy v0.7.35 (latest: v0.8.9)
-      Adding zerocopy-derive v0.7.35 (latest: v0.8.9)
-  Downloaded syn v2.0.87
-  Downloaded 1 crate (278.1 KB) in 0.16s
-   Compiling proc-macro2 v1.0.89
-   Compiling unicode-ident v1.0.13
-   Compiling libc v0.2.161
-   Compiling cfg-if v1.0.0
-   Compiling byteorder v1.5.0
-   Compiling getrandom v0.2.15
-   Compiling rand_core v0.6.4
-   Compiling quote v1.0.37
-   Compiling syn v2.0.87
-   Compiling zerocopy-derive v0.7.35
-   Compiling zerocopy v0.7.35
-   Compiling ppv-lite86 v0.2.20
-   Compiling rand_chacha v0.3.1
-   Compiling rand v0.8.5
-   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.69s
+  Updating crates.io index
+   Locking 15 packages to latest Rust 1.85.0 compatible versions
+    Adding rand v0.8.5 (available: v0.9.0)
+ Compiling proc-macro2 v1.0.93
+ Compiling unicode-ident v1.0.17
+ Compiling libc v0.2.170
+ Compiling cfg-if v1.0.0
+ Compiling byteorder v1.5.0
+ Compiling getrandom v0.2.15
+ Compiling rand_core v0.6.4
+ Compiling quote v1.0.38
+ Compiling syn v2.0.98
+ Compiling zerocopy-derive v0.7.35
+ Compiling zerocopy v0.7.35
+ Compiling ppv-lite86 v0.2.20
+ Compiling rand_chacha v0.3.1
+ Compiling rand v0.8.5
+ Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.48s
 </code></pre>
 <figcaption>Listing 2-2: The output from running <code>cargo build</code> after adding the rand crate as a dependency</figcaption>
 </figure>
@@ -568,7 +564,8 @@ assuming there is a new 0.8.x version of rand; otherwise use another update
 as a guide to creating the hypothetical output shown here -->
 <pre><code class="language-console">$ cargo update
     Updating crates.io index
-    Updating rand v0.8.5 -&gt; v0.8.6
+     Locking 1 package to latest Rust 1.85.0 compatible version
+    Updating rand v0.8.5 -&gt; v0.8.6 (available: v0.9.0)
 </code></pre>
 <p data-x-en="Cargo ignores the 0.9.0 release. At this point, you would also notice a change in your Cargo.lock file noting that the version of the rand crate you are now using is 0.8.6. To use rand version 0.9.0 or any version in the 0.9.x series, you’d have to update the Cargo.toml file to look like this instead:">Cargo 忽略 0.9.0 版本。此时，您还会注意到 <em>Cargo.lock</em> 文件中的变化，指出您现在使用的 <code>rand</code> crate 版本是 0.8.6。要使用 <code>rand</code> 版本 0.9.0 或 0.9.<em>x</em> 系列中的任何版本，您需要更新 <em>Cargo.toml</em> 文件，使其看起来像这样：</p>
 <pre><code class="language-toml">[dependencies]
@@ -700,9 +697,9 @@ error[E0308]: mismatched types
     = note: expected reference `&amp;String`
                found reference `&amp;{integer}`
 note: method defined here
-   --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/core/src/cmp.rs:838:8
+   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/cmp.rs:964:8
     |
-838 |     fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering;
+964 |     fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering;
     |        ^^^
 
 For more information about this error, try `rustc --explain E0308`.
@@ -840,7 +837,9 @@ You guessed: 59
 You win!
 Please input your guess.
 quit
-thread 'main' panicked at 'Please type a number!: ParseIntError { kind: InvalidDigit }', src/main.rs:28:47
+
+thread 'main' panicked at src/main.rs:28:47:
+Please type a number!: ParseIntError { kind: InvalidDigit }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p data-x-en="Typing quit will quit the game, but as you’ll notice, so will entering any other non-number input. This is suboptimal, to say the least; we want the game to also stop when the correct number is guessed.">输入 <code>quit</code> 会退出游戏，但你也会注意到，输入任何其他非数字也会退出游戏。这至少可以说是次优的；我们希望在猜到正确数字时游戏也能停止。</p>

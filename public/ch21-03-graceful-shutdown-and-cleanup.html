@@ -236,7 +236,7 @@ blockquote {
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -298,12 +298,14 @@ blockquote {
 </span><span class="boring">
 </span><span class="boring">impl Worker {
 </span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-</span><span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
 </span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
 </span><span class="boring">
-</span><span class="boring">            job();
+</span><span class="boring">                job();
+</span><span class="boring">            }
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
@@ -324,9 +326,9 @@ error[E0507]: cannot move out of `worker.thread` which is behind a mutable refer
      |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
      |
 note: `JoinHandle::&lt;T&gt;::join` takes ownership of the receiver `self`, which moves `worker.thread`
-    --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1763:17
+    --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1876:17
      |
-1763 |     pub fn join(self) -&gt; Result&lt;T&gt; {
+1876 |     pub fn join(self) -&gt; Result&lt;T&gt; {
      |                 ^^^^
 
 For more information about this error, try `rustc --explain E0507`.
@@ -338,10 +340,10 @@ error: could not compile `hello` (lib) due to 1 previous error
 <p data-x-en="So we need to update the ThreadPool drop implementation like this:">所以我们需要更新 <code>ThreadPool</code> 的 <code>drop</code> 实现如下：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -403,12 +405,14 @@ error: could not compile `hello` (lib) due to 1 previous error
 </span><span class="boring">
 </span><span class="boring">impl Worker {
 </span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-</span><span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
 </span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
 </span><span class="boring">
-</span><span class="boring">            job();
+</span><span class="boring">                job();
+</span><span class="boring">            }
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
@@ -425,7 +429,7 @@ error: could not compile `hello` (lib) due to 1 previous error
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground not_desired_behavior"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -495,12 +499,14 @@ impl Drop for ThreadPool {
 </span><span class="boring">
 </span><span class="boring">impl Worker {
 </span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-</span><span class="boring">        let thread = thread::spawn(move || loop {
-</span><span class="boring">            let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
 </span><span class="boring">
-</span><span class="boring">            println!("Worker {id} got a job; executing.");
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
 </span><span class="boring">
-</span><span class="boring">            job();
+</span><span class="boring">                job();
+</span><span class="boring">            }
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
@@ -512,7 +518,7 @@ impl Drop for ThreadPool {
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -579,18 +585,20 @@ impl Drop for ThreadPool {
 </span><span class="boring">
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        let thread = thread::spawn(move || loop {
-            let message = receiver.lock().unwrap().recv();
+        let thread = thread::spawn(move || {
+            loop {
+                let message = receiver.lock().unwrap().recv();
 
-            match message {
-                Ok(job) =&gt; {
-                    println!("Worker {id} got a job; executing.");
+                match message {
+                    Ok(job) =&gt; {
+                        println!("Worker {id} got a job; executing.");
 
-                    job();
-                }
-                Err(_) =&gt; {
-                    println!("Worker {id} disconnected; shutting down.");
-                    break;
+                        job();
+                    }
+                    Err(_) =&gt; {
+                        println!("Worker {id} disconnected; shutting down.");
+                        break;
+                    }
                 }
             }
         });
@@ -606,7 +614,7 @@ impl Drop for ThreadPool {
 <pre><code class="language-rust ignore"><span class="boring">use hello::ThreadPool;
 </span><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -688,7 +696,7 @@ Shutting down worker 3
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 use std::{
     fs,
-    io::{prelude::*, BufReader},
+    io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
     thread,
     time::Duration,
@@ -734,7 +742,7 @@ fn handle_connection(mut stream: TcpStream) {
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::{
-    sync::{mpsc, Arc, Mutex},
+    sync::{Arc, Mutex, mpsc},
     thread,
 };
 
@@ -803,18 +811,20 @@ struct Worker {
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        let thread = thread::spawn(move || loop {
-            let message = receiver.lock().unwrap().recv();
+        let thread = thread::spawn(move || {
+            loop {
+                let message = receiver.lock().unwrap().recv();
 
-            match message {
-                Ok(job) =&gt; {
-                    println!("Worker {id} got a job; executing.");
+                match message {
+                    Ok(job) =&gt; {
+                        println!("Worker {id} got a job; executing.");
 
-                    job();
-                }
-                Err(_) =&gt; {
-                    println!("Worker {id} disconnected; shutting down.");
-                    break;
+                        job();
+                    }
+                    Err(_) =&gt; {
+                        println!("Worker {id} disconnected; shutting down.");
+                        break;
+                    }
                 }
             }
         });

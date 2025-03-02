@@ -231,7 +231,7 @@ blockquote {
 <p data-x-en="Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.">让我们用 Cargo 创建一个名为 <em>rectangles</em> 的新二进制项目，该项目将接受以像素为单位指定的矩形的宽度和高度，并计算矩形的面积。列表 5-8 显示了在项目 <em>src/main.rs</em> 中实现这一功能的一种简短程序。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let width1 = 30;
     let height1 = 50;
 
@@ -273,7 +273,7 @@ The area of the rectangle is 1500 square pixels.
 <p data-x-en="Listing 5-9 shows another version of our program that uses tuples.">列表 5-9 显示了我们程序的另一个版本，该版本使用了元组。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let rect1 = (30, 50);
 
     println!(
@@ -293,7 +293,7 @@ fn area(dimensions: (u32, u32)) -&gt; u32 {
 <p data-x-en="We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a struct with a name for the whole as well as names for the parts, as shown in Listing 5-10.">我们使用结构体通过标记数据来增加意义。我们可以将正在使用的元组转换为一个具有整体名称以及各部分名称的结构体，如清单 5-10 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">struct Rectangle {
+<pre><pre class="playground"><code class="language-rust edition2024">struct Rectangle {
     width: u32,
     height: u32,
 }
@@ -356,7 +356,7 @@ fn main() {
 <p data-x-en="Rust does include functionality to print out debugging information, but we have to explicitly opt in to make that functionality available for our struct. To do that, we add the outer attribute #[derive(Debug)] just before the struct definition, as shown in Listing 5-12.">Rust <em>确实</em> 包含了打印调试信息的功能，但我们必须显式地选择启用该功能，以便为我们的结构体提供该功能。为此，我们在结构体定义之前添加外部属性 <code>#[derive(Debug)]</code>，如清单 5-12 所示。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
@@ -394,7 +394,7 @@ rect1 is Rectangle {
 <p data-x-en="Note: Calling the dbg! macro prints to the standard error console stream (stderr), as opposed to println!, which prints to the standard output console stream (stdout). We’ll talk more about stderr and stdout in the “Writing Error Messages to Standard Error Instead of Standard Output” section in Chapter 12.">注意：调用 <code>dbg!</code> 宏会打印到标准错误控制台流 (<code>stderr</code>)，而 <code>println!</code> 则打印到标准输出控制台流 (<code>stdout</code>)。我们将在 <a href="ch12-06-writing-to-stderr-instead-of-stdout.html">“将错误消息写入标准错误而不是标准输出”章节12部分</a><!-- ignore -->。</p>
 </section>
 <p data-x-en="Here’s an example where we’re interested in the value that gets assigned to the width field, as well as the value of the whole struct in rect1:">这里有一个例子，我们对分配给<code>width</code>字段的值以及<code>rect1</code>中整个结构的值感兴趣：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,

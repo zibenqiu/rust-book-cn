@@ -243,7 +243,7 @@ blockquote {
 <p data-x-en="As an example of how to use a mutex, let’s start by using a mutex in a single-threaded context, as shown in Listing 16-12:">作为如何使用互斥锁的一个示例，让我们先在一个单线程环境中使用互斥锁，如清单 16-12 所示：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::Mutex;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::sync::Mutex;
 
 fn main() {
     let m = Mutex::new(5);
@@ -371,19 +371,19 @@ error[E0277]: `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
 15  | |         });
     | |_________^ `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
     |
-    = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`, which is required by `{closure@src/main.rs:11:36: 11:43}: Send`
+    = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`
 note: required because it's used within this closure
    --&gt; src/main.rs:11:36
     |
 11  |         let handle = thread::spawn(move || {
     |                                    ^^^^^^^
 note: required by a bound in `spawn`
-   --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/std/src/thread/mod.rs:675:8
+   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/std/src/thread/mod.rs:731:8
     |
-672 | pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
+728 | pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     |        ----- required by a bound in this function
 ...
-675 |     F: Send + 'static,
+731 |     F: Send + 'static,
     |        ^^^^ required by this bound in `spawn`
 
 For more information about this error, try `rustc --explain E0277`.
@@ -398,7 +398,7 @@ error: could not compile `shared-state` (bin "shared-state") due to 1 previous e
 <p data-x-en="Let’s return to our example: Arc<T> and Rc<T> have the same API, so we fix our program by changing the use line, the call to new, and the call to clone. The code in Listing 16-15 will finally compile and run:">让我们回到我们的例子：<code>Arc&lt;T&gt;</code> 和 <code>Rc&lt;T&gt;</code> 有相同的 API，所以我们通过更改 <code>use</code> 行、对 <code>new</code> 的调用以及对 <code>clone</code> 的调用来修复我们的程序。清单 16-15 中的代码最终将编译并运行：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::{Arc, Mutex};
+<pre><pre class="playground"><code class="language-rust edition2024">use std::sync::{Arc, Mutex};
 use std::thread;
 
 fn main() {

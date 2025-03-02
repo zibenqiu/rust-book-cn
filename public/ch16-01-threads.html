@@ -240,7 +240,7 @@ blockquote {
 <p data-x-en="To create a new thread, we call the thread::spawn function and pass it a closure (we talked about closures in Chapter 13) containing the code we want to run in the new thread. The example in Listing 16-1 prints some text from a main thread and other text from a new thread:">要创建一个新线程，我们调用 <code>thread::spawn</code> 函数并传递一个包含我们希望在新线程中运行的代码的闭包（我们在第 13 章讨论过闭包）。列表 16-1 中的示例从主线程打印一些文本，从新线程打印其他文本：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -279,7 +279,7 @@ hi number 5 from the spawned thread!
 <p data-x-en="We can fix the problem of the spawned thread not running or ending prematurely by saving the return value of thread::spawn in a variable. The return type of thread::spawn is JoinHandle. A JoinHandle is an owned value that, when we call the join method on it, will wait for its thread to finish. Listing 16-2 shows how to use the JoinHandle of the thread we created in Listing 16-1 and how to call join to make sure the spawned thread finishes before main exits:">我们可以通过将 <code>thread::spawn</code> 的返回值保存在一个变量中来解决派生线程未运行或提前结束的问题。<code>thread::spawn</code> 的返回类型是 <code>JoinHandle</code>。一个 <code>JoinHandle</code> 是一个拥有值，当我们调用其上的 <code>join</code> 方法时，它会等待其线程完成。清单 16-2 展示了如何使用我们在清单 16-1 中创建的线程的 <code>JoinHandle</code> 以及如何调用 <code>join</code> 以确保派生线程在 <code>main</code> 退出之前完成：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -321,7 +321,7 @@ hi number 9 from the spawned thread!
 <p data-x-en="But let’s see what happens when we instead move handle.join() before the for loop in main, like this:">但让我们看看当我们把 <code>handle.join()</code> 移动到 <code>main</code> 中的 <code>for</code> 循环之前时会发生什么，如下所示：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -436,7 +436,7 @@ after automatic regeneration, look at listings/ch16-fearless-concurrency/listing
 <p data-x-en="By adding the move keyword before the closure, we force the closure to take ownership of the values it’s using rather than allowing Rust to infer that it should borrow the values. The modification to Listing 16-3 shown in Listing 16-5 will compile and run as we intend:">通过在闭包前添加 <code>move</code> 关键字，我们强制闭包拥有它所使用的值，而不是让 Rust 推断它应该借用这些值。如清单 16-5 所示对清单 16-3 的修改将按我们的预期编译和运行：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 
 fn main() {
     let v = vec![1, 2, 3];

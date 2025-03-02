@@ -243,7 +243,7 @@ ignore -->，专门讨论这个主题。所以你在这里学到的内容在第1
 <p data-x-en="Listing 15-1 shows how to use a box to store an i32 value on the heap:">列表 15-1 显示了如何使用一个盒子在堆上存储一个 <code>i32</code> 值：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let b = Box::new(5);
     println!("b = {b}");
 }</code></pre></pre>
@@ -331,7 +331,7 @@ error: could not compile `cons-list` (bin "cons-list") due to 2 previous errors
 <p data-x-en="The error shows this type “has infinite size.” The reason is that we’ve defined List with a variant that is recursive: it holds another value of itself directly. As a result, Rust can’t figure out how much space it needs to store a List value. Let’s break down why we get this error. First, we’ll look at how Rust decides how much space it needs to store a value of a non-recursive type.">错误显示这种类型“具有无限大小。”原因是我们在定义<code>List</code>时使用了一个递归的变体：它直接持有另一个自身的值。因此，Rust 无法确定存储<code>List</code>值所需的空间。让我们分析为什么会发生这个错误。首先，我们将看看 Rust 是如何决定存储非递归类型值所需的空间。</p>
 <h4 id="computing-the-size-of-a-non-recursive-type"><a class="header" href="#computing-the-size-of-a-non-recursive-type">计算非递归类型的大小</a></h4>
 <p data-x-en="Recall the Message enum we defined in Listing 6-2 when we discussed enum definitions in Chapter 6:">回忆我们在第 6 章讨论枚举定义时，在列表 6-2 中定义的 <code>Message</code> 枚举：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">enum Message {
+<pre><pre class="playground"><code class="language-rust edition2024">enum Message {
     Quit,
     Move { x: i32, y: i32 },
     Write(String),
@@ -358,7 +358,7 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
 <p data-x-en="We can change the definition of the List enum in Listing 15-2 and the usage of the List in Listing 15-3 to the code in Listing 15-5, which will compile:">我们可以更改列表 15-2 中的 <code>List</code> 枚举定义和列表 15-3 中的 <code>List</code> 使用，使其变为列表 15-5 中的代码，这样可以编译：</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">enum List {
+<pre><pre class="playground"><code class="language-rust edition2024">enum List {
     Cons(i32, Box&lt;List&gt;),
     Nil,
 }

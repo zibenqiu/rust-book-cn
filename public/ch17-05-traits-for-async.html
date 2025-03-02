@@ -234,7 +234,7 @@ blockquote {
 <p><a id="future"></a></p>
 <h3 id="the-future-trait"><a class="header" href="#the-future-trait">《<code>Future</code> 特性》</a></h3>
 <p data-x-en="Let’s start by taking a closer look at how the Future trait works. Here’s how Rust defines it:">让我们先仔细看看 <code>Future</code> 特性是如何工作的。以下是 Rust 对其的定义：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -253,7 +253,7 @@ pub trait Future {
 并返回一个 <code>Poll&lt;Self::Output&gt;</code>。我们稍后会详细讨论 <code>Pin</code> 和
 <code>Context</code>。现在，让我们先关注该方法的返回值，
 即 <code>Poll</code> 类型：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Poll&lt;T&gt; {
     Ready(T),
@@ -311,13 +311,13 @@ copy *only* the final `error` block from the errors
   --&gt; src/main.rs:48:33
    |
 48 |         trpl::join_all(futures).await;
-   |                                 ^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`, which is required by `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;: Future`
+   |                                 ^^^^^ the trait `Unpin` is not implemented for `{async block@src/main.rs:10:23: 10:33}`
    |
    = note: consider using the `pin!` macro
            consider using `Box::pin` if you need to access the pinned value outside of the current scope
    = note: required for `Box&lt;{async block@src/main.rs:10:23: 10:33}&gt;` to implement `Future`
 note: required by a bound in `futures_util::future::join_all::JoinAll`
-  --&gt; file:///home/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-util-0.3.30/src/future/join_all.rs:29:8
+  --&gt; file:///home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.30/src/future/join_all.rs:29:8
    |
 27 | pub struct JoinAll&lt;F&gt;
    |            ------- required by a bound in this struct
@@ -327,9 +327,9 @@ note: required by a bound in `futures_util::future::join_all::JoinAll`
 </code></pre>
 <p data-x-en="This error message tells us not only that we need to pin the values but also why pinning is required. The trpl::join_all function returns a struct called JoinAll. That struct is generic over a type F, which is constrained to implement the Future trait. Directly awaiting a future with await pins the future implicitly. That’s why we don’t need to use pin! everywhere we want to await futures.">这个错误信息不仅告诉我们需要固定这些值，还解释了为什么需要固定。`<code>trpl::join_all</code>` 函数返回一个名为 `<code>JoinAll</code>` 的结构体。该结构体泛型于类型 `<code>F</code>`，该类型被约束为实现 `<code>Future</code>` 特性。直接使用 `<code>await</code>` 等待一个未来会隐式地固定该未来。这就是为什么我们不需要在每个想要等待未来的代码中使用 `<code>pin!</code>`。</p>
 <p data-x-en="However, we’re not directly awaiting a future here. Instead, we construct a new future, JoinAll, by passing a collection of futures to the join_all function. The signature for join_all requires that the types of the items in the collection all implement the Future trait, and Box<T> implements Future only if the T it wraps is a future that implements the Unpin trait.">然而，我们在这里并不是直接等待一个未来。相反，我们通过将一个未来集合传递给 <code>join_all</code> 函数来构建一个新的未来，<code>JoinAll</code>。<code>join_all</code> 的签名要求集合中的项目类型都实现 <code>Future</code> 特性，而 <code>Box&lt;T&gt;</code> 仅在其包装的 <code>T</code> 是一个实现了 <code>Unpin</code> 特性的未来时才实现 <code>Future</code>。</p>
-<p data-x-en="That’s a lot to absorb! To really understand it, let’s we dive a little further into how the Future trait actually works, in particular around pinning.">这有很多需要吸收的内容！为了真正理解它，让我们进一步探讨 <code>Future</code> 特性实际上是如何工作的，特别是关于 <em>固定</em>。</p>
+<p data-x-en="That’s a lot to absorb! To really understand it, let’s dive a little further into how the Future trait actually works, in particular around pinning.">这有很多需要吸收的内容！为了真正理解它，让我们进一步探讨 <code>Future</code> 特性实际上是如何工作的，特别是关于 <em>固定</em>。</p>
 <p data-x-en="Look again at the definition of the Future trait:">再次查看 <code>Future</code> 特性的定义：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -341,7 +341,7 @@ pub trait Future {
     fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
 }
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="The cx parameter and its Context type are the key to how a runtime actually knows when to check any given future while still being lazy. Again, the details of how that works are beyond the scope of this chapter, and you generally only need to think about this when writing a custom Future implementation. We’ll focus instead on the type for self, as this is the first time we’ve seen a method where self has a type annotation. A type annotation for self is works like type annotations for other function parameters, but with two key differences:"><code>cx</code> 参数及其 <code>Context</code> 类型是运行时实际上知道何时检查给定的未来同时仍然保持惰性化的关键。再次，这些工作原理的细节超出了本章的范围，通常只有在编写自定义 <code>Future</code> 实现时才需要考虑这一点。我们将重点放在 <code>self</code> 的类型上，因为这是第一次看到 <code>self</code> 有类型注解的方法。<code>self</code> 的类型注解与其他函数参数的类型注解类似，但有两个关键区别：</p>
+<p data-x-en="The cx parameter and its Context type are the key to how a runtime actually knows when to check any given future while still being lazy. Again, the details of how that works are beyond the scope of this chapter, and you generally only need to think about this when writing a custom Future implementation. We’ll focus instead on the type for self, as this is the first time we’ve seen a method where self has a type annotation. A type annotation for self works like type annotations for other function parameters, but with two key differences:"><code>cx</code> 参数及其 <code>Context</code> 类型是运行时实际知道何时检查给定的未来同时仍然保持惰性化的关键。再次，这些工作原理的细节超出了本章的范围，通常只有在编写自定义 <code>Future</code> 实现时才需要考虑这一点。相反，我们将重点放在 <code>self</code> 的类型上，因为这是第一次看到 <code>self</code> 有类型注解的方法。<code>self</code> 的类型注解与其他函数参数的类型注解类似，但有两个关键区别：</p>
 <ul>
 <li data-x-en="It tells Rust what type self must be for the method to be called.">它告诉 Rust <code>self</code> 必须是什么类型才能调用该方法。</li>
 <li data-x-en="It can’t be just any type. It’s restricted to the type on which the method is implemented, a reference or smart pointer to that type, or a Pin wrapping a reference to that type.">它不能是任意类型。它被限制为实现该方法的类型、该类型的引用或智能指针，或者是一个包裹该类型引用的<code>Pin</code>。</li>
@@ -373,7 +373,7 @@ pub trait Future {
 <img alt="Four boxes laid out in three rough columns, identical to the previous diagram with a change to the second column. Now there are two boxes in the second column, labeled “b1” and “b2”, “b1” is grayed out, and the arrow from “Pin” goes through “b2” instead of “b1”, indicating that the pointer has moved from “b1” to “b2”, but the data in “pinned” has not moved." src="img/trpl17-07.svg" class="center">
 <figcaption>Figure 17-7: Moving a `Box` which points to a self-referential future type.</figcaption>
 </figure>
-<p data-x-en="However, most types are perfectly safe to move around, even if they happen to be behind a Pin pointer. We only need to think about pinning when items have internal references. Primitive values such as numbers and Booleans are safe since they obviously don’t have any internal references, so they’re obviously safe. Neither do most types you normally work with in Rust. You can move around a Vec, for example, without worrying. Given only what we have seen so far, if you have a Pin<Vec<String>>, you’d have to do everything via the safe but restrictive APIs provided by Pin, even though a Vec<String> is always safe to move if there are no other references to it. We need a way to tell the compiler that it’s fine to move items around in cases like this—and there’s where Unpin comes into play.">然而，大多数类型即使在 <code>Pin</code> 指针后面也是完全安全的。只有当项目具有内部引用时，我们才需要考虑固定。像数字和布尔值这样的原始值显然是安全的，因为它们显然没有任何内部引用，所以它们显然是安全的。大多数你在 Rust 中通常使用的类型也是如此。例如，你可以随意移动一个 <code>Vec</code>，而无需担心。根据我们目前所见，如果你有一个 <code>Pin&lt;Vec&lt;String&gt;&gt;</code>，即使 <code>Vec&lt;String&gt;</code> 在没有其他引用的情况下总是可以安全移动，你也必须通过 <code>Pin</code> 提供的安全但限制性的 API 来做所有事情。我们需要一种方法来告诉编译器，在这种情况下移动项目是安全的——这就是 <code>Unpin</code> 发挥作用的地方。</p>
+<p data-x-en="However, most types are perfectly safe to move around, even if they happen to be behind a Pin wrapper. We only need to think about pinning when items have internal references. Primitive values such as numbers and Booleans obviously don’t have any internal references, so they’re safe. Neither do most types you normally work with in Rust. You can move around a Vec, for example, without worrying. Given only what we have seen so far, if you have a Pin<Vec<String>>, you’d have to do everything via the safe but restrictive APIs provided by Pin, even though a Vec<String> is always safe to move if there are no other references to it. We need a way to tell the compiler that it’s fine to move items around in cases like this—and there’s where Unpin comes into play.">然而，大多数类型即使在 <code>Pin</code> 包装器后面也是完全安全的。只有当项目具有内部引用时，我们才需要考虑固定。显然，数字和布尔值等原始值没有任何内部引用，因此它们是安全的。大多数你在 Rust 中通常使用的类型也是如此。例如，你可以随意移动 <code>Vec</code>，而无需担心。根据我们迄今为止所见，如果你有一个 <code>Pin&lt;Vec&lt;String&gt;&gt;</code>，即使 <code>Vec&lt;String&gt;</code> 在没有其他引用的情况下总是可以安全移动的，你也必须通过 <code>Pin</code> 提供的安全但受限的 API 来完成所有操作。我们需要一种方法来告诉编译器，在这种情况下移动项目是安全的——这就是 <code>Unpin</code> 发挥作用的地方。</p>
 <p data-x-en="Unpin is a marker trait, similar to the Send and Sync traits we saw in Chapter 16, and thus has no functionality of its own. Marker traits exist only to tell the compiler it’s safe to use the type implementing a given trait in a particular context. Unpin informs the compiler that a given type does not need to uphold any guarantees about whether the value in question can be safely moved."><code>Unpin</code> 是一个标记特征，类似于我们在第 16 章中看到的 <code>Send</code> 和 <code>Sync</code> 特征，因此没有自己的功能。标记特征仅存在于告诉编译器在特定上下文中使用实现给定特征的类型是安全的。<code>Unpin</code> 告诉编译器给定类型<em>不需要</em>维持任何关于该值是否可以安全移动的保证。</p>
 <!--
   The inline `<code>` in the next block is to allow the inline `<em>` inside it,
@@ -402,7 +402,7 @@ pub trait Future {
 <h3 id="the-stream-trait"><a class="header" href="#the-stream-trait">流特质</a></h3>
 <p data-x-en="Now that you have a deeper grasp on the Future, Pin, and Unpin traits, we can turn our attention to the Stream trait. As you learned earlier in the chapter, streams are similar to asynchronous iterators. Unlike Iterator and Future, however, Stream has no definition in the standard library as of this writing, but there is a very common definition from the futures crate used throughout the ecosystem.">现在你对 <code>Future</code>、<code>Pin</code> 和 <code>Unpin</code> 特性有了更深的了解，我们可以将注意力转向 <code>Stream</code> 特性。正如你在本章前面所学，流类似于异步迭代器。然而，与 <code>Iterator</code> 和 <code>Future</code> 不同，<code>Stream</code> 在编写本文时标准库中没有定义，但 <code>futures</code> crate 中有一个非常常见的定义，被整个生态系统广泛使用。</p>
 <p data-x-en="Let’s review the definitions of the Iterator and Future traits before looking at how a Stream trait might merge them together. From Iterator, we have the idea of a sequence: its next method provides an Option<Self::Item>. From Future, we have the idea of readiness over time: its poll method provides a Poll<Self::Output>. To represent a sequence of items that become ready over time, we define a Stream trait that puts those features together:">让我们在查看 <code>Stream</code> 特性如何将它们合并之前，先回顾一下 <code>Iterator</code> 和 <code>Future</code> 特性的定义。从 <code>Iterator</code>，我们有序列的概念：其 <code>next</code> 方法提供一个 <code>Option&lt;Self::Item&gt;</code>。从 <code>Future</code>，我们有随时间变化的准备状态的概念：其 <code>poll</code> 方法提供一个 <code>Poll&lt;Self::Output&gt;</code>。为了表示随时间变得可用的项目序列，我们定义了一个 <code>Stream</code> 特性，将这些特性结合在一起：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -420,7 +420,7 @@ trait Stream {
 <p data-x-en="Stream also defines a method to get those items. We call it poll_next, to make it clear that it polls in the same way Future::poll does and produces a sequence of items in the same way Iterator::next does. Its return type combines Poll with Option. The outer type is Poll, because it has to be checked for readiness, just as a future does. The inner type is Option, because it needs to signal whether there are more messages, just as an iterator does."><code>Stream</code> 还定义了一个方法来获取这些项。我们称之为 <code>poll_next</code>，以明确它以与 <code>Future::poll</code> 相同的方式进行轮询，并以与 <code>Iterator::next</code> 相同的方式生成一系列项。其返回类型将 <code>Poll</code> 与 <code>Option</code> 结合在一起。外部类型是 <code>Poll</code>，因为它需要像未来一样检查就绪状态。内部类型是 <code>Option</code>，因为它需要像迭代器一样指示是否还有更多消息。</p>
 <p data-x-en="Something very similar to this definition will likely end up as part of Rust’s standard library. In the meantime, it’s part of the toolkit of most runtimes, so you can rely on it, and everything we cover next should generally apply!">与这个定义非常相似的内容很可能会成为 Rust 标准库的一部分。在此期间，它已经是大多数运行时工具包的一部分，因此你可以依赖它，接下来我们讨论的所有内容通常都适用！</p>
 <p data-x-en="In the example we saw in the section on streaming, though, we didn’t use poll_next or Stream, but instead used next and StreamExt. We could work directly in terms of the poll_next API by hand-writing our own Stream state machines, of course, just as we could work with futures directly via their poll method. Using await is much nicer, though, and the StreamExt trait supplies the next method so we can do just that:">在我们之前在流处理部分看到的例子中，我们并没有使用 <code>poll_next</code> <em>或</em> <code>Stream</code>，而是使用了 <code>next</code> 和 <code>StreamExt</code>。我们当然<em>可以</em> 通过手动编写自己的 <code>Stream</code> 状态机来直接使用 <code>poll_next</code> API，就像我们<em>可以</em> 通过它们的 <code>poll</code> 方法直接处理未来对象一样。然而，使用 <code>await</code> 要方便得多，而 <code>StreamExt</code> 特性提供了 <code>next</code> 方法，使我们能够做到这一点：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::pin::Pin;
 </span><span class="boring">use std::task::{Context, Poll};

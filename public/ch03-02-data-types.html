@@ -229,7 +229,7 @@ blockquote {
                         <h2 id="data-types"><a class="header" href="#data-types">数据类型</a></h2>
 <p data-x-en="Every value in Rust is of a certain data type, which tells Rust what kind of data is being specified so it knows how to work with that data. We’ll look at two data type subsets: scalar and compound.">Rust 中的每个值都有一个特定的<em>数据类型</em>，这告诉 Rust 正在指定什么样的数据，以便它知道如何处理这些数据。我们将研究两种数据类型子集：标量和复合。</p>
 <p data-x-en="Keep in mind that Rust is a statically typed language, which means that it must know the types of all variables at compile time. The compiler can usually infer what type we want to use based on the value and how we use it. In cases when many types are possible, such as when we converted a String to a numeric type using parse in the “Comparing the Guess to the Secret Number” section in Chapter 2, we must add a type annotation, like this:">请记住，Rust 是一种 <em>静态类型</em> 语言，这意味着它必须在编译时知道所有变量的类型。编译器通常可以根据值及其使用方式推断我们想要使用的类型。在可能有多种类型的情况下，例如在第 2 章的 <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“将猜测与秘密数字进行比较”</a><!-- ignore --> 部分中，我们将 <code>String</code> 转换为数字类型时使用了 <code>parse</code>，我们必须添加类型注解，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let guess: u32 = "42".parse().expect("Not a number!");
 <span class="boring">}</span></code></pre></pre>
@@ -303,7 +303,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <p data-x-en="Rust also has two primitive types for floating-point numbers, which are numbers with decimal points. Rust’s floating-point types are f32 and f64, which are 32 bits and 64 bits in size, respectively. The default type is f64 because on modern CPUs, it’s roughly the same speed as f32 but is capable of more precision. All floating-point types are signed.">Rust 也有两种用于<em>浮点数</em>的原始类型，即带有小数点的数字。Rust 的浮点类型是 <code>f32</code> 和 <code>f64</code>，它们的大小分别为 32 位和 64 位。默认类型是 <code>f64</code>，因为在现代 CPU 上，它的速度与 <code>f32</code> 大致相同，但能够提供更高的精度。所有浮点类型都是有符号的。</p>
 <p data-x-en="Here’s an example that shows floating-point numbers in action:">这里有一个示例，展示了浮点数的实际应用：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x = 2.0; // f64
 
     let y: f32 = 3.0; // f32
@@ -312,7 +312,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <h4 id="numeric-operations"><a class="header" href="#numeric-operations">数值运算</a></h4>
 <p data-x-en="Rust supports the basic mathematical operations you’d expect for all the number types: addition, subtraction, multiplication, division, and remainder. Integer division truncates toward zero to the nearest integer. The following code shows how you’d use each numeric operation in a let statement:">Rust 支持所有数字类型的基本数学运算：加法、减法、乘法、除法和取余。整数除法会向零舍入到最近的整数。以下代码展示了如何在 <code>let</code> 语句中使用每个数值运算：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     // addition
     let sum = 5 + 10;
 
@@ -333,7 +333,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <h4 id="the-boolean-type"><a class="header" href="#the-boolean-type">布尔类型</a></h4>
 <p data-x-en="As in most other programming languages, a Boolean type in Rust has two possible values: true and false. Booleans are one byte in size. The Boolean type in Rust is specified using bool. For example:">如大多数其他编程语言一样，Rust 中的布尔类型有两种可能的值：<code>true</code> 和 <code>false</code>。布尔值占用一个字节。Rust 中的布尔类型使用 <code>bool</code> 指定。例如：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let t = true;
 
     let f: bool = false; // with explicit type annotation
@@ -342,7 +342,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <h4 id="the-character-type"><a class="header" href="#the-character-type">字符类型</a></h4>
 <p data-x-en="Rust’s char type is the language’s most primitive alphabetic type. Here are some examples of declaring char values:">Rust 的 <code>char</code> 类型是语言中最基本的字母类型。以下是一些声明 <code>char</code> 值的示例：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let c = 'z';
     let z: char = 'ℤ'; // with explicit type annotation
     let heart_eyed_cat = '😻';
@@ -354,12 +354,12 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <p data-x-en="A tuple is a general way of grouping together a number of values with a variety of types into one compound type. Tuples have a fixed length: once declared, they cannot grow or shrink in size.">一个 <em>元组</em> 是将多个具有不同类型的值组合成一种复合类型的一般方法。元组具有固定长度：一旦声明，它们不能增长或缩小。</p>
 <p data-x-en="We create a tuple by writing a comma-separated list of values inside parentheses. Each position in the tuple has a type, and the types of the different values in the tuple don’t have to be the same. We’ve added optional type annotations in this example:">我们通过在括号内写入以逗号分隔的值列表来创建元组。元组中的每个位置都有一个类型，元组中不同值的类型不必相同。我们在本例中添加了可选的类型注解：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
 }</code></pre></pre>
 <p data-x-en="The variable tup binds to the entire tuple because a tuple is considered a single compound element. To get the individual values out of a tuple, we can use pattern matching to destructure a tuple value, like this:">变量 <code>tup</code> 绑定到整个元组，因为元组被视为一个复合元素。要从元组中获取单个值，我们可以使用模式匹配来解构元组值，如下所示：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let tup = (500, 6.4, 1);
 
     let (x, y, z) = tup;
@@ -372,7 +372,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 单个元组分解为三个部分。最后，程序打印<code>y</code>的值，即<code>6.4</code>。</p>
 <p data-x-en="We can also access a tuple element directly by using a period (.) followed by the index of the value we want to access. For example:">我们也可以通过使用点 (<code>.</code>) 后跟我们想要访问的值的索引来直接访问元组元素。例如：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x: (i32, f64, u8) = (500, 6.4, 1);
 
     let five_hundred = x.0;
@@ -387,24 +387,24 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <p data-x-en="Another way to have a collection of multiple values is with an array. Unlike a tuple, every element of an array must have the same type. Unlike arrays in some other languages, arrays in Rust have a fixed length.">另一种拥有多个值集合的方法是使用<em>数组</em>。与元组不同，数组中的每个元素必须具有相同的类型。与其他一些语言中的数组不同，Rust 中的数组具有固定的长度。</p>
 <p data-x-en="We write the values in an array as a comma-separated list inside square brackets:">我们以逗号分隔的列表形式在方括号内写入数组的值:</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [1, 2, 3, 4, 5];
 }</code></pre></pre>
 <p data-x-en="Arrays are useful when you want your data allocated on the stack, the same as the other types we have seen so far, rather than the heap (we will discuss the stack and the heap more in Chapter 4) or when you want to ensure you always have a fixed number of elements. An array isn’t as flexible as the vector type, though. A vector is a similar collection type provided by the standard library that is allowed to grow or shrink in size. If you’re unsure whether to use an array or a vector, chances are you should use a vector. Chapter 8 discusses vectors in more detail.">数组在你希望数据像我们迄今为止看到的其他类型一样分配在栈上，而不是堆上（我们将在<a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">第 4 章</a><!-- ignore -->）讨论栈和堆）时非常有用，或者当你希望确保始终拥有固定数量的元素时。然而，数组不如向量类型灵活。一个<em>向量</em>是由标准库提供的类似集合类型，<em>可以</em>增长或缩小。如果你不确定是使用数组还是向量，很可能你应该使用向量。<a href="ch08-01-vectors.html">第 8 章</a><!-- ignore -->将更详细地讨论向量。</p>
 <p data-x-en="However, arrays are more useful when you know the number of elements will not need to change. For example, if you were using the names of the month in a program, you would probably use an array rather than a vector because you know it will always contain 12 elements:">然而，当您知道元素数量不会改变时，数组更为有用。例如，如果您在程序中使用月份名称，您可能会使用数组而不是向量，因为您知道它将始终包含12个元素：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="You write an array’s type using square brackets with the type of each element, a semicolon, and then the number of elements in the array, like so:">您使用方括号编写数组的类型，其中包含每个元素的类型、一个分号，然后是数组中的元素数量，如下所示：<code>类型[数量]</code></p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a: [i32; 5] = [1, 2, 3, 4, 5];
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="Here, i32 is the type of each element. After the semicolon, the number 5 indicates the array contains five elements.">这里，<code>i32</code> 是每个元素的类型。分号后的数字 <code>5</code> 表示数组包含五个元素。</p>
 <p data-x-en="You can also initialize an array to contain the same value for each element by specifying the initial value, followed by a semicolon, and then the length of the array in square brackets, as shown here:">你也可以通过指定初始值，后跟一个分号，然后在方括号中指定数组的长度来初始化数组，使每个元素包含相同的值，如下所示：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [3; 5];
 <span class="boring">}</span></code></pre></pre>
@@ -412,7 +412,7 @@ error: could not compile `no_type_annotations` (bin "no_type_annotations") due t
 <h5 id="accessing-array-elements"><a class="header" href="#accessing-array-elements">Accessing Array Elements</a></h5>
 <p data-x-en="An array is a single chunk of memory of a known, fixed size that can be allocated on the stack. You can access elements of an array using indexing, like this:">一个数组是一块已知固定大小的内存，可以分配在栈上。你可以使用索引访问数组的元素，如下所示：<code>let a = [1, 2, 3, 4, 5];</code> <code>let first_element = a[0];</code></p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [1, 2, 3, 4, 5];
 
     let first = a[0];
