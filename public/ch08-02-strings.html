@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -348,7 +348,7 @@ blockquote {
 <p data-x-en="In many other programming languages, accessing individual characters in a string by referencing them by index is a valid and common operation. However, if you try to access parts of a String using indexing syntax in Rust, you’ll get an error. Consider the invalid code in Listing 8-19.">在许多其他编程语言中，通过索引引用访问字符串中的单个字符是一个有效且常见的操作。然而，如果你尝试在 Rust 中使用索引语法访问 <code>String</code> 的部分，你会得到一个错误。考虑 Listing 8-19 中的无效代码。</p>
 <figure class="listing">
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
-</span>    let s1 = String::from("hello");
+</span>    let s1 = String::from("hi");
     let h = s1[0];
 <span class="boring">}</span></code></pre>
 <figcaption>Listing 8-19: Attempting to use indexing syntax with a String</figcaption>

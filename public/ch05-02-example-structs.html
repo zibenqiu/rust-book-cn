@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -315,7 +315,7 @@ fn area(rectangle: &amp;Rectangle) -&gt; u32 {
 }</code></pre></pre>
 <figcaption>Listing 5-10: Defining a <code>Rectangle</code> struct</figcaption>
 </figure>
-<p data-x-en="Here we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.">这里我们定义了一个结构体并命名为<code>Rectangle</code>。在大括号内，我们定义了字段为<code>width</code>和<code>height</code>，它们的类型都是<code>u32</code>。然后，在<code>main</code>中，我们创建了一个特定的<code>Rectangle</code>实例，其宽度为<code>30</code>，高度为<code>50</code>。</p>
+<p data-x-en="Here, we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="Our area function is now defined with one parameter, which we’ve named rectangle, whose type is an immutable borrow of a struct Rectangle instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, main retains its ownership and can continue using rect1, which is the reason we use the &amp; in the function signature and where we call the function.">我们的 <code>area</code> 函数现在定义了一个参数，我们将其命名为 <code>rectangle</code>，其类型是结构体 <code>Rectangle</code> 实例的不可变借用。正如在第 4 章中提到的，我们希望借用结构体而不是获取其所有权。这样，<code>main</code> 保留其所有权并可以继续使用 <code>rect1</code>，这就是我们在函数签名和调用函数时使用 <code>&amp;</code> 的原因。</p>
 <p data-x-en="The area function accesses the width and height fields of the Rectangle instance (note that accessing fields of a borrowed struct instance does not move the field values, which is why you often see borrows of structs). Our function signature for area now says exactly what we mean: calculate the area of Rectangle, using its width and height fields. This conveys that the width and height are related to each other, and it gives descriptive names to the values rather than using the tuple index values of 0 and 1. This is a win for clarity."><code>area</code> 函数访问 <code>Rectangle</code> 实例的 <code>width</code> 和 <code>height</code> 字段（注意，访问借用结构体实例的字段不会移动字段值，这就是为什么你经常看到结构体的借用）。我们的 <code>area</code> 函数签名现在准确地表达了我们的意思：使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段计算其面积。这表明宽度和高度是相互关联的，并且它为这些值提供了描述性的名称，而不是使用元组索引值 <code>0</code> 和 <code>1</code>。这提高了清晰度。</p>
 <h3 id="adding-useful-functionality-with-derived-traits"><a class="header" href="#adding-useful-functionality-with-derived-traits">通过派生特性添加有用的功能</a></h3>

@@ -1,0 +1,1470 @@
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/title-page.html]: This version of the text assumes you’re using Rust 1.85.0 (released 2025-02-17)
+or later with <code>edition = "2024"</code> in the Cargo.toml file of all projects to
+configure them to use Rust 2024 edition idioms. See the <a href="ch01-01-installation.html">“Installation” section
+of Chapter 1</a><!-- ignore --> to install or update Rust. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/index.html]: This version of the text assumes you’re using Rust 1.85.0 (released 2025-02-17)
+or later with <code>edition = "2024"</code> in the Cargo.toml file of all projects to
+configure them to use Rust 2024 edition idioms. See the <a href="ch01-01-installation.html">“Installation” section
+of Chapter 1</a><!-- ignore --> to install or update Rust. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch21-02-multithreaded.html]: This technique is just one of many ways to improve the throughput of a web
+server. Other options you might explore are the fork/join model, the
+single-threaded async I/O model, and the multithreaded async I/O model. If
+you’re interested in this topic, you can read more about other solutions and
+try to implement them; with a low-level language like Rust, all of these
+options are possible. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch21-00-final-project-a-web-server.html]: Before we get started, we should mention two details. First, the method we’ll
+use won’t be the best way to build a web server with Rust. Community members
+have published a number of production-ready crates available on
+<a href="https://crates.io/">crates.io</a> that provide more complete web server and thread
+pool implementations than we’ll build. However, our intention in this chapter is
+to help you learn, not to take the easy route. Because Rust is a systems
+programming language, we can choose the level of abstraction we want to work
+with and can go to a lower level than is possible or practical in other
+languages. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Metaprogramming is useful for reducing the amount of code you have to write and
+maintain, which is also one of the roles of functions. However, macros have
+some additional powers that functions don’t have. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: The most widely used form of macros in Rust is the <em>declarative macro</em>. These
+are also sometimes referred to as “macros by example,” “<code>macro_rules!</code> macros,”
+or just plain “macros.” At their core, declarative macros allow you to write
+something similar to a Rust <code>match</code> expression. As discussed in Chapter 6,
+<code>match</code> expressions are control structures that take an expression, compare the
+resultant value of the expression to patterns, and then run the code associated
+with the matching pattern. Macros also compare a value to patterns that are
+associated with particular code: in this situation, the value is the literal
+Rust source code passed to the macro; the patterns are compared with the
+structure of that source code; and the code associated with each pattern, when
+matched, replaces the code passed to the macro. This all happens during
+compilation. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Listing 20-35 shows a slightly simplified definition of the <code>vec!</code> macro. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Note: The actual definition of the <code>vec!</code> macro in the standard library
+includes code to pre-allocate the correct amount of memory up front. That code
+is an optimization that we don’t include here, to make the example simpler. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Valid pattern syntax in macro definitions is different from the pattern syntax
+covered in Chapter 19 because macro patterns are matched against Rust code
+structure rather than values. Let’s walk through what the pattern pieces in
+Listing 20-29 mean; for the full macro pattern syntax, see the <a href="../reference/macros-by-example.html">Rust
+Reference</a>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: First we use a set of parentheses to encompass the whole pattern. We use a
+dollar sign (<code>$</code>) to declare a variable in the macro system that will contain
+the Rust code matching the pattern. The dollar sign makes it clear this is a
+macro variable as opposed to a regular Rust variable. Next comes a set of
+parentheses that captures values that match the pattern within the parentheses
+for use in the replacement code. Within <code>$()</code> is <code>$x:expr</code>, which matches any
+Rust expression and gives the expression the name <code>$x</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: When creating procedural macros, the definitions must reside in their own crate
+with a special crate type. This is for complex technical reasons that we hope
+to eliminate in the future. In Listing 20-36, we show how to define a
+procedural macro, where <code>some_attribute</code> is a placeholder for using a specific
+macro variety. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Let’s create a crate named <code>hello_macro</code> that defines a trait named
+<code>HelloMacro</code> with one associated function named <code>hello_macro</code>. Rather than
+making our users implement the <code>HelloMacro</code> trait for each of their types,
+we’ll provide a procedural macro so users can annotate their type with
+<code>#[derive(HelloMacro)]</code> to get a default implementation of the <code>hello_macro</code>
+function. The default implementation will print <code>Hello, Macro! My name is TypeName!</code> where <code>TypeName</code> is the name of the type on which this trait has
+been defined. In other words, we’ll write a crate that enables another
+programmer to write code like Listing 20-37 using our crate. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: To start defining the procedural macro, place the code in Listing 20-40 into
+your <em>src/lib.rs</em> file for the <code>hello_macro_derive</code> crate. Note that this code
+won’t compile until we add a definition for the <code>impl_hello_macro</code> function. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: We have a trait and its function. At this point, our crate user could implement
+the trait to achieve the desired functionality, as in Listing 20-39. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: The <code>hello_macro_derive</code> function first converts the <code>input</code> from a
+<code>TokenStream</code> to a data structure that we can then interpret and perform
+operations on. This is where <code>syn</code> comes into play. The <code>parse</code> function in
+<code>syn</code> takes a <code>TokenStream</code> and returns a <code>DeriveInput</code> struct representing the
+parsed Rust code. Listing 20-40 shows the relevant parts of the <code>DeriveInput</code>
+struct we get from parsing the <code>struct Pancakes;</code> string. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Now that we have the code to turn the annotated Rust code from a <code>TokenStream</code>
+into a <code>DeriveInput</code> instance, let’s generate the code that implements the
+<code>HelloMacro</code> trait on the annotated type, as shown in Listing 20-42. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: We get an <code>Ident</code> struct instance containing the name (identifier) of the
+annotated type using <code>ast.ident</code>. The struct in Listing 20-33 shows that when
+we run the <code>impl_hello_macro</code> function on the code in Listing 20-31, the
+<code>ident</code> we get will have the <code>ident</code> field with a value of <code>"Pancakes"</code>. Thus,
+the <code>name</code> variable in Listing 20-34 will contain an <code>Ident</code> struct instance
+that, when printed, will be the string <code>"Pancakes"</code>, the name of the struct in
+Listing 20-37. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: The <code>stringify!</code> macro used here is built into Rust. It takes a Rust
+expression, such as <code>1 + 2</code>, and at compile time turns the expression into a
+string literal, such as <code>"1 + 2"</code>. This is different from <code>format!</code> or
+<code>println!</code>, macros which evaluate the expression and then turn the result into
+a <code>String</code>. There is a possibility that the <code>#name</code> input might be an
+expression to print literally, so we use <code>stringify!</code>. Using <code>stringify!</code> also
+saves an allocation by converting <code>#name</code> to a string literal at compile time. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Put the code in Listing 20-37 into <em>src/main.rs</em>, and run <code>cargo run</code>: it
+should print <code>Hello, Macro! My name is Pancakes!</code> The implementation of the
+<code>HelloMacro</code> trait from the procedural macro was included without the
+<code>pancakes</code> crate needing to implement it; the <code>#[derive(HelloMacro)]</code> added the
+trait implementation. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Attribute-like macros are similar to custom <code>derive</code> macros, but instead of
+generating code for the <code>derive</code> attribute, they allow you to create new
+attributes. They’re also more flexible: <code>derive</code> only works for structs and
+enums; attributes can be applied to other items as well, such as functions.
+Here’s an example of using an attribute-like macro. Say you have an attribute
+named <code>route</code> that annotates functions when using a web application framework: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-05-macros.html]: Whew! Now you have some Rust features in your toolbox that you likely won’t use
+often, but you’ll know they’re available in very particular circumstances.
+We’ve introduced several complex topics so that when you encounter them in
+error message suggestions or in other people’s code, you’ll be able to
+recognize these concepts and syntax. Use this chapter as a reference to guide
+you to solutions. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: The syntax for specifying that a parameter is a function pointer is similar to
+that of closures, as shown in Listing 20-28, where we’ve defined a function
+<code>add_one</code> that adds 1 to its parameter. The function <code>do_twice</code> takes two
+parameters: a function pointer to any function that takes an <code>i32</code> parameter
+and returns an <code>i32</code>, and one <code>i32</code> value. The <code>do_twice</code> function calls the
+function <code>f</code> twice, passing it the <code>arg</code> value, then adds the two function call
+results together. The <code>main</code> function calls <code>do_twice</code> with the arguments
+<code>add_one</code> and <code>5</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: As an example of where you could use either a closure defined inline or a named
+function, let’s look at a use of the <code>map</code> method provided by the <code>Iterator</code>
+trait in the standard library. To use the <code>map</code> method to turn a vector of
+numbers into a vector of strings, we could use a closure, as in Listing 20-29. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Or we could name a function as the argument to map instead of the closure.
+Listing 20-30 shows what this would look like. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Note that we must use the fully qualified syntax that we talked about in
+<a href="ch20-02-advanced-traits.html#advanced-traits">“Advanced Traits”</a><!-- ignore --> because there are multiple
+functions available named <code>to_string</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Here, we’re using the <code>to_string</code> function defined in the <code>ToString</code> trait,
+which the standard library has implemented for any type that implements
+<code>Display</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Recall from <a href="ch06-01-defining-an-enum.html#enum-values">“Enum values”</a><!-- ignore --> in Chapter 6 that the
+name of each enum variant that we define also becomes an initializer function.
+We can use these initializer functions as function pointers that implement the
+closure traits, which means we can specify the initializer functions as
+arguments for methods that take closures, as seen in Listing 20-31. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Here we create <code>Status::Value</code> instances using each <code>u32</code> value in the range
+that <code>map</code> is called on by using the initializer function of <code>Status::Value</code>.
+Some people prefer this style and some people prefer to use closures. They
+compile to the same code, so use whichever style is clearer to you. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Closures are represented by traits, which means you can’t return closures
+directly. In most cases where you might want to return a trait, you can instead
+use the concrete type that implements the trait as the return value of the
+function. However, you can’t usually do that with closures because they don’t
+have a concrete type that is returnable. You’re not allowed to use the function
+pointer <code>fn</code> as a return type if the closure captures any values from its scope,
+for example. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Instead, you will normally use the <code>impl Trait</code> syntax we learned about in
+Chapter 10. You can return any function type, using <code>Fn</code>, <code>FnOnce</code> and <code>FnMut</code>.
+For example, the code in Listing 20-32 will work just fine. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: However, as we noted in <a href="ch13-01-closures.html#closure-type-inference-and-annotation">“Closure Type Inference and
+Annotation”</a><!-- ignore --> in Chapter 13, each closure is also
+its own distinct type. If you need to work with multiple functions that have the
+same signature but different implementations, you will need to use a trait
+object for them. Consider what happens if you write code like that shown in
+Listing 20-33. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: Here we have two functions, <code>returns_closure</code> and <code>returns_initialized_closure</code>,
+which both return <code>impl Fn(i32) -&gt; i32</code>. Notice that he closures that they
+return are different, even though they implement the same type. If we try to
+compile this, Rust lets us know that it won’t work: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: The error message tells us that whenever we return an <code>impl Trait</code> Rust creates
+a unique <em>opaque type</em>, a type where we cannot see into the details of what Rust
+constructs for us. So even though these functions both return closures that
+implements the same trait, <code>Fn(i32) -&gt; i32</code>, the opaque types Rust generates for
+each are distinct. (This is similar to how Rust produces different concrete
+types for distinct async blocks even when they have the same output type, as we
+saw in <a href="ch17-03-more-futures.html">“Working with Any Number of Futures”</a> in Chapter
+17. We have seen a solution to this problem a few times now: we can use a trait
+object, as in Listing 20-34. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-04-advanced-functions-and-closures.html]: This code will compile just fine. For more about trait objects, refer to the
+section <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects That Allow for Values of Different
+Types”</a><!-- ignore
+--> in Chapter 18. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-03-advanced-types.html]: This section assumes you’ve read the earlier section <a href="ch20-02-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types">“Using the Newtype Pattern
+to Implement External Traits on External Types.”</a><!--
+ignore --> The newtype pattern is also useful for tasks beyond those we’ve
+discussed so far, including statically enforcing that values are never confused
+and indicating the units of a value. You saw an example of using newtypes to
+indicate units in Listing 20-16: recall that the <code>Millimeters</code> and <code>Meters</code>
+structs wrapped <code>u32</code> values in a newtype. If we wrote a function with a
+parameter of type <code>Millimeters</code>, we wouldn’t be able to compile a program that
+accidentally tried to call that function with a value of type <code>Meters</code> or a
+plain <code>u32</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-03-advanced-types.html]: Newtypes can also hide internal implementation. For example, we could provide a
+<code>People</code> type to wrap a <code>HashMap&lt;i32, String&gt;</code> that stores a person’s ID
+associated with their name. Code using <code>People</code> would only interact with the
+public API we provide, such as a method to add a name string to the <code>People</code>
+collection; that code wouldn’t need to know that we assign an <code>i32</code> ID to names
+internally. The newtype pattern is a lightweight way to achieve encapsulation to
+hide implementation details, which we discussed in <a href="ch18-01-what-is-oo.html#encapsulation-that-hides-implementation-details">“Encapsulation That Hides
+Implementation Details”</a><!--
+ignore --> in Chapter 18. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-03-advanced-types.html]: Because <code>Kilometers</code> and <code>i32</code> are the same type, we can add values of both
+types and we can pass <code>Kilometers</code> values to functions that take <code>i32</code>
+parameters. However, using this method, we don’t get the type-checking benefits
+that we get from the newtype pattern discussed earlier. In other words, if we
+mix up <code>Kilometers</code> and <code>i32</code> values somewhere, the compiler will not give us
+an error. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-03-advanced-types.html]: <a class="header" href="#the-never-type-that-never-returns">The Never Type That Never Returns</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-03-advanced-types.html]: But what use is a type you can never create values for? Recall the code from
+Listing 2-5, part of the number-guessing game; we’ve reproduced a bit of it
+here in Listing 20-27. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: <a class="header" href="#associated-types">Associated Types</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: With associated types, we don’t need to annotate types because we can’t
+implement a trait on a type multiple times. In Listing 20-13 with the definition
+that uses associated types, we can choose what the type of <code>Item</code> will be only
+once, because there can be only one <code>impl Iterator for Counter</code>. We don’t have
+to specify that we want an iterator of <code>u32</code> values everywhere that we call
+<code>next</code> on <code>Counter</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: Associated types also become part of the trait’s contract: implementors of the
+trait must provide a type to stand in for the associated type placeholder.
+Associated types often have a name that describes how the type will be used,
+and documenting the associated type in the API documentation is a good practice. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: Rust doesn’t allow you to create your own operators or overload arbitrary
+operators. But you can overload the operations and corresponding traits listed
+in <code>std::ops</code> by implementing the traits associated with the operator. For
+example, in Listing 20-15 we overload the <code>+</code> operator to add two <code>Point</code>
+instances together. We do this by implementing the <code>Add</code> trait on a <code>Point</code>
+struct. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: This code should look generally familiar: a trait with one method and an
+associated type. The new part is <code>Rhs=Self</code>: this syntax is called <em>default
+type parameters</em>. The <code>Rhs</code> generic type parameter (short for “right-hand
+side”) defines the type of the <code>rhs</code> parameter in the <code>add</code> method. If we don’t
+specify a concrete type for <code>Rhs</code> when we implement the <code>Add</code> trait, the type
+of <code>Rhs</code> will default to <code>Self</code>, which will be the type we’re implementing
+<code>Add</code> on. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: <a class="header" href="#disambiguating-between-methods-with-the-same-name">Disambiguating Between Methods with the Same Name</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: <a class="header" href="#using-supertraits">Using Supertraits</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: Sometimes you might write a trait definition that depends on another trait: for
+a type to implement the first trait, you want to require that type to also
+implement the second trait. You would do this so that your trait definition can
+make use of the associated items of the second trait. The trait your trait
+definition is relying on is called a <em>supertrait</em> of your trait. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: Then, implementing the <code>OutlinePrint</code> trait on <code>Point</code> will compile
+successfully, and we can call <code>outline_print</code> on a <code>Point</code> instance to display
+it within an outline of asterisks. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: In <a href="ch10-02-traits.html#implementing-a-trait-on-a-type">“Implementing a Trait on a Type”</a><!-- ignore
+--> in Chapter 10, we mentioned the orphan rule that states we’re only allowed
+to implement a trait on a type if either the trait or the type, or both, are
+local to our crate. It’s possible to get around this restriction using the
+<em>newtype pattern</em>, which involves creating a new type in a tuple struct. (We
+covered tuple structs in <a href="ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types">“Using Tuple Structs Without Named Fields to Create
+Different Types”</a><!-- ignore --> in Chapter 5.) The tuple struct
+will have one field and be a thin wrapper around the type for which we want to
+implement a trait. Then the wrapper type is local to our crate, and we can
+implement the trait on the wrapper. <em>Newtype</em> is a term that originates from the
+Haskell programming language. There is no runtime performance penalty for using
+this pattern, and the wrapper type is elided at compile time. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-02-advanced-traits.html]: The downside of using this technique is that <code>Wrapper</code> is a new type, so it
+doesn’t have the methods of the value it’s holding. We would have to implement
+all the methods of <code>Vec&lt;T&gt;</code> directly on <code>Wrapper</code> such that the methods delegate
+to <code>self.0</code>, which would allow us to treat <code>Wrapper</code> exactly like a <code>Vec&lt;T&gt;</code>. If
+we wanted the new type to have every method the inner type has, implementing the
+<code>Deref</code> trait on the <code>Wrapper</code> to return the inner type would be a solution (we
+discussed implementing the <code>Deref</code> trait in <a href="ch15-02-deref.html#treating-smart-pointers-like-regular-references-with-the-deref-trait">“Treating Smart Pointers Like
+Regular References with the <code>Deref</code> Trait”</a><!-- ignore -->
+in Chapter 15). If we didn’t want the <code>Wrapper</code> type to have all the methods of
+the inner type—for example, to restrict the <code>Wrapper</code> type’s behavior—we would
+have to implement just the methods we do want manually. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: It’s important to understand that <code>unsafe</code> doesn’t turn off the borrow checker
+or disable any of Rust’s other safety checks: if you use a reference in unsafe
+code, it will still be checked. The <code>unsafe</code> keyword only gives you access to
+these five features that are then not checked by the compiler for memory
+safety. You’ll still get some degree of safety inside of an unsafe block. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: People are fallible and mistakes will happen, but by requiring these five
+unsafe operations to be inside blocks annotated with <code>unsafe</code>, you’ll know that
+any errors related to memory safety must be within an <code>unsafe</code> block. Keep
+<code>unsafe</code> blocks small; you’ll be thankful later when you investigate memory
+bugs. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: To isolate unsafe code as much as possible, it’s best to enclose such code
+within a safe abstraction and provide a safe API, which we’ll discuss later in
+the chapter when we examine unsafe functions and methods. Parts of the standard
+library are implemented as safe abstractions over unsafe code that has been
+audited. Wrapping unsafe code in a safe abstraction prevents uses of <code>unsafe</code>
+from leaking out into all the places that you or your users might want to use
+the functionality implemented with <code>unsafe</code> code, because using a safe
+abstraction is safe. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: In <a href="ch04-02-references-and-borrowing.html#dangling-references">“Dangling References”</a><!-- ignore --> in Chapter 4, we
+mentioned that the compiler ensures references are always valid. Unsafe Rust has
+two new types called <em>raw pointers</em> that are similar to references. As with
+references, raw pointers can be immutable or mutable and are written as <code>*const T</code> and <code>*mut T</code>, respectively. The asterisk isn’t the dereference operator; it’s
+part of the type name. In the context of raw pointers, <em>immutable</em> means that
+the pointer can’t be directly assigned to after being dereferenced. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: To demonstrate this, next we’ll create a raw pointer whose validity we can’t be
+so certain of, using <code>as</code> to cast a value instead of using the raw borrow
+operators. Listing 20-2 shows how to create a raw pointer to an arbitrary
+location in memory. Trying to use arbitrary memory is undefined: there might be
+data at that address or there might not, the compiler might optimize the code so
+there is no memory access, or the program might terminate with a segmentation
+fault. Usually, there is no good reason to write code like this, especially in
+cases where you can use a raw borrow operator instead, but it is possible. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: The second type of operation you can perform in an unsafe block is calling
+unsafe functions. Unsafe functions and methods look exactly like regular
+functions and methods, but they have an extra <code>unsafe</code> before the rest of the
+definition. The <code>unsafe</code> keyword in this context indicates the function has
+requirements we need to uphold when we call this function, because Rust can’t
+guarantee we’ve met these requirements. By calling an unsafe function within an
+<code>unsafe</code> block, we’re saying that we’ve read this function’s documentation and
+we take responsibility for upholding the function’s contracts. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: To perform unsafe operations in the body of an unsafe function, you still need
+to use an <code>unsafe</code> block, just as within a regular function, and the compiler
+will warn you if you forget. This helps to keep <code>unsafe</code> blocks as small as
+possible, as unsafe operations may not be needed across the whole function
+body. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: We keep the assertion that the <code>mid</code> index is within the slice. Then we get to
+the unsafe code: the <code>slice::from_raw_parts_mut</code> function takes a raw pointer
+and a length, and it creates a slice. We use it to create a slice that starts
+from <code>ptr</code> and is <code>mid</code> items long. Then we call the <code>add</code> method on <code>ptr</code> with
+<code>mid</code> as an argument to get a raw pointer that starts at <code>mid</code>, and we create a
+slice using that pointer and the remaining number of items after <code>mid</code> as the
+length. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: The function <code>slice::from_raw_parts_mut</code> is unsafe because it takes a raw
+pointer and must trust that this pointer is valid. The <code>add</code> method on raw
+pointers is also unsafe because it must trust that the offset location is also
+a valid pointer. Therefore, we had to put an <code>unsafe</code> block around our calls to
+<code>slice::from_raw_parts_mut</code> and <code>add</code> so we could call them. By looking at
+the code and by adding the assertion that <code>mid</code> must be less than or equal to
+<code>len</code>, we can tell that all the raw pointers used within the <code>unsafe</code> block
+will be valid pointers to data within the slice. This is an acceptable and
+appropriate use of <code>unsafe</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Note that we don’t need to mark the resultant <code>split_at_mut</code> function as
+<code>unsafe</code>, and we can call this function from safe Rust. We’ve created a safe
+abstraction to the unsafe code with an implementation of the function that uses
+<code>unsafe</code> code in a safe way, because it creates only valid pointers from the
+data this function has access to. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Listing 20-8 demonstrates how to set up an integration with the <code>abs</code> function
+from the C standard library. Functions declared within <code>extern</code> blocks are
+generally unsafe to call from Rust code, so <code>extern</code> blocks must also be marked
+<code>unsafe</code>. The reason is that other languages don’t enforce Rust’s rules and
+guarantees, and Rust can’t check them, so responsibility falls on the programmer
+to ensure safety. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Every item declared within an <code>unsafe extern</code> block is implicitly <code>unsafe</code>.
+However, some FFI functions <em>are</em> safe to call. For example, the <code>abs</code> function
+from C’s standard library does not have any memory safety considerations and we
+know it can be called with any <code>i32</code>. In cases like this, we can use the <code>safe</code>
+keyword to say that this specific function is safe to call even though it is in
+an <code>unsafe extern</code> block. Once we make that change, calling it no longer
+requires an <code>unsafe</code> block, as shown in Listing 20-9. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: We can also use <code>extern</code> to create an interface that allows other languages to
+call Rust functions. Instead of creating a whole <code>extern</code> block, we add the
+<code>extern</code> keyword and specify the ABI to use just before the <code>fn</code> keyword for
+the relevant function. We also need to add an <code>#[unsafe(no_mangle)]</code>
+annotation to tell the Rust compiler not to mangle the name of this function.
+<em>Mangling</em> is when a compiler changes the name we’ve given a function to a
+different name that contains more information for other parts of the
+compilation process to consume but is less human readable. Every programming
+language compiler mangles names slightly differently, so for a Rust function
+to be nameable by other languages, we must disable the Rust compiler’s name
+mangling. This is unsafe because there might be name collisions across
+libraries without the built-in mangling, so it is our responsibility to make
+sure the name we choose is safe to export without mangling. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: This usage of <code>extern</code> requires <code>unsafe</code> only in the attribute, not on the
+<code>extern</code> block. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: With mutable data that is globally accessible, it’s difficult to ensure there
+are no data races, which is why Rust considers mutable static variables to be
+unsafe. Where possible, it’s preferable to use the concurrency techniques and
+thread-safe smart pointers we discussed in Chapter 16 so the compiler checks
+that data access from different threads is done safely. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: As an example, recall the <code>Sync</code> and <code>Send</code> marker traits we discussed in
+<a href="ch16-04-extensible-concurrency-sync-and-send.html#extensible-concurrency-with-the-sync-and-send-traits">“Extensible Concurrency with the <code>Sync</code> and <code>Send</code>
+Traits”</a><!-- ignore --> in
+Chapter 16: the compiler implements these traits automatically if our types are
+composed entirely of other types that implement <code>Send</code> and <code>Sync</code>. If we
+implement a type that contains a type that does not implement <code>Send</code> or <code>Sync</code>,
+such as raw pointers, and we want to mark that type as <code>Send</code> or <code>Sync</code>, we must
+use <code>unsafe</code>. Rust can’t verify that our type upholds the guarantees that it can
+be safely sent across threads or accessed from multiple threads; therefore, we
+need to do those checks manually and indicate as such with <code>unsafe</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: <a class="header" href="#using-miri-to-check-unsafe-code">Using Miri to Check Unsafe Code</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: When writing unsafe code, you might want to check that what you have written
+actually is safe and correct. One of the best ways to do that is to use
+Miri, an official Rust tool for detecting undefined behavior. Whereas
+the borrow checker is a <em>static</em> tool that works at compile time, Miri is a
+<em>dynamic</em> tool that works at runtime. It checks your code by running your
+program, or its test suite, and detecting when you violate the rules it
+understands about how Rust should work. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: For an example of how helpful this can be, consider what happens when we run it
+against Listing 20-11. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Miri correctly warns us that we have shared references to mutable data. Here,
+Miri issues only a warning because this is not guaranteed to be undefined
+behavior in this case, and it does not tell us how to fix the problem. but at
+least we know there is a risk of undefined behavior and can think about how to
+make the code safe. In some cases, Miri can also detect outright errors—code
+patterns that are <em>sure</em> to be wrong—and make recommendations about how to fix
+those errors. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Miri doesn’t catch everything you might get wrong when writing unsafe code. Miri
+is a dynamic analysis tool, so it only catches problems with code that actually
+gets run. That means you will need to use it in conjunction with good testing
+techniques to increase your confidence about the unsafe code you have written.
+Miri also does not cover every possible way your code can be unsound. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Put another way: If Miri <em>does</em> catch a problem, you know there’s a bug, but
+just because Miri <em>doesn’t</em> catch a bug doesn’t mean there isn’t a problem. It
+can catch a lot, though. Try running it on the other examples of unsafe code in
+this chapter and see what it says! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: You can learn more about Miri at <a href="https://github.com/rust-lang/miri">its GitHub repository</a>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch20-01-unsafe-rust.html]: Using <code>unsafe</code> to use one of the five superpowers just discussed
+isn’t wrong or even frowned upon, but it is trickier to get <code>unsafe</code> code
+correct because the compiler can’t help uphold memory safety. When you have a
+reason to use <code>unsafe</code> code, you can do so, and having the explicit <code>unsafe</code>
+annotation makes it easier to track down the source of problems when they occur.
+Whenever you write unsafe code, you can use Miri to help you be more confident
+that the code you have written upholds Rust’s rules. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: In this section, we gather all the syntax that is valid in patterns and discuss
+why and when you might want to use each one. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: Named variables are irrefutable patterns that match any value, and we’ve used
+them many times in this book. However, there is a complication when you use
+named variables in <code>match</code>, <code>if let</code>, or <code>while let</code> expressions. Because each
+of these kinds of expression starts a new scope, variables declared as part of a
+pattern inside the expression will shadow those with the same name outside, as
+is the case with all variables. In Listing 19-11, we declare a variable named
+<code>x</code> with the value <code>Some(5)</code> and a variable <code>y</code> with the value <code>10</code>. We then
+create a <code>match</code> expression on the value <code>x</code>. Look at the patterns in the match
+arms and <code>println!</code> at the end, and try to figure out what the code will print
+before running this code or reading further. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: To create a <code>match</code> expression that compares the values of the outer <code>x</code> and
+<code>y</code>, rather than introducing a new variable that shadows the existing <code>y</code>
+variable, we would need to use a match guard conditional instead. We’ll talk
+about match guards later in <a href="#extra-conditionals-with-match-guards">“Extra Conditionals with Match
+Guards”</a><!-- ignore -->. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: We’ve destructured enums in this book (for example, Listing 6-5), but we haven’t
+yet explicitly discussed that the pattern to destructure an enum corresponds to
+the way the data stored within the enum is defined. As an example, in Listing
+19-15 we use the <code>Message</code> enum from Listing 6-2 and write a <code>match</code> with
+patterns that will destructure each inner value. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: In Listing 19-14, we have a <code>match</code> expression that separates <code>Point</code> values
+into three cases: points that lie directly on the <code>x</code> axis (which is true when
+<code>y = 0</code>), on the <code>y</code> axis (<code>x = 0</code>), or on neither axis. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: This code will print <code>Change color to red 0, green 160, and blue 255</code>. Try
+changing the value of <code>msg</code> to see the code from the other arms run. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: <a class="header" href="#an-entire-value-with-_">An Entire Value with <code>_</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: <a class="header" href="#parts-of-a-value-with-a-nested-_">Parts of a Value with a Nested <code>_</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: In all other cases (if either <code>setting_value</code> or <code>new_setting_value</code> is <code>None</code>)
+expressed by the <code>_</code> pattern in the second arm, we want to allow
+<code>new_setting_value</code> to become <code>setting_value</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: <a class="header" href="#an-unused-variable-by-starting-its-name-with-_">An Unused Variable by Starting Its Name with <code>_</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: Here, we get a warning about not using the variable <code>y</code>, but we don’t get a
+warning about not using <code>_x</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: <a class="header" href="#remaining-parts-of-a-value-with-">Remaining Parts of a Value with <code>..</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: A <em>match guard</em> is an additional <code>if</code> condition, specified after the pattern in
+a <code>match</code> arm, that must also match for that arm to be chosen. Match guards are
+useful for expressing more complex ideas than a pattern alone allows. Note,
+however, that they are only available in <code>match</code> expressions, not in <code>if let</code> or
+<code>while let</code> expressions. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: This example will print <code>The number 4 is even</code>. When <code>num</code> is compared to the
+pattern in the first arm, it matches because <code>Some(4)</code> matches <code>Some(x)</code>. Then
+the match guard checks whether the remainder of dividing <code>x</code> by 2 is equal to
+0, and because it is, the first arm is selected. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: The match condition states that the arm only matches if the value of <code>x</code> is
+equal to <code>4</code>, <code>5</code>, or <code>6</code> <em>and</em> if <code>y</code> is <code>true</code>. When this code runs, the
+pattern of the first arm matches because <code>x</code> is <code>4</code>, but the match guard <code>if y</code>
+is <code>false</code>, so the first arm is not chosen. The code moves on to the second arm,
+which does match, and this program prints <code>no</code>. The reason is that the <code>if</code>
+condition applies to the whole pattern <code>4 | 5 | 6</code>, not just to the last value
+<code>6</code>. In other words, the precedence of a match guard in relation to a pattern
+behaves like this: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: Rust’s patterns are very useful in distinguishing between different kinds of
+data. When used in <code>match</code> expressions, Rust ensures your patterns cover every
+possible value, or your program won’t compile. Patterns in <code>let</code> statements and
+function parameters make those constructs more useful, enabling the
+destructuring of values into smaller parts at the same time as assigning those
+parts to variables. We can create simple or complex patterns to suit our needs. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-03-pattern-syntax.html]: The <em>at</em> operator <code>@</code> lets us create a variable that holds a value at the same
+time we’re testing that value for a pattern match. In Listing 19-29, we want
+to test that a <code>Message::Hello</code> <code>id</code> field is within the range <code>3..=7</code>. We also
+want to bind the value to the variable <code>id_variable</code> so we can use it in the
+code associated with the arm. We could name this variable <code>id</code>, the same as the
+field, but for this example we’ll use a different name. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-02-refutability.html]: Function parameters, <code>let</code> statements, and <code>for</code> loops can only accept
+irrefutable patterns because the program cannot do anything meaningful when
+values don’t match. The <code>if let</code> and <code>while let</code> expressions and the
+<code>let...else</code> statement accept refutable and irrefutable patterns, but the
+compiler warns against irrefutable patterns because, by definition, they’re
+intended to handle possible failure: the functionality of a conditional is in
+its ability to perform differently depending on success or failure. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-02-refutability.html]: Let’s look at an example of what happens when we try to use a refutable pattern
+where Rust requires an irrefutable pattern and vice versa. Listing 19-8 shows a
+<code>let</code> statement, but for the pattern, we’ve specified <code>Some(x)</code>, a refutable
+pattern. As you might expect, this code will not compile. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-02-refutability.html]: If <code>some_option_value</code> were a <code>None</code> value, it would fail to match the pattern
+<code>Some(x)</code>, meaning the pattern is refutable. However, the <code>let</code> statement can
+only accept an irrefutable pattern because there is nothing valid the code can
+do with a <code>None</code> value. At compile time, Rust will complain that we’ve tried to
+use a refutable pattern where an irrefutable pattern is required: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: The patterns in this <code>match</code> expression are the <code>None</code> and <code>Some(i)</code> to the
+left of each arrow. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: The particular pattern <code>_</code> will match anything, but it never binds to a
+variable, so it’s often used in the last match arm. The <code>_</code> pattern can be
+useful when you want to ignore any value not specified, for example. We’ll cover
+the <code>_</code> pattern in more detail in <a href="ch19-03-pattern-syntax.html#ignoring-values-in-a-pattern">“Ignoring Values in a
+Pattern”</a><!-- ignore --> later in this chapter. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: In Chapter 6, we discussed how to use <code>if let</code> expressions mainly as a shorter
+way to write the equivalent of a <code>match</code> that only matches one case.
+Optionally, <code>if let</code> can have a corresponding <code>else</code> containing code to run if
+the pattern in the <code>if let</code> doesn’t match. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: You can see that <code>if let</code> can also introduce new variables that shadow existing
+variables in the same way that <code>match</code> arms can: the line <code>if let Ok(age) = age</code>
+introduces a new <code>age</code> variable that contains the value inside the <code>Ok</code> variant,
+shadowing the existing <code>age</code> variable. This means we need to place the <code>if age &gt; 30</code> condition within that block: we can’t combine these two conditions into <code>if let Ok(age) = age &amp;&amp; age &gt; 30</code>. The new <code>age</code> we want to compare to 30 isn’t
+valid until the new scope starts with the curly bracket. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: Similar in construction to <code>if let</code>, the <code>while let</code> conditional loop allows a
+<code>while</code> loop to run for as long as a pattern continues to match. In Listing 19-2
+we show a <code>while let</code> loop that waits on messages sent between threads, but in
+this case checking a <code>Result</code> instead of an <code>Option</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: This example prints <code>1</code>, <code>2</code>, and then <code>3</code>. The <code>recv</code> method takes the first
+message out of the receiver side of the channel and returns an <code>Ok(value)</code>. When
+we first saw <code>recv</code> back in Chapter 16, we unwrapped the error directly, or
+interacted with it as an iterator using a <code>for</code> loop. As Listing 19-2 shows,
+though, we can also use <code>while let</code>, because the <code>recv</code> method returns <code>Ok</code> each
+time a message arrives, as long as the sender exists, and then produces an <code>Err</code>
+once the sender side disconnects. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: In a <code>for</code> loop, the value that directly follows the keyword <code>for</code> is a
+pattern. For example, in <code>for x in y</code>, the <code>x</code> is the pattern. Listing 19-3
+demonstrates how to use a pattern in a <code>for</code> loop to destructure, or break
+apart, a tuple as part of the <code>for</code> loop. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: In statements like <code>let x = 5;</code> with a variable name in the <em><code>PATTERN</code></em> slot,
+the variable name is just a particularly simple form of a pattern. Rust compares
+the expression against the pattern and assigns any names it finds. So, in the
+<code>let x = 5;</code> example, <code>x</code> is a pattern that means “bind what matches here to the
+variable <code>x</code>.” Because the name <code>x</code> is the whole pattern, this pattern
+effectively means “bind everything to the variable <code>x</code>, whatever the value is.” -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: To see the pattern-matching aspect of <code>let</code> more clearly, consider Listing
+19-4, which uses a pattern with <code>let</code> to destructure a tuple. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: Here, we match a tuple against a pattern. Rust compares the value <code>(1, 2, 3)</code> to
+the pattern <code>(x, y, z)</code> and sees that the value matches the pattern, in that the
+number of elements is the same in both, so Rust binds <code>1</code> to <code>x</code>, <code>2</code> to <code>y</code>,
+and <code>3</code> to <code>z</code>. You can think of this tuple pattern as nesting three individual
+variable patterns inside it. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: We can also use patterns in closure parameter lists in the same way as in
+function parameter lists because closures are similar to functions, as discussed
+in Chapter 13. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch19-01-all-the-places-for-patterns.html]: At this point, you’ve seen several ways to use patterns, but patterns don’t work
+the same in every place we can use them. In some places, the patterns must be
+irrefutable; in other circumstances, they can be refutable. We’ll discuss these
+two concepts next. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: First we’re going to implement the state pattern in a more traditional
+object-oriented way, then we’ll use an approach that’s a bit more natural in
+Rust. Let’s dig in to incrementally implement a blog post workflow using the
+state pattern. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Notice that the only type we’re interacting with from the crate is the <code>Post</code>
+type. This type will use the state pattern and will hold a value that will be
+one of three state objects representing the various states a post can be
+in—draft, review, or published. Changing from one state to another will be
+managed internally within the <code>Post</code> type. The states change in response to the
+methods called by our library’s users on the <code>Post</code> instance, but they don’t
+have to manage the state changes directly. Also, users can’t make a mistake with
+the states, such as publishing a post before it’s reviewed. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: When we create a new <code>Post</code>, we set its <code>state</code> field to a <code>Some</code> value that
+holds a <code>Box</code>. This <code>Box</code> points to a new instance of the <code>Draft</code> struct. This
+ensures that whenever we create a new instance of <code>Post</code>, it will start out as a
+draft. Because the <code>state</code> field of <code>Post</code> is private, there is no way to create
+a <code>Post</code> in any other state! In the <code>Post::new</code> function, we set the <code>content</code>
+field to a new, empty <code>String</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: We saw in Listing 18-11 that we want to be able to call a method named
+<code>add_text</code> and pass it a <code>&amp;str</code> that is then added as the text content of the
+blog post. We implement this as a method, rather than exposing the <code>content</code>
+field as <code>pub</code>, so that later we can implement a method that will control how
+the <code>content</code> field’s data is read. The <code>add_text</code> method is pretty
+straightforward, so let’s add the implementation in Listing 18-13 to the <code>impl Post</code> block. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: The <code>add_text</code> method takes a mutable reference to <code>self</code> because we’re
+changing the <code>Post</code> instance that we’re calling <code>add_text</code> on. We then call
+<code>push_str</code> on the <code>String</code> in <code>content</code> and pass the <code>text</code> argument to add to
+the saved <code>content</code>. This behavior doesn’t depend on the state the post is in,
+so it’s not part of the state pattern. The <code>add_text</code> method doesn’t interact
+with the <code>state</code> field at all, but it is part of the behavior we want to
+support. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Even after we’ve called <code>add_text</code> and added some content to our post, we still
+want the <code>content</code> method to return an empty string slice because the post is
+still in the draft state, as shown on line 7 of Listing 18-11. For now, let’s
+implement the <code>content</code> method with the simplest thing that will fulfill this
+requirement: always returning an empty string slice. We’ll change this later
+once we implement the ability to change a post’s state so it can be published.
+So far, posts can only be in the draft state, so the post content should always
+be empty. Listing 18-14 shows this placeholder implementation. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: <a class="header" href="#requesting-a-review-changes-the-posts-state">Requesting a Review Changes the Post’s State</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Next, we need to add functionality to request a review of a post, which should
+change its state from <code>Draft</code> to <code>PendingReview</code>. Listing 18-15 shows this code. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: To consume the old state, the <code>request_review</code> method needs to take ownership
+of the state value. This is where the <code>Option</code> in the <code>state</code> field of <code>Post</code>
+comes in: we call the <code>take</code> method to take the <code>Some</code> value out of the <code>state</code>
+field and leave a <code>None</code> in its place because Rust doesn’t let us have
+unpopulated fields in structs. This lets us move the <code>state</code> value out of
+<code>Post</code> rather than borrowing it. Then we’ll set the post’s <code>state</code> value to the
+result of this operation. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: The <code>request_review</code> method on <code>Draft</code> returns a new, boxed instance of a new
+<code>PendingReview</code> struct, which represents the state when a post is waiting for a
+review. The <code>PendingReview</code> struct also implements the <code>request_review</code> method
+but doesn’t do any transformations. Rather, it returns itself because when we
+request a review on a post already in the <code>PendingReview</code> state, it should stay
+in the <code>PendingReview</code> state. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Because the goal is to keep all of these rules inside the structs that implement
+<code>State</code>, we call a <code>content</code> method on the value in <code>state</code> and pass the post
+instance (that is, <code>self</code>) as an argument. Then we return the value that’s
+returned from using the <code>content</code> method on the <code>state</code> value. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: We then call the <code>unwrap</code> method, which we know will never panic, because we
+know the methods on <code>Post</code> ensure that <code>state</code> will always contain a <code>Some</code>
+value when those methods are done. This is one of the cases we talked about in
+<a href="ch09-03-to-panic-or-not-to-panic.html#cases-in-which-you-have-more-information-than-the-compiler">“Cases in Which You Have More Information Than the
+Compiler”</a><!-- ignore --> in Chapter 9 when we know that a
+<code>None</code> value is never possible, even though the compiler isn’t able to
+understand that. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: You may have been wondering why we didn’t use an <code>enum</code> with the different
+possible post states as variants. That’s certainly a possible solution; try
+it and compare the end results to see which you prefer! One disadvantage of
+using an enum is that every place that checks the value of the enum will need
+a <code>match</code> expression or similar to handle every possible variant. This could
+get more repetitive than this trait object solution. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Another downside is that we’ve duplicated some logic. To eliminate some of the
+duplication, we might try to make default implementations for the
+<code>request_review</code> and <code>approve</code> methods on the <code>State</code> trait that return <code>self</code>;
+however, this wouldn’t work: when using <code>State</code> as a trait object, the trait
+doesn’t know what the concrete <code>self</code> will be exactly, so the return type isn’t
+known at compile time. (This is one of the dyn compatibility rules mentioned
+earlier.) -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Other duplication includes the similar implementations of the <code>request_review</code>
+and <code>approve</code> methods on <code>Post</code>. Both methods delegate to the implementation of
+the same method on the value in the <code>state</code> field of <code>Option</code> and set the new
+value of the <code>state</code> field to the result. If we had a lot of methods on <code>Post</code>
+that followed this pattern, we might consider defining a macro to eliminate the
+repetition (see <a href="ch20-05-macros.html#macros">“Macros”</a><!-- ignore --> in Chapter 20). -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: By implementing the state pattern exactly as it’s defined for object-oriented
+languages, we’re not taking as full advantage of Rust’s strengths as we could.
+Let’s look at some changes we can make to the <code>blog</code> crate that can make
+invalid states and transitions into compile-time errors. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: We still enable the creation of new posts in the draft state using <code>Post::new</code>
+and the ability to add text to the post’s content. But instead of having a
+<code>content</code> method on a draft post that returns an empty string, we’ll make it so
+draft posts don’t have the <code>content</code> method at all. That way, if we try to get
+a draft post’s content, we’ll get a compiler error telling us the method
+doesn’t exist. As a result, it will be impossible for us to accidentally
+display draft post content in production because that code won’t even compile.
+Listing 18-19 shows the definition of a <code>Post</code> struct and a <code>DraftPost</code> struct,
+as well as methods on each. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: So how do we get a published post? We want to enforce the rule that a draft
+post has to be reviewed and approved before it can be published. A post in the
+pending review state should still not display any content. Let’s implement
+these constraints by adding another struct, <code>PendingReviewPost</code>, defining the
+<code>request_review</code> method on <code>DraftPost</code> to return a <code>PendingReviewPost</code> and
+defining an <code>approve</code> method on <code>PendingReviewPost</code> to return a <code>Post</code>, as
+shown in Listing 18-20. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: Regardless of whether you think Rust is an object-oriented language after
+reading this chapter, you now know that you can use trait objects to get some
+object-oriented features in Rust. Dynamic dispatch can give your code some
+flexibility in exchange for a bit of runtime performance. You can use this
+flexibility to implement object-oriented patterns that can help your code’s
+maintainability. Rust also has other features, like ownership, that
+object-oriented languages don’t have. An object-oriented pattern won’t always be
+the best way to take advantage of Rust’s strengths, but it is an available
+option. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-03-oo-design-patterns.html]: But we also have to make some small changes to <code>main</code>. The <code>request_review</code> and
+<code>approve</code> methods return new instances rather than modifying the struct they’re
+called on, so we need to add more <code>let post =</code> shadowing assignments to save
+the returned instances. We also can’t have the assertions about the draft and
+pending review posts’ contents be empty strings, nor do we need them: we can’t
+compile code that tries to use the content of posts in those states any longer.
+The updated code in <code>main</code> is shown in Listing 18-21. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: We won’t implement a full-fledged GUI library for this example but will show
+how the pieces would fit together. At the time of writing the library, we can’t
+know and define all the types other programmers might want to create. But we do
+know that <code>gui</code> needs to keep track of many values of different types, and it
+needs to call a <code>draw</code> method on each of these differently typed values. It
+doesn’t need to know exactly what will happen when we call the <code>draw</code> method,
+just that the value will have that method available for us to call. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: Listing 18-3 shows how to define a trait named <code>Draw</code> with one method named
+<code>draw</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: On the <code>Screen</code> struct, we’ll define a method named <code>run</code> that will call the
+<code>draw</code> method on each of its <code>components</code>, as shown in Listing 18-5. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: If someone using our library decides to implement a <code>SelectBox</code> struct that has
+<code>width</code>, <code>height</code>, and <code>options</code> fields, they would implement the <code>Draw</code> trait
+on the <code>SelectBox</code> type as well, as shown in Listing 18-8. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: For example, Listing 18-10 shows what happens if we try to create a <code>Screen</code>
+with a <code>String</code> as a component. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: This error lets us know that either we’re passing something to <code>Screen</code> that we
+didn’t mean to pass and so should pass a different type, or we should implement
+<code>Draw</code> on <code>String</code> so that <code>Screen</code> is able to call <code>draw</code> on it. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-02-trait-objects.html]: When we use trait objects, Rust must use dynamic dispatch. The compiler doesn’t
+know all the types that might be used with the code that’s using trait objects,
+so it doesn’t know which method implemented on which type to call. Instead, at
+runtime, Rust uses the pointers inside the trait object to know which method to
+call. This lookup incurs a runtime cost that doesn’t occur with static dispatch.
+Dynamic dispatch also prevents the compiler from choosing to inline a method’s
+code, which in turn prevents some optimizations, and Rust has some rules, called
+<em>dyn compatibility</em>, about where you can and cannot use dynamic dispatch. Those
+rules are beyond the scope of this discussion, but  you can read more about them
+<a href="https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility">in the reference</a>. However, we did get extra flexibility in
+the code that we wrote in Listing 18-5 and were able to support in Listing 18-9,
+so it’s a trade-off to consider. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: There is no consensus in the programming community about what features a
+language must have to be considered object oriented. Rust is influenced by many
+programming paradigms, including OOP; for example, we explored the features
+that came from functional programming in Chapter 13. Arguably, OOP languages
+share certain common characteristics, namely objects, encapsulation, and
+inheritance. Let’s look at what each of those characteristics means and whether
+Rust supports it. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: The book <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> by
+Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides (Addison-Wesley,
+1994), colloquially referred to as <em>The Gang of Four</em> book, is a catalog of
+object-oriented design patterns. It defines OOP in this way: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: Using this definition, Rust is object oriented: structs and enums have data,
+and <code>impl</code> blocks provide methods on structs and enums. Even though structs and
+enums with methods aren’t <em>called</em> objects, they provide the same
+functionality, according to the Gang of Four’s definition of objects. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: <a class="header" href="#encapsulation-that-hides-implementation-details">Encapsulation That Hides Implementation Details</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: Because we’ve encapsulated the implementation details of the struct
+<code>AveragedCollection</code>, we can easily change aspects, such as the data structure,
+in the future. For instance, we could use a <code>HashSet&lt;i32&gt;</code> instead of a
+<code>Vec&lt;i32&gt;</code> for the <code>list</code> field. As long as the signatures of the <code>add</code>,
+<code>remove</code>, and <code>average</code> public methods stayed the same, code using
+<code>AveragedCollection</code> wouldn’t need to change. If we made <code>list</code> public instead,
+this wouldn’t necessarily be the case: <code>HashSet&lt;i32&gt;</code> and <code>Vec&lt;i32&gt;</code> have
+different methods for adding and removing items, so the external code would
+likely have to change if it were modifying <code>list</code> directly. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: If encapsulation is a required aspect for a language to be considered
+object oriented, then Rust meets that requirement. The option to use <code>pub</code> or
+not for different parts of code enables encapsulation of implementation details. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-01-what-is-oo.html]: If a language must have inheritance to be object oriented, then Rust is not such
+a language. There is no way to define a struct that inherits the parent struct’s
+fields and method implementations without using a macro. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-00-oop.html]: <a class="header" href="#object-oriented-programming-features">Object-Oriented Programming Features</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch18-00-oop.html]: Object-oriented programming (OOP) is a way of modeling programs. Objects as a
+programmatic concept were introduced in the programming language Simula in the
+1960s. Those objects influenced Alan Kay’s programming architecture in which
+objects pass messages to each other. To describe this architecture, he coined
+the term <em>object-oriented programming</em> in 1967. Many competing definitions
+describe what OOP is, and by some of these definitions Rust is object oriented
+but by others it is not. In this chapter, we’ll explore certain characteristics
+that are commonly considered object oriented and how those characteristics
+translate to idiomatic Rust. We’ll then show you how to implement an
+object-oriented design pattern in Rust and discuss the trade-offs of doing so
+versus implementing a solution using some of Rust’s strengths instead. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch17-05-traits-for-async.html]: However, most types are perfectly safe to move around, even if they happen to be
+behind a <code>Pin</code> wrapper. We only need to think about pinning when items have
+internal references. Primitive values such as numbers and Booleans are safe
+because they obviously don’t have any internal references. Neither do most types
+you normally work with in Rust. You can move around a <code>Vec</code>, for example,
+without worrying. Given only what we have seen so far, if you have a
+<code>Pin&lt;Vec&lt;String&gt;&gt;</code>, you’d have to do everything via the safe but restrictive
+APIs provided by <code>Pin</code>, even though a <code>Vec&lt;String&gt;</code> is always safe to move if
+there are no other references to it. We need a way to tell the compiler that
+it’s fine to move items around in cases like this—and that’s where <code>Unpin</code> comes
+into play. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch17-02-concurrency-with-async.html]: The code now successfully sends and receives all of the messages. Unfortunately,
+there are still a couple of problems. For one thing, the messages do not arrive
+at half-second intervals. They arrive all at once, 2 seconds (2,000
+milliseconds) after we start the program. For another, this program never exits!
+Instead, it waits forever for new messages. You will need to shut it down using
+<span class="keystroke">ctrl-c</span>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: Extensible Concurrency with the Send and Sync Traits - The Rust Programming Language -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: <a class="header" href="#extensible-concurrency-with-the-send-and-sync-traits">Extensible Concurrency with the <code>Send</code> and <code>Sync</code> Traits</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: Interestingly, almost every concurrency feature we’ve talked about so far in
+this chapter has been part of the standard library, not the language. Your
+options for handling concurrency are not limited to the language or the standard
+library; you can write your own concurrency features or use those written by
+others. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: However, among the key concurrency concepts that are embedded in the language
+rather than the standard library are the <code>std::marker</code> traits <code>Send</code> and
+<code>Sync</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: The <code>Send</code> marker trait indicates that ownership of values of the type
+implementing <code>Send</code> can be transferred between threads. Almost every Rust type
+is <code>Send</code>, but there are some exceptions, including <code>Rc&lt;T&gt;</code>: this cannot
+implement <code>Send</code> because if you cloned an <code>Rc&lt;T&gt;</code> value and tried to transfer
+ownership of the clone to another thread, both threads might update the
+reference count at the same time. For this reason, <code>Rc&lt;T&gt;</code> is implemented for
+use in single-threaded situations where you don’t want to pay the thread-safe
+performance penalty. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: Therefore, Rust’s type system and trait bounds ensure that you can never
+accidentally send an <code>Rc&lt;T&gt;</code> value across threads unsafely. When we tried to do
+this in Listing 16-14, we got the error <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>. When we switched to <code>Arc&lt;T&gt;</code>, which does implement <code>Send</code>, the
+code compiled. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: The <code>Sync</code> marker trait indicates that it is safe for the type implementing
+<code>Sync</code> to be referenced from multiple threads. In other words, any type <code>T</code>
+implements  <code>Sync</code> if <code>&amp;T</code> (an immutable reference to <code>T</code>) implements <code>Send</code>,
+meaning the reference can be sent safely to another thread. Similar to <code>Send</code>,
+primitive types all implement <code>Sync</code>, and types composed entirely of types that
+implement <code>Sync</code> also implement <code>Sync</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: The smart pointer <code>Rc&lt;T&gt;</code> also doesn’t implement <code>Sync</code> for the same reasons
+that it doesn’t implement <code>Send</code>. The <code>RefCell&lt;T&gt;</code> type (which we talked about
+in Chapter 15) and the family of related <code>Cell&lt;T&gt;</code> types don’t implement <code>Sync</code>.
+The implementation of borrow checking that <code>RefCell&lt;T&gt;</code> does at runtime is not
+thread-safe. The smart pointer <code>Mutex&lt;T&gt;</code> implements <code>Sync</code> and can be used to
+share access with multiple threads as you saw in <a href="ch16-03-shared-state.html#sharing-a-mutext-between-multiple-threads">“Sharing a <code>Mutex&lt;T&gt;</code> Between
+Multiple Threads”</a><!-- ignore -->. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: Because types composed entirely of other types that implement the <code>Send</code> and
+<code>Sync</code> traits also automatically implement <code>Send</code> and <code>Sync</code>, we don’t have to
+implement those traits manually. As marker traits, they don’t even have any
+methods to implement. They’re just useful for enforcing invariants related to
+concurrency. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-04-extensible-concurrency-sync-and-send.html]: This isn’t the last you’ll see of concurrency in this book: the next chapter
+focuses on async programming, and the project in Chapter 21 will use the
+concepts in this chapter in a more realistic situation than the smaller examples
+discussed here. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: Message passing is a fine way to handle concurrency, but it’s not the only
+way. Another method would be for multiple threads to access the same shared
+data. Consider this part of the slogan from the Go language documentation
+again: “Do not communicate by sharing memory.” -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: In a way, channels in any programming language are similar to single ownership,
+because once you transfer a value down a channel, you should no longer use that
+value. Shared-memory concurrency is like multiple ownership: multiple threads
+can access the same memory location at the same time. As you saw in Chapter 15,
+where smart pointers made multiple ownership possible, multiple ownership can
+add complexity because these different owners need managing. Rust’s type system
+and ownership rules greatly assist in getting this management correct. For an
+example, let’s look at mutexes, one of the more common concurrency primitives
+for shared memory. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: <em>Mutex</em> is an abbreviation for <em>mutual exclusion</em>, as in a mutex allows only
+one thread to access some data at any given time. To access the data in a
+mutex, a thread must first signal that it wants access by asking to acquire the
+mutex’s <em>lock</em>. The lock is a data structure that is part of the mutex that
+keeps track of who currently has exclusive access to the data. Therefore, the
+mutex is described as <em>guarding</em> the data it holds via the locking system. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: As an example of how to use a mutex, let’s start by using a mutex in a
+single-threaded context, as shown in Listing 16-12. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: Now let’s try to share a value between multiple threads using <code>Mutex&lt;T&gt;</code>. We’ll
+spin up 10 threads and have them each increment a counter value by 1, so the
+counter goes from 0 to 10. The example in Listing 16-13 will have a compiler
+error, and we’ll use that error to learn more about using <code>Mutex&lt;T&gt;</code> and how
+Rust helps us use it correctly. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: The error message states that the <code>counter</code> value was moved in the previous
+iteration of the loop. Rust is telling us that we can’t move the ownership
+of lock <code>counter</code> into multiple threads. Let’s fix the compiler error with the
+multiple-ownership method we discussed in Chapter 15. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: In Chapter 15, we gave a value to multiple owners by using the smart pointer
+<code>Rc&lt;T&gt;</code> to create a reference counted value. Let’s do the same here and see
+what happens. We’ll wrap the <code>Mutex&lt;T&gt;</code> in <code>Rc&lt;T&gt;</code> in Listing 16-14 and clone
+the <code>Rc&lt;T&gt;</code> before moving ownership to the thread. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-03-shared-state.html]: Let’s return to our example: <code>Arc&lt;T&gt;</code> and <code>Rc&lt;T&gt;</code> have the same API, so we fix
+our program by changing the <code>use</code> line, the call to <code>new</code>, and the call to
+<code>clone</code>. The code in Listing 16-15 will finally compile and run. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: A channel has two halves: a transmitter and a receiver. The transmitter half is
+the upstream location where you put the rubber duck into the river, and the
+receiver half is where the rubber duck ends up downstream. One part of your
+code calls methods on the transmitter with the data you want to send, and
+another part checks the receiving end for arriving messages. A channel is said
+to be <em>closed</em> if either the transmitter or receiver half is dropped. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: Here, we’ll work up to a program that has one thread to generate values and
+send them down a channel, and another thread that will receive the values and
+print them out. We’ll be sending simple values between threads using a channel
+to illustrate the feature. Once you’re familiar with the technique, you could
+use channels for any threads that need to communicate with each other, such as
+a chat system or a system where many threads perform parts of a calculation and
+send the parts to one thread that aggregates the results. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: The <code>mpsc::channel</code> function returns a tuple, the first element of which is the
+sending end—the transmitter—and the second element of which is the receiving
+end—the receiver. The abbreviations <code>tx</code> and <code>rx</code> are traditionally used in many
+fields for <em>transmitter</em> and <em>receiver</em>, respectively, so we name our variables
+as such to indicate each end. We’re using a <code>let</code> statement with a pattern that
+destructures the tuples; we’ll discuss the use of patterns in <code>let</code> statements
+and destructuring in Chapter 19. For now, know that using a <code>let</code> statement this
+way is a convenient approach to extract the pieces of the tuple returned by
+<code>mpsc::channel</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: Again, we’re using <code>thread::spawn</code> to create a new thread and then using <code>move</code>
+to move <code>tx</code> into the closure so the spawned thread owns <code>tx</code>. The spawned
+thread needs to own the transmitter to be able to send messages through the
+channel. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: The ownership rules play a vital role in message sending because they help you
+write safe, concurrent code. Preventing errors in concurrent programming is the
+advantage of thinking about ownership throughout your Rust programs. Let’s do
+an experiment to show how channels and ownership work together to prevent
+problems: we’ll try to use a <code>val</code> value in the spawned thread <em>after</em> we’ve
+sent it down the channel. Try compiling the code in Listing 16-9 to see why
+this code isn’t allowed. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: This time, the spawned thread has a vector of strings that we want to send to
+the main thread. We iterate over them, sending each individually, and pause
+between each by calling the <code>thread::sleep</code> function with a <code>Duration</code> value of
+one second. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: When running the code in Listing 16-10, you should see the following output
+with a one-second pause in between each line: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-02-message-passing.html]: Earlier we mentioned that <code>mpsc</code> was an acronym for <em>multiple producer,
+single consumer</em>. Let’s put <code>mpsc</code> to use and expand the code in Listing 16-10
+to create multiple threads that all send values to the same receiver. We can do
+so by cloning the transmitter, as shown in Listing 16-11. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: We can fix the problem of the spawned thread not running or ending prematurely
+by saving the return value of <code>thread::spawn</code> in a variable. The return type of
+<code>thread::spawn</code> is <code>JoinHandle&lt;T&gt;</code>. A <code>JoinHandle&lt;T&gt;</code> is an owned value that,
+when we call the <code>join</code> method on it, will wait for its thread to finish.
+Listing 16-2 shows how to use the <code>JoinHandle&lt;T&gt;</code> of the thread we created in
+Listing 16-1 and how to call <code>join</code> to make sure the spawned thread finishes
+before <code>main</code> exits. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: We’ll often use the <code>move</code> keyword with closures passed to <code>thread::spawn</code>
+because the closure will then take ownership of the values it uses from the
+environment, thus transferring ownership of those values from one thread to
+another. In <a href="ch13-01-closures.html#capturing-the-environment-with-closures">“Capturing the Environment With Closures”</a><!-- ignore -->
+in Chapter 13, we discussed <code>move</code> in the context of closures. Now, we’ll
+concentrate more on the interaction between <code>move</code> and <code>thread::spawn</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: Rust <em>infers</em> how to capture <code>v</code>, and because <code>println!</code> only needs a reference
+to <code>v</code>, the closure tries to borrow <code>v</code>. However, there’s a problem: Rust can’t
+tell how long the spawned thread will run, so it doesn’t know whether the
+reference to <code>v</code> will always be valid. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: Notice in Listing 16-1 that the closure we pass to <code>thread::spawn</code> takes no
+arguments: we’re not using any data from the main thread in the spawned
+thread’s code. To use data from the main thread in the spawned thread, the
+spawned thread’s closure must capture the values it needs. Listing 16-3 shows
+an attempt to create a vector in the main thread and use it in the spawned
+thread. However, this won’t work yet, as you’ll see in a moment. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: If Rust allowed us to run this code, there’s a possibility that the spawned
+thread would be immediately put in the background without running at all. The
+spawned thread has a reference to <code>v</code> inside, but the main thread immediately
+drops <code>v</code>, using the <code>drop</code> function we discussed in Chapter 15. Then, when the
+spawned thread starts to execute, <code>v</code> is no longer valid, so a reference to it
+is also invalid. Oh no! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: By adding the <code>move</code> keyword before the closure, we force the closure to take
+ownership of the values it’s using rather than allowing Rust to infer that it
+should borrow the values. The modification to Listing 16-3 shown in Listing
+16-5 will compile and run as we intend. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-01-threads.html]: Now that we’ve covered what threads are and the methods supplied by the thread
+API, let’s look at some situations in which we can use threads. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch16-00-concurrency.html]: Note: For simplicity’s sake, we’ll refer to many of the problems as
+<em>concurrent</em> rather than being more precise by saying <em>concurrent and/or
+parallel</em>. For this chapter, please mentally substitute <em>concurrent
+and/or parallel</em> whenever we use <em>concurrent</em>. In the next chapter, where the
+distinction matters more, we’ll be more specific. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: Let’s look at how a reference cycle might happen and how to prevent it,
+starting with the definition of the <code>List</code> enum and a <code>tail</code> method in Listing
+15-25. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: The reference count of the <code>Rc&lt;List&gt;</code> instances in both <code>a</code> and <code>b</code> is 2 after
+we change the list in <code>a</code> to point to <code>b</code>. At the end of <code>main</code>, Rust drops the
+variable <code>b</code>, which decreases the reference count of the <code>b</code> <code>Rc&lt;List&gt;</code> instance
+from 2 to 1. The memory that <code>Rc&lt;List&gt;</code> has on the heap won’t be dropped at
+this point, because its reference count is 1, not 0. Then Rust drops <code>a</code>, which
+decreases the reference count of the <code>a</code> <code>Rc&lt;List&gt;</code> instance from 2 to 1 as
+well. This instance’s memory can’t be dropped either, because the other
+<code>Rc&lt;List&gt;</code> instance still refers to it. The memory allocated to the list will
+remain uncollected forever. To visualize this reference cycle, we’ve created the
+diagram in Figure 15-4. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: <a class="header" href="#preventing-reference-cycles-using-weakt">Preventing Reference Cycles Using <code>Weak&lt;T&gt;</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: Because the value that <code>Weak&lt;T&gt;</code> references might have been dropped, to do
+anything with the value that a <code>Weak&lt;T&gt;</code> is pointing to you must make sure the
+value still exists. Do this by calling the <code>upgrade</code> method on a <code>Weak&lt;T&gt;</code>
+instance, which will return an <code>Option&lt;Rc&lt;T&gt;&gt;</code>. You’ll get a result of <code>Some</code>
+if the <code>Rc&lt;T&gt;</code> value has not been dropped yet and a result of <code>None</code> if the
+<code>Rc&lt;T&gt;</code> value has been dropped. Because <code>upgrade</code> returns an <code>Option&lt;Rc&lt;T&gt;&gt;</code>,
+Rust will ensure that the <code>Some</code> case and the <code>None</code> case are handled, and
+there won’t be an invalid pointer. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: <a class="header" href="#creating-a-tree-data-structure-a-node-with-child-nodes">Creating a Tree Data Structure: A <code>Node</code> with Child Nodes</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: Next, we’ll use our struct definition and create one <code>Node</code> instance named
+<code>leaf</code> with the value <code>3</code> and no children, and another instance named <code>branch</code>
+with the value <code>5</code> and <code>leaf</code> as one of its children, as shown in Listing 15-27. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: To make the child node aware of its parent, we need to add a <code>parent</code> field to
+our <code>Node</code> struct definition. The trouble is in deciding what the type of
+<code>parent</code> should be. We know it can’t contain an <code>Rc&lt;T&gt;</code> because that would
+create a reference cycle with <code>leaf.parent</code> pointing to <code>branch</code> and
+<code>branch.children</code> pointing to <code>leaf</code>, which would cause their <code>strong_count</code>
+values to never be 0. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: So, instead of <code>Rc&lt;T&gt;</code>, we’ll make the type of <code>parent</code> use <code>Weak&lt;T&gt;</code>,
+specifically a <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code>. Now our <code>Node</code> struct definition looks
+like this: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: A node will be able to refer to its parent node but doesn’t own its parent.
+In Listing 15-28, we update <code>main</code> to use this new definition so the <code>leaf</code>
+node will have a way to refer to its parent, <code>branch</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: Let’s look at how the <code>strong_count</code> and <code>weak_count</code> values of the <code>Rc&lt;Node&gt;</code>
+instances change by creating a new inner scope and moving the creation of
+<code>branch</code> into that scope. By doing so, we can see what happens when <code>branch</code> is
+created and then dropped when it goes out of scope. The modifications are shown
+in Listing 15-29. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-06-reference-cycles.html]: After <code>leaf</code> is created, its <code>Rc&lt;Node&gt;</code> has a strong count of 1 and a weak
+count of 0. In the inner scope, we create <code>branch</code> and associate it with
+<code>leaf</code>, at which point when we print the counts, the <code>Rc&lt;Node&gt;</code> in <code>branch</code>
+will have a strong count of 1 and a weak count of 1 (for <code>leaf.parent</code> pointing
+to <code>branch</code> with a <code>Weak&lt;Node&gt;</code>). When we print the counts in <code>leaf</code>, we’ll see
+it will have a strong count of 2 because <code>branch</code> now has a clone of the
+<code>Rc&lt;Node&gt;</code> of <code>leaf</code> stored in <code>branch.children</code>, but will still have a weak
+count of 0. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: Unlike <code>Rc&lt;T&gt;</code>, the <code>RefCell&lt;T&gt;</code> type represents single ownership over the data
+it holds. So what makes <code>RefCell&lt;T&gt;</code> different from a type like <code>Box&lt;T&gt;</code>?
+Recall the borrowing rules you learned in Chapter 4: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: At any given time, you can have <em>either</em> one mutable reference or any number
+of immutable references (but not both). -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: Sometimes during testing a programmer will use a type in place of another type,
+in order to observe particular behavior and assert that it’s implemented
+correctly. This placeholder type is called a <em>test double</em>. Think of it in the
+sense of a stunt double in filmmaking, where a person steps in and substitutes
+for an actor to do a particularly tricky scene. Test doubles stand in for other
+types when we’re running tests. <em>Mock objects</em> are specific types of test
+doubles that record what happens during a test so you can assert that the
+correct actions took place. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: Our library will only provide the functionality of tracking how close to the
+maximum a value is and what the messages should be at what times. Applications
+that use our library will be expected to provide the mechanism for sending the
+messages: the application could put a message in the application, send an email,
+send a text message, or do something else. The library doesn’t need to know that
+detail. All it needs is something that implements a trait we’ll provide called
+<code>Messenger</code>. Listing 15-20 shows the library code. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: We need a mock object that, instead of sending an email or text message when we
+call <code>send</code>, will only keep track of the messages it’s told to send. We can
+create a new instance of the mock object, create a <code>LimitTracker</code> that uses the
+mock object, call the <code>set_value</code> method on <code>LimitTracker</code>, and then check that
+the mock object has the messages we expect. Listing 15-21 shows an attempt to
+implement a mock object to do just that, but the borrow checker won’t allow it. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: This is a situation in which interior mutability can help! We’ll store the
+<code>sent_messages</code> within a <code>RefCell&lt;T&gt;</code>, and then the <code>send</code> method will be
+able to modify <code>sent_messages</code> to store the messages we’ve seen. Listing 15-22
+shows what that looks like. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: The <code>RefCell&lt;T&gt;</code> keeps track of how many <code>Ref&lt;T&gt;</code> and <code>RefMut&lt;T&gt;</code> smart
+pointers are currently active. Every time we call <code>borrow</code>, the <code>RefCell&lt;T&gt;</code>
+increases its count of how many immutable borrows are active. When a <code>Ref&lt;T&gt;</code>
+value goes out of scope, the count of immutable borrows goes down by 1. Just
+like the compile-time borrowing rules, <code>RefCell&lt;T&gt;</code> lets us have many immutable
+borrows or one mutable borrow at any point in time. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: <a class="header" href="#allowing-multiple-owners-of-mutable-data-with-rct-and-refcellt">Allowing Multiple Owners of Mutable Data with <code>Rc&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: For example, recall the cons list example in Listing 15-18 where we used <code>Rc&lt;T&gt;</code>
+to allow multiple lists to share ownership of another list. Because <code>Rc&lt;T&gt;</code>
+holds only immutable values, we can’t change any of the values in the list once
+we’ve created them. Let’s add in <code>RefCell&lt;T&gt;</code> for its ability to change the
+values in the lists. Listing 15-24 shows that by using a <code>RefCell&lt;T&gt;</code> in the
+<code>Cons</code> definition, we can modify the value stored in all the lists. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: After we’ve created the lists in <code>a</code>, <code>b</code>, and <code>c</code>, we want to add 10 to the
+value in <code>value</code>. We do this by calling <code>borrow_mut</code> on <code>value</code>, which uses the
+automatic dereferencing feature we discussed in <a href="ch05-03-method-syntax.html#wheres-the---operator">“Where’s the <code>-&gt;</code>
+Operator?”</a><!-- ignore -->) in Chapter 5 to dereference
+the <code>Rc&lt;T&gt;</code> to the inner <code>RefCell&lt;T&gt;</code> value. The <code>borrow_mut</code> method returns a
+<code>RefMut&lt;T&gt;</code> smart pointer, and we use the dereference operator on it and change
+the inner value. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-05-interior-mutability.html]: This technique is pretty neat! By using <code>RefCell&lt;T&gt;</code>, we have an outwardly
+immutable <code>List</code> value. But we can use the methods on <code>RefCell&lt;T&gt;</code> that provide
+access to its interior mutability so we can modify our data when we need to.
+The runtime checks of the borrowing rules protect us from data races, and it’s
+sometimes worth trading a bit of speed for this flexibility in our data
+structures. Note that <code>RefCell&lt;T&gt;</code> does not work for multithreaded code!
+<code>Mutex&lt;T&gt;</code> is the thread-safe version of <code>RefCell&lt;T&gt;</code>, and we’ll discuss
+<code>Mutex&lt;T&gt;</code> in Chapter 16. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-04-rc.html]: Imagine <code>Rc&lt;T&gt;</code> as a TV in a family room. When one person enters to watch TV,
+they turn it on. Others can come into the room and watch the TV. When the last
+person leaves the room, they turn off the TV because it’s no longer being used.
+If someone turns off the TV while others are still watching it, there would be
+an uproar from the remaining TV watchers! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-04-rc.html]: Let’s return to our cons list example in Listing 15-5. Recall that we defined
+it using <code>Box&lt;T&gt;</code>. This time, we’ll create two lists that both share ownership
+of a third list. Conceptually, this looks similar to Figure 15-3. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-04-rc.html]: At each point in the program where the reference count changes, we print the
+reference count, which we get by calling the <code>Rc::strong_count</code> function. This
+function is named <code>strong_count</code> rather than <code>count</code> because the <code>Rc&lt;T&gt;</code> type
+also has a <code>weak_count</code>; we’ll see what <code>weak_count</code> is used for in <a href="ch15-06-reference-cycles.html#preventing-reference-cycles-turning-an-rct-into-a-weakt">“Preventing
+Reference Cycles Using <code>Weak&lt;T&gt;</code>”</a><!-- ignore -->. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: In some languages, for some types, the programmer must call code to free memory
+or resources every time they finish using an instance of those types. Examples
+include file handles, sockets, and locks. If they forget, the system might
+become overloaded and crash. In Rust, you can specify that a particular bit of
+code be run whenever a value goes out of scope, and the compiler will insert
+this code automatically. As a result, you don’t need to be careful about
+placing cleanup code everywhere in a program that an instance of a particular
+type is finished with—you still won’t leak resources! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: Listing 15-14 shows a <code>CustomSmartPointer</code> struct whose only custom
+functionality is that it will print <code>Dropping CustomSmartPointer!</code> when the
+instance goes out of scope, to show when Rust runs the <code>drop</code> method. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: The <code>Drop</code> trait is included in the prelude, so we don’t need to bring it into
+scope. We implement the <code>Drop</code> trait on <code>CustomSmartPointer</code> and provide an
+implementation for the <code>drop</code> method that calls <code>println!</code>. The body of the
+<code>drop</code> method is where you would place any logic that you wanted to run when an
+instance of your type goes out of scope. We’re printing some text here to
+demonstrate visually when Rust will call <code>drop</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: Unfortunately, it’s not straightforward to disable the automatic <code>drop</code>
+functionality. Disabling <code>drop</code> isn’t usually necessary; the whole point of the
+<code>Drop</code> trait is that it’s taken care of automatically. Occasionally, however,
+you might want to clean up a value early. One example is when using smart
+pointers that manage locks: you might want to force the <code>drop</code> method that
+releases the lock so that other code in the same scope can acquire the lock.
+Rust doesn’t let you call the <code>Drop</code> trait’s <code>drop</code> method manually; instead,
+you have to call the <code>std::mem::drop</code> function provided by the standard library
+if you want to force a value to be dropped before the end of its scope. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: If we try to call the <code>Drop</code> trait’s <code>drop</code> method manually by modifying the
+<code>main</code> function from Listing 15-14, as shown in Listing 15-15, we’ll get a
+compiler error. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-03-drop.html]: The <code>std::mem::drop</code> function is different from the <code>drop</code> method in the <code>Drop</code>
+trait. We call it by passing as an argument the value we want to force-drop.
+The function is in the prelude, so we can modify <code>main</code> in Listing 15-15 to
+call the <code>drop</code> function, as shown in Listing 15-16. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: Treating Smart Pointers Like Regular References with Deref - The Rust Programming Language -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: <a class="header" href="#treating-smart-pointers-like-regular-references-with-deref">Treating Smart Pointers Like Regular References with <code>Deref</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: A regular reference is a type of pointer, and one way to think of a pointer is
+as an arrow to a value stored somewhere else. In Listing 15-6, we create a
+reference to an <code>i32</code> value and then use the dereference operator to follow the
+reference to the value. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: The main difference between Listing 15-7 and Listing 15-6 is that here we set
+<code>y</code> to be an instance of a box pointing to a copied value of <code>x</code> rather than a
+reference pointing to the value of <code>x</code>. In the last assertion, we can use the
+dereference operator to follow the box’s pointer in the same way that we did
+when <code>y</code> was a reference. Next, we’ll explore what is special about <code>Box&lt;T&gt;</code>
+that enables us to use the dereference operator by defining our own type. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: We define a struct named <code>MyBox</code> and declare a generic parameter <code>T</code> because
+we want our type to hold values of any type. The <code>MyBox</code> type is a tuple struct
+with one element of type <code>T</code>. The <code>MyBox::new</code> function takes one parameter of
+type <code>T</code> and returns a <code>MyBox</code> instance that holds the value passed in. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: Here’s the resultant compilation error: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: As discussed in <a href="ch10-02-traits.html#implementing-a-trait-on-a-type">“Implementing a Trait on a Type”</a><!-- ignore --> in
+Chapter 10, to implement a trait, we need to provide implementations for the
+trait’s required methods. The <code>Deref</code> trait, provided by the standard library,
+requires us to implement one method named <code>deref</code> that borrows <code>self</code> and
+returns a reference to the inner data. Listing 15-10 contains an implementation
+of <code>Deref</code> to add to the definition of <code>MyBox&lt;T&gt;</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: We fill in the body of the <code>deref</code> method with <code>&amp;self.0</code> so <code>deref</code> returns a
+reference to the value we want to access with the <code>*</code> operator; recall from
+<a href="ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types">“Using Tuple Structs Without Named Fields to Create Different
+Types”</a><!-- ignore --> in Chapter 5 that <code>.0</code> accesses the first
+value in a tuple struct. The <code>main</code> function in Listing 15-9 that calls <code>*</code> on
+the <code>MyBox&lt;T&gt;</code> value now compiles, and the assertions pass! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: The reason the <code>deref</code> method returns a reference to a value, and that the
+plain dereference outside the parentheses in <code>*(y.deref())</code> is still necessary,
+has to do with the ownership system. If the <code>deref</code> method returned the value
+directly instead of a reference to the value, the value would be moved out of
+<code>self</code>. We don’t want to take ownership of the inner value inside <code>MyBox&lt;T&gt;</code> in
+this case or in most cases where we use the dereference operator. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: To see deref coercion in action, let’s use the <code>MyBox&lt;T&gt;</code> type we defined in
+Listing 15-8 as well as the implementation of <code>Deref</code> that we added in Listing
+15-10. Listing 15-11 shows the definition of a function that has a string slice
+parameter. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: We can call the <code>hello</code> function with a string slice as an argument, such as
+<code>hello("Rust");</code>, for example. Deref coercion makes it possible to call <code>hello</code>
+with a reference to a value of type <code>MyBox&lt;String&gt;</code>, as shown in Listing 15-12. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-02-deref.html]: The first two cases are the same except that the second implements mutability.
+The first case states that if you have a <code>&amp;T</code>, and <code>T</code> implements <code>Deref</code> to
+some type <code>U</code>, you can get a <code>&amp;U</code> transparently. The second case states that the
+same deref coercion happens for mutable references. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: We’ll demonstrate the first situation in <a href="#enabling-recursive-types-with-boxes">“Enabling Recursive Types with
+Boxes”</a><!-- ignore -->. In the second
+case, transferring ownership of a large amount of data can take a long time
+because the data is copied around on the stack. To improve performance in this
+situation, we can store the large amount of data on the heap in a box. Then,
+only the small amount of pointer data is copied around on the stack, while the
+data it references stays in one place on the heap. The third case is known as a
+<em>trait object</em>, and <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects That Allow for Values of Different
+Types,”</a><!-- ignore --> in Chapter 18 is devoted to that topic.
+So what you learn here you’ll apply again in that section! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: <a class="header" href="#using-boxt-to-store-data-on-the-heap">Using <code>Box&lt;T&gt;</code> to Store Data on the Heap</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: Listing 15-1 shows how to use a box to store an <code>i32</code> value on the heap. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: A value of a <em>recursive type</em> can have another value of the same type as part of
+itself. Recursive types pose an issue because Rust needs to know at compile time
+how much space a type takes up. However, the nesting of values of recursive
+types could theoretically continue infinitely, so Rust can’t know how much space
+the value needs. Because boxes have a known size, we can enable recursive types
+by inserting a box in the recursive type definition. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: A <em>cons list</em> is a data structure that comes from the Lisp programming language
+and its dialects, is made up of nested pairs, and is the Lisp version of a
+linked list. Its name comes from the <code>cons</code> function (short for <em>construct
+function</em>) in Lisp that constructs a new pair from its two arguments. By
+calling <code>cons</code> on a pair consisting of a value and another pair, we can
+construct cons lists made up of recursive pairs. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: Using the <code>List</code> type to store the list <code>1, 2, 3</code> would look like the code in
+Listing 15-3. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: If we try to compile the code in Listing 15-3, we get the error shown in
+Listing 15-4. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: The error shows this type “has infinite size.” The reason is that we’ve defined
+<code>List</code> with a variant that is recursive: it holds another value of itself
+directly. As a result, Rust can’t figure out how much space it needs to store a
+<code>List</code> value. Let’s break down why we get this error. First we’ll look at how
+Rust decides how much space it needs to store a value of a non-recursive type. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: In this suggestion, <em>indirection</em> means that instead of storing a value
+directly, we should change the data structure to store the value indirectly by
+storing a pointer to the value instead. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: We can change the definition of the <code>List</code> enum in Listing 15-2 and the usage
+of the <code>List</code> in Listing 15-3 to the code in Listing 15-5, which will compile. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-01-box.html]: Boxes provide only the indirection and heap allocation; they don’t have any
+other special capabilities, like those we’ll see with the other smart pointer
+types. They also don’t have the performance overhead that these special
+capabilities incur, so they can be useful in cases like the cons list where the
+indirection is the only feature we need. We’ll look at more use cases for boxes
+in Chapter 18. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-00-smart-pointers.html]: A <em>pointer</em> is a general concept for a variable that contains an address in
+memory. This address refers to, or “points at,” some other data. The most
+common kind of pointer in Rust is a reference, which you learned about in
+Chapter 4. References are indicated by the <code>&amp;</code> symbol and borrow the value they
+point to. They don’t have any special capabilities other than referring to
+data, and they have no overhead. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-00-smart-pointers.html]: Rust, with its concept of ownership and borrowing, has an additional difference
+between references and smart pointers: while references only borrow data, in
+many cases smart pointers <em>own</em> the data they point to. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-00-smart-pointers.html]: Though we didn’t call them as such at the time, we’ve already encountered a few
+smart pointers in this book, including <code>String</code> and <code>Vec&lt;T&gt;</code> in Chapter 8. Both
+of these types count as smart pointers because they own some memory and allow
+you to manipulate it. They also have metadata and extra capabilities or
+guarantees. <code>String</code>, for example, stores its capacity as metadata and has the
+extra ability to ensure its data will always be valid UTF-8. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch15-00-smart-pointers.html]: <code>Box&lt;T&gt;</code>, for allocating values on the heap -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-05-extending-cargo.html]: Cargo is designed so you can extend it with new subcommands without having to
+modify it. If a binary in your <code>$PATH</code> is named <code>cargo-something</code>, you can run
+it as if it were a Cargo subcommand by running <code>cargo something</code>. Custom
+commands like this are also listed when you run <code>cargo --list</code>. Being able to
+use <code>cargo install</code> to install extensions and then run them just like the
+built-in Cargo tools is a super convenient benefit of Cargo’s design! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-04-installing-binaries.html]: The second-to-last line of the output shows the location and the name of the
+installed binary, which in the case of <code>ripgrep</code> is <code>rg</code>. As long as the
+installation directory is in your <code>$PATH</code>, as mentioned previously, you can
+then run <code>rg --help</code> and start using a faster, Rustier tool for searching files! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: A <em>workspace</em> is a set of packages that share the same <em>Cargo.lock</em> and output
+directory. Let’s make a project using a workspace—we’ll use trivial code so we
+can concentrate on the structure of the workspace. There are multiple ways to
+structure a workspace, so we’ll just show one common way. We’ll have a
+workspace containing a binary and two libraries. The binary, which will provide
+the main functionality, will depend on the two libraries. One library will
+provide an <code>add_one</code> function and the other library an <code>add_two</code> function.
+These three crates will be part of the same workspace. We’ll start by creating
+a new directory for the workspace: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: Next, in the <em>add</em> directory, we create the <em>Cargo.toml</em> file that will
+configure the entire workspace. This file won’t have a <code>[package]</code> section.
+Instead, it will start with a <code>[workspace]</code> section that will allow us to add
+members to the workspace. We also make a point to use the latest and greatest
+version of Cargo’s resolver algorithm in our workspace by setting the
+<code>resolver</code> to <code>"3"</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: Next, let’s create another member package in the workspace and call it
+<code>add_one</code>. Generate a new library crate named <code>add_one</code>: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: The top-level <em>Cargo.toml</em> will now include the <em>add_one</em> path in the <code>members</code>
+list: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: Now we can have the <code>adder</code> package with our binary depend on the <code>add_one</code>
+package that has our library. First we’ll need to add a path dependency on
+<code>add_one</code> to <em>adder/Cargo.toml</em>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: To fix this, edit the <em>Cargo.toml</em> file for the <code>adder</code> package and indicate
+that <code>rand</code> is a dependency for it as well. Building the <code>adder</code> package will
+add <code>rand</code> to the list of dependencies for <code>adder</code> in <em>Cargo.lock</em>, but no
+additional copies of <code>rand</code> will be downloaded. Cargo will ensure that every
+crate in every package in the workspace using the <code>rand</code> package will use the
+same version as long as they specify compatible versions of <code>rand</code>, saving us
+space and ensuring that the crates in the workspace will be compatible with each
+other. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-03-cargo-workspaces.html]: As your project grows, consider using a workspace: it enables you to work with
+smaller, easier-to-understand components than one big blob of code. Furthermore,
+keeping the crates in a workspace can make coordination between crates easier if
+they are often changed at the same time. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-02-publishing-to-crates-io.html]: Adding example code blocks in your documentation comments can help demonstrate
+how to use your library, and doing so has an additional bonus: running <code>cargo test</code> will run the code examples in your documentation as tests! Nothing is
+better than documentation with examples. But nothing is worse than examples
+that don’t work because the code has changed since the documentation was
+written. If we run <code>cargo test</code> with the documentation for the <code>add_one</code>
+function from Listing 14-1, we will see a section in the test results that looks
+like this: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-02-publishing-to-crates-io.html]: Now, if we change either the function or the example so the <code>assert_eq!</code> in the
+example panics and run <code>cargo test</code> again, we’ll see that the doc tests catch
+that the example and the code are out of sync with each other! -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-02-publishing-to-crates-io.html]: When we run <code>cargo doc --open</code>, these comments will display on the front
+page of the documentation for <code>my_crate</code> above the list of public items in the
+crate, as shown in Figure 14-2. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-02-publishing-to-crates-io.html]: This results in an error because you’re missing some crucial information: a
+description and license are required so people will know what your crate does
+and under what terms they can use it. In <em>Cargo.toml</em>, add a description that’s
+just a sentence or two, because it will appear with your crate in search
+results. For the <code>license</code> field, you need to give a <em>license identifier value</em>.
+The <a href="http://spdx.org/licenses/">Linux Foundation’s Software Package Data Exchange (SPDX)</a> lists the
+identifiers you can use for this value. For example, to specify that you’ve
+licensed your crate using the MIT License, add the <code>MIT</code> identifier: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch14-01-release-profiles.html]: The <code>opt-level</code> setting controls the number of optimizations Rust will apply to
+your code, with a range of 0 to 3. Applying more optimizations extends
+compiling time, so if you’re in development and compiling your code often,
+you’ll want fewer optimizations to compile faster even if the resultant code
+runs slower. The default <code>opt-level</code> for <code>dev</code> is therefore <code>0</code>. When you’re
+ready to release your code, it’s best to spend more time compiling. You’ll only
+compile in release mode once, but you’ll run the compiled program many times,
+so release mode trades longer compile time for code that runs faster. That is
+why the default <code>opt-level</code> for the <code>release</code> profile is <code>3</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-04-performance.html]: For a more comprehensive benchmark, you should check using various texts of
+various sizes as the <code>contents</code>, different words and words of different lengths
+as the <code>query</code>, and all kinds of other variations. The point is this:
+iterators, although a high-level abstraction, get compiled down to roughly the
+same code as if you’d written the lower-level code yourself. Iterators are one
+of Rust’s <em>zero-cost abstractions</em>, by which we mean that using the abstraction
+imposes no additional runtime overhead. This is analogous to how Bjarne
+Stroustrup, the original designer and implementor of C++, defines
+<em>zero-overhead</em> in “Foundations of C++” (2012): -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-04-performance.html]: All of the coefficients get stored in registers, which means accessing the
+values is very fast. There are no bounds checks on the array access at runtime.
+All these optimizations that Rust is able to apply make the resultant code
+extremely efficient. Now that you know this, you can use iterators and closures
+without fear! They make code seem like it’s higher level but don’t impose a
+runtime performance penalty for doing so. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-03-improving-our-io-project.html]: In Listing 12-6, we added code that took a slice of <code>String</code> values and created
+an instance of the <code>Config</code> struct by indexing into the slice and cloning the
+values, allowing the <code>Config</code> struct to own those values. In Listing 13-17,
+we’ve reproduced the implementation of the <code>Config::build</code> function as it was
+in Listing 12-23. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-03-improving-our-io-project.html]: Next, we’ll fix the body of <code>Config::build</code>. Because <code>args</code> implements the
+<code>Iterator</code> trait, we know we can call the <code>next</code> method on it! Listing 13-20
+updates the code from Listing 12-23 to use the <code>next</code> method. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-03-improving-our-io-project.html]: Remember that the first value in the return value of <code>env::args</code> is the name of
+the program. We want to ignore that and get to the next value, so first we call
+<code>next</code> and do nothing with the return value. Then we call <code>next</code> to get the
+value we want to put in the <code>query</code> field of <code>Config</code>. If <code>next</code> returns <code>Some</code>,
+we use a <code>match</code> to extract the value. If it returns <code>None</code>, it means not enough
+arguments were given and we return early with an <code>Err</code> value. We do the same
+thing for the <code>file_path</code> value. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-03-improving-our-io-project.html]: Recall that the purpose of the <code>search</code> function is to return all lines in
+<code>contents</code> that contain the <code>query</code>. Similar to the <code>filter</code> example in Listing
+13-16, this code uses the <code>filter</code> adapter to keep only the lines for which
+<code>line.contains(query)</code> returns <code>true</code> for. We then collect the matching lines
+into another vector with <code>collect</code>. Much simpler! Feel free to make the same
+change to use iterator methods in the <code>search_case_insensitive</code> function as
+well. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-03-improving-our-io-project.html]: But are the two implementations truly equivalent? The intuitive assumption
+might be that the lower-level loop will be faster. Let’s talk about performance. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: Iterators handle all of that logic for you, cutting down on repetitive code you
+could potentially mess up. Iterators give you more flexibility to use the same
+logic with many different kinds of sequences, not just data structures you can
+index into, like vectors. Let’s examine how iterators do that. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: Notice that this definition uses some new syntax: <code>type Item</code> and <code>Self::Item</code>,
+which are defining an <em>associated type</em> with this trait. We’ll talk about
+associated types in depth in Chapter 20. For now, all you need to know is that
+this code says implementing the <code>Iterator</code> trait requires that you also define
+an <code>Item</code> type, and this <code>Item</code> type is used in the return type of the <code>next</code>
+method. In other words, the <code>Item</code> type will be the type returned from the
+iterator. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: The <code>Iterator</code> trait only requires implementors to define one method: the
+<code>next</code> method, which returns one item of the iterator at a time, wrapped in
+<code>Some</code> and, when iteration is over, returns <code>None</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: <a class="header" href="#methods-that-consume-the-iterator">Methods That Consume the Iterator</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: Methods that call <code>next</code> are called <em>consuming adapters</em> because calling them
+uses up the iterator. One example is the <code>sum</code> method, which takes ownership of
+the iterator and iterates through the items by repeatedly calling <code>next</code>, thus
+consuming the iterator. As it iterates through, it adds each item to a running
+total and returns the total when iteration is complete. Listing 13-13 has a
+test illustrating a use of the <code>sum</code> method. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: To fix this warning and consume the iterator, we’ll use the <code>collect</code> method,
+which we used in Chapter 12 with <code>env::args</code> in Listing 12-1. This method
+consumes the iterator and collects the resultant values into a collection data
+type. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: In Listing 13-15, we collect the results of iterating over the iterator that’s
+returned from the call to <code>map</code> into a vector. This vector will end up
+containing each item from the original vector, incremented by 1. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-02-iterators.html]: <a class="header" href="#using-closures-that-capture-their-environment">Using Closures That Capture Their Environment</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-01-closures.html]: <a class="header" href="#closures-anonymous-functions-that-capture-their-environment">Closures: Anonymous Functions That Capture Their Environment</a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-01-closures.html]: Again, this code could be implemented in many ways, and here, to focus on
+closures, we’ve stuck to concepts you’ve already learned, except for the body of
+the <code>giveaway</code> method that uses a closure. In the <code>giveaway</code> method, we get the
+user preference as a parameter of type <code>Option&lt;ShirtColor&gt;</code> and call the
+<code>unwrap_or_else</code> method on <code>user_preference</code>. The <a href="../std/option/enum.Option.html#method.unwrap_or_else"><code>unwrap_or_else</code> method on
+<code>Option&lt;T&gt;</code></a><!-- ignore --> is defined by the standard library.
+It takes one argument: a closure without any arguments that returns a value <code>T</code>
+(the same type stored in the <code>Some</code> variant of the <code>Option&lt;T&gt;</code>, in this case
+<code>ShirtColor</code>). If the <code>Option&lt;T&gt;</code> is the <code>Some</code> variant, <code>unwrap_or_else</code>
+returns the value from within the <code>Some</code>. If the <code>Option&lt;T&gt;</code> is the <code>None</code>
+variant, <code>unwrap_or_else</code> calls the closure and returns the value returned by
+the closure. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-01-closures.html]: <code>FnOnce</code> applies to closures that can be called once. All closures implement
+at least this trait because all closures can be called. A closure that moves
+captured values out of its body will only implement <code>FnOnce</code> and none of the
+other <code>Fn</code> traits, because it can only be called once. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-01-closures.html]: This is a contrived, convoluted way (that doesn’t work) to try and count the
+number of times <code>sort_by_key</code> calls the closure when sorting <code>list</code>. This code
+attempts to do this counting by pushing <code>value</code>—a <code>String</code> from the closure’s
+environment—into the <code>sort_operations</code> vector. The closure captures <code>value</code> and
+then moves <code>value</code> out of the closure by transferring ownership of <code>value</code> to
+the <code>sort_operations</code> vector. This closure can be called once; trying to call
+it a second time wouldn’t work because <code>value</code> would no longer be in the
+environment to be pushed into <code>sort_operations</code> again! Therefore, this closure
+only implements <code>FnOnce</code>. When we try to compile this code, we get this error
+that <code>value</code> can’t be moved out of the closure because the closure must
+implement <code>FnMut</code>: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-01-closures.html]: The error points to the line in the closure body that moves <code>value</code> out of the
+environment. To fix this, we need to change the closure body so that it doesn’t
+move values out of the environment. Keeping a counter in the environment and
+incrementing its value in the closure body is a more straightforward way to
+count the number of times the closure is called. The closure in Listing 13-9
+works with <code>sort_by_key</code> because it is only capturing a mutable reference to the
+<code>num_sort_operations</code> counter and can therefore be called more than once: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch13-00-functional-features.html]: The performance of closures and iterators (spoiler alert: they’re faster than
+you might think!) -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch12-05-working-with-environment-variables.html]: First we lowercase the <code>query</code> string and store it in a new variable with the
+same name, shadowing the original <code>query</code>. Calling <code>to_lowercase</code> on the query
+is necessary so that no matter whether the user’s query is <code>"rust"</code>, <code>"RUST"</code>,
+<code>"Rust"</code>, or <code>"rUsT"</code>, we’ll treat the query as if it were <code>"rust"</code> and be
+insensitive to the case. While <code>to_lowercase</code> will handle basic Unicode, it
+won’t be 100% accurate. If we were writing a real application, we’d want to do a
+bit more work here, but this section is about environment variables, not
+Unicode, so we’ll leave it at that here. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch11-01-writing-tests.html]: Note that in some languages and test frameworks, the parameters to equality
+assertion functions are called <code>expected</code> and <code>actual</code>, and the order in which
+we specify the arguments matters. However, in Rust, they’re called <code>left</code> and
+<code>right</code>, and the order in which we specify the value we expect and the value the
+code produces doesn’t matter. We could write the assertion in this test as
+<code>assert_eq!(add_two(2), result)</code>, which would result in the same failure message
+that displays <code>assertion failed: `(left == right)`</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch10-03-lifetime-syntax.html]: The elision rules don’t provide full inference. If there is still ambiguity
+about what lifetimes the references have after Rust applies the rules, the
+compiler won’t guess what the lifetime of the remaining references should be.
+Instead of guessing, the compiler will give you an error that you can resolve by
+adding the lifetime annotations. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch07-01-packages-and-crates.html]: A <em>package</em> is a bundle of one or more crates that provides a set of
+functionality. A package contains a <em>Cargo.toml</em> file that describes how to
+build those crates. Cargo is actually a package that contains the binary crate
+for the command line tool you’ve been using to build your code. The Cargo
+package also contains a library crate that the binary crate depends on. Other
+projects can depend on the Cargo library crate to use the same logic the Cargo
+command line tool uses. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch07-01-packages-and-crates.html]: A package can contain as many binary crates as you like, but at most only one
+library crate. A package must contain at least one crate, whether that’s a
+library or binary crate. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch06-03-if-let.html]: That gets the job done, but it has pushed the work into the body of the <code>if let</code>
+statement, and if the work to be done is more complicated, it might be hard to
+follow exactly how the top-level branches relate. We could also take advantage
+of the fact that expressions produce a value either to produce the <code>state</code> from
+the <code>if let</code> or to return early, as in Listing 6-8. (You could do similar with a
+<code>match</code>, too.) -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch06-03-if-let.html]: <a class="header" href="#staying-on-the-happy-path-with-letelse">Staying on the “Happy Path” with <code>let...else</code></a> -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch06-03-if-let.html]: To make this common pattern nicer to express, Rust has <code>let...else</code>. The
+<code>let...else</code> syntax takes a pattern on the left side and an expression on the
+right, very similar to <code>if let</code>, but it does not have an <code>if</code> branch, only an
+<code>else</code> branch. If the pattern matches, it will bind the value from the pattern
+in the outer scope. If the pattern does <em>not</em> match, the program will flow into
+the <code>else</code> arm, which must return from the function. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch06-03-if-let.html]: In Listing 6-9, you can see how Listing 6-8 looks when using <code>let...else</code> in
+place of <code>if let</code>. Notice that it stays “on the happy path” in the main body of
+the function this way, without having significantly different control flow for
+two branches the way the <code>if let</code> did. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch06-03-if-let.html]: If you have a situation in which your program has logic that is too verbose to
+express using a <code>match</code>, remember that <code>if let</code> and <code>let...else</code> are in your
+Rust toolbox as well. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch05-02-example-structs.html]: Here, we’ve defined a struct and named it <code>Rectangle</code>. Inside the curly
+brackets, we defined the fields as <code>width</code> and <code>height</code>, both of which have
+type <code>u32</code>. Then, in <code>main</code>, we created a particular instance of <code>Rectangle</code>
+that has a width of <code>30</code> and a height of <code>50</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch00-00-introduction.html]: In Chapter 16, we’ll walk through different models of concurrent programming and
+talk about how Rust helps you to program in multiple threads fearlessly. In
+Chapter 17, we build on that by exploring Rust’s async and await syntax, along
+with tasks, futures, and streams, and the lightweight concurrency model they
+enable. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/ch00-00-introduction.html]: Chapter 18 looks at how Rust idioms compare to object-oriented programming
+principles you might be familiar with. Chapter 19 is a reference on patterns and
+pattern matching, which are powerful ways of expressing ideas throughout Rust
+programs. Chapter 20 contains a smorgasbord of advanced topics of interest,
+including unsafe Rust, macros, and more about lifetimes, traits, types,
+functions, and closures. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-05-editions.html]: Every three years or so, the Rust team produces a new Rust <em>edition</em>. Each
+edition brings together the features that have landed into a clear package with
+fully updated documentation and tooling. New editions ship as part of the usual
+six-week release process. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-04-useful-development-tools.html]: Rust installations include rustfmt by default, so you should already have the
+programs <code>rustfmt</code> and <code>cargo-fmt</code> on your system. These two commands are
+analogous to <code>rustc</code> and <code>cargo</code> in that <code>rustfmt</code> allows finer-grained control
+and <code>cargo-fmt</code> understands conventions of a project that uses Cargo. To format
+any Cargo project, enter the following: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-04-useful-development-tools.html]: Running this command reformats all the Rust code in the current crate. This
+should only change the code style, not the code semantics. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-04-useful-development-tools.html]: Here, we’re defining the variable <code>x</code> as mutable, but we never actually mutate
+it. Rust warns us about that: -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-04-useful-development-tools.html]: The Clippy tool is a collection of lints to analyze your code so you can catch
+common mistakes and improve your Rust code. Clippy is included with standard
+Rust installations. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: If you want different behavior from that provided by the <code>derive</code> attribute,
+consult the <a href="../std/index.html">standard library documentation</a><!-- ignore -->
+for each trait for details on how to manually implement them. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: The traits listed here are the only ones defined by the standard library that
+can be implemented on your types using <code>derive</code>. Other traits defined in the
+standard library don’t have sensible default behavior, so it’s up to you to
+implement them in the way that makes sense for what you’re trying to accomplish. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: The <code>Debug</code> trait is required, for example, in the use of the <code>assert_eq!</code>
+macro. This macro prints the values of instances given as arguments if the
+equality assertion fails so programmers can see why the two instances weren’t
+equal. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: Deriving <code>PartialOrd</code> implements the <code>partial_cmp</code> method, which returns an
+<code>Option&lt;Ordering&gt;</code> that will be <code>None</code> when the values given don’t produce an
+ordering. An example of a value that doesn’t produce an ordering, even though
+most values of that type can be compared, is the not-a-number (<code>NaN</code>) floating
+point value. Calling <code>partial_cmp</code> with any floating-point number and the <code>NaN</code>
+floating-point value will return <code>None</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: An example of when <code>Clone</code> is required is when calling the <code>to_vec</code> method on a
+slice. The slice doesn’t own the type instances it contains, but the vector
+returned from <code>to_vec</code> will need to own its instances, so <code>to_vec</code> calls
+<code>clone</code> on each item. Thus the type stored in the slice must implement <code>Clone</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-03-derivable-traits.html]: The <code>Default::default</code> function is commonly used in combination with the struct
+update syntax discussed in <a href="ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax">“Creating Instances from Other Instances with Struct
+Update
+Syntax”</a><!--
+ignore --> in Chapter 5. You can customize a few fields of a struct and then set
+and use a default value for the rest of the fields by using
+<code>..Default::default()</code>. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}
+[undefined-/home/runner/work/rust-book-cn/rust-book-cn/book_src/book/appendix-01-keywords.html]: Raw identifiers allow you to use any word you choose as an identifier, even if
+that word happens to be a reserved keyword. This gives us more freedom to choose
+identifier names, as well as lets us integrate with programs written in a
+language where these words aren’t keywords. In addition, raw identifiers allow
+you to use libraries written in a different Rust edition than your crate uses.
+For example, <code>try</code> isn’t a keyword in the 2015 edition but is in the 2018, 2021,
+and 2024 editions. If you depend on a library that is written using the 2015
+edition and has a <code>try</code> function, you’ll need to use the raw identifier syntax,
+<code>r#try</code> in this case, to call that function from your code on later editions.
+See <a href="appendix-05-editions.html">Appendix E</a><!-- ignore --> for more information on editions. -> {"code":30001,"message":"Sorry, your account balance is insufficient","data":null}

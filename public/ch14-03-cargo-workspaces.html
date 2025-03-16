@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -229,15 +229,14 @@ blockquote {
                         <h2 id="cargo-workspaces"><a class="header" href="#cargo-workspaces">Cargo 工作区</a></h2>
 <p data-x-en="In Chapter 12, we built a package that included a binary crate and a library crate. As your project develops, you might find that the library crate continues to get bigger and you want to split your package further into multiple library crates. Cargo offers a feature called workspaces that can help manage multiple related packages that are developed in tandem.">在第 12 章中，我们构建了一个包含二进制 crate 和库 crate 的包。随着项目的开发，您可能会发现库 crate 不断变大，您希望将包进一步拆分为多个库 crate。Cargo 提供了一种称为 <em>工作区</em> 的功能，可以帮助管理并行开发的多个相关包。</p>
 <h3 id="creating-a-workspace"><a class="header" href="#creating-a-workspace">创建一个工作区</a></h3>
-<p data-x-en="A workspace is a set of packages that share the same Cargo.lock and output directory. Let’s make a project using a workspace—we’ll use trivial code so we can concentrate on the structure of the workspace. There are multiple ways to structure a workspace, so we’ll just show one common way. We’ll have a workspace containing a binary and two libraries. The binary, which will provide the main functionality, will depend on the two libraries. One library will provide an add_one function, and a second library an add_two function. These three crates will be part of the same workspace. We’ll start by creating a new directory for the workspace:">一个 <em>工作区</em> 是一组共享同一个 <em>Cargo.lock</em> 和输出目录的包。让我们创建一个使用工作区的项目——我们将使用简单的代码，这样我们可以专注于工作区的结构。有多种方式可以构建工作区，所以我们只展示一种常见的方式。我们将有一个包含一个二进制文件和两个库的工作区。这个二进制文件将提供主要功能，并依赖于这两个库。一个库将提供一个 <code>add_one</code> 函数，另一个库提供一个 <code>add_two</code> 函数。这三个包将是同一个工作区的一部分。我们首先为工作区创建一个新的目录：</p>
+<p data-x-en="A workspace is a set of packages that share the same Cargo.lock and output directory. Let’s make a project using a workspace—we’ll use trivial code so we can concentrate on the structure of the workspace. There are multiple ways to structure a workspace, so we’ll just show one common way. We’ll have a workspace containing a binary and two libraries. The binary, which will provide the main functionality, will depend on the two libraries. One library will provide an add_one function and the other library an add_two function. These three crates will be part of the same workspace. We’ll start by creating a new directory for the workspace:">【翻译引擎出错，请联系作者】</p>
 <pre><code class="language-console">$ mkdir add
 $ cd add
 </code></pre>
-<p data-x-en="Next, in the add directory, we create the Cargo.toml file that will configure the entire workspace. This file won’t have a [package] section. Instead, it will start with a [workspace] section that will allow us to add members to the workspace. We also make a point to use the latest and greatest version of Cargo’s resolver algorithm in our workspace by setting the resolver to &quot;2&quot;.">接下来，在 <em>add</em> 目录中，我们创建 <em>Cargo.toml</em> 文件，该文件将配置整个工作区。此文件将没有 <code>[package]</code> 部分。
-相反，它将以 <code>[workspace]</code> 部分开始，这将允许我们向工作区添加成员。我们还通过将 <code>resolver</code> 设置为 <code>"2"</code> 来确保在工作区中使用最新和最强大的 Cargo 解析器算法。</p>
+<p data-x-en="Next, in the add directory, we create the Cargo.toml file that will configure the entire workspace. This file won’t have a [package] section. Instead, it will start with a [workspace] section that will allow us to add members to the workspace. We also make a point to use the latest and greatest version of Cargo’s resolver algorithm in our workspace by setting the resolver to &quot;3&quot;.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="Filename: Cargo.toml"><span class="filename">文件名: Cargo.toml</span></p>
 <pre><code class="language-toml">[workspace]
-resolver = "2"
+resolver = "3"
 </code></pre>
 <p data-x-en="Next, we’ll create the adder binary crate by running cargo new within the add directory:">接下来，我们将在 <em>add</em> 目录内通过运行 <code>cargo new</code> 来创建 <code>adder</code> 二进制 crate：</p>
 <!-- manual-regeneration
@@ -253,7 +252,7 @@ copy output below
 </code></pre>
 <p data-x-en="Running cargo new inside a workspace also automatically adds the newly created package to the members key in the [workspace] definition in the workspace Cargo.toml, like this:">在工作区中运行 <code>cargo new</code> 也会自动将新创建的包添加到工作区 <code>Cargo.toml</code> 中 <code>[workspace]</code> 定义的 <code>members</code> 键中，如下所示：</p>
 <pre><code class="language-toml">[workspace]
-resolver = "2"
+resolver = "3"
 members = ["adder"]
 </code></pre>
 <p data-x-en="At this point, we can build the workspace by running cargo build. The files in your add directory should look like this:">此时，我们可以通过运行<code>cargo build</code>来构建工作区。您<em>add</em>目录中的文件应如下所示：</p>
@@ -267,13 +266,7 @@ members = ["adder"]
 </code></pre>
 <p data-x-en="The workspace has one target directory at the top level that the compiled artifacts will be placed into; the adder package doesn’t have its own target directory. Even if we were to run cargo build from inside the adder directory, the compiled artifacts would still end up in add/target rather than add/adder/target. Cargo structures the target directory in a workspace like this because the crates in a workspace are meant to depend on each other. If each crate had its own target directory, each crate would have to recompile each of the other crates in the workspace to place the artifacts in its own target directory. By sharing one target directory, the crates can avoid unnecessary rebuilding.">工作区在顶级目录下有一个 <em>target</em> 目录，编译后的文件将被放置到该目录中；<code>adder</code> 包没有自己的 <em>target</em> 目录。即使我们在 <em>adder</em> 目录内运行 <code>cargo build</code>，编译后的文件仍然会出现在 <em>add/target</em> 而不是 <em>add/adder/target</em>。Cargo 以这种方式在工作区中结构化 <em>target</em> 目录，因为工作区中的 crate 旨在相互依赖。如果每个 crate 都有自己的 <em>target</em> 目录，那么每个 crate 都必须重新编译工作区中的其他每个 crate，以将文件放置到自己的 <em>target</em> 目录中。通过共享一个 <em>target</em> 目录，crate 可以避免不必要的重新构建。</p>
 <h3 id="creating-the-second-package-in-the-workspace"><a class="header" href="#creating-the-second-package-in-the-workspace">在工作区中创建第二个包</a></h3>
-<p data-x-en="Next, let’s create another member package in the workspace and call it add_one. Change the top-level Cargo.toml to specify the add_one path in the members list:">接下来，让我们在工作区中创建另一个成员包，并将其命名为<code>add_one</code>。更改顶级<em>Cargo.toml</em>以在<code>members</code>列表中指定<em>add_one</em>路径：</p>
-<p data-x-en="Filename: Cargo.toml"><span class="filename">文件名: Cargo.toml</span></p>
-<pre><code class="language-toml">[workspace]
-resolver = "2"
-members = ["adder", "add_one"]
-</code></pre>
-<p data-x-en="Then generate a new library crate named add_one:">然后生成一个名为 <code>add_one</code> 的新库crate：</p>
+<p data-x-en="Next, let’s create another member package in the workspace and call it add_one. Generate a new library crate named add_one:">【翻译引擎出错，请联系作者】</p>
 <!-- manual-regeneration
 cd listings/ch14-more-about-cargo/output-only-02-add-one/add
 remove `"add_one"` from `members` list in Cargo.toml
@@ -284,6 +277,12 @@ copy output below
 <pre><code class="language-console">$ cargo new add_one --lib
     Creating library `add_one` package
       Adding `add_one` as member of workspace at `file:///projects/add`
+</code></pre>
+<p data-x-en="The top-level Cargo.toml will now include the add_one path in the members list:">【翻译引擎出错，请联系作者】</p>
+<p data-x-en="Filename: Cargo.toml"><span class="filename">文件名: Cargo.toml</span></p>
+<pre><code class="language-toml">[workspace]
+resolver = "3"
+members = ["adder", "add_one"]
 </code></pre>
 <p data-x-en="Your add directory should now have these directories and files:">您的 <em>add</em> 目录现在应该有这些目录和文件：</p>
 <pre><code class="language-text">├── Cargo.lock
@@ -303,7 +302,7 @@ copy output below
 <pre><code class="language-rust noplayground">pub fn add_one(x: i32) -&gt; i32 {
     x + 1
 }</code></pre>
-<p data-x-en="Now we can have the adder package with our binary depend on the add_one package that has our library. First, we’ll need to add a path dependency on add_one to adder/Cargo.toml.">现在我们可以有一个 <code>adder</code> 包，其中包含依赖于 <code>add_one</code> 包的二进制文件，该包中包含我们的库。首先，我们需要在 <em>adder/Cargo.toml</em> 中添加对 <code>add_one</code> 的路径依赖。</p>
+<p data-x-en="Now we can have the adder package with our binary depend on the add_one package that has our library. First we’ll need to add a path dependency on add_one to adder/Cargo.toml.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="Filename: adder/Cargo.toml"><span class="filename">文件名: adder/Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
 add_one = { path = "../add_one" }
@@ -391,7 +390,7 @@ error[E0432]: unresolved import `rand`
 2 | use rand;
   |     ^^^^ no external crate `rand`
 </code></pre>
-<p data-x-en="To fix this, edit the Cargo.toml file for the adder package and indicate that rand is a dependency for it as well. Building the adder package will add rand to the list of dependencies for adder in Cargo.lock, but no additional copies of rand will be downloaded. Cargo will ensure that every crate in every package in the workspace using the rand package will be using the same version as long as they specify compatible versions of rand, saving us space and ensuring that the crates in the workspace will be compatible with each other.">要解决这个问题，请编辑 <em>Cargo.toml</em> 文件中的 <code>adder</code> 包，并指明 <code>rand</code> 也是它的依赖项。构建 <code>adder</code> 包会将 <code>rand</code> 添加到 <em>Cargo.lock</em> 中 <code>adder</code> 的依赖项列表中，但不会下载额外的 <code>rand</code> 副本。Cargo 会确保工作区中每个包中使用 <code>rand</code> 包的每个 crate 都使用相同的版本，只要它们指定了兼容的 <code>rand</code> 版本，这为我们节省了空间，并确保工作区中的 crate 之间相互兼容。</p>
+<p data-x-en="To fix this, edit the Cargo.toml file for the adder package and indicate that rand is a dependency for it as well. Building the adder package will add rand to the list of dependencies for adder in Cargo.lock, but no additional copies of rand will be downloaded. Cargo will ensure that every crate in every package in the workspace using the rand package will use the same version as long as they specify compatible versions of rand, saving us space and ensuring that the crates in the workspace will be compatible with each other.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="If crates in the workspace specify incompatible versions of the same dependency, Cargo will resolve each of them, but will still try to resolve as few versions as possible.">如果工作区中的 crate 指定了相同依赖的不同版本，Cargo 将解析每个版本，但仍会尽量减少解析的版本数量。</p>
 <h4 id="adding-a-test-to-a-workspace"><a class="header" href="#adding-a-test-to-a-workspace">在工作区中添加测试</a></h4>
 <p data-x-en="For another enhancement, let’s add a test of the add_one::add_one function within the add_one crate:">为了另一个增强，让我们在 <code>add_one</code> crate 中添加一个 <code>add_one::add_one</code> 函数的测试：</p>
@@ -466,7 +465,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 工作区中的每个 crate 都需要单独发布。像 <code>cargo test</code> 一样，我们可以通过使用 <code>-p</code>
 标志并指定要发布的 crate 的名称来发布我们工作区中的特定 crate。</p>
 <p data-x-en="For additional practice, add an add_two crate to this workspace in a similar way as the add_one crate!">为了进行更多练习，请以与 <code>add_one</code> crate 类似的方式向此工作区添加一个 <code>add_two</code> crate！</p>
-<p data-x-en="As your project grows, consider using a workspace: it’s easier to understand smaller, individual components than one big blob of code. Furthermore, keeping the crates in a workspace can make coordination between crates easier if they are often changed at the same time.">随着您的项目增长，考虑使用工作区：理解较小的、独立的组件比理解一大块代码更容易。此外，如果这些 crate 经常同时更改，将它们放在一个工作区中可以更容易地协调这些 crate 之间的关系。</p>
+<p data-x-en="As your project grows, consider using a workspace: it enables you to work with smaller, easier-to-understand components than one big blob of code. Furthermore, keeping the crates in a workspace can make coordination between crates easier if they are often changed at the same time.">【翻译引擎出错，请联系作者】</p>
 
                     </main>
 

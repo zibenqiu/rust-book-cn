@@ -182,5 +182,37 @@
   "Another detail to note is that Rust can’t protect you from all kinds of logic errors when you use Mutex<T>. Recall from Chapter 15 that using Rc<T> came with the risk of creating reference cycles, where two Rc<T> values refer to each other, causing memory leaks. Similarly, Mutex<T> comes with the risk of creating deadlocks. These occur when an operation needs to lock two resources and two threads have each acquired one of the locks, causing them to wait for each other forever. If you’re interested in deadlocks, try creating a Rust program that has a deadlock; then research deadlock mitigation strategies for mutexes in any language and have a go at implementing them in Rust. The standard library API documentation for Mutex<T> and MutexGuard offers useful information.": {
     "_translate": "另一个需要注意的细节是，Rust 不能保护你免受所有类型的逻辑错误，当你使用 <code>Mutex&lt;T&gt;</code> 时。回想第 15 章，使用 <code>Rc&lt;T&gt;</code> 会带来创建引用循环的风险，即两个 <code>Rc&lt;T&gt;</code> 值相互引用，导致内存泄漏。同样，<code>Mutex&lt;T&gt;</code> 也存在创建 <em>死锁</em> 的风险。这些情况发生在某个操作需要锁定两个资源，而两个线程各自获取了一个锁，导致它们无限期地相互等待。如果你对死锁感兴趣，可以尝试创建一个包含死锁的 Rust 程序；然后研究任何语言中互斥锁的死锁缓解策略，并尝试在 Rust 中实现它们。<code>Mutex&lt;T&gt;</code> 和 <code>MutexGuard</code> 的标准库 API 文档提供了有用的信息。",
     "_note": ""
+  },
+  "Message passing is a fine way to handle concurrency, but it’s not the only way. Another method would be for multiple threads to access the same shared data. Consider this part of the slogan from the Go language documentation again: “Do not communicate by sharing memory.”": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "In a way, channels in any programming language are similar to single ownership, because once you transfer a value down a channel, you should no longer use that value. Shared-memory concurrency is like multiple ownership: multiple threads can access the same memory location at the same time. As you saw in Chapter 15, where smart pointers made multiple ownership possible, multiple ownership can add complexity because these different owners need managing. Rust’s type system and ownership rules greatly assist in getting this management correct. For an example, let’s look at mutexes, one of the more common concurrency primitives for shared memory.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Mutex is an abbreviation for mutual exclusion, as in a mutex allows only one thread to access some data at any given time. To access the data in a mutex, a thread must first signal that it wants access by asking to acquire the mutex’s lock. The lock is a data structure that is part of the mutex that keeps track of who currently has exclusive access to the data. Therefore, the mutex is described as guarding the data it holds via the locking system.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "As an example of how to use a mutex, let’s start by using a mutex in a single-threaded context, as shown in Listing 16-12.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Now let’s try to share a value between multiple threads using Mutex<T>. We’ll spin up 10 threads and have them each increment a counter value by 1, so the counter goes from 0 to 10. The example in Listing 16-13 will have a compiler error, and we’ll use that error to learn more about using Mutex<T> and how Rust helps us use it correctly.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "The error message states that the counter value was moved in the previous iteration of the loop. Rust is telling us that we can’t move the ownership of lock counter into multiple threads. Let’s fix the compiler error with the multiple-ownership method we discussed in Chapter 15.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "In Chapter 15, we gave a value to multiple owners by using the smart pointer Rc<T> to create a reference counted value. Let’s do the same here and see what happens. We’ll wrap the Mutex<T> in Rc<T> in Listing 16-14 and clone the Rc<T> before moving ownership to the thread.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Let’s return to our example: Arc<T> and Rc<T> have the same API, so we fix our program by changing the use line, the call to new, and the call to clone. The code in Listing 16-15 will finally compile and run.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

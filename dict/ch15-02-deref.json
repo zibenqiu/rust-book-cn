@@ -194,5 +194,53 @@
   "As discussed in “Implementing a Trait on a Type” in Chapter 10, to implement a trait, we need to provide implementations for the trait’s required methods. The Deref trait, provided by the standard library, requires us to implement one method named deref that borrows self and returns a reference to the inner data. Listing 15-10 contains an implementation of Deref to add to the definition of MyBox<T>:": {
     "_translate": "如<a href=\"ch10-02-traits.html#implementing-a-trait-on-a-type\">“在类型上实现特征”</a><!-- ignore -->在\n第 10 章中所述，要实现一个特征，我们需要为该特征的必需方法提供实现。标准库提供的<code>Deref</code>特征要求我们实现一个名为<code>deref</code>的方法，该方法借用<code>self</code>并返回对内部数据的引用。列表 15-10 包含了为<code>MyBox&lt;T&gt;</code>定义添加的<code>Deref</code>实现：",
     "_note": ""
+  },
+  "Treating Smart Pointers Like Regular References with Deref - The Rust Programming Language": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Treating Smart Pointers Like Regular References with Deref": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "A regular reference is a type of pointer, and one way to think of a pointer is as an arrow to a value stored somewhere else. In Listing 15-6, we create a reference to an i32 value and then use the dereference operator to follow the reference to the value.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "The main difference between Listing 15-7 and Listing 15-6 is that here we set y to be an instance of a box pointing to a copied value of x rather than a reference pointing to the value of x. In the last assertion, we can use the dereference operator to follow the box’s pointer in the same way that we did when y was a reference. Next, we’ll explore what is special about Box<T> that enables us to use the dereference operator by defining our own type.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "We define a struct named MyBox and declare a generic parameter T because we want our type to hold values of any type. The MyBox type is a tuple struct with one element of type T. The MyBox::new function takes one parameter of type T and returns a MyBox instance that holds the value passed in.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Here’s the resultant compilation error:": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "As discussed in “Implementing a Trait on a Type” in Chapter 10, to implement a trait, we need to provide implementations for the trait’s required methods. The Deref trait, provided by the standard library, requires us to implement one method named deref that borrows self and returns a reference to the inner data. Listing 15-10 contains an implementation of Deref to add to the definition of MyBox<T>.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "We fill in the body of the deref method with &self.0 so deref returns a reference to the value we want to access with the * operator; recall from “Using Tuple Structs Without Named Fields to Create Different Types” in Chapter 5 that .0 accesses the first value in a tuple struct. The main function in Listing 15-9 that calls * on the MyBox<T> value now compiles, and the assertions pass!": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "The reason the deref method returns a reference to a value, and that the plain dereference outside the parentheses in *(y.deref()) is still necessary, has to do with the ownership system. If the deref method returned the value directly instead of a reference to the value, the value would be moved out of self. We don’t want to take ownership of the inner value inside MyBox<T> in this case or in most cases where we use the dereference operator.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "To see deref coercion in action, let’s use the MyBox<T> type we defined in Listing 15-8 as well as the implementation of Deref that we added in Listing 15-10. Listing 15-11 shows the definition of a function that has a string slice parameter.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "We can call the hello function with a string slice as an argument, such as hello(\"Rust\");, for example. Deref coercion makes it possible to call hello with a reference to a value of type MyBox<String>, as shown in Listing 15-12.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "The first two cases are the same except that the second implements mutability. The first case states that if you have a &T, and T implements Deref to some type U, you can get a &U transparently. The second case states that the same deref coercion happens for mutable references.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

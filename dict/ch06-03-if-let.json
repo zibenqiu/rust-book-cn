@@ -102,5 +102,25 @@
   "If you have a situation in which your program has logic that is too verbose to express using a match, remember that if let and let else are in your Rust toolbox as well.": {
     "_translate": "如果你的情况是程序中的逻辑过于冗长，无法用 <code>match</code> 表达，记得 <code>if let</code> 和 <code>let else</code> 也是你 Rust 工具箱中的选项。",
     "_note": ""
+  },
+  "That gets the job done, but it has pushed the work into the body of the if let statement, and if the work to be done is more complicated, it might be hard to follow exactly how the top-level branches relate. We could also take advantage of the fact that expressions produce a value either to produce the state from the if let or to return early, as in Listing 6-8. (You could do similar with a match, too.)": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Staying on the “Happy Path” with let...else": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "To make this common pattern nicer to express, Rust has let...else. The let...else syntax takes a pattern on the left side and an expression on the right, very similar to if let, but it does not have an if branch, only an else branch. If the pattern matches, it will bind the value from the pattern in the outer scope. If the pattern does not match, the program will flow into the else arm, which must return from the function.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "In Listing 6-9, you can see how Listing 6-8 looks when using let...else in place of if let. Notice that it stays “on the happy path” in the main body of the function this way, without having significantly different control flow for two branches the way the if let did.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "If you have a situation in which your program has logic that is too verbose to express using a match, remember that if let and let...else are in your Rust toolbox as well.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

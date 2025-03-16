@@ -58,5 +58,13 @@
   "The two implementations have similar performance! We won’t explain the benchmark code here, because the point is not to prove that the two versions are equivalent but to get a general sense of how these two implementations compare performance-wise.": {
     "_translate": "这两种实现的性能相似！我们不会在这里解释基准测试代码，因为重点不是证明这两个版本是等效的，而是大致了解这两种实现的性能比较。",
     "_note": ""
+  },
+  "For a more comprehensive benchmark, you should check using various texts of various sizes as the contents, different words and words of different lengths as the query, and all kinds of other variations. The point is this: iterators, although a high-level abstraction, get compiled down to roughly the same code as if you’d written the lower-level code yourself. Iterators are one of Rust’s zero-cost abstractions, by which we mean that using the abstraction imposes no additional runtime overhead. This is analogous to how Bjarne Stroustrup, the original designer and implementor of C++, defines zero-overhead in “Foundations of C++” (2012):": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "All of the coefficients get stored in registers, which means accessing the values is very fast. There are no bounds checks on the array access at runtime. All these optimizations that Rust is able to apply make the resultant code extremely efficient. Now that you know this, you can use iterators and closures without fear! They make code seem like it’s higher level but don’t impose a runtime performance penalty for doing so.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

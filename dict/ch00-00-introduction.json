@@ -178,5 +178,13 @@
   "Finally, some appendixes contain useful information about the language in a more reference-like format. Appendix A covers Rust’s keywords, Appendix B covers Rust’s operators and symbols, Appendix C covers derivable traits provided by the standard library, Appendix D covers some useful development tools, and Appendix E explains Rust editions. In Appendix F, you can find translations of the book, and in Appendix G we’ll cover how Rust is made and what nightly Rust is.": {
     "_translate": "最后，一些附录以更参考手册的形式包含了关于语言的有用信息。<strong>附录 A</strong> 涵盖了 Rust 的关键字，<strong>附录 B</strong>\n涵盖了 Rust 的运算符和符号，<strong>附录 C</strong> 涵盖了标准库提供的可派生特性，<strong>附录 D</strong> 涵盖了一些有用的开发\n工具，<strong>附录 E</strong> 解释了 Rust 版本。在 <strong>附录 F</strong> 中，您可以\n找到本书的翻译，而在 <strong>附录 G</strong> 中我们将介绍 Rust 的制作过程以及什么是夜间构建的 Rust。",
     "_note": ""
+  },
+  "In Chapter 16, we’ll walk through different models of concurrent programming and talk about how Rust helps you to program in multiple threads fearlessly. In Chapter 17, we build on that by exploring Rust’s async and await syntax, along with tasks, futures, and streams, and the lightweight concurrency model they enable.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
+  },
+  "Chapter 18 looks at how Rust idioms compare to object-oriented programming principles you might be familiar with. Chapter 19 is a reference on patterns and pattern matching, which are powerful ways of expressing ideas throughout Rust programs. Chapter 20 contains a smorgasbord of advanced topics of interest, including unsafe Rust, macros, and more about lifetimes, traits, types, functions, and closures.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

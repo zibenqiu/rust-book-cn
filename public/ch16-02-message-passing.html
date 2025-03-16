@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -231,8 +231,8 @@ blockquote {
 “不要通过共享内存来通信；相反，通过通信来共享内存。”</p>
 <p data-x-en="To accomplish message-sending concurrency, Rust’s standard library provides an implementation of channels. A channel is a general programming concept by which data is sent from one thread to another.">为了实现消息发送的并发，Rust 的标准库提供了一个 <em>通道</em> 的实现。通道是一种通用的编程概念，通过它数据可以从一个线程发送到另一个线程。</p>
 <p data-x-en="You can imagine a channel in programming as being like a directional channel of water, such as a stream or a river. If you put something like a rubber duck into a river, it will travel downstream to the end of the waterway.">你可以想象编程中的通道就像是一条有方向的水流，比如小溪或河流。如果你把像橡皮鸭这样的东西放入河中，它会顺流而下到达水道的尽头。</p>
-<p data-x-en="A channel has two halves: a transmitter and a receiver. The transmitter half is the upstream location where you put rubber ducks into the river, and the receiver half is where the rubber duck ends up downstream. One part of your code calls methods on the transmitter with the data you want to send, and another part checks the receiving end for arriving messages. A channel is said to be closed if either the transmitter or receiver half is dropped.">一个通道有两个部分：一个发送端和一个接收端。发送端是你将橡皮鸭放入河中的上游位置，而接收端是橡皮鸭最终到达的下游位置。代码的一部分调用发送端的方法来发送你想要发送的数据，而另一部分则检查接收端是否有到达的消息。如果发送端或接收端的任一半被丢弃，通道就被认为是<em>关闭</em>的。</p>
-<p data-x-en="Here, we’ll work up to a program that has one thread to generate values and send them down a channel, and another thread that will receive the values and print them out. We’ll be sending simple values between threads using a channel to illustrate the feature. Once you’re familiar with the technique, you could use channels for any threads that need to communicate between each other, such as a chat system or a system where many threads perform parts of a calculation and send the parts to one thread that aggregates the results.">在这里，我们将编写一个程序，其中一个线程生成值并通过通道发送，另一个线程接收这些值并打印出来。我们将使用通道在线程之间发送简单的值来说明这一特性。一旦你熟悉了这种技术，你就可以使用通道来实现任何需要相互通信的线程，例如聊天系统或多个线程执行计算的一部分并将这些部分发送到一个汇总结果的线程的系统。</p>
+<p data-x-en="A channel has two halves: a transmitter and a receiver. The transmitter half is the upstream location where you put the rubber duck into the river, and the receiver half is where the rubber duck ends up downstream. One part of your code calls methods on the transmitter with the data you want to send, and another part checks the receiving end for arriving messages. A channel is said to be closed if either the transmitter or receiver half is dropped.">【翻译引擎出错，请联系作者】</p>
+<p data-x-en="Here, we’ll work up to a program that has one thread to generate values and send them down a channel, and another thread that will receive the values and print them out. We’ll be sending simple values between threads using a channel to illustrate the feature. Once you’re familiar with the technique, you could use channels for any threads that need to communicate with each other, such as a chat system or a system where many threads perform parts of a calculation and send the parts to one thread that aggregates the results.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="First, in Listing 16-6, we’ll create a channel but not do anything with it. Note that this won’t compile yet because Rust can’t tell what type of values we want to send over the channel.">首先，在清单 16-6 中，我们将创建一个通道但不对其进行任何操作。
 请注意，这还不能编译，因为 Rust 无法确定我们希望通过通道发送什么类型的值。</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
@@ -243,8 +243,8 @@ fn main() {
 }</code></pre>
 <p data-x-en="Listing 16-6: Creating a channel and assigning the two halves to tx and rx"><span class="caption">列表 16-6：创建一个通道并将两个半部分分配给<code>tx</code>和<code>rx</code></span></p>
 <p data-x-en="We create a new channel using the mpsc::channel function; mpsc stands for multiple producer, single consumer. In short, the way Rust’s standard library implements channels means a channel can have multiple sending ends that produce values but only one receiving end that consumes those values. Imagine multiple streams flowing together into one big river: everything sent down any of the streams will end up in one river at the end. We’ll start with a single producer for now, but we’ll add multiple producers when we get this example working.">我们使用 <code>mpsc::channel</code> 函数创建一个新的通道；<code>mpsc</code> 代表 <em>多个生产者，单个消费者</em>。简而言之，Rust 标准库实现通道的方式意味着一个通道可以有多个 <em>发送</em> 端来生成值，但只有一个 <em>接收</em> 端来消费这些值。想象多条溪流汇入一条大河：通过任何一条溪流发送的所有东西最终都会汇入同一条河。我们先从一个生产者开始，但当这个示例运行起来后，我们将添加多个生产者。</p>
-<p data-x-en="The mpsc::channel function returns a tuple, the first element of which is the sending end—the transmitter—and the second element is the receiving end—the receiver. The abbreviations tx and rx are traditionally used in many fields for transmitter and receiver respectively, so we name our variables as such to indicate each end. We’re using a let statement with a pattern that destructures the tuples; we’ll discuss the use of patterns in let statements and destructuring in Chapter 19. For now, know that using a let statement this way is a convenient approach to extract the pieces of the tuple returned by mpsc::channel."><code>mpsc::channel</code> 函数返回一个元组，其中第一个元素是发送端——发射器——第二个元素是接收端——接收器。在许多领域中，<code>tx</code> 和 <code>rx</code> 传统上分别用于表示 <em>发射器</em> 和 <em>接收器</em>，因此我们这样命名我们的变量以指示每一端。我们使用一个带有模式的 <code>let</code> 语句来解构元组；我们将在第 19 章讨论 <code>let</code> 语句中的模式使用和解构。目前，要知道以这种方式使用 <code>let</code> 语句是一种方便的方法，可以提取 <code>mpsc::channel</code> 返回的元组的各个部分。</p>
-<p data-x-en="Let’s move the transmitting end into a spawned thread and have it send one string so that the spawned thread is communicating with the main thread, as shown in Listing 16-7. This is like putting a rubber duck in the river upstream or sending a chat message from one thread to another.">让我们将发送端移到一个新创建的线程中，并让它发送一个字符串，这样新创建的线程就可以与主线程通信，如清单 16-7 所示。这就像在河流上游放一个橡皮鸭，或者从一个线程向另一个线程发送聊天消息。</p>
+<p data-x-en="The mpsc::channel function returns a tuple, the first element of which is the sending end—the transmitter—and the second element of which is the receiving end—the receiver. The abbreviations tx and rx are traditionally used in many fields for transmitter and receiver, respectively, so we name our variables as such to indicate each end. We’re using a let statement with a pattern that destructures the tuples; we’ll discuss the use of patterns in let statements and destructuring in Chapter 19. For now, know that using a let statement this way is a convenient approach to extract the pieces of the tuple returned by mpsc::channel.">【翻译引擎出错，请联系作者】</p>
+<p data-x-en="Let’s move the transmitting end into a spawned thread and have it send one string so the spawned thread is communicating with the main thread, as shown in Listing 16-7. This is like putting a rubber duck in the river upstream or sending a chat message from one thread to another.">让我们将发送端移到一个新创建的线程中，并让它发送一个字符串，这样新创建的线程就可以与主线程通信，如清单 16-7 所示。这就像在河的上游放一个橡皮鸭，或者从一个线程向另一个线程发送聊天消息。</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::sync::mpsc;
@@ -258,10 +258,9 @@ fn main() {
         tx.send(val).unwrap();
     });
 }</code></pre></pre>
-<figcaption>Listing 16-7: Moving <code>tx</code> to a spawned thread and sending “hi”</figcaption>
+<figcaption>Listing 16-7: Moving <code>tx</code> to a spawned thread and sending <code>"hi"</code></figcaption>
 </figure>
-<p data-x-en="Again, we’re using thread::spawn to create a new thread and then using move to move tx into the closure so that the spawned thread owns tx. The spawned thread needs to own the transmitter to be able to send messages through the channel.">再次，我们使用 <code>thread::spawn</code> 创建一个新线程，然后使用 <code>move</code>
-将 <code>tx</code> 移动到闭包中，以便新线程拥有 <code>tx</code>。新线程需要拥有发送方才能通过通道发送消息。</p>
+<p data-x-en="Again, we’re using thread::spawn to create a new thread and then using move to move tx into the closure so the spawned thread owns tx. The spawned thread needs to own the transmitter to be able to send messages through the channel.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="The transmitter has a send method that takes the value we want to send. The send method returns a Result<T, E> type, so if the receiver has already been dropped and there’s nowhere to send a value, the send operation will return an error. In this example, we’re calling unwrap to panic in case of an error. But in a real application, we would handle it properly: return to Chapter 9 to review strategies for proper error handling.">发送方有一个 <code>send</code> 方法，用于接收我们想要发送的值。<code>send</code> 方法返回一个 <code>Result&lt;T, E&gt;</code> 类型，因此如果接收方已经释放并且没有地方可以发送值，发送操作将返回一个错误。在这个例子中，我们调用 <code>unwrap</code> 在出现错误时引发恐慌。但在实际应用中，我们应该妥善处理错误：返回第 9 章复习正确的错误处理策略。</p>
 <p data-x-en="In Listing 16-8, we’ll get the value from the receiver in the main thread. This is like retrieving the rubber duck from the water at the end of the river or receiving a chat message.">在清单 16-8 中，我们将在主线程中从接收者获取值。这就像从河的尽头水中取出橡皮鸭或接收聊天消息。</p>
 <figure class="listing">
@@ -280,7 +279,7 @@ fn main() {
     let received = rx.recv().unwrap();
     println!("Got: {received}");
 }</code></pre></pre>
-<figcaption>Listing 16-8: Receiving the value “hi” in the main thread and printing it</figcaption>
+<figcaption>Listing 16-8: Receiving the value <code>"hi"</code> in the main thread and printing it</figcaption>
 </figure>
 <p data-x-en="The receiver has two useful methods: recv and try_recv. We’re using recv, short for receive, which will block the main thread’s execution and wait until a value is sent down the channel. Once a value is sent, recv will return it in a Result<T, E>. When the transmitter closes, recv will return an error to signal that no more values will be coming.">接收者有两个有用的方法：<code>recv</code> 和 <code>try_recv</code>。我们使用的是 <code>recv</code>，即 <em>接收</em> 的缩写，它会阻塞主线程的执行并等待通道发送值。一旦值被发送，<code>recv</code> 将在 <code>Result&lt;T, E&gt;</code> 中返回它。当发送者关闭时，<code>recv</code> 将返回一个错误，以表示不会再有值发送。</p>
 <p data-x-en="The try_recv method doesn’t block, but will instead return a Result<T, E> immediately: an Ok value holding a message if one is available and an Err value if there aren’t any messages this time. Using try_recv is useful if this thread has other work to do while waiting for messages: we could write a loop that calls try_recv every so often, handles a message if one is available, and otherwise does other work for a little while until checking again."><code>try_recv</code> 方法不会阻塞，而是会立即返回一个 <code>Result&lt;T, E&gt;</code>：如果消息可用，则返回一个包含消息的 <code>Ok</code> 值；如果没有消息，则返回一个 <code>Err</code> 值。使用 <code>try_recv</code> 很有用，如果此线程在等待消息时有其他工作要做：我们可以编写一个循环，每隔一段时间调用一次 <code>try_recv</code>，如果有消息则处理消息，否则在再次检查之前稍作其他工作。</p>
@@ -293,7 +292,7 @@ changes in the compiler -->
 </code></pre>
 <p data-x-en="Perfect!">完美！</p>
 <h3 id="channels-and-ownership-transference"><a class="header" href="#channels-and-ownership-transference">通道和所有权转移</a></h3>
-<p data-x-en="The ownership rules play a vital role in message sending because they help you write safe, concurrent code. Preventing errors in concurrent programming is the advantage of thinking about ownership throughout your Rust programs. Let’s do an experiment to show how channels and ownership work together to prevent problems: we’ll try to use a val value in the spawned thread after we’ve sent it down the channel. Try compiling the code in Listing 16-9 to see why this code isn’t allowed:">所有权规则在消息传递中起着至关重要的作用，因为它们帮助你编写安全的并发代码。防止并发编程中的错误是贯穿整个 Rust 程序思考所有权的优势。让我们做一个实验来展示通道和所有权如何协同工作以防止问题：我们将尝试在通过通道发送 <code>val</code> 值 <em>之后</em> 在派生的线程中使用它。尝试编译清单 16-9 中的代码，看看为什么这段代码是不允许的：</p>
+<p data-x-en="The ownership rules play a vital role in message sending because they help you write safe, concurrent code. Preventing errors in concurrent programming is the advantage of thinking about ownership throughout your Rust programs. Let’s do an experiment to show how channels and ownership work together to prevent problems: we’ll try to use a val value in the spawned thread after we’ve sent it down the channel. Try compiling the code in Listing 16-9 to see why this code isn’t allowed.">【翻译引擎出错，请联系作者】</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::sync::mpsc;
@@ -362,13 +361,13 @@ fn main() {
         println!("Got: {received}");
     }
 }</code></pre>
-<figcaption>Listing 16-10: Sending multiple messages and pausing between each</figcaption>
+<figcaption>Listing 16-10: Sending multiple messages and pausing between each one</figcaption>
 </figure>
-<p data-x-en="This time, the spawned thread has a vector of strings that we want to send to the main thread. We iterate over them, sending each individually, and pause between each by calling the thread::sleep function with a Duration value of 1 second.">这次，生成的线程有一个字符串向量，我们希望将其发送到主线程。我们遍历这些字符串，逐个发送，并通过调用带有1秒<code>Duration</code>值的<code>thread::sleep</code>函数在每次发送之间暂停。</p>
+<p data-x-en="This time, the spawned thread has a vector of strings that we want to send to the main thread. We iterate over them, sending each individually, and pause between each by calling the thread::sleep function with a Duration value of one second.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="In the main thread, we’re not calling the recv function explicitly anymore: instead, we’re treating rx as an iterator. For each value received, we’re printing it. When the channel is closed, iteration will end.">在主线程中，我们不再显式调用<code>recv</code>函数：
 而是将<code>rx</code>视为一个迭代器。对于接收到的每个值，我们都会
 打印它。当通道关闭时，迭代将结束。</p>
-<p data-x-en="When running the code in Listing 16-10, you should see the following output with a 1-second pause in between each line:">当运行清单 16-10 中的代码时，您应该看到以下输出，每行之间有 1 秒的暂停：</p>
+<p data-x-en="When running the code in Listing 16-10, you should see the following output with a one-second pause in between each line:">【翻译引擎出错，请联系作者】</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -379,7 +378,7 @@ Got: thread
 </code></pre>
 <p data-x-en="Because we don’t have any code that pauses or delays in the for loop in the main thread, we can tell that the main thread is waiting to receive values from the spawned thread.">因为我们在主线程的<code>for</code>循环中没有任何暂停或延迟的代码，我们可以判断主线程正在等待从派生线程接收值。</p>
 <h3 id="creating-multiple-producers-by-cloning-the-transmitter"><a class="header" href="#creating-multiple-producers-by-cloning-the-transmitter">通过克隆发送者创建多个生产者</a></h3>
-<p data-x-en="Earlier we mentioned that mpsc was an acronym for multiple producer, single consumer. Let’s put mpsc to use and expand the code in Listing 16-10 to create multiple threads that all send values to the same receiver. We can do so by cloning the transmitter, as shown in Listing 16-11:">Earlier we mentioned that <code>mpsc</code> was an acronym for <em>多个生产者，单个消费者</em>. Let’s put <code>mpsc</code> to use and expand the code in Listing 16-10 to create multiple threads that all send values to the same receiver. We can do so by cloning the transmitter, as shown in Listing 16-11:</p>
+<p data-x-en="Earlier we mentioned that mpsc was an acronym for multiple producer, single consumer. Let’s put mpsc to use and expand the code in Listing 16-10 to create multiple threads that all send values to the same receiver. We can do so by cloning the transmitter, as shown in Listing 16-11.">【翻译引擎出错，请联系作者】</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::sync::mpsc;

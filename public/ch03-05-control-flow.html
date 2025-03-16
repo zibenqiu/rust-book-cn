@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -473,7 +473,7 @@ End count = 2
 
     println!("LIFTOFF!!!");
 }</code></pre></pre>
-<figcaption>Listing 3-3: Using a <code>while</code> loop to run code while a condition holds true</figcaption>
+<figcaption>Listing 3-3: Using a <code>while</code> loop to run code while a condition evaluates to <code>true</code></figcaption>
 </figure>
 <p data-x-en="This construct eliminates a lot of nesting that would be necessary if you used loop, if, else, and break, and it’s clearer. While a condition evaluates to true, the code runs; otherwise, it exits the loop.">这种结构消除了使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>时所需的大量嵌套，并且更清晰。当条件评估为<code>true</code>时，代码运行；否则，它会退出循环。</p>
 <h4 id="looping-through-a-collection-with-for"><a class="header" href="#looping-through-a-collection-with-for">使用 <code>for</code> 循环遍历集合</a></h4>

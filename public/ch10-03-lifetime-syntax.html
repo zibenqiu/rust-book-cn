@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -547,7 +547,7 @@ fn main() {
 <p data-x-en="After writing a lot of Rust code, the Rust team found that Rust programmers were entering the same lifetime annotations over and over in particular situations. These situations were predictable and followed a few deterministic patterns. The developers programmed these patterns into the compiler’s code so the borrow checker could infer the lifetimes in these situations and wouldn’t need explicit annotations.">在编写了大量的 Rust 代码之后，Rust 团队发现 Rust 程序员在特定情况下反复输入相同的生命周期注解。这些情况是可以预测的，并遵循几个确定的模式。开发人员将这些模式编程到编译器的代码中，以便借用检查器可以在这些情况下推断生命周期，而不需要显式的注解。</p>
 <p data-x-en="This piece of Rust history is relevant because it’s possible that more deterministic patterns will emerge and be added to the compiler. In the future, even fewer lifetime annotations might be required.">这段 Rust 历史相关，因为可能会有更多确定性的模式出现并被添加到编译器中。在未来，甚至可能需要更少的生命周期注解。</p>
 <p data-x-en="The patterns programmed into Rust’s analysis of references are called the lifetime elision rules. These aren’t rules for programmers to follow; they’re a set of particular cases that the compiler will consider, and if your code fits these cases, you don’t need to write the lifetimes explicitly.">编程到 Rust 引用分析中的模式称为 <em>生命周期省略规则</em>。这些规则不是程序员需要遵守的；它们是一组编译器会考虑的特定情况，如果您的代码符合这些情况，您就不需要显式地编写生命周期。</p>
-<p data-x-en="The elision rules don’t provide full inference. If there is still ambiguity as to what lifetimes the references have after Rust applies the rules, the compiler won’t guess what the lifetime of the remaining references should be. Instead of guessing, the compiler will give you an error that you can resolve by adding the lifetime annotations.">隐藏规则并不提供完全的推断。如果在 Rust 应用这些规则后，引用的生命周期仍然存在歧义，编译器不会猜测剩余引用的生命周期应该是什么。相反，编译器会给你一个错误，你可以通过添加生命周期注解来解决。</p>
+<p data-x-en="The elision rules don’t provide full inference. If there is still ambiguity about what lifetimes the references have after Rust applies the rules, the compiler won’t guess what the lifetime of the remaining references should be. Instead of guessing, the compiler will give you an error that you can resolve by adding the lifetime annotations.">【翻译引擎出错，请联系作者】</p>
 <p data-x-en="Lifetimes on function or method parameters are called input lifetimes, and lifetimes on return values are called output lifetimes.">函数或方法参数上的生命周期称为<em>输入生命周期</em>，而返回值上的生命周期称为<em>输出生命周期</em>。</p>
 <p data-x-en="The compiler uses three rules to figure out the lifetimes of the references when there aren’t explicit annotations. The first rule applies to input lifetimes, and the second and third rules apply to output lifetimes. If the compiler gets to the end of the three rules and there are still references for which it can’t figure out lifetimes, the compiler will stop with an error. These rules apply to fn definitions as well as impl blocks.">编译器使用三条规则来确定引用的生命周期，当没有显式注解时。第一条规则适用于输入生命周期，第二条和第三条规则适用于输出生命周期。如果编译器在三条规则之后仍然有无法确定生命周期的引用，编译器将停止并报错。这些规则适用于 <code>fn</code> 定义以及 <code>impl</code> 块。</p>
 <p data-x-en="The first rule is that the compiler assigns a lifetime parameter to each parameter that’s a reference. In other words, a function with one parameter gets one lifetime parameter: fn foo<'a>(x: &amp;'a i32); a function with two parameters gets two separate lifetime parameters: fn foo<'a, 'b>(x: &amp;'a i32, y: &amp;'b i32); and so on.">第一条规则是编译器为每个是引用的参数分配一个生命周期参数。换句话说，一个参数的函数获得一个生命周期参数：<code>fn foo&lt;'a&gt;(x: &amp;'a i32)</code>；两个参数的函数获得两个独立的生命周期参数：<code>fn foo&lt;'a, 'b&gt;(x: &amp;'a i32, y: &amp;'b i32)</code>；依此类推。</p>

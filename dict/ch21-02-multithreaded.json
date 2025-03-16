@@ -514,5 +514,9 @@
   "The code in Listing 21-20 that uses let job = receiver.lock().unwrap().recv().unwrap(); works because with let, any temporary values used in the expression on the right hand side of the equal sign are immediately dropped when the let statement ends. However, while let (and if let and match) does not drop temporary values until the end of the associated block. In Listing 21-21, the lock remains held for the duration of the call to job(), meaning other Worker instances cannot receive jobs.": {
     "_translate": "列表 21-20 中的代码使用 <code>let job = receiver.lock().unwrap().recv().unwrap();</code> 可以工作，因为使用 <code>let</code> 时，等号右侧表达式中使用的任何临时值在 <code>let</code> 语句结束时会立即被丢弃。然而，<code>while let</code>（以及 <code>if let</code> 和 <code>match</code>）不会在关联块结束之前丢弃临时值。在列表 21-21 中，锁在整个调用 <code>job()</code> 的期间一直被持有，这意味着其他 <code>Worker</code> 实例无法接收任务。",
     "_note": ""
+  },
+  "This technique is just one of many ways to improve the throughput of a web server. Other options you might explore are the fork/join model, the single-threaded async I/O model, and the multithreaded async I/O model. If you’re interested in this topic, you can read more about other solutions and try to implement them; with a low-level language like Rust, all of these options are possible.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }

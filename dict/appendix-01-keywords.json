@@ -278,5 +278,9 @@
   "use - bring symbols into scope; specify precise captures for generic and lifetime bounds": {
     "_translate": "<code>use</code> - 将符号引入作用域；为泛型和生命周期边界指定精确捕获；",
     "_note": ""
+  },
+  "Raw identifiers allow you to use any word you choose as an identifier, even if that word happens to be a reserved keyword. This gives us more freedom to choose identifier names, as well as lets us integrate with programs written in a language where these words aren’t keywords. In addition, raw identifiers allow you to use libraries written in a different Rust edition than your crate uses. For example, try isn’t a keyword in the 2015 edition but is in the 2018, 2021, and 2024 editions. If you depend on a library that is written using the 2015 edition and has a try function, you’ll need to use the raw identifier syntax, r#try in this case, to call that function from your code on later editions. See Appendix E for more information on editions.": {
+    "_translate": "【翻译引擎出错，请联系作者】",
+    "_note": ""
   }
 }
