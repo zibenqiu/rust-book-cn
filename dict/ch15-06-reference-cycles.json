@@ -202,49 +202,5 @@
   "After leaf is created, its Rc<Node> has a strong count of 1 and a weak count of 0. In the inner scope, we create branch and associate it with leaf, at which point, when we print the counts, the Rc<Node> in branch will have a strong count of 1 and a weak count of 1 (for leaf.parent pointing to branch with a Weak<Node>). When we print the counts in leaf, we’ll see it will have a strong count of 2, because branch now has a clone of the Rc<Node> of leaf stored in branch.children, but will still have a weak count of 0.": {
     "_translate": "在创建 <code>leaf</code> 之后，其 <code>Rc&lt;Node&gt;</code> 的强引用计数为 1，弱引用计数为 0。在内部作用域中，我们创建了 <code>branch</code> 并将其与 <code>leaf</code> 关联，此时，当我们打印计数时，<code>branch</code> 中的 <code>Rc&lt;Node&gt;</code> 将具有强引用计数 1 和弱引用计数 1（因为 <code>leaf.parent</code> 通过 <code>Weak&lt;Node&gt;</code> 指向 <code>branch</code>）。当我们打印 <code>leaf</code> 的计数时，我们会看到它的强引用计数为 2，因为 <code>branch</code> 现在在 <code>branch.children</code> 中存储了 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 的一个克隆，但弱引用计数仍为 0。",
     "_note": ""
-  },
-  "Let’s look at how a reference cycle might happen and how to prevent it, starting with the definition of the List enum and a tail method in Listing 15-25.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "The reference count of the Rc<List> instances in both a and b is 2 after we change the list in a to point to b. At the end of main, Rust drops the variable b, which decreases the reference count of the b Rc<List> instance from 2 to 1. The memory that Rc<List> has on the heap won’t be dropped at this point, because its reference count is 1, not 0. Then Rust drops a, which decreases the reference count of the a Rc<List> instance from 2 to 1 as well. This instance’s memory can’t be dropped either, because the other Rc<List> instance still refers to it. The memory allocated to the list will remain uncollected forever. To visualize this reference cycle, we’ve created the diagram in Figure 15-4.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Preventing Reference Cycles Using Weak<T>": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Because the value that Weak<T> references might have been dropped, to do anything with the value that a Weak<T> is pointing to you must make sure the value still exists. Do this by calling the upgrade method on a Weak<T> instance, which will return an Option<Rc<T>>. You’ll get a result of Some if the Rc<T> value has not been dropped yet and a result of None if the Rc<T> value has been dropped. Because upgrade returns an Option<Rc<T>>, Rust will ensure that the Some case and the None case are handled, and there won’t be an invalid pointer.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Creating a Tree Data Structure: A Node with Child Nodes": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Next, we’ll use our struct definition and create one Node instance named leaf with the value 3 and no children, and another instance named branch with the value 5 and leaf as one of its children, as shown in Listing 15-27.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "To make the child node aware of its parent, we need to add a parent field to our Node struct definition. The trouble is in deciding what the type of parent should be. We know it can’t contain an Rc<T> because that would create a reference cycle with leaf.parent pointing to branch and branch.children pointing to leaf, which would cause their strong_count values to never be 0.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "So, instead of Rc<T>, we’ll make the type of parent use Weak<T>, specifically a RefCell<Weak<Node>>. Now our Node struct definition looks like this:": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "A node will be able to refer to its parent node but doesn’t own its parent. In Listing 15-28, we update main to use this new definition so the leaf node will have a way to refer to its parent, branch.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Let’s look at how the strong_count and weak_count values of the Rc<Node> instances change by creating a new inner scope and moving the creation of branch into that scope. By doing so, we can see what happens when branch is created and then dropped when it goes out of scope. The modifications are shown in Listing 15-29.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "After leaf is created, its Rc<Node> has a strong count of 1 and a weak count of 0. In the inner scope, we create branch and associate it with leaf, at which point when we print the counts, the Rc<Node> in branch will have a strong count of 1 and a weak count of 1 (for leaf.parent pointing to branch with a Weak<Node>). When we print the counts in leaf, we’ll see it will have a strong count of 2 because branch now has a clone of the Rc<Node> of leaf stored in branch.children, but will still have a weak count of 0.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

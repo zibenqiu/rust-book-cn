@@ -54,21 +54,5 @@
   "Smart pointers are usually implemented using structs. Unlike an ordinary struct, smart pointers implement the Deref and Drop traits. The Deref trait allows an instance of the smart pointer struct to behave like a reference so you can write your code to work with either references or smart pointers. The Drop trait allows you to customize the code that’s run when an instance of the smart pointer goes out of scope. In this chapter, we’ll discuss both of these traits and demonstrate why they’re important to smart pointers.": {
     "_translate": "智能指针通常使用结构体实现。与普通结构体不同，智能指针实现了<code>Deref</code>和<code>Drop</code>特质。<code>Deref</code>特质允许智能指针结构体的实例像引用一样行为，因此你可以编写可以与引用或智能指针一起工作的代码。<code>Drop</code>特质允许你自定义智能指针实例超出作用域时运行的代码。在本章中，我们将讨论这两个特质，并演示它们对智能指针的重要性。",
     "_note": ""
-  },
-  "A pointer is a general concept for a variable that contains an address in memory. This address refers to, or “points at,” some other data. The most common kind of pointer in Rust is a reference, which you learned about in Chapter 4. References are indicated by the & symbol and borrow the value they point to. They don’t have any special capabilities other than referring to data, and they have no overhead.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Rust, with its concept of ownership and borrowing, has an additional difference between references and smart pointers: while references only borrow data, in many cases smart pointers own the data they point to.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Though we didn’t call them as such at the time, we’ve already encountered a few smart pointers in this book, including String and Vec<T> in Chapter 8. Both of these types count as smart pointers because they own some memory and allow you to manipulate it. They also have metadata and extra capabilities or guarantees. String, for example, stores its capacity as metadata and has the extra ability to ensure its data will always be valid UTF-8.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Box<T>, for allocating values on the heap": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

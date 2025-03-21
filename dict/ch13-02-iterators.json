@@ -142,37 +142,5 @@
   "Processing a Series of Items with Iterators - The Rust Programming Language": {
     "_translate": "使用迭代器处理一系列项目 - 《Rust编程语言》",
     "_note": ""
-  },
-  "Iterators handle all of that logic for you, cutting down on repetitive code you could potentially mess up. Iterators give you more flexibility to use the same logic with many different kinds of sequences, not just data structures you can index into, like vectors. Let’s examine how iterators do that.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Notice that this definition uses some new syntax: type Item and Self::Item, which are defining an associated type with this trait. We’ll talk about associated types in depth in Chapter 20. For now, all you need to know is that this code says implementing the Iterator trait requires that you also define an Item type, and this Item type is used in the return type of the next method. In other words, the Item type will be the type returned from the iterator.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "The Iterator trait only requires implementors to define one method: the next method, which returns one item of the iterator at a time, wrapped in Some and, when iteration is over, returns None.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Methods That Consume the Iterator": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Methods that call next are called consuming adapters because calling them uses up the iterator. One example is the sum method, which takes ownership of the iterator and iterates through the items by repeatedly calling next, thus consuming the iterator. As it iterates through, it adds each item to a running total and returns the total when iteration is complete. Listing 13-13 has a test illustrating a use of the sum method.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "To fix this warning and consume the iterator, we’ll use the collect method, which we used in Chapter 12 with env::args in Listing 12-1. This method consumes the iterator and collects the resultant values into a collection data type.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "In Listing 13-15, we collect the results of iterating over the iterator that’s returned from the call to map into a vector. This vector will end up containing each item from the original vector, incremented by 1.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Using Closures That Capture Their Environment": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

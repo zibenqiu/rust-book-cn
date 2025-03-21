@@ -390,9 +390,5 @@
   "Note that we want the function to take string slices, which are references, rather than strings, because we don’t want the longest function to take ownership of its parameters. Refer to “String Slices as Parameters” in Chapter 4 for more discussion about why the parameters we use in Listing 10-19 are the ones we want.": {
     "_translate": "请注意，我们希望该函数接受字符串切片，它们是引用，而不是字符串，因为我们不希望<code>longest</code>函数获取其参数的所有权。有关为什么我们在示例10-19中使用这些参数的更多讨论，请参阅<a href=\"ch04-03-slices.html#string-slices-as-parameters\">“作为参数的字符串切片”</a><!-- ignore -->第4章。",
     "_note": ""
-  },
-  "The elision rules don’t provide full inference. If there is still ambiguity about what lifetimes the references have after Rust applies the rules, the compiler won’t guess what the lifetime of the remaining references should be. Instead of guessing, the compiler will give you an error that you can resolve by adding the lifetime annotations.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

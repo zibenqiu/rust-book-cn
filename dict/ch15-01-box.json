@@ -174,49 +174,5 @@
   "Each item in a cons list contains two elements: the value of the current item and the next item. The last item in the list contains only a value called Nil without a next item. A cons list is produced by recursively calling the cons function. The canonical name to denote the base case of the recursion is Nil. Note that this is not the same as the “null” or “nil” concept discussed in Chapter 6, which is an invalid or absent value.": {
     "_translate": "cons 列表中的每个项包含两个元素：当前项的值和下一个项。列表中的最后一项仅包含一个名为 <code>Nil</code> 的值，没有下一个项。cons 列表是通过递归调用 <code>cons</code> 函数生成的。递归的基本情况的规范名称是 <code>Nil</code>。请注意，这与第 6 章中讨论的“null”或“nil”概念不同，后者表示无效或不存在的值。",
     "_note": ""
-  },
-  "We’ll demonstrate the first situation in “Enabling Recursive Types with Boxes”. In the second case, transferring ownership of a large amount of data can take a long time because the data is copied around on the stack. To improve performance in this situation, we can store the large amount of data on the heap in a box. Then, only the small amount of pointer data is copied around on the stack, while the data it references stays in one place on the heap. The third case is known as a trait object, and “Using Trait Objects That Allow for Values of Different Types,” in Chapter 18 is devoted to that topic. So what you learn here you’ll apply again in that section!": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Using Box<T> to Store Data on the Heap": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Listing 15-1 shows how to use a box to store an i32 value on the heap.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "A value of a recursive type can have another value of the same type as part of itself. Recursive types pose an issue because Rust needs to know at compile time how much space a type takes up. However, the nesting of values of recursive types could theoretically continue infinitely, so Rust can’t know how much space the value needs. Because boxes have a known size, we can enable recursive types by inserting a box in the recursive type definition.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "A cons list is a data structure that comes from the Lisp programming language and its dialects, is made up of nested pairs, and is the Lisp version of a linked list. Its name comes from the cons function (short for construct function) in Lisp that constructs a new pair from its two arguments. By calling cons on a pair consisting of a value and another pair, we can construct cons lists made up of recursive pairs.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Using the List type to store the list 1, 2, 3 would look like the code in Listing 15-3.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "If we try to compile the code in Listing 15-3, we get the error shown in Listing 15-4.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "The error shows this type “has infinite size.” The reason is that we’ve defined List with a variant that is recursive: it holds another value of itself directly. As a result, Rust can’t figure out how much space it needs to store a List value. Let’s break down why we get this error. First we’ll look at how Rust decides how much space it needs to store a value of a non-recursive type.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "In this suggestion, indirection means that instead of storing a value directly, we should change the data structure to store the value indirectly by storing a pointer to the value instead.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "We can change the definition of the List enum in Listing 15-2 and the usage of the List in Listing 15-3 to the code in Listing 15-5, which will compile.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Boxes provide only the indirection and heap allocation; they don’t have any other special capabilities, like those we’ll see with the other smart pointer types. They also don’t have the performance overhead that these special capabilities incur, so they can be useful in cases like the cons list where the indirection is the only feature we need. We’ll look at more use cases for boxes in Chapter 18.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

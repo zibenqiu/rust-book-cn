@@ -62,9 +62,5 @@
   "At the time of this writing, four Rust editions are available: Rust 2015, Rust 2018, Rust 2021, and Rust 2024. This book is written using Rust 2024 edition idioms.": {
     "_translate": "在撰写本文时，有四个 Rust 版本可用：Rust 2015、Rust 2018、Rust 2021 和 Rust 2024。本书使用 Rust 2024 版本的惯用法编写。",
     "_note": ""
-  },
-  "Every three years or so, the Rust team produces a new Rust edition. Each edition brings together the features that have landed into a clear package with fully updated documentation and tooling. New editions ship as part of the usual six-week release process.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

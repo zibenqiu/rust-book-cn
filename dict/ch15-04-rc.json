@@ -106,17 +106,5 @@
   "At each point in the program where the reference count changes, we print the reference count, which we get by calling the Rc::strong_count function. This function is named strong_count rather than count because the Rc<T> type also has a weak_count; we’ll see what weak_count is used for in “Preventing Reference Cycles: Turning an Rc<T> into a Weak<T>”.": {
     "_translate": "在程序中每次引用计数发生变化时，我们都会打印引用计数，这是通过调用 <code>Rc::strong_count</code> 函数获得的。这个函数被称为 <code>strong_count</code> 而不是 <code>count</code>，因为 <code>Rc&lt;T&gt;</code> 类型还有 <code>weak_count</code>；我们将在 <a href=\"ch15-06-reference-cycles.html#preventing-reference-cycles-turning-an-rct-into-a-weakt\">“防止引用循环：将 <code>Rc&lt;T&gt;</code> 转换为 <code>Weak&lt;T&gt;</code>”</a><!-- ignore --> 中看到 <code>weak_count</code> 的用途。",
     "_note": ""
-  },
-  "Imagine Rc<T> as a TV in a family room. When one person enters to watch TV, they turn it on. Others can come into the room and watch the TV. When the last person leaves the room, they turn off the TV because it’s no longer being used. If someone turns off the TV while others are still watching it, there would be an uproar from the remaining TV watchers!": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Let’s return to our cons list example in Listing 15-5. Recall that we defined it using Box<T>. This time, we’ll create two lists that both share ownership of a third list. Conceptually, this looks similar to Figure 15-3.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "At each point in the program where the reference count changes, we print the reference count, which we get by calling the Rc::strong_count function. This function is named strong_count rather than count because the Rc<T> type also has a weak_count; we’ll see what weak_count is used for in “Preventing Reference Cycles Using Weak<T>”.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

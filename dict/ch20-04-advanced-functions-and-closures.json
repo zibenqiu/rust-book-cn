@@ -94,57 +94,5 @@
   "Closures are represented by traits, which means you can’t return closures directly. In most cases where you might want to return a trait, you can instead use the concrete type that implements the trait as the return value of the function. However, you can’t usually do that with closures because they don’t usually have a concrete type that is returnable. You’re not allowed to use the function pointer fn as a return type if the closure captures any values from its scope, for example.": {
     "_translate": "闭包由特征（traits）表示，这意味着你不能直接返回闭包。在大多数你可能想要返回特征的情况下，你可以使用实现该特征的具体类型作为函数的返回值。然而，通常你不能对闭包这样做，因为它们通常没有可返回的具体类型。例如，如果闭包捕获了其作用域中的任何值，你不能使用函数指针 <code>fn</code> 作为返回类型。",
     "_note": ""
-  },
-  "The syntax for specifying that a parameter is a function pointer is similar to that of closures, as shown in Listing 20-28, where we’ve defined a function add_one that adds 1 to its parameter. The function do_twice takes two parameters: a function pointer to any function that takes an i32 parameter and returns an i32, and one i32 value. The do_twice function calls the function f twice, passing it the arg value, then adds the two function call results together. The main function calls do_twice with the arguments add_one and 5.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "As an example of where you could use either a closure defined inline or a named function, let’s look at a use of the map method provided by the Iterator trait in the standard library. To use the map method to turn a vector of numbers into a vector of strings, we could use a closure, as in Listing 20-29.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Or we could name a function as the argument to map instead of the closure. Listing 20-30 shows what this would look like.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Note that we must use the fully qualified syntax that we talked about in “Advanced Traits” because there are multiple functions available named to_string.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Here, we’re using the to_string function defined in the ToString trait, which the standard library has implemented for any type that implements Display.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Recall from “Enum values” in Chapter 6 that the name of each enum variant that we define also becomes an initializer function. We can use these initializer functions as function pointers that implement the closure traits, which means we can specify the initializer functions as arguments for methods that take closures, as seen in Listing 20-31.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Here we create Status::Value instances using each u32 value in the range that map is called on by using the initializer function of Status::Value. Some people prefer this style and some people prefer to use closures. They compile to the same code, so use whichever style is clearer to you.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Closures are represented by traits, which means you can’t return closures directly. In most cases where you might want to return a trait, you can instead use the concrete type that implements the trait as the return value of the function. However, you can’t usually do that with closures because they don’t have a concrete type that is returnable. You’re not allowed to use the function pointer fn as a return type if the closure captures any values from its scope, for example.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Instead, you will normally use the impl Trait syntax we learned about in Chapter 10. You can return any function type, using Fn, FnOnce and FnMut. For example, the code in Listing 20-32 will work just fine.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "However, as we noted in “Closure Type Inference and Annotation” in Chapter 13, each closure is also its own distinct type. If you need to work with multiple functions that have the same signature but different implementations, you will need to use a trait object for them. Consider what happens if you write code like that shown in Listing 20-33.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "Here we have two functions, returns_closure and returns_initialized_closure, which both return impl Fn(i32) -> i32. Notice that he closures that they return are different, even though they implement the same type. If we try to compile this, Rust lets us know that it won’t work:": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "The error message tells us that whenever we return an impl Trait Rust creates a unique opaque type, a type where we cannot see into the details of what Rust constructs for us. So even though these functions both return closures that implements the same trait, Fn(i32) -> i32, the opaque types Rust generates for each are distinct. (This is similar to how Rust produces different concrete types for distinct async blocks even when they have the same output type, as we saw in “Working with Any Number of Futures” in Chapter 17. We have seen a solution to this problem a few times now: we can use a trait object, as in Listing 20-34.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
-  },
-  "This code will compile just fine. For more about trait objects, refer to the section “Using Trait Objects That Allow for Values of Different Types” in Chapter 18.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

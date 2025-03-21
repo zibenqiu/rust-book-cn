@@ -62,9 +62,5 @@
   "For our final project, we’ll make a web server that says “hello” and looks like Figure 21-1 in a web browser.": {
     "_translate": "对于我们的最终项目，我们将制作一个在网页浏览器中显示“hello”并看起来像图21-1的网页服务器。",
     "_note": ""
-  },
-  "Before we get started, we should mention two details. First, the method we’ll use won’t be the best way to build a web server with Rust. Community members have published a number of production-ready crates available on crates.io that provide more complete web server and thread pool implementations than we’ll build. However, our intention in this chapter is to help you learn, not to take the easy route. Because Rust is a systems programming language, we can choose the level of abstraction we want to work with and can go to a lower level than is possible or practical in other languages.": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }

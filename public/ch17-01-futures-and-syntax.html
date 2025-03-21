@@ -1,252 +1,471 @@
-<!DOCTYPE html><html lang="zh-CN" class="light sidebar-visible" dir="ltr"><head>
-        <!-- Book generated using mdBook -->
-        <meta charset="UTF-8">
-        <title>Futures 和 Async 语法 - 《Rust 编程语言》</title>
+<!DOCTYPE html>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+  <head>
+    <!-- Book generated using mdBook -->
+    <meta charset="UTF-8" />
+    <title>Futures 和 Async 语法 - 《Rust 编程语言》</title>
 
+    <!-- Custom HTML head -->
 
-        <!-- Custom HTML head -->
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/chrome.css" />
+    <link rel="stylesheet" href="css/print.css" media="print" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="fonts/fonts.css" />
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+    <!-- Highlight.js Stylesheets -->
+    <link rel="stylesheet" id="highlight-css" href="highlight.css" />
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css" />
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css" />
 
-        <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+    <!-- Custom theme stylesheets -->
+    <link rel="stylesheet" href="ferris.css" />
+    <link rel="stylesheet" href="theme/2018-edition.css" />
+    <link rel="stylesheet" href="theme/semantic-notes.css" />
+    <link rel="stylesheet" href="theme/listing.css" />
 
-        <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="ferris.css">
-        <link rel="stylesheet" href="theme/2018-edition.css">
-        <link rel="stylesheet" href="theme/semantic-notes.css">
-        <link rel="stylesheet" href="theme/listing.css">
-
-
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
-    <meta name="title" content="Rust 中文"><meta property="og:title" content="Rust 中文"><meta name="description" content="Rust 中文文档"><meta property="og:description" content="Rust 中文文档"><meta name="url" content="https://rust.xheldon.com"><meta property="og:url" content="https://rust.xheldon.com"><script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-V7NE1X37EX')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script><style>/* hover 显示原文 */
-p[data-x-en],
-li[data-x-en] {
-  position: relative;
-}
-p[data-x-en]:hover::after,
-li[data-x-en]:hover::after {
-  visibility: visible;
-  opacity: 1;
-}
-p[data-x-en]::after,
-li[data-x-en]::after {
-  content: attr(data-x-en);
-  display: block;
-  font-size: 12px;
-  transition: all 0.2s 0.3s;
-  visibility: hidden;
-  opacity: 0;
-  background: var(--searchbar-bg);
-  z-index: 99;
-  border-radius: 4px;
-  padding: 5px 10px;
-  position: absolute;
-  top: 100%;
-  left: 0;
-}
-/* 译者注释内容 */
-div[type='comment'] {
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 12px;
-  background: #eee;
-}
-div[type='comment']::before {
-  content: '译者注: ';
-  font-weight: 900;
-}
-header a.logo {
-  position: relative;
-}
-header a.logo::after {
-  content: '中文';
-  position: absolute;
-  left: calc(100% + 5px);
-  font-size: 12px;
-  width: 50px;
-  top: -5px;
-}
-#banner-info {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  font-size: 12px;
-  padding: 0;
-  z-index: 999;
-}
-#add-info {
-  font-size: 14px;
-}
-blockquote {
-  border-left: 5px solid #ccc;
-  padding-left: 10px;
-  margin-left: 0;
-}
-.content {
-  overflow-y: unset !important;
-}
-</style></head>
-    <body>
+    <!-- Provide site root to javascript -->
+    <script>
+      var path_to_root = '';
+      var default_theme = window.matchMedia('(prefers-color-scheme: dark)')
+        .matches
+        ? 'navy'
+        : 'light';
+    </script>
+    <!-- Start loading toc.js asap -->
+    <script src="toc.js"></script>
+    <meta name="title" content="Rust 中文" />
+    <meta property="og:title" content="Rust 中文" />
+    <meta name="description" content="Rust 中文文档" />
+    <meta property="og:description" content="Rust 中文文档" />
+    <meta name="url" content="https://rust.xheldon.com" />
+    <meta property="og:url" content="https://rust.xheldon.com" />
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-V7NE1X37EX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-V7NE1X37EX');
+    </script>
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script>
+    <style>
+      /* hover 显示原文 */
+      p[data-x-en],
+      li[data-x-en] {
+        position: relative;
+      }
+      p[data-x-en]:hover::after,
+      li[data-x-en]:hover::after {
+        visibility: visible;
+        opacity: 1;
+      }
+      p[data-x-en]::after,
+      li[data-x-en]::after {
+        content: attr(data-x-en);
+        display: block;
+        font-size: 12px;
+        transition: all 0.2s 0.3s;
+        visibility: hidden;
+        opacity: 0;
+        background: var(--searchbar-bg);
+        z-index: 99;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+      }
+      /* 译者注释内容 */
+      div[type='comment'] {
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background: #eee;
+      }
+      div[type='comment']::before {
+        content: '译者注: ';
+        font-weight: 900;
+      }
+      header a.logo {
+        position: relative;
+      }
+      header a.logo::after {
+        content: '中文';
+        position: absolute;
+        left: calc(100% + 5px);
+        font-size: 12px;
+        width: 50px;
+        top: -5px;
+      }
+      #banner-info {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 12px;
+        padding: 0;
+        z-index: 999;
+      }
+      #add-info {
+        font-size: 14px;
+      }
+      blockquote {
+        border-left: 5px solid #ccc;
+        padding-left: 10px;
+        margin-left: 0;
+      }
+      .content {
+        overflow-y: unset !important;
+      }
+    </style>
+  </head>
+  <body>
     <div id="body-container">
-        <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script>
-            try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+      <!-- Work around some values being stored in localStorage wrapped in quotes -->
+      <script>
+        try {
+          var theme = localStorage.getItem('mdbook-theme');
+          var sidebar = localStorage.getItem('mdbook-sidebar');
 
-                if (theme.startsWith('"') && theme.endsWith('"')) {
-                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
-                }
+          if (theme.startsWith('"') && theme.endsWith('"')) {
+            localStorage.setItem(
+              'mdbook-theme',
+              theme.slice(1, theme.length - 1)
+            );
+          }
 
-                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
-                }
-            } catch (e) { }
-        </script>
+          if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+            localStorage.setItem(
+              'mdbook-sidebar',
+              sidebar.slice(1, sidebar.length - 1)
+            );
+          }
+        } catch (e) {}
+      </script>
 
-        <!-- Set the theme before any content is loaded, prevents flash -->
-        <script>
-            var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
-            if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
-            html.classList.remove('light')
-            html.classList.add(theme);
-            html.classList.add("js");
-        </script>
+      <!-- Set the theme before any content is loaded, prevents flash -->
+      <script>
+        var theme;
+        try {
+          theme = localStorage.getItem('mdbook-theme');
+        } catch (e) {}
+        if (theme === null || theme === undefined) {
+          theme = default_theme;
+        }
+        const html = document.documentElement;
+        html.classList.remove('light');
+        html.classList.add(theme);
+        html.classList.add('js');
+      </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+      <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" />
 
-        <!-- Hide / unhide sidebar before it is displayed -->
-        <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
-            if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
-                sidebar = sidebar || 'visible';
-            } else {
-                sidebar = 'hidden';
-            }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
-        </script>
+      <!-- Hide / unhide sidebar before it is displayed -->
+      <script>
+        var sidebar = null;
+        var sidebar_toggle = document.getElementById('sidebar-toggle-anchor');
+        if (document.body.clientWidth >= 1080) {
+          try {
+            sidebar = localStorage.getItem('mdbook-sidebar');
+          } catch (e) {}
+          sidebar = sidebar || 'visible';
+        } else {
+          sidebar = 'hidden';
+        }
+        sidebar_toggle.checked = sidebar === 'visible';
+        html.classList.remove('sidebar-visible');
+        html.classList.add('sidebar-' + sidebar);
+      </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
-            </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
-                <div class="sidebar-resize-indicator"></div>
+      <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <!-- populated by js -->
+        <mdbook-sidebar-scrollbox
+          class="sidebar-scrollbox"
+        ></mdbook-sidebar-scrollbox>
+        <noscript>
+          <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+        </noscript>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+          <div class="sidebar-resize-indicator"></div>
+        </div>
+      </nav>
+
+      <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+          <div id="menu-bar-hover-placeholder"></div>
+          <div id="menu-bar" class="menu-bar sticky">
+            <div id="banner-info">
+              本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a
+                style="cursor: pointer"
+                href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch17-01-futures-and-syntax.json"
+                target="_blank"
+                >我来翻译！</a
+              >
             </div>
-        </nav>
+            <div class="left-buttons">
+              <label
+                id="sidebar-toggle"
+                class="icon-button"
+                for="sidebar-toggle-anchor"
+                title="Toggle Table of Contents"
+                aria-label="Toggle Table of Contents"
+                aria-controls="sidebar"
+              >
+                <i class="fa fa-bars"></i>
+              </label>
+              <button
+                id="theme-toggle"
+                class="icon-button"
+                type="button"
+                title="Change theme"
+                aria-label="Change theme"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="theme-list"
+              >
+                <i class="fa fa-paint-brush"></i>
+              </button>
+              <ul
+                id="theme-list"
+                class="theme-popup"
+                aria-label="Themes"
+                role="menu"
+              >
+                <li role="none">
+                  <button role="menuitem" class="theme" id="light">
+                    Light
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="rust">Rust</button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="coal">Coal</button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="navy">Navy</button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="ayu">Ayu</button>
+                </li>
+              </ul>
+              <button
+                id="search-toggle"
+                class="icon-button"
+                type="button"
+                title="Search. (Shortkey: s)"
+                aria-label="Toggle Searchbar"
+                aria-expanded="false"
+                aria-keyshortcuts="S"
+                aria-controls="searchbar"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
 
-        <div id="page-wrapper" class="page-wrapper">
+            <h1 class="menu-title">The Rust Programming Language</h1>
 
-            <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky"><div id="banner-info">本文档为 AI + 人工翻译，hover 可以显示原文。当前页翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/rust-book-cn/blob/main/dict/ch17-01-futures-and-syntax.json" target="_blank">我来翻译！</a></div>
-                    <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
-                        </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                        </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
+            <div class="right-buttons">
+              <a
+                href="print.html"
+                title="Print this book"
+                aria-label="Print this book"
+              >
+                <i id="print-button" class="fa fa-print"></i>
+              </a>
+              <a
+                href="https://github.com/rust-lang/book"
+                title="Git repository"
+                aria-label="Git repository"
+              >
+                <i id="git-repository-button" class="fa fa-github"></i>
+              </a>
 
-                    <h1 class="menu-title">The Rust Programming Language</h1>
+              <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"
+                ><i class="fa fa-language"></i></a
+              ><a href="https://www.xheldon.com" target="_blank"
+                ><i class="fa fa-id-card"></i
+              ></a>
+            </div>
+          </div>
 
-                    <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
-                        </a>
-                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
-                        </a>
+          <div id="search-wrapper" class="hidden">
+            <form id="searchbar-outer" class="searchbar-outer">
+              <input
+                type="search"
+                id="searchbar"
+                name="searchbar"
+                placeholder="Search this book ..."
+                aria-controls="searchresults-outer"
+                aria-describedby="searchresults-header"
+              />
+            </form>
+            <div id="searchresults-outer" class="searchresults-outer hidden">
+              <div id="searchresults-header" class="searchresults-header"></div>
+              <ul id="searchresults"></ul>
+            </div>
+          </div>
 
-                    <a href="https://github.com/Xheldon/rust-book-cn" target="_blank"><i class="fa fa-language"></i></a><a href="https://www.xheldon.com" target="_blank"><i class="fa fa-id-card"></i></a></div>
-                </div>
+          <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+          <script>
+            document
+              .getElementById('sidebar-toggle')
+              .setAttribute('aria-expanded', sidebar === 'visible');
+            document
+              .getElementById('sidebar')
+              .setAttribute('aria-hidden', sidebar !== 'visible');
+            Array.from(document.querySelectorAll('#sidebar a')).forEach(
+              function (link) {
+                link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+              }
+            );
+          </script>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
-                    </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
-                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
-                    });
-                </script>
-
-                <div id="content" class="content">
-                    <main>
-                        <h2 id="futures-and-the-async-syntax"><a class="header" href="#futures-and-the-async-syntax">Future 和异步语法</a></h2>
-<p data-x-en="The key elements of asynchronous programming in Rust are futures and Rust’s async and await keywords.">Rust 中异步编程的关键元素是 <em>future</em> 和 Rust 的 <code>async</code> 和 <code>await</code> 关键字。</p>
-<p data-x-en="A future is a value that may not be ready now but will become ready at some point in the future. (This same concept shows up in many languages, sometimes under other names such as task or promise.) Rust provides a Future trait as a building block so that different async operations can be implemented with different data structures but with a common interface. In Rust, futures are types that implement the Future trait. Each future holds its own information about the progress that has been made and what “ready” means.">一个 <em>future</em> 是一个可能现在还没有准备好，但在将来的某个时间点会准备好的值。（这个相同的概念在许多语言中都有出现，有时使用其他名称，如 <em>task</em> 或 <em>promise</em>。）Rust 提供了一个 <code>Future</code> 特性作为构建块，以便不同的异步操作可以用不同的数据结构实现，但具有共同的接口。在 Rust 中，futures 是实现了 <code>Future</code> 特性的类型。每个 future 都持有自己的关于已经取得的进展和“准备好”意味着什么的信息。</p>
-<p data-x-en="You can apply the async keyword to blocks and functions to specify that they can be interrupted and resumed. Within an async block or async function, you can use the await keyword to await a future (that is, wait for it to become ready). Any point where you await a future within an async block or function is a potential spot for that async block or function to pause and resume. The process of checking with a future to see if its value is available yet is called polling.">你可以将 <code>async</code> 关键字应用于块和函数，以指定它们可以被中断和恢复。在 async 块或 async 函数中，你可以使用 <code>await</code> 关键字来 <em>等待一个未来</em>（即，等待它变得可用）。在 async 块或函数中等待一个未来的任何点都是该 async 块或函数可能暂停和恢复的潜在位置。检查一个未来以查看其值是否可用的过程称为 <em>轮询</em>。</p>
-<p data-x-en="Some other languages, such as C# and JavaScript, also use async and await keywords for async programming. If you’re familiar with those languages, you may notice some significant differences in how Rust does things, including how it handles the syntax. That’s for good reason, as we’ll see!">一些其他语言，如 C# 和 JavaScript，也使用 <code>async</code> 和 <code>await</code> 关键字进行异步编程。如果你对这些语言很熟悉，你可能会注意到 Rust 在这方面的一些显著差异，包括它处理语法的方式。这是有充分理由的，正如我们将要看到的！</p>
-<p data-x-en="When writing async Rust, we use the async and await keywords most of the time. Rust compiles them into equivalent code using the Future trait, much as it compiles for loops into equivalent code using the Iterator trait. Because Rust provides the Future trait, though, you can also implement it for your own data types when you need to. Many of the functions we’ll see throughout this chapter return types with their own implementations of Future. We’ll return to the definition of the trait at the end of the chapter and dig into more of how it works, but this is enough detail to keep us moving forward.">在编写异步 Rust 时，我们大多数时候使用 <code>async</code> 和 <code>await</code> 关键字。Rust 将它们编译成使用 <code>Future</code> 特性的等效代码，就像它将 <code>for</code> 循环编译成使用 <code>Iterator</code> 特性的等效代码一样。因为 Rust 提供了 <code>Future</code> 特性，所以当你需要时，也可以为自己的数据类型实现它。在本章中，我们将看到的许多函数返回具有自己 <code>Future</code> 实现的类型。我们将在本章末尾回到特性的定义，并深入探讨更多关于它是如何工作的细节，但这些细节已经足够让我们继续前进。</p>
-<p data-x-en="This may all feel a bit abstract, so let’s write our first async program: a little web scraper. We’ll pass in two URLs from the command line, fetch both of them concurrently, and return the result of whichever one finishes first. This example will have a fair bit of new syntax, but don’t worry—we’ll explain everything you need to know as we go.">这可能感觉有点抽象，所以让我们编写我们的第一个异步程序：一个小型的网络爬虫。我们将从命令行传入两个URL，同时获取它们，并返回最先完成的那个的结果。这个例子将包含相当多的新语法，但不要担心——我们会逐步解释你需要知道的一切。</p>
-<h2 id="our-first-async-program"><a class="header" href="#our-first-async-program">我们的第一个异步程序</a></h2>
-<p data-x-en="To keep the focus of this chapter on learning async rather than juggling parts of the ecosystem, we’ve created the trpl crate (trpl is short for “The Rust Programming Language”). It re-exports all the types, traits, and functions you’ll need, primarily from the futures and tokio crates. The futures crate is an official home for Rust experimentation for async code, and it’s actually where the Future trait was originally designed. Tokio is the most widely used async runtime in Rust today, especially for web applications. There are other great runtimes out there, and they may be more suitable for your purposes. We use the tokio crate under the hood for trpl because it’s well tested and widely used.">为了使本章的重点放在学习异步编程而不是处理生态系统中的各个部分，我们创建了 <code>trpl</code> crate（<code>trpl</code> 是 “The Rust Programming Language” 的缩写）。它重新导出了所有你需要的类型、特质和函数，主要来自 <a href="https://crates.io/crates/futures"><code>futures</code></a><!-- ignore --> 和 <a href="https://tokio.rs"><code>tokio</code></a><!-- ignore --> crate。<code>futures</code> crate 是 Rust 用于异步代码实验的官方场所，实际上 <code>Future</code> 特质最初就是在这里设计的。Tokio 是目前 Rust 中使用最广泛的异步运行时，特别是在 Web 应用程序中。还有其他优秀的运行时，它们可能更适合你的需求。我们在 <code>trpl</code> 中使用 <code>tokio</code> crate 是因为它经过了充分测试并且广泛使用。</p>
-<p data-x-en="In some cases, trpl also renames or wraps the original APIs to keep you focused on the details relevant to this chapter. If you want to understand what the crate does, we encourage you to check out its source code. You’ll be able to see what crate each re-export comes from, and we’ve left extensive comments explaining what the crate does.">在某些情况下，<code>trpl</code> 还会重命名或包装原始 API，以使您专注于本章相关的细节。如果您想了解该 crate 的功能，我们鼓励您查看 <a href="https://github.com/rust-lang/book/tree/main/packages/trpl">其源代码</a><!-- ignore -->。您将能够看到每个重新导出的 crate 来自哪里，我们还留下了大量注释解释该 crate 的功能。</p>
-<p data-x-en="Create a new binary project named hello-async and add the trpl crate as a dependency:">创建一个名为 <code>hello-async</code> 的新二进制项目，并将 <code>trpl</code> crate 作为依赖项添加：</p>
-<pre><code class="language-console">$ cargo new hello-async
+          <div id="content" class="content">
+            <main>
+              <h2 id="futures-and-the-async-syntax">
+                <a class="header" href="#futures-and-the-async-syntax"
+                  >Future 和异步语法</a
+                >
+              </h2>
+              <p
+                data-x-en="The key elements of asynchronous programming in Rust are futures and Rust’s async and await keywords."
+              >
+                Rust 中异步编程的关键元素是 <em>future</em> 和 Rust 的
+                <code>async</code> 和 <code>await</code> 关键字。
+              </p>
+              <p
+                data-x-en="A future is a value that may not be ready now but will become ready at some point in the future. (This same concept shows up in many languages, sometimes under other names such as task or promise.) Rust provides a Future trait as a building block so that different async operations can be implemented with different data structures but with a common interface. In Rust, futures are types that implement the Future trait. Each future holds its own information about the progress that has been made and what “ready” means."
+              >
+                一个
+                <em>future</em>
+                是一个可能现在还没有准备好，但在将来的某个时间点会准备好的值。（这个相同的概念在许多语言中都有出现，有时使用其他名称，如
+                <em>task</em> 或 <em>promise</em>。）Rust 提供了一个
+                <code>Future</code>
+                特性作为构建块，以便不同的异步操作可以用不同的数据结构实现，但具有共同的接口。在
+                Rust 中，futures 是实现了 <code>Future</code> 特性的类型。每个
+                future
+                都持有自己的关于已经取得的进展和“准备好”意味着什么的信息。
+              </p>
+              <p
+                data-x-en="You can apply the async keyword to blocks and functions to specify that they can be interrupted and resumed. Within an async block or async function, you can use the await keyword to await a future (that is, wait for it to become ready). Any point where you await a future within an async block or function is a potential spot for that async block or function to pause and resume. The process of checking with a future to see if its value is available yet is called polling."
+              >
+                你可以将
+                <code>async</code>
+                关键字应用于块和函数，以指定它们可以被中断和恢复。在 async 块或
+                async 函数中，你可以使用 <code>await</code> 关键字来
+                <em>等待一个未来</em>（即，等待它变得可用）。在 async
+                块或函数中等待一个未来的任何点都是该 async
+                块或函数可能暂停和恢复的潜在位置。检查一个未来以查看其值是否可用的过程称为
+                <em>轮询</em>。
+              </p>
+              <p
+                data-x-en="Some other languages, such as C# and JavaScript, also use async and await keywords for async programming. If you’re familiar with those languages, you may notice some significant differences in how Rust does things, including how it handles the syntax. That’s for good reason, as we’ll see!"
+              >
+                一些其他语言，如 C# 和 JavaScript，也使用 <code>async</code> 和
+                <code>await</code>
+                关键字进行异步编程。如果你对这些语言很熟悉，你可能会注意到 Rust
+                在这方面的一些显著差异，包括它处理语法的方式。这是有充分理由的，正如我们将要看到的！
+              </p>
+              <p
+                data-x-en="When writing async Rust, we use the async and await keywords most of the time. Rust compiles them into equivalent code using the Future trait, much as it compiles for loops into equivalent code using the Iterator trait. Because Rust provides the Future trait, though, you can also implement it for your own data types when you need to. Many of the functions we’ll see throughout this chapter return types with their own implementations of Future. We’ll return to the definition of the trait at the end of the chapter and dig into more of how it works, but this is enough detail to keep us moving forward."
+              >
+                在编写异步 Rust 时，我们大多数时候使用 <code>async</code> 和
+                <code>await</code> 关键字。Rust 将它们编译成使用
+                <code>Future</code> 特性的等效代码，就像它将
+                <code>for</code> 循环编译成使用
+                <code>Iterator</code> 特性的等效代码一样。因为 Rust 提供了
+                <code>Future</code>
+                特性，所以当你需要时，也可以为自己的数据类型实现它。在本章中，我们将看到的许多函数返回具有自己
+                <code>Future</code>
+                实现的类型。我们将在本章末尾回到特性的定义，并深入探讨更多关于它是如何工作的细节，但这些细节已经足够让我们继续前进。
+              </p>
+              <p
+                data-x-en="This may all feel a bit abstract, so let’s write our first async program: a little web scraper. We’ll pass in two URLs from the command line, fetch both of them concurrently, and return the result of whichever one finishes first. This example will have a fair bit of new syntax, but don’t worry—we’ll explain everything you need to know as we go."
+              >
+                这可能感觉有点抽象，所以让我们编写我们的第一个异步程序：一个小型的网络爬虫。我们将从命令行传入两个URL，同时获取它们，并返回最先完成的那个的结果。这个例子将包含相当多的新语法，但不要担心——我们会逐步解释你需要知道的一切。
+              </p>
+              <h2 id="our-first-async-program">
+                <a class="header" href="#our-first-async-program"
+                  >我们的第一个异步程序</a
+                >
+              </h2>
+              <p
+                data-x-en="To keep the focus of this chapter on learning async rather than juggling parts of the ecosystem, we’ve created the trpl crate (trpl is short for “The Rust Programming Language”). It re-exports all the types, traits, and functions you’ll need, primarily from the futures and tokio crates. The futures crate is an official home for Rust experimentation for async code, and it’s actually where the Future trait was originally designed. Tokio is the most widely used async runtime in Rust today, especially for web applications. There are other great runtimes out there, and they may be more suitable for your purposes. We use the tokio crate under the hood for trpl because it’s well tested and widely used."
+              >
+                为了使本章的重点放在学习异步编程而不是处理生态系统中的各个部分，我们创建了
+                <code>trpl</code> crate（<code>trpl</code> 是 “The Rust
+                Programming Language”
+                的缩写）。它重新导出了所有你需要的类型、特质和函数，主要来自
+                <a href="https://crates.io/crates/futures"
+                  ><code>futures</code></a
+                ><!-- ignore -->
+                和 <a href="https://tokio.rs"><code>tokio</code></a
+                ><!-- ignore -->
+                crate。<code>futures</code> crate 是 Rust
+                用于异步代码实验的官方场所，实际上
+                <code>Future</code> 特质最初就是在这里设计的。Tokio 是目前 Rust
+                中使用最广泛的异步运行时，特别是在 Web
+                应用程序中。还有其他优秀的运行时，它们可能更适合你的需求。我们在
+                <code>trpl</code> 中使用 <code>tokio</code> crate
+                是因为它经过了充分测试并且广泛使用。
+              </p>
+              <p
+                data-x-en="In some cases, trpl also renames or wraps the original APIs to keep you focused on the details relevant to this chapter. If you want to understand what the crate does, we encourage you to check out its source code. You’ll be able to see what crate each re-export comes from, and we’ve left extensive comments explaining what the crate does."
+              >
+                在某些情况下，<code>trpl</code> 还会重命名或包装原始
+                API，以使您专注于本章相关的细节。如果您想了解该 crate
+                的功能，我们鼓励您查看
+                <a
+                  href="https://github.com/rust-lang/book/tree/main/packages/trpl"
+                  >其源代码</a
+                ><!-- ignore -->。您将能够看到每个重新导出的 crate
+                来自哪里，我们还留下了大量注释解释该 crate 的功能。
+              </p>
+              <p
+                data-x-en="Create a new binary project named hello-async and add the trpl crate as a dependency:"
+              >
+                创建一个名为 <code>hello-async</code> 的新二进制项目，并将
+                <code>trpl</code> crate 作为依赖项添加：
+              </p>
+              <pre><code class="language-console">$ cargo new hello-async
 $ cd hello-async
 $ cargo add trpl
 </code></pre>
-<p data-x-en="Now we can use the various pieces provided by trpl to write our first async program. We’ll build a little command line tool that fetches two web pages, pulls the <title> element from each, and prints out the title of whichever page finishes that whole process first.">现在我们可以使用 <code>trpl</code> 提供的各种组件来编写我们的第一个异步程序。我们将构建一个小的命令行工具，该工具将获取两个网页，从每个网页中提取 <code>&lt;title&gt;</code> 元素，并打印出首先完成整个过程的页面的标题。</p>
-<h3 id="defining-the-page_title-function"><a class="header" href="#defining-the-page_title-function">定义 page_title 函数</a></h3>
-<p data-x-en="Let’s start by writing a function that takes one page URL as a parameter, makes a request to it, and returns the text of the title element (see Listing 17-1).">让我们先编写一个函数，该函数以一个页面URL作为参数，向其发出请求，并返回标题元素的文本（参见清单17-1）。</p>
-<figure class="listing">
-<span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
+              <p
+                data-x-en="Now we can use the various pieces provided by trpl to write our first async program. We’ll build a little command line tool that fetches two web pages, pulls the <title> element from each, and prints out the title of whichever page finishes that whole process first."
+              >
+                现在我们可以使用
+                <code>trpl</code>
+                提供的各种组件来编写我们的第一个异步程序。我们将构建一个小的命令行工具，该工具将获取两个网页，从每个网页中提取
+                <code>&lt;title&gt;</code>
+                元素，并打印出首先完成整个过程的页面的标题。
+              </p>
+              <h3 id="defining-the-page_title-function">
+                <a class="header" href="#defining-the-page_title-function"
+                  >定义 page_title 函数</a
+                >
+              </h3>
+              <p
+                data-x-en="Let’s start by writing a function that takes one page URL as a parameter, makes a request to it, and returns the text of the title element (see Listing 17-1)."
+              >
+                让我们先编写一个函数，该函数以一个页面URL作为参数，向其发出请求，并返回标题元素的文本（参见清单17-1）。
+              </p>
+              <figure class="listing">
+                <span class="file-name">Filename: src/main.rs</span>
+                <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    // TODO: we'll add this next!
@@ -261,19 +480,65 @@ async fn page_title(url: &amp;str) -&gt; Option&lt;String&gt; {
         .select_first("title")
         .map(|title_element| title_element.inner_html())
 }</code></pre></pre>
-<figcaption>Listing 17-1: Defining an async function to get the title element from an HTML page</figcaption>
-</figure>
-<p data-x-en="First, we define a function named page_title and mark it with the async keyword. Then we use the trpl::get function to fetch whatever URL is passed in and add the await keyword to await the response. To get the text of the response, we call its text method, and once again await it with the await keyword. Both of these steps are asynchronous. For the get function, we have to wait for the server to send back the first part of its response, which will include HTTP headers, cookies, and so on, and can be delivered separately from the response body. Especially if the body is very large, it can take some time for it all to arrive. Because we have to wait for the entirety of the response to arrive, the text method is also async.">首先，我们定义一个名为<code>page_title</code>的函数，并用<code>async</code>关键字标记它。然后我们使用<code>trpl::get</code>函数来获取传递的任何URL，并添加<code>await</code>关键字以等待响应。为了获取响应的文本，我们调用其<code>text</code>方法，并再次使用<code>await</code>关键字等待它。这两个步骤都是异步的。对于<code>get</code>函数，我们必须等待服务器发送回其响应的第一部分，这将包括HTTP头、cookie等，这些可以与响应体分开交付。特别是如果响应体非常大，它可能需要一些时间才能全部到达。因为我们必须等待响应的<em>全部</em>内容到达，所以<code>text</code>方法也是异步的。</p>
-<p data-x-en="We have to explicitly await both of these futures, because futures in Rust are lazy: they don’t do anything until you ask them to with the await keyword. (In fact, Rust will show a compiler warning if you don’t use a future.) This might remind you of Chapter 13’s discussion of iterators in the section Processing a Series of Items With Iterators. Iterators do nothing unless you call their next method—whether directly or by using for loops or methods such as map that use next under the hood. Likewise, futures do nothing unless you explicitly ask them to. This laziness allows Rust to avoid running async code until it’s actually needed.">我们必须显式地等待这两个 future，因为 Rust 中的 future 是<em>惰性</em>的：除非你用 <code>await</code> 关键字要求它们执行，否则它们不会做任何事情。（事实上，如果你不使用一个 future，Rust 会显示一个编译器警告。）这可能让你想起第 13 章中关于迭代器的讨论，在<a href="ch13-02-iterators.html">使用迭代器处理一系列项目</a><!-- ignore -->一节中。除非你调用它们的 <code>next</code> 方法——无论是直接调用还是通过 <code>for</code> 循环或 <code>map</code> 等使用 <code>next</code> 的方法——迭代器不会做任何事情。同样，除非你显式地要求，future 也不会做任何事情。这种惰性使得 Rust 可以避免在实际需要之前运行异步代码。</p>
-<section class="note" aria-role="note">
-<p data-x-en="Note: This is different from the behavior we saw in the previous chapter when using thread::spawn in Creating a New Thread with spawn, where the closure we passed to another thread started running immediately. It’s also different from how many other languages approach async. But it’s important for Rust to be able to provide its performance guarantees, just as it is with iterators.">注意：这与我们在<a href="ch16-01-threads.html#creating-a-new-thread-with-spawn">使用 <code>thread::spawn</code> 创建新线程</a>一节中看到的行为不同，在该节中，我们传递给另一个线程的闭包会立即开始运行。这也与其他许多语言处理异步的方式不同。但是，对于 Rust 而言，能够提供其性能保证非常重要，就像迭代器一样。</p>
-</section>
-<p data-x-en="Once we have response_text, we can parse it into an instance of the Html type using Html::parse. Instead of a raw string, we now have a data type we can use to work with the HTML as a richer data structure. In particular, we can use the select_first method to find the first instance of a given CSS selector. By passing the string &quot;title&quot;, we’ll get the first <title> element in the document, if there is one. Because there may not be any matching element, select_first returns an Option<ElementRef>. Finally, we use the Option::map method, which lets us work with the item in the Option if it’s present, and do nothing if it isn’t. (We could also use a match expression here, but map is more idiomatic.) In the body of the function we supply to map, we call inner_html on the title_element to get its content, which is a String. When all is said and done, we have an Option<String>.">一旦我们有了<code>response_text</code>，我们可以使用<code>Html::parse</code>将其解析为<code>Html</code>类型的实例。这样，我们就有了一个可以用来处理HTML的更丰富的数据结构，而不仅仅是一个原始字符串。特别是，我们可以使用<code>select_first</code>方法来查找给定CSS选择器的第一个实例。通过传递字符串<code>"title"</code>，我们将获得文档中的第一个<code>&lt;title&gt;</code>元素（如果有的话）。因为可能没有匹配的元素，<code>select_first</code>返回一个<code>Option&lt;ElementRef&gt;</code>。最后，我们使用<code>Option::map</code>方法，这让我们可以在<code>Option</code>中处理项目（如果存在的话），如果不存在则不执行任何操作。（我们也可以在这里使用<code>match</code>表达式，但<code>map</code>更符合惯用法。）在我们提供给<code>map</code>的函数体中，我们调用<code>title_element</code>的<code>inner_html</code>方法来获取其内容，这是一个<code>String</code>。最终，我们得到了一个<code>Option&lt;String&gt;</code>。</p>
-<p data-x-en="Notice that Rust’s await keyword goes after the expression you’re awaiting, not before it. That is, it’s a postfix keyword. This may differ from what you’re used to if you’ve used async in other languages, but in Rust it makes chains of methods much nicer to work with. As a result, we can change the body of page_url_for to chain the trpl::get and text function calls together with await between them, as shown in Listing 17-2.">请注意，Rust 的 <code>await</code> 关键字位于你正在等待的表达式 <em>之后</em>，
-而不是之前。也就是说，它是一个 <em>后缀</em> 关键字。这可能与你在其他语言中使用 <code>async</code> 时的习惯不同，但在 Rust 中，这使得方法链的使用更加优雅。因此，我们可以将 <code>page_url_for</code> 的主体更改为将 <code>trpl::get</code> 和 <code>text</code> 函数调用通过 <code>await</code> 连接在一起，如清单 17-2 所示。</p>
-<figure class="listing">
-<span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
+                <figcaption>
+                  Listing 17-1: Defining an async function to get the title
+                  element from an HTML page
+                </figcaption>
+              </figure>
+              <p
+                data-x-en="First, we define a function named page_title and mark it with the async keyword. Then we use the trpl::get function to fetch whatever URL is passed in and add the await keyword to await the response. To get the text of the response, we call its text method, and once again await it with the await keyword. Both of these steps are asynchronous. For the get function, we have to wait for the server to send back the first part of its response, which will include HTTP headers, cookies, and so on, and can be delivered separately from the response body. Especially if the body is very large, it can take some time for it all to arrive. Because we have to wait for the entirety of the response to arrive, the text method is also async."
+              >
+                首先，我们定义一个名为<code>page_title</code>的函数，并用<code>async</code>关键字标记它。然后我们使用<code>trpl::get</code>函数来获取传递的任何URL，并添加<code>await</code>关键字以等待响应。为了获取响应的文本，我们调用其<code>text</code>方法，并再次使用<code>await</code>关键字等待它。这两个步骤都是异步的。对于<code>get</code>函数，我们必须等待服务器发送回其响应的第一部分，这将包括HTTP头、cookie等，这些可以与响应体分开交付。特别是如果响应体非常大，它可能需要一些时间才能全部到达。因为我们必须等待响应的<em>全部</em>内容到达，所以<code>text</code>方法也是异步的。
+              </p>
+              <p
+                data-x-en="We have to explicitly await both of these futures, because futures in Rust are lazy: they don’t do anything until you ask them to with the await keyword. (In fact, Rust will show a compiler warning if you don’t use a future.) This might remind you of Chapter 13’s discussion of iterators in the section Processing a Series of Items With Iterators. Iterators do nothing unless you call their next method—whether directly or by using for loops or methods such as map that use next under the hood. Likewise, futures do nothing unless you explicitly ask them to. This laziness allows Rust to avoid running async code until it’s actually needed."
+              >
+                我们必须显式地等待这两个 future，因为 Rust 中的 future
+                是<em>惰性</em>的：除非你用
+                <code>await</code>
+                关键字要求它们执行，否则它们不会做任何事情。（事实上，如果你不使用一个
+                future，Rust 会显示一个编译器警告。）这可能让你想起第 13
+                章中关于迭代器的讨论，在<a href="ch13-02-iterators.html"
+                  >使用迭代器处理一系列项目</a
+                ><!-- ignore -->一节中。除非你调用它们的
+                <code>next</code> 方法——无论是直接调用还是通过
+                <code>for</code> 循环或 <code>map</code> 等使用
+                <code>next</code>
+                的方法——迭代器不会做任何事情。同样，除非你显式地要求，future
+                也不会做任何事情。这种惰性使得 Rust
+                可以避免在实际需要之前运行异步代码。
+              </p>
+              <section class="note" aria-role="note">
+                <p
+                  data-x-en="Note: This is different from the behavior we saw in the previous chapter when using thread::spawn in Creating a New Thread with spawn, where the closure we passed to another thread started running immediately. It’s also different from how many other languages approach async. But it’s important for Rust to be able to provide its performance guarantees, just as it is with iterators."
+                >
+                  注意：这与我们在<a
+                    href="ch16-01-threads.html#creating-a-new-thread-with-spawn"
+                    >使用 <code>thread::spawn</code> 创建新线程</a
+                  >一节中看到的行为不同，在该节中，我们传递给另一个线程的闭包会立即开始运行。这也与其他许多语言处理异步的方式不同。但是，对于
+                  Rust 而言，能够提供其性能保证非常重要，就像迭代器一样。
+                </p>
+              </section>
+              <p
+                data-x-en='Once we have response_text, we can parse it into an instance of the Html type using Html::parse. Instead of a raw string, we now have a data type we can use to work with the HTML as a richer data structure. In particular, we can use the select_first method to find the first instance of a given CSS selector. By passing the string "title", we’ll get the first <title> element in the document, if there is one. Because there may not be any matching element, select_first returns an Option<ElementRef>. Finally, we use the Option::map method, which lets us work with the item in the Option if it’s present, and do nothing if it isn’t. (We could also use a match expression here, but map is more idiomatic.) In the body of the function we supply to map, we call inner_html on the title_element to get its content, which is a String. When all is said and done, we have an Option<String>.'
+              >
+                一旦我们有了<code>response_text</code>，我们可以使用<code>Html::parse</code>将其解析为<code>Html</code>类型的实例。这样，我们就有了一个可以用来处理HTML的更丰富的数据结构，而不仅仅是一个原始字符串。特别是，我们可以使用<code>select_first</code>方法来查找给定CSS选择器的第一个实例。通过传递字符串<code>"title"</code>，我们将获得文档中的第一个<code>&lt;title&gt;</code>元素（如果有的话）。因为可能没有匹配的元素，<code>select_first</code>返回一个<code>Option&lt;ElementRef&gt;</code>。最后，我们使用<code>Option::map</code>方法，这让我们可以在<code>Option</code>中处理项目（如果存在的话），如果不存在则不执行任何操作。（我们也可以在这里使用<code>match</code>表达式，但<code>map</code>更符合惯用法。）在我们提供给<code>map</code>的函数体中，我们调用<code>title_element</code>的<code>inner_html</code>方法来获取其内容，这是一个<code>String</code>。最终，我们得到了一个<code>Option&lt;String&gt;</code>。
+              </p>
+              <p
+                data-x-en="Notice that Rust’s await keyword goes after the expression you’re awaiting, not before it. That is, it’s a postfix keyword. This may differ from what you’re used to if you’ve used async in other languages, but in Rust it makes chains of methods much nicer to work with. As a result, we can change the body of page_url_for to chain the trpl::get and text function calls together with await between them, as shown in Listing 17-2."
+              >
+                请注意，Rust 的 <code>await</code> 关键字位于你正在等待的表达式
+                <em>之后</em>， 而不是之前。也就是说，它是一个
+                <em>后缀</em> 关键字。这可能与你在其他语言中使用
+                <code>async</code> 时的习惯不同，但在 Rust
+                中，这使得方法链的使用更加优雅。因此，我们可以将
+                <code>page_url_for</code> 的主体更改为将
+                <code>trpl::get</code> 和 <code>text</code> 函数调用通过
+                <code>await</code> 连接在一起，如清单 17-2 所示。
+              </p>
+              <figure class="listing">
+                <span class="file-name">Filename: src/main.rs</span>
+                <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use trpl::Html;
 </span><span class="boring">
@@ -287,12 +552,35 @@ async fn page_title(url: &amp;str) -&gt; Option&lt;String&gt; {
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-2: Chaining with the <code>await</code> keyword</figcaption>
-</figure>
-<p data-x-en="With that, we have successfully written our first async function! Before we add some code in main to call it, let’s talk a little more about what we’ve written and what it means.">至此，我们成功编写了我们的第一个异步函数！在我们在 <code>main</code> 中添加一些代码来调用它之前，让我们再多谈谈我们编写的内容及其意义。</p>
-<p data-x-en="When Rust sees a block marked with the async keyword, it compiles it into a unique, anonymous data type that implements the Future trait. When Rust sees a function marked with async, it compiles it into a non-async function whose body is an async block. An async function’s return type is the type of the anonymous data type the compiler creates for that async block.">当 Rust 看到一个用 <code>async</code> 关键字标记的块时，它会将其编译成一个实现 <code>Future</code> 特性的唯一、匿名数据类型。当 Rust 看到一个用 <code>async</code> 标记的函数时，它会将其编译成一个非异步函数，其函数体是一个异步块。异步函数的返回类型是编译器为该异步块创建的匿名数据类型的类型。</p>
-<p data-x-en="Thus, writing async fn is equivalent to writing a function that returns a future of the return type. To the compiler, a function definition such as the async fn page_title in Listing 17-1 is equivalent to a non-async function defined like this:">因此，编写 <code>async fn</code> 相当于编写一个返回 <em>future</em> 类型的函数。对于编译器而言，如清单 17-1 中的 <code>async fn page_title</code> 函数定义，等同于以下非异步函数定义：</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+                <figcaption>
+                  Listing 17-2: Chaining with the <code>await</code> keyword
+                </figcaption>
+              </figure>
+              <p
+                data-x-en="With that, we have successfully written our first async function! Before we add some code in main to call it, let’s talk a little more about what we’ve written and what it means."
+              >
+                至此，我们成功编写了我们的第一个异步函数！在我们在
+                <code>main</code>
+                中添加一些代码来调用它之前，让我们再多谈谈我们编写的内容及其意义。
+              </p>
+              <p
+                data-x-en="When Rust sees a block marked with the async keyword, it compiles it into a unique, anonymous data type that implements the Future trait. When Rust sees a function marked with async, it compiles it into a non-async function whose body is an async block. An async function’s return type is the type of the anonymous data type the compiler creates for that async block."
+              >
+                当 Rust 看到一个用
+                <code>async</code> 关键字标记的块时，它会将其编译成一个实现
+                <code>Future</code> 特性的唯一、匿名数据类型。当 Rust 看到一个用
+                <code>async</code>
+                标记的函数时，它会将其编译成一个非异步函数，其函数体是一个异步块。异步函数的返回类型是编译器为该异步块创建的匿名数据类型的类型。
+              </p>
+              <p
+                data-x-en="Thus, writing async fn is equivalent to writing a function that returns a future of the return type. To the compiler, a function definition such as the async fn page_title in Listing 17-1 is equivalent to a non-async function defined like this:"
+              >
+                因此，编写 <code>async fn</code> 相当于编写一个返回
+                <em>future</em> 类型的函数。对于编译器而言，如清单 17-1 中的
+                <code>async fn page_title</code>
+                函数定义，等同于以下非异步函数定义：
+              </p>
+              <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">extern crate trpl; // required for mdbook test
 </span>use std::future::Future;
@@ -307,20 +595,76 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="Let’s walk through each part of the transformed version:">让我们逐一解析转换后的每个部分：</p>
-<ul>
-<li data-x-en="It uses the impl Trait syntax we discussed back in Chapter 10 in the “Traits as Parameters” section.">它使用我们在第 10 章 <a href="ch10-02-traits.html#traits-as-parameters">“Traits as Parameters”</a> 部分讨论的 <code>impl Trait</code> 语法。</li>
-<li data-x-en="The returned trait is a Future with an associated type of Output. Notice that the Output type is Option<String>, which is the same as the original return type from the async fn version of page_title.">返回的特质是一个 <code>Future</code>，其关联类型为 <code>Output</code>。注意 <code>Output</code> 类型是 <code>Option&lt;String&gt;</code>，这与 <code>async fn</code> 版本的 <code>page_title</code> 的原始返回类型相同。</li>
-<li data-x-en="All of the code called in the body of the original function is wrapped in an async move block. Remember that blocks are expressions. This whole block is the expression returned from the function.">在原始函数体中调用的所有代码都被包装在一个 <code>async move</code> 块中。记住，块是表达式。这个整个块就是从函数返回的表达式。</li>
-<li data-x-en="This async block produces a value with the type Option<String>, as just described. That value matches the Output type in the return type. This is just like other blocks you have seen.">这个异步块生成一个类型为<code>Option&lt;String&gt;</code>的值，正如前面所述。该值与返回类型中的<code>Output</code>类型匹配。这与其他你见过的块是一样的。</li>
-<li data-x-en="The new function body is an async move block because of how it uses the url parameter. (We’ll talk much more about async versus async move later in the chapter.)">新的函数体是一个 <code>async move</code> 块，因为它是如何使用 <code>url</code> 参数的。我们将在本章后面更详细地讨论 <code>async</code> 与 <code>async move</code>。</li>
-</ul>
-<p data-x-en="Now we can call page_title in main.">现在我们可以在 <code>main</code> 中调用 <code>page_title</code>。</p>
-<h2 id="determining-a-single-pages-title"><a class="header" href="#determining-a-single-pages-title">确定单个页面的标题</a></h2>
-<p data-x-en="To start, we’ll just get the title for a single page. In Listing 17-3, we follow the same pattern we used in Chapter 12 to get command line arguments in the Accepting Command Line Arguments section. Then we pass the first URL page_title and await the result. Because the value produced by the future is an Option<String>, we use a match expression to print different messages to account for whether the page had a <title>.">首先，我们只获取单个页面的标题。在清单 17-3 中，我们遵循了在第 12 章 <a href="ch12-01-accepting-command-line-arguments.html">接受命令行参数</a><!-- ignore --> 部分中用于获取命令行参数的相同模式。然后我们传递第一个 URL <code>page_title</code> 并等待结果。因为未来产生的值是一个 <code>Option&lt;String&gt;</code>，我们使用一个 <code>match</code> 表达式来打印不同的消息，以考虑页面是否有 <code>&lt;title&gt;</code>。</p>
-<figure class="listing">
-<span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
+              <p
+                data-x-en="Let’s walk through each part of the transformed version:"
+              >
+                让我们逐一解析转换后的每个部分：
+              </p>
+              <ul>
+                <li
+                  data-x-en="It uses the impl Trait syntax we discussed back in Chapter 10 in the “Traits as Parameters” section."
+                >
+                  它使用我们在第 10 章
+                  <a href="ch10-02-traits.html#traits-as-parameters"
+                    >“Traits as Parameters”</a
+                  >
+                  部分讨论的 <code>impl Trait</code> 语法。
+                </li>
+                <li
+                  data-x-en="The returned trait is a Future with an associated type of Output. Notice that the Output type is Option<String>, which is the same as the original return type from the async fn version of page_title."
+                >
+                  返回的特质是一个 <code>Future</code>，其关联类型为
+                  <code>Output</code>。注意 <code>Output</code> 类型是
+                  <code>Option&lt;String&gt;</code>，这与
+                  <code>async fn</code> 版本的
+                  <code>page_title</code> 的原始返回类型相同。
+                </li>
+                <li
+                  data-x-en="All of the code called in the body of the original function is wrapped in an async move block. Remember that blocks are expressions. This whole block is the expression returned from the function."
+                >
+                  在原始函数体中调用的所有代码都被包装在一个
+                  <code>async move</code>
+                  块中。记住，块是表达式。这个整个块就是从函数返回的表达式。
+                </li>
+                <li
+                  data-x-en="This async block produces a value with the type Option<String>, as just described. That value matches the Output type in the return type. This is just like other blocks you have seen."
+                >
+                  这个异步块生成一个类型为<code>Option&lt;String&gt;</code>的值，正如前面所述。该值与返回类型中的<code>Output</code>类型匹配。这与其他你见过的块是一样的。
+                </li>
+                <li
+                  data-x-en="The new function body is an async move block because of how it uses the url parameter. (We’ll talk much more about async versus async move later in the chapter.)"
+                >
+                  新的函数体是一个 <code>async move</code> 块，因为它是如何使用
+                  <code>url</code> 参数的。我们将在本章后面更详细地讨论
+                  <code>async</code> 与 <code>async move</code>。
+                </li>
+              </ul>
+              <p data-x-en="Now we can call page_title in main.">
+                现在我们可以在 <code>main</code> 中调用
+                <code>page_title</code>。
+              </p>
+              <h2 id="determining-a-single-pages-title">
+                <a class="header" href="#determining-a-single-pages-title"
+                  >确定单个页面的标题</a
+                >
+              </h2>
+              <p
+                data-x-en="To start, we’ll just get the title for a single page. In Listing 17-3, we follow the same pattern we used in Chapter 12 to get command line arguments in the Accepting Command Line Arguments section. Then we pass the first URL page_title and await the result. Because the value produced by the future is an Option<String>, we use a match expression to print different messages to account for whether the page had a <title>."
+              >
+                首先，我们只获取单个页面的标题。在清单 17-3 中，我们遵循了在第
+                12 章
+                <a href="ch12-01-accepting-command-line-arguments.html"
+                  >接受命令行参数</a
+                ><!-- ignore -->
+                部分中用于获取命令行参数的相同模式。然后我们传递第一个 URL
+                <code>page_title</code> 并等待结果。因为未来产生的值是一个
+                <code>Option&lt;String&gt;</code>，我们使用一个
+                <code>match</code> 表达式来打印不同的消息，以考虑页面是否有
+                <code>&lt;title&gt;</code>。
+              </p>
+              <figure class="listing">
+                <span class="file-name">Filename: src/main.rs</span>
+                <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use trpl::Html;
 </span><span class="boring">
@@ -339,31 +683,73 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-3: Calling the <code>page_title</code> function from <code>main</code> with a user-supplied argument</figcaption>
-</figure>
-<p data-x-en="Unfortunately, this code doesn’t compile. The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async.">不幸的是，这段代码无法编译。我们只能在异步函数或块中使用 <code>await</code> 关键字，而 Rust 不允许我们将特殊的 <code>main</code> 函数标记为 <code>async</code>。</p>
-<!-- manual-regeneration
+                <figcaption>
+                  Listing 17-3: Calling the <code>page_title</code> function
+                  from <code>main</code> with a user-supplied argument
+                </figcaption>
+              </figure>
+              <p
+                data-x-en="Unfortunately, this code doesn’t compile. The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async."
+              >
+                不幸的是，这段代码无法编译。我们只能在异步函数或块中使用
+                <code>await</code> 关键字，而 Rust 不允许我们将特殊的
+                <code>main</code> 函数标记为 <code>async</code>。
+              </p>
+              <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-03
 cargo build
 copy just the compiler error
 -->
-<pre><code class="language-text">error[E0752]: `main` function is not allowed to be `async`
+              <pre><code class="language-text">error[E0752]: `main` function is not allowed to be `async`
  --&gt; src/main.rs:6:1
   |
 6 | async fn main() {
   | ^^^^^^^^^^^^^^^ `main` function is not allowed to be `async`
 </code></pre>
-<p data-x-en="The reason main can’t be marked async is that async code needs a runtime: a Rust crate that manages the details of executing asynchronous code. A program’s main function can initialize a runtime, but it’s not a runtime itself. (We’ll see more about why this is the case in a bit.) Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures."><code>main</code> 不能被标记为 <code>async</code> 的原因是异步代码需要一个 <em>运行时</em>：
-一个管理异步代码执行细节的 Rust 库。程序的 <code>main</code> 函数可以 <em>初始化</em> 一个运行时，但它本身并不是一个运行时。
-（我们稍后会详细讨论为什么是这样。）每个执行异步代码的 Rust 程序至少有一个地方会设置运行时并执行未来的任务。</p>
-<p data-x-en="Most languages that support async bundle a runtime, but Rust does not. Instead, there are many different async runtimes available, each of which makes different tradeoffs suitable to the use case it targets. For example, a high-throughput web server with many CPU cores and a large amount of RAM has very different needs than a microcontroller with a single core, a small amount of RAM, and no heap allocation ability. The crates that provide those runtimes also often supply async versions of common functionality such as file or network I/O.">大多数支持异步的语言都会捆绑一个运行时，但 Rust 并没有这样做。相反，
-有许多不同的异步运行时可供选择，每个运行时都针对其目标用例做出了不同的权衡。例如，具有多个 CPU 核心和大量 RAM 的高吞吐量 Web 服务器与只有一个核心、少量 RAM 且没有堆分配能力的微控制器的需求非常不同。提供这些运行时的 crate 通常还会提供文件或网络 I/O 等常见功能的异步版本。</p>
-<p data-x-en="Here, and throughout the rest of this chapter, we’ll use the run function from the trpl crate, which takes a future as an argument and runs it to completion. Behind the scenes, calling run sets up a runtime that’s used to run the future passed in. Once the future completes, run returns whatever value the future produced.">在这里，以及在本章的其余部分，我们将使用 <code>trpl</code> crate 中的 <code>run</code> 函数，该函数接受一个 future 作为参数并运行到完成。在幕后，调用 <code>run</code> 会设置一个用于运行传入的 future 的运行时。一旦 future 完成，<code>run</code> 将返回 future 产生的任何值。</p>
-<p data-x-en="We could pass the future returned by page_title directly to run, and once it completed, we could match on the resulting Option<String>, as we tried to do in Listing 17-3. However, for most of the examples in the chapter (and most async code in the real world), we’ll be doing more than just one async function call, so instead we’ll pass an async block and explicitly await the result of the page_title call, as in Listing 17-4.">我们可以直接将 <code>page_title</code> 返回的 future 传递给 <code>run</code>，一旦它完成，我们就可以匹配返回的 <code>Option&lt;String&gt;</code>，就像我们在清单 17-3 中尝试做的那样。然而，对于本章中的大多数示例（以及现实世界中的大多数异步代码），我们将不仅仅进行一次异步函数调用，因此我们将传递一个 <code>async</code> 块，并显式等待 <code>page_title</code> 调用的结果，如清单 17-4 所示。</p>
-<figure class="listing">
-<span class="file-name">Filename: src/main.rs</span>
-<!-- should_panic,noplayground because mdbook test does not pass args -->
-<pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
+              <p
+                data-x-en="The reason main can’t be marked async is that async code needs a runtime: a Rust crate that manages the details of executing asynchronous code. A program’s main function can initialize a runtime, but it’s not a runtime itself. (We’ll see more about why this is the case in a bit.) Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures."
+              >
+                <code>main</code> 不能被标记为
+                <code>async</code> 的原因是异步代码需要一个 <em>运行时</em>：
+                一个管理异步代码执行细节的 Rust 库。程序的
+                <code>main</code> 函数可以
+                <em>初始化</em> 一个运行时，但它本身并不是一个运行时。
+                （我们稍后会详细讨论为什么是这样。）每个执行异步代码的 Rust
+                程序至少有一个地方会设置运行时并执行未来的任务。
+              </p>
+              <p
+                data-x-en="Most languages that support async bundle a runtime, but Rust does not. Instead, there are many different async runtimes available, each of which makes different tradeoffs suitable to the use case it targets. For example, a high-throughput web server with many CPU cores and a large amount of RAM has very different needs than a microcontroller with a single core, a small amount of RAM, and no heap allocation ability. The crates that provide those runtimes also often supply async versions of common functionality such as file or network I/O."
+              >
+                大多数支持异步的语言都会捆绑一个运行时，但 Rust
+                并没有这样做。相反，
+                有许多不同的异步运行时可供选择，每个运行时都针对其目标用例做出了不同的权衡。例如，具有多个
+                CPU 核心和大量 RAM 的高吞吐量 Web 服务器与只有一个核心、少量 RAM
+                且没有堆分配能力的微控制器的需求非常不同。提供这些运行时的 crate
+                通常还会提供文件或网络 I/O 等常见功能的异步版本。
+              </p>
+              <p
+                data-x-en="Here, and throughout the rest of this chapter, we’ll use the run function from the trpl crate, which takes a future as an argument and runs it to completion. Behind the scenes, calling run sets up a runtime that’s used to run the future passed in. Once the future completes, run returns whatever value the future produced."
+              >
+                在这里，以及在本章的其余部分，我们将使用 <code>trpl</code> crate
+                中的 <code>run</code> 函数，该函数接受一个 future
+                作为参数并运行到完成。在幕后，调用
+                <code>run</code> 会设置一个用于运行传入的 future 的运行时。一旦
+                future 完成，<code>run</code> 将返回 future 产生的任何值。
+              </p>
+              <p
+                data-x-en="We could pass the future returned by page_title directly to run, and once it completed, we could match on the resulting Option<String>, as we tried to do in Listing 17-3. However, for most of the examples in the chapter (and most async code in the real world), we’ll be doing more than just one async function call, so instead we’ll pass an async block and explicitly await the result of the page_title call, as in Listing 17-4."
+              >
+                我们可以直接将 <code>page_title</code> 返回的 future 传递给
+                <code>run</code>，一旦它完成，我们就可以匹配返回的
+                <code>Option&lt;String&gt;</code>，就像我们在清单 17-3
+                中尝试做的那样。然而，对于本章中的大多数示例（以及现实世界中的大多数异步代码），我们将不仅仅进行一次异步函数调用，因此我们将传递一个
+                <code>async</code> 块，并显式等待
+                <code>page_title</code> 调用的结果，如清单 17-4 所示。
+              </p>
+              <figure class="listing">
+                <span class="file-name">Filename: src/main.rs</span>
+                <!-- should_panic,noplayground because mdbook test does not pass args -->
+                <pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use trpl::Html;
 </span><span class="boring">
@@ -385,46 +771,104 @@ copy just the compiler error
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-4: Awaiting an async block with <code>trpl::run</code></figcaption>
-</figure>
-<p data-x-en="When we run this code, we get the behavior we expected initially:">当我们运行这段代码时，我们得到了最初预期的行为：</p>
-<!-- manual-regeneration
+                <figcaption>
+                  Listing 17-4: Awaiting an async block with
+                  <code>trpl::run</code>
+                </figcaption>
+              </figure>
+              <p
+                data-x-en="When we run this code, we get the behavior we expected initially:"
+              >
+                当我们运行这段代码时，我们得到了最初预期的行为：
+              </p>
+              <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-04
 cargo build # skip all the build noise
 cargo run https://www.rust-lang.org
 # copy the output here
 -->
-<pre><code class="language-console">$ cargo run -- https://www.rust-lang.org
+              <pre><code class="language-console">$ cargo run -- https://www.rust-lang.org
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
      Running `target/debug/async_await 'https://www.rust-lang.org'`
 The title for https://www.rust-lang.org was
             Rust Programming Language
 </code></pre>
-<p data-x-en="Phew—we finally have some working async code! But before we add the code to race the two sites against each other, let’s briefly turn our attention back to how futures work.">呼—我们终于有一些可以工作的异步代码了！但在我们添加代码来让两个站点相互竞争之前，让我们简要回顾一下未来对象是如何工作的。</p>
-<p data-x-en="Each await point—that is, every place where the code uses the await keyword—represents a place where control is handed back to the runtime. To make that work, Rust needs to keep track of the state involved in the async block so that the runtime can kick off some other work and then come back when it’s ready to try advancing the first one again. This is an invisible state machine, as if you’d written an enum like this to save the current state at each await point:">每个<em>await点</em>——也就是说，代码中每个使用<code>await</code>关键字的地方——都表示一个将控制权交还给运行时的地方。为了使这工作，Rust需要跟踪异步块中涉及的状态，以便运行时可以启动一些其他工作，然后在准备好再次尝试推进第一个任务时返回。这是一个不可见的状态机，就像你写了一个这样的枚举来保存每个await点的当前状态：</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+              <p
+                data-x-en="Phew—we finally have some working async code! But before we add the code to race the two sites against each other, let’s briefly turn our attention back to how futures work."
+              >
+                呼—我们终于有一些可以工作的异步代码了！但在我们添加代码来让两个站点相互竞争之前，让我们简要回顾一下未来对象是如何工作的。
+              </p>
+              <p
+                data-x-en="Each await point—that is, every place where the code uses the await keyword—represents a place where control is handed back to the runtime. To make that work, Rust needs to keep track of the state involved in the async block so that the runtime can kick off some other work and then come back when it’s ready to try advancing the first one again. This is an invisible state machine, as if you’d written an enum like this to save the current state at each await point:"
+              >
+                每个<em>await点</em>——也就是说，代码中每个使用<code>await</code>关键字的地方——都表示一个将控制权交还给运行时的地方。为了使这工作，Rust需要跟踪异步块中涉及的状态，以便运行时可以启动一些其他工作，然后在准备好再次尝试推进第一个任务时返回。这是一个不可见的状态机，就像你写了一个这样的枚举来保存每个await点的当前状态：
+              </p>
+              <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>enum PageTitleFuture&lt;'a&gt; {
     Initial { url: &amp;'a str },
     GetAwaitPoint { url: &amp;'a str },
-    TextAwaitPoint { response: trpl::Response },
+    TextAwaitPoint { response: trpl::Response }
 }
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="Writing the code to transition between each state by hand would be tedious and error-prone, however, especially when you need to add more functionality and more states to the code later. Fortunately, the Rust compiler creates and manages the state machine data structures for async code automatically. The normal borrowing and ownership rules around data structures all still apply, and happily, the compiler also handles checking those for us and provides useful error messages. We’ll work through a few of those later in the chapter.">手动编写在每个状态之间转换的代码会很繁琐且容易出错，尤其是当你需要在以后向代码中添加更多功能和更多状态时。幸运的是，Rust 编译器会自动创建和管理异步代码的状态机数据结构。围绕数据结构的正常借用和所有权规则仍然适用，令人高兴的是，编译器还会为我们处理这些检查并提供有用的错误消息。我们将在本章后面详细讨论其中的一些内容。</p>
-<p data-x-en="Ultimately, something has to execute this state machine, and that something is a runtime. (This is why you may come across references to executors when looking into runtimes: an executor is the part of a runtime responsible for executing the async code.)">最终，必须有东西来执行这个状态机，而这个东西就是运行时。 (这就是为什么在研究运行时时，你可能会遇到对<em>执行器</em>的引用：执行器是运行时中负责执行异步代码的部分。)</p>
-<p data-x-en="Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! Instead, we called the trpl::run function in main to set up a runtime and run the future returned by the async block until it is done.">现在你可以理解为什么编译器在第 17-3 节中阻止我们将 <code>main</code> 本身设为异步函数了。如果 <code>main</code> 是一个异步函数，那么就需要有其他东西来管理 <code>main</code> 返回的未来状态机，但 <code>main</code> 是程序的起点！相反，我们在 <code>main</code> 中调用了 <code>trpl::run</code> 函数来设置运行时并运行 <code>async</code> 块返回的未来，直到它完成。</p>
-<section class="note" aria-role="note">
-<p data-x-en="Note: Some runtimes provide macros so you can write an async main function. Those macros rewrite async fn main() { ... } to be a normal fn main, which does the same thing we did by hand in Listing 17-5: call a function that runs a future to completion the way trpl::run does.">注意：某些运行时提供了宏，因此您可以编写异步 <code>main</code> 函数。这些宏将 <code>async fn main() { ... }</code> 重写为普通的 <code>fn main</code>，这与我们在清单 17-5 中手动所做的相同：调用一个运行未来直到完成的函数，就像 <code>trpl::run</code> 那样。</p>
-</section>
-<p data-x-en="Now let’s put these pieces together and see how we can write concurrent code.">现在让我们把这些部分放在一起，看看我们如何编写并发代码。</p>
-<h3 id="racing-our-two-urls-against-each-other"><a class="header" href="#racing-our-two-urls-against-each-other">将我们的两个URL进行竞速测试</a></h3>
-<p data-x-en="In Listing 17-5, we call page_title with two different URLs passed in from the command line and race them.">在清单 17-5 中，我们使用从命令行传递的两个不同 URL 调用 <code>page_title</code> 并对它们进行竞速。</p>
-<figure class="listing">
-<span class="file-name">Filename: src/main.rs</span>
-<!-- should_panic,noplayground because mdbook does not pass args -->
-<pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
+              <p
+                data-x-en="Writing the code to transition between each state by hand would be tedious and error-prone, however, especially when you need to add more functionality and more states to the code later. Fortunately, the Rust compiler creates and manages the state machine data structures for async code automatically. The normal borrowing and ownership rules around data structures all still apply, and happily, the compiler also handles checking those for us and provides useful error messages. We’ll work through a few of those later in the chapter."
+              >
+                手动编写在每个状态之间转换的代码会很繁琐且容易出错，尤其是当你需要在以后向代码中添加更多功能和更多状态时。幸运的是，Rust
+                编译器会自动创建和管理异步代码的状态机数据结构。围绕数据结构的正常借用和所有权规则仍然适用，令人高兴的是，编译器还会为我们处理这些检查并提供有用的错误消息。我们将在本章后面详细讨论其中的一些内容。
+              </p>
+              <p
+                data-x-en="Ultimately, something has to execute this state machine, and that something is a runtime. (This is why you may come across references to executors when looking into runtimes: an executor is the part of a runtime responsible for executing the async code.)"
+              >
+                最终，必须有东西来执行这个状态机，而这个东西就是运行时。
+                (这就是为什么在研究运行时时，你可能会遇到对<em>执行器</em>的引用：执行器是运行时中负责执行异步代码的部分。)
+              </p>
+              <p
+                data-x-en="Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! Instead, we called the trpl::run function in main to set up a runtime and run the future returned by the async block until it is done."
+              >
+                现在你可以理解为什么编译器在第 17-3 节中阻止我们将
+                <code>main</code> 本身设为异步函数了。如果
+                <code>main</code> 是一个异步函数，那么就需要有其他东西来管理
+                <code>main</code> 返回的未来状态机，但
+                <code>main</code> 是程序的起点！相反，我们在
+                <code>main</code> 中调用了
+                <code>trpl::run</code> 函数来设置运行时并运行
+                <code>async</code> 块返回的未来，直到它完成。
+              </p>
+              <section class="note" aria-role="note">
+                <p
+                  data-x-en="Note: Some runtimes provide macros so you can write an async main function. Those macros rewrite async fn main() { ... } to be a normal fn main, which does the same thing we did by hand in Listing 17-5: call a function that runs a future to completion the way trpl::run does."
+                >
+                  注意：某些运行时提供了宏，因此您可以编写异步
+                  <code>main</code> 函数。这些宏将
+                  <code>async fn main() { ... }</code> 重写为普通的
+                  <code>fn main</code>，这与我们在清单 17-5
+                  中手动所做的相同：调用一个运行未来直到完成的函数，就像
+                  <code>trpl::run</code> 那样。
+                </p>
+              </section>
+              <p
+                data-x-en="Now let’s put these pieces together and see how we can write concurrent code."
+              >
+                现在让我们把这些部分放在一起，看看我们如何编写并发代码。
+              </p>
+              <h3 id="racing-our-two-urls-against-each-other">
+                <a class="header" href="#racing-our-two-urls-against-each-other"
+                  >将我们的两个URL进行竞速测试</a
+                >
+              </h3>
+              <p
+                data-x-en="In Listing 17-5, we call page_title with two different URLs passed in from the command line and race them."
+              >
+                在清单 17-5 中，我们使用从命令行传递的两个不同 URL 调用
+                <code>page_title</code> 并对它们进行竞速。
+              </p>
+              <figure class="listing">
+                <span class="file-name">Filename: src/main.rs</span>
+                <!-- should_panic,noplayground because mdbook does not pass args -->
+                <pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use trpl::{Either, Html};
 
@@ -456,78 +900,138 @@ async fn page_title(url: &amp;str) -&gt; (&amp;str, Option&lt;String&gt;) {
         .map(|title| title.inner_html());
     (url, title)
 }</code></pre>
-<figcaption>Listing 17-5: </figcaption>
-</figure>
-<p data-x-en="We begin by calling page_title for each of the user-supplied URLs. We save the resulting futures as title_fut_1 and title_fut_2. Remember, these don’t do anything yet, because futures are lazy and we haven’t yet awaited them. Then we pass the futures to trpl::race, which returns a value to indicate which of the futures passed to it finishes first.">我们首先为每个用户提供的URL调用<code>page_title</code>。我们将结果的future保存为<code>title_fut_1</code>和<code>title_fut_2</code>。记住，这些还没有做任何事情，因为future是惰性的，我们还没有等待它们。然后我们将future传递给<code>trpl::race</code>，它返回一个值来指示传递给它的future中哪个先完成。</p>
-<section class="note" aria-role="note">
-<p data-x-en="Note: Under the hood, race is built on a more general function, select, which you will encounter more often in real-world Rust code. A select function can do a lot of things that the trpl::race function can’t, but it also has some additional complexity that we can skip over for now.">注意：在底层，<code>race</code> 是基于一个更通用的函数 <code>select</code> 构建的，
-在实际的 Rust 代码中你会更经常遇到 <code>select</code>。
-<code>select</code> 函数可以做很多 <code>trpl::race</code> 函数做不到的事情，但它
-也带有一些我们目前可以忽略的额外复杂性。</p>
-</section>
-<p data-x-en="Either future can legitimately “win,” so it doesn’t make sense to return a Result. Instead, race returns a type we haven’t seen before, trpl::Either. The Either type is somewhat similar to a Result in that it has two cases. Unlike Result, though, there is no notion of success or failure baked into Either. Instead, it uses Left and Right to indicate “one or the other”:">任一 future 都可以合法地“获胜”，因此返回一个 <code>Result</code> 没有意义。相反，<code>race</code> 返回一个我们之前未见过的类型，<code>trpl::Either</code>。<code>Either</code> 类型在某种程度上类似于 <code>Result</code>，因为它也有两种情况。然而，<code>Either</code> 并没有像 <code>Result</code> 那样内置成功或失败的概念。相反，它使用 <code>Left</code> 和 <code>Right</code> 来表示“其中之一”：</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+                <figcaption>Listing 17-5:</figcaption>
+              </figure>
+              <p
+                data-x-en="We begin by calling page_title for each of the user-supplied URLs. We save the resulting futures as title_fut_1 and title_fut_2. Remember, these don’t do anything yet, because futures are lazy and we haven’t yet awaited them. Then we pass the futures to trpl::race, which returns a value to indicate which of the futures passed to it finishes first."
+              >
+                我们首先为每个用户提供的URL调用<code>page_title</code>。我们将结果的future保存为<code>title_fut_1</code>和<code>title_fut_2</code>。记住，这些还没有做任何事情，因为future是惰性的，我们还没有等待它们。然后我们将future传递给<code>trpl::race</code>，它返回一个值来指示传递给它的future中哪个先完成。
+              </p>
+              <section class="note" aria-role="note">
+                <p
+                  data-x-en="Note: Under the hood, race is built on a more general function, select, which you will encounter more often in real-world Rust code. A select function can do a lot of things that the trpl::race function can’t, but it also has some additional complexity that we can skip over for now."
+                >
+                  注意：在底层，<code>race</code> 是基于一个更通用的函数
+                  <code>select</code> 构建的， 在实际的 Rust
+                  代码中你会更经常遇到 <code>select</code>。
+                  <code>select</code> 函数可以做很多
+                  <code>trpl::race</code> 函数做不到的事情，但它
+                  也带有一些我们目前可以忽略的额外复杂性。
+                </p>
+              </section>
+              <p
+                data-x-en="Either future can legitimately “win,” so it doesn’t make sense to return a Result. Instead, race returns a type we haven’t seen before, trpl::Either. The Either type is somewhat similar to a Result in that it has two cases. Unlike Result, though, there is no notion of success or failure baked into Either. Instead, it uses Left and Right to indicate “one or the other”:"
+              >
+                任一 future 都可以合法地“获胜”，因此返回一个
+                <code>Result</code> 没有意义。相反，<code>race</code>
+                返回一个我们之前未见过的类型，<code>trpl::Either</code>。<code
+                  >Either</code
+                >
+                类型在某种程度上类似于
+                <code>Result</code>，因为它也有两种情况。然而，<code
+                  >Either</code
+                >
+                并没有像
+                <code>Result</code> 那样内置成功或失败的概念。相反，它使用
+                <code>Left</code> 和 <code>Right</code> 来表示“其中之一”：
+              </p>
+              <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Either&lt;A, B&gt; {
     Left(A),
     Right(B),
 }
 <span class="boring">}</span></code></pre></pre>
-<p data-x-en="The race function returns Left with that future’s output if the first argument wins, and Right with the second future argument’s output if that one wins. This matches the order the arguments appear in when calling the function: the first argument is to the left of the second argument."><code>race</code> 函数如果第一个参数获胜，则返回带有该未来输出的 <code>Left</code>；如果 <em>那个</em> 参数获胜，则返回带有第二个未来参数输出的 <code>Right</code>。这与调用函数时参数出现的顺序相匹配：第一个参数位于第二个参数的左侧。</p>
-<p data-x-en="We also update page_title to return the same URL passed in. That way, if the page that returns first does not have a <title> we can resolve, we can still print a meaningful message. With that information available, we wrap up by updating our println! output to indicate both which URL finished first and what, if any, the <title> is for the web page at that URL.">我们还更新了<code>page_title</code>以返回相同的URL。这样，如果首先返回的页面没有我们可以解析的<code>&lt;title&gt;</code>，我们仍然可以打印一条有意义的消息。有了这些信息，我们最后通过更新<code>println!</code>输出来指示哪个URL首先完成，以及该URL的网页的<code>&lt;title&gt;</code>是什么（如果有的话）。</p>
-<p data-x-en="You have built a small working web scraper now! Pick a couple URLs and run the command line tool. You may discover that some sites are consistently faster than others, while in other cases the faster site varies from run to run. More importantly, you’ve learned the basics of working with futures, so now we can dig deeper into what we can do with async.">你现在已经构建了一个小型的可工作的网络爬虫！选择几个URL并运行命令行工具。你可能会发现有些网站始终比其他网站快，而在其他情况下，较快的网站则会随着运行而变化。更重要的是，你已经学会了使用futures的基础知识，现在我们可以更深入地探讨我们可以用async做些什么。</p>
-<!-- TODO: map source link version to version of Rust? -->
+              <p
+                data-x-en="The race function returns Left with that future’s output if the first argument wins, and Right with the second future argument’s output if that one wins. This matches the order the arguments appear in when calling the function: the first argument is to the left of the second argument."
+              >
+                <code>race</code> 函数如果第一个参数获胜，则返回带有该未来输出的
+                <code>Left</code>；如果
+                <em>那个</em> 参数获胜，则返回带有第二个未来参数输出的
+                <code>Right</code
+                >。这与调用函数时参数出现的顺序相匹配：第一个参数位于第二个参数的左侧。
+              </p>
+              <p
+                data-x-en="We also update page_title to return the same URL passed in. That way, if the page that returns first does not have a <title> we can resolve, we can still print a meaningful message. With that information available, we wrap up by updating our println! output to indicate both which URL finished first and what, if any, the <title> is for the web page at that URL."
+              >
+                我们还更新了<code>page_title</code>以返回相同的URL。这样，如果首先返回的页面没有我们可以解析的<code>&lt;title&gt;</code>，我们仍然可以打印一条有意义的消息。有了这些信息，我们最后通过更新<code>println!</code>输出来指示哪个URL首先完成，以及该URL的网页的<code>&lt;title&gt;</code>是什么（如果有的话）。
+              </p>
+              <p
+                data-x-en="You have built a small working web scraper now! Pick a couple URLs and run the command line tool. You may discover that some sites are consistently faster than others, while in other cases the faster site varies from run to run. More importantly, you’ve learned the basics of working with futures, so now we can dig deeper into what we can do with async."
+              >
+                你现在已经构建了一个小型的可工作的网络爬虫！选择几个URL并运行命令行工具。你可能会发现有些网站始终比其他网站快，而在其他情况下，较快的网站则会随着运行而变化。更重要的是，你已经学会了使用futures的基础知识，现在我们可以更深入地探讨我们可以用async做些什么。
+              </p>
+              <!-- TODO: map source link version to version of Rust? -->
+            </main>
 
-                    </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+              <!-- Mobile navigation buttons -->
+              <a
+                rel="prev"
+                href="ch17-00-async-await.html"
+                class="mobile-nav-chapters previous"
+                title="Previous chapter"
+                aria-label="Previous chapter"
+                aria-keyshortcuts="Left"
+              >
+                <i class="fa fa-angle-left"></i>
+              </a>
 
-                    <nav class="nav-wrapper" aria-label="Page navigation">
-                        <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="ch17-00-async-await.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+              <a
+                rel="next prefetch"
+                href="ch17-02-concurrency-with-async.html"
+                class="mobile-nav-chapters next"
+                title="Next chapter"
+                aria-label="Next chapter"
+                aria-keyshortcuts="Right"
+              >
+                <i class="fa fa-angle-right"></i>
+              </a>
 
-                            <a rel="next prefetch" href="ch17-02-concurrency-with-async.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-
-                        <div style="clear: both"></div>
-                    </nav>
-                </div>
-            </div>
-
-            <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="ch17-00-async-await.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-
-                    <a rel="next prefetch" href="ch17-02-concurrency-with-async.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+              <div style="clear: both"></div>
             </nav>
-
+          </div>
         </div>
 
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+          <a
+            rel="prev"
+            href="ch17-00-async-await.html"
+            class="nav-chapters previous"
+            title="Previous chapter"
+            aria-label="Previous chapter"
+            aria-keyshortcuts="Left"
+          >
+            <i class="fa fa-angle-left"></i>
+          </a>
 
+          <a
+            rel="next prefetch"
+            href="ch17-02-concurrency-with-async.html"
+            class="nav-chapters next"
+            title="Next chapter"
+            aria-label="Next chapter"
+            aria-keyshortcuts="Right"
+          >
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </nav>
+      </div>
 
+      <script>
+        window.playground_copyable = true;
+      </script>
 
-        <script>
-            window.playground_copyable = true;
-        </script>
+      <script src="elasticlunr.min.js"></script>
+      <script src="mark.min.js"></script>
+      <script src="searcher.js"></script>
 
+      <script src="clipboard.min.js"></script>
+      <script src="highlight.js"></script>
+      <script src="book.js"></script>
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
-
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
-
-        <!-- Custom JS scripts -->
-        <script src="ferris.js"></script>
-
-
+      <!-- Custom JS scripts -->
+      <script src="ferris.js"></script>
     </div>
-    
-
-</body></html>
+  </body>
+</html>

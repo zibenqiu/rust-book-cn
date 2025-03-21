@@ -38,9 +38,5 @@
   "The performance of closures and iterators (Spoiler alert: they’re faster than you might think!)": {
     "_translate": "闭包和迭代器的性能（剧透警告：它们可能比你想象的要快！）",
     "_note": ""
-  },
-  "The performance of closures and iterators (spoiler alert: they’re faster than you might think!)": {
-    "_translate": "【翻译引擎出错，请联系作者】",
-    "_note": ""
   }
 }
