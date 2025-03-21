@@ -162,5 +162,5 @@
   "One requirement for match expressions is that they need to be exhaustive in the sense that all possibilities for the value in the match expression must be accounted for. One way to ensure you’ve covered every possibility is to have a catch-all pattern for the last arm: for example, a variable name matching any value can never fail and thus covers every remaining case.": {
     "_translate": "一个对 <code>match</code> 表达式的要求是它们需要是 <em>穷尽的</em>，也就是说 <code>match</code> 表达式中的值的所有可能性都必须被考虑到。确保你涵盖了每一种可能性的一种方法是在最后一个分支中使用一个通配模式：例如，一个匹配任何值的变量名永远不会失败，因此涵盖了所有剩余的情况。",
     "_note": ""
-  },
+  }
 }
