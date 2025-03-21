@@ -299,8 +299,8 @@ fn main() {
                 Ok(fc) =&gt; fc,
                 Err(e) =&gt; panic!("Problem creating the file: {e:?}"),
             },
-            other_error =&gt; {
-                panic!("Problem opening the file: {other_error:?}");
+            _ =&gt; {
+                panic!("Problem opening the file: {error:?}");
             }
         },
     };

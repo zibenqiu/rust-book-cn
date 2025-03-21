@@ -354,5 +354,13 @@
   "Now we see all the messages from both sending futures, and because the sending futures use slightly different delays after sending, the messages are also received at those different intervals.": {
     "_translate": "现在我们可以看到来自两个发送未来的所有消息，因为发送未来在发送后使用了略有不同的延迟，所以消息也在这些不同的时间间隔内被接收。",
     "_note": ""
+  },
+  "The code now successfully sends and receives all of the messages. Unfortunately, there are still a couple of problems. For one thing, the messages do not arrive at half-second intervals. They arrive all at once, 2 seconds (2,000 milliseconds) after we start the program. For another, this program never exits! Instead, it waits forever for new messages. You will need to shut it down using ctrl-c.": {
+    "_translate": "代码现在成功地发送和接收了所有的消息。不幸的是，仍然存在一些问题。首先，消息并不是每半秒到达一次。它们是在我们启动程序2秒（2,000毫秒）后一次性到达的。其次，这个程序永远不会退出！相反，它会永远等待新的消息。您需要使用<span class=\"keystroke\">ctrl-c</span>来关闭它。",
+    "_note": ""
+  },
+  "The program still never exits, though, because of the way the while let loop interacts with trpl::join:": {
+    "_translate": "程序仍然永远不会退出，因为 <code>while let</code> 循环与 <code>trpl::join</code> 的交互方式：",
+    "_note": ""
   }
 }

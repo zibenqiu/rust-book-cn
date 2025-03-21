@@ -406,5 +406,73 @@
   "Rust’s patterns are very useful in distinguishing between different kinds of data. When used in match expressions, Rust ensures your patterns cover every possible value, or your program won’t compile. Patterns in let statements and function parameters make those constructs more useful, enabling the destructuring of values into smaller parts and assigning those parts to variables. We can create simple or complex patterns to suit our needs.": {
     "_translate": "Rust 的模式非常有用，可以区分不同类型的数据。当在 <code>match</code> 表达式中使用时，Rust 确保您的模式覆盖了所有可能的值，否则程序将无法编译。在 <code>let</code> 语句和函数参数中的模式使这些构造更加有用，能够将值解构为更小的部分，并将这些部分分配给变量。我们可以创建简单或复杂的模式以满足我们的需求。",
     "_note": ""
+  },
+  "In this section, we gather all the syntax that is valid in patterns and discuss why and when you might want to use each one.": {
+    "_translate": "在本节中，我们将收集所有在模式中有效的语法，并讨论您可能希望在何时使用每一种语法。",
+    "_note": ""
+  },
+  "To create a match expression that compares the values of the outer x and y, rather than introducing a new variable that shadows the existing y variable, we would need to use a match guard conditional instead. We’ll talk about match guards later in “Extra Conditionals with Match Guards”.": {
+    "_translate": "要创建一个比较外部 <code>x</code> 和 <code>y</code> 值的 <code>match</code> 表达式，而不是引入一个遮蔽现有 <code>y</code> 变量的新变量，我们需要使用匹配卫条件。我们将在 <a href=\"#extra-conditionals-with-match-guards\">“使用匹配卫条件的额外条件”</a> 中讨论匹配卫条件。",
+    "_note": ""
+  },
+  "Named variables are irrefutable patterns that match any value, and we’ve used them many times in this book. However, there is a complication when you use named variables in match, if let, or while let expressions. Because each of these kinds of expression starts a new scope, variables declared as part of a pattern inside the expression will shadow those with the same name outside, as is the case with all variables. In Listing 19-11, we declare a variable named x with the value Some(5) and a variable y with the value 10. We then create a match expression on the value x. Look at the patterns in the match arms and println! at the end, and try to figure out what the code will print before running this code or reading further.": {
+    "_translate": "命名变量是不可反驳的模式，可以匹配任何值，我们在本书中已经多次使用了它们。然而，当你在 <code>match</code>、<code>if let</code> 或 <code>while let</code> 表达式中使用命名变量时，会出现一个复杂情况。因为这些表达式每种都会开启一个新的作用域，所以在表达式内部作为模式声明的变量会遮蔽外部同名的变量，这与所有变量的情况一样。在清单 19-11 中，我们声明了一个名为 <code>x</code> 的变量，其值为 <code>Some(5)</code>，以及一个值为 <code>10</code> 的变量 <code>y</code>。然后，我们对值 <code>x</code> 创建了一个 <code>match</code> 表达式。查看匹配臂中的模式和最后的 <code>println!</code>，并尝试在运行此代码或继续阅读之前，弄清楚代码将打印什么。",
+    "_note": ""
+  },
+  "In Listing 19-14, we have a match expression that separates Point values into three cases: points that lie directly on the x axis (which is true when y = 0), on the y axis (x = 0), or on neither axis.": {
+    "_translate": "在清单 19-14 中，我们有一个 <code>match</code> 表达式，将 <code>Point</code> 值分为三种情况：位于 <code>x</code> 轴上的点（当 <code>y = 0</code> 时为真）、位于 <code>y</code> 轴上的点（<code>x = 0</code>）或不在任何轴上的点。",
+    "_note": ""
+  },
+  "We’ve destructured enums in this book (for example, Listing 6-5), but we haven’t yet explicitly discussed that the pattern to destructure an enum corresponds to the way the data stored within the enum is defined. As an example, in Listing 19-15 we use the Message enum from Listing 6-2 and write a match with patterns that will destructure each inner value.": {
+    "_translate": "我们在本书中已经解构了枚举（例如，清单 6-5），但还没有明确讨论解构枚举的模式对应于枚举中存储的数据的定义方式。例如，在清单 19-15 中，我们使用了来自清单 6-2 的 <code>Message</code> 枚举，并编写了一个带有模式的 <code>match</code>，这些模式将解构每个内部值。",
+    "_note": ""
+  },
+  "This code will print Change color to red 0, green 160, and blue 255. Try changing the value of msg to see the code from the other arms run.": {
+    "_translate": "这段代码将打印 <code>Change color to red 0, green 160, and blue 255</code>。尝试更改 <code>msg</code> 的值以查看其他分支的代码运行。",
+    "_note": ""
+  },
+  "An Entire Value with _": {
+    "_translate": "<a class=\"header\" href=\"#an-entire-value-with-_\">使用 <code>_</code> 代表整个值</a>",
+    "_note": ""
+  },
+  "Parts of a Value with a Nested _": {
+    "_translate": "<a class=\"header\" href=\"#parts-of-a-value-with-a-nested-_\">具有嵌套 <code>_</code> 的值的部分</a>",
+    "_note": ""
+  },
+  "In all other cases (if either setting_value or new_setting_value is None) expressed by the _ pattern in the second arm, we want to allow new_setting_value to become setting_value.": {
+    "_translate": "在所有其他情况下（如果 <code>setting_value</code> 或 <code>new_setting_value</code> 是 <code>None</code>），由第二个分支中的 <code>_</code> 模式表示，我们希望允许 <code>new_setting_value</code> 变为 <code>setting_value</code>。",
+    "_note": ""
+  },
+  "An Unused Variable by Starting Its Name with _": {
+    "_translate": "<a class=\"header\" href=\"#an-unused-variable-by-starting-its-name-with-_\">通过名称以<code>_</code>开头来表示一个未使用的变量</a>",
+    "_note": ""
+  },
+  "Here, we get a warning about not using the variable y, but we don’t get a warning about not using _x.": {
+    "_translate": "这里，我们得到了一个关于未使用变量<code>y</code>的警告，但没有收到关于未使用<code>_x</code>的警告。",
+    "_note": ""
+  },
+  "Remaining Parts of a Value with ..": {
+    "_translate": "<a class=\"header\" href=\"#remaining-parts-of-a-value-with-\">值的其余部分使用 <code>..</code></a>",
+    "_note": ""
+  },
+  "This example will print The number 4 is even. When num is compared to the pattern in the first arm, it matches because Some(4) matches Some(x). Then the match guard checks whether the remainder of dividing x by 2 is equal to 0, and because it is, the first arm is selected.": {
+    "_translate": "这个示例将打印 <code>The number 4 is even</code>。当 <code>num</code> 与第一个分支中的模式进行比较时，它匹配，因为 <code>Some(4)</code> 匹配 <code>Some(x)</code>。然后匹配卫士检查 <code>x</code> 除以 2 的余数是否等于 0，因为确实等于 0，所以选择了第一个分支。",
+    "_note": ""
+  },
+  "A match guard is an additional if condition, specified after the pattern in a match arm, that must also match for that arm to be chosen. Match guards are useful for expressing more complex ideas than a pattern alone allows. Note, however, that they are only available in match expressions, not in if let or while let expressions.": {
+    "_translate": "一个 <em>匹配卫士</em> 是一个额外的 <code>if</code> 条件，在 <code>match</code> 分支的模式之后指定，该分支被选择的前提是这个条件也必须匹配。匹配卫士对于表达比单独的模式更复杂的想法非常有用。但是，请注意，它们仅在 <code>match</code> 表达式中可用，而在 <code>if let</code> 或 <code>while let</code> 表达式中不可用。",
+    "_note": ""
+  },
+  "The match condition states that the arm only matches if the value of x is equal to 4, 5, or 6 and if y is true. When this code runs, the pattern of the first arm matches because x is 4, but the match guard if y is false, so the first arm is not chosen. The code moves on to the second arm, which does match, and this program prints no. The reason is that the if condition applies to the whole pattern 4 | 5 | 6, not just to the last value 6. In other words, the precedence of a match guard in relation to a pattern behaves like this:": {
+    "_translate": "匹配条件表明，只有当 <code>x</code> 的值等于 <code>4</code>、<code>5</code> 或 <code>6</code> <em>并且</em> <code>y</code> 为 <code>true</code> 时，该臂才匹配。当此代码运行时，第一个臂的模式匹配因为 <code>x</code> 为 <code>4</code>，但匹配卫士 <code>if y</code> 为 <code>false</code>，所以第一个臂未被选择。代码继续到第二个臂，该臂匹配，此程序打印 <code>no</code>。原因是 <code>if</code> 条件适用于整个模式 <code>4 | 5 | 6</code>，而不仅仅是最后一个值 <code>6</code>。换句话说，匹配卫士相对于模式的优先级行为如下：",
+    "_note": ""
+  },
+  "The at operator @ lets us create a variable that holds a value at the same time we’re testing that value for a pattern match. In Listing 19-29, we want to test that a Message::Hello id field is within the range 3..=7. We also want to bind the value to the variable id_variable so we can use it in the code associated with the arm. We could name this variable id, the same as the field, but for this example we’ll use a different name.": {
+    "_translate": "<em>at</em> 操作符 <code>@</code> 让我们可以在测试值是否符合模式匹配的同时，创建一个持有该值的变量。在清单 19-29 中，我们希望测试 <code>Message::Hello</code> 的 <code>id</code> 字段是否在范围 <code>3..=7</code> 内。我们还希望将该值绑定到变量 <code>id_variable</code>，以便在与该分支关联的代码中使用。我们可以将此变量命名为 <code>id</code>，与字段同名，但在这个例子中我们将使用不同的名称。",
+    "_note": ""
+  },
+  "Rust’s patterns are very useful in distinguishing between different kinds of data. When used in match expressions, Rust ensures your patterns cover every possible value, or your program won’t compile. Patterns in let statements and function parameters make those constructs more useful, enabling the destructuring of values into smaller parts at the same time as assigning those parts to variables. We can create simple or complex patterns to suit our needs.": {
+    "_translate": "Rust 的模式非常有用，可以区分不同类型的数据。当在 <code>match</code> 表达式中使用时，Rust 确保您的模式覆盖了所有可能的值，否则程序将无法编译。在 <code>let</code> 语句和函数参数中的模式使这些结构更加有用，能够在将值拆分为更小部分的同时将这些部分分配给变量。我们可以创建简单或复杂的模式以满足我们的需求。",
+    "_note": ""
   }
 }

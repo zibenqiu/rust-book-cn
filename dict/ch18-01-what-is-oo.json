@@ -102,5 +102,33 @@
   "Characteristics of Object-Oriented Languages - The Rust Programming Language": {
     "_translate": "特性面向对象语言 - 《Rust编程语言》",
     "_note": ""
+  },
+  "There is no consensus in the programming community about what features a language must have to be considered object oriented. Rust is influenced by many programming paradigms, including OOP; for example, we explored the features that came from functional programming in Chapter 13. Arguably, OOP languages share certain common characteristics, namely objects, encapsulation, and inheritance. Let’s look at what each of those characteristics means and whether Rust supports it.": {
+    "_translate": "在编程社区中，对于一种语言必须具备哪些特性才能被视为面向对象并没有共识。Rust 受到了许多编程范式的影响，包括面向对象编程；例如，我们在第 13 章中探讨了来自函数式编程的特性。可以说，面向对象语言具有一些共同的特征，即对象、封装和继承。让我们看看每个特征的含义以及 Rust 是否支持它们。",
+    "_note": ""
+  },
+  "The book Design Patterns: Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides (Addison-Wesley, 1994), colloquially referred to as The Gang of Four book, is a catalog of object-oriented design patterns. It defines OOP in this way:": {
+    "_translate": "由 Erich Gamma、Richard Helm、Ralph Johnson 和 John Vlissides (Addison-Wesley, 1994) 撰写的书籍 <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>，俗称 <em>The Gang of Four</em> 书，是一本关于面向对象设计模式的目录。它以这种方式定义 OOP：",
+    "_note": ""
+  },
+  "Using this definition, Rust is object oriented: structs and enums have data, and impl blocks provide methods on structs and enums. Even though structs and enums with methods aren’t called objects, they provide the same functionality, according to the Gang of Four’s definition of objects.": {
+    "_translate": "根据这个定义，Rust 是面向对象的：结构体和枚举有数据，<code>impl</code> 块为结构体和枚举提供方法。即使带有方法的结构体和枚举不<em>称为</em>对象，它们根据四人组对对象的定义提供了相同的功能。",
+    "_note": ""
+  },
+  "Encapsulation That Hides Implementation Details": {
+    "_translate": "<a class=\"header\" href=\"#encapsulation-that-hides-implementation-details\">隐藏实现细节的封装</a>",
+    "_note": ""
+  },
+  "If encapsulation is a required aspect for a language to be considered object oriented, then Rust meets that requirement. The option to use pub or not for different parts of code enables encapsulation of implementation details.": {
+    "_translate": "如果封装是语言被认为是面向对象的必要方面，那么 Rust 满足这一要求。选择使用 <code>pub</code> 或不使用 <code>pub</code> 为代码的不同部分启用实现细节的封装。",
+    "_note": ""
+  },
+  "Because we’ve encapsulated the implementation details of the struct AveragedCollection, we can easily change aspects, such as the data structure, in the future. For instance, we could use a HashSet<i32> instead of a Vec<i32> for the list field. As long as the signatures of the add, remove, and average public methods stayed the same, code using AveragedCollection wouldn’t need to change. If we made list public instead, this wouldn’t necessarily be the case: HashSet<i32> and Vec<i32> have different methods for adding and removing items, so the external code would likely have to change if it were modifying list directly.": {
+    "_translate": "因为我们已经封装了 <code>AveragedCollection</code> 结构体的实现细节，所以我们可以轻松地在未来更改某些方面，例如数据结构。例如，我们可以使用 <code>HashSet&lt;i32&gt;</code> 而不是 <code>Vec&lt;i32&gt;</code> 作为 <code>list</code> 字段。只要 <code>add</code>、<code>remove</code> 和 <code>average</code> 公共方法的签名保持不变，使用 <code>AveragedCollection</code> 的代码就不需要更改。如果我们把 <code>list</code> 设为公共的，情况就不一定如此了：<code>HashSet&lt;i32&gt;</code> 和 <code>Vec&lt;i32&gt;</code> 在添加和删除项目时有不同的方法，因此如果外部代码直接修改 <code>list</code>，很可能需要更改。",
+    "_note": ""
+  },
+  "If a language must have inheritance to be object oriented, then Rust is not such a language. There is no way to define a struct that inherits the parent struct’s fields and method implementations without using a macro.": {
+    "_translate": "如果一种语言必须具有继承才能成为面向对象的语言，那么 Rust 就不是这样的语言。没有办法定义一个结构体来继承父结构体的字段和方法实现，除非使用宏。",
+    "_note": ""
   }
 }

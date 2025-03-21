@@ -194,5 +194,53 @@
   "As discussed in “Implementing a Trait on a Type” in Chapter 10, to implement a trait, we need to provide implementations for the trait’s required methods. The Deref trait, provided by the standard library, requires us to implement one method named deref that borrows self and returns a reference to the inner data. Listing 15-10 contains an implementation of Deref to add to the definition of MyBox<T>:": {
     "_translate": "如<a href=\"ch10-02-traits.html#implementing-a-trait-on-a-type\">“在类型上实现特征”</a><!-- ignore -->在\n第 10 章中所述，要实现一个特征，我们需要为该特征的必需方法提供实现。标准库提供的<code>Deref</code>特征要求我们实现一个名为<code>deref</code>的方法，该方法借用<code>self</code>并返回对内部数据的引用。列表 15-10 包含了为<code>MyBox&lt;T&gt;</code>定义添加的<code>Deref</code>实现：",
     "_note": ""
+  },
+  "Treating Smart Pointers Like Regular References with Deref - The Rust Programming Language": {
+    "_translate": "将智能指针像常规引用一样使用 - 《Rust编程语言》",
+    "_note": ""
+  },
+  "Treating Smart Pointers Like Regular References with Deref": {
+    "_translate": "<a class=\"header\" href=\"#treating-smart-pointers-like-regular-references-with-deref\">将智能指针像常规引用一样处理与 <code>Deref</code></a>",
+    "_note": ""
+  },
+  "A regular reference is a type of pointer, and one way to think of a pointer is as an arrow to a value stored somewhere else. In Listing 15-6, we create a reference to an i32 value and then use the dereference operator to follow the reference to the value.": {
+    "_translate": "一个常规引用是一种指针，而理解指针的一种方式是将其视为指向存储在其他地方的值的箭头。在示例 15-6 中，我们创建了一个指向 <code>i32</code> 值的引用，然后使用解引用运算符来跟踪引用到值。",
+    "_note": ""
+  },
+  "The main difference between Listing 15-7 and Listing 15-6 is that here we set y to be an instance of a box pointing to a copied value of x rather than a reference pointing to the value of x. In the last assertion, we can use the dereference operator to follow the box’s pointer in the same way that we did when y was a reference. Next, we’ll explore what is special about Box<T> that enables us to use the dereference operator by defining our own type.": {
+    "_translate": "列表 15-7 和列表 15-6 之间的主要区别在于，这里我们将 <code>y</code> 设置为指向 <code>x</code> 值的副本的 box 实例，而不是指向 <code>x</code> 值的引用。在最后一个断言中，我们可以使用解引用运算符来跟踪 box 的指针，就像 <code>y</code> 是引用时我们所做的那样。接下来，我们将通过定义我们自己的类型来探讨 <code>Box&lt;T&gt;</code> 的特殊之处，这使我们能够使用解引用运算符。",
+    "_note": ""
+  },
+  "We define a struct named MyBox and declare a generic parameter T because we want our type to hold values of any type. The MyBox type is a tuple struct with one element of type T. The MyBox::new function takes one parameter of type T and returns a MyBox instance that holds the value passed in.": {
+    "_translate": "我们定义了一个名为 <code>MyBox</code> 的结构体，并声明了一个泛型参数 <code>T</code>，因为\n我们希望我们的类型能够持有任何类型的值。 <code>MyBox</code> 类型是一个元组结构体\n，包含一个类型为 <code>T</code> 的元素。 <code>MyBox::new</code> 函数接受一个类型为 <code>T</code> 的参数\n并返回一个持有传入值的 <code>MyBox</code> 实例。",
+    "_note": ""
+  },
+  "Here’s the resultant compilation error:": {
+    "_translate": "以下是编译错误结果：",
+    "_note": ""
+  },
+  "As discussed in “Implementing a Trait on a Type” in Chapter 10, to implement a trait, we need to provide implementations for the trait’s required methods. The Deref trait, provided by the standard library, requires us to implement one method named deref that borrows self and returns a reference to the inner data. Listing 15-10 contains an implementation of Deref to add to the definition of MyBox<T>.": {
+    "_translate": "如<a href=\"ch10-02-traits.html#implementing-a-trait-on-a-type\">“在类型上实现特征”</a><!-- ignore -->在\n第 10 章中所述，要实现一个特征，我们需要为该特征的必需方法提供实现。标准库提供的<code>Deref</code>特征要求我们实现一个名为<code>deref</code>的方法，该方法借用<code>self</code>并返回对内部数据的引用。列表 15-10 包含为<code>MyBox&lt;T&gt;</code>定义添加的<code>Deref</code>实现。",
+    "_note": ""
+  },
+  "We fill in the body of the deref method with &self.0 so deref returns a reference to the value we want to access with the * operator; recall from “Using Tuple Structs Without Named Fields to Create Different Types” in Chapter 5 that .0 accesses the first value in a tuple struct. The main function in Listing 15-9 that calls * on the MyBox<T> value now compiles, and the assertions pass!": {
+    "_translate": "我们用<code>&amp;self.0</code>填充<code>deref</code>方法的主体，这样<code>deref</code>返回一个引用，我们可以通过<code>*</code>操作符访问我们想要访问的值；回想<a href=\"ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types\">“使用没有命名字段的元组结构体来创建不同类型的实例”</a><!-- ignore -->在第5章中，<code>.0</code>访问元组结构体中的第一个值。现在，清单15-9中的<code>main</code>函数调用<code>*</code>操作符对<code>MyBox&lt;T&gt;</code>值进行编译，断言通过！",
+    "_note": ""
+  },
+  "The reason the deref method returns a reference to a value, and that the plain dereference outside the parentheses in *(y.deref()) is still necessary, has to do with the ownership system. If the deref method returned the value directly instead of a reference to the value, the value would be moved out of self. We don’t want to take ownership of the inner value inside MyBox<T> in this case or in most cases where we use the dereference operator.": {
+    "_translate": "<code>deref</code> 方法返回一个值的引用，而 <code>*(y.deref())</code> 中括号外的普通解引用仍然必要，这与所有权系统有关。如果 <code>deref</code> 方法直接返回值而不是值的引用，那么值将从 <code>self</code> 中移出。在这种情况下，以及在大多数使用解引用操作符的情况下，我们不希望获取 <code>MyBox&lt;T&gt;</code> 内部值的所有权。",
+    "_note": ""
+  },
+  "To see deref coercion in action, let’s use the MyBox<T> type we defined in Listing 15-8 as well as the implementation of Deref that we added in Listing 15-10. Listing 15-11 shows the definition of a function that has a string slice parameter.": {
+    "_translate": "为了看到解引用强制转换的效果，让我们使用我们在清单 15-8 中定义的 <code>MyBox&lt;T&gt;</code> 类型以及我们在清单 15-10 中添加的 <code>Deref</code> 实现。清单 15-11 显示了一个具有字符串切片参数的函数的定义。",
+    "_note": ""
+  },
+  "We can call the hello function with a string slice as an argument, such as hello(\"Rust\");, for example. Deref coercion makes it possible to call hello with a reference to a value of type MyBox<String>, as shown in Listing 15-12.": {
+    "_translate": "我们可以用字符串切片作为参数调用 <code>hello</code> 函数，例如 <code>hello(\"Rust\");</code>。解引用强制转换使得我们可以用 <code>MyBox&lt;String&gt;</code> 类型值的引用调用 <code>hello</code>，如清单 15-12 所示。",
+    "_note": ""
+  },
+  "The first two cases are the same except that the second implements mutability. The first case states that if you have a &T, and T implements Deref to some type U, you can get a &U transparently. The second case states that the same deref coercion happens for mutable references.": {
+    "_translate": "前两个案例相同，只是第二个实现了可变性。\n第一个案例说明，如果你有一个 <code>&amp;T</code>，并且 <code>T</code> 实现了到某种类型 <code>U</code> 的 <code>Deref</code>，你可以透明地获得一个 <code>&amp;U</code>。第二个案例说明，对于可变引用，同样的解引用强制转换也会发生。",
+    "_note": ""
   }
 }

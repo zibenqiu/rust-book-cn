@@ -338,5 +338,9 @@
   "You can also add a custom message to be printed with the failure message as optional arguments to the assert!, assert_eq!, and assert_ne! macros. Any arguments specified after the required arguments are passed along to the format! macro (discussed in “Concatenation with the + Operator or the format! Macro” in Chapter 8), so you can pass a format string that contains {} placeholders and values to go in those placeholders. Custom messages are useful for documenting what an assertion means; when a test fails, you’ll have a better idea of what the problem is with the code.": {
     "_translate": "你还可以向 <code>assert!</code>、<code>assert_eq!</code> 和 <code>assert_ne!</code> 宏添加自定义消息，作为可选参数与失败消息一起打印。在必需参数之后指定的任何参数都会传递给 <code>format!</code> 宏（在<a href=\"ch08-02-strings.html#concatenation-with-the--operator-or-the-format-macro\">“使用 <code>+</code> 运算符或 <code>format!</code> 宏进行连接”</a><!--\nignore --> 第 8 章中讨论），因此你可以传递一个包含 <code>{}</code> 占位符的格式字符串和要填入这些占位符的值。自定义消息对于记录断言的含义很有用；当测试失败时，你将更好地了解代码的问题所在。",
     "_note": ""
+  },
+  "Note that in some languages and test frameworks, the parameters to equality assertion functions are called expected and actual, and the order in which we specify the arguments matters. However, in Rust, they’re called left and right, and the order in which we specify the value we expect and the value the code produces doesn’t matter. We could write the assertion in this test as assert_eq!(add_two(2), result), which would result in the same failure message that displays assertion failed: `(left == right)`.": {
+    "_translate": "请注意，在某些语言和测试框架中，相等性断言函数的参数被称为 <code>expected</code> 和 <code>actual</code>，并且我们指定参数的顺序很重要。然而，在 Rust 中，它们被称为 <code>left</code> 和 <code>right</code>，并且我们指定期望值和代码生成值的顺序并不重要。我们可以将此测试中的断言写为 <code>assert_eq!(add_two(2), result)</code>，这将导致显示相同的失败消息 <code>assertion failed: `(left == right)`</code>。",
+    "_note": ""
   }
 }

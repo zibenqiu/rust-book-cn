@@ -198,5 +198,29 @@
   "The Default::default function is commonly used in combination with the struct update syntax discussed in “Creating Instances From Other Instances With Struct Update Syntax” in Chapter 5. You can customize a few fields of a struct and then set and use a default value for the rest of the fields by using ..Default::default().": {
     "_translate": "<code>Default::default</code> 函数通常与结构体更新语法结合使用，该语法在第 5 章的 <a href=\"ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax\">“使用结构体更新语法从其他实例创建实例”</a><!--\nignore --> 中讨论。你可以自定义结构体的几个字段，然后使用 <code>..Default::default()</code> 为其余字段设置和使用默认值。",
     "_note": ""
+  },
+  "If you want different behavior from that provided by the derive attribute, consult the standard library documentation for each trait for details on how to manually implement them.": {
+    "_translate": "如果您希望的行为与 <code>derive</code> 属性提供的不同，\n请参阅 <a href=\"../std/index.html\">标准库文档</a><!-- ignore -->\n以了解如何手动实现每个特征的详细信息。",
+    "_note": ""
+  },
+  "The traits listed here are the only ones defined by the standard library that can be implemented on your types using derive. Other traits defined in the standard library don’t have sensible default behavior, so it’s up to you to implement them in the way that makes sense for what you’re trying to accomplish.": {
+    "_translate": "这里列出的特征是标准库中唯一可以使用<code>derive</code>在你的类型上实现的特征。标准库中定义的其他特征没有合理的默认行为，因此需要你自己以适合你目标的方式实现它们。",
+    "_note": ""
+  },
+  "The Debug trait is required, for example, in the use of the assert_eq! macro. This macro prints the values of instances given as arguments if the equality assertion fails so programmers can see why the two instances weren’t equal.": {
+    "_translate": "<code>Debug</code> 特性在使用 <code>assert_eq!</code> 宏时是必需的。这个宏在等式断言失败时会打印出作为参数给出的实例的值，以便程序员可以看到为什么这两个实例不相等。",
+    "_note": ""
+  },
+  "An example of when Clone is required is when calling the to_vec method on a slice. The slice doesn’t own the type instances it contains, but the vector returned from to_vec will need to own its instances, so to_vec calls clone on each item. Thus the type stored in the slice must implement Clone.": {
+    "_translate": "一个需要 <code>Clone</code> 的例子是在切片上调用 <code>to_vec</code> 方法时。切片不拥有它包含的类型实例，但 <code>to_vec</code> 返回的向量需要拥有其实例，因此 <code>to_vec</code> 会对每个项目调用 <code>clone</code>。因此，存储在切片中的类型必须实现 <code>Clone</code>。",
+    "_note": ""
+  },
+  "Deriving PartialOrd implements the partial_cmp method, which returns an Option<Ordering> that will be None when the values given don’t produce an ordering. An example of a value that doesn’t produce an ordering, even though most values of that type can be compared, is the not-a-number (NaN) floating point value. Calling partial_cmp with any floating-point number and the NaN floating-point value will return None.": {
+    "_translate": "派生 <code>PartialOrd</code> 实现了 <code>partial_cmp</code> 方法，该方法返回一个 <code>Option&lt;Ordering&gt;</code>，当给定的值无法产生排序时，该值将为 <code>None</code>。一个无法产生排序的值的例子是浮点数中的非数字（<code>NaN</code>）值，即使该类型的大多数值可以进行比较。使用任何浮点数和 <code>NaN</code> 浮点数调用 <code>partial_cmp</code> 都将返回 <code>None</code>。",
+    "_note": ""
+  },
+  "The Default::default function is commonly used in combination with the struct update syntax discussed in “Creating Instances from Other Instances with Struct Update Syntax” in Chapter 5. You can customize a few fields of a struct and then set and use a default value for the rest of the fields by using ..Default::default().": {
+    "_translate": "<code>Default::default</code> 函数通常与结构体更新语法结合使用，相关内容在 <a href=\"ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax\">“使用结构体更新语法从其他实例创建实例”</a> 一节中有讨论。你可以自定义结构体的几个字段，然后使用 <code>..Default::default()</code> 为其余字段设置和使用默认值。",
+    "_note": ""
   }
 }

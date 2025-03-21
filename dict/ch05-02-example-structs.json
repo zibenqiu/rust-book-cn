@@ -138,5 +138,9 @@
   "An Example Program Using Structs - The Rust Programming Language": {
     "_translate": "一个使用结构体的示例程序 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Here, we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.": {
+    "_translate": "这里，我们定义了一个结构体并命名为<code>Rectangle</code>。在大括号内，我们定义了字段为<code>width</code>和<code>height</code>，它们的类型都是<code>u32</code>。然后，在<code>main</code>中，我们创建了一个特定的<code>Rectangle</code>实例，其宽度为<code>30</code>，高度为<code>50</code>。",
+    "_note": ""
   }
 }

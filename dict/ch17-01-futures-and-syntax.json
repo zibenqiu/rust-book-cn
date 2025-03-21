@@ -394,5 +394,17 @@
   "Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! Instead, we called the trpl::run function in main to set up a runtime and run the future returned by the async block until it is done.": {
     "_translate": "现在你可以理解为什么编译器在第 17-3 节中阻止我们将 <code>main</code> 本身设为异步函数了。如果 <code>main</code> 是一个异步函数，那么就需要有其他东西来管理 <code>main</code> 返回的未来状态机，但 <code>main</code> 是程序的起点！相反，我们在 <code>main</code> 中调用了 <code>trpl::run</code> 函数来设置运行时并运行 <code>async</code> 块返回的未来，直到它完成。",
     "_note": ""
+  },
+  "Note: Some runtimes provide macros so you can write an async main function. Those macros rewrite async fn main() { ... } to be a normal fn main, which does the same thing we did by hand in Listing 17-4: call a function that runs a future to completion the way trpl::run does.": {
+    "_translate": "注意：某些运行时提供了宏，因此您可以编写异步 <code>main</code> 函数。这些宏将 <code>async fn main() { ... }</code> 重写为普通的 <code>fn main</code>，这与我们在清单 17-4 中手动所做的相同：调用一个函数，该函数以 <code>trpl::run</code> 的方式运行一个未来。",
+    "_note": ""
+  },
+  "Notice that Rust’s await keyword goes after the expression you’re awaiting, not before it. That is, it’s a postfix keyword. This may differ from what you’re used to if you’ve used async in other languages, but in Rust it makes chains of methods much nicer to work with. As a result, we can change the body of page_title to chain the trpl::get and text function calls together with await between them, as shown in Listing 17-2.": {
+    "_translate": "请注意，Rust 的 <code>await</code> 关键字位于你正在等待的表达式 <em>之后</em>，\n而不是之前。也就是说，它是一个 <em>后缀</em> 关键字。这可能与你在其他语言中使用 <code>async</code> 时的习惯不同，但在 Rust 中，这使得方法链的使用更加优雅。因此，我们可以将 <code>page_title</code> 的主体更改为将 <code>trpl::get</code> 和 <code>text</code> 函数调用通过 <code>await</code> 连接在一起，如清单 17-2 所示。",
+    "_note": ""
+  },
+  "The race function returns Left with the output from the first future argument it finishes first, or Right with the output of the second future argument if that one finishes first. This matches the order the arguments appear in when calling the function: the first argument is to the left of the second argument.": {
+    "_translate": "<code>race</code> 函数返回 <code>Left</code>，其中包含首先完成的第一个未来参数的输出，或 <code>Right</code>，其中包含如果第二个未来参数首先完成的输出。这与调用函数时参数出现的顺序相匹配：第一个参数位于第二个参数的左侧。",
+    "_note": ""
   }
 }

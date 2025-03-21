@@ -434,5 +434,21 @@
   "Take a look at the futures::stream::FuturesUnordered type from the futures crate. How would using it be different from using a Vec? (Don’t worry about the fact that it’s from the stream part of the crate; it works just fine with any collection of futures.)": {
     "_translate": "查看 <code>futures::stream::FuturesUnordered</code> 类型，来自 <code>futures</code>\n库。使用它与使用 <code>Vec</code> 有什么不同？（不用担心它是从库的 <code>stream</code> 部分来的；它可以很好地与任何未来的集合一起使用。）",
     "_note": ""
+  },
+  "To check all the futures in some collection, we’ll need to iterate over and join on all of them. The trpl::join_all function accepts any type that implements the Iterator trait, which you learned about back in The Iterator Trait and the next Method Chapter 13, so it seems like just the ticket. Let’s try putting our futures in a vector and replacing join! with join_all as shown in Listing 17-15.": {
+    "_translate": "要检查集合中的所有 future，我们需要遍历并连接<em>所有</em>的它们。<code>trpl::join_all</code> 函数接受任何实现了 <code>Iterator</code> 特性的类型，这在 <a href=\"ch13-02-iterators.html#the-iterator-trait-and-the-next-method\">第 13 章的“迭代器特性与 <code>next</code> 方法”</a> 中已经介绍过，因此它似乎正是我们需要的。让我们尝试将我们的 future 放入一个向量中，并用 <code>join_all</code> 替换 <code>join!</code>，如清单 17-15 所示。",
+    "_note": ""
+  },
+  "Note: In Using an Enum to Store Multiple Values in Chapter 8, we discussed another way to include multiple types in a Vec: using an enum to represent each type that can appear in the vector. We can’t do that here, though. For one thing, we have no way to name the different types, because they are anonymous. For another, the reason we reached for a vector and join_all in the first place was to be able to work with a dynamic collection of futures where we only care that they have the same output type.": {
+    "_translate": "注意：在 <a href=\"ch08-01-vectors.html#using-an-enum-to-store-multiple-types\">使用枚举存储多个值</a><!-- ignore --> 中\n第8章，我们讨论了另一种在<code>Vec</code>中包含多种类型的方法：使用枚举来表示可以在向量中出现的每种类型。然而，我们在这里不能这样做。一方面，我们无法命名不同的类型，因为它们是匿名的。另一方面，我们首先选择向量和<code>join_all</code>的原因是为了能够处理一个动态的未来集合，而我们只关心它们具有相同的输出类型。",
+    "_note": ""
+  },
+  "However, we must still be explicit about the type of the pinned reference; otherwise, Rust will still not know to interpret these as dynamic trait objects, which is what we need them to be in the Vec. We therefore add pin to our list of imports from std::pin. Then we can pin! each future when we define it and define futures as a Vec containing pinned mutable references to the dynamic future type, as in Listing 17-19.": {
+    "_translate": "然而，我们必须明确指出固定引用的类型；否则，Rust 仍然不知道将这些解释为动态特征对象，而这正是我们希望它们在 <code>Vec</code> 中成为的。因此，我们将 <code>pin</code> 添加到从 <code>std::pin</code> 导入的列表中。然后我们可以在定义每个未来时 <code>pin!</code> 它们，并将 <code>futures</code> 定义为包含指向动态未来类型的固定可变引用的 <code>Vec</code>，如清单 17-19 所示。",
+    "_note": ""
+  },
+  "That is a lot to digest, so let’s pull it apart. The first part of the message tell us that the first async block (src/main.rs:8:23: 20:10) does not implement the Unpin trait and suggests using pin! or Box::pin to resolve it. Later in the chapter, we’ll dig into a few more details about Pin and Unpin. For the moment, though, we can just follow the compiler’s advice to get unstuck. In Listing 17-18, we start by importing Pin from std::pin. Next we update the type annotation for futures, with a Pin wrapping each Box. Finally, we use Box::pin to pin the futures themselves.": {
+    "_translate": "这有<em>很多</em>需要消化的内容，所以我们来拆解一下。消息的第一部分\n告诉我们第一个异步块（<code>src/main.rs:8:23: 20:10</code>）没有\n实现<code>Unpin</code>特质，并建议使用<code>pin!</code>或<code>Box::pin</code>来解决\n它。在本章的后面，我们将深入探讨更多关于<code>Pin</code>和\n<code>Unpin</code>的细节。不过，目前我们只需按照编译器的建议来解决问题。在清单17-18中，我们首先从<code>std::pin</code>导入<code>Pin</code>。接下来我们\n更新<code>futures</code>的类型注解，每个<code>Box</code>都用<code>Pin</code>包裹。\n最后，我们使用<code>Box::pin</code>来固定这些未来对象。",
+    "_note": ""
   }
 }

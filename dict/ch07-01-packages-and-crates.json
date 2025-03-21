@@ -58,5 +58,13 @@
   "A package is a bundle of one or more crates that provides a set of functionality. A package contains a Cargo.toml file that describes how to build those crates. Cargo is actually a package that contains the binary crate for the command line tool you’ve been using to build your code. The Cargo package also contains a library crate that the binary crate depends on. Other projects can depend on the Cargo library crate to use the same logic the Cargo command line tool uses. A package can contain as many binary crates as you like, but at most only one library crate. A package must contain at least one crate, whether that’s a library or binary crate.": {
     "_translate": "一个<em>包</em>是一组一个或多个提供一组功能的<em>包</em>。一个包包含一个<em>Cargo.toml</em>文件，该文件描述了如何构建这些包。Cargo实际上是一个包含你一直在使用的命令行工具的二进制包的包。Cargo包还包含一个库包，该二进制包依赖于它。其他项目可以依赖于Cargo库包以使用与Cargo命令行工具相同的逻辑。一个包可以包含任意数量的二进制包，但最多只能包含一个库包。一个包必须至少包含一个包，无论是库包还是二进制包。",
     "_note": ""
+  },
+  "A package is a bundle of one or more crates that provides a set of functionality. A package contains a Cargo.toml file that describes how to build those crates. Cargo is actually a package that contains the binary crate for the command line tool you’ve been using to build your code. The Cargo package also contains a library crate that the binary crate depends on. Other projects can depend on the Cargo library crate to use the same logic the Cargo command line tool uses.": {
+    "_translate": "一个 <em>包</em> 是一个或多个提供一组功能的 <em>crate</em> 的集合。包包含一个 <em>Cargo.toml</em> 文件，描述如何构建这些 crate。Cargo 实际上是一个包含你一直在使用的命令行工具的二进制 crate 的包。Cargo 包还包含一个二进制 crate 依赖的库 crate。其他项目可以依赖 Cargo 库 crate 来使用与 Cargo 命令行工具相同的逻辑。",
+    "_note": ""
+  },
+  "A package can contain as many binary crates as you like, but at most only one library crate. A package must contain at least one crate, whether that’s a library or binary crate.": {
+    "_translate": "一个包可以包含任意数量的二进制包，但最多只能有一个库包。一个包必须至少包含一个包，无论是库包还是二进制包。",
+    "_note": ""
   }
 }

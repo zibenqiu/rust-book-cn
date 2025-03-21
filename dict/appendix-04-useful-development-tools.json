@@ -118,5 +118,21 @@
   "The x variable is now immutable, and the warning no longer appears.": {
     "_translate": "<code>x</code> 变量现在是不可变的，警告不再出现。",
     "_note": ""
+  },
+  "Rust installations include rustfmt by default, so you should already have the programs rustfmt and cargo-fmt on your system. These two commands are analogous to rustc and cargo in that rustfmt allows finer-grained control and cargo-fmt understands conventions of a project that uses Cargo. To format any Cargo project, enter the following:": {
+    "_translate": "Rust 安装默认包含 rustfmt，因此你的系统上应该已经有 <code>rustfmt</code> 和 <code>cargo-fmt</code> 程序。这两个命令类似于 <code>rustc</code> 和 <code>cargo</code>，其中 <code>rustfmt</code> 允许更细粒度的控制，而 <code>cargo-fmt</code> 理解使用 Cargo 的项目的约定。要格式化任何 Cargo 项目，请输入以下内容：",
+    "_note": ""
+  },
+  "Running this command reformats all the Rust code in the current crate. This should only change the code style, not the code semantics.": {
+    "_translate": "运行此命令将重新格式化当前包中的所有 Rust 代码。这应该只改变代码风格，而不是代码语义。",
+    "_note": ""
+  },
+  "Here, we’re defining the variable x as mutable, but we never actually mutate it. Rust warns us about that:": {
+    "_translate": "这里，我们将变量 <code>x</code> 定义为可变的，但实际上我们从未更改过它。Rust 会警告我们这一点。",
+    "_note": ""
+  },
+  "The Clippy tool is a collection of lints to analyze your code so you can catch common mistakes and improve your Rust code. Clippy is included with standard Rust installations.": {
+    "_translate": "Clippy 工具是一组用于分析代码的 lint，可以帮助你发现常见的错误并改进你的 Rust 代码。Clippy 包含在标准的 Rust 安装中。",
+    "_note": ""
   }
 }

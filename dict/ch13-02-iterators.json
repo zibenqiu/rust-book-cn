@@ -142,5 +142,37 @@
   "Processing a Series of Items with Iterators - The Rust Programming Language": {
     "_translate": "使用迭代器处理一系列项目 - 《Rust编程语言》",
     "_note": ""
+  },
+  "Iterators handle all of that logic for you, cutting down on repetitive code you could potentially mess up. Iterators give you more flexibility to use the same logic with many different kinds of sequences, not just data structures you can index into, like vectors. Let’s examine how iterators do that.": {
+    "_translate": "迭代器为您处理所有这些逻辑，减少了可能会出错的重复代码。迭代器为您提供更多的灵活性，使您能够使用相同的逻辑处理许多不同类型的序列，而不仅仅是您可以索引的数据结构，如向量。让我们看看迭代器是如何做到这一点的。",
+    "_note": ""
+  },
+  "Notice that this definition uses some new syntax: type Item and Self::Item, which are defining an associated type with this trait. We’ll talk about associated types in depth in Chapter 20. For now, all you need to know is that this code says implementing the Iterator trait requires that you also define an Item type, and this Item type is used in the return type of the next method. In other words, the Item type will be the type returned from the iterator.": {
+    "_translate": "请注意，此定义使用了一些新语法：<code>type Item</code> 和 <code>Self::Item</code>，它们是在此特质中定义一个 <em>关联类型</em>。我们将在第 20 章详细讨论关联类型。现在，你只需要知道这段代码表示实现 <code>Iterator</code> 特质需要同时定义一个 <code>Item</code> 类型，而这个 <code>Item</code> 类型用于 <code>next</code> 方法的返回类型。换句话说，<code>Item</code> 类型将是迭代器返回的类型。",
+    "_note": ""
+  },
+  "The Iterator trait only requires implementors to define one method: the next method, which returns one item of the iterator at a time, wrapped in Some and, when iteration is over, returns None.": {
+    "_translate": "<code>Iterator</code> 特性只需要实现者定义一个方法：即 <code>next</code> 方法，该方法每次返回迭代器的一个项，包装在 <code>Some</code> 中，当迭代结束时，返回 <code>None</code>。",
+    "_note": ""
+  },
+  "Methods That Consume the Iterator": {
+    "_translate": "<a class=\"header\" href=\"#methods-that-consume-the-iterator\">消耗迭代器的方法</a>",
+    "_note": ""
+  },
+  "Methods that call next are called consuming adapters because calling them uses up the iterator. One example is the sum method, which takes ownership of the iterator and iterates through the items by repeatedly calling next, thus consuming the iterator. As it iterates through, it adds each item to a running total and returns the total when iteration is complete. Listing 13-13 has a test illustrating a use of the sum method.": {
+    "_translate": "调用 <code>next</code> 的方法被称为 <em>消耗适配器</em>，因为调用它们会用尽迭代器。一个例子是 <code>sum</code> 方法，它获取迭代器的所有权，并通过反复调用 <code>next</code> 遍历项目，从而消耗迭代器。在遍历过程中，它将每个项目添加到累计总数中，并在遍历完成后返回总数。列表 13-13 有一个测试说明了 <code>sum</code> 方法的使用。",
+    "_note": ""
+  },
+  "To fix this warning and consume the iterator, we’ll use the collect method, which we used in Chapter 12 with env::args in Listing 12-1. This method consumes the iterator and collects the resultant values into a collection data type.": {
+    "_translate": "要修复此警告并使用迭代器，我们将使用 <code>collect</code> 方法，我们在第 12 章的示例 12-1 中使用 <code>env::args</code> 时用过此方法。此方法会消耗迭代器并将结果值收集到集合数据类型中。",
+    "_note": ""
+  },
+  "In Listing 13-15, we collect the results of iterating over the iterator that’s returned from the call to map into a vector. This vector will end up containing each item from the original vector, incremented by 1.": {
+    "_translate": "在清单 13-15 中，我们将调用 <code>map</code> 返回的迭代器进行迭代的结果收集到一个向量中。这个向量最终将包含原始向量中的每个元素，每个元素加 1。",
+    "_note": ""
+  },
+  "Using Closures That Capture Their Environment": {
+    "_translate": "<a class=\"header\" href=\"#using-closures-that-capture-their-environment\">使用捕获其环境的闭包</a>",
+    "_note": ""
   }
 }

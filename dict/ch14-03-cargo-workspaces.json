@@ -166,5 +166,33 @@
   "Next, let’s use the add_one function (from the add_one crate) in the adder crate. Open the adder/src/main.rs file and change the main function to call the add_one function, as in Listing 14-7.": {
     "_translate": "接下来，让我们在 <code>adder</code> crate 中使用 <code>add_one</code> crate 中的 <code>add_one</code> 函数。打开 <em>adder/src/main.rs</em> 文件，并将 <code>main</code> 函数修改为调用 <code>add_one</code> 函数，如清单 14-7 所示。",
     "_note": ""
+  },
+  "Next, in the add directory, we create the Cargo.toml file that will configure the entire workspace. This file won’t have a [package] section. Instead, it will start with a [workspace] section that will allow us to add members to the workspace. We also make a point to use the latest and greatest version of Cargo’s resolver algorithm in our workspace by setting the resolver to \"3\".": {
+    "_translate": "接下来，在 <em>add</em> 目录中，我们创建 <em>Cargo.toml</em> 文件，该文件将配置整个工作区。此文件将没有 <code>[package]</code> 部分。\n相反，它将以 <code>[workspace]</code> 部分开始，这将允许我们向工作区添加成员。我们还通过将 <code>resolver</code> 设置为 <code>\"3\"</code> 来使用 Cargo 解析器算法的最新和最伟大版本。",
+    "_note": ""
+  },
+  "A workspace is a set of packages that share the same Cargo.lock and output directory. Let’s make a project using a workspace—we’ll use trivial code so we can concentrate on the structure of the workspace. There are multiple ways to structure a workspace, so we’ll just show one common way. We’ll have a workspace containing a binary and two libraries. The binary, which will provide the main functionality, will depend on the two libraries. One library will provide an add_one function and the other library an add_two function. These three crates will be part of the same workspace. We’ll start by creating a new directory for the workspace:": {
+    "_translate": "一个 <em>工作区</em> 是一组共享同一个 <em>Cargo.lock</em> 和输出目录的包。让我们创建一个使用工作区的项目——我们将使用简单的代码，这样我们可以专注于工作区的结构。有多种方式可以构建工作区，所以我们只展示一种常见的方式。我们将有一个包含一个二进制文件和两个库的工作区。这个二进制文件将提供主要功能，并依赖于这两个库。一个库将提供一个 <code>add_one</code> 函数，另一个库提供一个 <code>add_two</code> 函数。这三个包将是同一个工作区的一部分。我们首先为工作区创建一个新的目录：",
+    "_note": ""
+  },
+  "Next, let’s create another member package in the workspace and call it add_one. Generate a new library crate named add_one:": {
+    "_translate": "接下来，让我们在工作区中创建另一个成员包，并将其命名为<code>add_one</code>。生成一个名为<code>add_one</code>的新库crate：",
+    "_note": ""
+  },
+  "The top-level Cargo.toml will now include the add_one path in the members list:": {
+    "_translate": "顶级 <em>Cargo.toml</em> 现在将包括 <em>add_one</em> 路径在 <code>members</code> 列表中:",
+    "_note": ""
+  },
+  "Now we can have the adder package with our binary depend on the add_one package that has our library. First we’ll need to add a path dependency on add_one to adder/Cargo.toml.": {
+    "_translate": "现在我们可以有一个 <code>adder</code> 包，我们的二进制文件依赖于包含我们库的 <code>add_one</code> 包。首先我们需要在 <em>adder/Cargo.toml</em> 中添加对 <code>add_one</code> 的路径依赖。",
+    "_note": ""
+  },
+  "To fix this, edit the Cargo.toml file for the adder package and indicate that rand is a dependency for it as well. Building the adder package will add rand to the list of dependencies for adder in Cargo.lock, but no additional copies of rand will be downloaded. Cargo will ensure that every crate in every package in the workspace using the rand package will use the same version as long as they specify compatible versions of rand, saving us space and ensuring that the crates in the workspace will be compatible with each other.": {
+    "_translate": "要解决这个问题，请编辑 <em>Cargo.toml</em> 文件中的 <code>adder</code> 包，并指明 <code>rand</code> 也是它的依赖项。构建 <code>adder</code> 包会将 <code>rand</code> 添加到 <em>Cargo.lock</em> 中 <code>adder</code> 的依赖项列表中，但不会下载额外的 <code>rand</code> 副本。Cargo 会确保工作区中每个包中使用 <code>rand</code> 包的每个 crate 都使用相同版本的 <code>rand</code>，只要它们指定了兼容版本的 <code>rand</code>，这可以节省空间并确保工作区中的 crate 之间相互兼容。",
+    "_note": ""
+  },
+  "As your project grows, consider using a workspace: it enables you to work with smaller, easier-to-understand components than one big blob of code. Furthermore, keeping the crates in a workspace can make coordination between crates easier if they are often changed at the same time.": {
+    "_translate": "随着项目的增长，考虑使用工作区：它使您能够处理比一个大代码块更小、更容易理解的组件。此外，如果经常同时更改这些库，将库保留在工作区中可以更容易地协调这些库。",
+    "_note": ""
   }
 }

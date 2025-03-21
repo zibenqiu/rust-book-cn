@@ -194,5 +194,25 @@
   "So what do we do? In this case, you already know the answer: we make the types of s1 and s2 a &str rather than a str. Recall from “String Slices” in Chapter 4 that the slice data structure just stores the starting position and the length of the slice. So although a &T is a single value that stores the memory address of where the T is located, a &str is two values: the address of the str and its length. As such, we can know the size of a &str value at compile time: it’s twice the length of a usize. That is, we always know the size of a &str, no matter how long the string it refers to is. In general, this is the way in which dynamically sized types are used in Rust: they have an extra bit of metadata that stores the size of the dynamic information. The golden rule of dynamically sized types is that we must always put values of dynamically sized types behind a pointer of some kind.": {
     "_translate": "那么我们该怎么做呢？在这种情况下，你已经知道答案：我们将 <code>s1</code> 和 <code>s2</code> 的类型改为 <code>&amp;str</code> 而不是 <code>str</code>。回想第 4 章<a href=\"ch04-03-slices.html#string-slices\">“字符串切片”</a><!-- ignore --> 中的内容，切片数据结构仅存储切片的起始位置和长度。因此，虽然 <code>&amp;T</code> 是一个存储 <code>T</code> 所在内存地址的单个值，<code>&amp;str</code> 是 <em>两个</em> 值：<code>str</code> 的地址和它的长度。因此，我们可以在编译时知道 <code>&amp;str</code> 值的大小：它是 <code>usize</code> 长度的两倍。也就是说，无论它引用的字符串有多长，我们总是知道 <code>&amp;str</code> 的大小。一般来说，这就是 Rust 中动态大小类型使用的方式：它们有一个额外的元数据位来存储动态信息的大小。动态大小类型的黄金法则是，我们必须始终将动态大小类型的值放在某种指针后面。",
     "_note": ""
+  },
+  "Newtypes can also hide internal implementation. For example, we could provide a People type to wrap a HashMap<i32, String> that stores a person’s ID associated with their name. Code using People would only interact with the public API we provide, such as a method to add a name string to the People collection; that code wouldn’t need to know that we assign an i32 ID to names internally. The newtype pattern is a lightweight way to achieve encapsulation to hide implementation details, which we discussed in “Encapsulation That Hides Implementation Details” in Chapter 18.": {
+    "_translate": "新类型也可以隐藏内部实现。例如，我们可以提供一个 <code>People</code> 类型来包装一个 <code>HashMap&lt;i32, String&gt;</code>，该类型存储一个人的 ID 与其姓名的关联。使用 <code>People</code> 的代码只会与我们提供的公共 API 交互，例如一个将姓名字符串添加到 <code>People</code> 集合的方法；该代码不需要知道我们在内部为姓名分配了一个 <code>i32</code> ID。新类型模式是一种轻量级的方法，用于实现封装以隐藏实现细节，我们在 <a href=\"ch18-01-what-is-oo.html#encapsulation-that-hides-implementation-details\">“封装隐藏实现细节”</a><!--\nignore --> 第 18 章中讨论过。",
+    "_note": ""
+  },
+  "This section assumes you’ve read the earlier section “Using the Newtype Pattern to Implement External Traits on External Types.” The newtype pattern is also useful for tasks beyond those we’ve discussed so far, including statically enforcing that values are never confused and indicating the units of a value. You saw an example of using newtypes to indicate units in Listing 20-16: recall that the Millimeters and Meters structs wrapped u32 values in a newtype. If we wrote a function with a parameter of type Millimeters, we wouldn’t be able to compile a program that accidentally tried to call that function with a value of type Meters or a plain u32.": {
+    "_translate": "本节假设您已经阅读了前面的部分<a href=\"ch20-02-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types\">“使用新类型模式在外部类型上实现外部特征。”</a><!--\nignore --> 新类型模式对于我们迄今为止讨论的任务之外的任务也非常有用，包括静态强制值永不混淆和指示值的单位。您在列表 20-16 中看到了使用新类型来指示单位的示例：回想一下，<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在一个新类型中。如果我们编写了一个参数类型为 <code>Millimeters</code> 的函数，那么我们无法编译一个意外尝试用 <code>Meters</code> 类型或普通 <code>u32</code> 类型的值调用该函数的程序。",
+    "_note": ""
+  },
+  "The Never Type That Never Returns": {
+    "_translate": "<a class=\"header\" href=\"#the-never-type-that-never-returns\">永远不会返回的 Never 类型</a>",
+    "_note": ""
+  },
+  "Because Kilometers and i32 are the same type, we can add values of both types and we can pass Kilometers values to functions that take i32 parameters. However, using this method, we don’t get the type-checking benefits that we get from the newtype pattern discussed earlier. In other words, if we mix up Kilometers and i32 values somewhere, the compiler will not give us an error.": {
+    "_translate": "因为 <code>Kilometers</code> 和 <code>i32</code> 是同一种类型，我们可以将这两种类型的值相加，并且可以将 <code>Kilometers</code> 值传递给接受 <code>i32</code> 参数的函数。然而，使用这种方法，我们无法获得前面讨论的新类型模式带来的类型检查好处。换句话说，如果我们 somewhere 混淆了 <code>Kilometers</code> 和 <code>i32</code> 值，编译器不会给我们错误。",
+    "_note": ""
+  },
+  "But what use is a type you can never create values for? Recall the code from Listing 2-5, part of the number-guessing game; we’ve reproduced a bit of it here in Listing 20-27.": {
+    "_translate": "但是，一个你永远无法为其创建值的类型有什么用呢？回想一下第 2-5 列表中的代码，这是数字猜谜游戏的一部分；我们在这里重新展示了其中的一部分，如第 20-27 列表所示。",
+    "_note": ""
   }
 }

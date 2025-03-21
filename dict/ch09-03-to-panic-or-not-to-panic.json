@@ -134,5 +134,17 @@
   "There’s not a good way to encode this information in the types you use. We’ll work through an example of what we mean in “Encoding States and Behavior as Types” in Chapter 18.": {
     "_translate": "你使用的类型中没有一个好的方法来编码这些信息。我们将在第 18 章的<a href=\"ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types\">“将状态和行为编码为类型”</a>中通过一个例子来说明我们的意思。",
     "_note": ""
+  },
+  "Instead, we can make a new type in a dedicated module and put the validations in a function to create an instance of the type rather than repeating the validations everywhere. That way, it’s safe for functions to use the new type in their signatures and confidently use the values they receive. Listing 9-13 shows one way to define a Guess type that will only create an instance of Guess if the new function receives a value between 1 and 100.": {
+    "_translate": "相反，我们可以在一个专门的模块中创建一个新类型，并将验证放在一个创建该类型实例的函数中，而不是在每个地方重复验证。这样，函数可以在其签名中安全地使用新类型，并且可以放心地使用接收到的值。清单 9-13 显示了一种定义 <code>Guess</code> 类型的方法，该类型只有在 <code>new</code> 函数接收到 1 到 100 之间的值时才会创建 <code>Guess</code> 的实例。",
+    "_note": ""
+  },
+  "First we create a new module named guessing_game. Next we define a struct in that module named Guess that has a field named value that holds an i32. This is where the number will be stored.": {
+    "_translate": "首先我们创建一个名为 <code>guessing_game</code> 的新模块。接下来我们在该模块中定义一个名为 <code>Guess</code> 的结构体，该结构体有一个名为 <code>value</code> 的字段，用于存储一个 <code>i32</code>。\n这就是存储数字的地方。",
+    "_note": ""
+  },
+  "Next, we implement a method named value that borrows self, doesn’t have any other parameters, and returns an i32. This kind of method is sometimes called a getter because its purpose is to get some data from its fields and return it. This public method is necessary because the value field of the Guess struct is private. It’s important that the value field be private so code using the Guess struct is not allowed to set value directly: code outside the guessing_game module must use the Guess::new function to create an instance of Guess, thereby ensuring there’s no way for a Guess to have a value that hasn’t been checked by the conditions in the Guess::new function.": {
+    "_translate": "接下来，我们实现一个名为 <code>value</code> 的方法，该方法借用 <code>self</code>，没有其他参数，并返回一个 <code>i32</code>。这种类型的方法有时被称为 <em>getter</em>，因为它的目的是从其字段中获取一些数据并返回。这个公共方法是必要的，因为 <code>Guess</code> 结构体的 <code>value</code> 字段是私有的。重要的是 <code>value</code> 字段必须是私有的，这样使用 <code>Guess</code> 结构体的代码就不能直接设置 <code>value</code>：<code>guessing_game</code> 模块之外的代码 <em>必须</em> 使用 <code>Guess::new</code> 函数来创建 <code>Guess</code> 的实例，从而确保没有一种方法可以让 <code>Guess</code> 拥有未通过 <code>Guess::new</code> 函数条件检查的 <code>value</code>。",
+    "_note": ""
   }
 }

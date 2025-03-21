@@ -494,5 +494,9 @@
   "If parse is not able to turn the string into a number, it will return an Err value that contains more information about the error. The Err value does not match the Ok(num) pattern in the first match arm, but it does match the Err(_) pattern in the second arm. The underscore, _, is a catch-all value; in this example, we’re saying we want to match all Err values, no matter what information they have inside them. So the program will execute the second arm’s code, continue, which tells the program to go to the next iteration of the loop and ask for another guess. So, effectively, the program ignores all errors that parse might encounter!": {
     "_translate": "如果 <code>parse</code> 无法将字符串转换为数字，它将返回一个包含更多错误信息的 <code>Err</code> 值。<code>Err</code> 值不匹配第一个 <code>match</code> 分支中的 <code>Ok(num)</code> 模式，但匹配第二个分支中的 <code>Err(_)</code> 模式。下划线 <code>_</code> 是一个通配符；在这个例子中，我们表示我们想要匹配所有 <code>Err</code> 值，无论它们内部包含什么信息。因此，程序将执行第二个分支的代码 <code>continue</code>，这告诉程序跳到 <code>loop</code> 的下一次迭代并请求另一个猜测。因此，程序实际上忽略了 <code>parse</code> 可能遇到的所有错误！",
     "_note": ""
+  },
+  "If we hadn’t imported the io module with use std::io; at the beginning of the program, we could still use the function by writing this function call as std::io::stdin. The stdin function returns an instance of std::io::Stdin, which is a type that represents a handle to the standard input for your terminal.": {
+    "_translate": "如果我们没有在程序开始时通过 <code>use std::io;</code> 导入 <code>io</code> 模块，我们仍然可以通过将此函数调用写为 <code>std::io::stdin</code> 来使用该函数。 <code>stdin</code> 函数返回一个 <a href=\"../std/io/struct.Stdin.html\"><code>std::io::Stdin</code></a><!-- ignore --> 的实例，这是一个表示终端标准输入句柄的类型。",
+    "_note": ""
   }
 }

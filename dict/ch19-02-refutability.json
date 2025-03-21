@@ -54,5 +54,17 @@
   "Function parameters, let statements, and for loops can only accept irrefutable patterns, because the program cannot do anything meaningful when values don’t match. The if let and while let expressions and the let-else statement accept refutable and irrefutable patterns, but the compiler warns against irrefutable patterns because by definition they’re intended to handle possible failure: the functionality of a conditional is in its ability to perform differently depending on success or failure.": {
     "_translate": "函数参数、<code>let</code> 语句和 <code>for</code> 循环只能接受不可反驳的模式，因为当值不匹配时，程序无法执行任何有意义的操作。<code>if let</code> 和 <code>while let</code> 表达式以及 <code>let</code>-<code>else</code> 语句接受可反驳和不可反驳的模式，但编译器会警告使用不可反驳的模式，因为按定义它们旨在处理可能的失败：条件语句的功能在于其能够根据成功或失败以不同方式执行。",
     "_note": ""
+  },
+  "Function parameters, let statements, and for loops can only accept irrefutable patterns because the program cannot do anything meaningful when values don’t match. The if let and while let expressions and the let...else statement accept refutable and irrefutable patterns, but the compiler warns against irrefutable patterns because, by definition, they’re intended to handle possible failure: the functionality of a conditional is in its ability to perform differently depending on success or failure.": {
+    "_translate": "函数参数、<code>let</code> 语句和 <code>for</code> 循环只能接受不可反驳的模式，因为当值不匹配时，程序无法执行任何有意义的操作。<code>if let</code> 和 <code>while let</code> 表达式以及 <code>let...else</code> 语句接受可反驳和不可反驳的模式，但编译器会警告使用不可反驳的模式，因为按定义它们旨在处理可能的失败：条件语句的功能在于其能够根据成功或失败以不同方式执行。",
+    "_note": ""
+  },
+  "Let’s look at an example of what happens when we try to use a refutable pattern where Rust requires an irrefutable pattern and vice versa. Listing 19-8 shows a let statement, but for the pattern, we’ve specified Some(x), a refutable pattern. As you might expect, this code will not compile.": {
+    "_translate": "让我们来看一个例子，当我们试图在 Rust 要求不可反驳模式的地方使用可反驳模式，反之亦然时会发生什么。列表 19-8 显示了一个 <code>let</code> 语句，但对于模式，我们指定了 <code>Some(x)</code>，这是一个可反驳的模式。正如你可能预料的那样，这段代码将无法编译。",
+    "_note": ""
+  },
+  "If some_option_value were a None value, it would fail to match the pattern Some(x), meaning the pattern is refutable. However, the let statement can only accept an irrefutable pattern because there is nothing valid the code can do with a None value. At compile time, Rust will complain that we’ve tried to use a refutable pattern where an irrefutable pattern is required:": {
+    "_translate": "如果 <code>some_option_value</code> 是一个 <code>None</code> 值，它将无法匹配模式 <code>Some(x)</code>，这意味着该模式是可反驳的。然而，<code>let</code> 语句只能接受不可反驳的模式，因为代码对 <code>None</code> 值无能为力。在编译时，Rust 会抱怨我们试图在需要不可反驳模式的地方使用可反驳模式：",
+    "_note": ""
   }
 }

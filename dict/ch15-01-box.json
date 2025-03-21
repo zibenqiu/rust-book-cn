@@ -174,5 +174,49 @@
   "Each item in a cons list contains two elements: the value of the current item and the next item. The last item in the list contains only a value called Nil without a next item. A cons list is produced by recursively calling the cons function. The canonical name to denote the base case of the recursion is Nil. Note that this is not the same as the “null” or “nil” concept discussed in Chapter 6, which is an invalid or absent value.": {
     "_translate": "cons 列表中的每个项包含两个元素：当前项的值和下一个项。列表中的最后一项仅包含一个名为 <code>Nil</code> 的值，没有下一个项。cons 列表是通过递归调用 <code>cons</code> 函数生成的。递归的基本情况的规范名称是 <code>Nil</code>。请注意，这与第 6 章中讨论的“null”或“nil”概念不同，后者表示无效或不存在的值。",
     "_note": ""
+  },
+  "Using Box<T> to Store Data on the Heap": {
+    "_translate": "<a class=\"header\" href=\"#using-boxt-to-store-data-on-the-heap\">使用 <code>Box&lt;T&gt;</code> 在堆上存储数据</a>",
+    "_note": ""
+  },
+  "We’ll demonstrate the first situation in “Enabling Recursive Types with Boxes”. In the second case, transferring ownership of a large amount of data can take a long time because the data is copied around on the stack. To improve performance in this situation, we can store the large amount of data on the heap in a box. Then, only the small amount of pointer data is copied around on the stack, while the data it references stays in one place on the heap. The third case is known as a trait object, and “Using Trait Objects That Allow for Values of Different Types,” in Chapter 18 is devoted to that topic. So what you learn here you’ll apply again in that section!": {
+    "_translate": "我们将通过<a href=\"#enabling-recursive-types-with-boxes\">“使用Box启用递归类型”</a><!-- ignore -->来演示第一种情况。在第二种\n情况下，转移大量数据的所有权可能需要很长时间\n因为数据会在栈上被复制。为了在这种情况下提高性能，我们可以将大量数据存储在堆上的一个Box中。然后，\n只有少量的指针数据会在栈上被复制，而它引用的数据会保持在堆上的一个位置。第三种情况被称为<em>trait对象</em>，第18章的<a href=\"ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types\">“使用允许不同类型的值的trait对象”</a><!-- ignore -->专门讨论了这个主题。\n所以你在这里学到的内容在那一节中也会再次应用！",
+    "_note": ""
+  },
+  "Listing 15-1 shows how to use a box to store an i32 value on the heap.": {
+    "_translate": "列表 15-1 显示了如何使用一个盒子在堆上存储一个 <code>i32</code> 值。",
+    "_note": ""
+  },
+  "A value of a recursive type can have another value of the same type as part of itself. Recursive types pose an issue because Rust needs to know at compile time how much space a type takes up. However, the nesting of values of recursive types could theoretically continue infinitely, so Rust can’t know how much space the value needs. Because boxes have a known size, we can enable recursive types by inserting a box in the recursive type definition.": {
+    "_translate": "一个<em>递归类型</em>的值可以包含另一个相同类型的值作为其自身的一部分。递归类型存在问题，因为Rust需要在编译时知道一个类型占用多少空间。然而，递归类型值的嵌套理论上可以无限继续，所以Rust无法知道该值需要多少空间。因为盒子有一个已知的大小，我们可以通过在递归类型定义中插入一个盒子来启用递归类型。",
+    "_note": ""
+  },
+  "Using the List type to store the list 1, 2, 3 would look like the code in Listing 15-3.": {
+    "_translate": "使用 <code>List</code> 类型来存储列表 <code>1, 2, 3</code> 将如清单 15-3 所示的代码。",
+    "_note": ""
+  },
+  "A cons list is a data structure that comes from the Lisp programming language and its dialects, is made up of nested pairs, and is the Lisp version of a linked list. Its name comes from the cons function (short for construct function) in Lisp that constructs a new pair from its two arguments. By calling cons on a pair consisting of a value and another pair, we can construct cons lists made up of recursive pairs.": {
+    "_translate": "一个 <em>cons list</em> 是一种来自 Lisp 编程语言及其方言的数据结构，由嵌套的对组成，是 Lisp 版本的链表。它的名称来源于 Lisp 中的 <code>cons</code> 函数（即 <em>构造函数</em> 的缩写），该函数从其两个参数构建一个新的对。通过在由一个值和另一个对组成的对上调用 <code>cons</code>，我们可以构建由递归对组成的 cons 列表。",
+    "_note": ""
+  },
+  "If we try to compile the code in Listing 15-3, we get the error shown in Listing 15-4.": {
+    "_translate": "如果我们尝试编译列表 15-3 中的代码，我们会得到列表 15-4 中所示的错误。",
+    "_note": ""
+  },
+  "The error shows this type “has infinite size.” The reason is that we’ve defined List with a variant that is recursive: it holds another value of itself directly. As a result, Rust can’t figure out how much space it needs to store a List value. Let’s break down why we get this error. First we’ll look at how Rust decides how much space it needs to store a value of a non-recursive type.": {
+    "_translate": "错误显示这种类型“具有无限大小。”原因是我们在定义<code>List</code>时使用了一个递归的变体：它直接持有另一个自身的值。因此，Rust 无法确定存储一个<code>List</code>值需要多少空间。让我们分析为什么会发生这个错误。首先，我们将看看 Rust 是如何决定存储一个非递归类型值所需的空间。",
+    "_note": ""
+  },
+  "In this suggestion, indirection means that instead of storing a value directly, we should change the data structure to store the value indirectly by storing a pointer to the value instead.": {
+    "_translate": "在这个建议中，<em>间接性</em>意味着我们不应该直接存储值，而应该通过存储指向该值的指针来间接地存储值。",
+    "_note": ""
+  },
+  "We can change the definition of the List enum in Listing 15-2 and the usage of the List in Listing 15-3 to the code in Listing 15-5, which will compile.": {
+    "_translate": "我们可以更改列表 15-2 中的 <code>List</code> 枚举定义和列表 15-3 中的 <code>List</code> 使用，使其变为列表 15-5 中的代码，这样可以编译。",
+    "_note": ""
+  },
+  "Boxes provide only the indirection and heap allocation; they don’t have any other special capabilities, like those we’ll see with the other smart pointer types. They also don’t have the performance overhead that these special capabilities incur, so they can be useful in cases like the cons list where the indirection is the only feature we need. We’ll look at more use cases for boxes in Chapter 18.": {
+    "_translate": "Boxes 只提供间接性和堆分配；它们没有其他特殊功能，比如我们将在其他智能指针类型中看到的那些。它们也没有这些特殊功能带来的性能开销，因此在只需要间接性的情况下（如 cons 列表），它们可以非常有用。我们将在第 18 章中探讨更多使用 Boxes 的场景。",
+    "_note": ""
   }
 }

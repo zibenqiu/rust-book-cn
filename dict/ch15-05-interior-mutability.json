@@ -230,5 +230,49 @@
   "After we’ve created the lists in a, b, and c, we want to add 10 to the value in value. We do this by calling borrow_mut on value, which uses the automatic dereferencing feature we discussed in Chapter 5 (see “Where’s the -> Operator?”) to dereference the Rc<T> to the inner RefCell<T> value. The borrow_mut method returns a RefMut<T> smart pointer, and we use the dereference operator on it and change the inner value.": {
     "_translate": "在创建了 <code>a</code>、<code>b</code> 和 <code>c</code> 中的列表后，我们希望将 10 加到 <code>value</code> 中的值。我们通过调用 <code>value</code> 上的 <code>borrow_mut</code> 方法来实现这一点，该方法使用我们在第 5 章中讨论的自动解引用功能（参见 <a href=\"ch05-03-method-syntax.html#wheres-the---operator\">“<code>-&gt;</code> 运算符在哪里？”</a><!-- ignore -->）来解引用 <code>Rc&lt;T&gt;</code> 到内部的 <code>RefCell&lt;T&gt;</code> 值。<code>borrow_mut</code> 方法返回一个 <code>RefMut&lt;T&gt;</code> 智能指针，我们对其使用解引用运算符并更改内部值。",
     "_note": ""
+  },
+  "Unlike Rc<T>, the RefCell<T> type represents single ownership over the data it holds. So what makes RefCell<T> different from a type like Box<T>? Recall the borrowing rules you learned in Chapter 4:": {
+    "_translate": "与<code>Rc&lt;T&gt;</code>不同，<code>RefCell&lt;T&gt;</code>类型表示对其持有的数据具有单一所有权。那么，<code>RefCell&lt;T&gt;</code>与<code>Box&lt;T&gt;</code>这样的类型有什么不同呢？回想你在第4章中学到的借用规则：",
+    "_note": ""
+  },
+  "At any given time, you can have either one mutable reference or any number of immutable references (but not both).": {
+    "_translate": "在任何时候，你可以有<em>要么</em>一个可变引用或任意数量的不可变引用（但不能同时拥有两者）。",
+    "_note": ""
+  },
+  "Sometimes during testing a programmer will use a type in place of another type, in order to observe particular behavior and assert that it’s implemented correctly. This placeholder type is called a test double. Think of it in the sense of a stunt double in filmmaking, where a person steps in and substitutes for an actor to do a particularly tricky scene. Test doubles stand in for other types when we’re running tests. Mock objects are specific types of test doubles that record what happens during a test so you can assert that the correct actions took place.": {
+    "_translate": "有时在测试期间，程序员会使用一种类型来代替另一种类型，以便观察特定的行为并断言其已正确实现。这种占位符类型称为<em>测试替身</em>。可以将其理解为电影制作中的特技替身，即某人介入并代替演员完成特别棘手的场景。测试替身在我们运行测试时代表其他类型。<em>模拟对象</em>是特定类型的测试替身，它们记录测试期间发生的情况，以便您可以断言正确的操作已发生。",
+    "_note": ""
+  },
+  "Our library will only provide the functionality of tracking how close to the maximum a value is and what the messages should be at what times. Applications that use our library will be expected to provide the mechanism for sending the messages: the application could put a message in the application, send an email, send a text message, or do something else. The library doesn’t need to know that detail. All it needs is something that implements a trait we’ll provide called Messenger. Listing 15-20 shows the library code.": {
+    "_translate": "我们的库将仅提供跟踪值接近最大值的程度以及何时应显示消息的功能。使用我们库的应用程序将需要提供发送消息的机制：应用程序可以将消息放入应用程序中，发送电子邮件，发送短信，或做其他事情。库不需要知道这些细节。它只需要一个实现了我们提供的名为<code>Messenger</code>的特质的对象。清单15-20显示了库代码。",
+    "_note": ""
+  },
+  "We need a mock object that, instead of sending an email or text message when we call send, will only keep track of the messages it’s told to send. We can create a new instance of the mock object, create a LimitTracker that uses the mock object, call the set_value method on LimitTracker, and then check that the mock object has the messages we expect. Listing 15-21 shows an attempt to implement a mock object to do just that, but the borrow checker won’t allow it.": {
+    "_translate": "我们需要一个模拟对象，当我们在调用<code>send</code>时，它不会发送电子邮件或短信，而只会记录它被告知要发送的消息。我们可以创建一个模拟对象的新实例，创建一个使用模拟对象的<code>LimitTracker</code>，调用<code>LimitTracker</code>上的<code>set_value</code>方法，然后检查模拟对象是否具有我们期望的消息。列表15-21展示了一次尝试实现这样一个模拟对象的尝试，但借用检查器不允许这样做。",
+    "_note": ""
+  },
+  "This is a situation in which interior mutability can help! We’ll store the sent_messages within a RefCell<T>, and then the send method will be able to modify sent_messages to store the messages we’ve seen. Listing 15-22 shows what that looks like.": {
+    "_translate": "这是一个内部可变性可以提供帮助的情况！我们将 <code>sent_messages</code> 存储在 <code>RefCell&lt;T&gt;</code> 中，然后 <code>send</code> 方法将能够修改 <code>sent_messages</code> 以存储我们看到的消息。清单 15-22 显示了这看起来像什么。",
+    "_note": ""
+  },
+  "Allowing Multiple Owners of Mutable Data with Rc<T> and RefCell<T>": {
+    "_translate": "<a class=\"header\" href=\"#allowing-multiple-owners-of-mutable-data-with-rct-and-refcellt\">允许使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 拥有可变数据的多个所有者</a>",
+    "_note": ""
+  },
+  "The RefCell<T> keeps track of how many Ref<T> and RefMut<T> smart pointers are currently active. Every time we call borrow, the RefCell<T> increases its count of how many immutable borrows are active. When a Ref<T> value goes out of scope, the count of immutable borrows goes down by 1. Just like the compile-time borrowing rules, RefCell<T> lets us have many immutable borrows or one mutable borrow at any point in time.": {
+    "_translate": "<code>RefCell&lt;T&gt;</code> 跟踪当前活跃的 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智能指针的数量。每次我们调用 <code>borrow</code> 时，<code>RefCell&lt;T&gt;</code> 会增加其不可变借用的数量。当一个 <code>Ref&lt;T&gt;</code> 值超出作用域时，不可变借用的数量会减少 1。就像编译时借用规则一样，<code>RefCell&lt;T&gt;</code> 允许我们在任何时候拥有多个不可变借用或一个可变借用。",
+    "_note": ""
+  },
+  "For example, recall the cons list example in Listing 15-18 where we used Rc<T> to allow multiple lists to share ownership of another list. Because Rc<T> holds only immutable values, we can’t change any of the values in the list once we’ve created them. Let’s add in RefCell<T> for its ability to change the values in the lists. Listing 15-24 shows that by using a RefCell<T> in the Cons definition, we can modify the value stored in all the lists.": {
+    "_translate": "例如，回想一下列表 15-18 中的 cons 列表示例，我们使用了 <code>Rc&lt;T&gt;</code>\n来允许多个列表共享另一个列表的所有权。因为 <code>Rc&lt;T&gt;</code>\n只持有不可变值，所以我们一旦创建了列表中的值就无法更改它们。让我们加入 <code>RefCell&lt;T&gt;</code> 以改变列表中的值。列表 15-24 显示了通过在 <code>Cons</code> 定义中使用 <code>RefCell&lt;T&gt;</code>，我们可以修改存储在所有列表中的值。",
+    "_note": ""
+  },
+  "After we’ve created the lists in a, b, and c, we want to add 10 to the value in value. We do this by calling borrow_mut on value, which uses the automatic dereferencing feature we discussed in “Where’s the -> Operator?”) in Chapter 5 to dereference the Rc<T> to the inner RefCell<T> value. The borrow_mut method returns a RefMut<T> smart pointer, and we use the dereference operator on it and change the inner value.": {
+    "_translate": "在创建了 <code>a</code>、<code>b</code> 和 <code>c</code> 中的列表后，我们希望将 10 加到 <code>value</code> 中的值。我们通过调用 <code>value</code> 上的 <code>borrow_mut</code> 来实现这一点，这使用了我们在 <a href=\"ch05-03-method-syntax.html#wheres-the---operator\">“<code>-&gt;</code> 运算符在哪里？”</a><!-- ignore -->) 第 5 章中讨论的自动解引用功能，将 <code>Rc&lt;T&gt;</code> 解引用到内部的 <code>RefCell&lt;T&gt;</code> 值。<code>borrow_mut</code> 方法返回一个 <code>RefMut&lt;T&gt;</code> 智能指针，我们对其使用解引用运算符并更改内部值。",
+    "_note": ""
+  },
+  "This technique is pretty neat! By using RefCell<T>, we have an outwardly immutable List value. But we can use the methods on RefCell<T> that provide access to its interior mutability so we can modify our data when we need to. The runtime checks of the borrowing rules protect us from data races, and it’s sometimes worth trading a bit of speed for this flexibility in our data structures. Note that RefCell<T> does not work for multithreaded code! Mutex<T> is the thread-safe version of RefCell<T>, and we’ll discuss Mutex<T> in Chapter 16.": {
+    "_translate": "这种技术相当酷！通过使用<code>RefCell&lt;T&gt;</code>，我们有一个表面上不可变的<code>List</code>值。但是我们可以使用<code>RefCell&lt;T&gt;</code>上的方法来访问其内部可变性，从而在需要时修改我们的数据。运行时的借用规则检查保护我们免受数据竞争的影响，有时为了数据结构的这种灵活性，牺牲一点速度是值得的。请注意，<code>RefCell&lt;T&gt;</code>不适用于多线程代码！<code>Mutex&lt;T&gt;</code>是<code>RefCell&lt;T&gt;</code>的线程安全版本，我们将在第16章讨论<code>Mutex&lt;T&gt;</code>。",
+    "_note": ""
   }
 }

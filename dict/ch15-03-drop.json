@@ -98,5 +98,29 @@
   "We’re introducing Drop in the context of smart pointers because the functionality of the Drop trait is almost always used when implementing a smart pointer. For example, when a Box<T> is dropped, it will deallocate the space on the heap that the box points to.": {
     "_translate": "我们正在智能指针的上下文中介绍<code>Drop</code>，因为<code>Drop</code>特征的功能几乎总是在实现智能指针时使用。例如，当<code>Box&lt;T&gt;</code>被丢弃时，它将释放该盒子指向的堆上的空间。",
     "_note": ""
+  },
+  "In some languages, for some types, the programmer must call code to free memory or resources every time they finish using an instance of those types. Examples include file handles, sockets, and locks. If they forget, the system might become overloaded and crash. In Rust, you can specify that a particular bit of code be run whenever a value goes out of scope, and the compiler will insert this code automatically. As a result, you don’t need to be careful about placing cleanup code everywhere in a program that an instance of a particular type is finished with—you still won’t leak resources!": {
+    "_translate": "在某些语言中，对于某些类型，程序员必须在每次使用这些类型的实例后调用代码来释放内存或资源。例如文件句柄、套接字和锁。如果他们忘记了，系统可能会过载并崩溃。在 Rust 中，你可以指定每当一个值超出作用域时运行一段特定的代码，编译器会自动插入这段代码。因此，你不需要在程序中每个使用特定类型实例的地方都小心地放置清理代码——你仍然不会泄露资源！",
+    "_note": ""
+  },
+  "Listing 15-14 shows a CustomSmartPointer struct whose only custom functionality is that it will print Dropping CustomSmartPointer! when the instance goes out of scope, to show when Rust runs the drop method.": {
+    "_translate": "列表 15-14 显示了一个 <code>CustomSmartPointer</code> 结构体，其唯一的自定义功能是在实例超出作用域时打印 <code>Dropping CustomSmartPointer!</code>，以显示 Rust 何时运行 <code>drop</code> 方法。",
+    "_note": ""
+  },
+  "The Drop trait is included in the prelude, so we don’t need to bring it into scope. We implement the Drop trait on CustomSmartPointer and provide an implementation for the drop method that calls println!. The body of the drop method is where you would place any logic that you wanted to run when an instance of your type goes out of scope. We’re printing some text here to demonstrate visually when Rust will call drop.": {
+    "_translate": "<code>Drop</code> 特性包含在前言中，所以我们不需要将其引入作用域。我们在 <code>CustomSmartPointer</code> 上实现 <code>Drop</code> 特性，并为 <code>drop</code> 方法提供一个实现，该方法调用 <code>println!</code>。<code>drop</code> 方法的主体是你放置任何希望在类型实例超出作用域时运行的逻辑的地方。这里我们打印一些文本，以直观地展示 Rust 何时会调用 <code>drop</code>。",
+    "_note": ""
+  },
+  "Unfortunately, it’s not straightforward to disable the automatic drop functionality. Disabling drop isn’t usually necessary; the whole point of the Drop trait is that it’s taken care of automatically. Occasionally, however, you might want to clean up a value early. One example is when using smart pointers that manage locks: you might want to force the drop method that releases the lock so that other code in the same scope can acquire the lock. Rust doesn’t let you call the Drop trait’s drop method manually; instead, you have to call the std::mem::drop function provided by the standard library if you want to force a value to be dropped before the end of its scope.": {
+    "_translate": "不幸的是，禁用自动 <code>drop</code> 功能并不简单。通常情况下，禁用 <code>drop</code> 并不必要；<code>Drop</code> 特性的整个目的是它会自动处理。然而，有时你可能希望提前清理一个值。一个例子是在使用管理锁的智能指针时：你可能希望强制调用释放锁的 <code>drop</code> 方法，以便同一作用域中的其他代码可以获取锁。Rust 不允许你手动调用 <code>Drop</code> 特性的 <code>drop</code> 方法；相反，如果你想强制一个值在作用域结束前被丢弃，必须调用标准库提供的 <code>std::mem::drop</code> 函数。",
+    "_note": ""
+  },
+  "If we try to call the Drop trait’s drop method manually by modifying the main function from Listing 15-14, as shown in Listing 15-15, we’ll get a compiler error.": {
+    "_translate": "如果我们尝试通过修改列表 15-14 中的 <code>main</code> 函数手动调用 <code>Drop</code> 特性 的 <code>drop</code> 方法，如列表 15-15 所示，我们将得到一个编译器错误。",
+    "_note": ""
+  },
+  "The std::mem::drop function is different from the drop method in the Drop trait. We call it by passing as an argument the value we want to force-drop. The function is in the prelude, so we can modify main in Listing 15-15 to call the drop function, as shown in Listing 15-16.": {
+    "_translate": "<code>std::mem::drop</code> 函数与 <code>Drop</code> 特性中的 <code>drop</code> 方法不同。我们通过传递要强制丢弃的值作为参数来调用它。该函数在前言中，因此我们可以修改列表 15-15 中的 <code>main</code> 来调用 <code>drop</code> 函数，如列表 15-16 所示。",
+    "_note": ""
   }
 }
