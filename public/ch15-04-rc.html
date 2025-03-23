@@ -242,7 +242,7 @@ blockquote {
 <p data-x-en="We’ll create list a that contains 5 and then 10. Then we’ll make two more lists: b that starts with 3 and c that starts with 4. Both b and c lists will then continue on to the first a list containing 5 and 10. In other words, both lists will share the first list containing 5 and 10.">我们将创建一个包含 5 和 10 的列表 <code>a</code>。然后我们将创建两个更多的列表：<code>b</code> 以 3 开头，<code>c</code> 以 4 开头。<code>b</code> 和 <code>c</code> 两个列表都将接着包含 5 和 10 的第一个 <code>a</code> 列表。换句话说，两个列表都将共享包含 5 和 10 的第一个列表。</p>
 <p data-x-en="Trying to implement this scenario using our definition of List with Box<T> won’t work, as shown in Listing 15-17:">尝试使用我们的 <code>List</code> 定义和 <code>Box&lt;T&gt;</code> 实现这个场景
 不会奏效，如清单 15-17 所示：</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-17">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, Box&lt;List&gt;),
@@ -256,7 +256,7 @@ fn main() {
     let b = Cons(3, Box::new(a));
     let c = Cons(4, Box::new(a));
 }</code></pre>
-<figcaption>Listing 15-17: Demonstrating we’re not allowed to have two lists using <code>Box&lt;T&gt;</code> that try to share ownership of a third list</figcaption>
+<figcaption><a href="#listing-15-17">Listing 15-17</a>: Demonstrating we’re not allowed to have two lists using <code>Box&lt;T&gt;</code> that try to share ownership of a third list</figcaption>
 </figure>
 <p data-x-en="When we compile this code, we get this error:">当我们编译这段代码时，我们得到这个错误：</p>
 <pre><code class="language-console">$ cargo run
@@ -277,7 +277,7 @@ error: could not compile `cons-list` (bin "cons-list") due to 1 previous error
 <p data-x-en="The Cons variants own the data they hold, so when we create the b list, a is moved into b and b owns a. Then, when we try to use a again when creating c, we’re not allowed to because a has been moved."><code>Cons</code> 变体拥有它们持有的数据，因此当我们创建 <code>b</code> 列表时，<code>a</code> 被移动到 <code>b</code> 中，<code>b</code> 拥有 <code>a</code>。然后，当我们尝试在创建 <code>c</code> 时再次使用 <code>a</code>，我们不被允许这样做，因为 <code>a</code> 已经被移动。</p>
 <p data-x-en="We could change the definition of Cons to hold references instead, but then we would have to specify lifetime parameters. By specifying lifetime parameters, we would be specifying that every element in the list will live at least as long as the entire list. This is the case for the elements and lists in Listing 15-17, but not in every scenario.">我们可以将 <code>Cons</code> 的定义更改为持有引用，但这样我们就必须指定生命周期参数。通过指定生命周期参数，我们将指定列表中的每个元素至少与整个列表一样长。这是列表 15-17 中元素和列表的情况，但并非所有情况都是如此。</p>
 <p data-x-en="Instead, we’ll change our definition of List to use Rc<T> in place of Box<T>, as shown in Listing 15-18. Each Cons variant will now hold a value and an Rc<T> pointing to a List. When we create b, instead of taking ownership of a, we’ll clone the Rc<List> that a is holding, thereby increasing the number of references from one to two and letting a and b share ownership of the data in that Rc<List>. We’ll also clone a when creating c, increasing the number of references from two to three. Every time we call Rc::clone, the reference count to the data within the Rc<List> will increase, and the data won’t be cleaned up unless there are zero references to it.">相反，我们将更改 <code>List</code> 的定义，用 <code>Rc&lt;T&gt;</code> 替换 <code>Box&lt;T&gt;</code>，如清单 15-18 所示。每个 <code>Cons</code> 变体现在将持有一个值和一个指向 <code>List</code> 的 <code>Rc&lt;T&gt;</code>。当我们创建 <code>b</code> 时，不是获取 <code>a</code> 的所有权，而是克隆 <code>a</code> 持有的 <code>Rc&lt;List&gt;</code>，从而将引用数从一增加到二，使 <code>a</code> 和 <code>b</code> 共享该 <code>Rc&lt;List&gt;</code> 中的数据的所有权。在创建 <code>c</code> 时，我们也会克隆 <code>a</code>，将引用数从二增加到三。每次调用 <code>Rc::clone</code> 时，<code>Rc&lt;List&gt;</code> 中数据的引用计数都会增加，除非引用计数为零，否则数据不会被清理。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-18">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">enum List {
     Cons(i32, Rc&lt;List&gt;),
@@ -292,14 +292,14 @@ fn main() {
     let b = Cons(3, Rc::clone(&amp;a));
     let c = Cons(4, Rc::clone(&amp;a));
 }</code></pre></pre>
-<figcaption>Listing 15-18: A definition of <code>List</code> that uses <code>Rc&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-15-18">Listing 15-18</a>: A definition of <code>List</code> that uses <code>Rc&lt;T&gt;</code></figcaption>
 </figure>
 <p data-x-en="We need to add a use statement to bring Rc<T> into scope because it’s not in the prelude. In main, we create the list holding 5 and 10 and store it in a new Rc<List> in a. Then when we create b and c, we call the Rc::clone function and pass a reference to the Rc<List> in a as an argument.">我们需要添加一个 <code>use</code> 语句来将 <code>Rc&lt;T&gt;</code> 引入作用域，因为它不在前言中。在 <code>main</code> 中，我们创建了一个包含 5 和 10 的列表，并将其存储在 <code>a</code> 中的新 <code>Rc&lt;List&gt;</code> 中。然后当我们创建 <code>b</code> 和 <code>c</code> 时，我们调用 <code>Rc::clone</code> 函数并将 <code>a</code> 中的 <code>Rc&lt;List&gt;</code> 的引用作为参数传递。</p>
 <p data-x-en="We could have called a.clone() rather than Rc::clone(&amp;a), but Rust’s convention is to use Rc::clone in this case. The implementation of Rc::clone doesn’t make a deep copy of all the data like most types’ implementations of clone do. The call to Rc::clone only increments the reference count, which doesn’t take much time. Deep copies of data can take a lot of time. By using Rc::clone for reference counting, we can visually distinguish between the deep-copy kinds of clones and the kinds of clones that increase the reference count. When looking for performance problems in the code, we only need to consider the deep-copy clones and can disregard calls to Rc::clone.">我们可以调用 <code>a.clone()</code> 而不是 <code>Rc::clone(&amp;a)</code>，但 Rust 的惯例是在这种情况下使用 <code>Rc::clone</code>。<code>Rc::clone</code> 的实现不会像大多数类型的 <code>clone</code> 实现那样对所有数据进行深度复制。调用 <code>Rc::clone</code> 只是增加引用计数，这不会花费太多时间。数据的深度复制可能会花费很多时间。通过使用 <code>Rc::clone</code> 进行引用计数，我们可以从视觉上区分深度复制类型的克隆和增加引用计数类型的克隆。在查找代码中的性能问题时，我们只需要考虑深度复制的克隆，可以忽略对 <code>Rc::clone</code> 的调用。</p>
 <h3 id="cloning-an-rct-increases-the-reference-count"><a class="header" href="#cloning-an-rct-increases-the-reference-count">克隆 <code>Rc&lt;T&gt;</code> 会增加引用计数</a></h3>
 <p data-x-en="Let’s change our working example in Listing 15-18 so we can see the reference counts changing as we create and drop references to the Rc<List> in a.">让我们修改列表 15-18 中的工作示例，以便在我们创建和删除对 <code>a</code> 中的 <code>Rc&lt;List&gt;</code> 的引用时，可以看到引用计数的变化。</p>
 <p data-x-en="In Listing 15-19, we’ll change main so it has an inner scope around list c; then we can see how the reference count changes when c goes out of scope.">在清单 15-19 中，我们将更改 <code>main</code>，使其在列表 <code>c</code> 周围有一个内部作用域；然后我们可以看到当 <code>c</code> 超出作用域时引用计数如何变化。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-19">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, Rc&lt;List&gt;),
@@ -320,7 +320,7 @@ fn main() {
     }
     println!("count after c goes out of scope = {}", Rc::strong_count(&amp;a));
 }</code></pre></pre>
-<figcaption>Listing 15-19: Printing the reference count</figcaption>
+<figcaption><a href="#listing-15-19">Listing 15-19</a>: Printing the reference count</figcaption>
 </figure>
 <p data-x-en="At each point in the program where the reference count changes, we print the reference count, which we get by calling the Rc::strong_count function. This function is named strong_count rather than count because the Rc<T> type also has a weak_count; we’ll see what weak_count is used for in “Preventing Reference Cycles Using Weak<T>”.">在程序中每次引用计数发生变化时，我们都会打印引用计数，这是通过调用 <code>Rc::strong_count</code> 函数获得的。这个函数被称为 <code>strong_count</code> 而不是 <code>count</code>，因为 <code>Rc&lt;T&gt;</code> 类型还有 <code>weak_count</code>；我们将在 <a href="ch15-06-reference-cycles.html#preventing-reference-cycles-turning-an-rct-into-a-weakt">“使用 <code>Weak&lt;T&gt;</code> 防止引用循环”</a><!-- ignore --> 中看到 <code>weak_count</code> 的用途。</p>
 <p data-x-en="This code prints the following:">这段代码打印以下内容：</p>

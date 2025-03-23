@@ -260,7 +260,7 @@ blockquote {
 </span>let s = "hello";
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="The variable s refers to a string literal, where the value of the string is hardcoded into the text of our program. The variable is valid from the point at which it’s declared until the end of the current scope. Listing 4-1 shows a program with comments annotating where the variable s would be valid.">变量<code>s</code>引用一个字符串字面量，其中字符串的值被硬编码到我们程序的文本中。该变量从声明点开始有效，直到当前<em>作用域</em>的结束。清单4-1显示了一个带有注释的程序，注释说明了变量<code>s</code>有效的范围。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-1">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    {                      // s is not valid here, it’s not yet declared
         let s = "hello";   // s is valid from this point forward
@@ -268,7 +268,7 @@ blockquote {
         // do stuff with s
     }                      // this scope is now over, and s is no longer valid
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 4-1: A variable and the scope in which it is valid</figcaption>
+<figcaption><a href="#listing-4-1">Listing 4-1</a>: A variable and the scope in which it is valid</figcaption>
 </figure>
 <p data-x-en="In other words, there are two important points in time here:">换句话说，这里有两个重要的时间点：</p>
 <ul>
@@ -322,12 +322,12 @@ blockquote {
 <h4 id="variables-and-data-interacting-with-move"><a class="header" href="#variables-and-data-interacting-with-move">变量和数据与 Move 交互</a></h4>
 <p data-x-en="Multiple variables can interact with the same data in different ways in Rust. Let’s look at an example using an integer in Listing 4-2.">多个变量可以以不同的方式与相同的数据交互在 Rust 中。
 让我们看一个使用整数的例子，如清单 4-2 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-2">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 4-2: Assigning the integer value of variable <code>x</code> to <code>y</code></figcaption>
+<figcaption><a href="#listing-4-2">Listing 4-2</a>: Assigning the integer value of variable <code>x</code> to <code>y</code></figcaption>
 </figure>
 <p data-x-en="We can probably guess what this is doing: “bind the value 5 to x; then make a copy of the value in x and bind it to y.” We now have two variables, x and y, and both equal 5. This is indeed what is happening, because integers are simple values with a known, fixed size, and these two 5 values are pushed onto the stack.">我们可以猜到这是在做什么：“将值<code>5</code>绑定到<code>x</code>；然后复制<code>x</code>中的值并将其绑定到<code>y</code>。”现在我们有两个变量，<code>x</code>和<code>y</code>，它们都等于<code>5</code>。确实如此，因为整数是具有已知固定大小的简单值，这两个<code>5</code>值被推送到栈上。</p>
 <p data-x-en="Now let’s look at the String version:">现在让我们看看<code>String</code>版本：</p>
@@ -440,7 +440,7 @@ data (hello) grayed out because it cannot be accessed anymore." src="img/trpl04-
 </ul>
 <h3 id="ownership-and-functions"><a class="header" href="#ownership-and-functions">所有权和函数</a></h3>
 <p data-x-en="The mechanics of passing a value to a function are similar to those when assigning a value to a variable. Passing a variable to a function will move or copy, just as assignment does. Listing 4-3 has an example with some annotations showing where variables go into and out of scope.">将值传递给函数的机制与将值赋给变量时的机制相似。将变量传递给函数会移动或复制，就像赋值一样。清单 4-3 有一个带有注释的示例，显示了变量何时进入和退出作用域。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s = String::from("hello");  // s comes into scope
@@ -465,12 +465,12 @@ fn takes_ownership(some_string: String) { // some_string comes into scope
 fn makes_copy(some_integer: i32) { // some_integer comes into scope
     println!("{some_integer}");
 } // Here, some_integer goes out of scope. Nothing special happens.</code></pre></pre>
-<figcaption>Listing 4-3: Functions with ownership and scope annotated</figcaption>
+<figcaption><a href="#listing-4-3">Listing 4-3</a>: Functions with ownership and scope annotated</figcaption>
 </figure>
 <p data-x-en="If we tried to use s after the call to takes_ownership, Rust would throw a compile-time error. These static checks protect us from mistakes. Try adding code to main that uses s and x to see where you can use them and where the ownership rules prevent you from doing so.">如果我们试图在调用 <code>takes_ownership</code> 之后使用 <code>s</code>，Rust 会在编译时抛出错误。这些静态检查可以保护我们免于出错。尝试向 <code>main</code> 添加使用 <code>s</code> 和 <code>x</code> 的代码，看看你可以在哪里使用它们，以及所有权规则在哪里阻止你这样做。</p>
 <h3 id="return-values-and-scope"><a class="header" href="#return-values-and-scope">返回值和作用域</a></h3>
 <p data-x-en="Returning values can also transfer ownership. Listing 4-4 shows an example of a function that returns some value, with similar annotations as those in Listing 4-3.">返回值也可以转移所有权。清单 4-4 显示了一个返回某些值的函数示例，其注释与清单 4-3 中的类似。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s1 = gives_ownership();        // gives_ownership moves its return
@@ -502,12 +502,12 @@ fn takes_and_gives_back(a_string: String) -&gt; String {
 
     a_string  // a_string is returned and moves out to the calling function
 }</code></pre></pre>
-<figcaption>Listing 4-4: Transferring ownership of return values</figcaption>
+<figcaption><a href="#listing-4-4">Listing 4-4</a>: Transferring ownership of return values</figcaption>
 </figure>
 <p data-x-en="The ownership of a variable follows the same pattern every time: assigning a value to another variable moves it. When a variable that includes data on the heap goes out of scope, the value will be cleaned up by drop unless ownership of the data has been moved to another variable.">变量的所有权每次遵循相同的模式：将值赋给另一个变量时，会移动该值。当包含堆上数据的变量超出作用域时，除非数据的所有权已移交给另一个变量，否则该值将由<code>drop</code>清理。</p>
 <p data-x-en="While this works, taking ownership and then returning ownership with every function is a bit tedious. What if we want to let a function use a value but not take ownership? It’s quite annoying that anything we pass in also needs to be passed back if we want to use it again, in addition to any data resulting from the body of the function that we might want to return as well.">虽然这可以工作，但每次函数都获取所有权然后再返回所有权有点繁琐。如果我们希望让函数使用一个值但不获取其所有权怎么办？我们传递的任何内容如果还想再次使用，也需要被传回，这相当麻烦，此外，我们可能还希望返回函数体产生的任何数据。</p>
 <p data-x-en="Rust does let us return multiple values using a tuple, as shown in Listing 4-5.">Rust 确实允许我们使用元组返回多个值，如列表 4-5 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let s1 = String::from("hello");
@@ -522,7 +522,7 @@ fn calculate_length(s: String) -&gt; (String, usize) {
 
     (s, length)
 }</code></pre></pre>
-<figcaption>Listing 4-5: Returning ownership of parameters</figcaption>
+<figcaption><a href="#listing-4-5">Listing 4-5</a>: Returning ownership of parameters</figcaption>
 </figure>
 <p data-x-en="But this is too much ceremony and a lot of work for a concept that should be common. Luckily for us, Rust has a feature for using a value without transferring ownership, called references.">但这对于一个应该常见的概念来说，太过繁琐和费力。幸运的是，Rust 有一个特性，可以在不转移所有权的情况下使用值，称为<em>引用</em>。</p>
 

@@ -232,7 +232,7 @@ blockquote {
 <p data-x-en="Annotating lifetimes is not even a concept most other programming languages have, so this is going to feel unfamiliar. Although we won’t cover lifetimes in their entirety in this chapter, we’ll discuss common ways you might encounter lifetime syntax so you can get comfortable with the concept.">标注生命周期甚至不是一个大多数其他编程语言都有的概念，所以这会让你感到不熟悉。虽然我们不会在本章中全面覆盖生命周期，但我们将讨论你可能会遇到的生命周期语法的常见方式，以便你能够熟悉这个概念。</p>
 <h3 id="preventing-dangling-references-with-lifetimes"><a class="header" href="#preventing-dangling-references-with-lifetimes">使用生命周期防止悬垂引用</a></h3>
 <p data-x-en="The main aim of lifetimes is to prevent dangling references, which cause a program to reference data other than the data it’s intended to reference. Consider the program in Listing 10-16, which has an outer scope and an inner scope.">生命周期的主要目的是防止<em>悬垂引用</em>，这会导致程序引用非预期的数据。考虑列表10-16中的程序，该程序具有一个外部作用域和一个内部作用域。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-16">
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let r;
 
@@ -243,7 +243,7 @@ blockquote {
 
     println!("r: {r}");
 }</code></pre>
-<figcaption>Listing 10-16: An attempt to use a reference whose value has gone out of scope</figcaption>
+<figcaption><a href="#listing-10-16">Listing 10-16</a>: An attempt to use a reference whose value has gone out of scope</figcaption>
 </figure>
 <section class="note" aria-role="note">
 <p data-x-en="Note: The examples in Listings 10-16, 10-17, and 10-23 declare variables without giving them an initial value, so the variable name exists in the outer scope. At first glance, this might appear to be in conflict with Rust’s having no null values. However, if we try to use a variable before giving it a value, we’ll get a compile-time error, which shows that Rust indeed does not allow null values.">注意：清单 10-16、10-17 和 10-23 中的示例声明了变量但没有给它们初始值，因此变量名存在于外部作用域中。乍一看，这似乎与 Rust 没有空值的情况相冲突。然而，如果我们尝试在给变量赋值之前使用它，我们将得到一个编译时错误，这表明 Rust 确实不允许空值。</p>
@@ -270,7 +270,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 <p data-x-en="The error message says that the variable x “does not live long enough.” The reason is that x will be out of scope when the inner scope ends on line 7. But r is still valid for the outer scope; because its scope is larger, we say that it “lives longer.” If Rust allowed this code to work, r would be referencing memory that was deallocated when x went out of scope, and anything we tried to do with r wouldn’t work correctly. So how does Rust determine that this code is invalid? It uses a borrow checker.">错误消息说变量 <code>x</code> “生命周期不够长。” 原因是 <code>x</code> 在第 7 行内部作用域结束时将超出作用域。 但 <code>r</code> 对于外部作用域仍然是有效的；因为它的作用域更大，我们说它 “生命周期更长。” 如果 Rust 允许这段代码运行，<code>r</code> 将会引用 <code>x</code> 超出作用域时被释放的内存，而我们尝试使用 <code>r</code> 做的任何事情都不会正确工作。那么 Rust 是如何确定这段代码是无效的？它使用了一个借用检查器。</p>
 <h3 id="the-borrow-checker"><a class="header" href="#the-borrow-checker">借用检查器</a></h3>
 <p data-x-en="The Rust compiler has a borrow checker that compares scopes to determine whether all borrows are valid. Listing 10-17 shows the same code as Listing 10-16 but with annotations showing the lifetimes of the variables.">Rust 编译器有一个 <em>借用检查器</em>，它通过比较作用域来确定所有借用是否有效。列表 10-17 显示了与列表 10-16 相同的代码，但带有注释显示变量的生命周期。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-17">
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let r;                // ---------+-- 'a
                           //          |
@@ -281,11 +281,11 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
                           //          |
     println!("r: {r}");   //          |
 }                         // ---------+</code></pre>
-<figcaption>Listing 10-17: Annotations of the lifetimes of <code>r</code> and <code>x</code>, named <code>'a</code> and <code>'b</code>, respectively</figcaption>
+<figcaption><a href="#listing-10-17">Listing 10-17</a>: Annotations of the lifetimes of <code>r</code> and <code>x</code>, named <code>'a</code> and <code>'b</code>, respectively</figcaption>
 </figure>
 <p data-x-en="Here, we’ve annotated the lifetime of r with 'a and the lifetime of x with 'b. As you can see, the inner 'b block is much smaller than the outer 'a lifetime block. At compile time, Rust compares the size of the two lifetimes and sees that r has a lifetime of 'a but that it refers to memory with a lifetime of 'b. The program is rejected because 'b is shorter than 'a: the subject of the reference doesn’t live as long as the reference.">这里，我们用<code>'a</code>注解了<code>r</code>的生命周期，用<code>'b</code>注解了<code>x</code>的生命周期。如你所见，内部的<code>'b</code>块比外部的<code>'a</code>生命周期块小得多。在编译时，Rust会比较两个生命周期的大小，并发现<code>r</code>的生命周期为<code>'a</code>，但它引用的内存的生命周期为<code>'b</code>。程序被拒绝是因为<code>'b</code>比<code>'a</code>短：引用的主题没有引用的生命周期长。</p>
 <p data-x-en="Listing 10-18 fixes the code so it doesn’t have a dangling reference and it compiles without any errors.">列表 10-18 修复了代码，使其没有悬垂引用，并且可以编译而不会出现任何错误。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-18">
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x = 5;            // ----------+-- 'b
                           //           |
@@ -294,13 +294,13 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
     println!("r: {r}");   //   |       |
                           // --+       |
 }                         // ----------+</code></pre></pre>
-<figcaption>Listing 10-18: A valid reference because the data has a longer lifetime than the reference</figcaption>
+<figcaption><a href="#listing-10-18">Listing 10-18</a>: A valid reference because the data has a longer lifetime than the reference</figcaption>
 </figure>
 <p data-x-en="Here, x has the lifetime 'b, which in this case is larger than 'a. This means r can reference x because Rust knows that the reference in r will always be valid while x is valid.">这里，<code>x</code> 拥有生命周期 <code>'b</code>，在这个例子中，<code>'b</code> 比 <code>'a</code> 更长。这意味着 <code>r</code> 可以引用 <code>x</code>，因为 Rust 知道 <code>r</code> 中的引用在 <code>x</code> 有效时总是有效的。</p>
 <p data-x-en="Now that you know where the lifetimes of references are and how Rust analyzes lifetimes to ensure references will always be valid, let’s explore generic lifetimes of parameters and return values in the context of functions.">现在你已经知道引用的生命周期在哪里，以及 Rust 如何分析生命周期以确保引用始终有效，让我们来探讨一下在函数上下文中参数和返回值的泛型生命周期。</p>
 <h3 id="generic-lifetimes-in-functions"><a class="header" href="#generic-lifetimes-in-functions">函数中的泛型生命周期</a></h3>
 <p data-x-en="We’ll write a function that returns the longer of two string slices. This function will take two string slices and return a single string slice. After we’ve implemented the longest function, the code in Listing 10-19 should print The longest string is abcd.">我们将编写一个返回两个字符串切片中较长的那个的函数。这个函数将接受两个字符串切片并返回一个字符串切片。在我们实现了<code>longest</code>函数之后，清单10-19中的代码应该打印<code>The longest string is abcd</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-19">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">fn main() {
     let string1 = String::from("abcd");
@@ -309,11 +309,11 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
     let result = longest(string1.as_str(), string2);
     println!("The longest string is {result}");
 }</code></pre>
-<figcaption>Listing 10-19: A <code>main</code> function that calls the <code>longest</code> function to find the longer of two string slices</figcaption>
+<figcaption><a href="#listing-10-19">Listing 10-19</a>: A <code>main</code> function that calls the <code>longest</code> function to find the longer of two string slices</figcaption>
 </figure>
 <p data-x-en="Note that we want the function to take string slices, which are references, rather than strings, because we don’t want the longest function to take ownership of its parameters. Refer to “String Slices as Parameters” in Chapter 4 for more discussion about why the parameters we use in Listing 10-19 are the ones we want.">请注意，我们希望该函数接受字符串切片，它们是引用，而不是字符串，因为我们不希望<code>longest</code>函数获取其参数的所有权。有关为什么我们在示例10-19中使用这些参数的更多讨论，请参阅<a href="ch04-03-slices.html#string-slices-as-parameters">“作为参数的字符串切片”</a><!-- ignore -->第4章。</p>
 <p data-x-en="If we try to implement the longest function as shown in Listing 10-20, it won’t compile.">如果我们尝试按照清单 10-20 中所示实现 <code>longest</code> 函数，它将无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-20">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from("abcd");
@@ -326,7 +326,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 </span>fn longest(x: &amp;str, y: &amp;str) -&gt; &amp;str {
     if x.len() &gt; y.len() { x } else { y }
 }</code></pre>
-<figcaption>Listing 10-20: An implementation of the <code>longest</code> function that returns the longer of two string slices but does not yet compile</figcaption>
+<figcaption><a href="#listing-10-20">Listing 10-20</a>: An implementation of the <code>longest</code> function that returns the longer of two string slices but does not yet compile</figcaption>
 </figure>
 <p data-x-en="Instead, we get the following error that talks about lifetimes:">相反，我们得到了以下关于生命周期的错误：<code>Instead, we get the following error that talks about lifetimes:</code></p>
 <pre><code class="language-console">$ cargo run
@@ -359,7 +359,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 <h3 id="lifetime-annotations-in-function-signatures"><a class="header" href="#lifetime-annotations-in-function-signatures">函数签名中的生命周期注解</a></h3>
 <p data-x-en="To use lifetime annotations in function signatures, we need to declare the generic lifetime parameters inside angle brackets between the function name and the parameter list, just as we did with generic type parameters.">要在函数签名中使用生命周期注解，我们需要在函数名称和参数列表之间的尖括号内声明泛型 <em>生命周期</em> 参数，就像我们对泛型 <em>类型</em> 参数所做的那样。</p>
 <p data-x-en="We want the signature to express the following constraint: the returned reference will be valid as long as both the parameters are valid. This is the relationship between lifetimes of the parameters and the return value. We’ll name the lifetime 'a and then add it to each reference, as shown in Listing 10-21.">我们希望签名表达以下约束：返回的引用将在两个参数都有效的情况下有效。这是参数和返回值的生命周期之间的关系。我们将生命周期命名为<code>'a</code>，然后将其添加到每个引用中，如清单10-21所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-21">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    let string1 = String::from("abcd");
@@ -372,7 +372,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 </span>fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
     if x.len() &gt; y.len() { x } else { y }
 }</code></pre></pre>
-<figcaption>Listing 10-21: The <code>longest</code> function definition specifying that all the references in the signature must have the same lifetime <code>'a</code></figcaption>
+<figcaption><a href="#listing-10-21">Listing 10-21</a>: The <code>longest</code> function definition specifying that all the references in the signature must have the same lifetime <code>'a</code></figcaption>
 </figure>
 <p data-x-en="This code should compile and produce the result we want when we use it with the main function in Listing 10-19.">这段代码应该能够编译，并在我们使用它与清单 10-19 中的 <code>main</code> 函数时产生我们想要的结果。</p>
 <p data-x-en="The function signature now tells Rust that for some lifetime 'a, the function takes two parameters, both of which are string slices that live at least as long as lifetime 'a. The function signature also tells Rust that the string slice returned from the function will live at least as long as lifetime 'a. In practice, it means that the lifetime of the reference returned by the longest function is the same as the smaller of the lifetimes of the values referred to by the function arguments. These relationships are what we want Rust to use when analyzing this code.">函数签名现在告诉 Rust，对于某个生命周期 <code>'a</code>，该函数接受两个参数，这两个参数都是字符串切片，它们的生命周期至少与生命周期 <code>'a</code> 一样长。函数签名还告诉 Rust，从函数返回的字符串切片的生命周期至少与生命周期 <code>'a</code> 一样长。实际上，这意味着 <code>longest</code> 函数返回的引用的生命周期与函数参数所引用的值的较小生命周期相同。这些关系就是我们希望 Rust 在分析此代码时使用的关系。</p>
@@ -380,7 +380,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 <p data-x-en="When annotating lifetimes in functions, the annotations go in the function signature, not in the function body. The lifetime annotations become part of the contract of the function, much like the types in the signature. Having function signatures contain the lifetime contract means the analysis the Rust compiler does can be simpler. If there’s a problem with the way a function is annotated or the way it is called, the compiler errors can point to the part of our code and the constraints more precisely. If, instead, the Rust compiler made more inferences about what we intended the relationships of the lifetimes to be, the compiler might only be able to point to a use of our code many steps away from the cause of the problem.">在函数中注解生命周期时，注解位于函数签名中，而不是函数体中。生命周期注解成为函数契约的一部分，就像签名中的类型一样。函数签名包含生命周期契约意味着 Rust 编译器可以进行更简单的分析。如果函数的注解方式或调用方式存在问题，编译器错误可以更精确地指向我们代码的某部分及其约束。相反，如果 Rust 编译器对生命周期关系进行更多推断，编译器可能只能指向我们代码的使用位置，而这些位置可能离问题的根源很远。</p>
 <p data-x-en="When we pass concrete references to longest, the concrete lifetime that is substituted for 'a is the part of the scope of x that overlaps with the scope of y. In other words, the generic lifetime 'a will get the concrete lifetime that is equal to the smaller of the lifetimes of x and y. Because we’ve annotated the returned reference with the same lifetime parameter 'a, the returned reference will also be valid for the length of the smaller of the lifetimes of x and y.">当我们传递具体的引用给<code>longest</code>时，被替代的具体生命周期<code>'a</code>是<code>x</code>的作用域与<code>y</code>的作用域重叠的部分。换句话说，泛型生命周期<code>'a</code>将获得等于<code>x</code>和<code>y</code>生命周期中较短的那个具体生命周期。因为我们已经用相同的生命周期参数<code>'a</code>注解了返回的引用，所以返回的引用也将有效，其有效期为<code>x</code>和<code>y</code>生命周期中较短的那个的长度。</p>
 <p data-x-en="Let’s look at how the lifetime annotations restrict the longest function by passing in references that have different concrete lifetimes. Listing 10-22 is a straightforward example.">让我们看看生命周期注解如何通过传递具有不同具体生命周期的引用限制 <code>longest</code> 函数。列表 10-22 是一个简单的例子。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-22">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let string1 = String::from("long string is long");
@@ -395,12 +395,12 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 </span><span class="boring">fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
 </span><span class="boring">    if x.len() &gt; y.len() { x } else { y }
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 10-22: Using the <code>longest</code> function with references to <code>String</code> values that have different concrete lifetimes</figcaption>
+<figcaption><a href="#listing-10-22">Listing 10-22</a>: Using the <code>longest</code> function with references to <code>String</code> values that have different concrete lifetimes</figcaption>
 </figure>
 <p data-x-en="In this example, string1 is valid until the end of the outer scope, string2 is valid until the end of the inner scope, and result references something that is valid until the end of the inner scope. Run this code and you’ll see that the borrow checker approves; it will compile and print The longest string is long string is long.">在这个例子中，<code>string1</code> 在外部作用域结束前都是有效的，<code>string2</code>
 在内部作用域结束前都是有效的，而 <code>result</code> 引用的内容在内部作用域结束前都是有效的。运行这段代码，你会看到借用检查器批准了；它将编译并打印 <code>The longest string is long string is long</code>。</p>
 <p data-x-en="Next, let’s try an example that shows that the lifetime of the reference in result must be the smaller lifetime of the two arguments. We’ll move the declaration of the result variable outside the inner scope but leave the assignment of the value to the result variable inside the scope with string2. Then we’ll move the println! that uses result to outside the inner scope, after the inner scope has ended. The code in Listing 10-23 will not compile.">接下来，让我们尝试一个示例，该示例显示 <code>result</code> 中引用的生命周期必须是两个参数中较短的生命周期。我们将 <code>result</code> 变量的声明移到内部作用域之外，但将 <code>result</code> 变量的值赋值保留在与 <code>string2</code> 相同的作用域内。然后我们将使用 <code>result</code> 的 <code>println!</code> 移到内部作用域之外，在内部作用域结束之后。列表 10-23 中的代码将无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-23">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let string1 = String::from("long string is long");
@@ -415,7 +415,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 </span><span class="boring">fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
 </span><span class="boring">    if x.len() &gt; y.len() { x } else { y }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 10-23: Attempting to use <code>result</code> after <code>string2</code> has gone out of scope</figcaption>
+<figcaption><a href="#listing-10-23">Listing 10-23</a>: Attempting to use <code>result</code> after <code>string2</code> has gone out of scope</figcaption>
 </figure>
 <p data-x-en="When we try to compile this code, we get this error:">当我们尝试编译这段代码时，我们得到了这个错误：</p>
 <pre><code class="language-console">$ cargo run
@@ -490,7 +490,7 @@ error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
 <p data-x-en="Ultimately, lifetime syntax is about connecting the lifetimes of various parameters and return values of functions. Once they’re connected, Rust has enough information to allow memory-safe operations and disallow operations that would create dangling pointers or otherwise violate memory safety.">最终，生命周期语法是关于连接函数的各种参数和返回值的生命周期。一旦它们被连接起来，Rust 就有足够的信息来允许内存安全的操作，并禁止可能创建悬空指针或以其他方式违反内存安全的操作。</p>
 <h3 id="lifetime-annotations-in-struct-definitions"><a class="header" href="#lifetime-annotations-in-struct-definitions">结构体定义中的生命周期注解</a></h3>
 <p data-x-en="So far, the structs we’ve defined all hold owned types. We can define structs to hold references, but in that case we would need to add a lifetime annotation on every reference in the struct’s definition. Listing 10-24 has a struct named ImportantExcerpt that holds a string slice.">到目前为止，我们定义的所有结构体都持有所有权类型。我们可以定义持有引用的结构体，但这种情况下我们需要在结构体定义中的每个引用上添加生命周期注解。清单 10-24 有一个名为 <code>ImportantExcerpt</code> 的结构体，它持有一个字符串切片。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-24">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">struct ImportantExcerpt&lt;'a&gt; {
     part: &amp;'a str,
@@ -503,13 +503,13 @@ fn main() {
         part: first_sentence,
     };
 }</code></pre></pre>
-<figcaption>Listing 10-24: A struct that holds a reference, requiring a lifetime annotation</figcaption>
+<figcaption><a href="#listing-10-24">Listing 10-24</a>: A struct that holds a reference, requiring a lifetime annotation</figcaption>
 </figure>
 <p data-x-en="This struct has the single field part that holds a string slice, which is a reference. As with generic data types, we declare the name of the generic lifetime parameter inside angle brackets after the name of the struct so we can use the lifetime parameter in the body of the struct definition. This annotation means an instance of ImportantExcerpt can’t outlive the reference it holds in its part field.">这个结构体有一个名为 <code>part</code> 的字段，它持有一个字符串切片，即一个引用。与泛型数据类型一样，我们在结构体名称后的尖括号内声明泛型生命周期参数的名称，这样我们就可以在结构体定义的主体中使用生命周期参数。这个注解意味着 <code>ImportantExcerpt</code> 的实例不能比其 <code>part</code> 字段中持有的引用活得更久。</p>
 <p data-x-en="The main function here creates an instance of the ImportantExcerpt struct that holds a reference to the first sentence of the String owned by the variable novel. The data in novel exists before the ImportantExcerpt instance is created. In addition, novel doesn’t go out of scope until after the ImportantExcerpt goes out of scope, so the reference in the ImportantExcerpt instance is valid."><code>main</code> 函数在这里创建了一个 <code>ImportantExcerpt</code> 结构体的实例，该实例持有变量 <code>novel</code> 所拥有的 <code>String</code> 的第一句话的引用。在创建 <code>ImportantExcerpt</code> 实例之前，<code>novel</code> 中的数据就已经存在。此外，<code>novel</code> 一直存在到 <code>ImportantExcerpt</code> 实例超出作用域之后，因此 <code>ImportantExcerpt</code> 实例中的引用是有效的。</p>
 <h3 id="lifetime-elision"><a class="header" href="#lifetime-elision">生命周期省略</a></h3>
 <p data-x-en="You’ve learned that every reference has a lifetime and that you need to specify lifetime parameters for functions or structs that use references. However, we had a function in Listing 4-9, shown again in Listing 10-25, that compiled without lifetime annotations.">您已经了解到每个引用都有一个生命周期，并且对于使用引用的函数或结构体，您需要指定生命周期参数。然而，我们在第 4 章的列表 4-9 中有一个函数，再次显示在列表 10-25 中，该函数在没有生命周期注解的情况下编译成功。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-25">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn first_word(s: &amp;str) -&gt; &amp;str {
     let bytes = s.as_bytes();
@@ -538,7 +538,7 @@ fn main() {
 </span><span class="boring">    // this works too, without the slice syntax!
 </span><span class="boring">    let word = first_word(my_string_literal);
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 10-25: A function we defined in Listing 4-9 that compiled without lifetime annotations, even though the parameter and return type are references</figcaption>
+<figcaption><a href="#listing-10-25">Listing 10-25</a>: A function we defined in Listing 4-9 that compiled without lifetime annotations, even though the parameter and return type are references</figcaption>
 </figure>
 <p data-x-en="The reason this function compiles without lifetime annotations is historical: in early versions (pre-1.0) of Rust, this code wouldn’t have compiled because every reference needed an explicit lifetime. At that time, the function signature would have been written like this:">这个函数之所以能在没有生命周期注解的情况下编译，是因为历史原因：
 在 Rust 的早期版本（1.0 之前），这段代码是无法编译的，因为

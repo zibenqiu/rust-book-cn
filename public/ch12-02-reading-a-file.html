@@ -228,7 +228,7 @@ blockquote {
                     <main>
                         <h2 id="reading-a-file"><a class="header" href="#reading-a-file">读取文件</a></h2>
 <p data-x-en="Now we’ll add functionality to read the file specified in the file_path argument. First we need a sample file to test it with: we’ll use a file with a small amount of text over multiple lines with some repeated words. Listing 12-3 has an Emily Dickinson poem that will work well! Create a file called poem.txt at the root level of your project, and enter the poem “I’m Nobody! Who are you?”">现在我们将添加功能以读取在 <code>file_path</code> 参数中指定的文件。首先我们需要一个示例文件来测试它：我们将使用一个包含少量文本的文件，这些文本分布在多行中，并且有一些重复的单词。列表 12-3 有一首艾米莉·狄金森的诗，非常适合！在项目的根目录下创建一个名为 <em>poem.txt</em> 的文件，并输入诗“我是无名之辈！你是谁？”</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-3">
 <span class="file-name">Filename: poem.txt</span>
 <pre><code class="language-text">I'm nobody! Who are you?
 Are you nobody, too?
@@ -240,10 +240,10 @@ How public, like a frog
 To tell your name the livelong day
 To an admiring bog!
 </code></pre>
-<figcaption>Listing 12-3: A poem by Emily Dickinson makes a good test case.</figcaption>
+<figcaption><a href="#listing-12-3">Listing 12-3</a>: A poem by Emily Dickinson makes a good test case.</figcaption>
 </figure>
 <p data-x-en="With the text in place, edit src/main.rs and add code to read the file, as shown in Listing 12-4.">在文本就位后，编辑 <em>src/main.rs</em> 并添加代码以读取文件，如清单 12-4 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust should_panic noplayground">use std::env;
 use std::fs;
@@ -263,7 +263,7 @@ fn main() {
 
     println!("With text:\n{contents}");
 }</code></pre>
-<figcaption>Listing 12-4: Reading the contents of the file specified by the second argument</figcaption>
+<figcaption><a href="#listing-12-4">Listing 12-4</a>: Reading the contents of the file specified by the second argument</figcaption>
 </figure>
 <p data-x-en="First we bring in a relevant part of the standard library with a use statement: we need std::fs to handle files.">首先我们通过一个 <code>use</code> 语句引入标准库的相关部分：我们需要 <code>std::fs</code> 来处理文件。</p>
 <p data-x-en="In main, the new statement fs::read_to_string takes the file_path, opens that file, and returns a value of type std::io::Result<String> that contains the file’s contents.">在 <code>main</code> 中，新的语句 <code>fs::read_to_string</code> 接受 <code>file_path</code>，打开该文件，并返回一个类型为 <code>std::io::Result&lt;String&gt;</code> 的值，该值包含文件的内容。</p>

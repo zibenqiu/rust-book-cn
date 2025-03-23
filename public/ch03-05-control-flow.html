@@ -329,7 +329,7 @@ number is divisible by 3
 <p data-x-en="Using too many else if expressions can clutter your code, so if you have more than one, you might want to refactor your code. Chapter 6 describes a powerful Rust branching construct called match for these cases.">使用太多 <code>else if</code> 表达式会使代码变得杂乱，因此如果你有多个 <code>else if</code>，你可能需要重构代码。第 6 章描述了一种强大的 Rust 分支结构，称为 <code>match</code>，适用于这些情况。</p>
 <h4 id="using-if-in-a-let-statement"><a class="header" href="#using-if-in-a-let-statement">在 <code>let</code> 语句中使用 <code>if</code></a></h4>
 <p data-x-en="Because if is an expression, we can use it on the right side of a let statement to assign the outcome to a variable, as in Listing 3-2.">因为 <code>if</code> 是一个表达式，我们可以在 <code>let</code> 语句的右侧使用它，将结果赋值给一个变量，如列表 3-2 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-2">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let condition = true;
@@ -337,7 +337,7 @@ number is divisible by 3
 
     println!("The value of number is: {number}");
 }</code></pre></pre>
-<figcaption>Listing 3-2: Assigning the result of an <code>if</code> expression to a variable</figcaption>
+<figcaption><a href="#listing-3-2">Listing 3-2</a>: Assigning the result of an <code>if</code> expression to a variable</figcaption>
 </figure>
 <p data-x-en="The number variable will be bound to a value based on the outcome of the if expression. Run this code to see what happens:"><code>number</code> 变量将根据 <code>if</code> 表达式的结果绑定到一个值。运行此代码以查看会发生什么：</p>
 <pre><code class="language-console">$ cargo run
@@ -460,7 +460,7 @@ End count = 2
 </code></pre>
 <h4 id="conditional-loops-with-while"><a class="header" href="#conditional-loops-with-while">使用 <code>while</code> 的条件循环</a></h4>
 <p data-x-en="A program will often need to evaluate a condition within a loop. While the condition is true, the loop runs. When the condition ceases to be true, the program calls break, stopping the loop. It’s possible to implement behavior like this using a combination of loop, if, else, and break; you could try that now in a program, if you’d like. However, this pattern is so common that Rust has a built-in language construct for it, called a while loop. In Listing 3-3, we use while to loop the program three times, counting down each time, and then, after the loop, print a message and exit.">一个程序通常需要在循环中评估一个条件。当条件为<code>true</code>时，循环运行。当条件不再为<code>true</code>时，程序调用<code>break</code>，停止循环。可以使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>的组合来实现类似的行为；如果你愿意，现在可以在一个程序中尝试这样做。然而，这种模式非常常见，以至于Rust为此提供了一个内置的语言结构，称为<code>while</code>循环。在清单3-3中，我们使用<code>while</code>循环三次，每次循环都进行倒计数，然后，在循环结束后，打印一条消息并退出。</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut number = 3;
@@ -473,12 +473,12 @@ End count = 2
 
     println!("LIFTOFF!!!");
 }</code></pre></pre>
-<figcaption>Listing 3-3: Using a <code>while</code> loop to run code while a condition evaluates to <code>true</code></figcaption>
+<figcaption><a href="#listing-3-3">Listing 3-3</a>: Using a <code>while</code> loop to run code while a condition evaluates to <code>true</code></figcaption>
 </figure>
 <p data-x-en="This construct eliminates a lot of nesting that would be necessary if you used loop, if, else, and break, and it’s clearer. While a condition evaluates to true, the code runs; otherwise, it exits the loop.">这种结构消除了使用<code>loop</code>、<code>if</code>、<code>else</code>和<code>break</code>时所需的大量嵌套，并且更清晰。当条件评估为<code>true</code>时，代码运行；否则，它会退出循环。</p>
 <h4 id="looping-through-a-collection-with-for"><a class="header" href="#looping-through-a-collection-with-for">使用 <code>for</code> 循环遍历集合</a></h4>
 <p data-x-en="You can also use the while construct to loop over the elements of a collection, such as an array. For example, the loop in Listing 3-4 prints each element in the array a.">你也可以使用 <code>while</code> 构造来遍历集合（如数组）的元素。例如，列表 3-4 中的循环会打印数组 <code>a</code> 中的每个元素。</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -490,7 +490,7 @@ End count = 2
         index += 1;
     }
 }</code></pre></pre>
-<figcaption>Listing 3-4: Looping through each element of a collection using a <code>while</code> loop</figcaption>
+<figcaption><a href="#listing-3-4">Listing 3-4</a>: Looping through each element of a collection using a <code>while</code> loop</figcaption>
 </figure>
 <p data-x-en="Here, the code counts up through the elements in the array. It starts at index 0, and then loops until it reaches the final index in the array (that is, when index < 5 is no longer true). Running this code will print every element in the array:">这里，代码通过数组中的元素进行计数。它从索引<code>0</code>开始，然后循环直到到达数组的最后一个索引（即，当<code>index &lt; 5</code>不再为<code>true</code>时）。运行此代码将打印数组中的每个元素：</p>
 <pre><code class="language-console">$ cargo run
@@ -506,7 +506,7 @@ the value is: 50
 <p data-x-en="All five array values appear in the terminal, as expected. Even though index will reach a value of 5 at some point, the loop stops executing before trying to fetch a sixth value from the array.">所有五个数组值都如预期地出现在终端中。即使 <code>index</code> 最终会达到 <code>5</code>，但在尝试从数组中获取第六个值之前，循环已经停止执行。</p>
 <p data-x-en="However, this approach is error prone; we could cause the program to panic if the index value or test condition is incorrect. For example, if you changed the definition of the a array to have four elements but forgot to update the condition to while index < 4, the code would panic. It’s also slow, because the compiler adds runtime code to perform the conditional check of whether the index is within the bounds of the array on every iteration through the loop.">然而，这种方法容易出错；如果索引值或测试条件不正确，我们可能会导致程序崩溃。例如，如果你将 <code>a</code> 数组的定义更改为包含四个元素，但忘记将条件更新为 <code>while index &lt; 4</code>，代码将会崩溃。此外，这种方法也很慢，因为编译器会在每次循环迭代时添加运行时代码来检查索引是否在数组的边界内。</p>
 <p data-x-en="As a more concise alternative, you can use a for loop and execute some code for each item in a collection. A for loop looks like the code in Listing 3-5.">作为更简洁的替代方案，您可以使用 <code>for</code> 循环并为集合中的每个项目执行一些代码。一个 <code>for</code> 循环看起来像列表 3-5 中的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -515,7 +515,7 @@ the value is: 50
         println!("the value is: {element}");
     }
 }</code></pre></pre>
-<figcaption>Listing 3-5: Looping through each element of a collection using a <code>for</code> loop</figcaption>
+<figcaption><a href="#listing-3-5">Listing 3-5</a>: Looping through each element of a collection using a <code>for</code> loop</figcaption>
 </figure>
 <p data-x-en="When we run this code, we’ll see the same output as in Listing 3-4. More importantly, we’ve now increased the safety of the code and eliminated the chance of bugs that might result from going beyond the end of the array or not going far enough and missing some items.">当我们运行这段代码时，我们将看到与清单 3-4 中相同的输出。更重要的是，我们现在提高了代码的安全性，并消除了因超出数组末尾或未能足够深入而导致某些项被遗漏的错误可能性。</p>
 <p data-x-en="Using the for loop, you wouldn’t need to remember to change any other code if you changed the number of values in the array, as you would with the method used in Listing 3-4.">使用 <code>for</code> 循环，如果你改变了数组中的值的数量，你不需要记住去改变任何其他代码，而使用列表 3-4 中的方法则需要。</p>

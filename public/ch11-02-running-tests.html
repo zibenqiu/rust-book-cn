@@ -239,7 +239,7 @@ blockquote {
 <h3 id="showing-function-output"><a class="header" href="#showing-function-output">显示函数输出</a></h3>
 <p data-x-en="By default, if a test passes, Rust’s test library captures anything printed to standard output. For example, if we call println! in a test and the test passes, we won’t see the println! output in the terminal; we’ll see only the line that indicates the test passed. If a test fails, we’ll see whatever was printed to standard output with the rest of the failure message.">默认情况下，如果测试通过，Rust 的测试库会捕获打印到标准输出的任何内容。例如，如果我们在测试中调用 <code>println!</code> 并且测试通过，我们不会在终端中看到 <code>println!</code> 的输出；我们只会看到表示测试通过的那行。如果测试失败，我们会看到打印到标准输出的内容以及其余的失败信息。</p>
 <p data-x-en="As an example, Listing 11-10 has a silly function that prints the value of its parameter and returns 10, as well as a test that passes and a test that fails.">例如，列表 11-10 有一个愚蠢的函数，它打印其参数的值并返回 10，以及一个通过的测试和一个失败的测试。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-10">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust panics noplayground">fn prints_and_returns_10(a: i32) -&gt; i32 {
     println!("I got the value {a}");
@@ -262,7 +262,7 @@ mod tests {
         assert_eq!(value, 5);
     }
 }</code></pre>
-<figcaption>Listing 11-10: Tests for a function that calls <code>println!</code></figcaption>
+<figcaption><a href="#listing-11-10">Listing 11-10</a>: Tests for a function that calls <code>println!</code></figcaption>
 </figure>
 <p data-x-en="When we run these tests with cargo test, we’ll see the following output:">当我们使用 <code>cargo test</code> 运行这些测试时，我们将看到以下输出：</p>
 <pre><code class="language-console">$ cargo test
@@ -338,7 +338,7 @@ error: test failed, to rerun pass `--lib`
 <h3 id="running-a-subset-of-tests-by-name"><a class="header" href="#running-a-subset-of-tests-by-name">按名称运行测试子集</a></h3>
 <p data-x-en="Sometimes, running a full test suite can take a long time. If you’re working on code in a particular area, you might want to run only the tests pertaining to that code. You can choose which tests to run by passing cargo test the name or names of the test(s) you want to run as an argument.">有时，运行完整的测试套件可能需要很长时间。如果你正在处理特定区域的代码，你可能只想运行与该代码相关的测试。你可以通过将你想要运行的测试的名称或名称列表作为参数传递给<code>cargo test</code>来选择要运行的测试。</p>
 <p data-x-en="To demonstrate how to run a subset of tests, we’ll first create three tests for our add_two function, as shown in Listing 11-11, and choose which ones to run.">为了演示如何运行测试的子集，我们首先为我们的<code>add_two</code>函数创建三个测试，如列表11-11所示，并选择要运行的测试。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-11">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub fn add_two(a: usize) -&gt; usize {
     a + 2
@@ -366,7 +366,7 @@ mod tests {
         assert_eq!(result, 102);
     }
 }</code></pre>
-<figcaption>Listing 11-11: Three tests with three different names</figcaption>
+<figcaption><a href="#listing-11-11">Listing 11-11</a>: Three tests with three different names</figcaption>
 </figure>
 <p data-x-en="If we run the tests without passing any arguments, as we saw earlier, all the tests will run in parallel:">如果我们不传递任何参数就运行测试，正如我们之前所见，所有测试将并行运行：</p>
 <pre><code class="language-console">$ cargo test

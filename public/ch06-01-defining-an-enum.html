@@ -293,7 +293,7 @@ blockquote {
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p data-x-en="Using enums has even more advantages. Thinking more about our IP address type, at the moment we don’t have a way to store the actual IP address data; we only know what kind it is. Given that you just learned about structs in Chapter 5, you might be tempted to tackle this problem with structs as shown in Listing 6-1.">使用枚举还有更多优势。更多地思考我们的 IP 地址类型，目前我们没有一种方法来存储实际的 IP 地址<em>数据</em>；我们只知道它的<em>类型</em>。鉴于你刚刚在第 5 章学习了结构体，你可能会倾向于用结构体来解决这个问题，如列表 6-1 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-6-1">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
@@ -315,7 +315,7 @@ blockquote {
         address: String::from("::1"),
     };
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 6-1: Storing the data and <code>IpAddrKind</code> variant of an IP address using a <code>struct</code></figcaption>
+<figcaption><a href="#listing-6-1">Listing 6-1</a>: Storing the data and <code>IpAddrKind</code> variant of an IP address using a <code>struct</code></figcaption>
 </figure>
 <p data-x-en="Here, we’ve defined a struct IpAddr that has two fields: a kind field that is of type IpAddrKind (the enum we defined previously) and an address field of type String. We have two instances of this struct. The first is home, and it has the value IpAddrKind::V4 as its kind with associated address data of 127.0.0.1. The second instance is loopback. It has the other variant of IpAddrKind as its kind value, V6, and has address ::1 associated with it. We’ve used a struct to bundle the kind and address values together, so now the variant is associated with the value.">这里，我们定义了一个结构体 <code>IpAddr</code>，它有两个字段：一个 <code>kind</code> 字段，类型为 <code>IpAddrKind</code>（我们之前定义的枚举类型）和一个 <code>address</code> 字段，类型为 <code>String</code>。我们有两个这个结构体的实例。第一个是 <code>home</code>，它的 <code>kind</code> 值为 <code>IpAddrKind::V4</code>，关联的地址数据为 <code>127.0.0.1</code>。第二个实例是 <code>loopback</code>。它的 <code>kind</code> 值为 <code>IpAddrKind</code> 的另一个变体 <code>V6</code>，关联的地址为 <code>::1</code>。我们使用一个结构体将 <code>kind</code> 和 <code>address</code> 值捆绑在一起，因此现在变体与值关联。</p>
 <p data-x-en="However, representing the same concept using just an enum is more concise: rather than an enum inside a struct, we can put data directly into each enum variant. This new definition of the IpAddr enum says that both V4 and V6 variants will have associated String values:">然而，仅使用枚举表示相同的概念更为简洁：
@@ -363,7 +363,7 @@ enum IpAddr {
 <p data-x-en="This code illustrates that you can put any kind of data inside an enum variant: strings, numeric types, or structs, for example. You can even include another enum! Also, standard library types are often not much more complicated than what you might come up with.">这段代码说明你可以在枚举变体中放入任何类型的数据：<br>例如字符串、数字类型或结构体。你甚至可以包含另一个枚举！此外，标准库类型通常并不比你可能想到的复杂多少。</p>
 <p data-x-en="Note that even though the standard library contains a definition for IpAddr, we can still create and use our own definition without conflict because we haven’t brought the standard library’s definition into our scope. We’ll talk more about bringing types into scope in Chapter 7.">请注意，即使标准库中包含 <code>IpAddr</code> 的定义，我们仍然可以创建并使用我们自己的定义而不会发生冲突，因为我们还没有将标准库的定义引入到我们的作用域中。我们将在第 7 章中更详细地讨论将类型引入作用域的问题。</p>
 <p data-x-en="Let’s look at another example of an enum in Listing 6-2: this one has a wide variety of types embedded in its variants.">让我们来看另一个枚举的例子，如清单 6-2 所示：这个枚举在其变体中嵌入了各种类型的值。</p>
-<figure class="listing">
+<figure class="listing" id="listing-6-2">
 <pre><pre class="playground"><code class="language-rust edition2024">enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -372,7 +372,7 @@ enum IpAddr {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 6-2: A <code>Message</code> enum whose variants each store different amounts and types of values</figcaption>
+<figcaption><a href="#listing-6-2">Listing 6-2</a>: A <code>Message</code> enum whose variants each store different amounts and types of values</figcaption>
 </figure>
 <p data-x-en="This enum has four variants with different types:">这个枚举有四个不同类型的变体：</p>
 <ul>

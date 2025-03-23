@@ -259,7 +259,7 @@ ignore --> 第 18 章中讨论过。</p>
 可能有一个冗长的类型，如下所示：</p>
 <pre><code class="language-rust ignore">Box&lt;dyn Fn() + Send + 'static&gt;</code></pre>
 <p data-x-en="Writing this lengthy type in function signatures and as type annotations all over the code can be tiresome and error prone. Imagine having a project full of code like that in Listing 20-25.">在函数签名和类型注释中写这样冗长的类型，以及在整个代码中到处使用，可能会很累人且容易出错。想象一下，你的项目中充满了如清单 20-25 所示的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-20-25">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let f: Box&lt;dyn Fn() + Send + 'static&gt; = Box::new(|| println!("hi"));
 
@@ -272,10 +272,10 @@ ignore --> 第 18 章中讨论过。</p>
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-25: Using a long type in many places</figcaption>
+<figcaption><a href="#listing-20-25">Listing 20-25</a>: Using a long type in many places</figcaption>
 </figure>
 <p data-x-en="A type alias makes this code more manageable by reducing the repetition. In Listing 20-26, we’ve introduced an alias named Thunk for the verbose type and can replace all uses of the type with the shorter alias Thunk.">类型别名通过减少重复使这段代码更易于管理。在列表 20-26 中，我们引入了一个名为 <code>Thunk</code> 的别名，用于冗长的类型，并可以用较短的别名 <code>Thunk</code> 替换所有类型的使用。</p>
-<figure class="listing">
+<figure class="listing" id="listing-20-26">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    type Thunk = Box&lt;dyn Fn() + Send + 'static&gt;;
 
@@ -290,7 +290,7 @@ ignore --> 第 18 章中讨论过。</p>
 <span class="boring">        Box::new(|| ())
 </span>    }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 20-26: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
+<figcaption><a href="#listing-20-26">Listing 20-26</a>: Introducing a type alias <code>Thunk</code> to reduce repetition</figcaption>
 </figure>
 <p data-x-en="This code is much easier to read and write! Choosing a meaningful name for a type alias can help communicate your intent as well (thunk is a word for code to be evaluated at a later time, so it’s an appropriate name for a closure that gets stored).">这段代码更容易阅读和编写！为类型别名选择一个有意义的名称也有助于传达你的意图（<em>thunk</em> 是一个表示稍后要执行的代码的词，因此它是存储闭包的合适名称）。</p>
 <p data-x-en="Type aliases are also commonly used with the Result<T, E> type for reducing repetition. Consider the std::io module in the standard library. I/O operations often return a Result<T, E> to handle situations when operations fail to work. This library has a std::io::Error struct that represents all possible I/O errors. Many of the functions in std::io will be returning Result<T, E> where the E is std::io::Error, such as these functions in the Write trait:">类型别名也常用于<code>Result&lt;T, E&gt;</code>类型以减少重复。考虑标准库中的<code>std::io</code>模块。I/O操作经常返回一个<code>Result&lt;T, E&gt;</code>来处理操作失败的情况。这个库有一个<code>std::io::Error</code>结构体，表示所有可能的I/O错误。<code>std::io</code>中的许多函数将返回<code>Result&lt;T, E&gt;</code>，其中<code>E</code>是<code>std::io::Error</code>，例如<code>Write</code>特质中的这些函数：</p>
@@ -329,7 +329,7 @@ pub trait Write {
     fn write_fmt(&amp;mut self, fmt: fmt::Arguments) -&gt; Result&lt;()&gt;;
 }</code></pre>
 <p data-x-en="The type alias helps in two ways: it makes code easier to write and it gives us a consistent interface across all of std::io. Because it’s an alias, it’s just another Result<T, E>, which means we can use any methods that work on Result<T, E> with it, as well as special syntax like the ? operator.">类型别名在两个方面有所帮助：它使代码更容易编写<em>和</em>它为我们提供了在整个<code>std::io</code>中的一致接口。因为它是别名，所以它只是另一个<code>Result<t, e=""></t,></code>，这意味着我们可以使用任何适用于<code>Result<t, e=""></t,></code>的方法，以及像<code>?</code>运算符这样的特殊语法。</p>
-<h3 id="the-never-type-that-never-returns" data-x-en="The Never Type That Never Returns"><a class="header" href="#the-never-type-that-never-returns">永远不会返回的 Never 类型</a></h3>
+<h3 id="the-never-type-that-never-returns"><a class="header" href="#the-never-type-that-never-returns">永远不会返回的 Never 类型</a></h3>
 <p data-x-en="Rust has a special type named ! that’s known in type theory lingo as the empty type because it has no values. We prefer to call it the never type because it stands in the place of the return type when a function will never return. Here is an example:">Rust 有一个特殊类型，名为 <code>!</code>，在类型理论术语中被称为 <em>空类型</em>，因为它没有值。我们更喜欢称它为 <em>永不返回类型</em>，因为它在函数永远不会返回时用作返回类型。这里是一个例子：</p>
 <pre><code class="language-rust noplayground">fn bar() -&gt; ! {
     // --snip--
@@ -337,10 +337,11 @@ pub trait Write {
 </span>}</code></pre>
 <p data-x-en="This code is read as “the function bar returns never.” Functions that return never are called diverging functions. We can’t create values of the type ! so bar can never possibly return.">这段代码被解读为“函数 <code>bar</code> 永不返回。”永不返回的函数被称为 <em>发散函数</em>。我们不能创建类型为 <code>!</code> 的值，所以 <code>bar</code> 永远不可能返回。</p>
 <p data-x-en="But what use is a type you can never create values for? Recall the code from Listing 2-5, part of the number-guessing game; we’ve reproduced a bit of it here in Listing 20-27.">但是，一个你永远无法为其创建值的类型有什么用呢？回想一下第 2-5 列表中的代码，这是数字猜谜游戏的一部分；我们在这里重新展示了其中的一部分，如第 20-27 列表所示。</p>
-<figure class="listing">
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<figure class="listing" id="listing-20-27">
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -379,7 +380,7 @@ pub trait Write {
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 20-27: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
+<figcaption><a href="#listing-20-27">Listing 20-27</a>: A <code>match</code> with an arm that ends in <code>continue</code></figcaption>
 </figure>
 <p data-x-en="At the time, we skipped over some details in this code. In “The match Control Flow Operator” in Chapter 6, we discussed that match arms must all return the same type. So, for example, the following code doesn’t work:">当时，我们跳过了一些代码中的细节。在<a href="ch06-02-match.html#the-match-control-flow-operator">“<code>match</code> 控制流操作符”</a>一章中，我们讨论了<code>match</code>分支必须都返回相同的类型。所以，例如，以下代码无法工作：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {

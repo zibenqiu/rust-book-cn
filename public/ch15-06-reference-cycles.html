@@ -230,7 +230,7 @@ blockquote {
 <p data-x-en="Rust’s memory safety guarantees make it difficult, but not impossible, to accidentally create memory that is never cleaned up (known as a memory leak). Preventing memory leaks entirely is not one of Rust’s guarantees, meaning memory leaks are memory safe in Rust. We can see that Rust allows memory leaks by using Rc<T> and RefCell<T>: it’s possible to create references where items refer to each other in a cycle. This creates memory leaks because the reference count of each item in the cycle will never reach 0, and the values will never be dropped.">Rust 的内存安全保证使其难以但并非不可能意外创建永远不会被清理的内存（称为 <em>内存泄漏</em>）。完全防止内存泄漏并不是 Rust 的保证之一，这意味着内存泄漏在 Rust 中是内存安全的。我们可以通过使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 来看到 Rust 允许内存泄漏：可以创建相互引用的循环引用。这会导致内存泄漏，因为循环中的每个项目的引用计数永远不会达到 0，值永远不会被释放。</p>
 <h3 id="creating-a-reference-cycle"><a class="header" href="#creating-a-reference-cycle">创建引用循环</a></h3>
 <p data-x-en="Let’s look at how a reference cycle might happen and how to prevent it, starting with the definition of the List enum and a tail method in Listing 15-25.">让我们看看引用循环是如何发生的以及如何防止它，从定义 <code>List</code> 枚举和 <code>tail</code> 方法开始，如清单 15-25 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-25">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use crate::List::{Cons, Nil};
 use std::cell::RefCell;
@@ -252,11 +252,11 @@ impl List {
 }
 
 fn main() {}</code></pre></pre>
-<figcaption>Listing 15-25: A cons list definition that holds a <code>RefCell&lt;T&gt;</code> so we can modify what a <code>Cons</code> variant is referring to</figcaption>
+<figcaption><a href="#listing-15-25">Listing 15-25</a>: A cons list definition that holds a <code>RefCell&lt;T&gt;</code> so we can modify what a <code>Cons</code> variant is referring to</figcaption>
 </figure>
 <p data-x-en="We’re using another variation of the List definition from Listing 15-5. The second element in the Cons variant is now RefCell<Rc<List>>, meaning that instead of having the ability to modify the i32 value as we did in Listing 15-24, we want to modify the List value a Cons variant is pointing to. We’re also adding a tail method to make it convenient for us to access the second item if we have a Cons variant.">我们正在使用来自清单 15-5 的 <code>List</code> 定义的另一个变体。<code>Cons</code> 变体中的第二个元素现在是 <code>RefCell&lt;Rc&lt;List&gt;&gt;</code>，这意味着我们不再像在清单 15-24 中那样修改 <code>i32</code> 值，而是希望修改 <code>Cons</code> 变体指向的 <code>List</code> 值。我们还添加了一个 <code>tail</code> 方法，以便在我们有一个 <code>Cons</code> 变体时方便访问第二个元素。</p>
 <p data-x-en="In Listing 15-26, we’re adding a main function that uses the definitions in Listing 15-25. This code creates a list in a and a list in b that points to the list in a. Then it modifies the list in a to point to b, creating a reference cycle. There are println! statements along the way to show what the reference counts are at various points in this process.">在清单 15-26 中，我们添加了一个 <code>main</code> 函数，该函数使用了清单 15-25 中的定义。这段代码在 <code>a</code> 中创建了一个列表，并在 <code>b</code> 中创建了一个指向 <code>a</code> 中列表的列表。然后它修改了 <code>a</code> 中的列表，使其指向 <code>b</code>，从而创建了一个引用循环。在此过程中，沿途有 <code>println!</code> 语句显示各个点的引用计数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-26">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use crate::List::{Cons, Nil};
 </span><span class="boring">use std::cell::RefCell;
@@ -300,7 +300,7 @@ fn main() {}</code></pre></pre>
     // it will overflow the stack.
     // println!("a next item = {:?}", a.tail());
 }</code></pre></pre>
-<figcaption>Listing 15-26: Creating a reference cycle of two <code>List</code> values pointing to each other</figcaption>
+<figcaption><a href="#listing-15-26">Listing 15-26</a>: Creating a reference cycle of two <code>List</code> values pointing to each other</figcaption>
 </figure>
 <p data-x-en="We create an Rc<List> instance holding a List value in the variable a with an initial list of 5, Nil. We then create an Rc<List> instance holding another List value in the variable b that contains the value 10 and points to the list in a.">我们创建一个 <code>Rc&lt;List&gt;</code> 实例，将一个 <code>List</code> 值存储在变量 <code>a</code> 中，初始列表为 <code>5, Nil</code>。然后我们创建另一个 <code>Rc&lt;List&gt;</code> 实例，将另一个 <code>List</code> 值存储在变量 <code>b</code> 中，该值包含 10 并指向 <code>a</code> 中的列表。</p>
 <p data-x-en="We modify a so it points to b instead of Nil, creating a cycle. We do that by using the tail method to get a reference to the RefCell<Rc<List>> in a, which we put in the variable link. Then we use the borrow_mut method on the RefCell<Rc<List>> to change the value inside from an Rc<List> that holds a Nil value to the Rc<List> in b.">我们修改<code>a</code>，使其指向<code>b</code>而不是<code>Nil</code>，从而创建一个循环。我们通过使用<code>tail</code>方法获取<code>a</code>中的<code>RefCell&lt;Rc&lt;List&gt;&gt;</code>的引用，将其放入变量<code>link</code>中。然后我们使用<code>RefCell&lt;Rc&lt;List&gt;&gt;</code>上的<code>borrow_mut</code>方法，将内部的值从持有<code>Nil</code>值的<code>Rc&lt;List&gt;</code>更改为<code>b</code>中的<code>Rc&lt;List&gt;</code>。</p>
@@ -328,12 +328,12 @@ a rc count after changing a = 2
 <p data-x-en="Another solution for avoiding reference cycles is reorganizing your data structures so that some references express ownership and some references don’t. As a result, you can have cycles made up of some ownership relationships and some non-ownership relationships, and only the ownership relationships affect whether or not a value can be dropped. In Listing 15-25, we always want Cons variants to own their list, so reorganizing the data structure isn’t possible. Let’s look at an example using graphs made up of parent nodes and child nodes to see when non-ownership relationships are an appropriate way to prevent reference cycles.">避免引用循环的另一种方法是重组你的数据结构，使一些引用表达所有权，而一些引用不表达所有权。因此，你可以拥有由一些所有权关系和一些非所有权关系组成的循环，只有所有权关系会影响值是否可以被丢弃。在清单 15-25 中，我们总是希望 <code>Cons</code> 变体拥有它们的列表，因此重组数据结构是不可能的。让我们来看一个使用由父节点和子节点组成的图的例子，看看何时非所有权关系是防止引用循环的适当方法。</p>
 <!-- Old link, do not remove -->
 <p><a id="preventing-reference-cycles-turning-an-rct-into-a-weakt"></a></p>
-<h3 id="preventing-reference-cycles-using-weakt" data-x-en="Preventing Reference Cycles Using Weak<T>"><a class="header" href="#preventing-reference-cycles-using-weakt">使用 <code>Weak&lt;T&gt;</code> 防止引用循环</a></h3>
+<h3 id="preventing-reference-cycles-using-weakt"><a class="header" href="#preventing-reference-cycles-using-weakt">使用 <code>Weak&lt;T&gt;</code> 防止引用循环</a></h3>
 <p data-x-en="So far, we’ve demonstrated that calling Rc::clone increases the strong_count of an Rc<T> instance, and an Rc<T> instance is only cleaned up if its strong_count is 0. You can also create a weak reference to the value within an Rc<T> instance by calling Rc::downgrade and passing a reference to the Rc<T>. Strong references are how you can share ownership of an Rc<T> instance. Weak references don’t express an ownership relationship, and their count doesn’t affect when an Rc<T> instance is cleaned up. They won’t cause a reference cycle because any cycle involving some weak references will be broken once the strong reference count of values involved is 0.">到目前为止，我们已经证明调用<code>Rc::clone</code>会增加<code>Rc&lt;T&gt;</code>实例的<code>strong_count</code>，并且只有当<code>Rc&lt;T&gt;</code>实例的<code>strong_count</code>为0时，该实例才会被清理。你还可以通过调用<code>Rc::downgrade</code>并传递<code>Rc&lt;T&gt;</code>的引用，来创建对<code>Rc&lt;T&gt;</code>实例中值的<em>弱引用</em>。强引用是你共享<code>Rc&lt;T&gt;</code>实例所有权的方式。弱引用不表示所有权关系，它们的计数不会影响<code>Rc&lt;T&gt;</code>实例何时被清理。它们不会导致引用循环，因为一旦涉及的值的强引用计数为0，任何涉及弱引用的循环都会被打破。</p>
 <p data-x-en="When you call Rc::downgrade, you get a smart pointer of type Weak<T>. Instead of increasing the strong_count in the Rc<T> instance by 1, calling Rc::downgrade increases the weak_count by 1. The Rc<T> type uses weak_count to keep track of how many Weak<T> references exist, similar to strong_count. The difference is the weak_count doesn’t need to be 0 for the Rc<T> instance to be cleaned up.">当你调用 <code>Rc::downgrade</code> 时，你会得到一个类型为 <code>Weak&lt;T&gt;</code> 的智能指针。而不是将 <code>Rc&lt;T&gt;</code> 实例中的 <code>strong_count</code> 增加 1，调用 <code>Rc::downgrade</code> 会将 <code>weak_count</code> 增加 1。<code>Rc&lt;T&gt;</code> 类型使用 <code>weak_count</code> 来跟踪存在多少个 <code>Weak&lt;T&gt;</code> 引用，类似于 <code>strong_count</code>。不同之处在于，<code>weak_count</code> 不需要为 0，<code>Rc&lt;T&gt;</code> 实例就可以被清理。</p>
 <p data-x-en="Because the value that Weak<T> references might have been dropped, to do anything with the value that a Weak<T> is pointing to you must make sure the value still exists. Do this by calling the upgrade method on a Weak<T> instance, which will return an Option<Rc<T>>. You’ll get a result of Some if the Rc<T> value has not been dropped yet and a result of None if the Rc<T> value has been dropped. Because upgrade returns an Option<Rc<T>>, Rust will ensure that the Some case and the None case are handled, and there won’t be an invalid pointer.">因为 <code>Weak&lt;T&gt;</code> 引用的值可能已经被释放，所以要对 <code>Weak&lt;T&gt;</code> 指向的值进行任何操作，必须确保该值仍然存在。通过调用 <code>Weak&lt;T&gt;</code> 实例上的 <code>upgrade</code> 方法来实现这一点，该方法将返回一个 <code>Option&lt;Rc&lt;T&gt;&gt;</code>。如果 <code>Rc&lt;T&gt;</code> 值尚未被释放，你将得到一个 <code>Some</code> 结果；如果 <code>Rc&lt;T&gt;</code> 值已被释放，你将得到一个 <code>None</code> 结果。因为 <code>upgrade</code> 返回一个 <code>Option&lt;Rc&lt;T&gt;&gt;</code>，Rust 将确保处理 <code>Some</code> 和 <code>None</code> 两种情况，而不会出现无效指针。</p>
 <p data-x-en="As an example, rather than using a list whose items know only about the next item, we’ll create a tree whose items know about their children items and their parent items.">例如，我们将创建一个树，其项目不仅知道它们的子项目<em>还知道</em>它们的父项目。</p>
-<h4 id="creating-a-tree-data-structure-a-node-with-child-nodes" data-x-en="Creating a Tree Data Structure: A Node with Child Nodes"><a class="header" href="#creating-a-tree-data-structure-a-node-with-child-nodes">创建树数据结构：具有子节点的<code>Node</code></a></h4>
+<h4 id="creating-a-tree-data-structure-a-node-with-child-nodes"><a class="header" href="#creating-a-tree-data-structure-a-node-with-child-nodes">创建树数据结构：具有子节点的<code>Node</code></a></h4>
 <p data-x-en="To start, we’ll build a tree with nodes that know about their child nodes. We’ll create a struct named Node that holds its own i32 value as well as references to its children Node values:">首先，我们将构建一个节点知道其子节点的树。
 我们将创建一个名为 <code>Node</code> 的结构体，该结构体持有其自身的 <code>i32</code> 值以及
 对其子 <code>Node</code> 值的引用：</p>
@@ -360,7 +360,7 @@ struct Node {
 </span><span class="boring">}</span></code></pre></pre>
 <p data-x-en="We want a Node to own its children, and we want to share that ownership with variables so we can access each Node in the tree directly. To do this, we define the Vec<T> items to be values of type Rc<Node>. We also want to modify which nodes are children of another node, so we have a RefCell<T> in children around the Vec<Rc<Node>>.">我们希望一个 <code>Node</code> 拥有其子节点，并且我们希望与变量共享该所有权，以便我们可以直接访问树中的每个 <code>Node</code>。为此，我们将 <code>Vec&lt;T&gt;</code> 项定义为 <code>Rc&lt;Node&gt;</code> 类型的值。我们还希望修改哪些节点是另一个节点的子节点，因此我们在 <code>children</code> 中使用了 <code>RefCell&lt;T&gt;</code> 包裹 <code>Vec&lt;Rc&lt;Node&gt;&gt;</code>。</p>
 <p data-x-en="Next, we’ll use our struct definition and create one Node instance named leaf with the value 3 and no children, and another instance named branch with the value 5 and leaf as one of its children, as shown in Listing 15-27.">接下来，我们将使用我们的结构体定义，创建一个名为 <code>leaf</code> 的 <code>Node</code> 实例，其值为 <code>3</code> 且没有子节点，以及另一个名为 <code>branch</code> 的实例，其值为 <code>5</code> 并且 <code>leaf</code> 是其一个子节点，如清单 15-27 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-27">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::Rc;
@@ -382,7 +382,7 @@ struct Node {
         children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
     });
 }</code></pre></pre>
-<figcaption>Listing 15-27: Creating a <code>leaf</code> node with no children and a <code>branch</code> node with <code>leaf</code> as one of its children</figcaption>
+<figcaption><a href="#listing-15-27">Listing 15-27</a>: Creating a <code>leaf</code> node with no children and a <code>branch</code> node with <code>leaf</code> as one of its children</figcaption>
 </figure>
 <p data-x-en="We clone the Rc<Node> in leaf and store that in branch, meaning the Node in leaf now has two owners: leaf and branch. We can get from branch to leaf through branch.children, but there’s no way to get from leaf to branch. The reason is that leaf has no reference to branch and doesn’t know they’re related. We want leaf to know that branch is its parent. We’ll do that next.">我们在 <code>leaf</code> 中克隆 <code>Rc&lt;Node&gt;</code> 并将其存储在 <code>branch</code> 中，这意味着 <code>leaf</code> 中的 <code>Node</code> 现在有两个所有者：<code>leaf</code> 和 <code>branch</code>。我们可以通过 <code>branch.children</code> 从 <code>branch</code> 到达 <code>leaf</code>，但无法从 <code>leaf</code> 到达 <code>branch</code>。原因是 <code>leaf</code> 没有对 <code>branch</code> 的引用，不知道它们是相关的。我们希望 <code>leaf</code> 知道 <code>branch</code> 是它的父节点。我们将在下一步实现这一点。</p>
 <h4 id="adding-a-reference-from-a-child-to-its-parent"><a class="header" href="#adding-a-reference-from-a-child-to-its-parent">从子项添加指向其父项的引用</a></h4>
@@ -421,7 +421,7 @@ struct Node {
 </span><span class="boring">}</span></code></pre></pre>
 <p data-x-en="A node will be able to refer to its parent node but doesn’t own its parent. In Listing 15-28, we update main to use this new definition so the leaf node will have a way to refer to its parent, branch.">一个节点将能够引用其父节点，但不拥有其父节点。
 在清单 15-28 中，我们更新 <code>main</code> 以使用这个新定义，这样 <code>leaf</code> 节点将有一种方法引用其父节点 <code>branch</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-28">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::{Rc, Weak};
@@ -452,7 +452,7 @@ struct Node {
 
     println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
 }</code></pre></pre>
-<figcaption>Listing 15-28: A <code>leaf</code> node with a weak reference to its parent node <code>branch</code></figcaption>
+<figcaption><a href="#listing-15-28">Listing 15-28</a>: A <code>leaf</code> node with a weak reference to its parent node <code>branch</code></figcaption>
 </figure>
 <p data-x-en="Creating the leaf node looks similar to Listing 15-27 with the exception of the parent field: leaf starts out without a parent, so we create a new, empty Weak<Node> reference instance.">创建<code>leaf</code>节点看起来与清单15-27相似，例外是<code>parent</code>字段：<code>leaf</code>一开始没有父节点，所以我们创建一个新的、空的<code>Weak&lt;Node&gt;</code>引用实例。</p>
 <p data-x-en="At this point, when we try to get a reference to the parent of leaf by using the upgrade method, we get a None value. We see this in the output from the first println! statement:">此时，当我们尝试通过使用 <code>upgrade</code> 方法获取 <code>leaf</code> 的父节点的引用时，我们得到了一个 <code>None</code> 值。我们在第一个 <code>println!</code> 语句的输出中看到了这一点：</p>
@@ -473,7 +473,7 @@ children: RefCell { value: [] } }] } })
 <p data-x-en="The lack of infinite output indicates that this code didn’t create a reference cycle. We can also tell this by looking at the values we get from calling Rc::strong_count and Rc::weak_count.">缺乏无限输出表明这段代码没有创建引用循环。我们也可以通过查看调用<code>Rc::strong_count</code>和<code>Rc::weak_count</code>得到的值来判断这一点。</p>
 <h4 id="visualizing-changes-to-strong_count-and-weak_count"><a class="header" href="#visualizing-changes-to-strong_count-and-weak_count">可视化 <code>strong_count</code> 和 <code>weak_count</code> 的变化</a></h4>
 <p data-x-en="Let’s look at how the strong_count and weak_count values of the Rc<Node> instances change by creating a new inner scope and moving the creation of branch into that scope. By doing so, we can see what happens when branch is created and then dropped when it goes out of scope. The modifications are shown in Listing 15-29.">让我们看看通过创建一个新的内部作用域并将 <code>branch</code> 的创建移到该作用域中，<code>Rc&lt;Node&gt;</code> 实例的 <code>strong_count</code> 和 <code>weak_count</code> 值如何变化。通过这样做，我们可以看到当 <code>branch</code> 被创建然后在超出作用域时被丢弃时会发生什么。修改内容如清单 15-29 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-29">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">use std::rc::{Rc, Weak};
@@ -527,7 +527,7 @@ children: RefCell { value: [] } }] } })
         Rc::weak_count(&amp;leaf),
     );
 }</code></pre></pre>
-<figcaption>Listing 15-29: Creating <code>branch</code> in an inner scope and examining strong and weak reference counts</figcaption>
+<figcaption><a href="#listing-15-29">Listing 15-29</a>: Creating <code>branch</code> in an inner scope and examining strong and weak reference counts</figcaption>
 </figure>
 <p data-x-en="After leaf is created, its Rc<Node> has a strong count of 1 and a weak count of 0. In the inner scope, we create branch and associate it with leaf, at which point when we print the counts, the Rc<Node> in branch will have a strong count of 1 and a weak count of 1 (for leaf.parent pointing to branch with a Weak<Node>). When we print the counts in leaf, we’ll see it will have a strong count of 2 because branch now has a clone of the Rc<Node> of leaf stored in branch.children, but will still have a weak count of 0.">在创建 <code>leaf</code> 之后，其 <code>Rc&lt;Node&gt;</code> 的强引用计数为 1，弱引用计数为 0。在内部作用域中，我们创建了 <code>branch</code> 并将其与 <code>leaf</code> 关联，此时当我们打印计数时，<code>branch</code> 中的 <code>Rc&lt;Node&gt;</code> 将具有强引用计数 1 和弱引用计数 1（因为 <code>leaf.parent</code> 通过 <code>Weak&lt;Node&gt;</code> 指向 <code>branch</code>）。当我们打印 <code>leaf</code> 中的计数时，我们会看到它的强引用计数为 2，因为 <code>branch</code> 现在在 <code>branch.children</code> 中存储了 <code>leaf</code> 的 <code>Rc&lt;Node&gt;</code> 的一个克隆，但弱引用计数仍为 0。</p>
 <p data-x-en="When the inner scope ends, branch goes out of scope and the strong count of the Rc<Node> decreases to 0, so its Node is dropped. The weak count of 1 from leaf.parent has no bearing on whether or not Node is dropped, so we don’t get any memory leaks!">当内部作用域结束时，<code>branch</code> 超出作用域，<code>Rc&lt;Node&gt;</code> 的强引用计数减少到 0，因此其 <code>Node</code> 被释放。来自 <code>leaf.parent</code> 的弱引用计数 1 不会影响 <code>Node</code> 是否被释放，所以我们不会有任何内存泄漏！</p>

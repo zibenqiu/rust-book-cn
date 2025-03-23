@@ -232,7 +232,7 @@ blockquote {
 <p data-x-en="Let’s work through how we’d write the signature of this function without using slices, to understand the problem that slices will solve:">让我们逐步了解如何在不使用切片的情况下编写此函数的签名，以理解切片将解决的问题:</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?</code></pre>
 <p data-x-en="The first_word function has a &amp;String as a parameter. We don’t need ownership, so this is fine. (In idiomatic Rust, functions do not take ownership of their arguments unless they need to, and the reasons for that will become clear as we keep going!) But what should we return? We don’t really have a way to talk about part of a string. However, we could return the index of the end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7."><code>first_word</code> 函数有一个 <code>&amp;String</code> 作为参数。我们不需要所有权，所以这样是可以的。（在惯用的 Rust 中，函数不会获取其参数的所有权，除非它们需要这样做，而这样做的原因将在我们继续学习时变得清晰！）但是我们应该返回什么？我们实际上没有一种方法来描述字符串的一部分。然而，我们可以返回单词结束的位置的索引，该位置由空格指示。让我们尝试这样做，如清单 4-7 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-7">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
@@ -247,7 +247,7 @@ blockquote {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 4-7: The <code>first_word</code> function that returns a byte index value into the <code>String</code> parameter</figcaption>
+<figcaption><a href="#listing-4-7">Listing 4-7</a>: The <code>first_word</code> function that returns a byte index value into the <code>String</code> parameter</figcaption>
 </figure>
 <p data-x-en="Because we need to go through the String element by element and check whether a value is a space, we’ll convert our String to an array of bytes using the as_bytes method.">因为我们需要逐个元素地遍历 <code>String</code> 并检查一个值是否为空格，我们将使用 <code>as_bytes</code> 方法将 <code>String</code> 转换为字节数组。</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
@@ -298,7 +298,7 @@ blockquote {
 </span><span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre>
 <p data-x-en="We now have a way to find out the index of the end of the first word in the string, but there’s a problem. We’re returning a usize on its own, but it’s only a meaningful number in the context of the &amp;String. In other words, because it’s a separate value from the String, there’s no guarantee that it will still be valid in the future. Consider the program in Listing 4-8 that uses the first_word function from Listing 4-7.">我们现在有一种方法可以找到字符串中第一个单词结尾的索引，但有一个问题。我们单独返回一个<code>usize</code>，但只有在<code>&amp;String</code>的上下文中这个数字才有意义。换句话说，因为它是一个与<code>String</code>分离的值，所以无法保证它将来仍然有效。考虑列表4-8中的程序，该程序使用了列表4-7中的<code>first_word</code>函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-8">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -323,7 +323,7 @@ blockquote {
     // that we could meaningfully use with the value `5`, so `word` is now
     // totally invalid!
 }</code></pre></pre>
-<figcaption>Listing 4-8: Storing the result from calling the <code>first_word</code> function and then changing the <code>String</code> contents</figcaption>
+<figcaption><a href="#listing-4-8">Listing 4-8</a>: Storing the result from calling the <code>first_word</code> function and then changing the <code>String</code> contents</figcaption>
 </figure>
 <p data-x-en="This program compiles without any errors and would also do so if we used word after calling s.clear(). Because word isn’t connected to the state of s at all, word still contains the value 5. We could use that value 5 with the variable s to try to extract the first word out, but this would be a bug because the contents of s have changed since we saved 5 in word.">这个程序编译时没有任何错误，即使我们在调用 <code>s.clear()</code> 之后使用 <code>word</code> 也会如此。因为 <code>word</code> 完全不依赖于 <code>s</code> 的状态，<code>word</code> 仍然包含值 <code>5</code>。我们可以使用该值 <code>5</code> 与变量 <code>s</code> 试图提取出第一个单词，但这将是一个错误，因为自我们保存 <code>5</code> 到 <code>word</code> 以来，<code>s</code> 的内容已经发生了变化。</p>
 <p data-x-en="Having to worry about the index in word getting out of sync with the data in s is tedious and error prone! Managing these indices is even more brittle if we write a second_word function. Its signature would have to look like this:">在 <code>word</code> 中的索引与 <code>s</code> 中的数据不同步是一个繁琐且容易出错的问题！如果我们要编写一个 <code>second_word</code> 函数，管理这些索引会更加脆弱。它的签名必须像这样：</p>
@@ -454,7 +454,7 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 <p data-x-en="Knowing that you can take slices of literals and String values leads us to one more improvement on first_word, and that’s its signature:">知道可以对字面量和<code>String</code>值进行切片，这引导我们对<code>first_word</code>进行一个改进，那就是它的签名：</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; &amp;str {</code></pre>
 <p data-x-en="A more experienced Rustacean would write the signature shown in Listing 4-9 instead because it allows us to use the same function on both &amp;String values and &amp;str values.">一个更有经验的 Rustacean 会编写如清单 4-9 所示的签名，因为它允许我们对 <code>&amp;String</code> 值和 <code>&amp;str</code> 值使用相同的函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-9">
 <pre><code class="language-rust ignore">fn first_word(s: &amp;str) -&gt; &amp;str {
 <span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -488,7 +488,7 @@ error: could not compile `ownership` (bin "ownership") due to 1 previous error
 </span><span class="boring">    // this works too, without the slice syntax!
 </span><span class="boring">    let word = first_word(my_string_literal);
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 4-9: Improving the <code>first_word</code> function by using a string slice for the type of the <code>s</code> parameter</figcaption>
+<figcaption><a href="#listing-4-9">Listing 4-9</a>: Improving the <code>first_word</code> function by using a string slice for the type of the <code>s</code> parameter</figcaption>
 </figure>
 <p data-x-en="If we have a string slice, we can pass that directly. If we have a String, we can pass a slice of the String or a reference to the String. This flexibility takes advantage of deref coercions, a feature we will cover in the “Implicit Deref Coercions with Functions and Methods” section of Chapter 15.">如果我们有一个字符串切片，我们可以直接传递它。如果我们有一个 <code>String</code>，我们可以传递 <code>String</code> 的切片或 <code>String</code> 的引用。这种灵活性利用了 <em>解引用强制转换</em>，这是我们在第 15 章的 <a href="ch15-02-deref.html#implicit-deref-coercions-with-functions-and-methods">“函数和方法中的隐式解引用强制转换”</a><!--ignore--> 部分将要讨论的一个特性。</p>
 <p data-x-en="Defining a function to take a string slice instead of a reference to a String makes our API more general and useful without losing any functionality:">将函数定义为接受字符串切片而不是 <code>String</code> 的引用，可以使我们的 API 更加通用和有用，而不会失去任何功能：</p>

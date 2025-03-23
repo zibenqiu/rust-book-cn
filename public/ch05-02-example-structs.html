@@ -229,7 +229,7 @@ blockquote {
                         <h2 id="an-example-program-using-structs"><a class="header" href="#an-example-program-using-structs">使用结构体的示例程序</a></h2>
 <p data-x-en="To understand when we might want to use structs, let’s write a program that calculates the area of a rectangle. We’ll start by using single variables, and then refactor the program until we’re using structs instead.">为了理解我们何时可能想要使用结构体，让我们编写一个计算矩形面积的程序。我们将从使用单个变量开始，然后重构程序，直到我们使用结构体代替。</p>
 <p data-x-en="Let’s make a new binary project with Cargo called rectangles that will take the width and height of a rectangle specified in pixels and calculate the area of the rectangle. Listing 5-8 shows a short program with one way of doing exactly that in our project’s src/main.rs.">让我们用 Cargo 创建一个名为 <em>rectangles</em> 的新二进制项目，该项目将接受以像素为单位指定的矩形的宽度和高度，并计算矩形的面积。列表 5-8 显示了在项目 <em>src/main.rs</em> 中实现这一功能的一种简短程序。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-8">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let width1 = 30;
@@ -244,7 +244,7 @@ blockquote {
 fn area(width: u32, height: u32) -&gt; u32 {
     width * height
 }</code></pre></pre>
-<figcaption>Listing 5-8: Calculating the area of a rectangle specified by separate width and height variables</figcaption>
+<figcaption><a href="#listing-5-8">Listing 5-8</a>: Calculating the area of a rectangle specified by separate width and height variables</figcaption>
 </figure>
 <p data-x-en="Now, run this program using cargo run:">现在，使用 <code>cargo run</code> 运行此程序：</p>
 <pre><code class="language-console">$ cargo run
@@ -271,7 +271,7 @@ The area of the rectangle is 1500 square pixels.
 <p data-x-en="The area function is supposed to calculate the area of one rectangle, but the function we wrote has two parameters, and it’s not clear anywhere in our program that the parameters are related. It would be more readable and more manageable to group width and height together. We’ve already discussed one way we might do that in “The Tuple Type” section of Chapter 3: by using tuples."><code>area</code> 函数应该计算一个矩形的面积，但我们编写的函数有两个参数，并且在我们的程序中没有任何地方表明这些参数是相关的。将宽度和高度组合在一起会使代码更具可读性和可管理性。我们已经在第 3 章的 <a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore --> 部分讨论了一种可能的方法：使用元组。</p>
 <h3 id="refactoring-with-tuples"><a class="header" href="#refactoring-with-tuples">使用元组重构</a></h3>
 <p data-x-en="Listing 5-9 shows another version of our program that uses tuples.">列表 5-9 显示了我们程序的另一个版本，该版本使用了元组。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-9">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let rect1 = (30, 50);
@@ -285,13 +285,13 @@ The area of the rectangle is 1500 square pixels.
 fn area(dimensions: (u32, u32)) -&gt; u32 {
     dimensions.0 * dimensions.1
 }</code></pre></pre>
-<figcaption>Listing 5-9: Specifying the width and height of the rectangle with a tuple</figcaption>
+<figcaption><a href="#listing-5-9">Listing 5-9</a>: Specifying the width and height of the rectangle with a tuple</figcaption>
 </figure>
 <p data-x-en="In one way, this program is better. Tuples let us add a bit of structure, and we’re now passing just one argument. But in another way, this version is less clear: tuples don’t name their elements, so we have to index into the parts of the tuple, making our calculation less obvious.">在一方面，这个程序更好。元组让我们增加了一些结构，并且我们现在只传递一个参数。但在另一方面，这个版本不太清晰：元组不命名它们的元素，所以我们必须对元组的部分进行索引，使我们的计算变得不那么明显。</p>
 <p data-x-en="Mixing up the width and height wouldn’t matter for the area calculation, but if we want to draw the rectangle on the screen, it would matter! We would have to keep in mind that width is the tuple index 0 and height is the tuple index 1. This would be even harder for someone else to figure out and keep in mind if they were to use our code. Because we haven’t conveyed the meaning of our data in our code, it’s now easier to introduce errors.">将宽度和高度混淆对于面积计算来说无关紧要，但如果我们想在屏幕上绘制矩形，这就会很重要！我们必须记住 <code>width</code> 是元组索引 <code>0</code>，<code>height</code> 是元组索引 <code>1</code>。如果其他人要使用我们的代码，他们要弄清楚并记住这一点会更加困难。因为我们没有在代码中传达数据的含义，现在更容易引入错误。</p>
 <h3 id="refactoring-with-structs-adding-more-meaning"><a class="header" href="#refactoring-with-structs-adding-more-meaning">使用结构体重构：增加更多含义</a></h3>
 <p data-x-en="We use structs to add meaning by labeling the data. We can transform the tuple we’re using into a struct with a name for the whole as well as names for the parts, as shown in Listing 5-10.">我们使用结构体通过标记数据来增加意义。我们可以将正在使用的元组转换为一个具有整体名称以及各部分名称的结构体，如清单 5-10 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-10">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">struct Rectangle {
     width: u32,
@@ -313,14 +313,14 @@ fn main() {
 fn area(rectangle: &amp;Rectangle) -&gt; u32 {
     rectangle.width * rectangle.height
 }</code></pre></pre>
-<figcaption>Listing 5-10: Defining a <code>Rectangle</code> struct</figcaption>
+<figcaption><a href="#listing-5-10">Listing 5-10</a>: Defining a <code>Rectangle</code> struct</figcaption>
 </figure>
 <p data-x-en="Here, we’ve defined a struct and named it Rectangle. Inside the curly brackets, we defined the fields as width and height, both of which have type u32. Then, in main, we created a particular instance of Rectangle that has a width of 30 and a height of 50.">这里，我们定义了一个结构体并命名为<code>Rectangle</code>。在大括号内，我们定义了字段为<code>width</code>和<code>height</code>，它们的类型都是<code>u32</code>。然后，在<code>main</code>中，我们创建了一个特定的<code>Rectangle</code>实例，其宽度为<code>30</code>，高度为<code>50</code>。</p>
 <p data-x-en="Our area function is now defined with one parameter, which we’ve named rectangle, whose type is an immutable borrow of a struct Rectangle instance. As mentioned in Chapter 4, we want to borrow the struct rather than take ownership of it. This way, main retains its ownership and can continue using rect1, which is the reason we use the &amp; in the function signature and where we call the function.">我们的 <code>area</code> 函数现在定义了一个参数，我们将其命名为 <code>rectangle</code>，其类型是结构体 <code>Rectangle</code> 实例的不可变借用。正如在第 4 章中提到的，我们希望借用结构体而不是获取其所有权。这样，<code>main</code> 保留其所有权并可以继续使用 <code>rect1</code>，这就是我们在函数签名和调用函数时使用 <code>&amp;</code> 的原因。</p>
 <p data-x-en="The area function accesses the width and height fields of the Rectangle instance (note that accessing fields of a borrowed struct instance does not move the field values, which is why you often see borrows of structs). Our function signature for area now says exactly what we mean: calculate the area of Rectangle, using its width and height fields. This conveys that the width and height are related to each other, and it gives descriptive names to the values rather than using the tuple index values of 0 and 1. This is a win for clarity."><code>area</code> 函数访问 <code>Rectangle</code> 实例的 <code>width</code> 和 <code>height</code> 字段（注意，访问借用结构体实例的字段不会移动字段值，这就是为什么你经常看到结构体的借用）。我们的 <code>area</code> 函数签名现在准确地表达了我们的意思：使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段计算其面积。这表明宽度和高度是相互关联的，并且它为这些值提供了描述性的名称，而不是使用元组索引值 <code>0</code> 和 <code>1</code>。这提高了清晰度。</p>
 <h3 id="adding-useful-functionality-with-derived-traits"><a class="header" href="#adding-useful-functionality-with-derived-traits">通过派生特性添加有用的功能</a></h3>
 <p data-x-en="It’d be useful to be able to print an instance of Rectangle while we’re debugging our program and see the values for all its fields. Listing 5-11 tries using the println! macro as we have used in previous chapters. This won’t work, however.">在调试我们的程序时，能够打印 <code>Rectangle</code> 的实例并查看其所有字段的值会很有帮助。列表 5-11 尝试使用 <a href="https://doc.rust-lang.org/std/macro.println.html" target="_blank"><code>println!</code> 宏</a><!-- ignore -->，就像我们在前面的章节中使用的一样。然而，这将不起作用。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-11">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">struct Rectangle {
     width: u32,
@@ -335,7 +335,7 @@ fn main() {
 
     println!("rect1 is {}", rect1);
 }</code></pre>
-<figcaption>Listing 5-11: Attempting to print a <code>Rectangle</code> instance</figcaption>
+<figcaption><a href="#listing-5-11">Listing 5-11</a>: Attempting to print a <code>Rectangle</code> instance</figcaption>
 </figure>
 <p data-x-en="When we compile this code, we get an error with this core message:">当我们编译这段代码时，我们得到一个带有以下核心信息的错误：</p>
 <pre><code class="language-text">error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
@@ -354,7 +354,7 @@ fn main() {
    = note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`
 </code></pre>
 <p data-x-en="Rust does include functionality to print out debugging information, but we have to explicitly opt in to make that functionality available for our struct. To do that, we add the outer attribute #[derive(Debug)] just before the struct definition, as shown in Listing 5-12.">Rust <em>确实</em> 包含了打印调试信息的功能，但我们必须显式地选择启用该功能，以便为我们的结构体提供该功能。为此，我们在结构体定义之前添加外部属性 <code>#[derive(Debug)]</code>，如清单 5-12 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
@@ -370,7 +370,7 @@ fn main() {
 
     println!("rect1 is {rect1:?}");
 }</code></pre></pre>
-<figcaption>Listing 5-12: Adding the attribute to derive the <code>Debug</code> trait and printing the <code>Rectangle</code> instance using debug formatting</figcaption>
+<figcaption><a href="#listing-5-12">Listing 5-12</a>: Adding the attribute to derive the <code>Debug</code> trait and printing the <code>Rectangle</code> instance using debug formatting</figcaption>
 </figure>
 <p data-x-en="Now when we run the program, we won’t get any errors, and we’ll see the following output:">现在当我们运行程序时，我们不会遇到任何错误，并且我们会看到以下输出：</p>
 <pre><code class="language-console">$ cargo run

@@ -268,7 +268,7 @@ Hello, world!
 <p data-x-en="Reopen the src/main.rs file. You’ll be writing all the code in this file.">重新打开 <em>src/main.rs</em> 文件。你将在该文件中编写所有代码。</p>
 <h2 id="processing-a-guess"><a class="header" href="#processing-a-guess">处理一个猜测</a></h2>
 <p data-x-en="The first part of the guessing game program will ask for user input, process that input, and check that the input is in the expected form. To start, we’ll allow the player to input a guess. Enter the code in Listing 2-1 into src/main.rs.">猜数字游戏程序的第一部分将请求用户输入，处理该输入，并检查输入是否为预期的形式。首先，我们将允许玩家输入一个猜测。将清单 2-1 中的代码输入到 <em>src/main.rs</em>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::io;
 
@@ -285,7 +285,7 @@ fn main() {
 
     println!("You guessed: {}", guess);
 }</code></pre>
-<figcaption>Listing 2-1: Code that gets a guess from the user and prints it</figcaption>
+<figcaption><a href="#listing-2-1">Listing 2-1</a>: Code that gets a guess from the user and prints it</figcaption>
 </figure>
 <p data-x-en="This code contains a lot of information, so let’s go over it line by line. To obtain user input and then print the result as output, we need to bring the io input/output library into scope. The io library comes from the standard library, known as std:">这段代码包含了很多信息，所以我们逐行来分析。为了获取用户输入并将其作为输出打印，我们需要将 <code>io</code> 输入/输出库引入作用域。<code>io</code> 库来自标准库，称为 <code>std</code>：</p>
 <pre><code class="language-rust ignore">use std::io;
@@ -510,7 +510,7 @@ cd listings/ch02-guessing-game-tutorial/listing-02-02/
 rm Cargo.lock
 cargo clean
 cargo build -->
-<figure class="listing">
+<figure class="listing" id="listing-2-2">
 <pre><code class="language-console">$ cargo build
   Updating crates.io index
    Locking 15 packages to latest Rust 1.85.0 compatible versions
@@ -532,7 +532,7 @@ cargo build -->
  Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
   Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.48s
 </code></pre>
-<figcaption>Listing 2-2: The output from running <code>cargo build</code> after adding the rand crate as a dependency</figcaption>
+<figcaption><a href="#listing-2-2">Listing 2-2</a>: The output from running <code>cargo build</code> after adding the rand crate as a dependency</figcaption>
 </figure>
 <p data-x-en="You may see different version numbers (but they will all be compatible with the code, thanks to SemVer!) and different lines (depending on the operating system), and the lines may be in a different order.">您可能会看到不同的版本号（但由于 SemVer，它们都将与代码兼容！）和不同的行（取决于操作系统），并且行的顺序可能不同。</p>
 <p data-x-en="When we include an external dependency, Cargo fetches the latest versions of everything that dependency needs from the registry, which is a copy of data from Crates.io. Crates.io is where people in the Rust ecosystem post their open source Rust projects for others to use.">当我们包含一个外部依赖时，Cargo 会从<em>仓库</em>中获取该依赖所需的所有最新版本，<em>仓库</em>是来自<a href="https://crates.io/">Crates.io</a>的数据副本。Crates.io 是 Rust 生态系统中人们发布他们的开源 Rust 项目供他人使用的地方。</p>
@@ -575,9 +575,10 @@ rand = "0.9.0"
 <p data-x-en="There’s a lot more to say about Cargo and its ecosystem, which we’ll discuss in Chapter 14, but for now, that’s all you need to know. Cargo makes it very easy to reuse libraries, so Rustaceans are able to write smaller projects that are assembled from a number of packages.">关于<a href="https://doc.rust-lang.org/cargo/">Cargo</a><!-- ignore -->和<a href="https://doc.rust-lang.org/cargo/reference/publishing.html">其生态系统</a><!-- ignore -->还有很多要说的，我们将在第14章中讨论，但目前，这些就是你需要知道的全部。Cargo使得重用库变得非常容易，因此Rustaceans能够编写由多个包组装而成的较小项目。</p>
 <h3 id="generating-a-random-number"><a class="header" href="#generating-a-random-number">生成随机数</a></h3>
 <p data-x-en="Let’s start using rand to generate a number to guess. The next step is to update src/main.rs, as shown in Listing 2-3.">让我们开始使用 <code>rand</code> 来生成一个要猜的数字。下一步是更新 <em>src/main.rs</em>，如列表 2-3 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::io;
+
 use rand::Rng;
 
 fn main() {
@@ -597,7 +598,7 @@ fn main() {
 
     println!("You guessed: {guess}");
 }</code></pre>
-<figcaption>Listing 2-3: Adding code to generate a random number</figcaption>
+<figcaption><a href="#listing-2-3">Listing 2-3</a>: Adding code to generate a random number</figcaption>
 </figure>
 <p data-x-en="First we add the line use rand::Rng;. The Rng trait defines methods that random number generators implement, and this trait must be in scope for us to use those methods. Chapter 10 will cover traits in detail.">首先我们添加一行 <code>use rand::Rng;</code>。这个 <code>Rng</code> 特性定义了随机数生成器实现的方法，而且这个特性必须在作用域内，我们才能使用这些方法。第 10 章将详细讨论特性。</p>
 <p data-x-en="Next, we’re adding two lines in the middle. In the first line, we call the rand::thread_rng function that gives us the particular random number generator we’re going to use: one that is local to the current thread of execution and is seeded by the operating system. Then we call the gen_range method on the random number generator. This method is defined by the Rng trait that we brought into scope with the use rand::Rng; statement. The gen_range method takes a range expression as an argument and generates a random number in the range. The kind of range expression we’re using here takes the form start..=end and is inclusive on the lower and upper bounds, so we need to specify 1..=100 to request a number between 1 and 100.">接下来，我们在中间添加两行。在第一行中，我们调用<code>rand::thread_rng</code>函数，该函数为我们提供将要使用的特定随机数生成器：一个当前执行线程本地的，并由操作系统播种的生成器。然后我们在随机数生成器上调用<code>gen_range</code>方法。此方法由我们通过<code>use rand::Rng;</code>语句引入作用域的<code>Rng</code>特征定义。<code>gen_range</code>方法接受一个范围表达式作为参数，并生成该范围内的一个随机数。我们在这里使用的范围表达式的形式为<code>start..=end</code>，并且在下限和上限上都是包含的，因此我们需要指定<code>1..=100</code>以请求1到100之间的数字。</p>
@@ -635,11 +636,12 @@ You guessed: 5
 <p data-x-en="You should get different random numbers, and they should all be numbers between 1 and 100. Great job!">你应该得到不同的随机数，它们都应该是1到100之间的数字。干得好！</p>
 <h2 id="comparing-the-guess-to-the-secret-number"><a class="header" href="#comparing-the-guess-to-the-secret-number">将猜测与秘密数字进行比较</a></h2>
 <p data-x-en="Now that we have user input and a random number, we can compare them. That step is shown in Listing 2-4. Note that this code won’t compile just yet, as we will explain.">现在我们有了用户输入和一个随机数，可以将它们进行比较。这一步骤在清单 2-4 中展示。请注意，这段代码还不能编译，我们将对此进行解释。</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-4">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore does_not_compile">use rand::Rng;
-use std::cmp::Ordering;
+<pre><code class="language-rust ignore does_not_compile">use std::cmp::Ordering;
 use std::io;
+
+use rand::Rng;
 
 fn main() {
     // --snip--
@@ -665,7 +667,7 @@ fn main() {
         Ordering::Equal =&gt; println!("You win!"),
     }
 }</code></pre>
-<figcaption>Listing 2-4: Handling the possible return values of comparing two numbers</figcaption>
+<figcaption><a href="#listing-2-4">Listing 2-4</a>: Handling the possible return values of comparing two numbers</figcaption>
 </figure>
 <p data-x-en="First we add another use statement, bringing a type called std::cmp::Ordering into scope from the standard library. The Ordering type is another enum and has the variants Less, Greater, and Equal. These are the three outcomes that are possible when you compare two values.">首先我们添加另一个<code>use</code>语句，从标准库中引入一个名为<code>std::cmp::Ordering</code>的类型。<code>Ordering</code>类型是另一个枚举，具有<code>Less</code>、<code>Greater</code>和<code>Equal</code>变体。这些是在比较两个值时可能产生的三种结果。</p>
 <p data-x-en="Then we add five new lines at the bottom that use the Ordering type. The cmp method compares two values and can be called on anything that can be compared. It takes a reference to whatever you want to compare with: here it’s comparing guess to secret_number. Then it returns a variant of the Ordering enum we brought into scope with the use statement. We use a match expression to decide what to do next based on which variant of Ordering was returned from the call to cmp with the values in guess and secret_number.">然后我们在底部添加五行新代码，使用 <code>Ordering</code> 类型。<code>cmp</code> 方法可以比较两个值，可以对任何可以比较的事物调用。它接受一个你想要比较的对象的引用：在这里，它比较 <code>guess</code> 和 <code>secret_number</code>。然后，它返回一个我们在 <code>use</code> 语句中引入的 <code>Ordering</code> 枚举的变体。我们使用一个 <a href="ch06-02-match.html"><code>match</code></a><!-- ignore --> 表达式来根据从 <code>cmp</code> 调用返回的 <code>Ordering</code> 变体决定接下来要做什么，这里的值是 <code>guess</code> 和 <code>secret_number</code>。</p>
@@ -708,9 +710,10 @@ error: could not compile `guessing_game` (bin "guessing_game") due to 1 previous
 <p data-x-en="The core of the error states that there are mismatched types. Rust has a strong, static type system. However, it also has type inference. When we wrote let mut guess = String::new(), Rust was able to infer that guess should be a String and didn’t make us write the type. The secret_number, on the other hand, is a number type. A few of Rust’s number types can have a value between 1 and 100: i32, a 32-bit number; u32, an unsigned 32-bit number; i64, a 64-bit number; as well as others. Unless otherwise specified, Rust defaults to an i32, which is the type of secret_number unless you add type information elsewhere that would cause Rust to infer a different numerical type. The reason for the error is that Rust cannot compare a string and a number type.">错误的核心在于存在 <em>类型不匹配</em>。Rust 拥有强大的静态类型系统。然而，它也支持类型推断。当我们编写 <code>let mut guess = String::new()</code> 时，Rust 能够推断出 <code>guess</code> 应该是一个 <code>String</code>，因此不需要我们写出类型。而 <code>secret_number</code> 则是一个数字类型。Rust 的几种数字类型可以有 1 到 100 之间的值：<code>i32</code>，一个 32 位数字；<code>u32</code>，一个无符号 32 位数字；<code>i64</code>，一个 64 位数字；以及其他类型。除非另有指定，Rust 默认使用 <code>i32</code>，这是 <code>secret_number</code> 的类型，除非你在其他地方添加了类型信息，导致 Rust 推断出不同的数字类型。错误的原因是 Rust 无法比较字符串和数字类型。</p>
 <p data-x-en="Ultimately, we want to convert the String the program reads as input into a number type so we can compare it numerically to the secret number. We do so by adding this line to the main function body:">最终，我们希望将程序读取的 <code>String</code> 转换为数字类型，以便我们可以将其与秘密数字进行数值比较。我们通过在 <code>main</code> 函数体中添加以下行来实现这一点：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -770,9 +773,10 @@ Too big!
 <h2 id="allowing-multiple-guesses-with-looping"><a class="header" href="#allowing-multiple-guesses-with-looping">允许多次猜测的循环</a></h2>
 <p data-x-en="The loop keyword creates an infinite loop. We’ll add a loop to give users more chances at guessing the number:"><code>loop</code> 关键字创建一个无限循环。我们将添加一个循环，以给用户更多猜测数字的机会：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -846,9 +850,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h3 id="quitting-after-a-correct-guess"><a class="header" href="#quitting-after-a-correct-guess">正确猜测后退出</a></h3>
 <p data-x-en="Let’s program the game to quit when the user wins by adding a break statement:">让我们通过添加一个<code>break</code>语句来编程，使用户获胜时游戏退出：</p>
 <p data-x-en="Filename: src/main.rs"><span class="filename">文件名: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -885,11 +890,12 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p data-x-en="Adding the break line after You win! makes the program exit the loop when the user guesses the secret number correctly. Exiting the loop also means exiting the program, because the loop is the last part of main.">在 <code>You win!</code> 之后添加 <code>break</code> 行会使程序在用户正确猜中秘密数字时退出循环。退出循环也意味着退出程序，因为循环是 <code>main</code> 的最后一部分。</p>
 <h3 id="handling-invalid-input"><a class="header" href="#handling-invalid-input">处理无效输入</a></h3>
 <p data-x-en="To further refine the game’s behavior, rather than crashing the program when the user inputs a non-number, let’s make the game ignore a non-number so the user can continue guessing. We can do that by altering the line where guess is converted from a String to a u32, as shown in Listing 2-5.">为了进一步完善游戏的行为，而不是在用户输入非数字时使程序崩溃，让我们让游戏忽略非数字，这样用户可以继续猜。我们可以通过修改将 <code>guess</code> 从 <code>String</code> 转换为 <code>u32</code> 的那一行来实现，如清单 2-5 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-5">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -928,7 +934,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 2-5: Ignoring a non-number guess and asking for another guess instead of crashing the program</figcaption>
+<figcaption><a href="#listing-2-5">Listing 2-5</a>: Ignoring a non-number guess and asking for another guess instead of crashing the program</figcaption>
 </figure>
 <p data-x-en="We switch from an expect call to a match expression to move from crashing on an error to handling the error. Remember that parse returns a Result type and Result is an enum that has the variants Ok and Err. We’re using a match expression here, as we did with the Ordering result of the cmp method.">我们将从一个 <code>expect</code> 调用切换到一个 <code>match</code> 表达式，以从在错误时崩溃转变为处理错误。请记住，<code>parse</code> 返回一个 <code>Result</code> 类型，而 <code>Result</code> 是一个具有 <code>Ok</code> 和 <code>Err</code> 变体的枚举。我们在这里使用了一个 <code>match</code> 表达式，就像我们在 <code>cmp</code> 方法的 <code>Ordering</code> 结果中所做的那样。</p>
 <p data-x-en="If parse is able to successfully turn the string into a number, it will return an Ok value that contains the resultant number. That Ok value will match the first arm’s pattern, and the match expression will just return the num value that parse produced and put inside the Ok value. That number will end up right where we want it in the new guess variable we’re creating.">如果 <code>parse</code> 能够成功地将字符串转换为数字，它将返回一个包含结果数字的 <code>Ok</code> 值。该 <code>Ok</code> 值将匹配第一个分支的模式，<code>match</code> 表达式将直接返回 <code>parse</code> 生成并放入 <code>Ok</code> 值中的 <code>num</code> 值。该数字最终会出现在我们正在创建的新 <code>guess</code> 变量中。</p>
@@ -964,11 +970,12 @@ You guessed: 61
 You win!
 </code></pre>
 <p data-x-en="Awesome! With one tiny final tweak, we will finish the guessing game. Recall that the program is still printing the secret number. That worked well for testing, but it ruins the game. Let’s delete the println! that outputs the secret number. Listing 2-6 shows the final code.">太棒了！通过最后一个小改动，我们将完成猜数字游戏。回想一下，程序仍然在打印秘密数字。这在测试时很好用，但会破坏游戏。让我们删除输出秘密数字的<code>println!</code>。清单2-6显示了最终的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-6">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore">use rand::Rng;
-use std::cmp::Ordering;
+<pre><code class="language-rust ignore">use std::cmp::Ordering;
 use std::io;
+
+use rand::Rng;
 
 fn main() {
     println!("Guess the number!");
@@ -1001,7 +1008,7 @@ fn main() {
         }
     }
 }</code></pre>
-<figcaption>Listing 2-6: Complete guessing game code</figcaption>
+<figcaption><a href="#listing-2-6">Listing 2-6</a>: Complete guessing game code</figcaption>
 </figure>
 <p data-x-en="At this point, you’ve successfully built the guessing game. Congratulations!">到目前为止，您已经成功构建了猜数字游戏。恭喜！</p>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>

@@ -244,7 +244,7 @@ $ cargo add trpl
 <p data-x-en="Now we can use the various pieces provided by trpl to write our first async program. We’ll build a little command line tool that fetches two web pages, pulls the <title> element from each, and prints out the title of whichever page finishes that whole process first.">现在我们可以使用 <code>trpl</code> 提供的各种组件来编写我们的第一个异步程序。我们将构建一个小的命令行工具，该工具将获取两个网页，从每个网页中提取 <code>&lt;title&gt;</code> 元素，并打印出首先完成整个过程的页面的标题。</p>
 <h3 id="defining-the-page_title-function"><a class="header" href="#defining-the-page_title-function">定义 page_title 函数</a></h3>
 <p data-x-en="Let’s start by writing a function that takes one page URL as a parameter, makes a request to it, and returns the text of the title element (see Listing 17-1).">让我们先编写一个函数，该函数以一个页面URL作为参数，向其发出请求，并返回标题元素的文本（参见清单17-1）。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -261,7 +261,7 @@ async fn page_title(url: &amp;str) -&gt; Option&lt;String&gt; {
         .select_first("title")
         .map(|title_element| title_element.inner_html())
 }</code></pre></pre>
-<figcaption>Listing 17-1: Defining an async function to get the title element from an HTML page</figcaption>
+<figcaption><a href="#listing-17-1">Listing 17-1</a>: Defining an async function to get the title element from an HTML page</figcaption>
 </figure>
 <p data-x-en="First, we define a function named page_title and mark it with the async keyword. Then we use the trpl::get function to fetch whatever URL is passed in and add the await keyword to await the response. To get the text of the response, we call its text method, and once again await it with the await keyword. Both of these steps are asynchronous. For the get function, we have to wait for the server to send back the first part of its response, which will include HTTP headers, cookies, and so on, and can be delivered separately from the response body. Especially if the body is very large, it can take some time for it all to arrive. Because we have to wait for the entirety of the response to arrive, the text method is also async.">首先，我们定义一个名为<code>page_title</code>的函数，并用<code>async</code>关键字标记它。然后我们使用<code>trpl::get</code>函数来获取传递的任何URL，并添加<code>await</code>关键字以等待响应。为了获取响应的文本，我们调用其<code>text</code>方法，并再次使用<code>await</code>关键字等待它。这两个步骤都是异步的。对于<code>get</code>函数，我们必须等待服务器发送回其响应的第一部分，这将包括HTTP头、cookie等，这些可以与响应体分开交付。特别是如果响应体非常大，它可能需要一些时间才能全部到达。因为我们必须等待响应的<em>全部</em>内容到达，所以<code>text</code>方法也是异步的。</p>
 <p data-x-en="We have to explicitly await both of these futures, because futures in Rust are lazy: they don’t do anything until you ask them to with the await keyword. (In fact, Rust will show a compiler warning if you don’t use a future.) This might remind you of Chapter 13’s discussion of iterators in the section Processing a Series of Items With Iterators. Iterators do nothing unless you call their next method—whether directly or by using for loops or methods such as map that use next under the hood. Likewise, futures do nothing unless you explicitly ask them to. This laziness allows Rust to avoid running async code until it’s actually needed.">我们必须显式地等待这两个 future，因为 Rust 中的 future 是<em>惰性</em>的：除非你用 <code>await</code> 关键字要求它们执行，否则它们不会做任何事情。（事实上，如果你不使用一个 future，Rust 会显示一个编译器警告。）这可能让你想起第 13 章中关于迭代器的讨论，在<a href="ch13-02-iterators.html">使用迭代器处理一系列项目</a><!-- ignore -->一节中。除非你调用它们的 <code>next</code> 方法——无论是直接调用还是通过 <code>for</code> 循环或 <code>map</code> 等使用 <code>next</code> 的方法——迭代器不会做任何事情。同样，除非你显式地要求，future 也不会做任何事情。这种惰性使得 Rust 可以避免在实际需要之前运行异步代码。</p>
@@ -271,7 +271,7 @@ async fn page_title(url: &amp;str) -&gt; Option&lt;String&gt; {
 <p data-x-en="Once we have response_text, we can parse it into an instance of the Html type using Html::parse. Instead of a raw string, we now have a data type we can use to work with the HTML as a richer data structure. In particular, we can use the select_first method to find the first instance of a given CSS selector. By passing the string &quot;title&quot;, we’ll get the first <title> element in the document, if there is one. Because there may not be any matching element, select_first returns an Option<ElementRef>. Finally, we use the Option::map method, which lets us work with the item in the Option if it’s present, and do nothing if it isn’t. (We could also use a match expression here, but map is more idiomatic.) In the body of the function we supply to map, we call inner_html on the title_element to get its content, which is a String. When all is said and done, we have an Option<String>.">一旦我们有了<code>response_text</code>，我们可以使用<code>Html::parse</code>将其解析为<code>Html</code>类型的实例。这样，我们就有了一个可以用来处理HTML的更丰富的数据结构，而不仅仅是一个原始字符串。特别是，我们可以使用<code>select_first</code>方法来查找给定CSS选择器的第一个实例。通过传递字符串<code>"title"</code>，我们将获得文档中的第一个<code>&lt;title&gt;</code>元素（如果有的话）。因为可能没有匹配的元素，<code>select_first</code>返回一个<code>Option&lt;ElementRef&gt;</code>。最后，我们使用<code>Option::map</code>方法，这让我们可以在<code>Option</code>中处理项目（如果存在的话），如果不存在则不执行任何操作。（我们也可以在这里使用<code>match</code>表达式，但<code>map</code>更符合惯用法。）在我们提供给<code>map</code>的函数体中，我们调用<code>title_element</code>的<code>inner_html</code>方法来获取其内容，这是一个<code>String</code>。最终，我们得到了一个<code>Option&lt;String&gt;</code>。</p>
 <p data-x-en="Notice that Rust’s await keyword goes after the expression you’re awaiting, not before it. That is, it’s a postfix keyword. This may differ from what you’re used to if you’ve used async in other languages, but in Rust it makes chains of methods much nicer to work with. As a result, we can change the body of page_title to chain the trpl::get and text function calls together with await between them, as shown in Listing 17-2.">请注意，Rust 的 <code>await</code> 关键字位于你正在等待的表达式 <em>之后</em>，
 而不是之前。也就是说，它是一个 <em>后缀</em> 关键字。这可能与你在其他语言中使用 <code>async</code> 时的习惯不同，但在 Rust 中，这使得方法链的使用更加优雅。因此，我们可以将 <code>page_title</code> 的主体更改为将 <code>trpl::get</code> 和 <code>text</code> 函数调用通过 <code>await</code> 连接在一起，如清单 17-2 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-2">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -287,7 +287,7 @@ async fn page_title(url: &amp;str) -&gt; Option&lt;String&gt; {
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-2: Chaining with the <code>await</code> keyword</figcaption>
+<figcaption><a href="#listing-17-2">Listing 17-2</a>: Chaining with the <code>await</code> keyword</figcaption>
 </figure>
 <p data-x-en="With that, we have successfully written our first async function! Before we add some code in main to call it, let’s talk a little more about what we’ve written and what it means.">至此，我们成功编写了我们的第一个异步函数！在我们在 <code>main</code> 中添加一些代码来调用它之前，让我们再多谈谈我们编写的内容及其意义。</p>
 <p data-x-en="When Rust sees a block marked with the async keyword, it compiles it into a unique, anonymous data type that implements the Future trait. When Rust sees a function marked with async, it compiles it into a non-async function whose body is an async block. An async function’s return type is the type of the anonymous data type the compiler creates for that async block.">当 Rust 看到一个用 <code>async</code> 关键字标记的块时，它会将其编译成一个实现 <code>Future</code> 特性的唯一、匿名数据类型。当 Rust 看到一个用 <code>async</code> 标记的函数时，它会将其编译成一个非异步函数，其函数体是一个异步块。异步函数的返回类型是编译器为该异步块创建的匿名数据类型的类型。</p>
@@ -318,7 +318,7 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 <p data-x-en="Now we can call page_title in main.">现在我们可以在 <code>main</code> 中调用 <code>page_title</code>。</p>
 <h2 id="determining-a-single-pages-title"><a class="header" href="#determining-a-single-pages-title">确定单个页面的标题</a></h2>
 <p data-x-en="To start, we’ll just get the title for a single page. In Listing 17-3, we follow the same pattern we used in Chapter 12 to get command line arguments in the Accepting Command Line Arguments section. Then we pass the first URL page_title and await the result. Because the value produced by the future is an Option<String>, we use a match expression to print different messages to account for whether the page had a <title>.">首先，我们只获取单个页面的标题。在清单 17-3 中，我们遵循了在第 12 章 <a href="ch12-01-accepting-command-line-arguments.html">接受命令行参数</a><!-- ignore --> 部分中用于获取命令行参数的相同模式。然后我们传递第一个 URL <code>page_title</code> 并等待结果。因为未来产生的值是一个 <code>Option&lt;String&gt;</code>，我们使用一个 <code>match</code> 表达式来打印不同的消息，以考虑页面是否有 <code>&lt;title&gt;</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -339,7 +339,7 @@ fn page_title(url: &amp;str) -&gt; impl Future&lt;Output = Option&lt;String&gt;&
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-3: Calling the <code>page_title</code> function from <code>main</code> with a user-supplied argument</figcaption>
+<figcaption><a href="#listing-17-3">Listing 17-3</a>: Calling the <code>page_title</code> function from <code>main</code> with a user-supplied argument</figcaption>
 </figure>
 <p data-x-en="Unfortunately, this code doesn’t compile. The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async.">不幸的是，这段代码无法编译。我们只能在异步函数或块中使用 <code>await</code> 关键字，而 Rust 不允许我们将特殊的 <code>main</code> 函数标记为 <code>async</code>。</p>
 <!-- manual-regeneration
@@ -360,7 +360,7 @@ copy just the compiler error
 有许多不同的异步运行时可供选择，每个运行时都针对其目标用例做出了不同的权衡。例如，具有多个 CPU 核心和大量 RAM 的高吞吐量 Web 服务器与只有一个核心、少量 RAM 且没有堆分配能力的微控制器的需求非常不同。提供这些运行时的 crate 通常还会提供文件或网络 I/O 等常见功能的异步版本。</p>
 <p data-x-en="Here, and throughout the rest of this chapter, we’ll use the run function from the trpl crate, which takes a future as an argument and runs it to completion. Behind the scenes, calling run sets up a runtime that’s used to run the future passed in. Once the future completes, run returns whatever value the future produced.">在这里，以及在本章的其余部分，我们将使用 <code>trpl</code> crate 中的 <code>run</code> 函数，该函数接受一个 future 作为参数并运行到完成。在幕后，调用 <code>run</code> 会设置一个用于运行传入的 future 的运行时。一旦 future 完成，<code>run</code> 将返回 future 产生的任何值。</p>
 <p data-x-en="We could pass the future returned by page_title directly to run, and once it completed, we could match on the resulting Option<String>, as we tried to do in Listing 17-3. However, for most of the examples in the chapter (and most async code in the real world), we’ll be doing more than just one async function call, so instead we’ll pass an async block and explicitly await the result of the page_title call, as in Listing 17-4.">我们可以直接将 <code>page_title</code> 返回的 future 传递给 <code>run</code>，一旦它完成，我们就可以匹配返回的 <code>Option&lt;String&gt;</code>，就像我们在清单 17-3 中尝试做的那样。然而，对于本章中的大多数示例（以及现实世界中的大多数异步代码），我们将不仅仅进行一次异步函数调用，因此我们将传递一个 <code>async</code> 块，并显式等待 <code>page_title</code> 调用的结果，如清单 17-4 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-4">
 <span class="file-name">Filename: src/main.rs</span>
 <!-- should_panic,noplayground because mdbook test does not pass args -->
 <pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
@@ -385,7 +385,7 @@ copy just the compiler error
 </span><span class="boring">        .select_first("title")
 </span><span class="boring">        .map(|title_element| title_element.inner_html())
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-4: Awaiting an async block with <code>trpl::run</code></figcaption>
+<figcaption><a href="#listing-17-4">Listing 17-4</a>: Awaiting an async block with <code>trpl::run</code></figcaption>
 </figure>
 <p data-x-en="When we run this code, we get the behavior we expected initially:">当我们运行这段代码时，我们得到了最初预期的行为：</p>
 <!-- manual-regeneration
@@ -421,7 +421,7 @@ The title for https://www.rust-lang.org was
 <p data-x-en="Now let’s put these pieces together and see how we can write concurrent code.">现在让我们把这些部分放在一起，看看我们如何编写并发代码。</p>
 <h3 id="racing-our-two-urls-against-each-other"><a class="header" href="#racing-our-two-urls-against-each-other">将我们的两个URL进行竞速测试</a></h3>
 <p data-x-en="In Listing 17-5, we call page_title with two different URLs passed in from the command line and race them.">在清单 17-5 中，我们使用从命令行传递的两个不同 URL 调用 <code>page_title</code> 并对它们进行竞速。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-5">
 <span class="file-name">Filename: src/main.rs</span>
 <!-- should_panic,noplayground because mdbook does not pass args -->
 <pre><code class="language-rust should_panic noplayground"><span class="boring">extern crate trpl; // required for mdbook test
@@ -456,7 +456,7 @@ async fn page_title(url: &amp;str) -&gt; (&amp;str, Option&lt;String&gt;) {
         .map(|title| title.inner_html());
     (url, title)
 }</code></pre>
-<figcaption>Listing 17-5: </figcaption>
+<figcaption><a href="#listing-17-5">Listing 17-5</a>: </figcaption>
 </figure>
 <p data-x-en="We begin by calling page_title for each of the user-supplied URLs. We save the resulting futures as title_fut_1 and title_fut_2. Remember, these don’t do anything yet, because futures are lazy and we haven’t yet awaited them. Then we pass the futures to trpl::race, which returns a value to indicate which of the futures passed to it finishes first.">我们首先为每个用户提供的URL调用<code>page_title</code>。我们将结果的future保存为<code>title_fut_1</code>和<code>title_fut_2</code>。记住，这些还没有做任何事情，因为future是惰性的，我们还没有等待它们。然后我们将future传递给<code>trpl::race</code>，它返回一个值来指示传递给它的future中哪个先完成。</p>
 <section class="note" aria-role="note">

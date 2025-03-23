@@ -239,7 +239,7 @@ blockquote {
 清单 7-3 包含了清单 7-1 的部分内容，其中一些模块和函数已被移除。</p>
 <p data-x-en="We’ll show two ways to call the add_to_waitlist function from a new function, eat_at_restaurant, defined in the crate root. These paths are correct, but there’s another problem remaining that will prevent this example from compiling as is. We’ll explain why in a bit.">我们将展示两种从新函数<code>eat_at_restaurant</code>调用<code>add_to_waitlist</code>函数的方法，这些函数在crate根目录中定义。这些路径是正确的，但还有一个问题会导致此示例无法编译。我们稍后会解释原因。</p>
 <p data-x-en="The eat_at_restaurant function is part of our library crate’s public API, so we mark it with the pub keyword. In the “Exposing Paths with the pub Keyword” section, we’ll go into more detail about pub."><code>eat_at_restaurant</code> 函数是我们库crate的公共API的一部分，所以我们用 <code>pub</code> 关键字标记它。在 <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">“使用 <code>pub</code> 关键字暴露路径”</a><!-- ignore --> 部分，我们将详细介绍 <code>pub</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-3">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     mod hosting {
@@ -254,7 +254,7 @@ pub fn eat_at_restaurant() {
     // Relative path
     front_of_house::hosting::add_to_waitlist();
 }</code></pre>
-<figcaption>Listing 7-3: Calling the <code>add_to_waitlist</code> function using absolute and relative paths</figcaption>
+<figcaption><a href="#listing-7-3">Listing 7-3</a>: Calling the <code>add_to_waitlist</code> function using absolute and relative paths</figcaption>
 </figure>
 <p data-x-en="The first time we call the add_to_waitlist function in eat_at_restaurant, we use an absolute path. The add_to_waitlist function is defined in the same crate as eat_at_restaurant, which means we can use the crate keyword to start an absolute path. We then include each of the successive modules until we make our way to add_to_waitlist. You can imagine a filesystem with the same structure: we’d specify the path /front_of_house/hosting/add_to_waitlist to run the add_to_waitlist program; using the crate name to start from the crate root is like using / to start from the filesystem root in your shell.">第一次在 <code>eat_at_restaurant</code> 中调用 <code>add_to_waitlist</code> 函数时，
 我们使用了绝对路径。<code>add_to_waitlist</code> 函数与 <code>eat_at_restaurant</code> 定义在同一个
@@ -266,7 +266,7 @@ crate 根开始类似于在 shell 中使用 <code>/</code> 从文件系统根开
 <p data-x-en="The second time we call add_to_waitlist in eat_at_restaurant, we use a relative path. The path starts with front_of_house, the name of the module defined at the same level of the module tree as eat_at_restaurant. Here the filesystem equivalent would be using the path front_of_house/hosting/add_to_waitlist. Starting with a module name means that the path is relative.">我们在 <code>eat_at_restaurant</code> 中第二次调用 <code>add_to_waitlist</code> 时，使用了相对路径。路径从 <code>front_of_house</code> 开始，这是与 <code>eat_at_restaurant</code> 在模块树同一级别的模块的名称。在这里，文件系统中的等效路径将是 <code>front_of_house/hosting/add_to_waitlist</code>。以模块名称开头意味着路径是相对的。</p>
 <p data-x-en="Choosing whether to use a relative or absolute path is a decision you’ll make based on your project, and it depends on whether you’re more likely to move item definition code separately from or together with the code that uses the item. For example, if we moved the front_of_house module and the eat_at_restaurant function into a module named customer_experience, we’d need to update the absolute path to add_to_waitlist, but the relative path would still be valid. However, if we moved the eat_at_restaurant function separately into a module named dining, the absolute path to the add_to_waitlist call would stay the same, but the relative path would need to be updated. Our preference in general is to specify absolute paths because it’s more likely we’ll want to move code definitions and item calls independently of each other.">选择使用相对路径还是绝对路径是基于你的项目做出的决定，这取决于你更可能将项定义代码与使用该项的代码分开移动还是一起移动。例如，如果我们把 <code>front_of_house</code> 模块和 <code>eat_at_restaurant</code> 函数移到一个名为 <code>customer_experience</code> 的模块中，我们需要更新调用 <code>add_to_waitlist</code> 的绝对路径，但相对路径仍然有效。然而，如果我们单独将 <code>eat_at_restaurant</code> 函数移到一个名为 <code>dining</code> 的模块中，调用 <code>add_to_waitlist</code> 的绝对路径将保持不变，但相对路径需要更新。我们通常更倾向于指定绝对路径，因为更可能我们希望独立地移动代码定义和项调用。</p>
 <p data-x-en="Let’s try to compile Listing 7-3 and find out why it won’t compile yet! The errors we get are shown in Listing 7-4.">让我们尝试编译清单 7-3 并找出为什么它还不能编译！我们得到的错误如清单 7-4 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-4">
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: module `hosting` is private
@@ -300,14 +300,14 @@ note: the module `hosting` is defined here
 For more information about this error, try `rustc --explain E0603`.
 error: could not compile `restaurant` (lib) due to 2 previous errors
 </code></pre>
-<figcaption>Listing 7-4: Compiler errors from building the code in Listing 7-3</figcaption>
+<figcaption><a href="#listing-7-4">Listing 7-4</a>: Compiler errors from building the code in Listing 7-3</figcaption>
 </figure>
 <p data-x-en="The error messages say that module hosting is private. In other words, we have the correct paths for the hosting module and the add_to_waitlist function, but Rust won’t let us use them because it doesn’t have access to the private sections. In Rust, all items (functions, methods, structs, enums, modules, and constants) are private to parent modules by default. If you want to make an item like a function or struct private, you put it in a module.">错误消息说模块 <code>hosting</code> 是私有的。换句话说，我们有 <code>hosting</code> 模块和 <code>add_to_waitlist</code> 函数的正确路径，但 Rust 不让我们使用它们，因为它无法访问私有部分。在 Rust 中，默认情况下所有项（函数、方法、结构体、枚举、模块和常量）对父模块都是私有的。如果你想让一个项如函数或结构体私有，你可以将其放在一个模块中。</p>
 <p data-x-en="Items in a parent module can’t use the private items inside child modules, but items in child modules can use the items in their ancestor modules. This is because child modules wrap and hide their implementation details, but the child modules can see the context in which they’re defined. To continue with our metaphor, think of the privacy rules as being like the back office of a restaurant: what goes on in there is private to restaurant customers, but office managers can see and do everything in the restaurant they operate.">父模块中的项不能使用子模块中的私有项，但子模块中的项可以使用其祖先模块中的项。这是因为子模块封装并隐藏了它们的实现细节，但子模块可以看到它们被定义的上下文。继续我们的比喻，可以把隐私规则想象成餐厅的后台办公室：后台发生的事情对餐厅顾客来说是私密的，但办公室经理可以看到并操作他们经营的餐厅中的一切。</p>
 <p data-x-en="Rust chose to have the module system function this way so that hiding inner implementation details is the default. That way, you know which parts of the inner code you can change without breaking outer code. However, Rust does give you the option to expose inner parts of child modules’ code to outer ancestor modules by using the pub keyword to make an item public.">Rust 选择让模块系统以这种方式工作，以便隐藏内部实现细节成为默认行为。这样，你就知道可以在不破坏外部代码的情况下更改内部代码的哪些部分。然而，Rust 确实提供了通过使用 <code>pub</code> 关键字将项公开的选项，以使子模块的内部代码对父模块可见。</p>
 <h3 id="exposing-paths-with-the-pub-keyword"><a class="header" href="#exposing-paths-with-the-pub-keyword">使用 <code>pub</code> 关键字暴露路径</a></h3>
 <p data-x-en="Let’s return to the error in Listing 7-4 that told us the hosting module is private. We want the eat_at_restaurant function in the parent module to have access to the add_to_waitlist function in the child module, so we mark the hosting module with the pub keyword, as shown in Listing 7-5.">让我们回到列表 7-4 中的错误，它告诉我们 <code>hosting</code> 模块是私有的。我们希望父模块中的 <code>eat_at_restaurant</code> 函数能够访问子模块中的 <code>add_to_waitlist</code> 函数，因此我们使用 <code>pub</code> 关键字标记 <code>hosting</code> 模块，如列表 7-5 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-5">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     pub mod hosting {
@@ -323,10 +323,10 @@ error: could not compile `restaurant` (lib) due to 2 previous errors
 </span><span class="boring">    // Relative path
 </span><span class="boring">    front_of_house::hosting::add_to_waitlist();
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 7-5: Declaring the <code>hosting</code> module as <code>pub</code> to use it from <code>eat_at_restaurant</code></figcaption>
+<figcaption><a href="#listing-7-5">Listing 7-5</a>: Declaring the <code>hosting</code> module as <code>pub</code> to use it from <code>eat_at_restaurant</code></figcaption>
 </figure>
 <p data-x-en="Unfortunately, the code in Listing 7-5 still results in compiler errors, as shown in Listing 7-6.">不幸的是，清单 7-5 中的代码仍然会导致编译器错误，如 清单 7-6 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-6">
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: function `add_to_waitlist` is private
@@ -356,13 +356,13 @@ note: the function `add_to_waitlist` is defined here
 For more information about this error, try `rustc --explain E0603`.
 error: could not compile `restaurant` (lib) due to 2 previous errors
 </code></pre>
-<figcaption>Listing 7-6: Compiler errors from building the code in Listing 7-5</figcaption>
+<figcaption><a href="#listing-7-6">Listing 7-6</a>: Compiler errors from building the code in Listing 7-5</figcaption>
 </figure>
 <p data-x-en="What happened? Adding the pub keyword in front of mod hosting makes the module public. With this change, if we can access front_of_house, we can access hosting. But the contents of hosting are still private; making the module public doesn’t make its contents public. The pub keyword on a module only lets code in its ancestor modules refer to it, not access its inner code. Because modules are containers, there’s not much we can do by only making the module public; we need to go further and choose to make one or more of the items within the module public as well.">发生了什么？在 <code>mod hosting</code> 前面添加 <code>pub</code> 关键字使模块变为公共模块。通过这一更改，如果我们能够访问 <code>front_of_house</code>，我们就可以访问 <code>hosting</code>。但是 <code>hosting</code> 的 <em>内容</em> 仍然是私有的；将模块设为公共模块并不会使其内容也变为公共的。<code>pub</code> 关键字在模块上仅允许其祖先模块中的代码引用它，而不能访问其内部代码。由于模块是容器，仅将模块设为公共模块并不能做太多事情；我们需要进一步选择将模块内的一个或多个项设为公共的。</p>
 <p data-x-en="The errors in Listing 7-6 say that the add_to_waitlist function is private. The privacy rules apply to structs, enums, functions, and methods as well as modules.">列表 7-6 中的错误表明 <code>add_to_waitlist</code> 函数是私有的。
 隐私规则适用于结构体、枚举、函数和方法以及模块。</p>
 <p data-x-en="Let’s also make the add_to_waitlist function public by adding the pub keyword before its definition, as in Listing 7-7.">让我们也通过在定义前添加 <code>pub</code> 关键字来使 <code>add_to_waitlist</code> 函数公开，如清单 7-7 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-7">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
@@ -378,7 +378,7 @@ error: could not compile `restaurant` (lib) due to 2 previous errors
 </span><span class="boring">    // Relative path
 </span><span class="boring">    front_of_house::hosting::add_to_waitlist();
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 7-7: Adding the <code>pub</code> keyword to <code>mod hosting</code> and <code>fn add_to_waitlist</code> lets us call the function from <code>eat_at_restaurant</code></figcaption>
+<figcaption><a href="#listing-7-7">Listing 7-7</a>: Adding the <code>pub</code> keyword to <code>mod hosting</code> and <code>fn add_to_waitlist</code> lets us call the function from <code>eat_at_restaurant</code></figcaption>
 </figure>
 <p data-x-en="Now the code will compile! To see why adding the pub keyword lets us use these paths in eat_at_restaurant with respect to the privacy rules, let’s look at the absolute and the relative paths.">现在代码可以编译了！要了解为什么添加 <code>pub</code> 关键字让我们能够在 <code>eat_at_restaurant</code> 中使用这些路径，同时遵守隐私规则，让我们来看看绝对路径和相对路径。</p>
 <p data-x-en="In the absolute path, we start with crate, the root of our crate’s module tree. The front_of_house module is defined in the crate root. While front_of_house isn’t public, because the eat_at_restaurant function is defined in the same module as front_of_house (that is, eat_at_restaurant and front_of_house are siblings), we can refer to front_of_house from eat_at_restaurant. Next is the hosting module marked with pub. We can access the parent module of hosting, so we can access hosting. Finally, the add_to_waitlist function is marked with pub and we can access its parent module, so this function call works!">在绝对路径中，我们从 <code>crate</code> 开始，这是我们的 crate 模块树的根。 <code>front_of_house</code> 模块在 crate 根中定义。虽然 <code>front_of_house</code> 不是公共的，但由于 <code>eat_at_restaurant</code> 函数与 <code>front_of_house</code> 定义在同一个模块中（即 <code>eat_at_restaurant</code> 和 <code>front_of_house</code> 是同级的），我们可以从 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下来是标记为 <code>pub</code> 的 <code>hosting</code> 模块。我们可以访问 <code>hosting</code> 的父模块，因此我们可以访问 <code>hosting</code>。最后， <code>add_to_waitlist</code> 函数标记为 <code>pub</code>，并且我们可以访问其父模块，因此这个函数调用可以工作！</p>
@@ -395,7 +395,7 @@ error: could not compile `restaurant` (lib) due to 2 previous errors
 <h3 id="starting-relative-paths-with-super"><a class="header" href="#starting-relative-paths-with-super">以 <code>super</code> 开始的相对路径</a></h3>
 <p data-x-en="We can construct relative paths that begin in the parent module, rather than the current module or the crate root, by using super at the start of the path. This is like starting a filesystem path with the .. syntax. Using super allows us to reference an item that we know is in the parent module, which can make rearranging the module tree easier when the module is closely related to the parent but the parent might be moved elsewhere in the module tree someday.">我们可以使用 <code>super</code> 在路径的开头构造从父模块而不是当前模块或 crate 根开始的相对路径。这类似于使用 <code>..</code> 语法开始文件系统路径。使用 <code>super</code> 可以让我们引用我们知道在父模块中的项，这可以在模块与父模块紧密相关但父模块将来可能会在模块树中移动到其他位置时，使重新排列模块树更加容易。</p>
 <p data-x-en="Consider the code in Listing 7-8 that models the situation in which a chef fixes an incorrect order and personally brings it out to the customer. The function fix_incorrect_order defined in the back_of_house module calls the function deliver_order defined in the parent module by specifying the path to deliver_order, starting with super.">考虑清单 7-8 中的代码，该代码模拟了一位厨师修正错误订单并亲自将其送到客户手中的情况。<code>back_of_house</code> 模块中定义的 <code>fix_incorrect_order</code> 函数通过指定从 <code>super</code> 开始的 <code>deliver_order</code> 路径，调用了父模块中定义的 <code>deliver_order</code> 函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-8">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground test_harness">fn deliver_order() {}
 
@@ -407,12 +407,12 @@ mod back_of_house {
 
     fn cook_order() {}
 }</code></pre>
-<figcaption>Listing 7-8: Calling a function using a relative path starting with <code>super</code></figcaption>
+<figcaption><a href="#listing-7-8">Listing 7-8</a>: Calling a function using a relative path starting with <code>super</code></figcaption>
 </figure>
 <p data-x-en="The fix_incorrect_order function is in the back_of_house module, so we can use super to go to the parent module of back_of_house, which in this case is crate, the root. From there, we look for deliver_order and find it. Success! We think the back_of_house module and the deliver_order function are likely to stay in the same relationship to each other and get moved together should we decide to reorganize the crate’s module tree. Therefore, we used super so we’ll have fewer places to update code in the future if this code gets moved to a different module."><code>fix_incorrect_order</code> 函数位于 <code>back_of_house</code> 模块中，因此我们可以使用 <code>super</code> 转到 <code>back_of_house</code> 的父模块，在这种情况下是 <code>crate</code>，即根模块。从那里，我们查找 <code>deliver_order</code> 并找到它。成功！我们认为 <code>back_of_house</code> 模块和 <code>deliver_order</code> 函数可能会保持彼此之间的关系，并且如果决定重组 crate 的模块树，它们会被一起移动。因此，我们使用了 <code>super</code>，这样如果这段代码被移动到不同的模块，将来需要更新的代码位置会更少。</p>
 <h3 id="making-structs-and-enums-public"><a class="header" href="#making-structs-and-enums-public">使结构体和枚举公开</a></h3>
 <p data-x-en="We can also use pub to designate structs and enums as public, but there are a few extra details to the usage of pub with structs and enums. If we use pub before a struct definition, we make the struct public, but the struct’s fields will still be private. We can make each field public or not on a case-by-case basis. In Listing 7-9, we’ve defined a public back_of_house::Breakfast struct with a public toast field but a private seasonal_fruit field. This models the case in a restaurant where the customer can pick the type of bread that comes with a meal, but the chef decides which fruit accompanies the meal based on what’s in season and in stock. The available fruit changes quickly, so customers can’t choose the fruit or even see which fruit they’ll get.">我们也可以使用 <code>pub</code> 将结构体和枚举指定为公共的，但 <code>pub</code> 与结构体和枚举的使用有一些额外的细节。如果我们在一个结构体定义前使用 <code>pub</code>，我们会使该结构体公共，但结构体的字段仍将保持私有。我们可以逐个字段地决定是否将其公开。在清单 7-9 中，我们定义了一个公共的 <code>back_of_house::Breakfast</code> 结构体，其中 <code>toast</code> 字段是公共的，但 <code>seasonal_fruit</code> 字段是私有的。这模拟了在餐厅中顾客可以选择随餐提供的面包类型，但厨师根据季节和库存决定随餐提供的水果。可用的水果变化很快，因此顾客不能选择水果，甚至不能看到他们会得到哪种水果。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-9">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">mod back_of_house {
     pub struct Breakfast {
@@ -441,12 +441,12 @@ pub fn eat_at_restaurant() {
     // to see or modify the seasonal fruit that comes with the meal.
     // meal.seasonal_fruit = String::from("blueberries");
 }</code></pre>
-<figcaption>Listing 7-9: A struct with some public fields and some private fields</figcaption>
+<figcaption><a href="#listing-7-9">Listing 7-9</a>: A struct with some public fields and some private fields</figcaption>
 </figure>
 <p data-x-en="Because the toast field in the back_of_house::Breakfast struct is public, in eat_at_restaurant we can write and read to the toast field using dot notation. Notice that we can’t use the seasonal_fruit field in eat_at_restaurant, because seasonal_fruit is private. Try uncommenting the line modifying the seasonal_fruit field value to see what error you get!">因为 <code>back_of_house::Breakfast</code> 结构体中的 <code>toast</code> 字段是公开的，在 <code>eat_at_restaurant</code> 中我们可以使用点符号来写入和读取 <code>toast</code> 字段。注意，我们不能在 <code>eat_at_restaurant</code> 中使用 <code>seasonal_fruit</code> 字段，因为 <code>seasonal_fruit</code> 是私有的。尝试取消注释修改 <code>seasonal_fruit</code> 字段值的行，看看你会得到什么错误！</p>
 <p data-x-en="Also, note that because back_of_house::Breakfast has a private field, the struct needs to provide a public associated function that constructs an instance of Breakfast (we’ve named it summer here). If Breakfast didn’t have such a function, we couldn’t create an instance of Breakfast in eat_at_restaurant because we couldn’t set the value of the private seasonal_fruit field in eat_at_restaurant.">另外，注意因为 <code>back_of_house::Breakfast</code> 有一个私有字段，所以该结构体需要提供一个公共关联函数来构造一个 <code>Breakfast</code> 的实例（在这里我们将其命名为 <code>summer</code>）。如果 <code>Breakfast</code> 没有这样一个函数，我们就不能在 <code>eat_at_restaurant</code> 中创建一个 <code>Breakfast</code> 的实例，因为在 <code>eat_at_restaurant</code> 中我们不能设置私有字段 <code>seasonal_fruit</code> 的值。</p>
 <p data-x-en="In contrast, if we make an enum public, all of its variants are then public. We only need the pub before the enum keyword, as shown in Listing 7-10.">相比之下，如果我们使一个枚举公开，那么它的所有变体都将公开。我们只需要在 <code>enum</code> 关键字前加上 <code>pub</code>，如清单 7-10 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-10">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">mod back_of_house {
     pub enum Appetizer {
@@ -459,7 +459,7 @@ pub fn eat_at_restaurant() {
     let order1 = back_of_house::Appetizer::Soup;
     let order2 = back_of_house::Appetizer::Salad;
 }</code></pre>
-<figcaption>Listing 7-10: Designating an enum as public makes all its variants public.</figcaption>
+<figcaption><a href="#listing-7-10">Listing 7-10</a>: Designating an enum as public makes all its variants public.</figcaption>
 </figure>
 <p data-x-en="Because we made the Appetizer enum public, we can use the Soup and Salad variants in eat_at_restaurant.">因为我们将 <code>Appetizer</code> 枚举公开，所以可以在 <code>eat_at_restaurant</code> 中使用 <code>Soup</code> 和 <code>Salad</code> 变体。</p>
 <p data-x-en="Enums aren’t very useful unless their variants are public; it would be annoying to have to annotate all enum variants with pub in every case, so the default for enum variants is to be public. Structs are often useful without their fields being public, so struct fields follow the general rule of everything being private by default unless annotated with pub.">枚举类型除非其变体是公开的，否则并不是很实用；如果每次都要为所有枚举变体标注<code>pub</code>会很麻烦，所以枚举变体的默认状态是公开的。结构体即使其字段不是公开的也经常是有用的，因此结构体字段遵循一切默认为私有的规则，除非标注了<code>pub</code>。</p>

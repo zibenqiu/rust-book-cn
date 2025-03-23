@@ -232,7 +232,7 @@ blockquote {
 <p data-x-en="Rust has an extremely powerful control flow construct called match that allows you to compare a value against a series of patterns and then execute code based on which pattern matches. Patterns can be made up of literal values, variable names, wildcards, and many other things; Chapter 19 covers all the different kinds of patterns and what they do. The power of match comes from the expressiveness of the patterns and the fact that the compiler confirms that all possible cases are handled.">Rust 拥有一个极其强大的控制流结构叫做 <code>match</code>，它允许你将一个值与一系列模式进行比较，然后根据匹配的模式执行代码。模式可以由字面值、变量名、通配符和许多其他元素组成；<a href="ch19-00-patterns.html">第 19 章</a><!-- ignore --> 涵盖了所有不同类型的模式及其功能。<code>match</code> 的强大之处在于模式的表达力以及编译器确认所有可能的情况都已处理。</p>
 <p data-x-en="Think of a match expression as being like a coin-sorting machine: coins slide down a track with variously sized holes along it, and each coin falls through the first hole it encounters that it fits into. In the same way, values go through each pattern in a match, and at the first pattern the value “fits,” the value falls into the associated code block to be used during execution.">将 <code>match</code> 表达式想象成一个硬币分类机：硬币沿着轨道滑下，轨道上有各种大小的孔，每个硬币会掉进它遇到的第一个适合的孔。同样地，值会通过 <code>match</code> 中的每个模式，当值“适合”第一个模式时，值就会掉进与之关联的代码块中，在执行期间被使用。</p>
 <p data-x-en="Speaking of coins, let’s use them as an example using match! We can write a function that takes an unknown US coin and, in a similar way as the counting machine, determines which coin it is and returns its value in cents, as shown in Listing 6-3.">说到硬币，让我们用它们作为 <code>match</code> 的例子！我们可以编写一个函数，该函数接受一个未知的美国硬币，并以类似于计数机的方式确定它是哪种硬币并返回其以分为单位的价值，如清单 6-3 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-6-3">
 <pre><pre class="playground"><code class="language-rust edition2024">enum Coin {
     Penny,
     Nickel,
@@ -250,7 +250,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 6-3: An enum and a <code>match</code> expression that has the variants of the enum as its patterns</figcaption>
+<figcaption><a href="#listing-6-3">Listing 6-3</a>: An enum and a <code>match</code> expression that has the variants of the enum as its patterns</figcaption>
 </figure>
 <p data-x-en="Let’s break down the match in the value_in_cents function. First we list the match keyword followed by an expression, which in this case is the value coin. This seems very similar to a conditional expression used with if, but there’s a big difference: with if, the condition needs to evaluate to a Boolean value, but here it can be any type. The type of coin in this example is the Coin enum that we defined on the first line.">让我们来分析 <code>value_in_cents</code> 函数中的 <code>match</code>。首先我们列出 <code>match</code> 关键字，后面跟着一个表达式，在这个例子中是值 <code>coin</code>。这看起来非常类似于使用 <code>if</code> 的条件表达式，但有一个很大的不同：<code>if</code> 的条件需要评估为布尔值，但在这里它可以是任何类型。<code>coin</code> 在这个例子中的类型是我们第一行定义的 <code>Coin</code> 枚举。</p>
 <p data-x-en="Next are the match arms. An arm has two parts: a pattern and some code. The first arm here has a pattern that is the value Coin::Penny and then the => operator that separates the pattern and the code to run. The code in this case is just the value 1. Each arm is separated from the next with a comma.">接下来是 <code>match</code> 分支。一个分支有两个部分：一个模式和一些代码。这里的第一个分支的模式是值 <code>Coin::Penny</code>，然后是分隔模式和要执行的代码的 <code>=&gt;</code> 操作符。在这种情况下，代码只是值 <code>1</code>。每个分支之间用逗号分隔。</p>
@@ -281,7 +281,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <p data-x-en="Another useful feature of match arms is that they can bind to the parts of the values that match the pattern. This is how we can extract values out of enum variants.">另一个有用的 match 分支特性是它们可以绑定到与模式匹配的值的部分。这就是我们如何从枚举变体中提取值。</p>
 <p data-x-en="As an example, let’s change one of our enum variants to hold data inside it. From 1999 through 2008, the United States minted quarters with different designs for each of the 50 states on one side. No other coins got state designs, so only quarters have this extra value. We can add this information to our enum by changing the Quarter variant to include a UsState value stored inside it, which we’ve done in Listing 6-4.">作为示例，让我们更改其中一个枚举变体以在其内部持有数据。
 从1999年到2008年，美国铸造了带有50个州不同设计的硬币，每个州的设计都在硬币的一侧。其他硬币没有州的设计，所以只有 quarters 拥有这个额外的价值。我们可以通过更改 <code>Quarter</code> 变体以包含一个 <code>UsState</code> 值来添加此信息，如列表6-4所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-6-4">
 <pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)] // so we can inspect the state in a minute
 enum UsState {
     Alabama,
@@ -297,7 +297,7 @@ enum Coin {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 6-4: A <code>Coin</code> enum in which the <code>Quarter</code> variant also holds a <code>UsState</code> value</figcaption>
+<figcaption><a href="#listing-6-4">Listing 6-4</a>: A <code>Coin</code> enum in which the <code>Quarter</code> variant also holds a <code>UsState</code> value</figcaption>
 </figure>
 <p data-x-en="Let’s imagine that a friend is trying to collect all 50 state quarters. While we sort our loose change by coin type, we’ll also call out the name of the state associated with each quarter so that if it’s one our friend doesn’t have, they can add it to their collection.">让我们想象一个朋友正在尝试收集所有50个州的25美分硬币。当我们按硬币类型整理零钱时，我们还会说出每个25美分硬币所代表的州的名字，这样如果是我们朋友还没有的，他们就可以添加到他们的收藏中。</p>
 <p data-x-en="In the match expression for this code, we add a variable called state to the pattern that matches values of the variant Coin::Quarter. When a Coin::Quarter matches, the state variable will bind to the value of that quarter’s state. Then we can use state in the code for that arm, like so:">在此代码的 match 表达式中，我们向匹配 <code>Coin::Quarter</code> 变体值的模式中添加了一个名为 <code>state</code> 的变量。当 <code>Coin::Quarter</code> 匹配时，<code>state</code> 变量将绑定到该季度的状态值。然后我们可以在该分支的代码中使用 <code>state</code>，如下所示：</p>
@@ -337,7 +337,7 @@ enum Coin {
 <p data-x-en="Let’s say we want to write a function that takes an Option<i32> and, if there’s a value inside, adds 1 to that value. If there isn’t a value inside, the function should return the None value and not attempt to perform any operations.">假设我们想要编写一个函数，该函数接受一个<code>Option&lt;i32&gt;</code>，如果里面有值，则将该值加1。如果里面没有值，函数应返回<code>None</code>值，不尝试执行任何操作。</p>
 <p data-x-en="This function is very easy to write, thanks to match, and will look like Listing 6-5.">这个函数非常容易编写，多亏了 <code>match</code>，看起来会像
 列表 6-5。</p>
-<figure class="listing">
+<figure class="listing" id="listing-6-5">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
         match x {
@@ -350,7 +350,7 @@ enum Coin {
     let six = plus_one(five);
     let none = plus_one(None);
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 6-5: A function that uses a <code>match</code> expression on an <code>Option&lt;i32&gt;</code></figcaption>
+<figcaption><a href="#listing-6-5">Listing 6-5</a>: A function that uses a <code>match</code> expression on an <code>Option&lt;i32&gt;</code></figcaption>
 </figure>
 <p data-x-en="Let’s examine the first execution of plus_one in more detail. When we call plus_one(five), the variable x in the body of plus_one will have the value Some(5). We then compare that against each match arm:">让我们更详细地 examine the first execution of <code>plus_one</code>。当我们调用
 <code>plus_one(five)</code> 时，<code>plus_one</code> 函数体中的变量 <code>x</code> 将具有值 <code>Some(5)</code>。然后我们将该值与每个 match arm 进行比较：</p>

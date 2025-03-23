@@ -235,7 +235,7 @@ blockquote {
 <p data-x-en="We’ll go over the basic API of hash maps in this section, but many more goodies are hiding in the functions defined on HashMap<K, V> by the standard library. As always, check the standard library documentation for more information.">我们将在这部分介绍哈希映射的基本 API，但标准库中定义的 <code>HashMap&lt;K, V&gt;</code> 还隐藏着许多其他功能。如往常一样，更多详细信息请查阅标准库文档。</p>
 <h3 id="creating-a-new-hash-map"><a class="header" href="#creating-a-new-hash-map">创建新的哈希映射</a></h3>
 <p data-x-en="One way to create an empty hash map is to use new and to add elements with insert. In Listing 8-20, we’re keeping track of the scores of two teams whose names are Blue and Yellow. The Blue team starts with 10 points, and the Yellow team starts with 50.">创建一个空的哈希映射的一种方法是使用<code>new</code>并使用<code>insert</code>添加元素。在清单8-20中，我们正在跟踪两个团队的得分，这两个团队的名字分别是<em>蓝色</em>和<em>黄色</em>。蓝色团队从10分开始，黄色团队从50分开始。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-20">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -244,13 +244,13 @@ blockquote {
     scores.insert(String::from("Blue"), 10);
     scores.insert(String::from("Yellow"), 50);
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-20: Creating a new hash map and inserting some keys and values</figcaption>
+<figcaption><a href="#listing-8-20">Listing 8-20</a>: Creating a new hash map and inserting some keys and values</figcaption>
 </figure>
 <p data-x-en="Note that we need to first use the HashMap from the collections portion of the standard library. Of our three common collections, this one is the least often used, so it’s not included in the features brought into scope automatically in the prelude. Hash maps also have less support from the standard library; there’s no built-in macro to construct them, for example.">请注意，我们需要首先 <code>use</code> 来自标准库集合部分的 <code>HashMap</code>。在我们常用的三种集合中，这个集合使用频率最低，因此没有包含在预定义模块中自动引入的功能范围内。哈希映射在标准库中的支持也较少；例如，没有内置的宏来构造它们。</p>
 <p data-x-en="Just like vectors, hash maps store their data on the heap. This HashMap has keys of type String and values of type i32. Like vectors, hash maps are homogeneous: all of the keys must have the same type, and all of the values must have the same type.">就像向量一样，哈希映射将其数据存储在堆上。这个<code>HashMap</code>具有类型为<code>String</code>的键和类型为<code>i32</code>的值。像向量一样，哈希映射是同质的：所有键必须具有相同的类型，所有值必须具有相同的类型。</p>
 <h3 id="accessing-values-in-a-hash-map"><a class="header" href="#accessing-values-in-a-hash-map">访问哈希映射中的值</a></h3>
 <p data-x-en="We can get a value out of the hash map by providing its key to the get method, as shown in Listing 8-21.">我们可以通过向 <code>get</code> 方法提供其键来从哈希映射中获取值，如清单 8-21 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-21">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -262,7 +262,7 @@ blockquote {
     let team_name = String::from("Blue");
     let score = scores.get(&amp;team_name).copied().unwrap_or(0);
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-21: Accessing the score for the Blue team stored in the hash map</figcaption>
+<figcaption><a href="#listing-8-21">Listing 8-21</a>: Accessing the score for the Blue team stored in the hash map</figcaption>
 </figure>
 <p data-x-en="Here, score will have the value that’s associated with the Blue team, and the result will be 10. The get method returns an Option<&amp;V>; if there’s no value for that key in the hash map, get will return None. This program handles the Option by calling copied to get an Option<i32> rather than an Option<&amp;i32>, then unwrap_or to set score to zero if scores doesn’t have an entry for the key.">这里，<code>score</code> 将拥有与 Blue 队相关联的值，结果将是 <code>10</code>。<code>get</code> 方法返回一个 <code>Option&lt;&amp;V&gt;</code>；如果哈希映射中没有该键的值，<code>get</code> 将返回 <code>None</code>。此程序通过调用 <code>copied</code> 将 <code>Option&lt;&amp;i32&gt;</code> 转换为 <code>Option&lt;i32&gt;</code>，然后使用 <code>unwrap_or</code> 如果 <code>scores</code> 没有该键的条目，则将 <code>score</code> 设置为零。</p>
 <p data-x-en="We can iterate over each key-value pair in a hash map in a similar manner as we do with vectors, using a for loop:">我们可以使用 <code>for</code> 循环以类似于处理向量的方式遍历哈希映射中的每个键值对：</p>
@@ -284,7 +284,7 @@ Blue: 10
 </code></pre>
 <h3 id="hash-maps-and-ownership"><a class="header" href="#hash-maps-and-ownership">哈希映射和所有权</a></h3>
 <p data-x-en="For types that implement the Copy trait, like i32, the values are copied into the hash map. For owned values like String, the values will be moved and the hash map will be the owner of those values, as demonstrated in Listing 8-22.">对于实现了 <code>Copy</code> 特性的类型，如 <code>i32</code>，值会被复制到哈希映射中。对于像 <code>String</code> 这样的拥有值，值将被移动，并且哈希映射将成为这些值的所有者，如清单 8-22 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-22">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -296,7 +296,7 @@ Blue: 10
     // field_name and field_value are invalid at this point, try using them and
     // see what compiler error you get!
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-22: Showing that keys and values are owned by the hash map once they’re inserted</figcaption>
+<figcaption><a href="#listing-8-22">Listing 8-22</a>: Showing that keys and values are owned by the hash map once they’re inserted</figcaption>
 </figure>
 <p data-x-en="We aren’t able to use the variables field_name and field_value after they’ve been moved into the hash map with the call to insert.">我们无法在将 <code>field_name</code> 和 <code>field_value</code> 移动到哈希映射中后使用它们，调用 <code>insert</code> 之后。</p>
 <p data-x-en="If we insert references to values into the hash map, the values won’t be moved into the hash map. The values that the references point to must be valid for at least as long as the hash map is valid. We’ll talk more about these issues in “Validating References with Lifetimes” in Chapter 10.">如果我们插入对值的引用到哈希映射中，这些值不会被移动到哈希映射中。引用所指向的值必须至少与哈希映射的生命周期一样长。我们将在<a href="ch10-03-lifetime-syntax.html#validating-references-with-lifetimes">“使用生命周期验证引用”</a><!-- ignore -->第十章中更详细地讨论这些问题。</p>
@@ -305,7 +305,7 @@ Blue: 10
 <p data-x-en="When you want to change the data in a hash map, you have to decide how to handle the case when a key already has a value assigned. You could replace the old value with the new value, completely disregarding the old value. You could keep the old value and ignore the new value, only adding the new value if the key doesn’t already have a value. Or you could combine the old value and the new value. Let’s look at how to do each of these!">当你想要更改哈希映射中的数据时，你必须决定如何处理键已经分配了值的情况。你可以用新值替换旧值，完全忽略旧值。你可以保留旧值并忽略新值，只有在键<em>没有</em>已经有一个值时才添加新值。或者你可以将旧值和新值结合起来。让我们看看如何做到每一种！</p>
 <h4 id="overwriting-a-value"><a class="header" href="#overwriting-a-value">覆盖一个值</a></h4>
 <p data-x-en="If we insert a key and a value into a hash map and then insert that same key with a different value, the value associated with that key will be replaced. Even though the code in Listing 8-23 calls insert twice, the hash map will only contain one key-value pair because we’re inserting the value for the Blue team’s key both times.">如果我们向哈希映射中插入一个键和一个值，然后用不同的值再次插入同一个键，与该键关联的值将被替换。即使列表 8-23 中的代码调用了两次 <code>insert</code>，哈希映射也只会包含一个键值对，因为我们两次都是为 Blue 队的键插入值。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-23">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -316,7 +316,7 @@ Blue: 10
 
     println!("{scores:?}");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-23: Replacing a value stored with a particular key</figcaption>
+<figcaption><a href="#listing-8-23">Listing 8-23</a>: Replacing a value stored with a particular key</figcaption>
 </figure>
 <p data-x-en="This code will print {&quot;Blue&quot;: 25}. The original value of 10 has been overwritten.">这段代码将打印 <code>{"Blue": 25}</code>。原始值 <code>10</code> 已被覆盖。</p>
 <!-- Old headings. Do not remove or links may break. -->
@@ -324,7 +324,7 @@ Blue: 10
 <h4 id="adding-a-key-and-value-only-if-a-key-isnt-present"><a class="header" href="#adding-a-key-and-value-only-if-a-key-isnt-present">仅在键不存在时添加键和值</a></h4>
 <p data-x-en="It’s common to check whether a particular key already exists in the hash map with a value and then to take the following actions: if the key does exist in the hash map, the existing value should remain the way it is; if the key doesn’t exist, insert it and a value for it.">通常会检查哈希映射中是否已存在某个键及其值，然后采取以下操作：如果键存在于哈希映射中，则保持现有值不变；如果键不存在，则插入该键及其值。</p>
 <p data-x-en="Hash maps have a special API for this called entry that takes the key you want to check as a parameter. The return value of the entry method is an enum called Entry that represents a value that might or might not exist. Let’s say we want to check whether the key for the Yellow team has a value associated with it. If it doesn’t, we want to insert the value 50, and the same for the Blue team. Using the entry API, the code looks like Listing 8-24.">哈希映射为此提供了一个特殊的 API，称为 <code>entry</code>，它接受你想要检查的键作为参数。<code>entry</code> 方法的返回值是一个名为 <code>Entry</code> 的枚举，表示可能存在或可能不存在的值。假设我们想要检查 Yellow 队的键是否有关联的值。如果没有，我们希望插入值 <code>50</code>，对于 Blue 队也是如此。使用 <code>entry</code> API，代码如清单 8-24 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-24">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -336,13 +336,13 @@ Blue: 10
 
     println!("{scores:?}");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-24: Using the <code>entry</code> method to only insert if the key does not already have a value</figcaption>
+<figcaption><a href="#listing-8-24">Listing 8-24</a>: Using the <code>entry</code> method to only insert if the key does not already have a value</figcaption>
 </figure>
 <p data-x-en="The or_insert method on Entry is defined to return a mutable reference to the value for the corresponding Entry key if that key exists, and if not, it inserts the parameter as the new value for this key and returns a mutable reference to the new value. This technique is much cleaner than writing the logic ourselves and, in addition, plays more nicely with the borrow checker."><code>or_insert</code> 方法在 <code>Entry</code> 上定义为，如果该键存在，则返回对应 <code>Entry</code> 键的值的可变引用；如果不存在，则将参数作为此键的新值插入，并返回新值的可变引用。这种技术比我们自己编写逻辑要干净得多，并且与借用检查器更友好。</p>
 <p data-x-en="Running the code in Listing 8-24 will print {&quot;Yellow&quot;: 50, &quot;Blue&quot;: 10}. The first call to entry will insert the key for the Yellow team with the value 50 because the Yellow team doesn’t have a value already. The second call to entry will not change the hash map because the Blue team already has the value 10.">运行清单 8-24 中的代码将打印 <code>{"Yellow": 50, "Blue": 10}</code>。第一次调用 <code>entry</code> 会插入 Yellow 队的键，值为 <code>50</code>，因为 Yellow 队还没有值。第二次调用 <code>entry</code> 不会更改哈希映射，因为 Blue 队已经有值 <code>10</code>。</p>
 <h4 id="updating-a-value-based-on-the-old-value"><a class="header" href="#updating-a-value-based-on-the-old-value">根据旧值更新值</a></h4>
 <p data-x-en="Another common use case for hash maps is to look up a key’s value and then update it based on the old value. For instance, Listing 8-25 shows code that counts how many times each word appears in some text. We use a hash map with the words as keys and increment the value to keep track of how many times we’ve seen that word. If it’s the first time we’ve seen a word, we’ll first insert the value 0.">另一个常见的哈希映射用例是查找键的值，然后根据旧值进行更新。例如，列表 8-25 显示了计算每个单词在某些文本中出现次数的代码。我们使用一个哈希映射，将单词作为键，并递增值以跟踪我们看到该单词的次数。如果这是我们第一次看到一个单词，我们将首先插入值 <code>0</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-25">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    use std::collections::HashMap;
 
@@ -357,7 +357,7 @@ Blue: 10
 
     println!("{map:?}");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-25: Counting occurrences of words using a hash map that stores words and counts</figcaption>
+<figcaption><a href="#listing-8-25">Listing 8-25</a>: Counting occurrences of words using a hash map that stores words and counts</figcaption>
 </figure>
 <p data-x-en="This code will print {&quot;world&quot;: 2, &quot;hello&quot;: 1, &quot;wonderful&quot;: 1}. You might see the same key-value pairs printed in a different order: recall from “Accessing Values in a Hash Map” that iterating over a hash map happens in an arbitrary order.">这段代码将打印 <code>{"world": 2, "hello": 1, "wonderful": 1}</code>。你可能会看到
 相同的键值对以不同的顺序打印：回想 <a href="#accessing-values-in-a-hash-map">“访问哈希映射中的值”</a><!-- ignore --> 中所述，遍历哈希映射

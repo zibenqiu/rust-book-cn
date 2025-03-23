@@ -231,7 +231,7 @@ blockquote {
 <p data-x-en="Many operating systems have supplied threading-based concurrency models for decades now, and many programming languages support them as a result. However, these models are not without their tradeoffs. On many operating systems, they use a fair bit of memory for each thread, and they come with some overhead for starting up and shutting down. Threads are also only an option when your operating system and hardware support them. Unlike mainstream desktop and mobile computers, some embedded systems don’t have an OS at all, so they also don’t have threads.">许多操作系统几十年来一直提供基于线程的并发模型，许多编程语言也因此支持它们。然而，这些模型并非没有权衡。在许多操作系统中，每个线程都会占用相当多的内存，并且启动和关闭时也会带来一些开销。线程也仅在操作系统和硬件支持的情况下才是一种选择。与主流的桌面和移动计算机不同，一些嵌入式系统根本没有操作系统，因此也没有线程。</p>
 <p data-x-en="The async model provides a different—and ultimately complementary—set of tradeoffs. In the async model, concurrent operations don’t require their own threads. Instead, they can run on tasks, as when we used trpl::spawn_task to kick off work from a synchronous function in the streams section. A task is similar to a thread, but instead of being managed by the operating system, it’s managed by library-level code: the runtime.">异步模型提供了一组不同且最终互补的权衡。在异步模型中，并发操作不需要自己的线程。相反，它们可以在任务上运行，就像我们在流部分中使用<code>trpl::spawn_task</code>从同步函数启动工作一样。任务类似于线程，但不是由操作系统管理，而是由库级别的代码：运行时管理。</p>
 <p data-x-en="In the previous section, we saw that we could build a stream by using an async channel and spawning an async task we could call from synchronous code. We can do the exact same thing with a thread. In Listing 17-40, we used trpl::spawn_task and trpl::sleep. In Listing 17-41, we replace those with the thread::spawn and thread::sleep APIs from the standard library in the get_intervals function.">在上一节中，我们看到可以使用异步通道和异步任务来构建一个流，这些任务可以从同步代码中调用。我们也可以用线程做完全相同的事情。在清单 17-40 中，我们使用了 <code>trpl::spawn_task</code> 和 <code>trpl::sleep</code>。在清单 17-41 中，我们用标准库中的 <code>thread::spawn</code> 和 <code>thread::sleep</code> API 替换了它们，在 <code>get_intervals</code> 函数中。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-41">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -298,7 +298,7 @@ blockquote {
 
     ReceiverStream::new(rx)
 }</code></pre></pre>
-<figcaption>Listing 17-41: Using the <code>std::thread</code> APIs instead of the async <code>trpl</code> APIs for the <code>get_intervals</code> function</figcaption>
+<figcaption><a href="#listing-17-41">Listing 17-41</a>: Using the <code>std::thread</code> APIs instead of the async <code>trpl</code> APIs for the <code>get_intervals</code> function</figcaption>
 </figure>
 <p data-x-en="If you run this code, the output is identical to that of Listing 17-40. And notice how little changes here from the perspective of the calling code. What’s more, even though one of our functions spawned an async task on the runtime and the other spawned an OS thread, the resulting streams were unaffected by the differences.">如果您运行此代码，输出与清单 17-40 完全相同。并且请注意，从调用代码的角度来看，这里的变化是多么小。更重要的是，即使我们的一个函数在运行时启动了一个异步任务，而另一个函数启动了一个操作系统线程，最终生成的流也没有受到这些差异的影响。</p>
 <p data-x-en="Despite their similarities, these two approaches behave very differently, although we might have a hard time measuring it in this very simple example. We could spawn millions of async tasks on any modern personal computer. If we tried to do that with threads, we would literally run out of memory!">尽管它们有相似之处，但这两种方法的行为却大不相同，
@@ -315,7 +315,7 @@ blockquote {
 <li data-x-en="If the work is very concurrent, such as handling messages from a bunch of different sources that may come in at different intervals or different rates, async is a better choice.">如果工作是<em>非常并发的</em>，例如处理来自许多不同来源的消息，这些消息可能以不同的间隔或不同的速率到达，那么异步是一个更好的选择。</li>
 </ul>
 <p data-x-en="And if you need both parallelism and concurrency, you don’t have to choose between threads and async. You can use them together freely, letting each one play the part it’s best at. For example, Listing 17-42 shows a fairly common example of this kind of mix in real-world Rust code.">而且，如果您需要并行性和并发性，您不必在线程和异步之间做出选择。您可以自由地将它们一起使用，让每一种发挥其最擅长的作用。例如，列表 17-42 展示了这种混合在实际 Rust 代码中相当常见的一种情况。</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-42">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // for mdbook test
 </span><span class="boring">
@@ -337,7 +337,7 @@ fn main() {
         }
     });
 }</code></pre></pre>
-<figcaption>Listing 17-42: Sending messages with blocking code in a thread and awaiting the messages in an async block</figcaption>
+<figcaption><a href="#listing-17-42">Listing 17-42</a>: Sending messages with blocking code in a thread and awaiting the messages in an async block</figcaption>
 </figure>
 <p data-x-en="We begin by creating an async channel, then spawn a thread that takes ownership of the sender side of the channel. Within the thread, we send the numbers 1 through 10, sleeping for a second between each. Finally, we run a future created with an async block passed to trpl::run just as we have throughout the chapter. In that future, we await those messages, just as in the other message-passing examples we have seen.">我们首先创建一个异步通道，然后启动一个线程，该线程获取通道的发送端的所有权。在该线程中，我们发送数字1到10，每次发送之间暂停一秒。最后，我们运行一个使用异步块传递给<code>trpl::run</code>创建的未来，就像我们在本章中所做的那样。在那个未来中，我们等待那些消息，就像在我们见过的其他消息传递示例中一样。</p>
 <p data-x-en="To return to the scenario we opened the chapter with, imagine running a set of video encoding tasks using a dedicated thread (because video encoding is compute-bound) but notifying the UI that those operations are done with an async channel. There are countless examples of these kinds of combinations in real-world use cases.">回到我们在本章开头讨论的场景，想象一下使用一个专用线程运行一组视频编码任务（因为视频编码是计算密集型的），但通过异步通道通知UI这些操作已完成。在实际应用中，这类组合的例子数不胜数。</p>

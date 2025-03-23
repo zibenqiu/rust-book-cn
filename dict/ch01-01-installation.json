@@ -126,5 +126,17 @@
   "This book makes no assumptions about what tools you use to author Rust code. Just about any text editor will get the job done! However, many text editors and integrated development environments (IDEs) have built-in support for Rust. You can always find a fairly current list of many editors and IDEs on the tools page on the Rust website.": {
     "_translate": "这本书不对你用于编写 Rust 代码的工具做任何假设。\n几乎任何文本编辑器都能完成这项工作！然而，许多文本编辑器和\n集成开发环境（IDE）都内置了对 Rust 的支持。你\n总能在 <a href=\"https://www.rust-lang.org/tools\">工具\n页面</a> 上找到许多编辑器和 IDE 的最新列表。",
     "_note": ""
+  },
+  "Working Offline with This Book": {
+    "_translate": "<a class=\"header\" href=\"#working-offline-with-this-book\">离线使用本书</a>",
+    "_note": ""
+  },
+  "In several examples, we will use Rust packages beyond the standard library. To work through those examples, you will either need to have an internet connection or to have downloaded those dependencies ahead of time. To download the dependencies ahead of time, you can run the following commands. (We’ll explain what cargo is and what each of these commands does in detail later.)": {
+    "_translate": "在几个示例中，我们将使用超出标准库的 Rust 包。要完成这些示例，您要么需要有互联网连接，要么需要提前下载这些依赖项。要提前下载依赖项，您可以运行以下命令。（我们稍后会详细解释 <code>cargo</code> 是什么以及每个命令的作用。）",
+    "_note": ""
+  },
+  "This will cache the downloads for these packages so you will not need to download them later. Once you have run this command, you do not need to keep the get-dependencies folder. If you have run this command, you can use the --offline flag with all cargo commands in the rest of the book to use these cached versions instead of attempting to use the network.": {
+    "_translate": "这将缓存这些包的下载，因此你以后不需要再下载它们。一旦你运行了这个命令，你就不需要保留<code>get-dependencies</code>文件夹。如果你已经运行了这个命令，你可以在本书其余部分的所有<code>cargo</code>命令中使用<code>--offline</code>标志来使用这些缓存版本，而不是尝试使用网络。",
+    "_note": ""
   }
 }

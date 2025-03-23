@@ -242,7 +242,7 @@ blockquote {
 <h3 id="printing-errors-to-standard-error"><a class="header" href="#printing-errors-to-standard-error">将错误打印到标准错误</a></h3>
 <p data-x-en="We’ll use the code in Listing 12-24 to change how error messages are printed. Because of the refactoring we did earlier in this chapter, all the code that prints error messages is in one function, main. The standard library provides the eprintln! macro that prints to the standard error stream, so let’s change the two places we were calling println! to print errors to use eprintln! instead.">我们将使用清单 12-24 中的代码来更改错误消息的打印方式。
 由于我们在本章早些时候进行的重构，所有打印错误消息的代码都在一个函数，<code>main</code> 中。标准库提供了 <code>eprintln!</code> 宏，该宏打印到标准错误流，因此让我们将两个调用 <code>println!</code> 打印错误的地方改为使用 <code>eprintln!</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-24">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::process;
@@ -262,7 +262,7 @@ blockquote {
         process::exit(1);
     }
 }</code></pre>
-<figcaption>Listing 12-24: Writing error messages to standard error instead of standard output using <code>eprintln!</code></figcaption>
+<figcaption><a href="#listing-12-24">Listing 12-24</a>: Writing error messages to standard error instead of standard output using <code>eprintln!</code></figcaption>
 </figure>
 <p data-x-en="Let’s now run the program again in the same way, without any arguments and redirecting standard output with >:">现在让我们以同样的方式再次运行程序，不带任何参数，并使用 <code>&gt;</code> 重定向标准输出：</p>
 <pre><code class="language-console">$ cargo run &gt; output.txt

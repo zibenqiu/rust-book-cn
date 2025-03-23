@@ -235,14 +235,14 @@ blockquote {
 <p data-x-en="The String type, which is provided by Rust’s standard library rather than coded into the core language, is a growable, mutable, owned, UTF-8 encoded string type. When Rustaceans refer to “strings” in Rust, they might be referring to either the String or the string slice &amp;str types, not just one of those types. Although this section is largely about String, both types are used heavily in Rust’s standard library, and both String and string slices are UTF-8 encoded."><code>String</code> 类型是由 Rust 的标准库提供的，而不是编码在核心语言中，是一种可增长、可变、拥有所有权、UTF-8 编码的字符串类型。当 Rustaceans 在 Rust 中提到“字符串”时，他们可能指的是 <code>String</code> 或字符串切片 <code>&amp;str</code> 类型，而不仅仅是其中一种类型。虽然本节主要讨论 <code>String</code>，但这两种类型在 Rust 的标准库中都被大量使用，且 <code>String</code> 和字符串切片都是 UTF-8 编码的。</p>
 <h3 id="creating-a-new-string"><a class="header" href="#creating-a-new-string">创建一个新的字符串</a></h3>
 <p data-x-en="Many of the same operations available with Vec<T> are available with String as well because String is actually implemented as a wrapper around a vector of bytes with some extra guarantees, restrictions, and capabilities. An example of a function that works the same way with Vec<T> and String is the new function to create an instance, shown in Listing 8-11.">许多与 <code>Vec&lt;T&gt;</code> 可用的操作对于 <code>String</code> 也同样可用，因为 <code>String</code> 实际上是围绕一个带有某些额外保证、限制和功能的字节向量实现的。一个在 <code>Vec&lt;T&gt;</code> 和 <code>String</code> 中以相同方式工作的函数示例是用于创建实例的 <code>new</code> 函数，如清单 8-11 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-11">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::new();
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-11: Creating a new, empty <code>String</code></figcaption>
+<figcaption><a href="#listing-8-11">Listing 8-11</a>: Creating a new, empty <code>String</code></figcaption>
 </figure>
 <p data-x-en="This line creates a new, empty string called s, into which we can then load data. Often, we’ll have some initial data with which we want to start the string. For that, we use the to_string method, which is available on any type that implements the Display trait, as string literals do. Listing 8-12 shows two examples.">这行代码创建了一个名为<code>s</code>的新空字符串，我们可以向其中加载数据。通常，我们希望用一些初始数据来开始字符串。为此，我们使用<code>to_string</code>方法，该方法在任何实现了<code>Display</code>特征的类型上都可用，字符串字面量也是如此。列表8-12展示了两个例子。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-12">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let data = "initial contents";
 
@@ -251,19 +251,19 @@ blockquote {
     // The method also works on a literal directly:
     let s = "initial contents".to_string();
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-12: Using the <code>to_string</code> method to create a <code>String</code> from a string literal</figcaption>
+<figcaption><a href="#listing-8-12">Listing 8-12</a>: Using the <code>to_string</code> method to create a <code>String</code> from a string literal</figcaption>
 </figure>
 <p data-x-en="This code creates a string containing initial contents.">这段代码创建了一个包含 <code>initial contents</code> 的字符串。</p>
 <p data-x-en="We can also use the function String::from to create a String from a string literal. The code in Listing 8-13 is equivalent to the code in Listing 8-12 that uses to_string.">我们也可以使用函数<code>String::from</code>从字符串字面量创建一个<code>String</code>。列表 8-13 中的代码等同于使用<code>to_string</code>的列表 8-12 中的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-13">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s = String::from("initial contents");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-13: Using the <code>String::from</code> function to create a <code>String</code> from a string literal</figcaption>
+<figcaption><a href="#listing-8-13">Listing 8-13</a>: Using the <code>String::from</code> function to create a <code>String</code> from a string literal</figcaption>
 </figure>
 <p data-x-en="Because strings are used for so many things, we can use many different generic APIs for strings, providing us with a lot of options. Some of them can seem redundant, but they all have their place! In this case, String::from and to_string do the same thing, so which one you choose is a matter of style and readability.">因为字符串被用于许多事情，我们可以为字符串使用许多不同的通用 API，这为我们提供了很多选择。其中一些可能看起来冗余，但它们都有其用武之地！在这种情况下，<code>String::from</code> 和 <code>to_string</code> 做的是同一件事，所以选择哪一个取决于风格和可读性。</p>
 <p data-x-en="Remember that strings are UTF-8 encoded, so we can include any properly encoded data in them, as shown in Listing 8-14.">记住字符串是 UTF-8 编码的，因此我们可以包含任何正确编码的数据，如清单 8-14 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-14">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let hello = String::from("السلام عليكم");
     let hello = String::from("Dobrý den");
@@ -277,49 +277,49 @@ blockquote {
     let hello = String::from("Здравствуйте");
     let hello = String::from("Hola");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-14: Storing greetings in different languages in strings</figcaption>
+<figcaption><a href="#listing-8-14">Listing 8-14</a>: Storing greetings in different languages in strings</figcaption>
 </figure>
 <p data-x-en="All of these are valid String values.">所有这些都是有效的 <code>String</code> 值。</p>
 <h3 id="updating-a-string"><a class="header" href="#updating-a-string">更新字符串</a></h3>
 <p data-x-en="A String can grow in size and its contents can change, just like the contents of a Vec<T>, if you push more data into it. In addition, you can conveniently use the + operator or the format! macro to concatenate String values.">一个 <code>String</code> 可以增长大小，其内容也可以改变，就像 <code>Vec&lt;T&gt;</code> 的内容一样，如果你向其中添加更多数据。此外，你可以方便地使用 <code>+</code> 运算符或 <code>format!</code> 宏来连接 <code>String</code> 值。</p>
 <h4 id="appending-to-a-string-with-push_str-and-push"><a class="header" href="#appending-to-a-string-with-push_str-and-push">使用 <code>push_str</code> 和 <code>push</code> 追加到字符串</a></h4>
 <p data-x-en="We can grow a String by using the push_str method to append a string slice, as shown in Listing 8-15.">我们可以使用 <code>push_str</code> 方法来追加一个字符串切片，从而扩展 <code>String</code>，如清单 8-15 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-15">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("foo");
     s.push_str("bar");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-15: Appending a string slice to a <code>String</code> using the <code>push_str</code> method</figcaption>
+<figcaption><a href="#listing-8-15">Listing 8-15</a>: Appending a string slice to a <code>String</code> using the <code>push_str</code> method</figcaption>
 </figure>
 <p data-x-en="After these two lines, s will contain foobar. The push_str method takes a string slice because we don’t necessarily want to take ownership of the parameter. For example, in the code in Listing 8-16, we want to be able to use s2 after appending its contents to s1.">在这两行之后，<code>s</code> 将包含 <code>foobar</code>。<code>push_str</code> 方法接受一个字符串切片，因为我们不一定希望获取参数的所有权。例如，在清单 8-16 的代码中，我们希望在将 <code>s2</code> 的内容追加到 <code>s1</code> 之后仍能使用 <code>s2</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-16">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s1 = String::from("foo");
     let s2 = "bar";
     s1.push_str(s2);
     println!("s2 is {s2}");
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-16: Using a string slice after appending its contents to a <code>String</code></figcaption>
+<figcaption><a href="#listing-8-16">Listing 8-16</a>: Using a string slice after appending its contents to a <code>String</code></figcaption>
 </figure>
 <p data-x-en="If the push_str method took ownership of s2, we wouldn’t be able to print its value on the last line. However, this code works as we’d expect!">如果 <code>push_str</code> 方法获取了 <code>s2</code> 的所有权，我们就无法在最后一行打印它的值。然而，这段代码如我们所期望的那样工作！</p>
 <p data-x-en="The push method takes a single character as a parameter and adds it to the String. Listing 8-17 adds the letter l to a String using the push method."><code>push</code> 方法接受一个字符作为参数，并将其添加到 <code>String</code> 中。列表 8-17 使用 <code>push</code> 方法将字母 <em>l</em> 添加到 <code>String</code> 中。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-17">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let mut s = String::from("lo");
     s.push('l');
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-17: Adding one character to a <code>String</code> value using <code>push</code></figcaption>
+<figcaption><a href="#listing-8-17">Listing 8-17</a>: Adding one character to a <code>String</code> value using <code>push</code></figcaption>
 </figure>
 <p data-x-en="As a result, s will contain lol.">因此，<code>s</code> 将包含 <code>lol</code>。</p>
 <h4 id="concatenation-with-the--operator-or-the-format-macro"><a class="header" href="#concatenation-with-the--operator-or-the-format-macro">使用 <code>+</code> 运算符或 <code>format!</code> 宏进行连接</a></h4>
 <p data-x-en="Often, you’ll want to combine two existing strings. One way to do so is to use the + operator, as shown in Listing 8-18.">经常地，你可能想要将两个已有的字符串组合起来。一种方法是使用 <code>+</code> 运算符，如清单 8-18 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-18">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let s1 = String::from("Hello, ");
     let s2 = String::from("world!");
     let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 8-18: Using the <code>+</code> operator to combine two <code>String</code> values into a new <code>String</code> value</figcaption>
+<figcaption><a href="#listing-8-18">Listing 8-18</a>: Using the <code>+</code> operator to combine two <code>String</code> values into a new <code>String</code> value</figcaption>
 </figure>
 <p data-x-en="The string s3 will contain Hello, world!. The reason s1 is no longer valid after the addition, and the reason we used a reference to s2, has to do with the signature of the method that’s called when we use the + operator. The + operator uses the add method, whose signature looks something like this:">字符串 <code>s3</code> 将包含 <code>Hello, world!</code>。在添加之后 <code>s1</code> 不再有效，以及我们使用 <code>s2</code> 的引用的原因，与调用的方法的签名有关，当我们使用 <code>+</code> 运算符时。 <code>+</code> 运算符使用 <code>add</code> 方法，其签名看起来像这样：</p>
 <pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {</code></pre>
@@ -346,12 +346,12 @@ blockquote {
 <p data-x-en="This code also sets s to tic-tac-toe. The format! macro works like println!, but instead of printing the output to the screen, it returns a String with the contents. The version of the code using format! is much easier to read, and the code generated by the format! macro uses references so that this call doesn’t take ownership of any of its parameters.">这段代码还将 <code>s</code> 设置为 <code>tic-tac-toe</code>。 <code>format!</code> 宏的工作方式类似于 <code>println!</code>，但不是将输出打印到屏幕上，而是返回一个包含内容的 <code>String</code>。使用 <code>format!</code> 的代码版本更容易阅读，而且 <code>format!</code> 宏生成的代码使用引用，因此这个调用不会获取其任何参数的所有权。</p>
 <h3 id="indexing-into-strings"><a class="header" href="#indexing-into-strings">字符串索引</a></h3>
 <p data-x-en="In many other programming languages, accessing individual characters in a string by referencing them by index is a valid and common operation. However, if you try to access parts of a String using indexing syntax in Rust, you’ll get an error. Consider the invalid code in Listing 8-19.">在许多其他编程语言中，通过索引引用访问字符串中的单个字符是一个有效且常见的操作。然而，如果你尝试在 Rust 中使用索引语法访问 <code>String</code> 的部分，你会得到一个错误。考虑 Listing 8-19 中的无效代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-8-19">
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1 = String::from("hi");
     let h = s1[0];
 <span class="boring">}</span></code></pre>
-<figcaption>Listing 8-19: Attempting to use indexing syntax with a String</figcaption>
+<figcaption><a href="#listing-8-19">Listing 8-19</a>: Attempting to use indexing syntax with a String</figcaption>
 </figure>
 <p data-x-en="This code will result in the following error:">这段代码将导致以下错误：</p>
 <pre><code class="language-console">$ cargo run

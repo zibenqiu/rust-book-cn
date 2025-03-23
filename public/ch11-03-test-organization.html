@@ -252,7 +252,7 @@ mod tests {
 <p data-x-en="On the automatically generated tests module, the attribute cfg stands for configuration and tells Rust that the following item should only be included given a certain configuration option. In this case, the configuration option is test, which is provided by Rust for compiling and running tests. By using the cfg attribute, Cargo compiles our test code only if we actively run the tests with cargo test. This includes any helper functions that might be within this module, in addition to the functions annotated with #[test].">在自动生成的 <code>tests</code> 模块中，属性 <code>cfg</code> 代表 <em>配置</em>，并告诉 Rust 只有在给定特定配置选项时才应包含以下项。在这种情况下，配置选项是 <code>test</code>，这是 Rust 为编译和运行测试提供的。通过使用 <code>cfg</code> 属性，Cargo 仅在我们使用 <code>cargo test</code> 主动运行测试时编译我们的测试代码。这包括可能在这个模块内的任何辅助函数，以及用 <code>#[test]</code> 注解的函数。</p>
 <h4 id="testing-private-functions"><a class="header" href="#testing-private-functions">测试私有函数</a></h4>
 <p data-x-en="There’s debate within the testing community about whether or not private functions should be tested directly, and other languages make it difficult or impossible to test private functions. Regardless of which testing ideology you adhere to, Rust’s privacy rules do allow you to test private functions. Consider the code in Listing 11-12 with the private function internal_adder.">测试社区内部对于是否应该直接测试私有函数存在争议，其他语言使得测试私有函数变得困难或不可能。无论你遵循哪种测试理念，Rust 的隐私规则确实允许你测试私有函数。考虑列表 11-12 中的代码，其中包含私有函数 <code>internal_adder</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-12">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub fn add_two(a: usize) -&gt; usize {
     internal_adder(a, 2)
@@ -272,7 +272,7 @@ mod tests {
         assert_eq!(result, 4);
     }
 }</code></pre>
-<figcaption>Listing 11-12: Testing a private function</figcaption>
+<figcaption><a href="#listing-11-12">Listing 11-12</a>: Testing a private function</figcaption>
 </figure>
 <p data-x-en="Note that the internal_adder function is not marked as pub. Tests are just Rust code, and the tests module is just another module. As we discussed in “Paths for Referring to an Item in the Module Tree”, items in child modules can use the items in their ancestor modules. In this test, we bring all of the tests module’s parent’s items into scope with use super::*, and then the test can call internal_adder. If you don’t think private functions should be tested, there’s nothing in Rust that will compel you to do so.">请注意，<code>internal_adder</code> 函数没有标记为 <code>pub</code>。测试只是 Rust 代码，<code>tests</code> 模块也只是另一个模块。正如我们在 <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“模块树中引用项的路径”</a><!-- ignore --> 中讨论的那样，子模块中的项可以使用其祖先模块中的项。在这个测试中，我们使用 <code>use super::*</code> 将 <code>tests</code> 模块的父模块的所有项引入作用域，然后测试就可以调用 <code>internal_adder</code>。如果你认为不应该测试私有函数，Rust 中没有任何东西会强迫你这样做。</p>
 <h3 id="integration-tests"><a class="header" href="#integration-tests">集成测试</a></h3>
@@ -289,7 +289,7 @@ mod tests {
     └── integration_test.rs
 </code></pre>
 <p data-x-en="Enter the code in Listing 11-13 into the tests/integration_test.rs file.">将清单 11-13 中的代码输入到 <em>tests/integration_test.rs</em> 文件中。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-13">
 <span class="file-name">Filename: tests/integration_test.rs</span>
 <pre><code class="language-rust ignore">use adder::add_two;
 
@@ -298,7 +298,7 @@ fn it_adds_two() {
     let result = add_two(2);
     assert_eq!(result, 4);
 }</code></pre>
-<figcaption>Listing 11-13: An integration test of a function in the <code>adder</code> crate</figcaption>
+<figcaption><a href="#listing-11-13">Listing 11-13</a>: An integration test of a function in the <code>adder</code> crate</figcaption>
 </figure>
 <p data-x-en="Each file in the tests directory is a separate crate, so we need to bring our library into each test crate’s scope. For that reason we add use adder::add_two; at the top of the code, which we didn’t need in the unit tests."><em>tests</em> 目录中的每个文件都是一个单独的 crate，因此我们需要将我们的库引入每个测试 crate 的作用域。为此，我们在代码的顶部添加 <code>use adder::add_two;</code>，而在单元测试中我们并不需要这样做。</p>
 <p data-x-en="We don’t need to annotate any code in tests/integration_test.rs with #[cfg(test)]. Cargo treats the tests directory specially and compiles files in this directory only when we run cargo test. Run cargo test now:">我们不需要在 <em>tests/integration_test.rs</em> 中的任何代码上标注 <code>#[cfg(test)]</code>。Cargo 会特别处理 <em>tests</em> 目录，并且只在我们运行 <code>cargo test</code> 时编译该目录中的文件。现在运行 <code>cargo test</code>：</p>

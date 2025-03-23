@@ -231,7 +231,7 @@ blockquote {
 当模块变大时，您可能希望将它们的定义移到单独的文件中，以使代码更容易导航。</p>
 <p data-x-en="For example, let’s start from the code in Listing 7-17 that had multiple restaurant modules. We’ll extract modules into files instead of having all the modules defined in the crate root file. In this case, the crate root file is src/lib.rs, but this procedure also works with binary crates whose crate root file is src/main.rs.">例如，让我们从列表 7-17 中的代码开始，该代码有多个 restaurant 模块。我们将把模块提取到文件中，而不是在 crate 根文件中定义所有模块。在这种情况下，crate 根文件是 <em>src/lib.rs</em>，但此过程也适用于 crate 根文件为 <em>src/main.rs</em> 的二进制 crate。</p>
 <p data-x-en="First we’ll extract the front_of_house module to its own file. Remove the code inside the curly brackets for the front_of_house module, leaving only the mod front_of_house; declaration, so that src/lib.rs contains the code shown in Listing 7-21. Note that this won’t compile until we create the src/front_of_house.rs file in Listing 7-22.">首先我们将 <code>front_of_house</code> 模块提取到其自己的文件中。删除 <code>front_of_house</code> 模块的大括号内的代码，只保留 <code>mod front_of_house;</code> 声明，这样 <em>src/lib.rs</em> 将包含如清单 7-21 所示的代码。请注意，直到我们在清单 7-22 中创建 <em>src/front_of_house.rs</em> 文件之前，这将无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-21">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house;
 
@@ -240,15 +240,15 @@ pub use crate::front_of_house::hosting;
 pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
 }</code></pre>
-<figcaption>Listing 7-21: Declaring the <code>front_of_house</code> module whose body will be in <em>src/front_of_house.rs</em></figcaption>
+<figcaption><a href="#listing-7-21">Listing 7-21</a>: Declaring the <code>front_of_house</code> module whose body will be in <em>src/front_of_house.rs</em></figcaption>
 </figure>
 <p data-x-en="Next, place the code that was in the curly brackets into a new file named src/front_of_house.rs, as shown in Listing 7-22. The compiler knows to look in this file because it came across the module declaration in the crate root with the name front_of_house.">接下来，将大括号中的代码放入一个名为<em>src/front_of_house.rs</em>的新文件中，如清单7-22所示。编译器知道在该文件中查找是因为它在crate根目录中遇到了名为<code>front_of_house</code>的模块声明。</p>
-<figure class="listing">
+<figure class="listing" id="listing-7-22">
 <span class="file-name">Filename: src/front_of_house.rs</span>
 <pre><code class="language-rust ignore">pub mod hosting {
     pub fn add_to_waitlist() {}
 }</code></pre>
-<figcaption>Listing 7-22: Definitions inside the <code>front_of_house</code> module in <em>src/front_of_house.rs</em></figcaption>
+<figcaption><a href="#listing-7-22">Listing 7-22</a>: Definitions inside the <code>front_of_house</code> module in <em>src/front_of_house.rs</em></figcaption>
 </figure>
 <p data-x-en="Note that you only need to load a file using a mod declaration once in your module tree. Once the compiler knows the file is part of the project (and knows where in the module tree the code resides because of where you’ve put the mod statement), other files in your project should refer to the loaded file’s code using a path to where it was declared, as covered in the “Paths for Referring to an Item in the Module Tree” section. In other words, mod is not an “include” operation that you may have seen in other programming languages.">请注意，您只需要在模块树中<em>一次</em>使用<code>mod</code>声明来加载文件。一旦编译器知道文件是项目的一部分（并且知道代码在模块树中的位置，因为您放置了<code>mod</code>语句的位置），项目中的其他文件应该使用声明该文件时的路径来引用其代码，如<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“模块树中引用项的路径”</a><!-- ignore -->部分所述。换句话说，<code>mod</code>并不是您可能在其他编程语言中见过的“包含”操作。</p>
 <p data-x-en="Next, we’ll extract the hosting module to its own file. The process is a bit different because hosting is a child module of front_of_house, not of the root module. We’ll place the file for hosting in a new directory that will be named for its ancestors in the module tree, in this case src/front_of_house.">接下来，我们将把<code>hosting</code>模块提取到它自己的文件中。这个过程有点不同，因为<code>hosting</code>是<code>front_of_house</code>的子模块，而不是根模块的子模块。我们将把<code>hosting</code>的文件放在一个新目录中，该目录将以模块树中的祖先命名，在这种情况下为<em>src/front_of_house</em>。</p>

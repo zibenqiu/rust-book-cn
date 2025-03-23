@@ -280,7 +280,7 @@ string data on the heap." src="img/trpl04-06.svg" class="center"></p>
 <p data-x-en="The scope in which the variable s is valid is the same as any function parameter’s scope, but the value pointed to by the reference is not dropped when s stops being used, because s doesn’t have ownership. When functions have references as parameters instead of the actual values, we won’t need to return the values in order to give back ownership, because we never had ownership.">变量 <code>s</code> 有效的范围与任何函数参数的范围相同，但当 <code>s</code> 不再使用时，引用所指向的值不会被丢弃，因为 <code>s</code> 没有所有权。当函数的参数是引用而不是实际值时，我们不需要返回值以归还所有权，因为我们从未拥有过所有权。</p>
 <p data-x-en="We call the action of creating a reference borrowing. As in real life, if a person owns something, you can borrow it from them. When you’re done, you have to give it back. You don’t own it.">我们将创建引用的行为称为<em>借用</em>。就像在现实生活中，如果一个人拥有某样东西，你可以从他们那里借用。当你用完后，必须归还。你并不拥有它。</p>
 <p data-x-en="So, what happens if we try to modify something we’re borrowing? Try the code in Listing 4-6. Spoiler alert: it doesn’t work!">所以，如果我们尝试修改我们借用的内容会发生什么？尝试清单 4-6 中的代码。剧透警告：它不起作用！</p>
-<figure class="listing">
+<figure class="listing" id="listing-4-6">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let s = String::from("hello");
@@ -291,7 +291,7 @@ string data on the heap." src="img/trpl04-06.svg" class="center"></p>
 fn change(some_string: &amp;String) {
     some_string.push_str(", world");
 }</code></pre>
-<figcaption>Listing 4-6: Attempting to modify a borrowed value</figcaption>
+<figcaption><a href="#listing-4-6">Listing 4-6</a>: Attempting to modify a borrowed value</figcaption>
 </figure>
 <p data-x-en="Here’s the error:">这里的错误：</p>
 <pre><code class="language-console">$ cargo run

@@ -232,7 +232,7 @@ blockquote {
 <p data-x-en="In some languages, for some types, the programmer must call code to free memory or resources every time they finish using an instance of those types. Examples include file handles, sockets, and locks. If they forget, the system might become overloaded and crash. In Rust, you can specify that a particular bit of code be run whenever a value goes out of scope, and the compiler will insert this code automatically. As a result, you don’t need to be careful about placing cleanup code everywhere in a program that an instance of a particular type is finished with—you still won’t leak resources!">在某些语言中，对于某些类型，程序员必须在每次使用这些类型的实例后调用代码来释放内存或资源。例如文件句柄、套接字和锁。如果他们忘记了，系统可能会过载并崩溃。在 Rust 中，你可以指定每当一个值超出作用域时运行一段特定的代码，编译器会自动插入这段代码。因此，你不需要在程序中每个使用特定类型实例的地方都小心地放置清理代码——你仍然不会泄露资源！</p>
 <p data-x-en="You specify the code to run when a value goes out of scope by implementing the Drop trait. The Drop trait requires you to implement one method named drop that takes a mutable reference to self. To see when Rust calls drop, let’s implement drop with println! statements for now.">您可以通过实现 <code>Drop</code> 特性来指定值超出作用域时运行的代码。<code>Drop</code> 特性要求您实现一个名为 <code>drop</code> 的方法，该方法接受一个可变的 <code>self</code> 引用。为了查看 Rust 何时调用 <code>drop</code>，让我们先用 <code>println!</code> 语句来实现 <code>drop</code>。</p>
 <p data-x-en="Listing 15-14 shows a CustomSmartPointer struct whose only custom functionality is that it will print Dropping CustomSmartPointer! when the instance goes out of scope, to show when Rust runs the drop method.">列表 15-14 显示了一个 <code>CustomSmartPointer</code> 结构体，其唯一的自定义功能是在实例超出作用域时打印 <code>Dropping CustomSmartPointer!</code>，以显示 Rust 何时运行 <code>drop</code> 方法。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-14">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">struct CustomSmartPointer {
     data: String,
@@ -253,7 +253,7 @@ fn main() {
     };
     println!("CustomSmartPointers created.");
 }</code></pre></pre>
-<figcaption>Listing 15-14: A <code>CustomSmartPointer</code> struct that implements the <code>Drop</code> trait where we would put our cleanup code</figcaption>
+<figcaption><a href="#listing-15-14">Listing 15-14</a>: A <code>CustomSmartPointer</code> struct that implements the <code>Drop</code> trait where we would put our cleanup code</figcaption>
 </figure>
 <p data-x-en="The Drop trait is included in the prelude, so we don’t need to bring it into scope. We implement the Drop trait on CustomSmartPointer and provide an implementation for the drop method that calls println!. The body of the drop method is where you would place any logic that you wanted to run when an instance of your type goes out of scope. We’re printing some text here to demonstrate visually when Rust will call drop."><code>Drop</code> 特性包含在前言中，所以我们不需要将其引入作用域。我们在 <code>CustomSmartPointer</code> 上实现 <code>Drop</code> 特性，并为 <code>drop</code> 方法提供一个实现，该方法调用 <code>println!</code>。<code>drop</code> 方法的主体是你放置任何希望在类型实例超出作用域时运行的逻辑的地方。这里我们打印一些文本，以直观地展示 Rust 何时会调用 <code>drop</code>。</p>
 <p data-x-en="In main, we create two instances of CustomSmartPointer and then print CustomSmartPointers created. At the end of main, our instances of CustomSmartPointer will go out of scope, and Rust will call the code we put in the drop method, printing our final message. Note that we didn’t need to call the drop method explicitly.">在<code>main</code>中，我们创建了两个<code>CustomSmartPointer</code>的实例，然后打印<code>CustomSmartPointers created</code>。在<code>main</code>的末尾，我们的<code>CustomSmartPointer</code>实例将超出作用域，Rust将调用我们在<code>drop</code>方法中放置的代码，打印我们的最终消息。请注意，我们不需要显式调用<code>drop</code>方法。</p>
@@ -271,7 +271,7 @@ Dropping CustomSmartPointer with data `my stuff`!
 <p><a id="dropping-a-value-early-with-std-mem-drop"></a></p>
 <p data-x-en="Unfortunately, it’s not straightforward to disable the automatic drop functionality. Disabling drop isn’t usually necessary; the whole point of the Drop trait is that it’s taken care of automatically. Occasionally, however, you might want to clean up a value early. One example is when using smart pointers that manage locks: you might want to force the drop method that releases the lock so that other code in the same scope can acquire the lock. Rust doesn’t let you call the Drop trait’s drop method manually; instead, you have to call the std::mem::drop function provided by the standard library if you want to force a value to be dropped before the end of its scope.">不幸的是，禁用自动 <code>drop</code> 功能并不简单。通常情况下，禁用 <code>drop</code> 并不必要；<code>Drop</code> 特性的整个目的是它会自动处理。然而，有时你可能希望提前清理一个值。一个例子是在使用管理锁的智能指针时：你可能希望强制调用释放锁的 <code>drop</code> 方法，以便同一作用域中的其他代码可以获取锁。Rust 不允许你手动调用 <code>Drop</code> 特性的 <code>drop</code> 方法；相反，如果你想强制一个值在作用域结束前被丢弃，必须调用标准库提供的 <code>std::mem::drop</code> 函数。</p>
 <p data-x-en="If we try to call the Drop trait’s drop method manually by modifying the main function from Listing 15-14, as shown in Listing 15-15, we’ll get a compiler error.">如果我们尝试通过修改列表 15-14 中的 <code>main</code> 函数手动调用 <code>Drop</code> 特性 的 <code>drop</code> 方法，如列表 15-15 所示，我们将得到一个编译器错误。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-15">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">struct CustomSmartPointer {
 </span><span class="boring">    data: String,
@@ -291,7 +291,7 @@ Dropping CustomSmartPointer with data `my stuff`!
     c.drop();
     println!("CustomSmartPointer dropped before the end of main.");
 }</code></pre>
-<figcaption>Listing 15-15: Attempting to call the <code>drop</code> method from the <code>Drop</code> trait manually to clean up early</figcaption>
+<figcaption><a href="#listing-15-15">Listing 15-15</a>: Attempting to call the <code>drop</code> method from the <code>Drop</code> trait manually to clean up early</figcaption>
 </figure>
 <p data-x-en="When we try to compile this code, we’ll get this error:">当我们尝试编译这段代码时，我们会得到这个错误：</p>
 <pre><code class="language-console">$ cargo run
@@ -314,7 +314,7 @@ error: could not compile `drop-example` (bin "drop-example") due to 1 previous e
 <p data-x-en="Rust doesn’t let us call drop explicitly because Rust would still automatically call drop on the value at the end of main. This would cause a double free error because Rust would be trying to clean up the same value twice.">Rust 不允许我们显式调用 <code>drop</code>，因为 Rust 仍然会在 <code>main</code> 结束时自动调用 <code>drop</code>。这会导致 <em>双重释放</em> 错误，因为 Rust 会尝试两次清理同一个值。</p>
 <p data-x-en="We can’t disable the automatic insertion of drop when a value goes out of scope, and we can’t call the drop method explicitly. So, if we need to force a value to be cleaned up early, we use the std::mem::drop function.">我们不能禁用值超出作用域时自动插入的<code>drop</code>，也不能显式调用<code>drop</code>方法。所以，如果我们需要强制提前清理一个值，我们使用<code>std::mem::drop</code>函数。</p>
 <p data-x-en="The std::mem::drop function is different from the drop method in the Drop trait. We call it by passing as an argument the value we want to force-drop. The function is in the prelude, so we can modify main in Listing 15-15 to call the drop function, as shown in Listing 15-16."><code>std::mem::drop</code> 函数与 <code>Drop</code> 特性中的 <code>drop</code> 方法不同。我们通过传递要强制丢弃的值作为参数来调用它。该函数在前言中，因此我们可以修改列表 15-15 中的 <code>main</code> 来调用 <code>drop</code> 函数，如列表 15-16 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-16">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct CustomSmartPointer {
 </span><span class="boring">    data: String,
@@ -334,7 +334,7 @@ error: could not compile `drop-example` (bin "drop-example") due to 1 previous e
     drop(c);
     println!("CustomSmartPointer dropped before the end of main.");
 }</code></pre></pre>
-<figcaption>Listing 15-16: Calling <code>std::mem::drop</code> to explicitly drop a value before it goes out of scope</figcaption>
+<figcaption><a href="#listing-15-16">Listing 15-16</a>: Calling <code>std::mem::drop</code> to explicitly drop a value before it goes out of scope</figcaption>
 </figure>
 <p data-x-en="Running this code will print the following:">运行此代码将打印以下内容：</p>
 <pre><code class="language-console">$ cargo run

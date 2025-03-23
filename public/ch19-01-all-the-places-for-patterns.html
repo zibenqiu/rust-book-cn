@@ -252,7 +252,7 @@ blockquote {
 <p data-x-en="In Chapter 6, we discussed how to use if let expressions mainly as a shorter way to write the equivalent of a match that only matches one case. Optionally, if let can have a corresponding else containing code to run if the pattern in the if let doesn’t match.">在第 6 章中，我们讨论了如何使用 <code>if let</code> 表达式，主要是作为一种更简洁的方式来编写只匹配一个情况的 <code>match</code>。可选地，<code>if let</code> 可以有一个包含代码的 <code>else</code>，如果 <code>if let</code> 中的模式不匹配时，这些代码将运行。</p>
 <p data-x-en="Listing 19-1 shows that it’s also possible to mix and match if let, else if, and else if let expressions. Doing so gives us more flexibility than a match expression in which we can express only one value to compare with the patterns. Also, Rust doesn’t require that the conditions in a series of if let, else if, else if let arms relate to each other.">列表19-1显示，也可以混合使用<code>if let</code>、<code>else if</code>和<code>else if let</code>表达式。这样做比只能表达一个值与模式进行比较的<code>match</code>表达式提供了更多的灵活性。此外，Rust不要求一系列<code>if let</code>、<code>else if</code>、<code>else if let</code>分支中的条件相互关联。</p>
 <p data-x-en="The code in Listing 19-1 determines what color to make your background based on a series of checks for several conditions. For this example, we’ve created variables with hardcoded values that a real program might receive from user input.">清单 19-1 中的代码根据一系列检查多个条件来确定背景颜色。在这个例子中，我们创建了具有硬编码值的变量，这些值在实际程序中可能来自用户输入。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let favorite_color: Option&lt;&amp;str&gt; = None;
@@ -273,7 +273,7 @@ blockquote {
         println!("Using blue as the background color");
     }
 }</code></pre></pre>
-<figcaption>Listing 19-1: Mixing <code>if let</code>, <code>else if</code>, <code>else if let</code>, and <code>else</code></figcaption>
+<figcaption><a href="#listing-19-1">Listing 19-1</a>: Mixing <code>if let</code>, <code>else if</code>, <code>else if let</code>, and <code>else</code></figcaption>
 </figure>
 <p data-x-en="If the user specifies a favorite color, that color is used as the background. If no favorite color is specified and today is Tuesday, the background color is green. Otherwise, if the user specifies their age as a string and we can parse it as a number successfully, the color is either purple or orange depending on the value of the number. If none of these conditions apply, the background color is blue.">如果用户指定了最喜欢的颜色，那么该颜色将用作背景色。如果没有指定最喜欢的颜色且今天是星期二，背景色为绿色。否则，如果用户以字符串形式指定了年龄并且我们可以成功解析为数字，颜色将根据数字的值为紫色或橙色。如果以上条件都不适用，背景色为蓝色。</p>
 <p data-x-en="This conditional structure lets us support complex requirements. With the hardcoded values we have here, this example will print Using purple as the background color.">这种条件结构让我们能够支持复杂的需求。使用我们这里的硬编码值，此示例将打印 <code>Using purple as the background color</code>。</p>
@@ -281,7 +281,7 @@ blockquote {
 <p data-x-en="The downside of using if let expressions is that the compiler doesn’t check for exhaustiveness, whereas with match expressions it does. If we omitted the last else block and therefore missed handling some cases, the compiler would not alert us to the possible logic bug.">使用 <code>if let</code> 表达式的缺点是编译器不会检查穷尽性，而使用 <code>match</code> 表达式时编译器会进行检查。如果我们省略了最后一个 <code>else</code> 块，因此没有处理某些情况，编译器不会提醒我们可能存在逻辑错误。</p>
 <h3 id="while-let-conditional-loops"><a class="header" href="#while-let-conditional-loops"><code>while let</code> 条件循环</a></h3>
 <p data-x-en="Similar in construction to if let, the while let conditional loop allows a while loop to run for as long as a pattern continues to match. In Listing 19-2 we show a while let loop that waits on messages sent between threads, but in this case checking a Result instead of an Option.">与 <code>if let</code> 的构造类似，<code>while let</code> 条件循环允许 <code>while</code> 循环在模式继续匹配的情况下运行。在清单 19-2 中，我们展示了一个 <code>while let</code> 循环，该循环等待线程之间发送的消息，但在此情况下检查的是 <code>Result</code> 而不是 <code>Option</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-2">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let (tx, rx) = std::sync::mpsc::channel();
     std::thread::spawn(move || {
@@ -294,12 +294,12 @@ blockquote {
         println!("{value}");
     }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-2: Using a <code>while let</code> loop to print values for as long as <code>rx.recv()</code> returns <code>Ok</code></figcaption>
+<figcaption><a href="#listing-19-2">Listing 19-2</a>: Using a <code>while let</code> loop to print values for as long as <code>rx.recv()</code> returns <code>Ok</code></figcaption>
 </figure>
 <p data-x-en="This example prints 1, 2, and then 3. The recv method takes the first message out of the receiver side of the channel and returns an Ok(value). When we first saw recv back in Chapter 16, we unwrapped the error directly, or interacted with it as an iterator using a for loop. As Listing 19-2 shows, though, we can also use while let, because the recv method returns Ok each time a message arrives, as long as the sender exists, and then produces an Err once the sender side disconnects.">这个示例打印 <code>1</code>，<code>2</code>，然后是 <code>3</code>。<code>recv</code> 方法从通道的接收端取出第一条消息并返回一个 <code>Ok(value)</code>。当我们第一次在第 16 章看到 <code>recv</code> 时，我们直接解包了错误，或者使用 <code>for</code> 循环作为迭代器与之交互。然而，如清单 19-2 所示，我们也可以使用 <code>while let</code>，因为只要发送方存在，每次消息到达时 <code>recv</code> 方法都会返回 <code>Ok</code>，而一旦发送方断开连接，就会产生一个 <code>Err</code>。</p>
 <h3 id="for-loops"><a class="header" href="#for-loops"><code>for</code> 循环</a></h3>
 <p data-x-en="In a for loop, the value that directly follows the keyword for is a pattern. For example, in for x in y, the x is the pattern. Listing 19-3 demonstrates how to use a pattern in a for loop to destructure, or break apart, a tuple as part of the for loop.">在 <code>for</code> 循环中，直接跟在 <code>for</code> 关键字后面的值是一个模式。例如，在 <code>for x in y</code> 中，<code>x</code> 就是模式。列表 19-3 展示了如何在 <code>for</code> 循环中使用模式来解构，或拆分，一个元组作为 <code>for</code> 循环的一部分。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-3">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let v = vec!['a', 'b', 'c'];
 
@@ -307,7 +307,7 @@ blockquote {
         println!("{value} is at index {index}");
     }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-3: Using a pattern in a <code>for</code> loop to destructure a tuple</figcaption>
+<figcaption><a href="#listing-19-3">Listing 19-3</a>: Using a pattern in a <code>for</code> loop to destructure a tuple</figcaption>
 </figure>
 <p data-x-en="The code in Listing 19-3 will print the following:">清单 19-3 中的代码将打印以下内容：</p>
 <pre><code class="language-console">$ cargo run
@@ -335,19 +335,19 @@ c is at index 2
 </pre>
 <p data-x-en="In statements like let x = 5; with a variable name in the PATTERN slot, the variable name is just a particularly simple form of a pattern. Rust compares the expression against the pattern and assigns any names it finds. So, in the let x = 5; example, x is a pattern that means “bind what matches here to the variable x.” Because the name x is the whole pattern, this pattern effectively means “bind everything to the variable x, whatever the value is.”">在像 <code>let x = 5;</code> 这样的语句中，变量名位于 <em><code>PATTERN</code></em> 位置，变量名只是模式的一种特别简单的形式。Rust 会将表达式与模式进行比较，并分配它找到的任何名称。因此，在 <code>let x = 5;</code> 示例中，<code>x</code> 是一个表示“将此处匹配的内容绑定到变量 <code>x</code>”的模式。由于名称 <code>x</code> 是整个模式，这个模式实际上意味着“将所有内容绑定到变量 <code>x</code>，无论值是什么。”</p>
 <p data-x-en="To see the pattern-matching aspect of let more clearly, consider Listing 19-4, which uses a pattern with let to destructure a tuple.">为了更清楚地看到 <code>let</code> 的模式匹配方面，请考虑列表 19-4，它使用带有 <code>let</code> 的模式来解构一个元组。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-4">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let (x, y, z) = (1, 2, 3);
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-4: Using a pattern to destructure a tuple and create three variables at once</figcaption>
+<figcaption><a href="#listing-19-4">Listing 19-4</a>: Using a pattern to destructure a tuple and create three variables at once</figcaption>
 </figure>
 <p data-x-en="Here, we match a tuple against a pattern. Rust compares the value (1, 2, 3) to the pattern (x, y, z) and sees that the value matches the pattern, in that the number of elements is the same in both, so Rust binds 1 to x, 2 to y, and 3 to z. You can think of this tuple pattern as nesting three individual variable patterns inside it.">在这里，我们将一个元组与一个模式进行匹配。Rust 将值 <code>(1, 2, 3)</code> 与模式 <code>(x, y, z)</code> 进行比较，发现值与模式匹配，因为两者的元素数量相同，所以 Rust 将 <code>1</code> 绑定到 <code>x</code>，<code>2</code> 绑定到 <code>y</code>，<code>3</code> 绑定到 <code>z</code>。你可以将这个元组模式视为在其内部嵌套了三个单独的变量模式。</p>
 <p data-x-en="If the number of elements in the pattern doesn’t match the number of elements in the tuple, the overall type won’t match and we’ll get a compiler error. For example, Listing 19-5 shows an attempt to destructure a tuple with three elements into two variables, which won’t work.">如果模式中的元素数量与元组中的元素数量不匹配，整体类型将不匹配，我们将收到编译器错误。例如，列表 19-5 显示了尝试将包含三个元素的元组解构为两个变量，这将无法工作。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-5">
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let (x, y) = (1, 2, 3);
 <span class="boring">}</span></code></pre>
-<figcaption>Listing 19-5: Incorrectly constructing a pattern whose variables don’t match the number of elements in the tuple</figcaption>
+<figcaption><a href="#listing-19-5">Listing 19-5</a>: Incorrectly constructing a pattern whose variables don’t match the number of elements in the tuple</figcaption>
 </figure>
 <p data-x-en="Attempting to compile this code results in this type error:">尝试编译此代码会导致此类型错误：</p>
 <pre><code class="language-console">$ cargo run
@@ -369,16 +369,16 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 <p data-x-en="To fix the error, we could ignore one or more of the values in the tuple using _ or .., as you’ll see in the “Ignoring Values in a Pattern” section. If the problem is that we have too many variables in the pattern, the solution is to make the types match by removing variables so the number of variables equals the number of elements in the tuple.">要修复错误，我们可以使用 <code>_</code> 或 <code>..</code> 忽略元组中的一个或多个值，如<a href="ch19-03-pattern-syntax.html#ignoring-values-in-a-pattern">“在模式中忽略值”</a><!-- ignore --> 部分所述。如果问题是模式中的变量过多，解决方案是通过删除变量使类型匹配，使变量的数量等于元组中的元素数量。</p>
 <h3 id="function-parameters"><a class="header" href="#function-parameters">函数参数</a></h3>
 <p data-x-en="Function parameters can also be patterns. The code in Listing 19-6, which declares a function named foo that takes one parameter named x of type i32, should by now look familiar.">函数参数也可以是模式。清单 19-6 中的代码声明了一个名为 <code>foo</code> 的函数，该函数接受一个名为 <code>x</code> 的参数，类型为 <code>i32</code>，现在应该看起来很熟悉。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-6">
 <pre><pre class="playground"><code class="language-rust edition2024">fn foo(x: i32) {
     // code goes here
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 19-6: A function signature uses patterns in the parameters</figcaption>
+<figcaption><a href="#listing-19-6">Listing 19-6</a>: A function signature uses patterns in the parameters</figcaption>
 </figure>
 <p data-x-en="The x part is a pattern! As we did with let, we could match a tuple in a function’s arguments to the pattern. Listing 19-7 splits the values in a tuple as we pass it to a function."><code>x</code> 部分是一个模式！就像我们使用 <code>let</code> 一样，我们可以在函数的参数中将元组与模式匹配。列表 19-7 在我们将元组传递给函数时拆分了元组中的值。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-7">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn print_coordinates(&amp;(x, y): &amp;(i32, i32)) {
     println!("Current location: ({x}, {y})");
@@ -388,7 +388,7 @@ fn main() {
     let point = (3, 5);
     print_coordinates(&amp;point);
 }</code></pre></pre>
-<figcaption>Listing 19-7: A function with parameters that destructure a tuple</figcaption>
+<figcaption><a href="#listing-19-7">Listing 19-7</a>: A function with parameters that destructure a tuple</figcaption>
 </figure>
 <p data-x-en="This code prints Current location: (3, 5). The values &amp;(3, 5) match the pattern &amp;(x, y), so x is the value 3 and y is the value 5.">这段代码打印 <code>Current location: (3, 5)</code>。值 <code>&amp;(3, 5)</code> 匹配模式 <code>&amp;(x, y)</code>，因此 <code>x</code> 的值为 <code>3</code>，<code>y</code> 的值为 <code>5</code>。</p>
 <p data-x-en="We can also use patterns in closure parameter lists in the same way as in function parameter lists because closures are similar to functions, as discussed in Chapter 13.">我们也可以在闭包参数列表中使用模式，就像在函数参数列表中使用一样，因为闭包与函数相似，正如第13章所讨论的。</p>

@@ -231,12 +231,12 @@ blockquote {
 <p data-x-en="Function parameters, let statements, and for loops can only accept irrefutable patterns because the program cannot do anything meaningful when values don’t match. The if let and while let expressions and the let...else statement accept refutable and irrefutable patterns, but the compiler warns against irrefutable patterns because, by definition, they’re intended to handle possible failure: the functionality of a conditional is in its ability to perform differently depending on success or failure.">函数参数、<code>let</code> 语句和 <code>for</code> 循环只能接受不可反驳的模式，因为当值不匹配时，程序无法执行任何有意义的操作。<code>if let</code> 和 <code>while let</code> 表达式以及 <code>let...else</code> 语句接受可反驳和不可反驳的模式，但编译器会警告使用不可反驳的模式，因为按定义它们旨在处理可能的失败：条件语句的功能在于其能够根据成功或失败以不同方式执行。</p>
 <p data-x-en="In general, you shouldn’t have to worry about the distinction between refutable and irrefutable patterns; however, you do need to be familiar with the concept of refutability so you can respond when you see it in an error message. In those cases, you’ll need to change either the pattern or the construct you’re using the pattern with, depending on the intended behavior of the code.">通常，你不必担心可反驳和不可反驳模式之间的区别；然而，你需要熟悉可反驳性的概念，这样当你在错误消息中看到它时能够做出回应。在这种情况下，你需要根据代码的预期行为，更改模式或你正在使用的模式构造。</p>
 <p data-x-en="Let’s look at an example of what happens when we try to use a refutable pattern where Rust requires an irrefutable pattern and vice versa. Listing 19-8 shows a let statement, but for the pattern, we’ve specified Some(x), a refutable pattern. As you might expect, this code will not compile.">让我们来看一个例子，当我们试图在 Rust 要求不可反驳模式的地方使用可反驳模式，反之亦然时会发生什么。列表 19-8 显示了一个 <code>let</code> 语句，但对于模式，我们指定了 <code>Some(x)</code>，这是一个可反驳的模式。正如你可能预料的那样，这段代码将无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-8">
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
 </span>    let Some(x) = some_option_value;
 <span class="boring">}</span></code></pre>
-<figcaption>Listing 19-8: Attempting to use a refutable pattern with <code>let</code></figcaption>
+<figcaption><a href="#listing-19-8">Listing 19-8</a>: Attempting to use a refutable pattern with <code>let</code></figcaption>
 </figure>
 <p data-x-en="If some_option_value were a None value, it would fail to match the pattern Some(x), meaning the pattern is refutable. However, the let statement can only accept an irrefutable pattern because there is nothing valid the code can do with a None value. At compile time, Rust will complain that we’ve tried to use a refutable pattern where an irrefutable pattern is required:">如果 <code>some_option_value</code> 是一个 <code>None</code> 值，它将无法匹配模式 <code>Some(x)</code>，这意味着该模式是可反驳的。然而，<code>let</code> 语句只能接受不可反驳的模式，因为代码对 <code>None</code> 值无能为力。在编译时，Rust 会抱怨我们试图在需要不可反驳模式的地方使用可反驳模式：</p>
 <pre><code class="language-console">$ cargo run
@@ -260,23 +260,23 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 </code></pre>
 <p data-x-en="Because we didn’t cover (and couldn’t cover!) every valid value with the pattern Some(x), Rust rightfully produces a compiler error.">因为我们没有用模式 <code>Some(x)</code> 覆盖（也无法覆盖！）每一个有效的值，所以 Rust 正确地产生了编译器错误。</p>
 <p data-x-en="If we have a refutable pattern where an irrefutable pattern is needed, we can fix it by changing the code that uses the pattern: instead of using let, we can use if let. Then if the pattern doesn’t match, the code will just skip the code in the curly brackets, giving it a way to continue validly. Listing 19-9 shows how to fix the code in Listing 19-8.">如果我们有一个在需要不可反驳模式的地方使用的可反驳模式，我们可以通过更改使用该模式的代码来修复：而不是使用<code>let</code>，我们可以使用<code>if let</code>。这样，如果模式不匹配，代码将跳过大括号内的代码，从而能够继续有效执行。列表 19-9 展示了如何修复列表 19-8 中的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-9">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    let some_option_value: Option&lt;i32&gt; = None;
 </span>    let Some(x) = some_option_value else {
         return;
     };
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-9: Using <code>let...else</code> and a block with refutable patterns instead of <code>let</code></figcaption>
+<figcaption><a href="#listing-19-9">Listing 19-9</a>: Using <code>let...else</code> and a block with refutable patterns instead of <code>let</code></figcaption>
 </figure>
 <p data-x-en="We’ve given the code an out! This code is perfectly valid now. However, if we give if let an irrefutable pattern (a pattern that will always match), such as x, as shown in Listing 19-10, the compiler will give a warning.">我们给代码留了一条出路！这段代码现在完全有效。然而，如果我们给 <code>if let</code> 一个不可拒绝的模式（一个总是会匹配的模式），比如 <code>x</code>，如清单 19-10 所示，编译器会发出警告。</p>
-<figure class="listing">
+<figure class="listing" id="listing-19-10">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let x = 5 else {
         return;
     };
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-10: Attempting to use an irrefutable pattern with <code>if let</code></figcaption>
+<figcaption><a href="#listing-19-10">Listing 19-10</a>: Attempting to use an irrefutable pattern with <code>if let</code></figcaption>
 </figure>
 <p data-x-en="Rust complains that it doesn’t make sense to use if let with an irrefutable pattern:">Rust 抱怨说，使用 <code>if let</code> 与不可反驳的模式是没有意义的：</p>
 <pre><code class="language-console">$ cargo run

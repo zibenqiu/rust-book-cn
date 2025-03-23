@@ -296,12 +296,12 @@ The measurement is: 5h
 <li data-x-en="Expressions evaluate to a resultant value. Let’s look at some examples."><strong>表达式</strong> 会计算出一个结果值。让我们来看一些例子。</li>
 </ul>
 <p data-x-en="We’ve actually already used statements and expressions. Creating a variable and assigning a value to it with the let keyword is a statement. In Listing 3-1, let y = 6; is a statement.">我们实际上已经使用过语句和表达式。使用 <code>let</code> 关键字创建变量并赋值是一个语句。在示例 3-1 中，<code>let y = 6;</code> 是一个语句。</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let y = 6;
 }</code></pre></pre>
-<figcaption>Listing 3-1: A <code>main</code> function declaration containing one statement</figcaption>
+<figcaption><a href="#listing-3-1">Listing 3-1</a>: A <code>main</code> function declaration containing one statement</figcaption>
 </figure>
 <p data-x-en="Function definitions are also statements; the entire preceding example is a statement in itself. (As we will see below, calling a function is not a statement.)">函数定义也是语句；前面的整个例子本身就是一个语句。（正如我们将在下面看到的，<em>调用</em>函数不是语句。）</p>
 <p data-x-en="Statements do not return values. Therefore, you can’t assign a let statement to another variable, as the following code tries to do; you’ll get an error:">语句不返回值。因此，你不能将一个 <code>let</code> 语句 赋值给另一个变量，如下代码试图做的那样；你会得到一个错误：</p>

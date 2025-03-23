@@ -245,7 +245,7 @@ $ cd adder
 </code></pre>
 <p data-x-en="The contents of the src/lib.rs file in your adder library should look like Listing 11-1."><em>src/lib.rs</em> 文件中的内容在你的 <code>adder</code> 库中应该像
 列表 11-1。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-1">
 <span class="file-name">Filename: src/lib.rs</span>
 <!-- manual-regeneration
 cd listings/ch11-writing-automated-tests
@@ -271,14 +271,14 @@ mod tests {
         assert_eq!(result, 4);
     }
 }</code></pre>
-<figcaption>Listing 11-1: The code generated automatically by <code>cargo new</code></figcaption>
+<figcaption><a href="#listing-11-1">Listing 11-1</a>: The code generated automatically by <code>cargo new</code></figcaption>
 </figure>
 <p data-x-en="The file starts with an example add function, so that we have something to test.">文件以一个示例 <code>add</code> 函数开始，这样我们就有东西可以测试。</p>
 <p data-x-en="For now, let’s focus solely on the it_works function. Note the #[test] annotation: this attribute indicates this is a test function, so the test runner knows to treat this function as a test. We might also have non-test functions in the tests module to help set up common scenarios or perform common operations, so we always need to indicate which functions are tests.">现在，让我们只关注 <code>it_works</code> 函数。注意 <code>#[test]</code>
 注解：这个属性表示这是一个测试函数，因此测试运行器知道将此函数视为测试。我们可能在 <code>tests</code> 模块中还有非测试函数，用于帮助设置常见场景或执行常见操作，所以我们总是需要指明哪些函数是测试。</p>
 <p data-x-en="The example function body uses the assert_eq! macro to assert that result, which contains the result of calling add with 2 and 2, equals 4. This assertion serves as an example of the format for a typical test. Let’s run it to see that this test passes.">示例函数体使用 <code>assert_eq!</code> 宏来断言 <code>result</code>，其中包含调用 <code>add</code> 传入 2 和 2 的结果，等于 4。这个断言作为典型测试格式的一个示例。让我们运行它来看看这个测试是否通过。</p>
 <p data-x-en="The cargo test command runs all tests in our project, as shown in Listing 11-2."><code>cargo test</code> 命令会运行我们项目中的所有测试，如列表 11-2 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-2">
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s
@@ -296,7 +296,7 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 </code></pre>
-<figcaption>Listing 11-2: The output from running the automatically generated test</figcaption>
+<figcaption><a href="#listing-11-2">Listing 11-2</a>: The output from running the automatically generated test</figcaption>
 </figure>
 <p data-x-en="Cargo compiled and ran the test. We see the line running 1 test. The next line shows the name of the generated test function, called tests::it_works, and that the result of running that test is ok. The overall summary test result: ok. means that all the tests passed, and the portion that reads 1 passed; 0 failed totals the number of tests that passed or failed.">Cargo 编译并运行了测试。我们看到一行 <code>running 1 test</code>。下一行显示了生成的测试函数的名称，称为 <code>tests::it_works</code>，以及运行该测试的结果是 <code>ok</code>。总体摘要 <code>test result: ok.</code> 表示所有测试都通过了，而 <code>1 passed; 0 failed</code> 部分统计了通过或失败的测试数量。</p>
 <p data-x-en="It’s possible to mark a test as ignored so it doesn’t run in a particular instance; we’ll cover that in the “Ignoring Some Tests Unless Specifically Requested” section later in this chapter. Because we haven’t done that here, the summary shows 0 ignored. We can also pass an argument to the cargo test command to run only tests whose name matches a string; this is called filtering and we’ll cover that in the “Running a Subset of Tests by Name” section. Here we haven’t filtered the tests being run, so the end of the summary shows 0 filtered out.">可以将测试标记为忽略，这样在特定情况下就不会运行；我们将在本章后面的<a href="ch11-02-running-tests.html#ignoring-some-tests-unless-specifically-requested">“除非特别要求，否则忽略某些测试”</a>部分介绍。因为我们在这里没有这样做，所以摘要显示<code>0 ignored</code>。我们还可以向<code>cargo test</code>命令传递一个参数，以仅运行名称与字符串匹配的测试；这称为<em>过滤</em>，我们将在<a href="ch11-02-running-tests.html#running-a-subset-of-tests-by-name">“按名称运行测试子集”</a>部分介绍。这里我们没有过滤正在运行的测试，所以摘要的末尾显示<code>0 filtered out</code>。</p>
@@ -337,7 +337,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 </code></pre>
 <p data-x-en="Now we’ll add another test, but this time we’ll make a test that fails! Tests fail when something in the test function panics. Each test is run in a new thread, and when the main thread sees that a test thread has died, the test is marked as failed. In Chapter 9, we talked about how the simplest way to panic is to call the panic! macro. Enter the new test as a function named another, so your src/lib.rs file looks like Listing 11-3.">现在我们将添加另一个测试，但这次我们将创建一个失败的测试！当测试函数中的某些内容引发恐慌时，测试就会失败。每个测试都在一个新线程中运行，当主线程看到测试线程已死亡时，该测试就会被标记为失败。在第 9 章中，我们讨论了引发恐慌的最简单方法是调用 <code>panic!</code> 宏。将新测试作为名为 <code>another</code> 的函数输入，因此您的 <em>src/lib.rs</em> 文件看起来像列表 11-3。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-3">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust panics noplayground">pub fn add(left: u64, right: u64) -&gt; u64 {
     left + right
@@ -358,10 +358,10 @@ mod tests {
         panic!("Make this test fail");
     }
 }</code></pre>
-<figcaption>Listing 11-3: Adding a second test that will fail because we call the <code>panic!</code> macro</figcaption>
+<figcaption><a href="#listing-11-3">Listing 11-3</a>: Adding a second test that will fail because we call the <code>panic!</code> macro</figcaption>
 </figure>
 <p data-x-en="Run the tests again using cargo test. The output should look like Listing 11-4, which shows that our exploration test passed and another failed.">再次使用 <code>cargo test</code> 运行测试。输出应该如清单 11-4 所示，显示我们的 <code>exploration</code> 测试通过了，而 <code>another</code> 失败了。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-4">
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
@@ -387,7 +387,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 
 error: test failed, to rerun pass `--lib`
 </code></pre>
-<figcaption>Listing 11-4: Test results when one test passes and one test fails</figcaption>
+<figcaption><a href="#listing-11-4">Listing 11-4</a>: Test results when one test passes and one test fails</figcaption>
 </figure>
 <!-- manual-regeneration
 rg panicked listings/ch11-writing-automated-tests/listing-11-03/output.txt
@@ -400,7 +400,7 @@ check the line number of the panic matches the line number in the following para
 <h3 id="checking-results-with-the-assert-macro"><a class="header" href="#checking-results-with-the-assert-macro">使用 <code>assert!</code> 宏检查结果</a></h3>
 <p data-x-en="The assert! macro, provided by the standard library, is useful when you want to ensure that some condition in a test evaluates to true. We give the assert! macro an argument that evaluates to a Boolean. If the value is true, nothing happens and the test passes. If the value is false, the assert! macro calls panic! to cause the test to fail. Using the assert! macro helps us check that our code is functioning in the way we intend."><code>assert!</code> 宏由标准库提供，当你希望确保测试中的某个条件评估为 <code>true</code> 时非常有用。我们给 <code>assert!</code> 宏一个评估为布尔值的参数。如果值为 <code>true</code>，则不会发生任何事情，测试通过。如果值为 <code>false</code>，<code>assert!</code> 宏会调用 <code>panic!</code> 使测试失败。使用 <code>assert!</code> 宏有助于我们检查代码是否按我们预期的方式运行。</p>
 <p data-x-en="In Chapter 5, Listing 5-15, we used a Rectangle struct and a can_hold method, which are repeated here in Listing 11-5. Let’s put this code in the src/lib.rs file, then write some tests for it using the assert! macro.">在第 5 章，列表 5-15 中，我们使用了一个 <code>Rectangle</code> 结构体和一个 <code>can_hold</code> 方法，这些内容在列表 11-5 中再次列出。让我们将这段代码放在 <em>src/lib.rs</em> 文件中，然后使用 <code>assert!</code> 宏编写一些测试。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-5">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">#[derive(Debug)]
 struct Rectangle {
@@ -413,10 +413,10 @@ impl Rectangle {
         self.width &gt; other.width &amp;&amp; self.height &gt; other.height
     }
 }</code></pre>
-<figcaption>Listing 11-5: The <code>Rectangle</code> struct and its <code>can_hold</code> method from Chapter 5</figcaption>
+<figcaption><a href="#listing-11-5">Listing 11-5</a>: The <code>Rectangle</code> struct and its <code>can_hold</code> method from Chapter 5</figcaption>
 </figure>
 <p data-x-en="The can_hold method returns a Boolean, which means it’s a perfect use case for the assert! macro. In Listing 11-6, we write a test that exercises the can_hold method by creating a Rectangle instance that has a width of 8 and a height of 7 and asserting that it can hold another Rectangle instance that has a width of 5 and a height of 1."><code>can_hold</code> 方法返回一个布尔值，这意味着它是 <code>assert!</code> 宏的完美用例。在清单 11-6 中，我们编写了一个测试，通过创建一个宽度为 8 和高度为 7 的 <code>Rectangle</code> 实例，并断言它可以容纳另一个宽度为 5 和高度为 1 的 <code>Rectangle</code> 实例来测试 <code>can_hold</code> 方法。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-6">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
@@ -448,7 +448,7 @@ mod tests {
         assert!(larger.can_hold(&amp;smaller));
     }
 }</code></pre>
-<figcaption>Listing 11-6: A test for <code>can_hold</code> that checks whether a larger rectangle can indeed hold a smaller rectangle</figcaption>
+<figcaption><a href="#listing-11-6">Listing 11-6</a>: A test for <code>can_hold</code> that checks whether a larger rectangle can indeed hold a smaller rectangle</figcaption>
 </figure>
 <p data-x-en="Note the use super::*; line inside the tests module. The tests module is a regular module that follows the usual visibility rules we covered in Chapter 7 in the “Paths for Referring to an Item in the Module Tree” section. Because the tests module is an inner module, we need to bring the code under test in the outer module into the scope of the inner module. We use a glob here, so anything we define in the outer module is available to this tests module.">注意 <code>use super::*;</code> 这一行在 <code>tests</code> 模块内。 <code>tests</code> 模块是一个遵循我们在第 7 章 <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“模块树中引用项的路径”</a><!-- ignore -->
 部分讨论的通常可见性规则的普通模块。因为 <code>tests</code> 模块是一个内部模块，我们需要将外部模块中的待测试代码引入到内部模块的作用域中。这里我们使用了一个通配符，所以我们在外部模块中定义的任何内容都对这个 <code>tests</code> 模块可用。</p>
@@ -612,7 +612,7 @@ error: test failed, to rerun pass `--lib`
 <h3 id="testing-equality-with-the-assert_eq-and-assert_ne-macros"><a class="header" href="#testing-equality-with-the-assert_eq-and-assert_ne-macros">使用 <code>assert_eq!</code> 和 <code>assert_ne!</code> 宏测试相等性</a></h3>
 <p data-x-en="A common way to verify functionality is to test for equality between the result of the code under test and the value you expect the code to return. You could do this by using the assert! macro and passing it an expression using the == operator. However, this is such a common test that the standard library provides a pair of macros—assert_eq! and assert_ne!—to perform this test more conveniently. These macros compare two arguments for equality or inequality, respectively. They’ll also print the two values if the assertion fails, which makes it easier to see why the test failed; conversely, the assert! macro only indicates that it got a false value for the == expression, without printing the values that led to the false value.">验证功能的一种常见方法是测试代码测试结果与你期望代码返回的值之间的相等性。你可以通过使用 <code>assert!</code> 宏并传递一个使用 <code>==</code> 运算符的表达式来实现这一点。然而，这是一个非常常见的测试，因此标准库提供了一对宏——<code>assert_eq!</code> 和 <code>assert_ne!</code>——以更方便地执行此测试。这些宏分别比较两个参数的相等性或不相等性。如果断言失败，它们还会打印这两个值，这使得更容易看到 <em>为什么</em> 测试失败；相反，<code>assert!</code> 宏仅指示 <code>==</code> 表达式得到了一个 <code>false</code> 值，而不会打印导致 <code>false</code> 值的值。</p>
 <p data-x-en="In Listing 11-7, we write a function named add_two that adds 2 to its parameter, then we test this function using the assert_eq! macro.">在清单 11-7 中，我们编写了一个名为 <code>add_two</code> 的函数，该函数将其参数加 <code>2</code>，然后我们使用 <code>assert_eq!</code> 宏测试此函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-7">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub fn add_two(a: usize) -&gt; usize {
     a + 2
@@ -628,7 +628,7 @@ mod tests {
         assert_eq!(result, 4);
     }
 }</code></pre>
-<figcaption>Listing 11-7: Testing the function <code>add_two</code> using the <code>assert_eq!</code> macro</figcaption>
+<figcaption><a href="#listing-11-7">Listing 11-7</a>: Testing the function <code>add_two</code> using the <code>assert_eq!</code> macro</figcaption>
 </figure>
 <p data-x-en="Let’s check that it passes!">让我们检查它是否通过！</p>
 <pre><code class="language-console">$ cargo test
@@ -803,7 +803,7 @@ error: test failed, to rerun pass `--lib`
 <p data-x-en="In addition to checking return values, it’s important to check that our code handles error conditions as we expect. For example, consider the Guess type that we created in Chapter 9, Listing 9-13. Other code that uses Guess depends on the guarantee that Guess instances will contain only values between 1 and 100. We can write a test that ensures that attempting to create a Guess instance with a value outside that range panics.">除了检查返回值之外，确保我们的代码按预期处理错误条件也很重要。例如，考虑我们在第 9 章，列表 9-13 中创建的 <code>Guess</code> 类型。使用 <code>Guess</code> 的其他代码依赖于 <code>Guess</code> 实例将仅包含 1 到 100 之间的值的保证。我们可以编写一个测试，以确保尝试使用该范围之外的值创建 <code>Guess</code> 实例时会引发恐慌。</p>
 <p data-x-en="We do this by adding the attribute should_panic to our test function. The test passes if the code inside the function panics; the test fails if the code inside the function doesn’t panic.">我们通过在测试函数中添加属性 <code>should_panic</code> 来实现这一点。如果函数内的代码引发恐慌，则测试通过；如果函数内的代码没有引发恐慌，则测试失败。</p>
 <p data-x-en="Listing 11-8 shows a test that checks that the error conditions of Guess::new happen when we expect them to.">列表 11-8 显示了一个测试，该测试检查 <code>Guess::new</code> 的错误条件是否在我们预期时发生。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-8">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub struct Guess {
     value: i32,
@@ -829,7 +829,7 @@ mod tests {
         Guess::new(200);
     }
 }</code></pre>
-<figcaption>Listing 11-8: Testing that a condition will cause a <code>panic!</code></figcaption>
+<figcaption><a href="#listing-11-8">Listing 11-8</a>: Testing that a condition will cause a <code>panic!</code></figcaption>
 </figure>
 <p data-x-en="We place the #[should_panic] attribute after the #[test] attribute and before the test function it applies to. Let’s look at the result when this test passes:">我们将 <code>#[should_panic]</code> 属性放在 <code>#[test]</code> 属性之后和它所应用的测试函数之前。让我们看看当这个测试通过时的结果：</p>
 <pre><code class="language-console">$ cargo test
@@ -898,7 +898,7 @@ error: test failed, to rerun pass `--lib`
 </code></pre>
 <p data-x-en="We don’t get a very helpful message in this case, but when we look at the test function, we see that it’s annotated with #[should_panic]. The failure we got means that the code in the test function did not cause a panic.">在这种情况下，我们没有得到非常有帮助的信息，但当我们查看测试函数时，我们看到它被标注为<code>#[should_panic]</code>。我们得到的失败意味着测试函数中的代码没有引发恐慌。</p>
 <p data-x-en="Tests that use should_panic can be imprecise. A should_panic test would pass even if the test panics for a different reason from the one we were expecting. To make should_panic tests more precise, we can add an optional expected parameter to the should_panic attribute. The test harness will make sure that the failure message contains the provided text. For example, consider the modified code for Guess in Listing 11-9 where the new function panics with different messages depending on whether the value is too small or too large.">使用 <code>should_panic</code> 的测试可能不精确。如果测试因与我们预期不同的原因而恐慌，<code>should_panic</code> 测试也会通过。为了使 <code>should_panic</code> 测试更精确，我们可以在 <code>should_panic</code> 属性中添加一个可选的 <code>expected</code> 参数。测试框架将确保失败消息包含提供的文本。例如，考虑列表 11-9 中 <code>Guess</code> 的修改代码，其中 <code>new</code> 函数会根据值是太小还是太大而产生不同的恐慌消息。</p>
-<figure class="listing">
+<figure class="listing" id="listing-11-9">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">pub struct Guess {
 </span><span class="boring">    value: i32,
@@ -932,7 +932,7 @@ mod tests {
         Guess::new(200);
     }
 }</code></pre>
-<figcaption>Listing 11-9: Testing for a <code>panic!</code> with a panic message containing a specified substring</figcaption>
+<figcaption><a href="#listing-11-9">Listing 11-9</a>: Testing for a <code>panic!</code> with a panic message containing a specified substring</figcaption>
 </figure>
 <p data-x-en="This test will pass because the value we put in the should_panic attribute’s expected parameter is a substring of the message that the Guess::new function panics with. We could have specified the entire panic message that we expect, which in this case would be Guess value must be less than or equal to 100, got 200. What you choose to specify depends on how much of the panic message is unique or dynamic and how precise you want your test to be. In this case, a substring of the panic message is enough to ensure that the code in the test function executes the else if value > 100 case.">这个测试会通过，因为我们放在 <code>should_panic</code> 属性的 <code>expected</code> 参数中的值是 <code>Guess::new</code> 函数抛出的恐慌消息的子字符串。我们可以指定我们期望的整个恐慌消息，在这种情况下是 <code>Guess value must be less than or equal to 100, got 200</code>。你选择指定的内容取决于恐慌消息中有多少是唯一的或动态的，以及你希望你的测试有多精确。在这种情况下，恐慌消息的子字符串足以确保测试函数中的代码执行 <code>else if value &gt; 100</code> 分支。</p>
 <p data-x-en="To see what happens when a should_panic test with an expected message fails, let’s again introduce a bug into our code by swapping the bodies of the if value < 1 and the else if value > 100 blocks:">要查看带有 <code>expected</code> 消息的 <code>should_panic</code> 测试失败时会发生什么，让我们再次通过交换 <code>if value &lt; 1</code> 和 <code>else if value &gt; 100</code> 块的主体来引入一个错误：</p>

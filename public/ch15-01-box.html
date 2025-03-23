@@ -239,16 +239,16 @@ blockquote {
 因为数据会在栈上被复制。为了在这种情况下提高性能，我们可以将大量数据存储在堆上的一个Box中。然后，
 只有少量的指针数据会在栈上被复制，而它引用的数据会保持在堆上的一个位置。第三种情况被称为<em>trait对象</em>，第18章的<a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型的值的trait对象”</a><!-- ignore -->专门讨论了这个主题。
 所以你在这里学到的内容在那一节中也会再次应用！</p>
-<h3 id="using-boxt-to-store-data-on-the-heap" data-x-en="Using Box<T> to Store Data on the Heap"><a class="header" href="#using-boxt-to-store-data-on-the-heap">使用 <code>Box&lt;T&gt;</code> 在堆上存储数据</a></h3>
+<h3 id="using-boxt-to-store-data-on-the-heap"><a class="header" href="#using-boxt-to-store-data-on-the-heap">使用 <code>Box&lt;T&gt;</code> 在堆上存储数据</a></h3>
 <p data-x-en="Before we discuss the heap storage use case for Box<T>, we’ll cover the syntax and how to interact with values stored within a Box<T>.">在我们讨论 <code>Box&lt;T&gt;</code> 的堆存储用例之前，我们将介绍其语法以及如何与存储在 <code>Box&lt;T&gt;</code> 中的值进行交互。</p>
 <p data-x-en="Listing 15-1 shows how to use a box to store an i32 value on the heap.">列表 15-1 显示了如何使用一个盒子在堆上存储一个 <code>i32</code> 值。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let b = Box::new(5);
     println!("b = {b}");
 }</code></pre></pre>
-<figcaption>Listing 15-1: Storing an <code>i32</code> value on the heap using a box</figcaption>
+<figcaption><a href="#listing-15-1">Listing 15-1</a>: Storing an <code>i32</code> value on the heap using a box</figcaption>
 </figure>
 <p data-x-en="We define the variable b to have the value of a Box that points to the value 5, which is allocated on the heap. This program will print b = 5; in this case, we can access the data in the box similarly to how we would if this data were on the stack. Just like any owned value, when a box goes out of scope, as b does at the end of main, it will be deallocated. The deallocation happens both for the box (stored on the stack) and the data it points to (stored on the heap).">我们定义变量<code>b</code>具有指向值<code>5</code>的<code>Box</code>，该值分配在堆上。此程序将打印<code>b = 5</code>；在这种情况下，我们可以像访问栈上的数据一样访问盒中的数据。就像任何拥有值一样，当盒超出作用域时，如<code>b</code>在<code>main</code>结束时那样，它将被释放。释放会同时发生于盒（存储在栈上）和它指向的数据（存储在堆上）。</p>
 <p data-x-en="Putting a single value on the heap isn’t very useful, so you won’t use boxes by themselves in this way very often. Having values like a single i32 on the stack, where they’re stored by default, is more appropriate in the majority of situations. Let’s look at a case where boxes allow us to define types that we wouldn’t be allowed to if we didn’t have boxes.">将单个值放在堆上并不是很有用，所以你不会经常以这种方式单独使用盒子。像单个<code>i32</code>这样的值，默认存储在栈上，在大多数情况下更为合适。让我们看看一个使用盒子可以定义我们没有盒子就无法定义的类型的例子。</p>
@@ -263,7 +263,7 @@ blockquote {
 <p data-x-en="Each item in a cons list contains two elements: the value of the current item and the next item. The last item in the list contains only a value called Nil without a next item. A cons list is produced by recursively calling the cons function. The canonical name to denote the base case of the recursion is Nil. Note that this is not the same as the “null” or “nil” concept discussed in Chapter 6, which is an invalid or absent value.">cons 列表中的每个项包含两个元素：当前项的值和下一个项。列表中的最后一项仅包含一个名为 <code>Nil</code> 的值，没有下一个项。cons 列表是通过递归调用 <code>cons</code> 函数生成的。递归的基本情况的规范名称是 <code>Nil</code>。请注意，这与第 6 章中讨论的“null”或“nil”概念不同，后者表示无效或不存在的值。</p>
 <p data-x-en="The cons list isn’t a commonly used data structure in Rust. Most of the time when you have a list of items in Rust, Vec<T> is a better choice to use. Other, more complex recursive data types are useful in various situations, but by starting with the cons list in this chapter, we can explore how boxes let us define a recursive data type without much distraction.">cons 列表在 Rust 中并不是常用的数据结构。大多数时候，当你在 Rust 中有一系列项目时，<code>Vec&lt;T&gt;</code> 是更好的选择。其他更复杂的递归数据类型 <em>确实</em> 在各种情况下有用，但通过在本章中从 cons 列表开始，我们可以探索盒子如何让我们定义递归数据类型而不受太多干扰。</p>
 <p data-x-en="Listing 15-2 contains an enum definition for a cons list. Note that this code won’t compile yet because the List type doesn’t have a known size, which we’ll demonstrate.">列表 15-2 包含一个 cons 列表的枚举定义。请注意，此代码还不能编译，因为 <code>List</code> 类型没有已知的大小，我们将对此进行演示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-2">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">enum List {
     Cons(i32, List),
@@ -271,13 +271,13 @@ blockquote {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre>
-<figcaption>Listing 15-2: The first attempt at defining an enum to represent a cons list data structure of <code>i32</code> values</figcaption>
+<figcaption><a href="#listing-15-2">Listing 15-2</a>: The first attempt at defining an enum to represent a cons list data structure of <code>i32</code> values</figcaption>
 </figure>
 <section class="note" aria-role="note">
 <p data-x-en="Note: We’re implementing a cons list that holds only i32 values for the purposes of this example. We could have implemented it using generics, as we discussed in Chapter 10, to define a cons list type that could store values of any type.">注意：为了这个例子，我们实现了一个只持有<code>i32</code>值的 cons 列表。我们本可以使用泛型来实现它，正如我们在第 10 章中讨论的那样，定义一个可以存储任何类型值的 cons 列表类型。</p>
 </section>
 <p data-x-en="Using the List type to store the list 1, 2, 3 would look like the code in Listing 15-3.">使用 <code>List</code> 类型来存储列表 <code>1, 2, 3</code> 将如清单 15-3 所示的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">enum List {
 </span><span class="boring">    Cons(i32, List),
@@ -289,14 +289,14 @@ blockquote {
 fn main() {
     let list = Cons(1, Cons(2, Cons(3, Nil)));
 }</code></pre>
-<figcaption>Listing 15-3: Using the <code>List</code> enum to store the list <code>1, 2, 3</code></figcaption>
+<figcaption><a href="#listing-15-3">Listing 15-3</a>: Using the <code>List</code> enum to store the list <code>1, 2, 3</code></figcaption>
 </figure>
 <p data-x-en="The first Cons value holds 1 and another List value. This List value is another Cons value that holds 2 and another List value. This List value is one more Cons value that holds 3 and a List value, which is finally Nil, the non-recursive variant that signals the end of the list.">第一个 <code>Cons</code> 值持有 <code>1</code> 和另一个 <code>List</code> 值。这个 <code>List</code> 值是
 另一个 <code>Cons</code> 值，持有 <code>2</code> 和另一个 <code>List</code> 值。这个 <code>List</code> 值
 是另一个 <code>Cons</code> 值，持有 <code>3</code> 和一个 <code>List</code> 值，最终是
 <code>Nil</code>，这个非递归变体表示列表的结束。</p>
 <p data-x-en="If we try to compile the code in Listing 15-3, we get the error shown in Listing 15-4.">如果我们尝试编译列表 15-3 中的代码，我们会得到列表 15-4 中所示的错误。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-4">
 <span class="file-name">Filename: output.txt</span>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
@@ -327,7 +327,7 @@ Some errors have detailed explanations: E0072, E0391.
 For more information about an error, try `rustc --explain E0072`.
 error: could not compile `cons-list` (bin "cons-list") due to 2 previous errors
 </code></pre>
-<figcaption>Listing 15-4: The error we get when attempting to define a recursive enum</figcaption>
+<figcaption><a href="#listing-15-4">Listing 15-4</a>: The error we get when attempting to define a recursive enum</figcaption>
 </figure>
 <p data-x-en="The error shows this type “has infinite size.” The reason is that we’ve defined List with a variant that is recursive: it holds another value of itself directly. As a result, Rust can’t figure out how much space it needs to store a List value. Let’s break down why we get this error. First we’ll look at how Rust decides how much space it needs to store a value of a non-recursive type.">错误显示这种类型“具有无限大小。”原因是我们在定义<code>List</code>时使用了一个递归的变体：它直接持有另一个自身的值。因此，Rust 无法确定存储一个<code>List</code>值需要多少空间。让我们分析为什么会发生这个错误。首先，我们将看看 Rust 是如何决定存储一个非递归类型值所需的空间。</p>
 <h4 id="computing-the-size-of-a-non-recursive-type"><a class="header" href="#computing-the-size-of-a-non-recursive-type">计算非递归类型的大小</a></h4>
@@ -357,7 +357,7 @@ after doing automatic regeneration, look at listings/ch15-smart-pointers/listing
 <p data-x-en="In this suggestion, indirection means that instead of storing a value directly, we should change the data structure to store the value indirectly by storing a pointer to the value instead.">在这个建议中，<em>间接性</em>意味着我们不应该直接存储值，而应该通过存储指向该值的指针来间接地存储值。</p>
 <p data-x-en="Because a Box<T> is a pointer, Rust always knows how much space a Box<T> needs: a pointer’s size doesn’t change based on the amount of data it’s pointing to. This means we can put a Box<T> inside the Cons variant instead of another List value directly. The Box<T> will point to the next List value that will be on the heap rather than inside the Cons variant. Conceptually, we still have a list, created with lists holding other lists, but this implementation is now more like placing the items next to one another rather than inside one another.">因为 <code>Box&lt;T&gt;</code> 是一个指针，Rust 始终知道 <code>Box&lt;T&gt;</code> 需要多少空间：指针的大小不会根据它指向的数据量而变化。这意味着我们可以将 <code>Box&lt;T&gt;</code> 放在 <code>Cons</code> 变体中，而不是直接放另一个 <code>List</code> 值。<code>Box&lt;T&gt;</code> 将指向堆上的下一个 <code>List</code> 值，而不是放在 <code>Cons</code> 变体内部。从概念上讲，我们仍然有一个列表，通过列表包含其他列表来创建，但这种实现现在更像是将项目并排放置而不是嵌套在一起。</p>
 <p data-x-en="We can change the definition of the List enum in Listing 15-2 and the usage of the List in Listing 15-3 to the code in Listing 15-5, which will compile.">我们可以更改列表 15-2 中的 <code>List</code> 枚举定义和列表 15-3 中的 <code>List</code> 使用，使其变为列表 15-5 中的代码，这样可以编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">enum List {
     Cons(i32, Box&lt;List&gt;),
@@ -369,7 +369,7 @@ use crate::List::{Cons, Nil};
 fn main() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 }</code></pre></pre>
-<figcaption>Listing 15-5: Definition of <code>List</code> that uses <code>Box&lt;T&gt;</code> in order to have a known size</figcaption>
+<figcaption><a href="#listing-15-5">Listing 15-5</a>: Definition of <code>List</code> that uses <code>Box&lt;T&gt;</code> in order to have a known size</figcaption>
 </figure>
 <p data-x-en="The Cons variant needs the size of an i32 plus the space to store the box’s pointer data. The Nil variant stores no values, so it needs less space than the Cons variant. We now know that any List value will take up the size of an i32 plus the size of a box’s pointer data. By using a box, we’ve broken the infinite, recursive chain, so the compiler can figure out the size it needs to store a List value. Figure 15-2 shows what the Cons variant looks like now."><code>Cons</code> 变体需要一个 <code>i32</code> 的大小加上存储盒子指针数据的空间。<code>Nil</code> 变体不存储任何值，所以它比 <code>Cons</code> 变体占用的空间更少。我们现在知道，任何 <code>List</code> 值都将占用一个 <code>i32</code> 的大小加上一个盒子指针数据的大小。通过使用盒子，我们打破了无限的递归链，因此编译器可以计算出存储一个 <code>List</code> 值所需的空间。图 15-2 显示了现在的 <code>Cons</code> 变体。</p>
 <img alt="A finite Cons list" src="img/trpl15-02.svg" class="center">

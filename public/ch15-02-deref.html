@@ -226,7 +226,7 @@ blockquote {
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="treating-smart-pointers-like-regular-references-with-deref" data-x-en="Treating Smart Pointers Like Regular References with Deref"><a class="header" href="#treating-smart-pointers-like-regular-references-with-deref">将智能指针像常规引用一样处理与 <code>Deref</code></a></h2>
+                        <h2 id="treating-smart-pointers-like-regular-references-with-deref"><a class="header" href="#treating-smart-pointers-like-regular-references-with-deref">将智能指针像常规引用一样处理与 <code>Deref</code></a></h2>
 <!-- Old link, do not remove -->
 <p><a id="treating-smart-pointers-like-regular-references-with-the-deref-trait"></a></p>
 <p data-x-en="Implementing the Deref trait allows you to customize the behavior of the dereference operator * (not to be confused with the multiplication or glob operator). By implementing Deref in such a way that a smart pointer can be treated like a regular reference, you can write code that operates on references and use that code with smart pointers too.">实现 <code>Deref</code> 特性允许你自定义 <em>解引用操作符</em> <code>*</code> 的行为（不要与乘法或通配符操作符混淆）。通过以这种方式实现 <code>Deref</code>，使得智能指针可以像普通引用一样被处理，你可以编写操作引用的代码，并且也可以用这些代码处理智能指针。</p>
@@ -242,7 +242,7 @@ Rust的<em>解引用强制转换</em>特性，以及它如何让我们可以使�
 <p><a id="following-the-pointer-to-the-value-with-the-dereference-operator"></a></p>
 <h3 id="following-the-pointer-to-the-value"><a class="header" href="#following-the-pointer-to-the-value">跟随指针到值</a></h3>
 <p data-x-en="A regular reference is a type of pointer, and one way to think of a pointer is as an arrow to a value stored somewhere else. In Listing 15-6, we create a reference to an i32 value and then use the dereference operator to follow the reference to the value.">一个常规引用是一种指针，而理解指针的一种方式是将其视为指向存储在其他地方的值的箭头。在示例 15-6 中，我们创建了一个指向 <code>i32</code> 值的引用，然后使用解引用运算符来跟踪引用到值。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-6">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x = 5;
@@ -251,7 +251,7 @@ Rust的<em>解引用强制转换</em>特性，以及它如何让我们可以使�
     assert_eq!(5, x);
     assert_eq!(5, *y);
 }</code></pre></pre>
-<figcaption>Listing 15-6: Using the dereference operator to follow a reference to an <code>i32</code> value</figcaption>
+<figcaption><a href="#listing-15-6">Listing 15-6</a>: Using the dereference operator to follow a reference to an <code>i32</code> value</figcaption>
 </figure>
 <p data-x-en="The variable x holds an i32 value 5. We set y equal to a reference to x. We can assert that x is equal to 5. However, if we want to make an assertion about the value in y, we have to use *y to follow the reference to the value it’s pointing to (hence dereference) so the compiler can compare the actual value. Once we dereference y, we have access to the integer value y is pointing to that we can compare with 5.">变量 <code>x</code> 持有一个 <code>i32</code> 值 <code>5</code>。我们将 <code>y</code> 设置为对 <code>x</code> 的引用。我们可以断言 <code>x</code> 等于 <code>5</code>。但是，如果我们想对 <code>y</code> 中的值进行断言，我们必须使用 <code>*y</code> 来跟踪引用指向的值（因此称为 <em>解引用</em>），以便编译器可以比较实际的值。一旦我们解引用 <code>y</code>，我们就可以访问 <code>y</code> 指向的整数值，可以与 <code>5</code> 进行比较。</p>
 <p data-x-en="If we tried to write assert_eq!(5, y); instead, we would get this compilation error:">如果我们尝试写 <code>assert_eq!(5, y);</code>，我们会得到以下编译错误：</p>
@@ -277,7 +277,7 @@ error: could not compile `deref-example` (bin "deref-example") due to 1 previous
 <p data-x-en="Comparing a number and a reference to a number isn’t allowed because they’re different types. We must use the dereference operator to follow the reference to the value it’s pointing to.">比较一个数字和一个数字的引用是不允许的，因为它们是不同的类型。我们必须使用解引用运算符来跟踪引用所指向的值。</p>
 <h3 id="using-boxt-like-a-reference"><a class="header" href="#using-boxt-like-a-reference">将 <code>Box&lt;T&gt;</code> 用作引用</a></h3>
 <p data-x-en="We can rewrite the code in Listing 15-6 to use a Box<T> instead of a reference; the dereference operator used on the Box<T> in Listing 15-7 functions in the same way as the dereference operator used on the reference in Listing 15-6:">我们可以将列表 15-6 中的代码重写为使用 <code>Box&lt;T&gt;</code> 而不是引用；在列表 15-7 中对 <code>Box&lt;T&gt;</code> 使用的解引用运算符与在列表 15-6 中对引用使用的解引用运算符功能相同：</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-7">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let x = 5;
@@ -286,13 +286,13 @@ error: could not compile `deref-example` (bin "deref-example") due to 1 previous
     assert_eq!(5, x);
     assert_eq!(5, *y);
 }</code></pre></pre>
-<figcaption>Listing 15-7: Using the dereference operator on a <code>Box&lt;i32&gt;</code></figcaption>
+<figcaption><a href="#listing-15-7">Listing 15-7</a>: Using the dereference operator on a <code>Box&lt;i32&gt;</code></figcaption>
 </figure>
 <p data-x-en="The main difference between Listing 15-7 and Listing 15-6 is that here we set y to be an instance of a box pointing to a copied value of x rather than a reference pointing to the value of x. In the last assertion, we can use the dereference operator to follow the box’s pointer in the same way that we did when y was a reference. Next, we’ll explore what is special about Box<T> that enables us to use the dereference operator by defining our own type.">列表 15-7 和列表 15-6 之间的主要区别在于，这里我们将 <code>y</code> 设置为指向 <code>x</code> 值的副本的 box 实例，而不是指向 <code>x</code> 值的引用。在最后一个断言中，我们可以使用解引用运算符来跟踪 box 的指针，就像 <code>y</code> 是引用时我们所做的那样。接下来，我们将通过定义我们自己的类型来探讨 <code>Box&lt;T&gt;</code> 的特殊之处，这使我们能够使用解引用运算符。</p>
 <h3 id="defining-our-own-smart-pointer"><a class="header" href="#defining-our-own-smart-pointer">定义我们自己的智能指针</a></h3>
 <p data-x-en="Let’s build a smart pointer similar to the Box<T> type provided by the standard library to experience how smart pointers behave differently from references by default. Then we’ll look at how to add the ability to use the dereference operator.">让我们构建一个类似于标准库提供的<code>Box&lt;T&gt;</code>类型的智能指针，以体验智能指针与引用在默认行为上的不同。然后我们将研究如何添加使用解引用运算符的能力。</p>
 <p data-x-en="The Box<T> type is ultimately defined as a tuple struct with one element, so Listing 15-8 defines a MyBox<T> type in the same way. We’ll also define a new function to match the new function defined on Box<T>."><code>Box&lt;T&gt;</code> 类型最终被定义为一个包含一个元素的元组结构体，因此 列表 15-8 以相同的方式定义了一个 <code>MyBox&lt;T&gt;</code> 类型。我们还将定义一个 <code>new</code> 函数，以匹配在 <code>Box&lt;T&gt;</code> 上定义的 <code>new</code> 函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-8">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">struct MyBox&lt;T&gt;(T);
 
@@ -303,14 +303,14 @@ impl&lt;T&gt; MyBox&lt;T&gt; {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 15-8: Defining a <code>MyBox&lt;T&gt;</code> type</figcaption>
+<figcaption><a href="#listing-15-8">Listing 15-8</a>: Defining a <code>MyBox&lt;T&gt;</code> type</figcaption>
 </figure>
 <p data-x-en="We define a struct named MyBox and declare a generic parameter T because we want our type to hold values of any type. The MyBox type is a tuple struct with one element of type T. The MyBox::new function takes one parameter of type T and returns a MyBox instance that holds the value passed in.">我们定义了一个名为 <code>MyBox</code> 的结构体，并声明了一个泛型参数 <code>T</code>，因为
 我们希望我们的类型能够持有任何类型的值。 <code>MyBox</code> 类型是一个元组结构体
 ，包含一个类型为 <code>T</code> 的元素。 <code>MyBox::new</code> 函数接受一个类型为 <code>T</code> 的参数
 并返回一个持有传入值的 <code>MyBox</code> 实例。</p>
 <p data-x-en="Let’s try adding the main function in Listing 15-7 to Listing 15-8 and changing it to use the MyBox<T> type we’ve defined instead of Box<T>. The code in Listing 15-9 won’t compile because Rust doesn’t know how to dereference MyBox.">让我们尝试将清单 15-7 中的 <code>main</code> 函数添加到清单 15-8 中，并将其更改为使用我们定义的 <code>MyBox&lt;T&gt;</code> 类型而不是 <code>Box&lt;T&gt;</code>。清单 15-9 中的代码将无法编译，因为 Rust 不知道如何解引用 <code>MyBox</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-9">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">struct MyBox&lt;T&gt;(T);
 </span><span class="boring">
@@ -327,7 +327,7 @@ impl&lt;T&gt; MyBox&lt;T&gt; {
     assert_eq!(5, x);
     assert_eq!(5, *y);
 }</code></pre>
-<figcaption>Listing 15-9: Attempting to use <code>MyBox&lt;T&gt;</code> in the same way we used references and <code>Box&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-15-9">Listing 15-9</a>: Attempting to use <code>MyBox&lt;T&gt;</code> in the same way we used references and <code>Box&lt;T&gt;</code></figcaption>
 </figure>
 <p data-x-en="Here’s the resultant compilation error:">以下是编译错误结果：</p>
 <pre><code class="language-console">$ cargo run
@@ -347,7 +347,7 @@ error: could not compile `deref-example` (bin "deref-example") due to 1 previous
 <h3 id="implementing-the-deref-trait"><a class="header" href="#implementing-the-deref-trait">实现 <code>Deref</code> 特性</a></h3>
 <p data-x-en="As discussed in “Implementing a Trait on a Type” in Chapter 10, to implement a trait, we need to provide implementations for the trait’s required methods. The Deref trait, provided by the standard library, requires us to implement one method named deref that borrows self and returns a reference to the inner data. Listing 15-10 contains an implementation of Deref to add to the definition of MyBox<T>.">如<a href="ch10-02-traits.html#implementing-a-trait-on-a-type">“在类型上实现特征”</a><!-- ignore -->在
 第 10 章中所述，要实现一个特征，我们需要为该特征的必需方法提供实现。标准库提供的<code>Deref</code>特征要求我们实现一个名为<code>deref</code>的方法，该方法借用<code>self</code>并返回对内部数据的引用。列表 15-10 包含为<code>MyBox&lt;T&gt;</code>定义添加的<code>Deref</code>实现。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-10">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::ops::Deref;
 
@@ -374,7 +374,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 </span><span class="boring">    assert_eq!(5, x);
 </span><span class="boring">    assert_eq!(5, *y);
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 15-10: Implementing <code>Deref</code> on <code>MyBox&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-15-10">Listing 15-10</a>: Implementing <code>Deref</code> on <code>MyBox&lt;T&gt;</code></figcaption>
 </figure>
 <p data-x-en="The type Target = T; syntax defines an associated type for the Deref trait to use. Associated types are a slightly different way of declaring a generic parameter, but you don’t need to worry about them for now; we’ll cover them in more detail in Chapter 20."><code>type Target = T;</code> 语法为 <code>Deref</code> 特性定义了一个关联类型。关联类型是一种声明泛型参数的略有不同的方式，但你现在不需要担心它们；我们将在第 20 章中详细讨论。</p>
 <p data-x-en="We fill in the body of the deref method with &amp;self.0 so deref returns a reference to the value we want to access with the * operator; recall from “Using Tuple Structs Without Named Fields to Create Different Types” in Chapter 5 that .0 accesses the first value in a tuple struct. The main function in Listing 15-9 that calls * on the MyBox<T> value now compiles, and the assertions pass!">我们用<code>&amp;self.0</code>填充<code>deref</code>方法的主体，这样<code>deref</code>返回一个引用，我们可以通过<code>*</code>操作符访问我们想要访问的值；回想<a href="ch05-01-defining-structs.html#using-tuple-structs-without-named-fields-to-create-different-types">“使用没有命名字段的元组结构体来创建不同类型的实例”</a><!-- ignore -->在第5章中，<code>.0</code>访问元组结构体中的第一个值。现在，清单15-9中的<code>main</code>函数调用<code>*</code>操作符对<code>MyBox&lt;T&gt;</code>值进行编译，断言通过！</p>
@@ -389,17 +389,17 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
 <p data-x-en="Deref coercion converts a reference to a type that implements the Deref trait into a reference to another type. For example, deref coercion can convert &amp;String to &amp;str because String implements the Deref trait such that it returns &amp;str. Deref coercion is a convenience Rust performs on arguments to functions and methods, and works only on types that implement the Deref trait. It happens automatically when we pass a reference to a particular type’s value as an argument to a function or method that doesn’t match the parameter type in the function or method definition. A sequence of calls to the deref method converts the type we provided into the type the parameter needs."><em>Deref 强制转换</em> 将对实现了 <code>Deref</code> 特性的类型的引用转换为对另一种类型的引用。例如，Deref 强制转换可以将 <code>&amp;String</code> 转换为 <code>&amp;str</code>，因为 <code>String</code> 实现了 <code>Deref</code> 特性，使其返回 <code>&amp;str</code>。Deref 强制转换是 Rust 在函数和方法的参数上执行的一种便利操作，仅适用于实现了 <code>Deref</code> 特性的类型。当我们将对特定类型值的引用作为参数传递给函数或方法时，如果该参数类型与函数或方法定义中的参数类型不匹配，Deref 强制转换会自动发生。一系列对 <code>deref</code> 方法的调用将我们提供的类型转换为参数所需的类型。</p>
 <p data-x-en="Deref coercion was added to Rust so that programmers writing function and method calls don’t need to add as many explicit references and dereferences with &amp; and *. The deref coercion feature also lets us write more code that can work for either references or smart pointers.">Deref 强制转换被添加到 Rust 中，以便编写函数和方法调用的程序员不需要添加那么多显式的引用和解引用的 <code>&amp;</code> 和 <code>*</code>。Deref 强制转换特性还让我们能够编写更多可以适用于引用或智能指针的代码。</p>
 <p data-x-en="To see deref coercion in action, let’s use the MyBox<T> type we defined in Listing 15-8 as well as the implementation of Deref that we added in Listing 15-10. Listing 15-11 shows the definition of a function that has a string slice parameter.">为了看到解引用强制转换的效果，让我们使用我们在清单 15-8 中定义的 <code>MyBox&lt;T&gt;</code> 类型以及我们在清单 15-10 中添加的 <code>Deref</code> 实现。清单 15-11 显示了一个具有字符串切片参数的函数的定义。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-11">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn hello(name: &amp;str) {
     println!("Hello, {name}!");
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 15-11: A <code>hello</code> function that has the parameter <code>name</code> of type <code>&amp;str</code></figcaption>
+<figcaption><a href="#listing-15-11">Listing 15-11</a>: A <code>hello</code> function that has the parameter <code>name</code> of type <code>&amp;str</code></figcaption>
 </figure>
 <p data-x-en="We can call the hello function with a string slice as an argument, such as hello(&quot;Rust&quot;);, for example. Deref coercion makes it possible to call hello with a reference to a value of type MyBox<String>, as shown in Listing 15-12.">我们可以用字符串切片作为参数调用 <code>hello</code> 函数，例如 <code>hello("Rust");</code>。解引用强制转换使得我们可以用 <code>MyBox&lt;String&gt;</code> 类型值的引用调用 <code>hello</code>，如清单 15-12 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
@@ -427,11 +427,11 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
     let m = MyBox::new(String::from("Rust"));
     hello(&amp;m);
 }</code></pre></pre>
-<figcaption>Listing 15-12: Calling <code>hello</code> with a reference to a <code>MyBox&lt;String&gt;</code> value, which works because of deref coercion</figcaption>
+<figcaption><a href="#listing-15-12">Listing 15-12</a>: Calling <code>hello</code> with a reference to a <code>MyBox&lt;String&gt;</code> value, which works because of deref coercion</figcaption>
 </figure>
 <p data-x-en="Here we’re calling the hello function with the argument &amp;m, which is a reference to a MyBox<String> value. Because we implemented the Deref trait on MyBox<T> in Listing 15-10, Rust can turn &amp;MyBox<String> into &amp;String by calling deref. The standard library provides an implementation of Deref on String that returns a string slice, and this is in the API documentation for Deref. Rust calls deref again to turn the &amp;String into &amp;str, which matches the hello function’s definition.">这里我们调用 <code>hello</code> 函数，参数为 <code>&amp;m</code>，这是对 <code>MyBox&lt;String&gt;</code> 值的引用。因为我们在清单 15-10 中为 <code>MyBox&lt;T&gt;</code> 实现了 <code>Deref</code> 特性，Rust 可以通过调用 <code>deref</code> 将 <code>&amp;MyBox&lt;String&gt;</code> 转换为 <code>&amp;String</code>。标准库为 <code>String</code> 提供了一个返回字符串切片的 <code>Deref</code> 实现，这在 <code>Deref</code> 的 API 文档中有说明。Rust 再次调用 <code>deref</code> 将 <code>&amp;String</code> 转换为 <code>&amp;str</code>，这与 <code>hello</code> 函数的定义相匹配。</p>
 <p data-x-en="If Rust didn’t implement deref coercion, we would have to write the code in Listing 15-13 instead of the code in Listing 15-12 to call hello with a value of type &amp;MyBox<String>.">如果 Rust 没有实现解引用强制，我们就必须编写列表 15-13 中的代码，而不是列表 15-12 中的代码，以使用类型为 <code>&amp;MyBox&lt;String&gt;</code> 的值调用 <code>hello</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-15-13">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::ops::Deref;
 </span><span class="boring">
@@ -459,7 +459,7 @@ impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
     let m = MyBox::new(String::from("Rust"));
     hello(&amp;(*m)[..]);
 }</code></pre></pre>
-<figcaption>Listing 15-13: The code we would have to write if Rust didn’t have deref coercion</figcaption>
+<figcaption><a href="#listing-15-13">Listing 15-13</a>: The code we would have to write if Rust didn’t have deref coercion</figcaption>
 </figure>
 <p data-x-en="The (*m) dereferences the MyBox<String> into a String. Then the &amp; and [..] take a string slice of the String that is equal to the whole string to match the signature of hello. This code without deref coercions is harder to read, write, and understand with all of these symbols involved. Deref coercion allows Rust to handle these conversions for us automatically."><code>(*m)</code> 将 <code>MyBox&lt;String&gt;</code> 解引用为 <code>String</code>。然后 <code>&amp;</code> 和 <code>[..]</code> 从 <code>String</code> 中获取一个等于整个字符串的字符串切片，以匹配 <code>hello</code> 的签名。没有解引用强制转换的代码由于涉及这些符号而更难阅读、编写和理解。解引用强制转换允许 Rust 自动为我们处理这些转换。</p>
 <p data-x-en="When the Deref trait is defined for the types involved, Rust will analyze the types and use Deref::deref as many times as necessary to get a reference to match the parameter’s type. The number of times that Deref::deref needs to be inserted is resolved at compile time, so there is no runtime penalty for taking advantage of deref coercion!">当为涉及的类型定义了<code>Deref</code>特征时，Rust将分析类型并根据需要多次使用<code>Deref::deref</code>以获取与参数类型匹配的引用。需要插入<code>Deref::deref</code>的次数在编译时确定，因此利用解引用强制转换不会带来运行时性能损失！</p>

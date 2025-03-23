@@ -238,7 +238,7 @@ blockquote {
 <p data-x-en="Programming languages implement threads in a few different ways, and many operating systems provide an API the language can call for creating new threads. The Rust standard library uses a 1:1 model of thread implementation, whereby a program uses one operating system thread per one language thread. There are crates that implement other models of threading that make different tradeoffs to the 1:1 model. (Rust’s async system, which we will see in the next chapter, provides another approach to concurrency as well.)">编程语言以几种不同的方式实现线程，许多操作系统提供了语言可以调用的API来创建新线程。Rust标准库使用<em>1:1</em>的线程实现模型，即程序每个语言线程使用一个操作系统线程。有其他实现不同线程模型的crate，这些模型在与1:1模型的权衡上有所不同。（我们将在下一章看到的Rust的异步系统，也提供了另一种并发方法。）</p>
 <h3 id="creating-a-new-thread-with-spawn"><a class="header" href="#creating-a-new-thread-with-spawn">使用<code>spawn</code>创建新线程</a></h3>
 <p data-x-en="To create a new thread, we call the thread::spawn function and pass it a closure (we talked about closures in Chapter 13) containing the code we want to run in the new thread. The example in Listing 16-1 prints some text from a main thread and other text from a new thread:">要创建一个新线程，我们调用 <code>thread::spawn</code> 函数并传递一个包含我们希望在新线程中运行的代码的闭包（我们在第 13 章讨论过闭包）。列表 16-1 中的示例从主线程打印一些文本，从新线程打印其他文本：</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
@@ -256,7 +256,7 @@ fn main() {
         thread::sleep(Duration::from_millis(1));
     }
 }</code></pre></pre>
-<figcaption>Listing 16-1: Creating a new thread to print one thing while the main thread prints something else</figcaption>
+<figcaption><a href="#listing-16-1">Listing 16-1</a>: Creating a new thread to print one thing while the main thread prints something else</figcaption>
 </figure>
 <p data-x-en="Note that when the main thread of a Rust program completes, all spawned threads are shut down, whether or not they have finished running. The output from this program might be a little different every time, but it will look similar to the following:">请注意，当 Rust 程序的主线程完成时，所有派生的线程都会被关闭，无论它们是否已经完成运行。此程序的输出每次可能会有所不同，但看起来会类似于以下内容：</p>
 <!-- Not extracting output because changes to this output aren't significant;
@@ -277,7 +277,7 @@ hi number 5 from the spawned thread!
 <h3 id="waiting-for-all-threads-to-finish-using-join-handles"><a class="header" href="#waiting-for-all-threads-to-finish-using-join-handles">使用 <code>join</code> 句柄等待所有线程完成</a></h3>
 <p data-x-en="The code in Listing 16-1 not only stops the spawned thread prematurely most of the time due to the main thread ending, but because there is no guarantee on the order in which threads run, we also can’t guarantee that the spawned thread will get to run at all!">列表 16-1 中的代码不仅由于主线程结束而导致大多数情况下提前终止派生的线程，而且由于没有保证线程运行的顺序，我们也不能保证派生的线程能够运行！</p>
 <p data-x-en="We can fix the problem of the spawned thread not running or ending prematurely by saving the return value of thread::spawn in a variable. The return type of thread::spawn is JoinHandle<T>. A JoinHandle<T> is an owned value that, when we call the join method on it, will wait for its thread to finish. Listing 16-2 shows how to use the JoinHandle<T> of the thread we created in Listing 16-1 and how to call join to make sure the spawned thread finishes before main exits.">我们可以通过将 <code>thread::spawn</code> 的返回值保存在一个变量中来解决派生线程不运行或提前结束的问题。<code>thread::spawn</code> 的返回类型是 <code>JoinHandle&lt;T&gt;</code>。一个 <code>JoinHandle&lt;T&gt;</code> 是一个拥有值，当我们调用其上的 <code>join</code> 方法时，它会等待其线程完成。清单 16-2 展示了如何使用我们在清单 16-1 中创建的线程的 <code>JoinHandle&lt;T&gt;</code> 以及如何调用 <code>join</code> 以确保派生线程在 <code>main</code> 退出之前完成。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-2">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
@@ -297,7 +297,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre></pre>
-<figcaption>Listing 16-2: Saving a <code>JoinHandle&lt;T&gt;</code> from <code>thread::spawn</code> to guarantee the thread is run to completion</figcaption>
+<figcaption><a href="#listing-16-2">Listing 16-2</a>: Saving a <code>JoinHandle&lt;T&gt;</code> from <code>thread::spawn</code> to guarantee the thread is run to completion</figcaption>
 </figure>
 <p data-x-en="Calling join on the handle blocks the thread currently running until the thread represented by the handle terminates. Blocking a thread means that thread is prevented from performing work or exiting. Because we’ve put the call to join after the main thread’s for loop, running Listing 16-2 should produce output similar to this:">在句柄上调用<code>join</code>会阻塞当前正在运行的线程，直到该句柄表示的线程终止。<em>阻塞</em>线程意味着该线程被阻止执行工作或退出。因为我们是在主线程的<code>for</code>循环之后调用<code>join</code>的，所以运行示例16-2应该会产生类似的输出：</p>
 <!-- Not extracting output because changes to this output aren't significant;
@@ -362,7 +362,7 @@ hi number 4 from the main thread!
 <h3 id="using-move-closures-with-threads"><a class="header" href="#using-move-closures-with-threads">使用 <code>move</code> 闭包与线程</a></h3>
 <p data-x-en="We’ll often use the move keyword with closures passed to thread::spawn because the closure will then take ownership of the values it uses from the environment, thus transferring ownership of those values from one thread to another. In “Capturing the Environment With Closures” in Chapter 13, we discussed move in the context of closures. Now, we’ll concentrate more on the interaction between move and thread::spawn.">我们经常会在传递给<code>thread::spawn</code>的闭包中使用<code>move</code>关键字，因为这样闭包将拥有它从环境中使用的值，从而将这些值的所有权从一个线程转移到另一个线程。在第13章的<a href="ch13-01-closures.html#capturing-the-environment-with-closures">“使用闭包捕获环境”</a><!-- ignore -->中，我们讨论了在闭包上下文中使用<code>move</code>。现在，我们将更多地关注<code>move</code>和<code>thread::spawn</code>之间的交互。</p>
 <p data-x-en="Notice in Listing 16-1 that the closure we pass to thread::spawn takes no arguments: we’re not using any data from the main thread in the spawned thread’s code. To use data from the main thread in the spawned thread, the spawned thread’s closure must capture the values it needs. Listing 16-3 shows an attempt to create a vector in the main thread and use it in the spawned thread. However, this won’t work yet, as you’ll see in a moment.">注意在清单 16-1 中，我们传递给 <code>thread::spawn</code> 的闭包不带任何参数：我们在新线程的代码中没有使用主线程中的任何数据。要在线程中使用主线程的数据，新线程的闭包必须捕获它需要的值。清单 16-3 展示了尝试在主线程中创建一个向量并在新线程中使用它的例子。然而，这还不能工作，你马上就会看到。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
@@ -375,7 +375,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre>
-<figcaption>Listing 16-3: Attempting to use a vector created by the main thread in another thread</figcaption>
+<figcaption><a href="#listing-16-3">Listing 16-3</a>: Attempting to use a vector created by the main thread in another thread</figcaption>
 </figure>
 <p data-x-en="The closure uses v, so it will capture v and make it part of the closure’s environment. Because thread::spawn runs this closure in a new thread, we should be able to access v inside that new thread. But when we compile this example, we get the following error:">闭包使用了 <code>v</code>，所以它会捕获 <code>v</code> 并使其成为闭包环境的一部分。因为 <code>thread::spawn</code> 在新线程中运行此闭包，我们应该能够在新线程中访问 <code>v</code>。但当我们编译此示例时，我们得到了以下错误：</p>
 <pre><code class="language-console">$ cargo run
@@ -406,7 +406,7 @@ error: could not compile `threads` (bin "threads") due to 1 previous error
 </code></pre>
 <p data-x-en="Rust infers how to capture v, and because println! only needs a reference to v, the closure tries to borrow v. However, there’s a problem: Rust can’t tell how long the spawned thread will run, so it doesn’t know whether the reference to v will always be valid.">Rust <em>推断</em> 如何捕获 <code>v</code>，并且因为 <code>println!</code> 只需要一个对 <code>v</code> 的引用，闭包尝试借用 <code>v</code>。然而，有一个问题：Rust 无法知道新线程将运行多长时间，因此它不知道对 <code>v</code> 的引用是否始终有效。</p>
 <p data-x-en="Listing 16-4 provides a scenario that’s more likely to have a reference to v that won’t be valid:">列表16-4提供了一个更可能有对<code>v</code>的引用无效的情况：</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
@@ -421,7 +421,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre>
-<figcaption>Listing 16-4: A thread with a closure that attempts to capture a reference to <code>v</code> from a main thread that drops <code>v</code></figcaption>
+<figcaption><a href="#listing-16-4">Listing 16-4</a>: A thread with a closure that attempts to capture a reference to <code>v</code> from a main thread that drops <code>v</code></figcaption>
 </figure>
 <p data-x-en="If Rust allowed us to run this code, there’s a possibility that the spawned thread would be immediately put in the background without running at all. The spawned thread has a reference to v inside, but the main thread immediately drops v, using the drop function we discussed in Chapter 15. Then, when the spawned thread starts to execute, v is no longer valid, so a reference to it is also invalid. Oh no!">如果 Rust 允许我们运行此代码，那么有可能新创建的线程会被立即置于后台而根本不运行。新创建的线程内部有一个对 <code>v</code> 的引用，但主线程会立即使用我们在第 15 章讨论的 <code>drop</code> 函数来释放 <code>v</code>。然后，当新创建的线程开始执行时，<code>v</code> 已经不再有效，因此对它的引用也无效。哦不！</p>
 <p data-x-en="To fix the compiler error in Listing 16-3, we can use the error message’s advice:">要修复列表 16-3 中的编译器错误，我们可以使用错误消息的建议：</p>
@@ -434,7 +434,7 @@ after automatic regeneration, look at listings/ch16-fearless-concurrency/listing
   |                                ++++
 </code></pre>
 <p data-x-en="By adding the move keyword before the closure, we force the closure to take ownership of the values it’s using rather than allowing Rust to infer that it should borrow the values. The modification to Listing 16-3 shown in Listing 16-5 will compile and run as we intend.">通过在闭包前添加 <code>move</code> 关键字，我们强制闭包获取它所使用值的所有权，而不是让 Rust 推断它应该借用这些值。如清单 16-5 所示对清单 16-3 的修改将按我们的预期编译和运行。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 
@@ -447,7 +447,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre></pre>
-<figcaption>Listing 16-5: Using the <code>move</code> keyword to force a closure to take ownership of the values it uses</figcaption>
+<figcaption><a href="#listing-16-5">Listing 16-5</a>: Using the <code>move</code> keyword to force a closure to take ownership of the values it uses</figcaption>
 </figure>
 <p data-x-en="We might be tempted to try the same thing to fix the code in Listing 16-4 where the main thread called drop by using a move closure. However, this fix will not work because what Listing 16-4 is trying to do is disallowed for a different reason. If we added move to the closure, we would move v into the closure’s environment, and we could no longer call drop on it in the main thread. We would get this compiler error instead:">我们可能会尝试使用 <code>move</code> 闭包来修复列表 16-4 中的代码，其中主线程调用了 <code>drop</code>。然而，这个修复方法不会奏效，因为列表 16-4 尝试做的事情由于不同的原因而不被允许。如果我们向闭包中添加 <code>move</code>，我们会将 <code>v</code> 移动到闭包的环境中，因此我们不能再在主线程中调用 <code>drop</code>。相反，我们会得到这个编译器错误：</p>
 <pre><code class="language-console">$ cargo run

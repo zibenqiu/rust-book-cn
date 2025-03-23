@@ -310,13 +310,13 @@ add_one = { path = "../add_one" }
 </code></pre>
 <p data-x-en="Cargo doesn’t assume that crates in a workspace will depend on each other, so we need to be explicit about the dependency relationships.">Cargo 不假设工作区中的 crate 会相互依赖，因此我们需要明确指定依赖关系。</p>
 <p data-x-en="Next, let’s use the add_one function (from the add_one crate) in the adder crate. Open the adder/src/main.rs file and change the main function to call the add_one function, as in Listing 14-7.">接下来，让我们在 <code>adder</code> crate 中使用 <code>add_one</code> crate 中的 <code>add_one</code> 函数。打开 <em>adder/src/main.rs</em> 文件，并将 <code>main</code> 函数修改为调用 <code>add_one</code> 函数，如清单 14-7 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-7">
 <span class="file-name">Filename: adder/src/main.rs</span>
 <pre><code class="language-rust ignore">fn main() {
     let num = 10;
     println!("Hello, world! {num} plus one is {}!", add_one::add_one(num));
 }</code></pre>
-<figcaption>Listing 14-7: Using the <code>add_one</code> library crate in the <code>adder</code> crate</figcaption>
+<figcaption><a href="#listing-14-7">Listing 14-7</a>: Using the <code>add_one</code> library crate in the <code>adder</code> crate</figcaption>
 </figure>
 <p data-x-en="Let’s build the workspace by running cargo build in the top-level add directory!">让我们通过在顶级 <em>add</em> 目录中运行 <code>cargo build</code> 来构建工作区！</p>
 <!-- manual-regeneration

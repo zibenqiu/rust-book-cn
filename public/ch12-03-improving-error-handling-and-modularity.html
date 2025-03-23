@@ -249,7 +249,7 @@ blockquote {
 <p data-x-en="This pattern is about separating concerns: main.rs handles running the program and lib.rs handles all the logic of the task at hand. Because you can’t test the main function directly, this structure lets you test all of your program’s logic by moving it into functions in lib.rs. The code that remains in main.rs will be small enough to verify its correctness by reading it. Let’s rework our program by following this process.">这种模式是关于分离关注点的：<em>main.rs</em> 负责运行程序，而 <em>lib.rs</em> 负责处理当前任务的所有逻辑。因为不能直接测试 <code>main</code> 函数，这种结构允许你通过将逻辑移到 <em>lib.rs</em> 中的函数来测试程序的所有逻辑。保留在 <em>main.rs</em> 中的代码将足够小，可以通过阅读来验证其正确性。让我们通过这个过程来重构我们的程序。</p>
 <h4 id="extracting-the-argument-parser"><a class="header" href="#extracting-the-argument-parser">提取参数解析器</a></h4>
 <p data-x-en="We’ll extract the functionality for parsing arguments into a function that main will call to prepare for moving the command line parsing logic to src/lib.rs. Listing 12-5 shows the new start of main that calls a new function parse_config, which we’ll define in src/main.rs for the moment.">我们将把解析参数的功能提取到一个函数中，<code>main</code> 将调用该函数以准备将命令行解析逻辑移动到 <em>src/lib.rs</em>。列表 12-5 显示了调用新函数 <code>parse_config</code> 的 <code>main</code> 的新起点，我们暂时将在 <em>src/main.rs</em> 中定义该函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -276,7 +276,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
 
     (query, file_path)
 }</code></pre>
-<figcaption>Listing 12-5: Extracting a <code>parse_config</code> function from <code>main</code></figcaption>
+<figcaption><a href="#listing-12-5">Listing 12-5</a>: Extracting a <code>parse_config</code> function from <code>main</code></figcaption>
 </figure>
 <p data-x-en="We’re still collecting the command line arguments into a vector, but instead of assigning the argument value at index 1 to the variable query and the argument value at index 2 to the variable file_path within the main function, we pass the whole vector to the parse_config function. The parse_config function then holds the logic that determines which argument goes in which variable and passes the values back to main. We still create the query and file_path variables in main, but main no longer has the responsibility of determining how the command line arguments and variables correspond.">我们仍然将命令行参数收集到一个向量中，但不再在<code>main</code>函数中将索引1的参数值赋给变量<code>query</code>，将索引2的参数值赋给变量<code>file_path</code>，而是将整个向量传递给<code>parse_config</code>函数。<code>parse_config</code>函数然后包含确定哪个参数进入哪个变量的逻辑，并将值传递回<code>main</code>。我们仍然在<code>main</code>中创建<code>query</code>和<code>file_path</code>变量，但<code>main</code>不再负责确定命令行参数和变量如何对应。</p>
 <p data-x-en="This rework may seem like overkill for our small program, but we’re refactoring in small, incremental steps. After making this change, run the program again to verify that the argument parsing still works. It’s good to check your progress often, to help identify the cause of problems when they occur.">这个重构对于我们的小程序来说可能看起来有些过度，但我们正在以小的、增量的步骤进行重构。在进行此更改后，再次运行程序以验证参数解析是否仍然有效。经常检查你的进度是很好的，这有助于在问题发生时确定问题的原因。</p>
@@ -285,7 +285,7 @@ fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
 目前，我们返回的是一个元组，但紧接着我们又立即将这个元组拆分成单独的部分。这表明我们可能还没有找到正确的抽象。</p>
 <p data-x-en="Another indicator that shows there’s room for improvement is the config part of parse_config, which implies that the two values we return are related and are both part of one configuration value. We’re not currently conveying this meaning in the structure of the data other than by grouping the two values into a tuple; we’ll instead put the two values into one struct and give each of the struct fields a meaningful name. Doing so will make it easier for future maintainers of this code to understand how the different values relate to each other and what their purpose is.">另一个表明有改进空间的指标是 <code>parse_config</code> 中的 <code>config</code> 部分，这表明我们返回的两个值是相关的，并且都是一个配置值的一部分。我们目前除了将这两个值组合成一个元组外，并没有在数据结构中传达这种含义；我们将把这两个值放入一个结构体中，并为每个结构体字段赋予一个有意义的名称。这样做将使未来的代码维护者更容易理解不同值之间的关系及其目的。</p>
 <p data-x-en="Listing 12-6 shows the improvements to the parse_config function.">列表 12-6 显示了对 <code>parse_config</code> 函数的改进。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-6">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -317,7 +317,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 
     Config { query, file_path }
 }</code></pre>
-<figcaption>Listing 12-6: Refactoring <code>parse_config</code> to return an instance of a <code>Config</code> struct</figcaption>
+<figcaption><a href="#listing-12-6">Listing 12-6</a>: Refactoring <code>parse_config</code> to return an instance of a <code>Config</code> struct</figcaption>
 </figure>
 <p data-x-en="We’ve added a struct named Config defined to have fields named query and file_path. The signature of parse_config now indicates that it returns a Config value. In the body of parse_config, where we used to return string slices that reference String values in args, we now define Config to contain owned String values. The args variable in main is the owner of the argument values and is only letting the parse_config function borrow them, which means we’d violate Rust’s borrowing rules if Config tried to take ownership of the values in args.">我们添加了一个名为 <code>Config</code> 的结构体，定义为具有名为 <code>query</code> 和 <code>file_path</code> 的字段。现在 <code>parse_config</code> 的签名表明它返回一个 <code>Config</code> 值。在 <code>parse_config</code> 的主体中，我们以前返回的是引用 <code>args</code> 中 <code>String</code> 值的字符串切片，现在我们定义 <code>Config</code> 包含拥有 <code>String</code> 值。在 <code>main</code> 中的 <code>args</code> 变量是参数值的所有者，只是让 <code>parse_config</code> 函数借用它们，这意味着如果 <code>Config</code> 尝试获取 <code>args</code> 中值的所有权，我们将违反 Rust 的借用规则。</p>
 <p data-x-en="There are a number of ways we could manage the String data; the easiest, though somewhat inefficient, route is to call the clone method on the values. This will make a full copy of the data for the Config instance to own, which takes more time and memory than storing a reference to the string data. However, cloning the data also makes our code very straightforward because we don’t have to manage the lifetimes of the references; in this circumstance, giving up a little performance to gain simplicity is a worthwhile trade-off.">我们可以用多种方式管理<code>String</code>数据；最简单但效率较低的方法是对值调用<code>clone</code>方法。这将为<code>Config</code>实例拥有数据制作一个完整的副本，这比存储字符串数据的引用需要更多的时间和内存。然而，克隆数据也使我们的代码非常直接，因为我们不必管理引用的生命周期；在这种情况下，为了获得简单性而放弃一点性能是值得的。</p>
@@ -331,7 +331,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
 <h4 id="creating-a-constructor-for-config"><a class="header" href="#creating-a-constructor-for-config">为 <code>Config</code> 创建构造函数</a></h4>
 <p data-x-en="So far, we’ve extracted the logic responsible for parsing the command line arguments from main and placed it in the parse_config function. Doing so helped us see that the query and file_path values were related, and that relationship should be conveyed in our code. We then added a Config struct to name the related purpose of query and file_path and to be able to return the values’ names as struct field names from the parse_config function.">到目前为止，我们已经从<code>main</code>中提取了负责解析命令行参数的逻辑，并将其放在<code>parse_config</code>函数中。这样做帮助我们看到<code>query</code>和<code>file_path</code>值是相关的，并且这种关系应该在我们的代码中体现出来。然后我们添加了一个<code>Config</code>结构体来命名<code>query</code>和<code>file_path</code>的相关用途，并能够从<code>parse_config</code>函数返回这些值的名称作为结构体字段名称。</p>
 <p data-x-en="So now that the purpose of the parse_config function is to create a Config instance, we can change parse_config from a plain function to a function named new that is associated with the Config struct. Making this change will make the code more idiomatic. We can create instances of types in the standard library, such as String, by calling String::new. Similarly, by changing parse_config into a new function associated with Config, we’ll be able to create instances of Config by calling Config::new. Listing 12-7 shows the changes we need to make.">所以现在<code>parse_config</code>函数的目的是创建一个<code>Config</code>实例，我们可以将<code>parse_config</code>从一个普通函数改为与<code>Config</code>结构体关联的名为<code>new</code>的函数。这样会使代码更加符合惯用法。我们可以调用<code>String::new</code>来创建标准库中的类型（如<code>String</code>）的实例。同样，通过将<code>parse_config</code>改为与<code>Config</code>关联的<code>new</code>函数，我们将能够通过调用<code>Config::new</code>来创建<code>Config</code>的实例。列表12-7显示了我们需要进行的更改。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-7">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -367,7 +367,7 @@ fn parse_config(args: &amp;[String]) -&gt; Config {
         Config { query, file_path }
     }
 }</code></pre>
-<figcaption>Listing 12-7: Changing <code>parse_config</code> into <code>Config::new</code></figcaption>
+<figcaption><a href="#listing-12-7">Listing 12-7</a>: Changing <code>parse_config</code> into <code>Config::new</code></figcaption>
 </figure>
 <p data-x-en="We’ve updated main where we were calling parse_config to instead call Config::new. We’ve changed the name of parse_config to new and moved it within an impl block, which associates the new function with Config. Try compiling this code again to make sure it works.">我们已经更新了<code>main</code>，将调用<code>parse_config</code>改为调用<code>Config::new</code>。我们将<code>parse_config</code>的名称更改为<code>new</code>，并将其移动到一个<code>impl</code>块内，这将<code>new</code>函数与<code>Config</code>关联起来。再次尝试编译这段代码，确保它能正常工作。</p>
 <h3 id="fixing-the-error-handling"><a class="header" href="#fixing-the-error-handling">修复错误处理</a></h3>
@@ -384,7 +384,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p data-x-en="The line index out of bounds: the len is 1 but the index is 1 is an error message intended for programmers. It won’t help our end users understand what they should do instead. Let’s fix that now.">行 <code>index out of bounds: the len is 1 but the index is 1</code> 是一条面向程序员的错误消息。它不会帮助我们的最终用户理解他们应该怎么做。现在让我们来修复这个问题。</p>
 <h4 id="improving-the-error-message"><a class="header" href="#improving-the-error-message">改进错误信息</a></h4>
 <p data-x-en="In Listing 12-8, we add a check in the new function that will verify that the slice is long enough before accessing index 1 and index 2. If the slice isn’t long enough, the program panics and displays a better error message.">在清单 12-8 中，我们在 <code>new</code> 函数中添加了一个检查，以验证切片在访问索引 1 和索引 2 之前是否足够长。如果切片不够长，程序会崩溃并显示更好的错误消息。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-8">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -422,7 +422,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </span><span class="boring">        Config { query, file_path }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-8: Adding a check for the number of arguments</figcaption>
+<figcaption><a href="#listing-12-8">Listing 12-8</a>: Adding a check for the number of arguments</figcaption>
 </figure>
 <p data-x-en="This code is similar to the Guess::new function we wrote in Listing 9-13, where we called panic! when the value argument was out of the range of valid values. Instead of checking for a range of values here, we’re checking that the length of args is at least 3 and the rest of the function can operate under the assumption that this condition has been met. If args has fewer than three items, this condition will be true, and we call the panic! macro to end the program immediately.">这段代码类似于<a href="ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation">我们在清单 9-13 中编写的 <code>Guess::new</code> 函数</a><!-- ignore -->，当时我们在 <code>value</code> 参数超出有效值范围时调用了 <code>panic!</code>。这里我们不是检查值的范围，而是检查 <code>args</code> 的长度是否至少为 <code>3</code>，并且函数的其余部分可以假设这个条件已经满足。如果 <code>args</code> 的项少于三个，这个条件将为 <code>true</code>，我们将调用 <code>panic!</code> 宏立即终止程序。</p>
 <p data-x-en="With these extra few lines of code in new, let’s run the program without any arguments again to see what the error looks like now:">在 <code>new</code> 中添加了这几行代码后，让我们再次在不带任何参数的情况下运行程序，看看现在的错误信息是什么样的：</p>
@@ -441,7 +441,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h4 id="returning-a-result-instead-of-calling-panic"><a class="header" href="#returning-a-result-instead-of-calling-panic">返回 <code>Result</code> 而不是调用 <code>panic!</code></a></h4>
 <p data-x-en="We can instead return a Result value that will contain a Config instance in the successful case and will describe the problem in the error case. We’re also going to change the function name from new to build because many programmers expect new functions to never fail. When Config::build is communicating to main, we can use the Result type to signal there was a problem. Then we can change main to convert an Err variant into a more practical error for our users without the surrounding text about thread 'main' and RUST_BACKTRACE that a call to panic! causes.">我们可以返回一个<code>Result</code>值，在成功的情况下包含一个<code>Config</code>实例，在错误的情况下描述问题。我们还将把函数名从<code>new</code>改为<code>build</code>，因为许多程序员期望<code>new</code>函数永远不会失败。当<code>Config::build</code>与<code>main</code>通信时，我们可以使用<code>Result</code>类型来信号有问题。然后我们可以更改<code>main</code>，将<code>Err</code>变体转换为对用户更实用的错误，而不会包含<code>panic!</code>调用引起的关于<code>thread 'main'</code>和<code>RUST_BACKTRACE</code>的周围文本。</p>
 <p data-x-en="Listing 12-9 shows the changes we need to make to the return value of the function we’re now calling Config::build and the body of the function needed to return a Result. Note that this won’t compile until we update main as well, which we’ll do in the next listing.">列表 12-9 显示了我们需要对现在称为 <code>Config::build</code> 的函数的返回值以及为了返回一个 <code>Result</code> 所需的函数体进行的更改。请注意，直到我们更新 <code>main</code> 之前，这将无法编译，我们将在下一个列表中进行更新。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-9">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -477,7 +477,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
         Ok(Config { query, file_path })
     }
 }</code></pre>
-<figcaption>Listing 12-9: Returning a <code>Result</code> from <code>Config::build</code></figcaption>
+<figcaption><a href="#listing-12-9">Listing 12-9</a>: Returning a <code>Result</code> from <code>Config::build</code></figcaption>
 </figure>
 <p data-x-en="Our build function returns a Result with a Config instance in the success case and a string literal in the error case. Our error values will always be string literals that have the 'static lifetime.">我们的 <code>build</code> 函数在成功时返回一个包含 <code>Config</code> 实例的 <code>Result</code>，在错误时返回一个字符串字面量。我们的错误值将始终是具有 <code>'static</code> 生命周期的字符串字面量。</p>
 <p data-x-en="We’ve made two changes in the body of the function: instead of calling panic! when the user doesn’t pass enough arguments, we now return an Err value, and we’ve wrapped the Config return value in an Ok. These changes make the function conform to its new type signature.">我们在函数体中做了两个更改：当用户没有传递足够的参数时，我们现在返回一个<code>Err</code>值，而不是调用<code>panic!</code>，并且我们将<code>Config</code>返回值包装在<code>Ok</code>中。这些更改使函数符合其新的类型签名。</p>
@@ -486,7 +486,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p><a id="calling-confignew-and-handling-errors"></a></p>
 <h4 id="calling-configbuild-and-handling-errors"><a class="header" href="#calling-configbuild-and-handling-errors">调用 <code>Config::build</code> 和处理错误</a></h4>
 <p data-x-en="To handle the error case and print a user-friendly message, we need to update main to handle the Result being returned by Config::build, as shown in Listing 12-10. We’ll also take the responsibility of exiting the command line tool with a nonzero error code away from panic! and instead implement it by hand. A nonzero exit status is a convention to signal to the process that called our program that the program exited with an error state.">为了处理错误情况并打印用户友好的消息，我们需要更新<code>main</code>以处理<code>Config::build</code>返回的<code>Result</code>，如清单12-10所示。我们还将从<code>panic!</code>中移除以非零错误代码退出命令行工具的责任，而是手动实现它。非零退出状态是一种惯例，用于向调用我们程序的进程发出信号，表示程序以错误状态退出。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-10">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -528,7 +528,7 @@ fn main() {
 </span><span class="boring">        Ok(Config { query, file_path })
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-10: Exiting with an error code if building a <code>Config</code> fails</figcaption>
+<figcaption><a href="#listing-12-10">Listing 12-10</a>: Exiting with an error code if building a <code>Config</code> fails</figcaption>
 </figure>
 <p data-x-en="In this listing, we’ve used a method we haven’t covered in detail yet: unwrap_or_else, which is defined on Result<T, E> by the standard library. Using unwrap_or_else allows us to define some custom, non-panic! error handling. If the Result is an Ok value, this method’s behavior is similar to unwrap: it returns the inner value that Ok is wrapping. However, if the value is an Err value, this method calls the code in the closure, which is an anonymous function we define and pass as an argument to unwrap_or_else. We’ll cover closures in more detail in Chapter 13. For now, you just need to know that unwrap_or_else will pass the inner value of the Err, which in this case is the static string &quot;not enough arguments&quot; that we added in Listing 12-9, to our closure in the argument err that appears between the vertical pipes. The code in the closure can then use the err value when it runs.">在本示例中，我们使用了一个尚未详细讨论的方法：<code>unwrap_or_else</code>，这是标准库在<code>Result&lt;T, E&gt;</code> 上定义的。
 使用 <code>unwrap_or_else</code> 可以让我们定义一些自定义的、非-<code>panic!</code> 错误处理。如果 <code>Result</code> 是一个 <code>Ok</code> 值，此方法的行为类似于 <code>unwrap</code>：它返回 <code>Ok</code> 包装的内部值。然而，如果值是一个 <code>Err</code> 值，此方法将调用 <em>闭包</em> 中的代码，这是一个我们定义并作为参数传递给 <code>unwrap_or_else</code> 的匿名函数。
@@ -544,7 +544,7 @@ Problem parsing arguments: not enough arguments
 <h3 id="extracting-logic-from-main"><a class="header" href="#extracting-logic-from-main">从 <code>main</code> 中提取逻辑</a></h3>
 <p data-x-en="Now that we’ve finished refactoring the configuration parsing, let’s turn to the program’s logic. As we stated in “Separation of Concerns for Binary Projects”, we’ll extract a function named run that will hold all the logic currently in the main function that isn’t involved with setting up configuration or handling errors. When we’re done, main will be concise and easy to verify by inspection, and we’ll be able to write tests for all the other logic.">现在我们已经完成了配置解析的重构，让我们转向程序的逻辑。正如我们在<a href="#separation-of-concerns-for-binary-projects">“二进制项目中的关注点分离”</a><!-- ignore -->中所述，我们将提取一个名为<code>run</code>的函数，该函数将包含当前在<code>main</code>函数中与设置配置或处理错误无关的所有逻辑。完成后，<code>main</code>将变得简洁且易于通过检查验证，我们还将能够为所有其他逻辑编写测试。</p>
 <p data-x-en="Listing 12-11 shows the extracted run function. For now, we’re just making the small, incremental improvement of extracting the function. We’re still defining the function in src/main.rs.">列表 12-11 显示了提取的 <code>run</code> 函数。目前，我们只是做了提取函数这一小的、逐步的改进。我们仍然在 <em>src/main.rs</em> 中定义该函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-11">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -592,12 +592,12 @@ fn run(config: Config) {
 </span><span class="boring">        Ok(Config { query, file_path })
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-11: Extracting a <code>run</code> function containing the rest of the program logic</figcaption>
+<figcaption><a href="#listing-12-11">Listing 12-11</a>: Extracting a <code>run</code> function containing the rest of the program logic</figcaption>
 </figure>
 <p data-x-en="The run function now contains all the remaining logic from main, starting from reading the file. The run function takes the Config instance as an argument."><code>run</code> 函数现在包含了来自 <code>main</code> 的所有剩余逻辑，从读取文件开始。<code>run</code> 函数接受 <code>Config</code> 实例作为参数。</p>
 <h4 id="returning-errors-from-the-run-function"><a class="header" href="#returning-errors-from-the-run-function">从 <code>run</code> 函数返回错误</a></h4>
 <p data-x-en="With the remaining program logic separated into the run function, we can improve the error handling, as we did with Config::build in Listing 12-9. Instead of allowing the program to panic by calling expect, the run function will return a Result<T, E> when something goes wrong. This will let us further consolidate the logic around handling errors into main in a user-friendly way. Listing 12-12 shows the changes we need to make to the signature and body of run.">随着剩余的程序逻辑被分离到 <code>run</code> 函数中，我们可以改进错误处理，就像我们在清单 12-9 中对 <code>Config::build</code> 所做的那样。而不是通过调用 <code>expect</code> 使程序 panic，<code>run</code> 函数将在出现问题时返回一个 <code>Result&lt;T, E&gt;</code>。这将使我们能够进一步将错误处理逻辑整合到 <code>main</code> 中，以一种用户友好的方式。清单 12-12 显示了我们需要对 <code>run</code> 的签名和主体进行的更改。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::env;
 </span><span class="boring">use std::fs;
@@ -646,7 +646,7 @@ fn run(config: Config) {
 </span><span class="boring">        Ok(Config { query, file_path })
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-12: Changing the <code>run</code> function to return <code>Result</code></figcaption>
+<figcaption><a href="#listing-12-12">Listing 12-12</a>: Changing the <code>run</code> function to return <code>Result</code></figcaption>
 </figure>
 <p data-x-en="We’ve made three significant changes here. First, we changed the return type of the run function to Result<(), Box<dyn Error>>. This function previously returned the unit type, (), and we keep that as the value returned in the Ok case.">我们在这里做了三个重要的更改。首先，我们将 <code>run</code> 函数的返回类型更改为 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>。此函数之前返回单元类型 <code>()</code>，我们保持在 <code>Ok</code> 情况下返回的值不变。</p>
 <p data-x-en="For the error type, we used the trait object Box<dyn Error> (and we’ve brought std::error::Error into scope with a use statement at the top). We’ll cover trait objects in Chapter 18. For now, just know that Box<dyn Error> means the function will return a type that implements the Error trait, but we don’t have to specify what particular type the return value will be. This gives us flexibility to return error values that may be of different types in different error cases. The dyn keyword is short for dynamic.">对于错误类型，我们使用了<em>trait 对象</em> <code>Box&lt;dyn Error&gt;</code>（并且我们通过顶部的 <code>use</code> 语句将 <code>std::error::Error</code> 引入了作用域）。
@@ -757,7 +757,7 @@ To an admiring bog!
 <li data-x-en="The Config::build function definition"><code>Config::build</code> 函数定义</li>
 </ul>
 <p data-x-en="The contents of src/lib.rs should have the signatures shown in Listing 12-13 (we’ve omitted the bodies of the functions for brevity). Note that this won’t compile until we modify src/main.rs in Listing 12-14."><em>src/lib.rs</em> 的内容应该具有如清单 12-13 所示的签名（我们为了简洁起见省略了函数的主体）。请注意，直到我们在清单 12-14 中修改 <em>src/main.rs</em> 之前，这不会编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-13">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::error::Error;
 use std::fs;
@@ -789,11 +789,11 @@ pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 </span><span class="boring">
 </span><span class="boring">    Ok(())
 </span>}</code></pre>
-<figcaption>Listing 12-13: Moving <code>Config</code> and <code>run</code> into <em>src/lib.rs</em></figcaption>
+<figcaption><a href="#listing-12-13">Listing 12-13</a>: Moving <code>Config</code> and <code>run</code> into <em>src/lib.rs</em></figcaption>
 </figure>
 <p data-x-en="We’ve made liberal use of the pub keyword: on Config, on its fields and its build method, and on the run function. We now have a library crate that has a public API we can test!">我们大量使用了 <code>pub</code> 关键字：在 <code>Config</code> 上，在其字段和其 <code>build</code> 方法上，以及在 <code>run</code> 函数上。我们现在有一个具有可以测试的公共 API 的库 crate！</p>
 <p data-x-en="Now we need to bring the code we moved to src/lib.rs into the scope of the binary crate in src/main.rs, as shown in Listing 12-14.">现在我们需要将移动到<em>src/lib.rs</em>的代码引入<em>src/main.rs</em>中二进制包的作用域，如清单12-14所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-14">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::env;
 use std::process;
@@ -818,7 +818,7 @@ fn main() {
 </span><span class="boring">        process::exit(1);
 </span>    }
 }</code></pre>
-<figcaption>Listing 12-14: Using the <code>minigrep</code> library crate in <em>src/main.rs</em></figcaption>
+<figcaption><a href="#listing-12-14">Listing 12-14</a>: Using the <code>minigrep</code> library crate in <em>src/main.rs</em></figcaption>
 </figure>
 <p data-x-en="We add a use minigrep::Config line to bring the Config type from the library crate into the binary crate’s scope, and we prefix the run function with our crate name. Now all the functionality should be connected and should work. Run the program with cargo run and make sure everything works correctly.">我们添加了一行<code>use minigrep::Config</code>，将<code>Config</code>类型从库crate引入到二进制crate的作用域中，并且我们在<code>run</code>函数前加上了crate名称。现在所有功能都应该连接起来并且可以工作。使用<code>cargo run</code>运行程序，并确保一切正常工作。</p>
 <p data-x-en="Whew! That was a lot of work, but we’ve set ourselves up for success in the future. Now it’s much easier to handle errors, and we’ve made the code more modular. Almost all of our work will be done in src/lib.rs from here on out.">呼！这是一项艰巨的工作，但我们已经为未来的成功奠定了基础。现在处理错误变得更加容易，而且我们使代码更加模块化。从现在开始，我们几乎所有的工件都将在<em>src/lib.rs</em>中完成。</p>

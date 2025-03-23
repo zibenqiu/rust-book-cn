@@ -241,7 +241,7 @@ blockquote {
 <p data-x-en="Management of mutexes can be incredibly tricky to get right, which is why so many people are enthusiastic about channels. However, thanks to Rust’s type system and ownership rules, you can’t get locking and unlocking wrong.">管理互斥锁可能非常棘手，这就是为什么那么多人对通道充满热情。然而，得益于 Rust 的类型系统和所有权规则，你不会把加锁和解锁弄错。</p>
 <h4 id="the-api-of-mutext"><a class="header" href="#the-api-of-mutext">互斥锁 <code>Mutex&lt;T&gt;</code> 的 API</a></h4>
 <p data-x-en="As an example of how to use a mutex, let’s start by using a mutex in a single-threaded context, as shown in Listing 16-12.">作为如何使用互斥锁的一个示例，让我们先在单线程环境中使用互斥锁，如清单 16-12 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::sync::Mutex;
 
@@ -255,7 +255,7 @@ fn main() {
 
     println!("m = {m:?}");
 }</code></pre></pre>
-<figcaption>Listing 16-12: Exploring the API of <code>Mutex&lt;T&gt;</code> in a single-threaded context for simplicity</figcaption>
+<figcaption><a href="#listing-16-12">Listing 16-12</a>: Exploring the API of <code>Mutex&lt;T&gt;</code> in a single-threaded context for simplicity</figcaption>
 </figure>
 <p data-x-en="As with many types, we create a Mutex<T> using the associated function new. To access the data inside the mutex, we use the lock method to acquire the lock. This call will block the current thread so it can’t do any work until it’s our turn to have the lock.">与许多类型一样，我们使用关联函数 <code>new</code> 创建一个 <code>Mutex&lt;T&gt;</code>。
 要访问互斥锁中的数据，我们使用 <code>lock</code> 方法来获取锁。此调用将阻塞当前线程，直到轮到我们拥有锁为止。</p>
@@ -265,7 +265,7 @@ fn main() {
 <p data-x-en="After dropping the lock, we can print the mutex value and see that we were able to change the inner i32 to 6.">释放锁后，我们可以打印互斥锁的值并看到我们能够将内部<code>i32</code>更改为6。</p>
 <h4 id="sharing-a-mutext-between-multiple-threads"><a class="header" href="#sharing-a-mutext-between-multiple-threads">在多个线程之间共享 <code>Mutex&lt;T&gt;</code></a></h4>
 <p data-x-en="Now let’s try to share a value between multiple threads using Mutex<T>. We’ll spin up 10 threads and have them each increment a counter value by 1, so the counter goes from 0 to 10. The example in Listing 16-13 will have a compiler error, and we’ll use that error to learn more about using Mutex<T> and how Rust helps us use it correctly.">现在让我们尝试使用 <code>Mutex&lt;T&gt;</code> 在多个线程之间共享一个值。我们将启动 10 个线程，让它们各自将计数器值加 1，从而使计数器从 0 增加到 10。清单 16-13 中的示例将出现编译器错误，我们将利用该错误来更多地了解如何使用 <code>Mutex&lt;T&gt;</code> 以及 Rust 如何帮助我们正确使用它。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-13">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::sync::Mutex;
 use std::thread;
@@ -289,7 +289,7 @@ fn main() {
 
     println!("Result: {}", *counter.lock().unwrap());
 }</code></pre>
-<figcaption>Listing 16-13: Ten threads, each incrementing a counter guarded by a <code>Mutex&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-16-13">Listing 16-13</a>: Ten threads, each incrementing a counter guarded by a <code>Mutex&lt;T&gt;</code></figcaption>
 </figure>
 <p data-x-en="We create a counter variable to hold an i32 inside a Mutex<T>, as we did in Listing 16-12. Next, we create 10 threads by iterating over a range of numbers. We use thread::spawn and give all the threads the same closure: one that moves the counter into the thread, acquires a lock on the Mutex<T> by calling the lock method, and then adds 1 to the value in the mutex. When a thread finishes running its closure, num will go out of scope and release the lock so another thread can acquire it.">我们创建一个 <code>counter</code> 变量来在 <code>Mutex&lt;T&gt;</code> 中保存一个 <code>i32</code>，就像我们在清单 16-12 中所做的那样。接下来，我们通过遍历一个数字范围来创建 10 个线程。我们使用 <code>thread::spawn</code> 并给所有线程相同的闭包：一个将计数器移动到线程中，通过调用 <code>lock</code> 方法获取 <code>Mutex&lt;T&gt;</code> 的锁，然后将互斥锁中的值加 1。当线程完成运行其闭包时，<code>num</code> 将超出作用域并释放锁，以便其他线程可以获取它。</p>
 <p data-x-en="In the main thread, we collect all the join handles. Then, as we did in Listing 16-2, we call join on each handle to make sure all the threads finish. At that point, the main thread will acquire the lock and print the result of this program.">在主线程中，我们收集所有的 join 句柄。然后，像我们在清单 16-2 中所做的那样，我们对每个句柄调用 <code>join</code> 以确保所有线程都完成。在那之后，主线程将获取锁并打印此程序的结果。</p>
@@ -324,7 +324,7 @@ error: could not compile `shared-state` (bin "shared-state") due to 1 previous e
 <p data-x-en="The error message states that the counter value was moved in the previous iteration of the loop. Rust is telling us that we can’t move the ownership of lock counter into multiple threads. Let’s fix the compiler error with the multiple-ownership method we discussed in Chapter 15.">错误消息指出 <code>counter</code> 值在循环的前一次迭代中被移动了。Rust 告诉我们不能将锁 <code>counter</code> 的所有权移动到多个线程中。让我们用我们在第 15 章讨论的多重所有权方法来修复编译器错误。</p>
 <h4 id="multiple-ownership-with-multiple-threads"><a class="header" href="#multiple-ownership-with-multiple-threads">多线程中的多重所有权</a></h4>
 <p data-x-en="In Chapter 15, we gave a value to multiple owners by using the smart pointer Rc<T> to create a reference counted value. Let’s do the same here and see what happens. We’ll wrap the Mutex<T> in Rc<T> in Listing 16-14 and clone the Rc<T> before moving ownership to the thread.">在第 15 章中，我们通过使用智能指针 <code>Rc&lt;T&gt;</code> 创建引用计数的值来为多个所有者赋予值。让我们在这里做同样的事情，看看会发生什么。我们将在 <code>Rc&lt;T&gt;</code> 中包装 <code>Mutex&lt;T&gt;</code>，如清单 16-14 所示，并在将所有权移交给线程之前克隆 <code>Rc&lt;T&gt;</code>。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-14">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::rc::Rc;
 use std::sync::Mutex;
@@ -350,7 +350,7 @@ fn main() {
 
     println!("Result: {}", *counter.lock().unwrap());
 }</code></pre>
-<figcaption>Listing 16-14: Attempting to use <code>Rc&lt;T&gt;</code> to allow multiple threads to own the <code>Mutex&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-16-14">Listing 16-14</a>: Attempting to use <code>Rc&lt;T&gt;</code> to allow multiple threads to own the <code>Mutex&lt;T&gt;</code></figcaption>
 </figure>
 <p data-x-en="Once again, we compile and get… different errors! The compiler is teaching us a lot.">再一次，我们编译并得到……不同的错误！编译器正在教我们很多。</p>
 <pre><code class="language-console">$ cargo run
@@ -395,7 +395,7 @@ error: could not compile `shared-state` (bin "shared-state") due to 1 previous e
 <p data-x-en="Fortunately, Arc<T> is a type like Rc<T> that is safe to use in concurrent situations. The a stands for atomic, meaning it’s an atomically reference-counted type. Atomics are an additional kind of concurrency primitive that we won’t cover in detail here: see the standard library documentation for std::sync::atomic for more details. At this point, you just need to know that atomics work like primitive types but are safe to share across threads.">Fortunately, <code>Arc&lt;T&gt;</code> <em>是</em> 一个像 <code>Rc&lt;T&gt;</code> 一样的类型，可以在并发情况下安全使用。<em>a</em> 代表 <em>原子</em>，意味着它是一个 <em>原子引用计数</em> 类型。原子是另一种并发原语，我们在这里不会详细讨论：有关更多详细信息，请参阅标准库文档 <a href="https://doc.rust-lang.org/std/sync/atomic/index.html" target="_blank"><code>std::sync::atomic</code></a><!-- ignore -->。目前，你只需要知道原子像基本类型一样工作，但可以在线程间安全共享。</p>
 <p data-x-en="You might then wonder why all primitive types aren’t atomic and why standard library types aren’t implemented to use Arc<T> by default. The reason is that thread safety comes with a performance penalty that you only want to pay when you really need to. If you’re just performing operations on values within a single thread, your code can run faster if it doesn’t have to enforce the guarantees atomics provide.">你可能会想知道为什么所有原始类型都不是原子的，为什么标准库类型默认没有实现使用<code>Arc&lt;T&gt;</code>。原因是线程安全会带来性能开销，你只在真正需要时才愿意承担。如果你只是在单个线程内对值进行操作，你的代码在不需要强制执行原子性提供的保证时可以运行得更快。</p>
 <p data-x-en="Let’s return to our example: Arc<T> and Rc<T> have the same API, so we fix our program by changing the use line, the call to new, and the call to clone. The code in Listing 16-15 will finally compile and run.">让我们回到我们的例子：<code>Arc&lt;T&gt;</code> 和 <code>Rc&lt;T&gt;</code> 有相同的 API，所以我们通过更改 <code>use</code> 行、对 <code>new</code> 的调用以及对 <code>clone</code> 的调用来修复我们的程序。清单 16-15 中的代码终于可以编译和运行了。</p>
-<figure class="listing">
+<figure class="listing" id="listing-16-15">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">use std::sync::{Arc, Mutex};
 use std::thread;
@@ -420,7 +420,7 @@ fn main() {
 
     println!("Result: {}", *counter.lock().unwrap());
 }</code></pre></pre>
-<figcaption>Listing 16-15: Using an <code>Arc&lt;T&gt;</code> to wrap the <code>Mutex&lt;T&gt;</code> to be able to share ownership across multiple threads</figcaption>
+<figcaption><a href="#listing-16-15">Listing 16-15</a>: Using an <code>Arc&lt;T&gt;</code> to wrap the <code>Mutex&lt;T&gt;</code> to be able to share ownership across multiple threads</figcaption>
 </figure>
 <p data-x-en="This code will print the following:">这段代码将打印以下内容：</p>
 <!-- Not extracting output because changes to this output aren't significant;

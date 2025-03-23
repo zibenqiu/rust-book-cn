@@ -239,7 +239,7 @@ blockquote {
 <p data-x-en="We’ll test-drive the implementation of the functionality that will actually do the searching for the query string in the file contents and produce a list of lines that match the query. We’ll add this functionality in a function called search.">我们将测试实现的功能，该功能将在文件内容中搜索查询字符串，并生成与查询匹配的行列表。我们将在一个名为<code>search</code>的函数中添加此功能。</p>
 <h3 id="writing-a-failing-test"><a class="header" href="#writing-a-failing-test">编写一个失败的测试</a></h3>
 <p data-x-en="Because we don’t need them anymore, let’s remove the println! statements from src/lib.rs and src/main.rs that we used to check the program’s behavior. Then, in src/lib.rs, we’ll add a tests module with a test function, as we did in Chapter 11. The test function specifies the behavior we want the search function to have: it will take a query and the text to search, and it will return only the lines from the text that contain the query. Listing 12-15 shows this test, which won’t compile yet.">因为我们不再需要它们了，让我们从 <em>src/lib.rs</em> 和 <em>src/main.rs</em> 中移除用于检查程序行为的 <code>println!</code> 语句。然后，在 <em>src/lib.rs</em> 中，我们将添加一个 <code>tests</code> 模块，其中包含一个测试函数，就像我们在 <a href="ch11-01-writing-tests.html#the-anatomy-of-a-test-function">第 11 章</a><!-- ignore --> 中所做的那样。测试函数指定了我们希望 <code>search</code> 函数具有的行为：它将接受一个查询和要搜索的文本，并仅返回包含查询的文本行。列表 12-15 显示了这个测试，但目前还无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-15">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -283,11 +283,11 @@ Pick three.";
         assert_eq!(vec!["safe, fast, productive."], search(query, contents));
     }
 }</code></pre>
-<figcaption>Listing 12-15: Creating a failing test for the <code>search</code> function we wish we had</figcaption>
+<figcaption><a href="#listing-12-15">Listing 12-15</a>: Creating a failing test for the <code>search</code> function we wish we had</figcaption>
 </figure>
 <p data-x-en="This test searches for the string &quot;duct&quot;. The text we’re searching is three lines, only one of which contains &quot;duct&quot; (note that the backslash after the opening double quote tells Rust not to put a newline character at the beginning of the contents of this string literal). We assert that the value returned from the search function contains only the line we expect.">这个测试查找字符串<code>"duct"</code>。我们要搜索的文本有三行，只有一行包含<code>"duct"</code>（注意，开头双引号后的反斜杠告诉Rust不要在该字符串字面量的开头添加换行符）。我们断言<code>search</code>函数返回的值只包含我们预期的那一行。</p>
 <p data-x-en="We aren’t yet able to run this test and watch it fail because the test doesn’t even compile: the search function doesn’t exist yet! In accordance with TDD principles, we’ll add just enough code to get the test to compile and run by adding a definition of the search function that always returns an empty vector, as shown in Listing 12-16. Then the test should compile and fail because an empty vector doesn’t match a vector containing the line &quot;safe, fast, productive.&quot;">我们还不能运行这个测试并看着它失败，因为测试甚至无法编译：<code>search</code> 函数还不存在！根据 TDD 原则，我们将添加足够的代码以使测试能够编译和运行，方法是添加一个总是返回空向量的 <code>search</code> 函数定义，如列表 12-16 所示。然后测试应该能够编译并失败，因为一个空向量与包含行 <code>"safe, fast, productive."</code> 的向量不匹配。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-16">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -335,7 +335,7 @@ Pick three.";
 </span><span class="boring">        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-16: Defining just enough of the <code>search</code> function so our test will compile</figcaption>
+<figcaption><a href="#listing-12-16">Listing 12-16</a>: Defining just enough of the <code>search</code> function so our test will compile</figcaption>
 </figure>
 <p data-x-en="Notice that we need to define an explicit lifetime 'a in the signature of search and use that lifetime with the contents argument and the return value. Recall in Chapter 10 that the lifetime parameters specify which argument lifetime is connected to the lifetime of the return value. In this case, we indicate that the returned vector should contain string slices that reference slices of the argument contents (rather than the argument query).">请注意，我们需要在 <code>search</code> 的签名中定义一个显式的生命周期 <code>'a</code>，并使用该生命周期与 <code>contents</code> 参数和返回值。回想 <a href="ch10-03-lifetime-syntax.html">第 10 章</a><!-- ignore --> 中，生命周期参数指定了哪个参数的生命周期与返回值的生命周期相关联。在这种情况下，我们表示返回的向量应包含引用 <code>contents</code> 参数的字符串切片（而不是 <code>query</code> 参数）。</p>
 <p data-x-en="In other words, we tell Rust that the data returned by the search function will live as long as the data passed into the search function in the contents argument. This is important! The data referenced by a slice needs to be valid for the reference to be valid; if the compiler assumes we’re making string slices of query rather than contents, it will do its safety checking incorrectly.">换句话说，我们告诉 Rust <code>search</code> 函数返回的数据
@@ -400,7 +400,7 @@ error: test failed, to rerun pass `--lib`
 <p data-x-en="Let’s work through each step, starting with iterating through lines.">让我们逐步进行，从遍历行开始。</p>
 <h4 id="iterating-through-lines-with-the-lines-method"><a class="header" href="#iterating-through-lines-with-the-lines-method">使用 <code>lines</code> 方法遍历行</a></h4>
 <p data-x-en="Rust has a helpful method to handle line-by-line iteration of strings, conveniently named lines, that works as shown in Listing 12-17. Note that this won’t compile yet.">Rust 有一个有助于处理字符串逐行迭代的有用方法，方便地命名为 <code>lines</code>，如清单 12-17 所示。请注意，这还不能编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-17">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -450,13 +450,13 @@ error: test failed, to rerun pass `--lib`
 </span><span class="boring">        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-17: Iterating through each line in <code>contents</code></figcaption>
+<figcaption><a href="#listing-12-17">Listing 12-17</a>: Iterating through each line in <code>contents</code></figcaption>
 </figure>
 <p data-x-en="The lines method returns an iterator. We’ll talk about iterators in depth in Chapter 13, but recall that you saw this way of using an iterator in Listing 3-5, where we used a for loop with an iterator to run some code on each item in a collection."><code>lines</code> 方法返回一个迭代器。我们将在<a href="ch13-02-iterators.html">第 13 章</a><!-- ignore -->中深入讨论迭代器，但请回想一下，您在<a href="ch03-05-control-flow.html#looping-through-a-collection-with-for">示例 3-5</a><!-- ignore -->中看到了这种使用迭代器的方式，我们在其中使用了一个<code>for</code>循环和迭代器来对集合中的每个项目运行一些代码。</p>
 <h4 id="searching-each-line-for-the-query"><a class="header" href="#searching-each-line-for-the-query">搜索每一行以查找查询内容</a></h4>
 <p data-x-en="Next, we’ll check whether the current line contains our query string. Fortunately, strings have a helpful method named contains that does this for us! Add a call to the contains method in the search function, as shown in Listing 12-18. Note that this still won’t compile yet.">接下来，我们将检查当前行是否包含我们的查询字符串。
 幸运的是，字符串有一个名为<code>contains</code>的有用方法，可以为我们完成这项工作！在<code>search</code>函数中添加对<code>contains</code>方法的调用，如清单12-18所示。请注意，这仍然无法编译。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-18">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -508,12 +508,12 @@ error: test failed, to rerun pass `--lib`
 </span><span class="boring">        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-18: Adding functionality to see whether the line contains the string in <code>query</code></figcaption>
+<figcaption><a href="#listing-12-18">Listing 12-18</a>: Adding functionality to see whether the line contains the string in <code>query</code></figcaption>
 </figure>
 <p data-x-en="At the moment, we’re building up functionality. To get the code to compile, we need to return a value from the body as we indicated we would in the function signature.">目前，我们正在构建功能。为了让代码编译通过，我们需要从函数体中返回一个值，正如我们在函数签名中所指示的那样。</p>
 <h4 id="storing-matching-lines"><a class="header" href="#storing-matching-lines">存储匹配的行</a></h4>
 <p data-x-en="To finish this function, we need a way to store the matching lines that we want to return. For that, we can make a mutable vector before the for loop and call the push method to store a line in the vector. After the for loop, we return the vector, as shown in Listing 12-19.">为了完成这个函数，我们需要一种方法来存储我们想要返回的匹配行。为此，我们可以在 <code>for</code> 循环之前创建一个可变向量，并调用 <code>push</code> 方法将 <code>line</code> 存储在向量中。在 <code>for</code> 循环之后，我们返回该向量，如列表 12-19 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-12-19">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use std::error::Error;
 </span><span class="boring">use std::fs;
@@ -569,7 +569,7 @@ error: test failed, to rerun pass `--lib`
 </span><span class="boring">        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 12-19: Storing the lines that match so we can return them</figcaption>
+<figcaption><a href="#listing-12-19">Listing 12-19</a>: Storing the lines that match so we can return them</figcaption>
 </figure>
 <p data-x-en="Now the search function should return only the lines that contain query, and our test should pass. Let’s run the test:">现在 <code>search</code> 函数应该只返回包含 <code>query</code> 的行，
 并且我们的测试应该通过。让我们运行测试：</p>

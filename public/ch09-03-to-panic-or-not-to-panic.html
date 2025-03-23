@@ -304,7 +304,7 @@ blockquote {
 <p data-x-en="The if expression checks whether our value is out of range, tells the user about the problem, and calls continue to start the next iteration of the loop and ask for another guess. After the if expression, we can proceed with the comparisons between guess and the secret number knowing that guess is between 1 and 100."><code>if</code> 表达式检查我们的值是否超出范围，告知用户问题，并调用 <code>continue</code> 开始循环的下一次迭代并要求再次猜测。在 <code>if</code> 表达式之后，我们可以进行 <code>guess</code> 和秘密数字之间的比较，确信 <code>guess</code> 在 1 和 100 之间。</p>
 <p data-x-en="However, this is not an ideal solution: if it were absolutely critical that the program only operated on values between 1 and 100, and it had many functions with this requirement, having a check like this in every function would be tedious (and might impact performance).">然而，这并不是一个理想的解决方案：如果程序绝对需要仅对1到100之间的值进行操作，并且有许多函数都有这个要求，那么在每个函数中都进行这样的检查会很繁琐（并且可能影响性能）。</p>
 <p data-x-en="Instead, we can make a new type in a dedicated module and put the validations in a function to create an instance of the type rather than repeating the validations everywhere. That way, it’s safe for functions to use the new type in their signatures and confidently use the values they receive. Listing 9-13 shows one way to define a Guess type that will only create an instance of Guess if the new function receives a value between 1 and 100.">相反，我们可以在一个专门的模块中创建一个新类型，并将验证放在一个创建该类型实例的函数中，而不是在每个地方重复验证。这样，函数可以在其签名中安全地使用新类型，并且可以放心地使用接收到的值。清单 9-13 显示了一种定义 <code>Guess</code> 类型的方法，该类型只有在 <code>new</code> 函数接收到 1 到 100 之间的值时才会创建 <code>Guess</code> 的实例。</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-13">
 <span class="file-name">Filename: src/guessing_game.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -326,7 +326,7 @@ impl Guess {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-13: A <code>Guess</code> type that will only continue with values between 1 and 100</figcaption>
+<figcaption><a href="#listing-9-13">Listing 9-13</a>: A <code>Guess</code> type that will only continue with values between 1 and 100</figcaption>
 </figure>
 <p data-x-en="First we create a new module named guessing_game. Next we define a struct in that module named Guess that has a field named value that holds an i32. This is where the number will be stored.">首先我们创建一个名为 <code>guessing_game</code> 的新模块。接下来我们在该模块中定义一个名为 <code>Guess</code> 的结构体，该结构体有一个名为 <code>value</code> 的字段，用于存储一个 <code>i32</code>。
 这就是存储数字的地方。</p>

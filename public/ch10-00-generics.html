@@ -235,7 +235,7 @@ blockquote {
 <h2 id="removing-duplication-by-extracting-a-function"><a class="header" href="#removing-duplication-by-extracting-a-function">通过提取函数来消除重复</a></h2>
 <p data-x-en="Generics allow us to replace specific types with a placeholder that represents multiple types to remove code duplication. Before diving into generics syntax, let’s first look at how to remove duplication in a way that doesn’t involve generic types by extracting a function that replaces specific values with a placeholder that represents multiple values. Then we’ll apply the same technique to extract a generic function! By looking at how to recognize duplicated code you can extract into a function, you’ll start to recognize duplicated code that can use generics.">泛型允许我们用一个占位符替换特定类型，该占位符代表多种类型，以消除代码重复。在深入泛型语法之前，我们先来看看如何通过提取一个函数来消除不涉及泛型类型的重复代码，该函数用一个代表多个值的占位符替换特定值。然后我们将应用相同的技术来提取一个泛型函数！通过了解如何识别可以提取到函数中的重复代码，你将开始识别可以使用泛型的重复代码。</p>
 <p data-x-en="We’ll begin with the short program in Listing 10-1 that finds the largest number in a list.">我们将从列表 10-1 中的简短程序开始，该程序用于在列表中找到最大的数字。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
@@ -251,11 +251,11 @@ blockquote {
     println!("The largest number is {largest}");
 <span class="boring">    assert_eq!(*largest, 100);
 </span>}</code></pre></pre>
-<figcaption>Listing 10-1: Finding the largest number in a list of numbers</figcaption>
+<figcaption><a href="#listing-10-1">Listing 10-1</a>: Finding the largest number in a list of numbers</figcaption>
 </figure>
 <p data-x-en="We store a list of integers in the variable number_list and place a reference to the first number in the list in a variable named largest. We then iterate through all the numbers in the list, and if the current number is greater than the number stored in largest, we replace the reference in that variable. However, if the current number is less than or equal to the largest number seen so far, the variable doesn’t change, and the code moves on to the next number in the list. After considering all the numbers in the list, largest should refer to the largest number, which in this case is 100.">我们将一个整数列表存储在变量<code>number_list</code>中，并将列表中的第一个数字的引用放在名为<code>largest</code>的变量中。然后，我们遍历列表中的所有数字，如果当前数字大于存储在<code>largest</code>中的数字，我们就替换该变量中的引用。然而，如果当前数字小于或等于迄今为止看到的最大数字，变量不会改变，代码将继续处理列表中的下一个数字。在考虑了列表中的所有数字后，<code>largest</code>应该引用最大的数字，在这种情况下是100。</p>
 <p data-x-en="We’ve now been tasked with finding the largest number in two different lists of numbers. To do so, we can choose to duplicate the code in Listing 10-1 and use the same logic at two different places in the program, as shown in Listing 10-2.">我们现在被要求在两个不同的数字列表中找到最大的数字。为此，我们可以选择复制列表10-1中的代码，并在程序的两个不同位置使用相同的逻辑，如列表10-2所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-2">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
@@ -282,12 +282,12 @@ blockquote {
 
     println!("The largest number is {largest}");
 }</code></pre></pre>
-<figcaption>Listing 10-2: Code to find the largest number in <em>two</em> lists of numbers</figcaption>
+<figcaption><a href="#listing-10-2">Listing 10-2</a>: Code to find the largest number in <em>two</em> lists of numbers</figcaption>
 </figure>
 <p data-x-en="Although this code works, duplicating code is tedious and error prone. We also have to remember to update the code in multiple places when we want to change it.">虽然这段代码可以工作，但复制代码既繁琐又容易出错。我们还必须记住，当我们想要更改代码时，需要在多个地方更新代码。</p>
 <p data-x-en="To eliminate this duplication, we’ll create an abstraction by defining a function that operates on any list of integers passed in as a parameter. This solution makes our code clearer and lets us express the concept of finding the largest number in a list abstractly.">为了消除这种重复，我们将通过定义一个函数来创建一个抽象，该函数可以操作作为参数传递的任何整数列表。这种解决方案使我们的代码更清晰，并让我们能够抽象地表达在列表中查找最大数字的概念。</p>
 <p data-x-en="In Listing 10-3, we extract the code that finds the largest number into a function named largest. Then we call the function to find the largest number in the two lists from Listing 10-2. We could also use the function on any other list of i32 values we might have in the future.">在清单 10-3 中，我们将查找最大数字的代码提取到一个名为 <code>largest</code> 的函数中。然后我们调用该函数来查找清单 10-2 中两个列表的最大数字。我们也可以在将来可能拥有的任何其他 <code>i32</code> 值列表上使用该函数。</p>
-<figure class="listing">
+<figure class="listing" id="listing-10-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn largest(list: &amp;[i32]) -&gt; &amp;i32 {
     let mut largest = &amp;list[0];
@@ -314,7 +314,7 @@ fn main() {
     println!("The largest number is {result}");
 <span class="boring">    assert_eq!(*result, 6000);
 </span>}</code></pre></pre>
-<figcaption>Listing 10-3: Abstracted code to find the largest number in two lists</figcaption>
+<figcaption><a href="#listing-10-3">Listing 10-3</a>: Abstracted code to find the largest number in two lists</figcaption>
 </figure>
 <p data-x-en="The largest function has a parameter called list, which represents any concrete slice of i32 values we might pass into the function. As a result, when we call the function, the code runs on the specific values that we pass in."><code>largest</code> 函数有一个名为 <code>list</code> 的参数，它表示我们可能传递给函数的任何具体的 <code>i32</code> 值的切片。因此，当我们调用该函数时，代码会在我们传递的具体值上运行。</p>
 <p data-x-en="In summary, here are the steps we took to change the code from Listing 10-2 to Listing 10-3:">总之，我们采取了以下步骤将代码从清单 10-2 更改为清单 10-3：</p>

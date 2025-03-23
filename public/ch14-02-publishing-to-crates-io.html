@@ -232,7 +232,7 @@ blockquote {
 <h3 id="making-useful-documentation-comments"><a class="header" href="#making-useful-documentation-comments">编写有用的文档注释</a></h3>
 <p data-x-en="Accurately documenting your packages will help other users know how and when to use them, so it’s worth investing the time to write documentation. In Chapter 3, we discussed how to comment Rust code using two slashes, //. Rust also has a particular kind of comment for documentation, known conveniently as a documentation comment, that will generate HTML documentation. The HTML displays the contents of documentation comments for public API items intended for programmers interested in knowing how to use your crate as opposed to how your crate is implemented.">准确地记录你的包将帮助其他用户知道如何以及何时使用它们，因此值得花时间编写文档。在第 3 章中，我们讨论了如何使用两个斜杠 <code>//</code> 来注释 Rust 代码。Rust 还有一种特别的注释用于文档，方便地称为 <em>文档注释</em>，它将生成 HTML 文档。HTML 显示了文档注释中公共 API 项的内容，这些内容是为那些对如何 <em>使用</em> 你的 crate 感兴趣的程序员准备的，而不是对你的 crate 是如何 <em>实现</em> 的感兴趣。</p>
 <p data-x-en="Documentation comments use three slashes, ///, instead of two and support Markdown notation for formatting the text. Place documentation comments just before the item they’re documenting. Listing 14-1 shows documentation comments for an add_one function in a crate named my_crate.">文档注释使用三个斜杠，<code>///</code>，而不是两个，并支持使用 Markdown 标记来格式化文本。将文档注释放在它们所描述的项之前。列表 14-1 显示了在名为 <code>my_crate</code> 的 crate 中的 <code>add_one</code> 函数的文档注释。</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-1">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">/// Adds one to the number given.
 ///
@@ -247,7 +247,7 @@ blockquote {
 pub fn add_one(x: i32) -&gt; i32 {
     x + 1
 }</code></pre>
-<figcaption>Listing 14-1: A documentation comment for a function</figcaption>
+<figcaption><a href="#listing-14-1">Listing 14-1</a>: A documentation comment for a function</figcaption>
 </figure>
 <p data-x-en="Here, we give a description of what the add_one function does, start a section with the heading Examples, and then provide code that demonstrates how to use the add_one function. We can generate the HTML documentation from this documentation comment by running cargo doc. This command runs the rustdoc tool distributed with Rust and puts the generated HTML documentation in the target/doc directory.">这里，我们描述了 <code>add_one</code> 函数的作用，开始一个标题为 <code>Examples</code> 的部分，然后提供演示如何使用 <code>add_one</code> 函数的代码。我们可以通过运行 <code>cargo doc</code> 从这个文档注释生成 HTML 文档。此命令运行随 Rust 分发的 <code>rustdoc</code> 工具，并将生成的 HTML 文档放在 <em>target/doc</em> 目录中。</p>
 <p data-x-en="For convenience, running cargo doc --open will build the HTML for your current crate’s documentation (as well as the documentation for all of your crate’s dependencies) and open the result in a web browser. Navigate to the add_one function and you’ll see how the text in the documentation comments is rendered, as shown in Figure 14-1:">为了方便起见，运行 <code>cargo doc --open</code> 将为您的当前 crate 的文档（以及您的所有 crate 依赖项的文档）构建 HTML，并在网页浏览器中打开结果。导航到 <code>add_one</code> 函数，您将看到文档注释中的文本是如何呈现的，如图 14-1 所示：</p>
@@ -279,7 +279,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <h4 id="commenting-contained-items"><a class="header" href="#commenting-contained-items">注释包含的项</a></h4>
 <p data-x-en="The style of doc comment //! adds documentation to the item that contains the comments rather than to the items following the comments. We typically use these doc comments inside the crate root file (src/lib.rs by convention) or inside a module to document the crate or the module as a whole.">文档注释风格 <code>//!</code> 会将文档添加到包含注释的项中，而不是添加到注释之后的项中。我们通常在 crate 根文件（按惯例为 <em>src/lib.rs</em>）或模块内部使用这些文档注释，以记录整个 crate 或模块。</p>
 <p data-x-en="For example, to add documentation that describes the purpose of the my_crate crate that contains the add_one function, we add documentation comments that start with //! to the beginning of the src/lib.rs file, as shown in Listing 14-2:">例如，要添加描述包含 <code>add_one</code> 函数的 <code>my_crate</code> crate 目的的文档，我们在 <em>src/lib.rs</em> 文件的开头添加以 <code>//!</code> 开头的文档注释，如清单 14-2 所示：</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-2">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">//! # My Crate
 //!
@@ -300,7 +300,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 </span><span class="boring">pub fn add_one(x: i32) -&gt; i32 {
 </span><span class="boring">    x + 1
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 14-2: Documentation for the <code>my_crate</code> crate as a whole</figcaption>
+<figcaption><a href="#listing-14-2">Listing 14-2</a>: Documentation for the <code>my_crate</code> crate as a whole</figcaption>
 </figure>
 <p data-x-en="Notice there isn’t any code after the last line that begins with //!. Because we started the comments with //! instead of ///, we’re documenting the item that contains this comment rather than an item that follows this comment. In this case, that item is the src/lib.rs file, which is the crate root. These comments describe the entire crate.">注意，在以 <code>//!</code> 开头的最后一行之后没有任何代码。因为
 我们用 <code>//!</code> 而不是 <code>///</code> 开始了注释，所以我们正在为包含此注释的项编写文档，而不是为此注释之后的项编写文档。在
@@ -318,7 +318,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 在这个库中有两个模块：一个 <code>kinds</code> 模块包含两个枚举类型
 名为 <code>PrimaryColor</code> 和 <code>SecondaryColor</code>，以及一个 <code>utils</code> 模块包含一个
 名为 <code>mix</code> 的函数，如清单 14-3 所示：</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-3">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground test_harness">//! # Art
 //!
@@ -350,14 +350,14 @@ pub mod utils {
 <span class="boring">        unimplemented!();
 </span>    }
 }</code></pre>
-<figcaption>Listing 14-3: An <code>art</code> library with items organized into <code>kinds</code> and <code>utils</code> modules</figcaption>
+<figcaption><a href="#listing-14-3">Listing 14-3</a>: An <code>art</code> library with items organized into <code>kinds</code> and <code>utils</code> modules</figcaption>
 </figure>
 <p data-x-en="Figure 14-3 shows what the front page of the documentation for this crate generated by cargo doc would look like:">图14-3显示了由<code>cargo doc</code>生成的此crate的文档首页的样子：</p>
 <img alt="Rendered documentation for the `art` crate that lists the `kinds` and `utils` modules" src="img/trpl14-03.png" class="center">
 <p data-x-en="Figure 14-3: Front page of the documentation for art that lists the kinds and utils modules"><span class="caption">图14-3: <code>art</code> 文档的首页，列出了 <code>kinds</code> 和 <code>utils</code> 模块</span></p>
 <p data-x-en="Note that the PrimaryColor and SecondaryColor types aren’t listed on the front page, nor is the mix function. We have to click kinds and utils to see them.">请注意，<code>PrimaryColor</code> 和 <code>SecondaryColor</code> 类型没有列在首页上，<code>mix</code> 函数也没有。我们必须点击 <code>kinds</code> 和 <code>utils</code> 才能看到它们。</p>
 <p data-x-en="Another crate that depends on this library would need use statements that bring the items from art into scope, specifying the module structure that’s currently defined. Listing 14-4 shows an example of a crate that uses the PrimaryColor and mix items from the art crate:">另一个依赖于这个库的crate需要<code>use</code>语句，将<code>art</code>中的项引入作用域，并指定当前定义的模块结构。清单14-4展示了使用<code>art</code> crate中的<code>PrimaryColor</code>和<code>mix</code>项的crate示例：</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use art::kinds::PrimaryColor;
 use art::utils::mix;
@@ -367,11 +367,11 @@ fn main() {
     let yellow = PrimaryColor::Yellow;
     mix(red, yellow);
 }</code></pre>
-<figcaption>Listing 14-4: A crate using the <code>art</code> crate’s items with its internal structure exported</figcaption>
+<figcaption><a href="#listing-14-4">Listing 14-4</a>: A crate using the <code>art</code> crate’s items with its internal structure exported</figcaption>
 </figure>
 <p data-x-en="The author of the code in Listing 14-4, which uses the art crate, had to figure out that PrimaryColor is in the kinds module and mix is in the utils module. The module structure of the art crate is more relevant to developers working on the art crate than to those using it. The internal structure doesn’t contain any useful information for someone trying to understand how to use the art crate, but rather causes confusion because developers who use it have to figure out where to look, and must specify the module names in the use statements.">列表 14-4 中使用了 <code>art</code> crate 的代码作者不得不弄清楚 <code>PrimaryColor</code> 位于 <code>kinds</code> 模块中，而 <code>mix</code> 位于 <code>utils</code> 模块中。<code>art</code> crate 的模块结构对于开发 <code>art</code> crate 的开发者来说更为重要，而对于使用它的开发者来说则不然。内部结构对于试图了解如何使用 <code>art</code> crate 的人来说并不包含任何有用的信息，反而会造成混淆，因为使用它的开发者必须弄清楚去哪里查找，并且必须在 <code>use</code> 语句中指定模块名称。</p>
 <p data-x-en="To remove the internal organization from the public API, we can modify the art crate code in Listing 14-3 to add pub use statements to re-export the items at the top level, as shown in Listing 14-5:">为了从公共 API 中移除内部组织，我们可以修改 <code>art</code> crate 代码（如清单 14-3 所示），添加 <code>pub use</code> 语句以在顶级重新导出这些项，如清单 14-5 所示：</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-5">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">//! # Art
 //!
@@ -408,13 +408,13 @@ pub mod utils {
 </span><span class="boring">        SecondaryColor::Orange
 </span><span class="boring">    }
 </span>}</code></pre>
-<figcaption>Listing 14-5: Adding <code>pub use</code> statements to re-export items</figcaption>
+<figcaption><a href="#listing-14-5">Listing 14-5</a>: Adding <code>pub use</code> statements to re-export items</figcaption>
 </figure>
 <p data-x-en="The API documentation that cargo doc generates for this crate will now list and link re-exports on the front page, as shown in Figure 14-4, making the PrimaryColor and SecondaryColor types and the mix function easier to find."><code>cargo doc</code> 为这个 crate 生成的 API 文档现在将在首页列出并链接重新导出的内容，如图 14-4 所示，使 <code>PrimaryColor</code> 和 <code>SecondaryColor</code> 类型以及 <code>mix</code> 函数更容易找到。</p>
 <img alt="Rendered documentation for the `art` crate with the re-exports on the front page" src="img/trpl14-04.png" class="center">
 <p data-x-en="Figure 14-4: The front page of the documentation for art that lists the re-exports"><span class="caption">图14-4: <code>art</code> 文档的首页，列出了重新导出的内容</span></p>
 <p data-x-en="The art crate users can still see and use the internal structure from Listing 14-3 as demonstrated in Listing 14-4, or they can use the more convenient structure in Listing 14-5, as shown in Listing 14-6:"><code>art</code> crate 的用户仍然可以查看和使用来自列表 14-3 的内部结构，如列表 14-4 所示，或者他们可以使用列表 14-5 中更方便的结构，如列表 14-6 所示：</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-6">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use art::PrimaryColor;
 use art::mix;
@@ -425,7 +425,7 @@ fn main() {
 </span><span class="boring">    let yellow = PrimaryColor::Yellow;
 </span><span class="boring">    mix(red, yellow);
 </span>}</code></pre>
-<figcaption>Listing 14-6: A program using the re-exported items from the <code>art</code> crate</figcaption>
+<figcaption><a href="#listing-14-6">Listing 14-6</a>: A program using the re-exported items from the <code>art</code> crate</figcaption>
 </figure>
 <p data-x-en="In cases where there are many nested modules, re-exporting the types at the top level with pub use can make a significant difference in the experience of people who use the crate. Another common use of pub use is to re-export definitions of a dependency in the current crate to make that crate’s definitions part of your crate’s public API.">在有许多嵌套模块的情况下，使用 <code>pub use</code> 在顶层重新导出类型可以显著改善使用该 crate 的人的体验。另一种常见的 <code>pub use</code> 用法是重新导出依赖项的定义，使这些定义成为你 crate 的公共 API 的一部分。</p>
 <p data-x-en="Creating a useful public API structure is more of an art than a science, and you can iterate to find the API that works best for your users. Choosing pub use gives you flexibility in how you structure your crate internally and decouples that internal structure from what you present to your users. Look at some of the code of crates you’ve installed to see if their internal structure differs from their public API.">创建一个有用的公共 API 结构更像是一门艺术而不是科学，你可以通过迭代来找到最适合你用户的 API。选择 <code>pub use</code> 为你提供了在 crate 内部结构上的灵活性，并将这种内部结构与你呈现给用户的部分解耦。查看一些你已安装的 crate 的代码，看看它们的内部结构是否与其公共 API 不同。</p>

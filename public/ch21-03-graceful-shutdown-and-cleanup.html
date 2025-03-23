@@ -233,7 +233,7 @@ blockquote {
 <h3 id="implementing-the-drop-trait-on-threadpool"><a class="header" href="#implementing-the-drop-trait-on-threadpool">在<code>ThreadPool</code>上实现<code>Drop</code>特性</a></h3>
 <p data-x-en="Let’s start with implementing Drop on our thread pool. When the pool is dropped, our threads should all join to make sure they finish their work. Listing 21-22 shows a first attempt at a Drop implementation; this code won’t quite work yet.">让我们从在我们的线程池上实现<code>Drop</code>开始。当池被丢弃时，我们的线程应该全部加入以确保它们完成工作。
 清单 21-22 显示了<code>Drop</code>实现的第一次尝试；这段代码还不能完全工作。</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-22">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
 </span><span class="boring">    sync::{Arc, Mutex, mpsc},
@@ -311,7 +311,7 @@ blockquote {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-22: Joining each thread when the thread pool goes out of scope</figcaption>
+<figcaption><a href="#listing-21-22">Listing 21-22</a>: Joining each thread when the thread pool goes out of scope</figcaption>
 </figure>
 <p data-x-en="First, we loop through each of the thread pool workers. We use &amp;mut for this because self is a mutable reference, and we also need to be able to mutate worker. For each worker, we print a message saying that this particular Worker instance is shutting down, and then we call join on that Worker instance’s thread. If the call to join fails, we use unwrap to make Rust panic and go into an ungraceful shutdown.">首先，我们遍历线程池中的每个 <code>workers</code>。我们使用 <code>&amp;mut</code>，因为 <code>self</code> 是一个可变引用，同时我们也需要能够修改 <code>worker</code>。对于每个工作线程，我们打印一条消息，说明这个特定的 <code>Worker</code> 实例正在关闭，然后我们调用该 <code>Worker</code> 实例线程的 <code>join</code> 方法。如果 <code>join</code> 调用失败，我们使用 <code>unwrap</code> 使 Rust 发生恐慌并进入非优雅的关闭状态。</p>
 <p data-x-en="Here is the error we get when we compile this code:">当我们编译这段代码时，会出现以下错误：</p>
@@ -426,7 +426,7 @@ error: could not compile `hello` (lib) due to 1 previous error
 然而，坏消息是这段代码还没有按我们希望的方式工作。关键在于由<code>Worker</code>实例的线程运行的闭包中的逻辑：目前，我们调用<code>join</code>，但这不会关闭线程，因为它们会无限循环地寻找任务。如果我们尝试使用当前实现的<code>drop</code>来删除我们的<code>ThreadPool</code>，主线程将永远阻塞，等待第一个线程完成。</p>
 <p data-x-en="To fix this problem, we’ll need a change in the ThreadPool drop implementation and then a change in the Worker loop.">为了解决这个问题，我们需要更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，然后更改 <code>Worker</code> 循环。</p>
 <p data-x-en="First we’ll change the ThreadPool drop implementation to explicitly drop the sender before waiting for the threads to finish. Listing 21-23 shows the changes to ThreadPool to explicitly drop sender. Unlike with the thread, here we do need to use an Option to be able to move sender out of ThreadPool with Option::take.">首先我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，以在等待线程完成之前显式地释放 <code>sender</code>。列表 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式地释放 <code>sender</code>。与线程不同，这里我们 <em>确实</em> 需要使用 <code>Option</code>，以便能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-23">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground not_desired_behavior"><span class="boring">use std::{
 </span><span class="boring">    sync::{Arc, Mutex, mpsc},
@@ -512,10 +512,10 @@ impl Drop for ThreadPool {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-23: Explicitly drop <code>sender</code> before joining the <code>Worker</code> threads</figcaption>
+<figcaption><a href="#listing-21-23">Listing 21-23</a>: Explicitly drop <code>sender</code> before joining the <code>Worker</code> threads</figcaption>
 </figure>
 <p data-x-en="Dropping sender closes the channel, which indicates no more messages will be sent. When that happens, all the calls to recv that the Worker instances do in the infinite loop will return an error. In Listing 21-24, we change the Worker loop to gracefully exit the loop in that case, which means the threads will finish when the ThreadPool drop implementation calls join on them.">释放 <code>sender</code> 会关闭通道，这表示不会再发送更多消息。当这种情况发生时，<code>Worker</code> 实例在无限循环中对 <code>recv</code> 的所有调用将返回错误。在清单 21-24 中，我们更改了 <code>Worker</code> 循环，以便在这种情况下优雅地退出循环，这意味着当 <code>ThreadPool</code> 的 <code>drop</code> 实现调用 <code>join</code> 时，线程将结束。</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-24">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
 </span><span class="boring">    sync::{Arc, Mutex, mpsc},
@@ -606,10 +606,10 @@ impl Drop for ThreadPool {
         Worker { id, thread }
     }
 }</code></pre>
-<figcaption>Listing 21-24: Explicitly breaking out of the loop when <code>recv</code> returns an error</figcaption>
+<figcaption><a href="#listing-21-24">Listing 21-24</a>: Explicitly breaking out of the loop when <code>recv</code> returns an error</figcaption>
 </figure>
 <p data-x-en="To see this code in action, let’s modify main to accept only two requests before gracefully shutting down the server, as shown in Listing 21-25.">要查看此代码的运行情况，让我们修改 <code>main</code> 以仅接受两个请求，然后优雅地关闭服务器，如示例 21-25 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-25">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">use hello::ThreadPool;
 </span><span class="boring">use std::{
@@ -656,7 +656,7 @@ impl Drop for ThreadPool {
 </span><span class="boring">
 </span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-25: Shutting down the server after serving two requests by exiting the loop</figcaption>
+<figcaption><a href="#listing-21-25">Listing 21-25</a>: Shutting down the server after serving two requests by exiting the loop</figcaption>
 </figure>
 <p data-x-en="You wouldn’t want a real-world web server to shut down after serving only two requests. This code just demonstrates that the graceful shutdown and cleanup is in working order.">你不会希望一个现实世界的Web服务器在仅服务了两个请求后就关闭。这段代码只是证明了优雅的关闭和清理机制是有效的。</p>
 <p data-x-en="The take method is defined in the Iterator trait and limits the iteration to the first two items at most. The ThreadPool will go out of scope at the end of main, and the drop implementation will run."><code>take</code> 方法在 <code>Iterator</code> 特性中定义，将迭代限制为最多前两个项目。<code>ThreadPool</code> 将在 <code>main</code> 结束时超出作用域，<code>drop</code> 实现将运行。</p>

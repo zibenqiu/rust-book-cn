@@ -250,12 +250,12 @@ $ cd hello_world
 <h3 id="writing-and-running-a-rust-program"><a class="header" href="#writing-and-running-a-rust-program">编写和运行一个 Rust 程序</a></h3>
 <p data-x-en="Next, make a new source file and call it main.rs. Rust files always end with the .rs extension. If you’re using more than one word in your filename, the convention is to use an underscore to separate them. For example, use hello_world.rs rather than helloworld.rs.">接下来，创建一个新的源文件并将其命名为<em>main.rs</em>。Rust 文件总是以 <em>.rs</em> 扩展名结尾。如果你的文件名包含多个单词，惯例是使用下划线将它们分隔开。例如，使用 <em>hello_world.rs</em> 而不是 <em>helloworld.rs</em>。</p>
 <p data-x-en="Now open the main.rs file you just created and enter the code in Listing 1-1.">现在打开你刚刚创建的<em>main.rs</em>文件，并输入列表1-1中的代码。</p>
-<figure class="listing">
+<figure class="listing" id="listing-1-1">
 <span class="file-name">Filename: main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     println!("Hello, world!");
 }</code></pre></pre>
-<figcaption>Listing 1-1: A program that prints <code>Hello, world!</code></figcaption>
+<figcaption><a href="#listing-1-1">Listing 1-1</a>: A program that prints <code>Hello, world!</code></figcaption>
 </figure>
 <p data-x-en="Save the file and go back to your terminal window in the ~/projects/hello_world directory. On Linux or macOS, enter the following commands to compile and run the file:">保存文件并返回到 <em>~/projects/hello_world</em> 目录下的终端窗口。在 Linux 或 macOS 上，输入以下命令来编译和运行文件：</p>
 <pre><code class="language-console">$ rustc main.rs

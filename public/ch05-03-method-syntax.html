@@ -230,7 +230,7 @@ blockquote {
 <p data-x-en="Methods are similar to functions: we declare them with the fn keyword and a name, they can have parameters and a return value, and they contain some code that’s run when the method is called from somewhere else. Unlike functions, methods are defined within the context of a struct (or an enum or a trait object, which we cover in Chapter 6 and Chapter 18, respectively), and their first parameter is always self, which represents the instance of the struct the method is being called on."><em>方法</em> 与函数类似：我们使用 <code>fn</code> 关键字和一个名称声明它们，它们可以有参数和返回值，并且包含一些代码，当从其他地方调用该方法时，这些代码将运行。与函数不同，方法是在结构体（或枚举或特征对象，我们将在 <a href="ch06-00-enums.html">第六章</a><!-- ignore --> 和 <a href="ch18-02-trait-objects.html">第十八章</a><!-- ignore --> 中分别介绍）的上下文中定义的，并且它们的第一个参数始终是 <code>self</code>，表示调用该方法的结构体实例。</p>
 <h3 id="defining-methods"><a class="header" href="#defining-methods">定义方法</a></h3>
 <p data-x-en="Let’s change the area function that has a Rectangle instance as a parameter and instead make an area method defined on the Rectangle struct, as shown in Listing 5-13.">让我们将有一个 <code>Rectangle</code> 实例作为参数的 <code>area</code> 函数改为在 <code>Rectangle</code> 结构体上定义的 <code>area</code> 方法，如清单 5-13 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-13">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
 struct Rectangle {
@@ -255,7 +255,7 @@ fn main() {
         rect1.area()
     );
 }</code></pre></pre>
-<figcaption>Listing 5-13: Defining an <code>area</code> method on the <code>Rectangle</code> struct</figcaption>
+<figcaption><a href="#listing-5-13">Listing 5-13</a>: Defining an <code>area</code> method on the <code>Rectangle</code> struct</figcaption>
 </figure>
 <p data-x-en="To define the function within the context of Rectangle, we start an impl (implementation) block for Rectangle. Everything within this impl block will be associated with the Rectangle type. Then we move the area function within the impl curly brackets and change the first (and in this case, only) parameter to be self in the signature and everywhere within the body. In main, where we called the area function and passed rect1 as an argument, we can instead use method syntax to call the area method on our Rectangle instance. The method syntax goes after an instance: we add a dot followed by the method name, parentheses, and any arguments.">要在 <code>Rectangle</code> 的上下文中定义函数，我们为 <code>Rectangle</code> 开始一个 <code>impl</code>
 （实现）块。此 <code>impl</code> 块中的所有内容都将与 <code>Rectangle</code> 类型关联。然后我们将 <code>area</code> 函数
@@ -325,7 +325,7 @@ fn main() {
 </section>
 <h3 id="methods-with-more-parameters"><a class="header" href="#methods-with-more-parameters">具有更多参数的方法</a></h3>
 <p data-x-en="Let’s practice using methods by implementing a second method on the Rectangle struct. This time we want an instance of Rectangle to take another instance of Rectangle and return true if the second Rectangle can fit completely within self (the first Rectangle); otherwise, it should return false. That is, once we’ve defined the can_hold method, we want to be able to write the program shown in Listing 5-14.">让我们通过在 <code>Rectangle</code> 结构体上实现第二个方法来练习使用方法。这次我们希望 <code>Rectangle</code> 的一个实例能够接受另一个 <code>Rectangle</code> 的实例，并返回 <code>true</code>，如果第二个 <code>Rectangle</code> 能够完全包含在 <code>self</code>（第一个 <code>Rectangle</code>）中；否则，它应该返回 <code>false</code>。也就是说，一旦我们定义了 <code>can_hold</code> 方法，我们希望能够编写如清单 5-14 所示的程序。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-14">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">fn main() {
     let rect1 = Rectangle {
@@ -344,14 +344,14 @@ fn main() {
     println!("Can rect1 hold rect2? {}", rect1.can_hold(&amp;rect2));
     println!("Can rect1 hold rect3? {}", rect1.can_hold(&amp;rect3));
 }</code></pre>
-<figcaption>Listing 5-14: Using the as-yet-unwritten <code>can_hold</code> method</figcaption>
+<figcaption><a href="#listing-5-14">Listing 5-14</a>: Using the as-yet-unwritten <code>can_hold</code> method</figcaption>
 </figure>
 <p data-x-en="The expected output would look like the following because both dimensions of rect2 are smaller than the dimensions of rect1, but rect3 is wider than rect1:">预期的输出如下所示，因为 <code>rect2</code> 的两个维度都小于 <code>rect1</code> 的维度，但 <code>rect3</code> 比 <code>rect1</code> 宽：</p>
 <pre><code class="language-text">Can rect1 hold rect2? true
 Can rect1 hold rect3? false
 </code></pre>
 <p data-x-en="We know we want to define a method, so it will be within the impl Rectangle block. The method name will be can_hold, and it will take an immutable borrow of another Rectangle as a parameter. We can tell what the type of the parameter will be by looking at the code that calls the method: rect1.can_hold(&amp;rect2) passes in &amp;rect2, which is an immutable borrow to rect2, an instance of Rectangle. This makes sense because we only need to read rect2 (rather than write, which would mean we’d need a mutable borrow), and we want main to retain ownership of rect2 so we can use it again after calling the can_hold method. The return value of can_hold will be a Boolean, and the implementation will check whether the width and height of self are greater than the width and height of the other Rectangle, respectively. Let’s add the new can_hold method to the impl block from Listing 5-13, shown in Listing 5-15.">我们知道要定义一个方法，所以它将在 <code>impl Rectangle</code> 块内。方法名将是 <code>can_hold</code>，并且它将接受另一个 <code>Rectangle</code> 的不可变借用作为参数。我们可以通过查看调用该方法的代码来判断参数的类型：<code>rect1.can_hold(&amp;rect2)</code> 传递了 <code>&amp;rect2</code>，这是对 <code>rect2</code>（一个 <code>Rectangle</code> 实例）的不可变借用。这很有道理，因为我们只需要读取 <code>rect2</code>（而不是写入，这将意味着我们需要一个可变借用），并且我们希望 <code>main</code> 保留 <code>rect2</code> 的所有权，以便在调用 <code>can_hold</code> 方法后可以再次使用它。<code>can_hold</code> 的返回值将是一个布尔值，实现将检查 <code>self</code> 的宽度和高度是否分别大于另一个 <code>Rectangle</code> 的宽度和高度。让我们将新的 <code>can_hold</code> 方法添加到列表 5-13 中的 <code>impl</code> 块中，如列表 5-15 所示。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-15">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
@@ -386,7 +386,7 @@ Can rect1 hold rect3? false
 </span><span class="boring">    println!("Can rect1 hold rect2? {}", rect1.can_hold(&amp;rect2));
 </span><span class="boring">    println!("Can rect1 hold rect3? {}", rect1.can_hold(&amp;rect3));
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 5-15: Implementing the <code>can_hold</code> method on <code>Rectangle</code> that takes another <code>Rectangle</code> instance as a parameter</figcaption>
+<figcaption><a href="#listing-5-15">Listing 5-15</a>: Implementing the <code>can_hold</code> method on <code>Rectangle</code> that takes another <code>Rectangle</code> instance as a parameter</figcaption>
 </figure>
 <p data-x-en="When we run this code with the main function in Listing 5-14, we’ll get our desired output. Methods can take multiple parameters that we add to the signature after the self parameter, and those parameters work just like parameters in functions.">当我们运行带有列表 5-14 中的 <code>main</code> 函数的代码时，我们将获得所需的输出。方法可以接受多个参数，这些参数在 <code>self</code> 参数之后添加到签名中，这些参数的工作方式与函数中的参数相同。</p>
 <h3 id="associated-functions"><a class="header" href="#associated-functions">关联函数</a></h3>
@@ -415,7 +415,7 @@ Can rect1 hold rect3? false
 <p data-x-en="To call this associated function, we use the :: syntax with the struct name; let sq = Rectangle::square(3); is an example. This function is namespaced by the struct: the :: syntax is used for both associated functions and namespaces created by modules. We’ll discuss modules in Chapter 7.">要调用这个关联函数，我们使用 <code>::</code> 语法与结构体名称一起；<code>let sq = Rectangle::square(3);</code> 是一个例子。这个函数由结构体命名空间限定：<code>::</code> 语法用于关联函数和由模块创建的命名空间。我们将在 <a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">第 7 章</a><!-- ignore --> 讨论模块。</p>
 <h3 id="multiple-impl-blocks"><a class="header" href="#multiple-impl-blocks">多个 <code>impl</code> 块</a></h3>
 <p data-x-en="Each struct is allowed to have multiple impl blocks. For example, Listing 5-15 is equivalent to the code shown in Listing 5-16, which has each method in its own impl block.">每个结构体都可以有多个<code>impl</code>块。例如，列表 5-15 等同于列表 5-16 中的代码，其中每个方法都在其自己的<code>impl</code>块中。</p>
-<figure class="listing">
+<figure class="listing" id="listing-5-16">
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#[derive(Debug)]
 </span><span class="boring">struct Rectangle {
 </span><span class="boring">    width: u32,
@@ -451,7 +451,7 @@ impl Rectangle {
 </span><span class="boring">    println!("Can rect1 hold rect2? {}", rect1.can_hold(&amp;rect2));
 </span><span class="boring">    println!("Can rect1 hold rect3? {}", rect1.can_hold(&amp;rect3));
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 5-16: Rewriting Listing 5-15 using multiple <code>impl</code> blocks</figcaption>
+<figcaption><a href="#listing-5-16">Listing 5-16</a>: Rewriting Listing 5-15 using multiple <code>impl</code> blocks</figcaption>
 </figure>
 <p data-x-en="There’s no reason to separate these methods into multiple impl blocks here, but this is valid syntax. We’ll see a case in which multiple impl blocks are useful in Chapter 10, where we discuss generic types and traits.">这里没有理由将这些方法分开到多个<code>impl</code>块中，但这是有效的语法。我们将在第10章讨论泛型类型和特质时看到多个<code>impl</code>块有用的情况。</p>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
