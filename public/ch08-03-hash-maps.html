@@ -33,10 +33,11 @@
         <link rel="stylesheet" href="theme/listing.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -115,8 +116,8 @@ blockquote {
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -130,7 +131,8 @@ blockquote {
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -143,8 +145,8 @@ blockquote {
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -180,6 +182,7 @@ blockquote {
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -365,9 +368,6 @@ Blue: 10
 <p data-x-en="The split_whitespace method returns an iterator over subslices, separated by whitespace, of the value in text. The or_insert method returns a mutable reference (&amp;mut V) to the value for the specified key. Here, we store that mutable reference in the count variable, so in order to assign to that value, we must first dereference count using the asterisk (*). The mutable reference goes out of scope at the end of the for loop, so all of these changes are safe and allowed by the borrowing rules."><code>split_whitespace</code> 方法返回一个迭代器，该迭代器遍历 <code>text</code> 中由空白分隔的子切片。<code>or_insert</code> 方法返回一个指向指定键值的可变引用 (<code>&amp;mut V</code>)。在这里，我们将这个可变引用存储在 <code>count</code> 变量中，因此为了给该值赋值，我们必须首先使用星号 (<code>*</code>) 对 <code>count</code> 进行解引用。可变引用在 <code>for</code> 循环结束时超出作用域，因此所有这些更改都是安全的，并且符合借用规则。</p>
 <h3 id="hashing-functions"><a class="header" href="#hashing-functions">哈希函数</a></h3>
 <p data-x-en="By default, HashMap uses a hashing function called SipHash that can provide resistance to denial-of-service (DoS) attacks involving hash tables1. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it. If you profile your code and find that the default hash function is too slow for your purposes, you can switch to another function by specifying a different hasher. A hasher is a type that implements the BuildHasher trait. We’ll talk about traits and how to implement them in Chapter 10. You don’t necessarily have to implement your own hasher from scratch; crates.io has libraries shared by other Rust users that provide hashers implementing many common hashing algorithms.">默认情况下，<code>HashMap</code> 使用一种称为 <em>SipHash</em> 的哈希函数，可以提供针对涉及哈希表的拒绝服务 (DoS) 攻击的防护<sup class="footnote-reference"><a href="#siphash">1</a></sup><!-- ignore -->。这不是最快的哈希算法，但性能下降带来的更好安全性是值得的。如果你对代码进行了剖析并发现默认的哈希函数对于你的用途来说太慢，你可以通过指定不同的哈希器来切换到其他函数。一个 <em>哈希器</em> 是实现了 <code>BuildHasher</code> 特性的类型。我们将在 <a href="ch10-02-traits.html">第 10 章</a><!-- ignore --> 中讨论特性以及如何实现它们。你不必一定从头开始实现自己的哈希器；<a href="https://crates.io/">crates.io</a><!-- ignore --> 有其他 Rust 用户共享的库，提供了实现许多常见哈希算法的哈希器。</p>
-<div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
-<p data-x-en="https://en.wikipedia.org/wiki/SipHash"><a href="https://en.wikipedia.org/wiki/SipHash">https://zh.wikipedia.org/wiki/SipHash</a></p>
-</div>
 <h2 id="summary"><a class="header" href="#summary">摘要</a></h2>
 <p data-x-en="Vectors, strings, and hash maps will provide a large amount of functionality necessary in programs when you need to store, access, and modify data. Here are some exercises you should now be equipped to solve:">向量、字符串和哈希映射将在你需要存储、访问和修改数据的程序中提供大量必要的功能。这里有一些你现在应该能够解决的练习：</p>
 <ol>
@@ -377,7 +377,9 @@ Blue: 10
 </ol>
 <p data-x-en="The standard library API documentation describes methods that vectors, strings, and hash maps have that will be helpful for these exercises!">标准库 API 文档描述了向量、字符串和哈希映射具有的方法，这些方法对这些练习将有所帮助！</p>
 <p data-x-en="We’re getting into more complex programs in which operations can fail, so it’s a perfect time to discuss error handling. We’ll do that next!">我们正在进入更复杂的程序，在这些程序中操作可能会失败，因此现在是讨论错误处理的绝佳时机。我们接下来就来做这件事！</p>
-
+<hr>
+<ol class="footnote-definition"><li id="footnote-siphash" data-x-en="https://en.wikipedia.org/wiki/SipHash ↩"><p><a href="https://en.wikipedia.org/wiki/SipHash">https://zh.wikipedia.org/wiki/SipHash</a> <a href="#fr-siphash-1">↩</a></p></li>
+</ol>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

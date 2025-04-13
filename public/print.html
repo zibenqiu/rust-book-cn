@@ -36,10 +36,11 @@
         <link rel="stylesheet" href="theme/listing.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -49,8 +50,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -64,7 +65,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -77,8 +79,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -114,6 +116,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -541,9 +544,9 @@ commands to compile and run the file:</p>
 $ ./main
 Hello, world!
 </code></pre>
-<p>On Windows, enter the command <code>.\main.exe</code> instead of <code>./main</code>:</p>
+<p>On Windows, enter the command <code>.\main</code> instead of <code>./main</code>:</p>
 <pre><code class="language-powershell">&gt; rustc main.rs
-&gt; .\main.exe
+&gt; .\main
 Hello, world!
 </code></pre>
 <p>Regardless of your operating system, the string <code>Hello, world!</code> should print to
@@ -581,10 +584,11 @@ installed on your computer!</p>
 <p>This line does all the work in this little program: it prints text to the
 screen. There are three important details to notice here.</p>
 <p>First, <code>println!</code> calls a Rust macro. If it had called a function instead, it
-would be entered as <code>println</code> (without the <code>!</code>). We’ll discuss Rust macros in
-more detail in Chapter 20. For now, you just need to know that using a <code>!</code>
-means that you’re calling a macro instead of a normal function and that macros
-don’t always follow the same rules as functions.</p>
+would be entered as <code>println</code> (without the <code>!</code>). Rust macros are a way to write
+code that generates code to extend Rust syntax, and we’ll discuss them in more
+detail in <a href="ch20-05-macros.html">Chapter 20</a><!-- ignore -->. For now, you just need to
+know that using a <code>!</code> means that you’re calling a macro instead of a normal
+function and that macros don’t always follow the same rules as functions.</p>
 <p>Second, you see the <code>"Hello, world!"</code> string. We pass this string as an argument
 to <code>println!</code>, and the string is printed to the screen.</p>
 <p>Third, we end the line with a semicolon (<code>;</code>), which indicates that this
@@ -617,7 +621,7 @@ main.rs
 (<em>main.exe</em> on Windows, but <em>main</em> on all other platforms), and, when using
 Windows, a file containing debugging information with the <em>.pdb</em> extension.
 From here, you run the <em>main</em> or <em>main.exe</em> file, like this:</p>
-<pre><code class="language-console">$ ./main # or .\main.exe on Windows
+<pre><code class="language-console">$ ./main # or .\main on Windows
 </code></pre>
 <p>If your <em>main.rs</em> is your “Hello, world!” program, this line prints <code>Hello, world!</code> to your terminal.</p>
 <p>If you’re more familiar with a dynamic language, such as Ruby, Python, or
@@ -872,7 +876,7 @@ using the <code>cargo run</code> command:</p>
 <pre><code class="language-console">$ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
-     Running `file:///projects/guessing_game/target/debug/guessing_game`
+     Running `target/debug/guessing_game`
 Hello, world!
 </code></pre>
 <p>The <code>run</code> command comes in handy when you need to rapidly iterate on a project,
@@ -899,7 +903,7 @@ fn main() {
         .read_line(&amp;mut guess)
         .expect("Failed to read line");
 
-    println!("You guessed: {}", guess);
+    println!("You guessed: {guess}");
 }</code></pre>
 <figcaption><a href="ch02-00-guessing-game-tutorial.html#listing-2-1">Listing 2-1</a>: Code that gets a guess from the user and prints it</figcaption>
 </figure>
@@ -920,7 +924,7 @@ library, known as <code>std</code>:</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>By default, Rust has a set of items defined in the standard library that it
 brings into the scope of every program. This set is called the <em>prelude</em>, and
@@ -944,7 +948,7 @@ program:</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>The <code>fn</code> syntax declares a new function; the parentheses, <code>()</code>, indicate there
 are no parameters; and the curly bracket, <code>{</code>, starts the body of the function.</p>
@@ -963,7 +967,7 @@ the screen:</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>This code is printing a prompt stating what the game is and requesting input
 from the user.</p>
@@ -982,7 +986,7 @@ from the user.</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>Now the program is getting interesting! There’s a lot going on in this little
 line. We use the <code>let</code> statement to create the variable. Here’s another example:</p>
@@ -1032,7 +1036,7 @@ input:</p>
         .read_line(&amp;mut guess)
 <span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>If we hadn’t imported the <code>io</code> module with <code>use std::io;</code> at the beginning of
 the program, we could still use the function by writing this function call as
@@ -1075,7 +1079,7 @@ part is this method:</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span>        .expect("Failed to read line");
 <span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>We could have written this code as:</p>
 <pre><code class="language-rust ignore">io::stdin().read_line(&amp;mut guess).expect("Failed to read line");</code></pre>
@@ -1144,7 +1148,7 @@ the code so far:</p>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span>    println!("You guessed: {}", guess);
+</span>    println!("You guessed: {guess}");
 <span class="boring">}</span></code></pre>
 <p>This line prints the string that now contains the user’s input. The <code>{}</code> set of
 curly brackets is a placeholder: think of <code>{}</code> as little crab pincers that hold
@@ -1499,20 +1503,17 @@ anchor or snip comments
    Compiling rand v0.8.5
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
 error[E0308]: mismatched types
-   --&gt; src/main.rs:22:21
-    |
-22  |     match guess.cmp(&amp;secret_number) {
-    |                 --- ^^^^^^^^^^^^^^ expected `&amp;String`, found `&amp;{integer}`
-    |                 |
-    |                 arguments to this method are incorrect
-    |
-    = note: expected reference `&amp;String`
-               found reference `&amp;{integer}`
+  --&gt; src/main.rs:23:21
+   |
+23 |     match guess.cmp(&amp;secret_number) {
+   |                 --- ^^^^^^^^^^^^^^ expected `&amp;String`, found `&amp;{integer}`
+   |                 |
+   |                 arguments to this method are incorrect
+   |
+   = note: expected reference `&amp;String`
+              found reference `&amp;{integer}`
 note: method defined here
-   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/cmp.rs:964:8
-    |
-964 |     fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering;
-    |        ^^^
+  --&gt; /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/cmp.rs:964:8
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` (bin "guessing_game") due to 1 previous error
@@ -6178,25 +6179,22 @@ error:</p>
 <pre><code class="language-console">$ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
-   --&gt; src/main.rs:3:15
-    |
-3   |         match x {
-    |               ^ pattern `None` not covered
-    |
+ --&gt; src/main.rs:3:15
+  |
+3 |         match x {
+  |               ^ pattern `None` not covered
+  |
 note: `Option&lt;i32&gt;` defined here
-   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/option.rs:572:1
-    |
-572 | pub enum Option&lt;T&gt; {
-    | ^^^^^^^^^^^^^^^^^^
-...
-576 |     None,
-    |     ---- not covered
-    = note: the matched value is of type `Option&lt;i32&gt;`
+ --&gt; /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/option.rs:572:1
+ ::: /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/option.rs:576:5
+  |
+  = note: not covered
+  = note: the matched value is of type `Option&lt;i32&gt;`
 help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
-    |
-4   ~             Some(i) =&gt; Some(i + 1),
-5   ~             None =&gt; todo!(),
-    |
+  |
+4 ~             Some(i) =&gt; Some(i + 1),
+5 ~             None =&gt; todo!(),
+  |
 
 For more information about this error, try `rustc --explain E0004`.
 error: could not compile `enums` (bin "enums") due to 1 previous error
@@ -8600,7 +8598,7 @@ changes are safe and allowed by the borrowing rules.</p>
 <h3 id="hashing-functions"><a class="header" href="#hashing-functions">Hashing Functions</a></h3>
 <p>By default, <code>HashMap</code> uses a hashing function called <em>SipHash</em> that can provide
 resistance to denial-of-service (DoS) attacks involving hash
-tables<sup class="footnote-reference"><a href="#siphash">1</a></sup><!-- ignore -->. This is not the fastest hashing algorithm
+tables<sup class="footnote-reference" id="fr-siphash-1"><a href="#footnote-siphash">1</a></sup><!-- ignore -->. This is not the fastest hashing algorithm
 available, but the trade-off for better security that comes with the drop in
 performance is worth it. If you profile your code and find that the default
 hash function is too slow for your purposes, you can switch to another function
@@ -8610,9 +8608,6 @@ by specifying a different hasher. A <em>hasher</em> is a type that implements th
 your own hasher from scratch; <a href="https://crates.io/">crates.io</a><!-- ignore -->
 has libraries shared by other Rust users that provide hashers implementing many
 common hashing algorithms.</p>
-<div class="footnote-definition" id="siphash"><sup class="footnote-definition-label">1</sup>
-<p><a href="https://en.wikipedia.org/wiki/SipHash">https://en.wikipedia.org/wiki/SipHash</a></p>
-</div>
 <h2 id="summary-7"><a class="header" href="#summary-7">Summary</a></h2>
 <p>Vectors, strings, and hash maps will provide a large amount of functionality
 necessary in programs when you need to store, access, and modify data. Here are
@@ -8635,7 +8630,11 @@ alphabetically.</li>
 and hash maps have that will be helpful for these exercises!</p>
 <p>We’re getting into more complex programs in which operations can fail, so it’s
 a perfect time to discuss error handling. We’ll do that next!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h1>
+<hr>
+<ol class="footnote-definition"><li id="footnote-siphash">
+<p><a href="https://en.wikipedia.org/wiki/SipHash">https://en.wikipedia.org/wiki/SipHash</a> <a href="#fr-siphash-1">↩</a></p>
+</li>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h1>
 <p>Errors are a fact of life in software, so Rust has a number of features for
 handling situations in which something goes wrong. In many cases, Rust requires
 you to acknowledge the possibility of an error and take some action before your
@@ -11541,7 +11540,7 @@ to see that this test passes.</p>
 <pre><code class="language-console">$ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s
-     Running unittests src/lib.rs (file:///projects/adder/target/debug/deps/adder-40313d497ef8f64e)
+     Running unittests src/lib.rs (target/debug/deps/adder-01ad14159ff659ab)
 
 running 1 test
 test tests::it_works ... ok
@@ -18199,11 +18198,6 @@ error[E0277]: can't compare `{integer}` with `&amp;{integer}`
   |
   = help: the trait `PartialEq&lt;&amp;{integer}&gt;` is not implemented for `{integer}`
   = note: this error originates in the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
-help: consider dereferencing here
- --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35
-  |
-46|                 if !(*left_val == **right_val) {
-  |                                   +
 
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `deref-example` (bin "deref-example") due to 1 previous error
@@ -19163,7 +19157,6 @@ help: consider changing this to be a mutable reference in the `impl` method and 
 
 For more information about this error, try `rustc --explain E0596`.
 error: could not compile `limit-tracker` (lib test) due to 1 previous error
-warning: build failed, waiting for other jobs to finish...
 </code></pre>
 <p>We can’t modify the <code>MockMessenger</code> to keep track of the messages, because the
 <code>send</code> method takes an immutable reference to <code>self</code>. We also can’t take the
@@ -20826,34 +20819,28 @@ lot.</p>
 <pre><code class="language-console">$ cargo run
    Compiling shared-state v0.1.0 (file:///projects/shared-state)
 error[E0277]: `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
-   --&gt; src/main.rs:11:36
-    |
-11  |           let handle = thread::spawn(move || {
-    |                        ------------- ^------
-    |                        |             |
-    |  ______________________|_____________within this `{closure@src/main.rs:11:36: 11:43}`
-    | |                      |
-    | |                      required by a bound introduced by this call
-12  | |             let mut num = counter.lock().unwrap();
-13  | |
-14  | |             *num += 1;
-15  | |         });
-    | |_________^ `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
-    |
-    = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`
+  --&gt; src/main.rs:11:36
+   |
+11 |           let handle = thread::spawn(move || {
+   |                        ------------- ^------
+   |                        |             |
+   |  ______________________|_____________within this `{closure@src/main.rs:11:36: 11:43}`
+   | |                      |
+   | |                      required by a bound introduced by this call
+12 | |             let mut num = counter.lock().unwrap();
+13 | |
+14 | |             *num += 1;
+15 | |         });
+   | |_________^ `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
+   |
+   = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`
 note: required because it's used within this closure
-   --&gt; src/main.rs:11:36
-    |
-11  |         let handle = thread::spawn(move || {
-    |                                    ^^^^^^^
+  --&gt; src/main.rs:11:36
+   |
+11 |         let handle = thread::spawn(move || {
+   |                                    ^^^^^^^
 note: required by a bound in `spawn`
-   --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/std/src/thread/mod.rs:731:8
-    |
-728 | pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
-    |        ----- required by a bound in this function
-...
-731 |     F: Send + 'static,
-    |        ^^^^ required by this bound in `spawn`
+  --&gt; /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/std/src/thread/mod.rs:728:1
 
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `shared-state` (bin "shared-state") due to 1 previous error
@@ -26195,20 +26182,19 @@ warning.</p>
 pattern:</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
-warning: irrefutable `if let` pattern
- --&gt; src/main.rs:2:8
+warning: irrefutable `let...else` pattern
+ --&gt; src/main.rs:2:5
   |
-2 |     if let x = 5 {
-  |        ^^^^^^^^^
+2 |     let x = 5 else {
+  |     ^^^^^^^^^
   |
-  = note: this pattern will always match, so the `if let` is useless
-  = help: consider replacing the `if let` with a `let`
+  = note: this pattern will always match, so the `else` clause is useless
+  = help: consider removing the `else` clause
   = note: `#[warn(irrefutable_let_patterns)]` on by default
 
 warning: `patterns` (bin "patterns") generated 1 warning
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.39s
      Running `target/debug/patterns`
-5
 </code></pre>
 <p>For this reason, match arms must use refutable patterns, except for the last
 arm, which should match any remaining values with an irrefutable pattern. Rust
@@ -28672,24 +28658,24 @@ return are different, even though they implement the same type. If we try to
 compile this, Rust lets us know that it won’t work:</p>
 <pre><code class="language-text">$ cargo build
    Compiling functions-example v0.1.0 (file:///projects/functions-example)
-    error[E0308]: mismatched types
-    --&gt; src/main.rs:4:9
-    |
-    4  |         returns_initialized_closure(123)
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected opaque type, found a different opaque type
-    ...
-    12 | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
-    |                         ------------------- the expected opaque type
-    ...
-    16 | fn returns_initialized_closure(init: i32) -&gt; impl Fn(i32) -&gt; i32 {
-    |                                              ------------------- the found opaque type
-    |
-    = note: expected opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:12:25&gt;)
-                found opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:16:46&gt;)
-    = note: distinct uses of `impl Trait` result in different opaque types
+error[E0308]: mismatched types
+  --&gt; src/main.rs:2:44
+   |
+2  |     let handlers = vec![returns_closure(), returns_initialized_closure(123)];
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected opaque type, found a different opaque type
+...
+9  | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
+   |                         ------------------- the expected opaque type
+...
+13 | fn returns_initialized_closure(init: i32) -&gt; impl Fn(i32) -&gt; i32 {
+   |                                              ------------------- the found opaque type
+   |
+   = note: expected opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:9:25&gt;)
+              found opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:13:46&gt;)
+   = note: distinct uses of `impl Trait` result in different opaque types
 
-    For more information about this error, try `rustc --explain E0308`.
-    error: could not compile `functions-example` (bin "functions-example") due to 1 previous error
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `functions-example` (bin "functions-example") due to 1 previous error
 </code></pre>
 <p>The error message tells us that whenever we return an <code>impl Trait</code> Rust creates
 a unique <em>opaque type</em>, a type where we cannot see into the details of what Rust
@@ -31165,18 +31151,15 @@ panic and go into an ungraceful shutdown.</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
 error[E0507]: cannot move out of `worker.thread` which is behind a mutable reference
-    --&gt; src/lib.rs:52:13
-     |
-52   |             worker.thread.join().unwrap();
-     |             ^^^^^^^^^^^^^ ------ `worker.thread` moved due to this method call
-     |             |
-     |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
-     |
+  --&gt; src/lib.rs:52:13
+   |
+52 |             worker.thread.join().unwrap();
+   |             ^^^^^^^^^^^^^ ------ `worker.thread` moved due to this method call
+   |             |
+   |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
+   |
 note: `JoinHandle::&lt;T&gt;::join` takes ownership of the receiver `self`, which moves `worker.thread`
-    --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1876:17
-     |
-1876 |     pub fn join(self) -&gt; Result&lt;T&gt; {
-     |                 ^^^^
+  --&gt; /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/std/src/thread/mod.rs:1876:17
 
 For more information about this error, try `rustc --explain E0507`.
 error: could not compile `hello` (lib) due to 1 previous error

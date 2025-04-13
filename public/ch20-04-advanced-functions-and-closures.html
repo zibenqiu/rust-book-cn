@@ -33,10 +33,11 @@
         <link rel="stylesheet" href="theme/listing.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -115,8 +116,8 @@ blockquote {
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -130,7 +131,8 @@ blockquote {
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -143,8 +145,8 @@ blockquote {
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -180,6 +182,7 @@ blockquote {
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -324,24 +327,24 @@ fn returns_initialized_closure(init: i32) -&gt; impl Fn(i32) -&gt; i32 {
 <p data-x-en="Here we have two functions, returns_closure and returns_initialized_closure, which both return impl Fn(i32) -> i32. Notice that he closures that they return are different, even though they implement the same type. If we try to compile this, Rust lets us know that it won’t work:">这里我们有两个函数，<code>returns_closure</code> 和 <code>returns_initialized_closure</code>，它们都返回 <code>impl Fn(i32) -&gt; i32</code>。请注意，它们返回的闭包是不同的，即使它们实现了相同的类型。如果我们尝试编译这个代码，Rust 会告诉我们它不会工作：</p>
 <pre><code class="language-text">$ cargo build
    Compiling functions-example v0.1.0 (file:///projects/functions-example)
-    error[E0308]: mismatched types
-    --&gt; src/main.rs:4:9
-    |
-    4  |         returns_initialized_closure(123)
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected opaque type, found a different opaque type
-    ...
-    12 | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
-    |                         ------------------- the expected opaque type
-    ...
-    16 | fn returns_initialized_closure(init: i32) -&gt; impl Fn(i32) -&gt; i32 {
-    |                                              ------------------- the found opaque type
-    |
-    = note: expected opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:12:25&gt;)
-                found opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:16:46&gt;)
-    = note: distinct uses of `impl Trait` result in different opaque types
+error[E0308]: mismatched types
+  --&gt; src/main.rs:2:44
+   |
+2  |     let handlers = vec![returns_closure(), returns_initialized_closure(123)];
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected opaque type, found a different opaque type
+...
+9  | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
+   |                         ------------------- the expected opaque type
+...
+13 | fn returns_initialized_closure(init: i32) -&gt; impl Fn(i32) -&gt; i32 {
+   |                                              ------------------- the found opaque type
+   |
+   = note: expected opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:9:25&gt;)
+              found opaque type `impl Fn(i32) -&gt; i32` (opaque type at &lt;src/main.rs:13:46&gt;)
+   = note: distinct uses of `impl Trait` result in different opaque types
 
-    For more information about this error, try `rustc --explain E0308`.
-    error: could not compile `functions-example` (bin "functions-example") due to 1 previous error
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `functions-example` (bin "functions-example") due to 1 previous error
 </code></pre>
 <p data-x-en="The error message tells us that whenever we return an impl Trait Rust creates a unique opaque type, a type where we cannot see into the details of what Rust constructs for us. So even though these functions both return closures that implements the same trait, Fn(i32) -> i32, the opaque types Rust generates for each are distinct. (This is similar to how Rust produces different concrete types for distinct async blocks even when they have the same output type, as we saw in “Working with Any Number of Futures” in Chapter 17. We have seen a solution to this problem a few times now: we can use a trait object, as in Listing 20-34.">错误信息告诉我们，每当我们返回一个<code>impl Trait</code>时，Rust 会创建一个独特的<em>不透明类型</em>，这是一种我们无法看到 Rust 为我们构建的详细信息的类型。所以即使这些函数都返回实现了相同特质的闭包，<code>Fn(i32) -&gt; i32</code>，Rust 为每个生成的不透明类型也是不同的。（这类似于 Rust 为不同的异步块生成不同的具体类型，即使它们具有相同的输出类型，正如我们在第 17 章的<a href="ch17-03-more-futures.html">“处理任意数量的 Future”</a>中所看到的。我们已经多次看到这个问题的解决方案：我们可以使用特质对象，如清单 20-34 所示。</p>
 <figure class="listing" id="listing-20-34">

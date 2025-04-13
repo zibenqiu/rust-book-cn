@@ -186,5 +186,9 @@
   "This code will print {\"world\": 2, \"hello\": 1, \"wonderful\": 1}. You might see the same key-value pairs printed in a different order: recall from “Accessing Values in a Hash Map” that iterating over a hash map happens in an arbitrary order.": {
     "_translate": "这段代码将打印 <code>{\"world\": 2, \"hello\": 1, \"wonderful\": 1}</code>。你可能会看到\n相同的键值对以不同的顺序打印：回想 <a href=\"#accessing-values-in-a-hash-map\">“访问哈希映射中的值”</a><!-- ignore --> 中所述，遍历哈希映射\n的顺序是任意的。",
     "_note": ""
+  },
+  "https://en.wikipedia.org/wiki/SipHash ↩": {
+    "_translate": "<p><a href=\"https://en.wikipedia.org/wiki/SipHash\">https://zh.wikipedia.org/wiki/SipHash</a> <a href=\"#fr-siphash-1\">↩</a></p>",
+    "_note": ""
   }
 }

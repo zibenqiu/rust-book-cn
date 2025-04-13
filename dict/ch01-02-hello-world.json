@@ -162,5 +162,13 @@
   "This line does all the work in this little program: it prints text to the screen. There are three important details to notice here.": {
     "_translate": "这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有三个重要的细节需要注意。",
     "_note": ""
+  },
+  "On Windows, enter the command .\\main instead of ./main:": {
+    "_translate": "在 Windows 上，输入命令 <code>.\\main</code> 而不是 <code>./main</code>：",
+    "_note": ""
+  },
+  "First, println! calls a Rust macro. If it had called a function instead, it would be entered as println (without the !). Rust macros are a way to write code that generates code to extend Rust syntax, and we’ll discuss them in more detail in Chapter 20. For now, you just need to know that using a ! means that you’re calling a macro instead of a normal function and that macros don’t always follow the same rules as functions.": {
+    "_translate": "首先，<code>println!</code> 调用了一个 Rust 宏。如果它调用的是一个函数，那么它将被写为 <code>println</code>（没有 <code>!</code>）。Rust 宏是一种编写生成代码的代码以扩展 Rust 语法的方式，我们将在 <a href=\"ch20-05-macros.html\">第 20 章</a><!-- ignore --> 中更详细地讨论它们。现在，你只需要知道使用 <code>!</code> 意味着你调用的是一个宏而不是一个普通函数，并且宏并不总是遵循与函数相同的规则。",
+    "_note": ""
   }
 }

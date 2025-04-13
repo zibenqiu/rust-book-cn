@@ -33,10 +33,11 @@
         <link rel="stylesheet" href="theme/listing.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -115,8 +116,8 @@ blockquote {
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -130,7 +131,8 @@ blockquote {
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -143,8 +145,8 @@ blockquote {
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -180,6 +182,7 @@ blockquote {
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -281,20 +284,19 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 <p data-x-en="Rust complains that it doesn’t make sense to use if let with an irrefutable pattern:">Rust 抱怨说，使用 <code>if let</code> 与不可反驳的模式是没有意义的：</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
-warning: irrefutable `if let` pattern
- --&gt; src/main.rs:2:8
+warning: irrefutable `let...else` pattern
+ --&gt; src/main.rs:2:5
   |
-2 |     if let x = 5 {
-  |        ^^^^^^^^^
+2 |     let x = 5 else {
+  |     ^^^^^^^^^
   |
-  = note: this pattern will always match, so the `if let` is useless
-  = help: consider replacing the `if let` with a `let`
+  = note: this pattern will always match, so the `else` clause is useless
+  = help: consider removing the `else` clause
   = note: `#[warn(irrefutable_let_patterns)]` on by default
 
 warning: `patterns` (bin "patterns") generated 1 warning
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.39s
      Running `target/debug/patterns`
-5
 </code></pre>
 <p data-x-en="For this reason, match arms must use refutable patterns, except for the last arm, which should match any remaining values with an irrefutable pattern. Rust allows us to use an irrefutable pattern in a match with only one arm, but this syntax isn’t particularly useful and could be replaced with a simpler let statement.">出于这个原因，匹配臂必须使用可反驳的模式，除了最后一个臂，它应该用一个不可反驳的模式匹配任何剩余的值。Rust 允许我们在只有一个臂的 <code>match</code> 中使用不可反驳的模式，但这种语法并不特别有用，可以用更简单的 <code>let</code> 语句替换。</p>
 <p data-x-en="Now that you know where to use patterns and the difference between refutable and irrefutable patterns, let’s cover all the syntax we can use to create patterns.">现在您已经知道在哪里使用模式以及可反驳和不可反驳模式之间的区别，让我们涵盖所有可以用来创建模式的语法。</p>

@@ -33,10 +33,11 @@
         <link rel="stylesheet" href="theme/listing.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -115,8 +116,8 @@ blockquote {
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -130,7 +131,8 @@ blockquote {
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -143,8 +145,8 @@ blockquote {
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -180,6 +182,7 @@ blockquote {
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -262,9 +265,9 @@ $ cd hello_world
 $ ./main
 Hello, world!
 </code></pre>
-<p data-x-en="On Windows, enter the command .\main.exe instead of ./main:">在 Windows 上，输入命令 <code>.\main.exe</code> 而不是 <code>./main</code>：</p>
+<p data-x-en="On Windows, enter the command .\main instead of ./main:">在 Windows 上，输入命令 <code>.\main</code> 而不是 <code>./main</code>：</p>
 <pre><code class="language-powershell">&gt; rustc main.rs
-&gt; .\main.exe
+&gt; .\main
 Hello, world!
 </code></pre>
 <p data-x-en="Regardless of your operating system, the string Hello, world! should print to the terminal. If you don’t see this output, refer back to the “Troubleshooting” part of the Installation section for ways to get help.">无论您使用的是哪种操作系统，字符串<code>Hello, world!</code>都应该打印到终端。如果您没有看到此输出，请参阅<a href="ch01-01-installation.html#troubleshooting">“故障排除”</a><!-- ignore -->部分的安装章节以获取帮助。</p>
@@ -285,7 +288,7 @@ Hello, world!
 </span>println!("Hello, world!");
 <span class="boring">}</span></code></pre></pre>
 <p data-x-en="This line does all the work in this little program: it prints text to the screen. There are three important details to notice here.">这行代码完成了这个小程序的所有工作：它将文本打印到屏幕上。这里有三个重要的细节需要注意。</p>
-<p data-x-en="First, println! calls a Rust macro. If it had called a function instead, it would be entered as println (without the !). We’ll discuss Rust macros in more detail in Chapter 20. For now, you just need to know that using a ! means that you’re calling a macro instead of a normal function and that macros don’t always follow the same rules as functions.">首先，<code>println!</code> 调用了一个 Rust 宏。如果它调用的是一个函数，那么它将被写为 <code>println</code>（没有 <code>!</code>）。我们将在第 20 章详细讨论 Rust 宏。现在，你只需要知道使用 <code>!</code> 意味着你调用的是一个宏而不是普通函数，并且宏并不总是遵循与函数相同的规则。</p>
+<p data-x-en="First, println! calls a Rust macro. If it had called a function instead, it would be entered as println (without the !). Rust macros are a way to write code that generates code to extend Rust syntax, and we’ll discuss them in more detail in Chapter 20. For now, you just need to know that using a ! means that you’re calling a macro instead of a normal function and that macros don’t always follow the same rules as functions.">首先，<code>println!</code> 调用了一个 Rust 宏。如果它调用的是一个函数，那么它将被写为 <code>println</code>（没有 <code>!</code>）。Rust 宏是一种编写生成代码的代码以扩展 Rust 语法的方式，我们将在 <a href="ch20-05-macros.html">第 20 章</a><!-- ignore --> 中更详细地讨论它们。现在，你只需要知道使用 <code>!</code> 意味着你调用的是一个宏而不是一个普通函数，并且宏并不总是遵循与函数相同的规则。</p>
 <p data-x-en="Second, you see the &quot;Hello, world!&quot; string. We pass this string as an argument to println!, and the string is printed to the screen.">其次，您看到 <code>"Hello, world!"</code> 字符串。我们将这个字符串作为参数传递给 <code>println!</code>，然后字符串会被打印到屏幕上。</p>
 <p data-x-en="Third, we end the line with a semicolon (;), which indicates that this expression is over and the next one is ready to begin. Most lines of Rust code end with a semicolon.">第三，我们在行末加上分号（<code>;</code>），这表示该表达式已结束，下一个表达式可以开始。大多数 Rust 代码行以分号结尾。</p>
 <h3 id="compiling-and-running-are-separate-steps"><a class="header" href="#compiling-and-running-are-separate-steps">编译和运行是分开的步骤</a></h3>
@@ -308,7 +311,7 @@ main.rs
 (<em>main.exe</em> 在 Windows 上，但在所有其他平台上为 <em>main</em>)，以及在使用
 Windows 时，包含调试信息的文件，扩展名为 <em>.pdb</em>。
 从这里，您运行 <em>main</em> 或 <em>main.exe</em> 文件，如下所示：</p>
-<pre><code class="language-console">$ ./main # or .\main.exe on Windows
+<pre><code class="language-console">$ ./main # or .\main on Windows
 </code></pre>
 <p data-x-en="If your main.rs is your “Hello, world!” program, this line prints Hello, world! to your terminal.">如果你的 <em>main.rs</em> 是你的“Hello, world!” 程序，这行代码会将 <code>Hello, world!</code> 打印到你的终端。</p>
 <p data-x-en="If you’re more familiar with a dynamic language, such as Ruby, Python, or JavaScript, you might not be used to compiling and running a program as separate steps. Rust is an ahead-of-time compiled language, meaning you can compile a program and give the executable to someone else, and they can run it even without having Rust installed. If you give someone a .rb, .py, or .js file, they need to have a Ruby, Python, or JavaScript implementation installed (respectively). But in those languages, you only need one command to compile and run your program. Everything is a trade-off in language design.">如果你更熟悉像 Ruby、Python 或 JavaScript 这样的动态语言，你可能不习惯将编译和运行程序作为单独的步骤。Rust 是一种<em>提前编译</em>语言，这意味着你可以编译一个程序并将可执行文件交给其他人，即使他们没有安装 Rust 也可以运行它。如果你给某人一个<em>.rb</em>、<em>.py</em> 或 <em>.js</em> 文件，他们需要分别安装 Ruby、Python 或 JavaScript 的实现。但在这些语言中，你只需要一个命令就可以编译和运行你的程序。语言设计中的每件事都是权衡。</p>
