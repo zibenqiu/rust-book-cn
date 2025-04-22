@@ -32,7 +32,7 @@
     "_note": ""
   },
   "Note that you only need to load a file using a mod declaration once in your module tree. Once the compiler knows the file is part of the project (and knows where in the module tree the code resides because of where you’ve put the mod statement), other files in your project should refer to the loaded file’s code using a path to where it was declared, as covered in the “Paths for Referring to an Item in the Module Tree” section. In other words, mod is not an “include” operation that you may have seen in other programming languages.": {
-    "_translate": "请注意，您只需要在模块树中<em>一次</em>使用<code>mod</code>声明来加载文件。一旦编译器知道文件是项目的一部分（并且知道代码在模块树中的位置，因为您放置了<code>mod</code>语句的位置），项目中的其他文件应该使用声明该文件时的路径来引用其代码，如<a href=\"ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html\">“模块树中引用项的路径”</a><!-- ignore -->部分所述。换句话说，<code>mod</code>并不是您可能在其他编程语言中见过的“包含”操作。",
+    "_translate": "请注意，您只需要在模块树中<em>一次</em>使用<code>mod</code>声明来加载文件。一旦编译器知道文件是项目的一部分（并且知道代码在模块树中的位置，因为您放置了<code>mod</code>语句的位置），项目中的其他文件应该使用声明该文件时的路径来引用其代码，如<a href=\"ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html\">“模块树中引用项的路径”</a><!-- ignore -->部分所述。换句话说，<code>mod</code>并不是您可能在其他编程语言中见过的“include”操作。",
     "_note": ""
   },
   "Alternate File Paths": {
