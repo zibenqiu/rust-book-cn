@@ -84,7 +84,7 @@
     "_note": ""
   },
   "When you want to change the data in a hash map, you have to decide how to handle the case when a key already has a value assigned. You could replace the old value with the new value, completely disregarding the old value. You could keep the old value and ignore the new value, only adding the new value if the key doesn’t already have a value. Or you could combine the old value and the new value. Let’s look at how to do each of these!": {
-    "_translate": "当你想要更改哈希映射中的数据时，你必须决定如何处理键已经分配了值的情况。你可以用新值替换旧值，完全忽略旧值。你可以保留旧值并忽略新值，只有在键<em>没有</em>已经有一个值时才添加新值。或者你可以将旧值和新值结合起来。让我们看看如何做到每一种！",
+    "_translate": "当你想要更改哈希映射中的数据时，你必须决定如何处理键已经分配了值的情况。你可以用新值替换旧值，完全忽略旧值。你可以保留旧值并忽略新值，只有在键尚未拥有一个值时才添加新值。或者你可以将旧值和新值结合起来。让我们看看如何做到每一种！",
     "_note": ""
   },
   "It’s common to check whether a particular key already exists in the hash map with a value and then to take the following actions: if the key does exist in the hash map, the existing value should remain the way it is; if the key doesn’t exist, insert it and a value for it.": {
