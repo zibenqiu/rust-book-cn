@@ -48,7 +48,7 @@
     "_note": ""
   },
   "Implementing a trait on a type is similar to implementing regular methods. The difference is that after impl, we put the trait name we want to implement, then use the for keyword, and then specify the name of the type we want to implement the trait for. Within the impl block, we put the method signatures that the trait definition has defined. Instead of adding a semicolon after each signature, we use curly brackets and fill in the method body with the specific behavior that we want the methods of the trait to have for the particular type.": {
-    "_translate": "在类型上实现特质类似于实现常规方法。不同之处在于在 <code>impl</code> 之后，我们放置我们想要实现的特质名称，然后使用 <code>for</code> 关键字，接着指定我们想要为其实现特质的类型的名称。在 <code>impl</code> 块内，我们放置特质定义已定义的方法签名。而不是在每个签名后添加分号，我们使用大括号并用我们希望特质的方法为特定类型具有的特定行为填充方法体。",
+    "_translate": "在类型上实现特质类似于实现常规方法。不同之处在于在 <code>impl</code> 之后，我们放置我们想要实现的特质名称，然后使用 <code>for</code> 关键字，接着指定我们想要为其实现特质的类型的名称。在 <code>impl</code> 块内，我们放置特质定义已定义的方法签名。与在每个签名后添加分号不同，我们使用花括号，并在其中填充我们希望特质方法对特定类型展现的具体行为。",
     "_note": ""
   },
   "This code prints 1 new tweet: horse_ebooks: of course, as you probably already know, people.": {
